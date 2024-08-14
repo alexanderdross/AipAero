@@ -9,6 +9,10 @@ import {
 } from 'next-intl/server';
 import { locales } from '~/config';
 import { TRPCReactProvider } from "~/trpc/react";
+import Footer from "~/app/_components/footer";
+import About from "~/app/_components/about";
+import Breadcrumbs from "~/app/_components/breadcrumbs";
+import Menu from "~/app/_components/menu";
 
 type Props = {
   children: React.ReactNode;
@@ -46,6 +50,10 @@ export default async function LocaleLayout({
         <TRPCReactProvider>
           <NextIntlClientProvider messages={messages}>
             {children}
+            <About />
+            <Menu />
+            <Breadcrumbs />
+            <Footer />
           </NextIntlClientProvider>
         </TRPCReactProvider>
       </body>

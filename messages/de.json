@@ -1,4 +1,7 @@
 {
+  "Footer": {
+
+  },
   "Error": {
     "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
     "title": "Etwas ist schief gelaufen!"
@@ -12,7 +15,7 @@
   },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
-    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇺🇸 English} other {Unbekannt}}"
+    "locale": "{locale, select, de {🇩🇪 Deutsch} uk {🇺🇸 English} other {Unbekannt}}"
   },
   "Manifest": {
     "description": "",

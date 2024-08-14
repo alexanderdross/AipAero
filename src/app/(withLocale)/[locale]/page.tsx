@@ -12,7 +12,7 @@ export default function IndexPage({params: {locale}}: Props) {
   const t = useTranslations('IndexPage');
 
   return (
-    <div>
+    <>
       <h1>{t('title')}</h1>
       <p className="max-w-[590px]">
         {t.rich('description', {
@@ -21,6 +21,6 @@ export default function IndexPage({params: {locale}}: Props) {
           )
         })}
       </p>
-    </div>
+    </>
   );
 }
