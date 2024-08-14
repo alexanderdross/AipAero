@@ -1,7 +1,6 @@
 import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
-import { type Metadata } from "next";
 import { NextIntlClientProvider } from 'next-intl';
 import {
   getMessages,
@@ -10,7 +9,6 @@ import {
 } from 'next-intl/server';
 import { locales } from '~/config';
 import { TRPCReactProvider } from "~/trpc/react";
-import clsx from "clsx";
 
 type Props = {
   children: React.ReactNode;
@@ -43,8 +41,8 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html className="h-full" lang={locale}>
-      <body className={clsx(`${GeistSans.variable}`, 'flex h-full flex-col')}>
+    <html lang={locale}>
+      <body className={`${GeistSans.variable}`}>
         <TRPCReactProvider>
           <NextIntlClientProvider messages={messages}>
             {children}
