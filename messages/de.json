@@ -1,14 +1,44 @@
 {
   "Footer": {
-
+    "Stratux": {
+      "name": "📡 Stratux - anti-collision system",
+      "title": "Stratux - anti-collision system for private aviation and gliders",
+      "href": "https://dross.net/aviation/"
+    },
+    "Home": {
+      "name": "Home",
+      "title": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "Imprint": {
+      "name": "Impressum",
+      "title": "Impressum",
+      "href": "https://dross.net/imprint"
+    },
+    "Contact": {
+      "name": "Kontakt",
+      "title": "Kontakt",
+      "href": "https://dross.net/contact"
+    },
+    "Privacy": {
+      "name": "Datenschutz",
+      "title": "Datenschutz",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "Alexander": {
+      "name": "Alexander Dross",
+      "title": "Website von Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
   },
   "Error": {
     "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
     "title": "Etwas ist schief gelaufen!"
   },
   "IndexPage": {
-    "description": "Dies ist ein Beispiel, das die Verwendung von <code>next-intl</code> mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
-    "title": "next-intl Beispiel"
+    "description": "Dies ist ein Beispiel, das die Verwendung von next-intl mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
+    "title": "next-intl Beispiel",
+    "dadasdasd": "DEdfsdfsdfydf"
   },
   "LocaleLayout": {
     "title": "next-intl Beispiel"

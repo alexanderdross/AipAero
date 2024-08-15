@@ -1,14 +1,18 @@
-const navigation = {
-  main: [
-    { name: '📡 Stratux - anti-collision system', title: 'Stratux - anti-collision system for private aviation and gliders', href: 'https://dross.net/aviation/' },
-    { name: 'Home', title: '', href: 'https://dross.net/' },
-    { name: 'Imprint', title: 'Imprint', href: 'https://dross.net/imprint' },
-    { name: 'Contact', title: 'Contact', href: 'https://dross.net/contact' },
-    { name: 'Privacy Policy', title: 'Privacy Policy', href: 'https://dross.net/privacy-policy' },
-  ]
-}
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+  const t = useTranslations('Footer');
+
+  const navigation = {
+    main: [
+      { name: t('Stratux.name'), title: t('Stratux.title'), href: t('Stratux.href') },
+      { name: t('Home.name'), title: t('Home.title'), href: t('Home.href') },
+      { name: t('Imprint.name'), title: t('Imprint.title'), href: t('Imprint.href') },
+      { name: t('Contact.name'), title: t('Contact.title'), href: t('Contact.href') },
+      { name: t('Privacy.name'), title: t('Privacy.title'), href: t('Privacy.href') },
+    ]
+  }
+  
   return (
     <footer className="bg-white">
       <div className="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
@@ -29,13 +33,13 @@ export default function Footer() {
         </nav>
         <p className="mt-8 text-center text-base text-gray-400">&copy; 2024 made with ♥ by{" "}
         <a
-          href="https://dross.net/alexander/"
+          href={t('Alexander.href')}
           rel="noopener"
-          title="Website von Alexander Dross"
+          title={t('Alexander.title')}
           target="_blank"
           className="text-gray-400 hover:text-gray-500"
         >
-          Alexander Dross
+          {t('Alexander.name')}
         </a></p>
       </div>
     </footer>
