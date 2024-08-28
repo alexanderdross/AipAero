@@ -33,7 +33,7 @@
   },
   "About": {
     "title": "About this website",
-    "description": "The [AIP Germany](https://aip.dfs.de/basicAIP/) is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by DFS does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts."
+    "description": "The [AIP of the Netherlands](https://www.lvnl.nl/diensten/aip) is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by Luchtverkeersleiding Nederland (LVNL) does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts."
   },
   "Error": {
     "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",

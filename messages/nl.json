@@ -22,7 +22,7 @@
     },
     "Privacy": {
       "name": "Privacy",
-      "title": "Privacy Policy",
+      "title": "Privacybeleid",
       "href": "https://dross.net/privacy-policy"
     },
     "Alexander": {
@@ -32,8 +32,8 @@
     }
   },
   "About": {
-    "title": "About this website",
-    "description": "The [AIP of the United Kingdom (UK)](https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/) is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by NATS does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts."
+    "title": "Waarom deze website?",
+    "description": "De [AIP van Nederland](https://www.lvnl.nl/diensten/aip) is beschikbaar als gratis versie. Deze website heeft tot doel het zoeken naar vliegvelden te vereenvoudigen, aangezien de basisversie van Luchtverkeersleiding Nederland (LVNL) geen zoekmasker bevat. Wij zijn niet aansprakelijk voor de juistheid en nauwkeurigheid van AIP’s (Aeronautical Information Publication), aangezien deze niet door ons worden beheerd. Wij bieden alleen handige links naar overeenkomstige naderingskaarten."
   },
   "Error": {
     "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",

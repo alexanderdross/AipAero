@@ -11,41 +11,41 @@
       "href": "https://dross.net"
     },
     "Imprint": {
-      "name": "Imprint",
-      "title": "Imprint",
+      "name": "Impressum",
+      "title": "Impressum",
       "href": "https://dross.net/imprint"
     },
     "Contact": {
-      "name": "Contact",
-      "title": "Contact",
+      "name": "Kontakt",
+      "title": "Kontakt",
       "href": "https://dross.net/contact"
     },
     "Privacy": {
-      "name": "Privacy",
-      "title": "Privacy Policy",
+      "name": "Datenschutz",
+      "title": "Datenschutz",
       "href": "https://dross.net/privacy-policy"
     },
     "Alexander": {
       "name": "Alexander Dross",
-      "title": "Website of Alexander Dross",
+      "title": "Website von Alexander Dross",
       "href": "https://dross.net/alexander/"
     }
   },
   "About": {
-    "title": "About this website",
-    "description": "The [AIP Germany](https://aip.dfs.de/basicAIP/) is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by DFS does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts."
+    "title": "Wozu diese Website?",
+    "description": "Das kostenlose [Luftfahrthandbuch AIP Österreich](https://eaip.austrocontrol.at/) steht seitens Austro Control als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten."
   },
   "Error": {
     "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
     "title": "Etwas ist schief gelaufen!"
   },
   "IndexPage": {
-    "description": "His is an example, das die Verwendung von next-intl mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
-    "title": "English German next-intl Beispiel",
-    "dadasdasd": "ENdfsdfsdfydf"
+    "description": "Dies ist ein Beispiel, das die Verwendung von next-intl mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
+    "title": "next-intl Beispiel",
+    "dadasdasd": "DEdfsdfsdfydf"
   },
   "LocaleLayout": {
-    "title": "English German next-intl Beispiel"
+    "title": "next-intl Beispiel"
   },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
