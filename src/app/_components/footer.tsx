@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 
-export default function Footer() {
-  const t = useTranslations('Footer');
+export default function Footer({english}: {english?: boolean}) {
+  const t = useTranslations(`Footer${english ? '.english' : '.native'}`);
 
   const navigation = {
     main: [

@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale } from 'next-intl';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export function LocaleSwitcher() {
@@ -8,10 +9,11 @@ export function LocaleSwitcher() {
   const locale = useLocale();
   const currentLocale = pathname.includes('/en/') ? 'en' : locale;
   const nextLocale = currentLocale === 'en' ? locale : 'en';
+  const nextLocaleHref = currentLocale === 'en' ? ".." : 'en/';
   return (
     <>
       <p>Current Locale {currentLocale} </p>
-      <p>Next Locale {nextLocale} </p>
+      <Link href={nextLocaleHref}>Next Locale {nextLocale} </Link>
     </>
   );
 }

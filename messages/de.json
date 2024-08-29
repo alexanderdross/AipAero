@@ -1,85 +1,110 @@
 {
   "Footer": {
-    "Stratux": {
-      "name": "📡 Stratux - anti-collision system",
-      "title": "Stratux - anti-collision system for private aviation and gliders",
-      "href": "https://dross.net/aviation/"
-    },
-    "Home": {
-      "name": "Home",
-      "title": "Home - Dross:Network",
-      "href": "https://dross.net"
-    },
-    "Imprint": {
-      "name": "Impressum",
-      "title": "Impressum",
-      "href": "https://dross.net/imprint"
-    },
-    "Contact": {
-      "name": "Kontakt",
-      "title": "Kontakt",
-      "href": "https://dross.net/contact"
-    },
-    "Privacy": {
-      "name": "Datenschutz",
-      "title": "Datenschutz",
-      "href": "https://dross.net/privacy-policy"
-    },
-    "Alexander": {
-      "name": "Alexander Dross",
-      "title": "Website von Alexander Dross",
-      "href": "https://dross.net/alexander/"
-    }
-  },
-  "About": {
-    "title": "Wozu diese Website?",
-    "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Deutschland</aip> steht nun seitens Deutsche Flugsicherung (DFS) als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
-    "aipHref": "https://aip.dfs.de/basicAIP/"
-  },
-  "Error": {
-    "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
-    "title": "Etwas ist schief gelaufen!"
-  },
-  "IndexPage": {
-    "description": "Dies ist ein Beispiel, das die Verwendung von next-intl mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
-    "title": "next-intl Beispiel",
-    "dadasdasd": "DEdfsdfsdfydf"
-  },
-  "LocaleLayout": {
-    "title": "next-intl Beispiel"
-  },
-  "LocaleSwitcher": {
-    "label": "Sprache ändern",
-    "locale": "{locale, select, de {🇩🇪 Deutsch} uk {🇺🇸 English} other {Unbekannt}}"
-  },
-  "Manifest": {
-    "description": "",
-    "name": ""
-  },
-  "Navigation": {
-    "home": "Start",
-    "pathnames": "Pfadnamen"
-  },
-  "NotFoundPage": {
-    "description": "Bitte überprüfe die Addressleiste deines Browsers oder verwende die Navigation um zu einer bekannten Seite zu wechseln.",
-    "title": "Seite nicht gefunden"
-  },
-  "PageLayout": {
-    "links": {
-      "docs": {
-        "description": "Erfahre mehr über next-intl in der offiziellen Dokumentation.",
-        "href": "https://next-intl-docs.vercel.app/",
-        "title": "Dokumentation"
+    "native": {
+      "Stratux": {
+        "name": "📡 Stratux - anti-collision system",
+        "title": "Stratux - anti-collision system for private aviation and gliders",
+        "href": "https://dross.net/aviation/"
       },
-      "source": {
-        "description": "Sieh dir den Quellcode dieses Beispiels auf GitHub an.",
-        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
-        "title": "Quellcode"
+      "Home": {
+        "name": "Home",
+        "title": "Home - Dross:Network",
+        "href": "https://dross.net"
+      },
+      "Imprint": {
+        "name": "Impressum",
+        "title": "Impressum",
+        "href": "https://dross.net/imprint"
+      },
+      "Contact": {
+        "name": "Kontakt",
+        "title": "Kontakt",
+        "href": "https://dross.net/contact"
+      },
+      "Privacy": {
+        "name": "Datenschutz",
+        "title": "Datenschutz",
+        "href": "https://dross.net/privacy-policy"
+      },
+      "Alexander": {
+        "name": "Alexander Dross",
+        "title": "Website von Alexander Dross",
+        "href": "https://dross.net/alexander/"
+      }
+    },
+    "english": {
+      "Stratux": {
+        "name": "📡 Stratux - anti-collision system",
+        "title": "Stratux - anti-collision system for private aviation and gliders",
+        "href": "https://dross.net/aviation/"
+      },
+      "Home": {
+        "name": "Home",
+        "title": "Home - Dross:Network",
+        "href": "https://dross.net"
+      },
+      "Imprint": {
+        "name": "Imprint",
+        "title": "Imprint",
+        "href": "https://dross.net/imprint"
+      },
+      "Contact": {
+        "name": "Contact",
+        "title": "Contact",
+        "href": "https://dross.net/contact"
+      },
+      "Privacy": {
+        "name": "Privacy",
+        "title": "Privacy Policy",
+        "href": "https://dross.net/privacy-policy"
+      },
+      "Alexander": {
+        "name": "Alexander Dross",
+        "title": "Website of Alexander Dross",
+        "href": "https://dross.net/alexander/"
       }
     }
   },
-  "PathnamesPage": {
-    "description": "<p>Auch die Pfadnamen sind internationalisiert.</p><p>Wenn du die Standardsprache Englisch verwendest, siehst du <code>/en/pathnames</code> in der Adressleiste des Browsers auf dieser Seite.</p><p>Wenn du die Sprache auf Deutsch änderst, wird die URL entsprechend lokalisiert (<code>/de/pfadnamen</code>).</p>",
-    "title": "Pfadnamen"
+  "About": {
+    "native": {
+      "title": "Wozu diese Website?",
+      "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Deutschland</aip> steht nun seitens Deutsche Flugsicherung (DFS) als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
+      "aipHref": "https://aip.dfs.de/basicAIP/"
+    },
+    "english": {
+      "title": "What is this website for?",
+      "description": "The free <aip>German Aeronautical Information Publication AIP</aip> is now available as a basic version from Deutsche Flugsicherung (DFS), but without a search function. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
+      "aipHref": "https://aip.dfs.de/basicAIP/"
+    }
+  },
+  "Error": {
+    "native": {
+      "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
+      "title": "Etwas ist schief gelaufen!"
+    },
+    "english": {
+      "description": "<p>Unfortunately, there was a problem.</p><p>You can try to <retry>reload this page</retry>.</p>",
+      "title": "Something went wrong!"
+    }
+  },
+  "IndexPage": {
+    "native": {
+      "description": "Dies ist ein Beispiel, das die Verwendung von next-intl mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
+    "title": "next-intl Beispiel",
+    "dadasdasd": "DEdfsdfsdfydf"
+    },
+    "english": {
+      "description": "This is an example demonstrating the use of next-intl with the Next.js App Router. Changing the language in the top right corner will change the content of this page.",
+      "title": "next-intl Example",
+      "dadasdasd": "ENdfsdfsdfydf"
+    }
+  },
+  "LocaleLayout": {
+    "native": {
+      "title": "next-intl Beispiel"
+    },
+    "english": {
+      "title": "next-intl Example"
+    }
   }
 }

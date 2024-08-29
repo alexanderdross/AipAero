@@ -20,7 +20,7 @@ export default function RootLayout({
       <body> 
         <TRPCReactProvider>
           {children}
-          <Footer />
+          <Footer english/>
         </TRPCReactProvider>
       </body>
     </html>

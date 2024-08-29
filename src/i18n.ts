@@ -1,6 +1,6 @@
 import {notFound} from 'next/navigation';
 import {getRequestConfig} from 'next-intl/server';
-import {locales} from './config';
+import {defaultLocale, locales} from './config';
 import { headers } from 'next/headers';
 
 async function getConfig(locale: string) {
@@ -19,7 +19,7 @@ export default getRequestConfig(async (params) => {
   const isMain = headers().get('x-app-route') === 'true';
 
   if (isMain) {
-    const locale = 'de/en';
+    const locale = 'de';
 
     return {
       // Return a locale to `next-intl` in case we've read

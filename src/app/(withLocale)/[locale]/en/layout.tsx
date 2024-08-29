@@ -27,7 +27,7 @@ export async function generateMetadata({
   params: { locale }
 }: Omit<Props, 'children'>) {
   const englishLocale = locale + '/en';
-  const t = await getTranslations({ englishLocale, namespace: 'LocaleLayout' });
+  const t = await getTranslations({ englishLocale, namespace: 'LocaleLayout.english' });
 
   return {
     title: t('title')
@@ -38,13 +38,12 @@ export default async function LocaleLayout({
   children,
   params: { locale }
 }: Props) {
-  const englishLocale = locale + '/en';
   // Enable static rendering
-  unstable_setRequestLocale(englishLocale);
+  unstable_setRequestLocale(locale);
 
   // Providing all messages to the client
   // side is the easiest way to get started
-  const messages = await getMessages({ locale: englishLocale });
+  const messages = await getMessages({ locale: locale });
 
   return (
     <html lang={"en"}>
@@ -52,10 +51,10 @@ export default async function LocaleLayout({
         <TRPCReactProvider>
           <NextIntlClientProvider messages={messages}>
             {children}
-            <About />
+            <About english />
             <Menu />
             <Breadcrumbs />
-            <Footer />
+            <Footer english />
           </NextIntlClientProvider>
         </TRPCReactProvider>
       </body>

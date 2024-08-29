@@ -6,11 +6,10 @@ type Props = {
 };
 
 export default function IndexPage({params: {locale}}: Props) {
-  const englishLocale = locale + '/en';
   // Enable static rendering
-  unstable_setRequestLocale(englishLocale);
+  unstable_setRequestLocale(locale);
 
-  const t = useTranslations('IndexPage');
+  const t = useTranslations('IndexPage.english');
 
   return (
     <>
