@@ -33,7 +33,8 @@
   },
   "About": {
     "title": "About this website",
-    "description": "The [AIP of the United Kingdom (UK)](https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/) is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by NATS does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts."
+    "description": "The <aip>AIP of the United Kingdom (UK)</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by NATS does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
+    "aipHref": "https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/"
   },
   "Error": {
     "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",

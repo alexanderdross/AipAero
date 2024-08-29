@@ -4,9 +4,13 @@ import { env } from "~/env";
 
 export default {
   schema: "./src/server/db/schema.ts",
-  dialect: "sqlite",
+  dialect: "mysql",
   dbCredentials: {
-    url: env.DATABASE_URL,
+    host: env.DATABASE_HOST,
+    port: env.DATABASE_PORT,
+    user: env.DATABASE_USER,
+    password: env.DATABASE_PASSWORD,
+    database: env.DATABASE_NAME,
   },
   tablesFilter: ["aip-aero_*"],
 } satisfies Config;

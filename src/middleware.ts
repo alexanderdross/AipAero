@@ -1,5 +1,5 @@
 import createMiddleware from 'next-intl/middleware';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { defaultLocale, locales } from '~/config';
  
 export default function middleware(request: NextRequest) {

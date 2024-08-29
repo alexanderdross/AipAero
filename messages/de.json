@@ -33,7 +33,8 @@
   },
   "About": {
     "title": "Wozu diese Website?",
-    "description": "Das kostenlose [Luftfahrthandbuch AIP Deutschland](https://aip.dfs.de/basicAIP/) steht nun seitens Deutsche Flugsicherung (DFS) als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten."
+    "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Deutschland</aip> steht nun seitens Deutsche Flugsicherung (DFS) als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
+    "aipHref": "https://aip.dfs.de/basicAIP/"
   },
   "Error": {
     "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",

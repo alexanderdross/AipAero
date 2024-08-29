@@ -5,9 +5,11 @@ import { headers } from 'next/headers';
 
 async function getConfig(locale: string) {
   // Validate that the incoming `locale` parameter is valid
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-explicit-any
   if (!locales.includes(locale as any)) notFound();
 
   return {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     messages: (await import(`../messages/${locale}.json`)).default
   };
 }

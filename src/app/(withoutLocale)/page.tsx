@@ -1,5 +1,3 @@
-import About from "~/app/_components/about";
-
 export default async function Home() {
   return (
     <>

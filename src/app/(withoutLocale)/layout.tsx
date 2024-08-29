@@ -5,7 +5,6 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import Footer from "~/app/_components/footer";
-import About from "~/app/_components/about";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -21,7 +20,6 @@ export default function RootLayout({
       <body> 
         <TRPCReactProvider>
           {children}
-          <About />
           <Footer />
         </TRPCReactProvider>
       </body>

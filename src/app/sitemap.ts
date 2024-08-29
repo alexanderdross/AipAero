@@ -1,9 +1,9 @@
-import {MetadataRoute} from 'next';
+import type {MetadataRoute} from 'next';
 import {locales, pathnames, defaultLocale, host} from '~/config';
 import {getPathname} from '~/navigation';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const keys = Object.keys(pathnames) as Array<keyof typeof pathnames>;
+  const keys = Object.keys(pathnames);
 
   function getUrl(
     key: keyof typeof pathnames,

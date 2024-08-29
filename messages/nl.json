@@ -33,7 +33,8 @@
   },
   "About": {
     "title": "Waarom deze website?",
-    "description": "De [AIP van Nederland](https://www.lvnl.nl/diensten/aip) is beschikbaar als gratis versie. Deze website heeft tot doel het zoeken naar vliegvelden te vereenvoudigen, aangezien de basisversie van Luchtverkeersleiding Nederland (LVNL) geen zoekmasker bevat. Wij zijn niet aansprakelijk voor de juistheid en nauwkeurigheid van AIP’s (Aeronautical Information Publication), aangezien deze niet door ons worden beheerd. Wij bieden alleen handige links naar overeenkomstige naderingskaarten."
+    "description": "De <aip>AIP van Nederland</aip> is beschikbaar als gratis versie. Deze website heeft tot doel het zoeken naar vliegvelden te vereenvoudigen, aangezien de basisversie van Luchtverkeersleiding Nederland (LVNL) geen zoekmasker bevat. Wij zijn niet aansprakelijk voor de juistheid en nauwkeurigheid van AIP’s (Aeronautical Information Publication), aangezien deze niet door ons worden beheerd. Wij bieden alleen handige links naar overeenkomstige naderingskaarten.",
+    "aipHref": "https://www.lvnl.nl/diensten/aip"
   },
   "Error": {
     "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
