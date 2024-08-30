@@ -77,6 +77,108 @@
       "aipHref": "https://aip.dfs.de/basicAIP/"
     }
   },
+  "IndexPage": {
+    "native": {
+      "title": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
+      "subtitle": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
+      "boxes": {
+        "vfr": {
+          "title": "Luftfahrthandbuch AIP VFR",
+          "subtitle": "AIP VFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen",
+          "href": "/de/vfr/",
+          "hrefTitle": "Luftfahrthandbuch AIP VFR Deutschland öffnen",
+          "hrefName": "Luftfahrthandbuch AIP VFR"
+        },
+        "ifr": {
+          "title": "Luftfahrthandbuch AIP IFR",
+          "subtitle": "AIP IFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen",
+          "href": "/de/ifr/",
+          "hrefTitle": "Luftfahrthandbuch AIP IFR Deutschland öffnen",
+          "hrefName": "Luftfahrthandbuch AIP IFR"
+        },
+        "heliports": {
+          "title": "Hubschrauberlandeplätze",
+          "subtitle": "AIP VFR Deutschland HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen",
+          "href": "/de/heliports/",
+          "hrefTitle": "Luftfahrthandbuch AIP HEL AD Deutschland öffnen",
+          "hrefName": "Luftfahrthandbuch AIP HEL AD"
+        }
+      }
+    },
+    "english": {
+      "title": "AIP and approach charts of Germany",
+      "subtitle": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany",
+      "boxes": {
+        "vfr": {
+          "title": "AIP VFR Germany",
+          "subtitle": "Browse AIP VFR Germany and download airport approach charts for free",
+          "href": "/de/en/vfr/",
+          "hrefTitle": "Open AIP VFR Germany approach charts",
+          "hrefName": "AIP VFR approach charts"
+        },
+        "ifr": {
+          "title": "AIP IFR Germany",
+          "subtitle": "Browse AIP IFR Germany and download airport approach charts for free",
+          "href": "/de/en/ifr/",
+          "hrefTitle": "Open AIP IFR Germany approach charts",
+          "hrefName": "AIP IFR approach charts"
+        },
+        "heliports": {
+          "title": "Helicopter Aerodromes",
+          "subtitle": "Browse AIP VFR Helicopter Aerodromes Germany and download airport approach charts for free",
+          "href": "/de/en/heliports/",
+          "hrefTitle": "Open AIP Germany Helicopter Aerodromes",
+          "hrefName": "AIP VFR Helicopter Aerodromes"
+        }
+      }
+    }
+  },
+  "VfrPage": {
+    "native": {
+      "title": "Suchmaske für Anflugkarten AIP VFR Deutschland",
+      "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten VFR Anflugkarten zu gelangen",
+      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen"
+    },
+    "english": {
+      "title": "Index of AIP VFR and visual approach charts Germany",
+      "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+      "placeholder": "Enter airport name or its ICAO code to access AIP VFR"
+    }
+  },
+  "IfrPage": {
+    "native": {
+      "title": "Suchmaske für Anflugkarten AIP IFR Deutschland",
+      "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten IFR Anflugkarten zu gelangen",
+      "placeholder": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen"
+    },
+    "english": {
+      "title": "Index of AIP IFR and approach charts Germany",
+      "subtitle": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
+      "placeholder": "Enter airport name or its ICAO code to access AIP IFR"
+    }
+  },
+  "HeliportPage": {
+    "native": {
+      "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Deutschland",
+      "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
+      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen"
+    },
+    "english": {
+      "title": "AIP VFR Charts for Helicopter Aerodromes in Germany",
+      "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters"
+    }
+  },
+  "AirportsPage": {
+    "native": {
+      "title": "Liste der Flugplätze in Deutschland",
+      "subtitle": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick"
+    },
+    "english": {
+      "title": "List of Airfields in Germany",
+      "subtitle": "Overview of all airfields/ airports in Germany"
+    }
+  },
   "Error": {
     "native": {
       "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
@@ -85,18 +187,6 @@
     "english": {
       "description": "<p>Unfortunately, there was a problem.</p><p>You can try to <retry>reload this page</retry>.</p>",
       "title": "Something went wrong!"
-    }
-  },
-  "IndexPage": {
-    "native": {
-      "description": "Dies ist ein Beispiel, das die Verwendung von next-intl mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
-    "title": "next-intl Beispiel",
-    "dadasdasd": "DEdfsdfsdfydf"
-    },
-    "english": {
-      "description": "This is an example demonstrating the use of next-intl with the Next.js App Router. Changing the language in the top right corner will change the content of this page.",
-      "title": "next-intl Example",
-      "dadasdasd": "ENdfsdfsdfydf"
     }
   },
   "LocaleLayout": {

@@ -45,8 +45,8 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <body className={`${GeistSans.variable}`}>
+    <html lang={locale} className={`${GeistSans.variable}`}>
+      <body className="bg-drossgray">
         <TRPCReactProvider>
           <NextIntlClientProvider messages={messages}>
             {children}

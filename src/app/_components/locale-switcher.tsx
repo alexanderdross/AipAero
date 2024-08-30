@@ -13,7 +13,7 @@ export function LocaleSwitcher() {
   return (
     <>
       <p>Current Locale {currentLocale} </p>
-      <Link href={nextLocaleHref}>Next Locale {nextLocale} </Link>
+      <Link href={nextLocaleHref} className='text-drossblue hover:underline'>Next Locale {nextLocale} </Link>
     </>
   );
 }
