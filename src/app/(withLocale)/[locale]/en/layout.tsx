@@ -26,8 +26,7 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params: { locale }
 }: Omit<Props, 'children'>) {
-  const englishLocale = locale + '/en';
-  const t = await getTranslations({ englishLocale, namespace: 'LocaleLayout.english' });
+  const t = await getTranslations({ locale, namespace: 'LocaleLayout.english' });
 
   return {
     title: t('title')
