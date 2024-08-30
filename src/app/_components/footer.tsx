@@ -14,7 +14,7 @@ export default function Footer({english}: {english?: boolean}) {
   }
 
   return (
-    <footer className="bg-white">
+    <footer className="bg-drossgray">
       <div className="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
         <nav className="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
           {navigation.main.map((item) => (
@@ -24,20 +24,20 @@ export default function Footer({english}: {english?: boolean}) {
                 title={item.title}
                 target="_blank"
                 rel="noopener"
-                className="text-base text-gray-500 hover:text-gray-900"
+                className="text-base text-drossblue hover:underline"
               >
                 {item.name}
               </a>
             </div>
           ))}
         </nav>
-        <p className="mt-8 text-center text-base text-gray-400">&copy; 2024 made with ♥ by{" "}
+        <p className="mt-8 text-center text-base text-gray-600">&copy; 2024 made with ♥ by{" "}
           <a
             href={t('Alexander.href')}
             rel="noopener"
             title={t('Alexander.title')}
             target="_blank"
-            className="text-gray-400 hover:text-gray-500"
+            className="text-drossblue hover:underline"
           >
             {t('Alexander.name')}
           </a></p>

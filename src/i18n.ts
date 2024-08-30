@@ -19,7 +19,7 @@ export default getRequestConfig(async (params) => {
   const isMain = headers().get('x-app-route') === 'true';
 
   if (isMain) {
-    const locale = 'de';
+    const locale = defaultLocale;
 
     return {
       // Return a locale to `next-intl` in case we've read

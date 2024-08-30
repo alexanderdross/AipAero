@@ -8,6 +8,14 @@ export default {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
       },
+      colors: {
+        'drossblue': {
+          DEFAULT: '#2d6a9a'
+          },
+        'drossgray': {
+          DEFAULT: '#f0f2f2'
+        }
+      }
     },
   },
   plugins: [],
