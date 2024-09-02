@@ -153,6 +153,10 @@
       "subtitle": "Overview of all airfields/ airports in Austria"
     }
   },
+  "LocaleSwitcher": {
+    "native": "🇩🇪 Deutsch",
+    "english": "🇬🇧 English"
+  },
   "Error": {
     "native": {
       "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",

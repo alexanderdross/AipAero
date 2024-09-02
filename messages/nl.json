@@ -153,16 +153,16 @@
       "subtitle": "Overview of all airfields/ airports/ heliports in the Netherlands"
     }
   },
+  "LocaleSwitcher": {
+    "native": "🇳🇱 Dutch",
+    "english": "🇬🇧 English"
+  },
   "Error": {
     "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
     "title": "Something went wrong!"
   },
   "LocaleLayout": {
     "title": "next-intl example"
-  },
-  "LocaleSwitcher": {
-    "label": "Change language",
-    "locale": "{locale, select, de {🇩🇪 Deutsch} uk {🇺🇸 English} other {Unknown}}"
   },
   "Manifest": {
     "name": "next-intl example"
