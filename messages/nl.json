@@ -79,6 +79,7 @@
   },
   "IndexPage": {
     "native": {
+      "titleShort": "HOME AIP",
       "title": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
       "subtitle": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
       "boxes": {
@@ -99,6 +100,7 @@
       }
     },
     "english": {
+      "titleShort": "HOME AIP",
       "title": "AIP and approach charts of the Netherlands",
       "subtitle": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands",
       "boxes": {
@@ -121,11 +123,13 @@
   },
   "VfrPage": {
     "native": {
+      "titleShort": "AIP VFR",
       "title": "Zoekmasker voor naderingskaarten AIP VFR Nederland",
       "subtitle": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten van Luchtverkeersleiding Nederland (LVNL).",
       "placeholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan"
     },
     "english": {
+      "titleShort": "AIP VFR",
       "title": "Index of AIP VFR and visual approach charts of the Netherlands",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
       "placeholder": "Enter airport name or its ICAO code to access AIP VFR"
@@ -133,6 +137,7 @@
   },
   "HeliportPage": {
     "native": {
+      "titleShort": "Helihavens",
       "title": "Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
       "subtitle": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten voor helikopterplatforms van Luchtverkeersleiding Nederland (LVNL)",
       "placeholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan"
