@@ -26,10 +26,12 @@ export function LocaleSwitcher() {
   };
 
   return (
-    <select title="switch language" value={key} onChange={handleSwitch}>
-      {keys.map((key) => (
-        <option key={key} value={key} title={`switch to ${t(key)}`} rel="noopener">{t(key)}</option>
-      ))}
-    </select>
+    <div className='flex justify-center'>
+      <select title="switch language" value={key} onChange={handleSwitch}>
+        {keys.map((key) => (
+          <option key={key} value={key} title={`switch to ${t(key)}`} rel="noopener">{t(key)}</option>
+        ))}
+      </select>
+    </div>
   );
 }

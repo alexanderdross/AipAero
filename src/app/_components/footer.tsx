@@ -26,7 +26,7 @@ export default function Footer({ english }: { english?: boolean }) {
             {t('Stratux.name')}
           </a>
         </div>
-        <div className="flex flex-wrap justify-center gap-x-2" aria-label="Footer">
+        <div className="flex flex-wrap justify-center" aria-label="Footer">
           {navigation.main.map((item, idx) => (
             <span key={idx}>
               <a
@@ -34,10 +34,10 @@ export default function Footer({ english }: { english?: boolean }) {
               title={item.title}
               target="_blank"
               rel="noopener"
-              className="text-base text-drossblue hover:underline"
+              className="text-base text-drossblue hover:underline mx-2"
             >
               {item.name}
-            </a> {idx < navigation.main.length - 1 && '|'}
+            </a>{idx < navigation.main.length - 1 && '|'}
             </span>
           ))}
         </div>

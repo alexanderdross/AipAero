@@ -13,6 +13,7 @@ import Footer from "~/app/_components/footer";
 import About from "~/app/_components/about";
 import Breadcrumbs from "~/app/_components/breadcrumbs";
 import Menu from "~/app/_components/menu";
+import { LocaleSwitcher } from "~/app/_components/locale-switcher";
 
 type Props = {
   children: React.ReactNode;
@@ -52,6 +53,7 @@ export default async function LocaleLayout({
             {children}
             <About />
             <Menu />
+            <LocaleSwitcher />
             <Breadcrumbs />
             <Footer />
           </NextIntlClientProvider>
