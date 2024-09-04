@@ -9,7 +9,8 @@ export default function Menu() {
   const messages = useMessages();
   const language = pathname.includes('/en/') ? 'english' : 'native';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-  const keys = Object.keys(messages).filter((key) => key.endsWith('Page'));
+  const keys = Object.keys(messages).filter((key) => key.endsWith('Page') && key !== 'NotFoundPage');
+  console.log(keys);
 
   return (
     <nav className="flex justify-center py-8">

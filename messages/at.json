@@ -185,23 +185,5 @@
   "LocaleSwitcher": {
     "native": "🇩🇪 Deutsch",
     "english": "🇬🇧 English"
-  },
-  "Error": {
-    "native": {
-      "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
-      "title": "Etwas ist schief gelaufen!"
-    },
-    "english": {
-      "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
-      "title": "Something went wrong!"
-    }
-  },
-  "LocaleLayout": {
-    "native": {
-      "title": "Deutsch Englisch next-intl Beispiel"
-    },
-    "english": {
-      "title": "English German next-intl Beispiel"
-    }
   }
 }
