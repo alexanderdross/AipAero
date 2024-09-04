@@ -1,11 +1,10 @@
 import { useTranslations } from "next-intl";
 
-export default function Footer({english}: {english?: boolean}) {
+export default function Footer({ english }: { english?: boolean }) {
   const t = useTranslations(`Footer${english ? '.english' : '.native'}`);
 
   const navigation = {
     main: [
-      { name: t('Stratux.name'), title: t('Stratux.title'), href: t('Stratux.href') },
       { name: t('Home.name'), title: t('Home.title'), href: t('Home.href') },
       { name: t('Imprint.name'), title: t('Imprint.title'), href: t('Imprint.href') },
       { name: t('Contact.name'), title: t('Contact.title'), href: t('Contact.href') },
@@ -16,22 +15,33 @@ export default function Footer({english}: {english?: boolean}) {
   return (
     <footer className="bg-drossgray">
       <div className="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
-        <nav className="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
-          {navigation.main.map((item) => (
-            <div key={item.name} className="px-5 py-2">
+        <div key={t('Stratux.name')} className="px-5 py-2 flex justify-center">
+          <a
+            href={t('Stratux.href')}
+            title={t('Stratux.title')}
+            target="_blank"
+            rel="noopener"
+            className="text-base text-drossblue hover:underline"
+          >
+            {t('Stratux.name')}
+          </a>
+        </div>
+        <div className="flex flex-wrap justify-center gap-x-2" aria-label="Footer">
+          {navigation.main.map((item, idx) => (
+            <span key={idx}>
               <a
-                href={item.href}
-                title={item.title}
-                target="_blank"
-                rel="noopener"
-                className="text-base text-drossblue hover:underline"
-              >
-                {item.name}
-              </a>
-            </div>
+              href={item.href}
+              title={item.title}
+              target="_blank"
+              rel="noopener"
+              className="text-base text-drossblue hover:underline"
+            >
+              {item.name}
+            </a> {idx < navigation.main.length - 1 && '|'}
+            </span>
           ))}
-        </nav>
-        <p className="mt-8 text-center text-base text-gray-600">&copy; 2024 made with ♥ by{" "}
+        </div>
+        <p className="mt-2 text-center text-base text-gray-600">&copy; 2024 made with ♥ by{" "}
           <a
             href={t('Alexander.href')}
             rel="noopener"

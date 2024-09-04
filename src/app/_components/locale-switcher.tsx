@@ -1,23 +1,35 @@
 "use client";
 
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale, useMessages, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export function LocaleSwitcher() {
-  const router = useRouter();
-  const pathname = usePathname();
   const locale = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [key, setKey] = useState(pathname.includes('/en/') ? 'english' : 'native');
+
   const t = useTranslations('LocaleSwitcher');
-  const currentLocaleSlug = pathname.includes('/en/') ? 'en' : locale;
-  const currentLocale = currentLocaleSlug === 'en' ? t('english') : t('native');
-  const nextLocale = currentLocaleSlug === 'en' ? t('native') : t('english');
-  const nextLocaleHref = currentLocaleSlug === 'en' ? ".." : 'en/';
+  const messages = useMessages();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+  const keys = Object.keys(messages.LocaleSwitcher);
+
+  const handleSwitch = () => {
+    if (key === 'english') {
+      setKey('native');
+      router.push(pathname.replace('/en/', '/'));
+    } else {
+      setKey('english');
+      router.push(pathname.replace(`/${locale}/`, `/${locale}/en/`));
+    }
+  };
+
   return (
-    <>
-      <select title="switch language" onChange={() => router.push(nextLocaleHref)}>
-        <option value={currentLocale} title={`switch to ${currentLocale}`} rel="noopener">{currentLocale}</option>
-        <option value={nextLocale} title={`switch to ${nextLocale}`} rel="noopener">{nextLocale}</option>
-      </select>
-    </>
+    <select title="switch language" value={key} onChange={handleSwitch}>
+      {keys.map((key) => (
+        <option key={key} value={key} title={`switch to ${t(key)}`} rel="noopener">{t(key)}</option>
+      ))}
+    </select>
   );
 }

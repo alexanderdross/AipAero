@@ -4,7 +4,6 @@ import { GeistSans } from "geist/font/sans";
 import { NextIntlClientProvider } from 'next-intl';
 import {
   getMessages,
-  getTranslations,
   unstable_setRequestLocale
 } from 'next-intl/server';
 import { locales } from '~/config';
@@ -23,7 +22,7 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
+/*export async function generateMetadata({
   params: { locale }
 }: Omit<Props, 'children'>) {
   const t = await getTranslations({ locale, namespace: 'LocaleLayout.english' });
@@ -31,7 +30,7 @@ export async function generateMetadata({
   return {
     title: t('title')
   };
-}
+}*/
 
 export default async function LocaleLayout({
   children,

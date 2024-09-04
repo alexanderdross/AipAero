@@ -127,12 +127,17 @@
   },
   "VfrPage": {
     "native": {
-      "titleShort": "AIP VFR",
+      "hrefName": "AIP VFR",
+      "hrefTitle": "HOME VFR Österreich öffnen",
+      "href": "/at/vfr/",
       "title": "Suchmaske für Anflugkarten AIP VFR Österreich",
       "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten zu gelangen",
       "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen"
     },
     "english": {
+      "hrefName": "AIP VFR",
+      "hrefTitle": "Open HOME VFR Austria",
+      "href": "/at/en/vfr/",
       "titleShort": "AIP VFR",
       "title": "Index of AIP VFR and visual approach charts Austria",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
@@ -141,12 +146,18 @@
   },
   "HeliportPage": {
     "native": {
+      "hrefName": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Österreich öffnen",
+      "href": "/at/heliports/",
       "titleShort": "Heliports",
       "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
       "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
       "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen"
     },
     "english": {
+      "hrefName": "Heliports",
+      "hrefTitle": "Open AIP VFR Heliports Austria",
+      "href": "/at/en/heliports/",
       "titleShort": "Heliports",
       "title": "AIP VFR Charts for Helicopter Aerodromes in Austria",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
@@ -155,11 +166,17 @@
   },
   "AirportsPage": {
     "native": {
+      "hrefName": "Flughafen Liste",
+      "hrefTitle": "Flughafen Liste Österreich öffnen",
+      "href": "/at/flughafen-liste-oesterreich/",
       "titleShort": "Flughafen Liste",
       "title": "Liste der Flugplätze in Österreich",
       "subtitle": "Alle Flugplätze/ Flughäfen in Österreich im Überblick"
     },
     "english": {
+      "hrefName": "Airport List",
+      "hrefTitle": "Open List of Airfields/ Airports Austria",
+      "href": "/at/en/airport-list-austria/",
       "titleShort": "Airport List",
       "title": "List of Airfields in Austria",
       "subtitle": "Overview of all airfields/ airports in Austria"
