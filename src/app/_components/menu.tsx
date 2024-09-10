@@ -13,7 +13,7 @@ export default function Menu() {
   const keys = Object.keys(messages).filter((key) => key.endsWith('Page') && key !== 'NotFoundPage');
 
   return (
-    <nav className="flex justify-center py-8">
+    <nav className="flex justify-center">
       {keys.map((key, idx) => (
         <span key={idx}>
           <Link

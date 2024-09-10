@@ -52,8 +52,12 @@ export default async function LocaleLayout({
           <NextIntlClientProvider messages={messages}>
             {children}
             <About />
-            <Menu />
-            <LocaleSwitcher />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+              <div className=" border border-[#ccc] p-4">
+                <Menu />
+                <LocaleSwitcher />
+              </div>
+            </div>
             <Breadcrumbs />
             <Footer />
           </NextIntlClientProvider>
