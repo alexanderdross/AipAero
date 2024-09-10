@@ -34,6 +34,8 @@ export default function Breadcrumbs() {
                 href="/"
                 title="AIP Home"
                 className="text-gray-400 hover:text-gray-500"
+                target="_self"
+                rel="noopener"
               >
                 <HomeIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                 <span className="sr-only">AIP Home</span>
@@ -51,6 +53,8 @@ export default function Breadcrumbs() {
                   title={navItems.find(e => breadcrumbsOfIndex(index) === e.href)?.title ?? breadcrumb.toLocaleUpperCase()}
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                   aria-current={index === breadcrumbs.length - 1 ? 'page' : undefined}
+                  target="_self"
+                  rel="noopener"
                 >
                   {navItems.find(e => breadcrumbsOfIndex(index) === e.href)?.name ?? breadcrumb.toLocaleUpperCase()}
                 </Link>

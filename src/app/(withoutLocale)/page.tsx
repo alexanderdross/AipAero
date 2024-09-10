@@ -98,6 +98,7 @@ export default async function Home() {
                   href={e.buttons.at(-1)?.href ?? '#'} 
                   title={`Aeronautical Information Publication (AIP) of ${e.country}`}
                   target="_self"
+                  rel="noopener"
                 >
                   {e.country}
                 </Link>

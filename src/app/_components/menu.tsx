@@ -27,6 +27,8 @@ export default function Menu() {
             className={clsx('text-drossblue hover:underline mx-2', messages[key][language].href === pathname && 'font-medium text-gray-500 hover:no-underline pointer-events-none')}
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
             aria-disabled={messages[key][language].href === pathname}
+            target="_self"
+            rel="noopener"
           >
             {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */}
             {messages[key][language].hrefName}
