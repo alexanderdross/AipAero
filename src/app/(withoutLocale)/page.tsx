@@ -93,7 +93,14 @@ export default async function Home() {
             <h3 className="!text-[1.125rem] font-medium">About this website</h3>
             <p>This website aims to simplify the search for approach charts and Aeronautical Information Publication (AIP) for aerodromes, airports, and airfields in {
               elements.map((e, idx) => (<span key={e.country}>
-                <Link className="text-drossblue hover:underline" href={e.buttons.at(-1)?.href ?? '#'} title={`Aeronautical Information Publication (AIP) of ${e.country}`}>{e.country}</Link>
+                <Link
+                  className="text-drossblue hover:underline"
+                  href={e.buttons.at(-1)?.href ?? '#'} 
+                  title={`Aeronautical Information Publication (AIP) of ${e.country}`}
+                  target="_self"
+                >
+                  {e.country}
+                </Link>
                 {idx <= elements.length - 2 ? idx === elements.length - 2 ? ' and ' : ', ' : ''}
               </span>
               ))}. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.</p>

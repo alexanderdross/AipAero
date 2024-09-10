@@ -69,12 +69,14 @@
     "native": {
       "title": "Waarom deze website?",
       "description": "De <aip>AIP van Nederland</aip> is beschikbaar als gratis versie. Deze website heeft tot doel het zoeken naar vliegvelden te vereenvoudigen, aangezien de basisversie van Luchtverkeersleiding Nederland (LVNL) geen zoekmasker bevat. Wij zijn niet aansprakelijk voor de juistheid en nauwkeurigheid van AIP’s (Aeronautical Information Publication), aangezien deze niet door ons worden beheerd. Wij bieden alleen handige links naar overeenkomstige naderingskaarten.",
-      "aipHref": "https://www.lvnl.nl/diensten/aip"
+      "aipHref": "https://www.lvnl.nl/diensten/aip",
+      "aipName": "AIP van Nederland"
     },
     "english": {
       "title": "About this website",
       "description": "The <aip>AIP of the Netherlands</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by Air Traffic Control the Netherlands (LVNL) does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
-      "aipHref": "https://www.lvnl.nl/diensten/aip"
+      "aipHref": "https://www.lvnl.nl/diensten/aip",
+      "aipName": "Open AIP of the Netherlands"
     }
   },
   "IndexPage": {

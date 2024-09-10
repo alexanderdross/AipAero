@@ -14,6 +14,7 @@ export default function About({ english }: { english?: boolean }) {
             href={t('aipHref')} 
             target="_self" 
             rel="noopener"
+            title={t('aipHrefTitle')}
             >
               {chunks}
             </a>

@@ -69,12 +69,14 @@
     "native": {
       "title": "Wozu diese Website?",
       "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Österreich</aip> steht seitens Austro Control als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
-      "aipHref": "https://eaip.austrocontrol.at/"
+      "aipHref": "https://eaip.austrocontrol.at/",
+      "aipHrefTitle": "Luftfahrthandbuch AIP Österreich öffnen"
     },
     "english": {
       "title": "About this website",
       "description": "The <aip>AIP Austria</aip> is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by Austro Control does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
-      "aipHref": "https://eaip.austrocontrol.at/"
+      "aipHref": "https://eaip.austrocontrol.at/",
+      "aipHrefTitle": "Open AIP Austria"
     }
   },
   "IndexPage": {
