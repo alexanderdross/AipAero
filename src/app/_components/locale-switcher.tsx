@@ -31,7 +31,7 @@ export function LocaleSwitcher() {
 
   return (
     <div className='flex justify-center pt-4'>
-      <select title="switch language" value={key} onChange={handleSwitch}>
+      <select title="switch language" value={key} onChange={handleSwitch} className='m-0 py-0 pl-2 pr-8'>
         {keys.map((key) => (
           <option key={key} value={key} title={`switch to ${t(key)}`} rel="noopener">{t(key)}</option>
         ))}
