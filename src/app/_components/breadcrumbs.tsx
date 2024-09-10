@@ -25,8 +25,8 @@ export default function Breadcrumbs() {
   console.log(navItems);
 
   return (
-    <div className="max-w-7xl mx-auto pt-12 px-4 overflow-hidden sm:px-6 lg:px-8"> 
-      <nav className="flex justify-center">
+    <div className="max-w-7xl mx-auto pt-4 px-4 overflow-hidden sm:px-6 lg:px-8"> 
+      <nav className="flex justify-center border border-[#ccc] p-4">
         <ol role="list" className="flex items-center space-x-4">
           <li>
             <div>

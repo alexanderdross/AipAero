@@ -14,7 +14,7 @@ export default function Footer({ english }: { english?: boolean }) {
 
   return (
     <footer className="bg-drossgray">
-      <div className="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
         <div key={t('Stratux.name')} className="px-5 py-2 flex justify-center">
           <a
             href={t('Stratux.href')}
