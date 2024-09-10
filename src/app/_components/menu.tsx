@@ -1,6 +1,7 @@
 "use client";
 
-import { useMessages, useTranslations } from "next-intl";
+import clsx from "clsx";
+import { useMessages } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -10,7 +11,6 @@ export default function Menu() {
   const language = pathname.includes('/en/') ? 'english' : 'native';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
   const keys = Object.keys(messages).filter((key) => key.endsWith('Page') && key !== 'NotFoundPage');
-  console.log(keys);
 
   return (
     <nav className="flex justify-center py-8">
@@ -23,7 +23,10 @@ export default function Menu() {
             href={messages[key][language].href}
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
             title={messages[key][language].hrefTitle}
-            className="text-drossblue hover:underline mx-2"
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+            className={clsx('text-drossblue hover:underline mx-2', messages[key][language].href === pathname && 'font-medium text-gray-500 hover:no-underline pointer-events-none')}
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+            aria-disabled={messages[key][language].href === pathname}
           >
             {/* eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */}
             {messages[key][language].hrefName}

@@ -13,7 +13,7 @@ export default {
           DEFAULT: '#2d6a9a'
           },
         'drossgray': {
-          DEFAULT: '#f0f2f2'
+          DEFAULT: '#f0f2f2',
         }
       }
     },

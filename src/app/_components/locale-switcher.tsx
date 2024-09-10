@@ -10,11 +10,15 @@ export function LocaleSwitcher() {
   const router = useRouter();
   const [key, setKey] = useState(pathname.includes('/en/') ? 'english' : 'native');
 
-  const t = useTranslations('LocaleSwitcher');
   const messages = useMessages();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
+  if (!messages?.LocaleSwitcher) {
+    return <></>;
+  }
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const t = useTranslations('LocaleSwitcher');
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
   const keys = Object.keys(messages.LocaleSwitcher);
-
   const handleSwitch = () => {
     if (key === 'english') {
       setKey('native');
