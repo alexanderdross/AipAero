@@ -36,6 +36,8 @@ export function Box({
             href={b.href}
             title={b.title}
             className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
+            target="_self"
+            rel="noopener"
           >
             <ExternalLinkIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
             <span className="ml-3">{b.name ?? b.title}</span>

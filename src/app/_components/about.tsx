@@ -9,7 +9,14 @@ export default function About({ english }: { english?: boolean }) {
         <div className="border border-[#ccc] p-4">
           <h3 className="!text-[1.125rem] font-medium">{t('title')}</h3>
           <p>{t.rich('description', {
-            aip: (chunks) => <a className="text-drossblue hover:underline" href={t('aipHref')}>{chunks}</a>
+            aip: (chunks) => <a 
+            className="text-drossblue hover:underline" 
+            href={t('aipHref')} 
+            target="_self" 
+            rel="noopener"
+            >
+              {chunks}
+            </a>
           })}</p>
         </div>
       </div>
