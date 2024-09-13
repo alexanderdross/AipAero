@@ -18,9 +18,9 @@ export default function Breadcrumbs() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
     href: messages[key][localeKey].href, 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-    title: messages[key][localeKey].hrefTitle,
+    title: messages[key][localeKey].hrefNameBreadcrumb ?? messages[key][localeKey].hrefTitle,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-    name: messages[key][localeKey].hrefName
+    name: messages[key][localeKey].hrefNameBreadcrumb ?? messages[key][localeKey].hrefName
   }));
   console.log(navItems);
 

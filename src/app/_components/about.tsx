@@ -12,8 +12,8 @@ export default function About({ english }: { english?: boolean }) {
             aip: (chunks) => <a 
             className="text-drossblue hover:underline" 
             href={t('aipHref')} 
-            target="_self" 
-            rel="noopener"
+            target="_blank" 
+            rel="noopener, noreferrer, noindex, nofollow"
             title={t('aipHrefTitle')}
             >
               {chunks}

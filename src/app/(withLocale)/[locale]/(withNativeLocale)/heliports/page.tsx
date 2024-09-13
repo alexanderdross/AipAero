@@ -16,7 +16,7 @@ export default function IndexPage({params: {locale}}: Props) {
   return (
     <>
       <Header title={t('title')} subtitle={t('subtitle')} />
-      <Search placeholder={t('placeholder')} />
+      <Search placeholder={t('placeholder')} type="heliport" />
     </>
   );
 }

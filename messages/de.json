@@ -81,10 +81,10 @@
   },
   "IndexPage": {
     "native": {
-      "hrefName": "HOME AIP",
+      "hrefName": "AIP HOME",
+      "hrefNameBreadcrumb": "Deutschland (Deutsch)",
       "hrefTitle": "HOME AIP Deutschland öffnen",
       "href": "/de/",
-      "titleShort": "HOME AIP",
       "title": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
       "subtitle": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
       "boxes": {
@@ -112,10 +112,10 @@
       }
     },
     "english": {
-      "hrefName": "HOME AIP",
+      "hrefName": "AIP HOME",
+      "hrefNameBreadcrumb": "Germany (English)",
       "hrefTitle": "HOME AIP Germany",
       "href": "/de/en/",
-      "titleShort": "HOME AIP",
       "title": "AIP and approach charts of Germany",
       "subtitle": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany",
       "boxes": {
@@ -148,19 +148,21 @@
       "hrefName": "AIP VFR",
       "hrefTitle": "AIP VFR Deutschland öffnen",
       "href": "/de/vfr/",
-      "titleShort": "AIP VFR",
       "title": "Suchmaske für Anflugkarten AIP VFR Deutschland",
       "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten VFR Anflugkarten zu gelangen",
-      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen"
+      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
+      "searchResultHrefTitle": "AIP VFR Charts von",
+      "notFound": "Flughafen oder ICAO Code nicht gefunden."
     },
     "english": {
       "hrefName": "AIP VFR",
       "hrefTitle": "Open AIP VFR Germany",
       "href": "/de/en/vfr/",
-      "titleShort": "AIP VFR",
       "title": "Index of AIP VFR and visual approach charts Germany",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR"
+      "placeholder": "Enter airport name or its ICAO code to access AIP VFR",
+      "searchResultHrefTitle": "AIP VFR Charts of",
+      "notFound": "Airport or ICAO code not found."
     }
   },
   "IfrPage": {
@@ -170,7 +172,9 @@
       "href": "/de/ifr/",
       "title": "Suchmaske für Anflugkarten AIP IFR Deutschland",
       "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten IFR Anflugkarten zu gelangen",
-      "placeholder": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen"
+      "placeholder": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen",
+      "searchResultHrefTitle": "AIP IFR Charts von",
+      "notFound": "Flughafen oder ICAO Code nicht gefunden."
     },
     "english": {
       "hrefName": "AIP IFR",
@@ -178,7 +182,9 @@
       "href": "/de/en/ifr/",
       "title": "Index of AIP IFR and approach charts Germany",
       "subtitle": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
-      "placeholder": "Enter airport name or its ICAO code to access AIP IFR"
+      "placeholder": "Enter airport name or its ICAO code to access AIP IFR",
+      "searchResultHrefTitle": "AIP IFR Charts of",
+      "notFound": "Airport or ICAO code not found."
     }
   },
   "HeliportPage": {
@@ -186,19 +192,21 @@
       "hrefName": "Heliports",
       "hrefTitle": "AIP VFR Heliports Deutschland öffnen",
       "href": "/de/heliports/",
-      "titleShort": "Heliports",
       "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Deutschland",
       "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
-      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen"
+      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
+      "searchResultHrefTitle": "AIP VFR Charts von Heliport",
+      "notFound": "Flughafen oder ICAO Code nicht gefunden."
     },
     "english": {
       "hrefName": "Heliports",
       "hrefTitle": "Open AIP VFR Helicopter Aerodromes Germany",
       "href": "/de/en/heliports/",
-      "titleShort": "Heliports",
       "title": "AIP VFR Charts for Helicopter Aerodromes in Germany",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters"
+      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+      "searchResultHrefTitle": "AIP VFR Charts of Heliport",
+      "notFound": "Airport or ICAO code not found."
     }
   },
   "AirportsPage": {
@@ -206,7 +214,6 @@
       "hrefName": "Flughafen Liste",
       "hrefTitle": "Liste der Flughäfen Deutschland öffnen",
       "href": "/de/flughafen-liste-deutschland/",
-      "titleShort": "Flughafen Liste",
       "title": "Liste der Flugplätze in Deutschland",
       "subtitle": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick"
     },
@@ -214,7 +221,6 @@
       "hrefName": "Airport List",
       "hrefTitle": "Open List of Airfields/ Airports Germany",
       "href": "/de/en/airport-list-germany/",
-      "titleShort": "Airport List",
       "title": "List of Airfields in Germany",
       "subtitle": "Overview of all airfields/ airports in Germany"
     }

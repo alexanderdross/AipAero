@@ -82,6 +82,7 @@
   "IndexPage": {
     "native": {
       "hrefName": "HOME AIP",
+      "hrefNameBreadcrumb": "Österreich (Deutsch)",
       "hrefTitle": "HOME AIP Österreich öffnen",
       "href": "/at/",
       "title": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
@@ -105,6 +106,7 @@
     },
     "english": {
       "hrefName": "HOME AIP",
+      "hrefNameBreadcrumb": "Austria (English)",
       "hrefTitle": "Open HOME AIP Austria",
       "href": "/at/en/",
       "title": "AIP and approach charts of Austria",
@@ -134,16 +136,19 @@
       "href": "/at/vfr/",
       "title": "Suchmaske für Anflugkarten AIP VFR Österreich",
       "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten zu gelangen",
-      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen"
+      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
+      "searchResultHrefTitle": "AIP VFR Charts von",
+      "notFound": "Flughafen oder ICAO Code nicht gefunden."
     },
     "english": {
       "hrefName": "AIP VFR",
       "hrefTitle": "Open HOME VFR Austria",
       "href": "/at/en/vfr/",
-      "titleShort": "AIP VFR",
       "title": "Index of AIP VFR and visual approach charts Austria",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR"
+      "placeholder": "Enter airport name or its ICAO code to access AIP VFR",
+      "searchResultHrefTitle": "AIP VFR Charts of",
+      "notFound": "Airport or ICAO code not found."
     }
   },
   "HeliportPage": {
@@ -151,19 +156,21 @@
       "hrefName": "Heliports",
       "hrefTitle": "AIP VFR Heliports Österreich öffnen",
       "href": "/at/heliports/",
-      "titleShort": "Heliports",
       "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
       "subtitle": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
-      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen"
+      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
+      "searchResultHrefTitle": "AIP VFR Charts von Heliport",
+      "notFound": "Flughafen oder ICAO Code nicht gefunden."
     },
     "english": {
       "hrefName": "Heliports",
       "hrefTitle": "Open AIP VFR Heliports Austria",
       "href": "/at/en/heliports/",
-      "titleShort": "Heliports",
       "title": "AIP VFR Charts for Helicopter Aerodromes in Austria",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters"
+      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+      "searchResultHrefTitle": "AIP VFR Charts of Heliport",
+      "notFound": "Airport or ICAO code not found."
     }
   },
   "AirportsPage": {
@@ -171,7 +178,6 @@
       "hrefName": "Flughafen Liste",
       "hrefTitle": "Flughafen Liste Österreich öffnen",
       "href": "/at/flughafen-liste-oesterreich/",
-      "titleShort": "Flughafen Liste",
       "title": "Liste der Flugplätze in Österreich",
       "subtitle": "Alle Flugplätze/ Flughäfen in Österreich im Überblick"
     },
@@ -179,7 +185,6 @@
       "hrefName": "Airport List",
       "hrefTitle": "Open List of Airfields/ Airports Austria",
       "href": "/at/en/airport-list-austria/",
-      "titleShort": "Airport List",
       "title": "List of Airfields in Austria",
       "subtitle": "Overview of all airfields/ airports in Austria"
     }

@@ -45,6 +45,7 @@
     "native": {
       "hrefName": "HOME AIP",
       "hrefTitle": "Open Home AIP United Kingdom (UK)",
+      "hrefNameBreadcrumb": "United Kingdom",
       "href": "/uk/",
       "title": "AIP and approach charts of the UK",
       "subtitle": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
@@ -73,7 +74,9 @@
       "href": "/uk/vfr/",
       "title": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR/ IFR"
+      "placeholder": "Enter airport name or its ICAO code to access AIP VFR/ IFR",
+      "searchResultHrefTitle": "AIP VFR Charts of",
+      "notFound": "Airport or ICAO code not found."
     }
   },
   "HeliportPage": {
@@ -83,7 +86,9 @@
       "href": "/uk/heliports/",
       "title": "AIP VFR Charts for Helicopter Aerodromes in the UK",
       "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters"
+      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+      "searchResultHrefTitle": "AIP VFR Charts of Heliport",
+      "notFound": "Airport or ICAO code not found."
     }
   },
   "AirportsPage": {

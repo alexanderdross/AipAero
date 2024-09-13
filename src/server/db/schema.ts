@@ -1,12 +1,11 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
-import { sql } from "drizzle-orm";
 import {
   bigint,
   index,
+  mysqlEnum,
   mysqlTableCreator,
-  timestamp,
   varchar,
 } from "drizzle-orm/mysql-core";
 
@@ -16,19 +15,22 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = mysqlTableCreator((name) => `test_${name}`);
+export const createTable = mysqlTableCreator((name) => `aip_aero_${name}`);
 
-export const posts = createTable(
-  "post",
+export const airports = createTable(
+  "airports",
   {
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-    name: varchar("name", { length: 256 }),
-    createdAt: timestamp("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at").onUpdateNow(),
+    icao: varchar("icao", { length: 4 }).notNull(),
+    title: varchar("title", { length: 256 }).notNull(),
+    url: varchar("url", { length: 512 }).notNull(),
+    type: mysqlEnum('type', ['vfr', 'ifr', 'heliport']).notNull(),
+    country: varchar("country", { length: 2 }).notNull(),
   },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
+  (airport) => ({
+    icaoIndex: index("icao_idx").on(airport.icao),
+    titleIndex: index("title_idx").on(airport.title),
+    typeIndex: index("type_idx").on(airport.type),
+    countryIndex: index("country_idx").on(airport.country),
   })
 );

@@ -10,7 +10,8 @@ export default {
       },
       colors: {
         'drossblue': {
-          DEFAULT: '#2d6a9a'
+            DEFAULT: '#2d6a9a',
+            light: "#4084b8"
           },
         'drossgray': {
           DEFAULT: '#f0f2f2',
