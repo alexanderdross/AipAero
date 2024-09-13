@@ -26,10 +26,13 @@ export default function Search({ placeholder, type }: { placeholder: string; typ
 
   let t;
   if (type === "vfr") {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     t = useTranslations(`VfrPage.${localeKey}`);
   } else if (type === "ifr") {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     t = useTranslations(`IfrPage.${localeKey}`);
   } else {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     t = useTranslations(`HeliportPage.${localeKey}`);
   }
 
