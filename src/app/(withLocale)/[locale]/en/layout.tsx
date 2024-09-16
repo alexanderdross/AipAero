@@ -45,7 +45,11 @@ export default async function LocaleLayout({
   const messages = await getMessages({ locale: locale });
 
   return (
-    <html lang={"en"} className={`${GeistSans.variable}`}>
+    <html 
+      prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml profile: http://ogp.me/ns/profile#"
+      lang={"en"} 
+      className={`${GeistSans.variable}`}
+    >
       <body className="bg-drossgray">
         <TRPCReactProvider>
           <NextIntlClientProvider messages={messages}>
