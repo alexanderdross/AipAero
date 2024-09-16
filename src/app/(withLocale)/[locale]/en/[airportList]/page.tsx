@@ -1,7 +1,17 @@
 import {useTranslations} from 'next-intl';
-import {unstable_setRequestLocale} from 'next-intl/server';
+import {getTranslations, unstable_setRequestLocale} from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { Header } from '~/app/_components/header';
+import { generateMetadata as genMetadata } from "~/lib/generate-metadata";
+
+export async function generateMetadata({
+  params: { locale }
+}: Omit<Props, 'children'>) {
+  const t = await getTranslations({ locale, namespace: 'AirportsPage.english' });
+  console.log(t('title'));
+
+  return genMetadata(t('title'), t('subtitle'), `/${locale}/`);
+}
 
 type Props = {
   params: {locale: string; airportList: string};

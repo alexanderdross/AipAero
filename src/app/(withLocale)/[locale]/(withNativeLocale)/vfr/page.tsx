@@ -1,7 +1,17 @@
 import {useTranslations} from 'next-intl';
-import {unstable_setRequestLocale} from 'next-intl/server';
+import {getTranslations, unstable_setRequestLocale} from 'next-intl/server';
 import { Header } from '~/app/_components/header';
 import Search from '~/app/_components/search';
+import { generateMetadata as genMetadata } from "~/lib/generate-metadata";
+
+export async function generateMetadata({
+  params: { locale }
+}: Omit<Props, 'children'>) {
+  const t = await getTranslations({ locale, namespace: 'VfrPage.native' });
+  console.log(t('title'));
+
+  return genMetadata(t('title'), t('subtitle'), `/${locale}/`);
+}
 
 type Props = {
   params: {locale: string};
