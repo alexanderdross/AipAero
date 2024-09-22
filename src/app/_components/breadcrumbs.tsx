@@ -1,28 +1,35 @@
 'use client';
 
 import { ChevronRightIcon, HomeIcon } from "@heroicons/react/solid";
-import { useMessages } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Translation } from "~/lib/i18n";
 
-export default function Breadcrumbs() {
+export default function Breadcrumbs({ translation }: { translation: Translation }) {
   const pathname = usePathname();
-  const breadcrumbs = pathname.replace('/en', '_en').split('/').filter(Boolean);
-  const breadcrumbsOfIndex = (index: number) => `/${breadcrumbs.slice(0, index + 1).join('/')}/`.replace('_en', '/en');
+  const breadcrumbs = pathname.split('/').filter(Boolean);
+  if (!translation.isSingleLocale) {
+    // Get index of "en" and join it with the preceding element inside the array
+    const index = breadcrumbs.indexOf('en');
+    if (index > -1) {
+      breadcrumbs.splice(index - 1, 2, `${breadcrumbs[index - 1]}/${breadcrumbs[index]}`);
+    }
+  }
+  const breadcrumbsOfIndex = (index: number) => `/${breadcrumbs.slice(0, index + 1).join('/')}/`;
 
-  const messages = useMessages();
-  const localeKey = pathname.includes('/en/') ? 'english' : 'native';
-  const keys = Object.keys(messages);
-  const pages = keys.filter((key) => key.endsWith('Page'));
+  const pages = [
+    translation.CountryPage, 
+    translation.VfrPage, 
+    translation.IfrPage, 
+    translation.HeliportPage, 
+    translation.AirportsPage
+  ].filter(x => x !== undefined);
+
   const navItems = pages.map((key) => ({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-    href: messages[key][localeKey].href, 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-    title: messages[key][localeKey].hrefNameBreadcrumb ?? messages[key][localeKey].hrefTitle,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-    name: messages[key][localeKey].hrefNameBreadcrumb ?? messages[key][localeKey].hrefName
+    href: key.href,
+    hrefTitle: key.hrefTitle,
+    title: key.breadcrumbTitle,
   }));
-  console.log(navItems);
 
   return (
     <div className="max-w-7xl mx-auto pt-4 px-4 overflow-hidden sm:px-6 lg:px-8"> 
@@ -42,25 +49,28 @@ export default function Breadcrumbs() {
               </Link>
             </div>
           </li>
-          {breadcrumbs?.map((breadcrumb, index) => (
-            <li key={breadcrumb}>
+          {breadcrumbs?.map((breadcrumb, index) => {
+            const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
+            const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
+            const hrefTitle = currentNavItem?.hrefTitle ?? breadcrumb.toLocaleUpperCase();
+            const title = currentNavItem?.title ?? breadcrumb.toLocaleUpperCase();
+
+            return (<li key={breadcrumb}>
               <div className="flex items-center">
                 <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
                 <Link
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  href={navItems.find(e => breadcrumbsOfIndex(index) === e.href)?.href ?? breadcrumbsOfIndex(index)}
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  title={navItems.find(e => breadcrumbsOfIndex(index) === e.href)?.title ?? breadcrumb.toLocaleUpperCase()}
+                  href={href}
+                  title={hrefTitle}
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
                   aria-current={index === breadcrumbs.length - 1 ? 'page' : undefined}
                   target="_self"
                   rel="noopener"
                 >
-                  {navItems.find(e => breadcrumbsOfIndex(index) === e.href)?.name ?? breadcrumb.toLocaleUpperCase()}
+                  {title}
                 </Link>
               </div>
-            </li>
-          ))}
+            </li>);
+          })}
         </ol>
       </nav>
     </div>

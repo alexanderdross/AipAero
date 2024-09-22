@@ -1,0 +1,182 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/dot-notation */
+import fs from 'fs';
+import path from 'path';
+
+const messagesDirectory = path.join(process.cwd(), '/messages');
+
+/**
+ * Reads a i18n key and returns the value. The key is a dot-separated string, without specifying the language.
+ * @param key dot-separated string
+ * @param english if true, use the English language, otherwise use the native language
+ * @param data the data JSON object
+ * @returns the value of the key in the specified language (string)
+ */
+function getValue(key: string, english: boolean, data: any) {
+  let value = data;  // Create a copy of data
+  const keys = key.split('.');
+  keys.splice(1, 0, english ? 'english' : 'native'); // Insert 'english' or 'native' after the first key
+  for (const k of keys) {
+    if (!value) {
+      break;
+    }
+    value = value[k];
+  }
+  if (!value) {
+    keys[1] = 'native';
+    value = data;
+    for (const k of keys) {
+      if (!value) {
+        return undefined;
+      }
+      value = value[k];
+    }
+  }
+  return value;
+}
+
+function isSingleLocale(data: any) {
+  try {
+    return !data['Country']['english'];
+  }
+  catch (e) {
+    return false;
+  }
+}
+
+export interface Translation {
+  Country: string;
+  CountryCode: string;
+  Language: string;
+  LanguageCode: string;
+  Tld: string;
+  isSingleLocale: boolean;
+  Footer: LinkTranslation[];
+  CountryPage: ExtendedLinkTranslation;
+  IfrPage?: ExtendedLinkTranslation;
+  VfrPage: ExtendedLinkTranslation;
+  HeliportPage: ExtendedLinkTranslation;
+  AirportsPage: ExtendedLinkTranslation;
+  LocaleSwitcher: {
+    native: string;
+    english: string;
+  };
+  About: {
+    title: string;
+    description: string;
+    aipHref: string;
+    aipHrefTitle: string;
+  };
+}
+
+interface LinkTranslation {
+  title: string;
+  href: string;
+  hrefTitle: string;
+}
+
+interface ExtendedLinkTranslation extends LinkTranslation {
+  description: string;
+  breadcrumbTitle: string;
+  menuTitle: string;
+}
+
+/**
+ * Get country information from the messages directory.
+ * @param tld - Filter a country: top-level domain of the country.
+ * @param english - Whether to use the English or native language.
+ * @returns The country information.
+ */
+export function getTranslations({ tld, english = true }: { tld?: string, english?: boolean }) {
+  // Get file names under /messages
+  const messages = fs.readdirSync(messagesDirectory)
+    .filter((file) => tld ? file.endsWith(`${tld}.json`) : file.endsWith('.json'))
+    .map((message) => {
+      const fullPath = path.join(messagesDirectory, message);
+      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      const data = JSON.parse(fileContents);
+      return {
+        Country: getValue('Country', english, data),
+        CountryCode: getValue('CountryCode', english, data),
+        Language: getValue('Language', english, data),
+        LanguageCode: getValue('LanguageCode', english, data),
+        Tld: getValue('Tld', english, data),
+        isSingleLocale: isSingleLocale(data),
+        Footer: getValue('Footer', english, data).map((footer: any) => {
+          return {
+            title: footer.title,
+            href: footer.href,
+            hrefTitle: footer.hrefTitle,
+          };
+        }),
+        CountryPage: {
+          title: getValue('CountryPage.title', english, data),
+          description: getValue('CountryPage.description', english, data),
+          href: getValue('CountryPage.href', english, data),
+          hrefTitle: getValue('CountryPage.hrefTitle', english, data),
+          breadcrumbTitle: getValue('CountryPage.breadcrumbTitle', english, data),
+          menuTitle: getValue('CountryPage.menuTitle', english, data),
+        },
+        IfrPage: getValue('IfrPage.title', english, data) ?{
+          title: getValue('IfrPage.title', english, data),
+          description: getValue('IfrPage.description', english, data),
+          href: getValue('IfrPage.href', english, data),
+          hrefTitle: getValue('IfrPage.hrefTitle', english, data),
+          breadcrumbTitle: getValue('IfrPage.breadcrumbTitle', english, data),
+          menuTitle: getValue('IfrPage.menuTitle', english, data),
+        } : undefined,
+        VfrPage: {
+          title: getValue('VfrPage.title', english, data),
+          description: getValue('VfrPage.description', english, data),
+          href: getValue('VfrPage.href', english, data),
+          hrefTitle: getValue('VfrPage.hrefTitle', english, data),
+          breadcrumbTitle: getValue('VfrPage.breadcrumbTitle', english, data),
+          menuTitle: getValue('VfrPage.menuTitle', english, data),
+        },
+        HeliportPage: {
+          title: getValue('HeliportPage.title', english, data),
+          description: getValue('HeliportPage.description', english, data),
+          href: getValue('HeliportPage.href', english, data),
+          hrefTitle: getValue('HeliportPage.hrefTitle', english, data),
+          breadcrumbTitle: getValue('HeliportPage.breadcrumbTitle', english, data),
+          menuTitle: getValue('HeliportPage.menuTitle', english, data),
+        },
+        AirportsPage: {
+          title: getValue('AirportsPage.title', english, data),
+          description: getValue('AirportsPage.description', english, data),
+          href: getValue('AirportsPage.href', english, data),
+          hrefTitle: getValue('AirportsPage.hrefTitle', english, data),
+          breadcrumbTitle: getValue('AirportsPage.breadcrumbTitle', english, data),
+          menuTitle: getValue('AirportsPage.menuTitle', english, data),
+        },
+        LocaleSwitcher: {
+          native: getValue('LocaleSwitcher', false, data),
+          english: getValue('LocaleSwitcher', true, data),
+        },
+        About: {
+          title: getValue('About.title', english, data),
+          description: getValue('About.description', english, data),
+          aipHref: getValue('About.aipHref', english, data),
+          aipHrefTitle: getValue('About.aipHrefTitle', english, data),
+        },
+      } as Translation;
+    }).sort((a, b) => a.Country.localeCompare(b.Country));
+
+  if (!messages) {
+    throw new Error(`No messages found for ${tld}`);
+  }
+  return messages;
+}
+
+/**
+ * Get country information from the messages directory.
+ * @param tld - Filter a country: top-level domain of the country.
+ * @param english - Whether to use the English or native language.
+ * @returns The country information.
+ */
+export function getTranslation({ tld, english = true }: { tld: string, english?: boolean }) {
+  const translation = getTranslations({ tld, english });
+  if (translation.length === 0 || !translation[0]) {
+    throw new Error(`No translation found for ${tld}`);
+  }
+  return translation[0];
+}

@@ -1,151 +1,143 @@
 {
+  "Country": {
+    "native": "Nederland",
+    "english": "Netherlands"
+  },
+  "CountryCode": {
+    "native": "NL",
+    "english": "NL"
+  },
+  "Language": {
+    "native": "Nederlands",
+    "english": "Dutch"
+  },
+  "LanguageCode": {
+    "native": "nl",
+    "english": "nl"
+  },
+  "Tld": {
+    "native": "nl",
+    "english": "nl"
+  },
   "Footer": {
-    "native": {
-      "Stratux": {
-        "name": "📡 Stratux - anti-collision system",
-        "title": "Stratux - anti-collision system for private aviation and gliders",
+    "native": [
+      {
+        "title": "📡 Stratux - anti-collision system",
+        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
         "href": "https://dross.net/aviation/"
       },
-      "Home": {
-        "name": "Home",
-        "title": "Home - Dross:Network",
+      {
+        "title": "Home",
+        "hrefTitle": "Home - Dross:Network",
         "href": "https://dross.net"
       },
-      "Imprint": {
-        "name": "Imprint",
+      {
         "title": "Imprint",
+        "hrefTitle": "Imprint",
         "href": "https://dross.net/imprint"
       },
-      "Contact": {
-        "name": "Contact",
+      {
         "title": "Contact",
+        "hrefTitle": "Contact",
         "href": "https://dross.net/contact"
       },
-      "Privacy": {
-        "name": "Privacy",
-        "title": "Privacybeleid",
+      {
+        "title": "Privacy",
+        "hrefTitle": "Privacybeleid",
         "href": "https://dross.net/privacy-policy"
       },
-      "Alexander": {
-        "name": "Alexander Dross",
-        "title": "Website of Alexander Dross",
+      {
+        "title": "Alexander Dross",
+        "hrefTitle": "Website of Alexander Dross",
         "href": "https://dross.net/alexander/"
       }
-    },
-    "english": {
-      "Stratux": {
-        "name": "📡 Stratux - anti-collision system",
-        "title": "Stratux - anti-collision system for private aviation and gliders",
+    ],
+    "english": [
+      {
+        "title": "📡 Stratux - anti-collision system",
+        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
         "href": "https://dross.net/aviation/"
       },
-      "Home": {
-        "name": "Home",
-        "title": "Home - Dross:Network",
+      {
+        "title": "Home",
+        "hrefTitle": "Home - Dross:Network",
         "href": "https://dross.net"
       },
-      "Imprint": {
-        "name": "Imprint",
+      {
         "title": "Imprint",
+        "hrefTitle": "Imprint",
         "href": "https://dross.net/imprint"
       },
-      "Contact": {
-        "name": "Contact",
+      {
         "title": "Contact",
+        "hrefTitle": "Contact",
         "href": "https://dross.net/contact"
       },
-      "Privacy": {
-        "name": "Privacy",
-        "title": "Privacybeleid",
+      {
+        "title": "Privacy",
+        "hrefTitle": "Privacy Policy",
         "href": "https://dross.net/privacy-policy"
       },
-      "Alexander": {
-        "name": "Alexander Dross",
-        "title": "Website of Alexander Dross",
+      {
+        "title": "Alexander Dross",
+        "hrefTitle": "Website of Alexander Dross",
         "href": "https://dross.net/alexander/"
       }
-    }
+    ]
   },
   "About": {
     "native": {
       "title": "Waarom deze website?",
       "description": "De <aip>AIP van Nederland</aip> is beschikbaar als gratis versie. Deze website heeft tot doel het zoeken naar vliegvelden te vereenvoudigen, aangezien de basisversie van Luchtverkeersleiding Nederland (LVNL) geen zoekmasker bevat. Wij zijn niet aansprakelijk voor de juistheid en nauwkeurigheid van AIP’s (Aeronautical Information Publication), aangezien deze niet door ons worden beheerd. Wij bieden alleen handige links naar overeenkomstige naderingskaarten.",
       "aipHref": "https://www.lvnl.nl/diensten/aip",
-      "aipName": "AIP van Nederland"
+      "aipHrefTitle": "AIP van Nederland"
     },
     "english": {
       "title": "About this website",
       "description": "The <aip>AIP of the Netherlands</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by Air Traffic Control the Netherlands (LVNL) does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
       "aipHref": "https://www.lvnl.nl/diensten/aip",
-      "aipName": "Open AIP of the Netherlands"
+      "aipHrefTitle": "Open AIP of the Netherlands"
     }
   },
-  "IndexPage": {
+  "CountryPage": {
     "native": {
-      "hrefName": "HOME AIP",
-      "hrefNameBreadcrumb": "Nederland (Dutch)",
-      "hrefTitle": "Open HOME AIP Nederland",
-      "href": "/nl/",
       "title": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
-      "subtitle": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
-      "boxes": {
-        "vfr": {
-          "title": "Luchtvaarthandboek AIP VFR Nederland",
-          "subtitle": "AIP VFR Nederland AD Zoek luchthavens en download naderingskaarten",
-          "href": "/nl/vfr/",
-          "hrefTitle": "Open Luchtvaarthandboek AIP VFR Nederland",
-          "hrefName": "Luchtvaarthandboek AIP VFR"
-        },
-        "heliports": {
-          "title": "Helikopterplatforms Nederland",
-          "subtitle": "AIP VFR Nederland HEL AD Zoek helihavens en download naderingskaarten",
-          "href": "/nl/heliports/",
-          "hrefTitle": "Open AIP VFR Nederland helikopterplatforms",
-          "hrefName": "AIP VFR Helikopterplatforms"
-        }
-      }
+      "description": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
+      "href": "/nl/",
+      "hrefTitle": "Open HOME AIP Nederland",
+      "breadcrumbTitle": "Nederland (Dutch)",
+      "menuTitle": "HOME AIP"
     },
     "english": {
-      "hrefName": "HOME AIP",
-      "hrefNameBreadcrumb": "Netherlands (English)",
-      "hrefTitle": "Open HOME AIP Netherlands",
-      "href": "/nl/en/",
       "title": "AIP and approach charts of the Netherlands",
-      "subtitle": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands",
-      "boxes": {
-        "vfr": {
-          "title": "AIP VFR Netherlands",
-          "subtitle": "Browse AIP VFR of the Netherlands and download airport approach charts for free",
-          "href": "/nl/en/vfr/",
-          "hrefTitle": "Open AIP VFR approach charts of the Netherlands",
-          "hrefName": "AIP VFR approach charts"
-        },
-        "heliports": {
-          "title": "Helicopter Aerodromes Netherlands",
-          "subtitle": "Browse AIP VFR Helicopter Aerodromes of the Netherlands and download airport approach charts for free",
-          "href": "/nl/en/heliports/",
-          "hrefTitle": "Open AIP Helicopter Aerodromes of the Netherlands",
-          "hrefName": "AIP VFR Helicopter Aerodromes"
-        }
-      }
+      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands",
+      "href": "/nl/en/",
+      "hrefTitle": "Open HOME AIP Netherlands",
+      "breadcrumbTitle": "Netherlands (English)",
+      "menuTitle": "HOME AIP"
     }
   },
   "VfrPage": {
     "native": {
-      "hrefName": "AIP VFR",
-      "hrefTitle": "HOME VFR Nederland openen",
-      "href": "/nl/vfr/",
       "title": "Zoekmasker voor naderingskaarten AIP VFR Nederland",
-      "subtitle": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten van Luchtverkeersleiding Nederland (LVNL).",
+      "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten van Luchtverkeersleiding Nederland (LVNL).",
+      "href": "/nl/vfr/",
+      "hrefTitle": "HOME VFR Nederland openen",
+      "breadcrumbTitle": "VFR",
+      "menuTitle": "AIP VFR",
+
       "placeholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
       "searchResultHrefTitle": "AIP VFR Charts von",
       "notFound": "Luchthaven- of ICAO-code niet gevonden."
     },
     "english": {
-      "hrefName": "AIP VFR",
-      "hrefTitle": "Open HOME VFR Netherlands",
-      "href": "/nl/en/vfr/",
       "title": "Index of AIP VFR and visual approach charts of the Netherlands",
-      "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+      "href": "/nl/en/vfr/",
+      "hrefTitle": "Open HOME VFR Netherlands",
+      "breadcrumbTitle": "VFR",
+      "menuTitle": "AIP VFR",
+
       "placeholder": "Enter airport name or its ICAO code to access AIP VFR",
       "searchResultHrefTitle": "AIP VFR Charts of",
       "notFound": "Airport or ICAO code not found."
@@ -153,21 +145,25 @@
   },
   "HeliportPage": {
     "native": {
-      "hrefName": "Helihavens",
-      "hrefTitle": "AIP VFR Helihavens Nederland openen",
-      "href": "/nl/heliports/",
       "title": "Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
-      "subtitle": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten voor helikopterplatforms van Luchtverkeersleiding Nederland (LVNL)",
+      "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten voor helikopterplatforms van Luchtverkeersleiding Nederland (LVNL)",
+      "href": "/nl/heliports/",
+      "hrefTitle": "AIP VFR Helihavens Nederland openen",
+      "breadcrumbTitle": "Helihavens",
+      "menuTitle": "Helihavens",
+
       "placeholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan",
       "searchResultHrefTitle": "AIP VFR Charts von Heliport",
       "notFound": "Luchthaven- of ICAO-code niet gevonden."
     },
     "english": {
-      "hrefName": "Heliports",
-      "hrefTitle": "Open AIP VFR Heliports Netherlands",
-      "href": "/nl/en/heliports/",
       "title": "AIP VFR Charts for Helicopter Aerodromes in the Netherlands",
-      "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+      "href": "/nl/en/heliports/",
+      "hrefTitle": "Open AIP VFR Heliports Netherlands",
+      "breadcrumbTitle": "Heliports",
+      "menuTitle": "Heliports",
+
       "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
       "searchResultHrefTitle": "AIP VFR Charts of Heliport",
       "notFound": "Airport or ICAO code not found."
@@ -175,19 +171,23 @@
   },
   "AirportsPage": {
     "native": {
-      "hrefName": "Luchthavenlijst",
-      "hrefTitle": "Luchthavenlijst Nederland openen",
-      "href": "/nl/luchthavenlijst-nederland/",
       "title": "Luchthavenlijst Nederland",
-      "subtitle": "Alle vliegvelden/luchthavens in Nederland op een rij",
+      "description": "Alle vliegvelden/luchthavens in Nederland op een rij",
+      "href": "/nl/luchthavenlijst-nederland/",
+      "hrefTitle": "Luchthavenlijst Nederland openen",
+      "breadcrumbTitle": "Luchthavenlijst",
+      "menuTitle": "Luchthavenlijst",
+
       "notFound": "Luchthaven- of ICAO-code niet gevonden."
     },
     "english": {
-      "hrefName": "Airport List",
-      "hrefTitle": "Open List of Airports/ Airfields in the Netherlands",
-      "href": "/nl/en/airport-list-netherlands/",
       "title": "List of Airfields in the Netherlands",
-      "subtitle": "Overview of all airfields/ airports/ heliports in the Netherlands",
+      "description": "Overview of all airfields/ airports/ heliports in the Netherlands",
+      "href": "/nl/en/airport-list-netherlands/",
+      "hrefTitle": "Open List of Airports/ Airfields in the Netherlands",
+      "breadcrumbTitle": "Airport List",
+      "menuTitle": "Airport List",
+      
       "notFound": "Airport or ICAO code not found."
     }
   },

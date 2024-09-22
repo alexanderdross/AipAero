@@ -1,56 +1,42 @@
-import { useTranslations } from "next-intl";
+import { Translation } from "~/lib/i18n";
+import { ExternalLink } from "~/app/_components/external-link";
 
-export default function Footer({ english }: { english?: boolean }) {
-  const t = useTranslations(`Footer${english ? '.english' : '.native'}`);
-
-  const navigation = {
-    main: [
-      { name: t('Home.name'), title: t('Home.title'), href: t('Home.href') },
-      { name: t('Imprint.name'), title: t('Imprint.title'), href: t('Imprint.href') },
-      { name: t('Contact.name'), title: t('Contact.title'), href: t('Contact.href') },
-      { name: t('Privacy.name'), title: t('Privacy.title'), href: t('Privacy.href') },
-    ]
-  }
-
+export default function Footer({ translation }: { translation: Translation["Footer"] }) {
+  const middlepart = translation.slice(1, -1);
+  
   return (
     <footer className="bg-drossgray">
       <div className="max-w-7xl mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
-        <div key={t('Stratux.name')} className="px-5 py-2 flex justify-center">
-          <a
-            href={t('Stratux.href')}
-            title={t('Stratux.title')}
-            target="_blank"
-            rel="noopener"
+        <div className="px-5 py-2 flex justify-center">
+          <ExternalLink
+            href={translation.at(0)?.title ?? ''}
+            hrefTitle={translation.at(0)?.hrefTitle ?? ''}
             className="text-base text-drossblue hover:underline"
           >
-            {t('Stratux.name')}
-          </a>
+            {translation.at(0)?.title}
+          </ExternalLink>
         </div>
         <div className="flex flex-wrap justify-center" aria-label="Footer">
-          {navigation.main.map((item, idx) => (
+          {middlepart.map((item, idx) => (
             <span key={idx}>
-              <a
+              <ExternalLink
               href={item.href}
-              title={item.title}
-              target="_blank"
-              rel="noopener"
+              hrefTitle={item.hrefTitle}
               className="text-base text-drossblue hover:underline mx-2"
             >
-              {item.name}
-            </a>{idx < navigation.main.length - 1 && '|'}
+              {item.title}
+            </ExternalLink>{idx < middlepart.length - 1 && '|'}
             </span>
           ))}
         </div>
         <p className="mt-2 text-center text-base text-gray-600">&copy; 2024 made with ♥ by{" "}
-          <a
-            href={t('Alexander.href')}
-            rel="noopener"
-            title={t('Alexander.title')}
-            target="_blank"
+          <ExternalLink
+            href={translation.at(-1)?.href ?? ''}
+            hrefTitle={translation.at(-1)?.hrefTitle ?? ''}
             className="text-drossblue hover:underline"
           >
-            {t('Alexander.name')}
-          </a></p>
+            {translation.at(-1)?.title}
+          </ExternalLink></p>
       </div>
     </footer>
   )

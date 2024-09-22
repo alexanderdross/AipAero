@@ -1,37 +1,52 @@
 {
+  "Country": {
+    "native": "United Kingdom"  
+  },
+  "CountryCode": {
+    "native": "GB"
+  },
+  "Language": {
+    "native": "English"
+  },
+  "LanguageCode": {
+    "native": "en"
+  },
+  "Tld": {
+    "native": "uk"
+  },
   "Footer": {
-    "native": {
-      "Stratux": {
-        "name": "📡 Stratux - anti-collision system",
-        "title": "Stratux - anti-collision system for private aviation and gliders",
+    "native": [
+      {
+        "title": "📡 Stratux - anti-collision system",
+        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
         "href": "https://dross.net/aviation/"
       },
-      "Home": {
-        "name": "Home",
-        "title": "Home - Dross:Network",
+      {
+        "title": "Home",
+        "hrefTitle": "Home - Dross:Network",
         "href": "https://dross.net"
       },
-      "Imprint": {
-        "name": "Imprint",
+      {
         "title": "Imprint",
+        "hrefTitle": "Imprint",
         "href": "https://dross.net/imprint"
       },
-      "Contact": {
-        "name": "Contact",
+      {
         "title": "Contact",
+        "hrefTitle": "Contact",
         "href": "https://dross.net/contact"
       },
-      "Privacy": {
-        "name": "Privacy",
-        "title": "Privacy Policy",
+      {
+        "title": "Privacy",
+        "hrefTitle": "Privacy Policy",
         "href": "https://dross.net/privacy-policy"
       },
-      "Alexander": {
-        "name": "Alexander Dross",
-        "title": "Website of Alexander Dross",
+      {
+        "title": "Alexander Dross",
+        "hrefTitle": "Website of Alexander Dross",
         "href": "https://dross.net/alexander/"
       }
-    }
+    ]
   },
   "About": {
     "native": {
@@ -41,39 +56,25 @@
       "aipHrefTitle": "Open AIP of the United Kingdom (UK)"
     }
   },
-  "IndexPage": {
+  "CountryPage": {
     "native": {
-      "hrefName": "HOME AIP",
-      "hrefTitle": "Open Home AIP United Kingdom (UK)",
-      "hrefNameBreadcrumb": "United Kingdom",
-      "href": "/uk/",
       "title": "AIP and approach charts of the UK",
-      "subtitle": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
-      "boxes": {
-        "vfr": {
-          "title": "AIP VFR UK",
-          "subtitle": "Browse AIP VFR of the United Kingdom and download airport approach charts for free",
-          "href": "/uk/vfr/",
-          "hrefTitle": "Open AIP VFR approach charts of the United Kingdom (UK)",
-          "hrefName": "AIP VFR approach charts"
-        },
-        "heliports": {
-          "title": "Helicopter Aerodromes UK",
-          "subtitle": "Browse AIP VFR Helicopter Aerodromes of the UK and download airport approach charts for free",
-          "href": "/uk/heliports/",
-          "hrefTitle": "Open AIP Helicopter Aerodromes of the United Kingdom (UK)",
-          "hrefName": "AIP VFR Helicopter Aerodromes"
-        }
-      }
+      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
+      "href": "/uk/",
+      "hrefTitle": "Open Home AIP United Kingdom (UK)",
+      "breadcrumbTitle": "United Kingdom",
+      "menuTitle": "HOME AIP"
     }
   },
   "VfrPage": {
     "native": {
-      "hrefName": "AIP VFR",
-      "hrefTitle": "Open AIP VFR United Kingdom (UK)",
-      "href": "/uk/vfr/",
       "title": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
-      "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+      "href": "/uk/vfr/",
+      "hrefTitle": "Open AIP VFR United Kingdom (UK)",
+      "breadcrumbTitle": "VFR",
+      "menuTitle": "AIP VFR",
+
       "placeholder": "Enter airport name or its ICAO code to access AIP VFR/ IFR",
       "searchResultHrefTitle": "AIP VFR Charts of",
       "notFound": "Airport or ICAO code not found."
@@ -81,11 +82,13 @@
   },
   "HeliportPage": {
     "native": {
-      "hrefName": "Heliports",
-      "hrefTitle": "Open AIP VFR Heliports United Kingdom (UK)",
-      "href": "/uk/heliports/",
       "title": "AIP VFR Charts for Helicopter Aerodromes in the UK",
-      "subtitle": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+      "href": "/uk/heliports/",
+      "hrefTitle": "Open AIP VFR Heliports United Kingdom (UK)",
+      "breadcrumbTitle": "Heliports",
+      "menuTitle": "Heliports",
+
       "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
       "searchResultHrefTitle": "AIP VFR Charts of Heliport",
       "notFound": "Airport or ICAO code not found."
@@ -93,11 +96,12 @@
   },
   "AirportsPage": {
     "native": {
-      "hrefName": "Airport List",
-      "hrefTitle": "Open List of Airports/ Airfields in the United Kingdom (UK)",
-      "href": "/uk/airport-list-uk/",
       "title": "List of Airfields in the United Kingdom",
-      "subtitle": "Overview of all airfields/ airports/ heliports in the UK"
+      "description": "Overview of all airfields/ airports/ heliports in the UK",
+      "href": "/uk/airport-list-uk/",
+      "hrefTitle": "Open List of Airports/ Airfields in the United Kingdom (UK)",
+      "breadcrumbTitle": "Airport List",
+      "menuTitle": "Airport List"
     }
   }
 }

@@ -1,24 +1,18 @@
 "use client";
 
-import { useLocale, useMessages, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Translation } from '~/lib/i18n';
 
-export function LocaleSwitcher() {
-  const locale = useLocale();
+export function LocaleSwitcher({ translation, locale }: { translation: Translation["LocaleSwitcher"], locale: string }) {
   const pathname = usePathname();
   const router = useRouter();
   const [key, setKey] = useState(pathname.includes('/en/') ? 'english' : 'native');
 
-  const messages = useMessages();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-  if (!messages?.LocaleSwitcher) {
+  if (!translation || !translation.native || !translation.english) {
     return <></>;
   }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const t = useTranslations('LocaleSwitcher');
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call
-  const keys = Object.keys(messages.LocaleSwitcher);
+
   const handleSwitch = () => {
     if (key === 'english') {
       setKey('native');
@@ -32,9 +26,8 @@ export function LocaleSwitcher() {
   return (
     <div className='flex justify-center pt-4'>
       <select title="switch language" value={key} onChange={handleSwitch} className='m-0 py-0 pl-2 pr-8'>
-        {keys.map((key) => (
-          <option key={key} value={key} title={`switch to ${t(key)}`} rel="noopener">{t(key)}</option>
-        ))}
+        <option value={'native'} title={`switch to ${translation.native}`} rel="noopener">{translation.native}</option>
+        <option value={'english'} title={`switch to ${translation.english}`} rel="noopener">{translation.english}</option>
       </select>
     </div>
   );

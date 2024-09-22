@@ -8,9 +8,8 @@ export async function generateMetadata({
   params: { locale }
 }: Omit<Props, 'children'>) {
   const t = await getTranslations({ locale, namespace: 'AirportsPage.english' });
-  console.log(t('title'));
 
-  return genMetadata(t('title'), t('subtitle'), `/${locale}/`);
+  return genMetadata(t('title'), t('description'), `/${locale}/`);
 }
 
 type Props = {
@@ -26,7 +25,7 @@ export function generateStaticParams() {
   return [{airportList: t('href').split('/').filter(Boolean).at(-1)}]
 }*/
 
-export default function IndexPage({params: {locale, airportList}}: Props) {
+export default function CountryPage({params: {locale, airportList}}: Props) {
   // Enable static rendering
   unstable_setRequestLocale(locale);
 
@@ -37,7 +36,7 @@ export default function IndexPage({params: {locale, airportList}}: Props) {
 
   return (
     <>
-      <Header title={t('title')} subtitle={t('subtitle')} />
+      <Header title={t('title')} description={t('description')} />
     </>
   );
 }

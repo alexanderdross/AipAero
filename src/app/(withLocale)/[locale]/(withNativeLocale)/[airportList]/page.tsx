@@ -8,9 +8,8 @@ export async function generateMetadata({
   params: { locale }
 }: Omit<Props, 'children'>) {
   const t = await getTranslations({ locale, namespace: 'AirportsPage.native' });
-  console.log(t('title'));
 
-  return genMetadata(t('title'), t('subtitle'), `/${locale}/`);
+  return genMetadata(t('title'), t('description'), `/${locale}/`);
 }
 
 type Props = {
@@ -18,15 +17,15 @@ type Props = {
 };
 
 // All slugs besides the static ones will be 404
-/*export const dynamicParams = false;
+export const dynamicParams = false;
 
 // generateStaticParams will be called at build time, important for sitemap.xml
 export function generateStaticParams() {
   const t = useTranslations('AirportsPage.native');
-  return [{airportList: t('href').split('/').filter(Boolean).at(-1)}]
-}*/
+  return [{airportList: t('href')}]
+}
 
-export default function IndexPage({params: {locale, airportList}}: Props) {
+export default function CountryPage({params: {locale, airportList}}: Props) {
   // Enable static rendering
   unstable_setRequestLocale(locale);
 
@@ -37,7 +36,7 @@ export default function IndexPage({params: {locale, airportList}}: Props) {
 
   return (
     <>
-      <Header title={t('title')} subtitle={t('subtitle')} />
+      <Header title={t('title')} description={t('description')} />
     </>
   );
 }

@@ -8,15 +8,15 @@ export async function generateMetadata({
   params: { locale }
 }: Omit<Props, 'children'>) {
   const t = await getTranslations({ locale, namespace: 'HeliportPage.english' });
-  console.log(t('title'));
 
-  return genMetadata(t('title'), t('subtitle'), `/${locale}/`);
+  return genMetadata(t('title'), t('description'), `/${locale}/`);
 }
+
 type Props = {
   params: { locale: string };
 };
 
-export default function IndexPage({ params: { locale } }: Props) {
+export default function CountryPage({ params: { locale } }: Props) {
   // Enable static rendering
   unstable_setRequestLocale(locale);
 
@@ -24,7 +24,7 @@ export default function IndexPage({ params: { locale } }: Props) {
 
   return (
     <>
-      <Header title={t('title')} subtitle={t('subtitle')} />
+      <Header title={t('title')} description={t('description')} />
       <Search placeholder={t('placeholder')} type="heliport" />
     </>
   );
