@@ -64,17 +64,23 @@ export default function Search({
         autoFocus
       />
       <div className="text-center mt-4 w-full text-white">
-        {data.map((airport) => (
-          <ExternalLink
-            key={airport.icao}
-            href={`${airport.url}`}
-            className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
-            hrefTitle={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`}
-          >
-            <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-            {airport.title} {airport.icao}
-          </ExternalLink>
-        ))}
+        <ol>
+          {data.map((airport) => (
+            <li itemScope itemType="https://schema.org/Airport">
+              <ExternalLink
+                key={airport.icao}
+                href={`${airport.url}`}
+                className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
+                hrefTitle={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`}
+              >
+                <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                <span itemProp="name">{airport.title} {airport.icao}</span>
+              </ExternalLink>
+              <meta itemProp="description" content={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`} />
+              <meta itemProp="icaoCode" content={airport.icao} />
+            </li>
+          ))}
+        </ol>
         {data.length === 0 && query.length !== 0 && (
           <div className="bg-drossblue py-2">{searchResultEmpty}</div>
         )}

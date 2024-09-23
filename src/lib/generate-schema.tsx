@@ -119,3 +119,18 @@ export const generateProductSchema = (name: string, alternateName: string, descr
     }}
   />;
 }
+
+export const generateAirportSchema = (alternateName: string, description: string) => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Airport",
+    "alternateName": alternateName,
+    "description": description
+  };
+  return <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{
+      __html: JSON.stringify(schema)
+    }}
+  />;
+}

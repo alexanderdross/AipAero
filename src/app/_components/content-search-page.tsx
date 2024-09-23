@@ -1,7 +1,7 @@
 import type { SearchPageTranslation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import Search from "~/app/_components/search";
-import { generateProductSchema } from "~/lib/generate-schema";
+import { generateAirportSchema, generateProductSchema } from "~/lib/generate-schema";
 
 export function ContentSearchPage({translation, type}: { translation: SearchPageTranslation; type: 'vfr' | 'ifr' | 'heliport'; }) {
   return (
@@ -11,6 +11,10 @@ export function ContentSearchPage({translation, type}: { translation: SearchPage
         `${translation.menuTitle} ${translation.Country}`, // alternateName
         translation.description, // description
         translation.href // href
+      )}
+      {generateAirportSchema(
+        translation.title, // name
+        translation.description, // description
       )}
       <Header
         title={translation.title}

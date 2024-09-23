@@ -2,6 +2,7 @@ export function ExternalLink({ children, href, hrefTitle, className }: { childre
     return <a
         href={href}
         title={hrefTitle}
+        aria-label={hrefTitle}
         target="_blank"
         rel="noopener, noreferrer, noindex, nofollow"
         className={className}
