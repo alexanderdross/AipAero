@@ -47,7 +47,7 @@ export const generateNavigationSchema = (locale?: string, english?: boolean) => 
   />
 }
 
-export const generateProductSchema = (name: string, alternateName: string, description: string) => {
+export const generateProductSchema = (name: string, alternateName: string, description: string, href?: string) => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -62,7 +62,7 @@ export const generateProductSchema = (name: string, alternateName: string, descr
     "name": name,
     "alternateName": alternateName,
     "description": description,
-    "url": orgUrl.toString(),
+    "url": href ? (new URL(href, orgUrl)).toString() : orgUrl.toString(),
     "image": [{
       "@type": "ImageObject",
       "url": orgLogoSquareUrl.toString(),

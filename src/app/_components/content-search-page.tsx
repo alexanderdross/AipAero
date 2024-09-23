@@ -1,20 +1,27 @@
 import type { SearchPageTranslation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import Search from "~/app/_components/search";
+import { generateProductSchema } from "~/lib/generate-schema";
 
-export function ContentSearchPage({locale, translation}: { locale: string; translation: SearchPageTranslation; }) {
+export function ContentSearchPage({translation, type}: { translation: SearchPageTranslation; type: 'vfr' | 'ifr' | 'heliport'; }) {
   return (
     <>
+      {generateProductSchema(
+        translation.title, // name
+        `${translation.menuTitle} ${translation.Country}`, // alternateName
+        translation.description, // description
+        translation.href // href
+      )}
       <Header
         title={translation.title}
         description={translation.description}
       />
       <Search
-        locale={locale}
+        locale={translation.Tld}
         searchPlaceholder={translation.searchPlaceholder}
         searchResultHrefTitle={translation.searchResultHrefTitle}
         searchResultEmpty={translation.searchResultEmpty}
-        type='vfr'
+        type={type}
       />
     </>
   );

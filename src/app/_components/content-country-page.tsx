@@ -11,7 +11,12 @@ export async function ContentCountryPage({ translation }: { translation: Transla
   const description = translation.CountryPage.description;
   return (
     <>
-      {generateProductSchema(title, `AIP ${translation.Country}`, description)}
+      {generateProductSchema(
+        title, // name
+        `AIP ${translation.Country}`, // alternateName
+        description, // description
+        translation.CountryPage.href // href
+      )}
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ul role="list" className={clsx("grid grid-cols-1 gap-6 sm:grid-cols-2", translation.IfrPage && "lg:grid-cols-3")}>

@@ -43,13 +43,7 @@ function isSingleLocale(data: any) {
   }
 }
 
-export interface Translation {
-  Country: string;
-  CountryCode: string;
-  Language: string;
-  LanguageCode: string;
-  Tld: string;
-  isSingleLocale: boolean;
+export interface Translation extends CountryTranslation {
   Footer: LinkTranslation[];
   CountryPage: PageTranslation;
   IfrPage?: SearchPageTranslation;
@@ -68,19 +62,28 @@ export interface Translation {
   };
 }
 
+export interface CountryTranslation {
+  Country: string;
+  CountryCode: string;
+  Language: string;
+  LanguageCode: string;
+  Tld: string;
+  isSingleLocale: boolean;
+}
+
 export interface LinkTranslation {
   title: string;
   href: string;
   hrefTitle: string;
 }
 
-export interface PageTranslation extends LinkTranslation {
+export interface PageTranslation extends LinkTranslation, CountryTranslation {
   description: string;
   breadcrumbTitle: string;
   menuTitle: string;
 }
 
-export interface SearchPageTranslation extends PageTranslation {
+export interface SearchPageTranslation extends PageTranslation, CountryTranslation {
   searchPlaceholder: string;
   searchResultHrefTitle: string;
   searchResultEmpty: string;
@@ -100,13 +103,18 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
       const fullPath = path.join(messagesDirectory, message);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const data = JSON.parse(fileContents);
-      return {
+
+      const countryTranslation = {
         Country: getValue('Country', english, data),
         CountryCode: getValue('CountryCode', english, data),
         Language: getValue('Language', english, data),
         LanguageCode: getValue('LanguageCode', english, data),
         Tld: getValue('Tld', english, data),
         isSingleLocale: isSingleLocale(data),
+      }
+
+      return {
+        ...countryTranslation,
         Footer: getValue('Footer', english, data).map((footer: any) => {
           return {
             title: footer.title,
@@ -115,6 +123,7 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           };
         }),
         CountryPage: {
+          ...countryTranslation,
           title: getValue('CountryPage.title', english, data),
           description: getValue('CountryPage.description', english, data),
           href: getValue('CountryPage.href', english, data),
@@ -122,7 +131,8 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           breadcrumbTitle: getValue('CountryPage.breadcrumbTitle', english, data),
           menuTitle: getValue('CountryPage.menuTitle', english, data),
         },
-        IfrPage: getValue('IfrPage.title', english, data) ?{
+        IfrPage: getValue('IfrPage.title', english, data) ? {
+          ...countryTranslation,
           title: getValue('IfrPage.title', english, data),
           description: getValue('IfrPage.description', english, data),
           href: getValue('IfrPage.href', english, data),
@@ -134,6 +144,7 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           searchResultEmpty: getValue('IfrPage.searchResultEmpty', english, data),
         } : undefined,
         VfrPage: {
+          ...countryTranslation,
           title: getValue('VfrPage.title', english, data),
           description: getValue('VfrPage.description', english, data),
           href: getValue('VfrPage.href', english, data),
@@ -145,6 +156,7 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           searchResultEmpty: getValue('VfrPage.searchResultEmpty', english, data),
         },
         HeliportPage: {
+          ...countryTranslation,
           title: getValue('HeliportPage.title', english, data),
           description: getValue('HeliportPage.description', english, data),
           href: getValue('HeliportPage.href', english, data),
@@ -156,6 +168,7 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           searchResultEmpty: getValue('HeliportPage.searchResultEmpty', english, data),
         },
         AirportsPage: {
+          ...countryTranslation,
           title: getValue('AirportsPage.title', english, data),
           description: getValue('AirportsPage.description', english, data),
           href: getValue('AirportsPage.href', english, data),
