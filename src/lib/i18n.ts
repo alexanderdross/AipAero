@@ -68,19 +68,19 @@ export interface Translation {
   };
 }
 
-interface LinkTranslation {
+export interface LinkTranslation {
   title: string;
   href: string;
   hrefTitle: string;
 }
 
-interface PageTranslation extends LinkTranslation {
+export interface PageTranslation extends LinkTranslation {
   description: string;
   breadcrumbTitle: string;
   menuTitle: string;
 }
 
-interface SearchPageTranslation extends PageTranslation {
+export interface SearchPageTranslation extends PageTranslation {
   searchPlaceholder: string;
   searchResultHrefTitle: string;
   searchResultEmpty: string;

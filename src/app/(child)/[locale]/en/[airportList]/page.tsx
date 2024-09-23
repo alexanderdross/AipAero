@@ -1,5 +1,5 @@
-import { Header } from '~/app/_components/header';
-import Search from '~/app/_components/search';
+import { ContentAirportsPage } from '~/app/_components/content-airports-page';
+import { ContentSearchPage } from '~/app/_components/content-search-page';
 import { getTranslation } from '~/lib/i18n';
 
 // All slugs besides the static ones will be 404
@@ -22,26 +22,8 @@ export default function Page({ params }: { params: { locale: string; airportList
 
   // Return IFR page if available
   if (params.airportList === translation.IfrPage?.href) {
-    return (
-      <>
-        <Header
-          title={translation.IfrPage.title}
-          description={translation.IfrPage.description}
-        />
-        <Search
-          locale={params.locale}
-          searchPlaceholder={translation.IfrPage.searchPlaceholder}
-          searchResultHrefTitle={translation.IfrPage.searchResultHrefTitle}
-          searchResultEmpty={translation.IfrPage.searchResultEmpty}
-          type='ifr'
-        />
-      </>
-    );
+    return ContentSearchPage({ locale: params.locale, translation: translation.IfrPage });
   }
 
-  return (
-    <>
-      <Header title={translation.AirportsPage.title} description={translation.AirportsPage.description} />
-    </>
-  );
+  return ContentAirportsPage({ locale: params.locale, translation: translation.AirportsPage });
 }
