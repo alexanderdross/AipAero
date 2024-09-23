@@ -12,6 +12,7 @@ export const appRouter = createTRPCRouter({
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
+export type AirportSearchOutput = ReturnType<AppRouter["airport"]["search"]>;
 
 /**
  * Create a server-side caller for the tRPC API.

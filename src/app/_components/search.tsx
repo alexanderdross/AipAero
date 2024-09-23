@@ -1,9 +1,10 @@
 'use client';
+/* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
 import { LinkIcon } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
-import { api } from "~/trpc/react";
 import { ExternalLink } from "./external-link";
+import type { AirportSearchOutput } from "~/server/api/root";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value)
@@ -33,11 +34,12 @@ export default function Search({
  }) {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 500);
-  const [data] = api.airport.search.useSuspenseQuery({
+  /* const [data] = api.airport.search.useSuspenseQuery({
     type: type,
     country: locale,
     query: debouncedQuery
-  });
+  });*/
+  const data: Awaited<AirportSearchOutput> = [];
 
   function onSearch(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();

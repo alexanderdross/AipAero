@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Translation } from '~/lib/i18n';
+import type { Translation } from '~/lib/i18n';
 
 export function LocaleSwitcher({ translation, locale }: { translation: Translation["LocaleSwitcher"], locale: string }) {
   const pathname = usePathname();
