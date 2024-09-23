@@ -126,9 +126,9 @@
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
 
-      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
+      "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
       "searchResultHrefTitle": "AIP VFR Charts von",
-      "notFound": "Flughafen oder ICAO Code nicht gefunden."
+      "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
     },
     "english": {
       "title": "Index of AIP VFR and visual approach charts Austria",
@@ -138,9 +138,9 @@
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
 
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR",
+      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
       "searchResultHrefTitle": "AIP VFR Charts of",
-      "notFound": "Airport or ICAO code not found."
+      "searchResultEmpty": "Airport or ICAO code not found."
     }
   },
   "HeliportPage": {
@@ -152,9 +152,9 @@
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
 
-      "placeholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
+      "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
       "searchResultHrefTitle": "AIP VFR Charts von Heliport",
-      "notFound": "Flughafen oder ICAO Code nicht gefunden."
+      "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
     },
     "english": {
       "title": "AIP VFR Charts for Helicopter Aerodromes in Austria",
@@ -164,9 +164,9 @@
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
 
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
       "searchResultHrefTitle": "AIP VFR Charts of Heliport",
-      "notFound": "Airport or ICAO code not found."
+      "searchResultEmpty": "Airport or ICAO code not found."
     }
   },
   "AirportsPage": {

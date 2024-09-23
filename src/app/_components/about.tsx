@@ -1,4 +1,4 @@
-import { Translation } from "~/lib/i18n";
+import type { Translation } from "~/lib/i18n";
 import rich from "~/app/_components/rich";
 import { ExternalLink } from "~/app/_components/external-link";
 

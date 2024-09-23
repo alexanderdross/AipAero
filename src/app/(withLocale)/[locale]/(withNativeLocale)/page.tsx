@@ -1,11 +1,7 @@
 import { getTranslation } from '~/lib/i18n';
 import { ContentCountryPage } from '~/app/_components/content-country-page';
 
-type Props = {
-  params: { locale: string };
-};
-
-export default function CountryPage({ params: { locale } }: Props) {
-  const translation = getTranslation({ tld: locale, english: false });
+export default function CountryPage({ params }: { params: { locale: string } }) {
+  const translation = getTranslation({ tld: params.locale });
   return <ContentCountryPage translation={translation} />;
 }

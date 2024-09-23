@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/dot-notation */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/dot-notation,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
 import fs from 'fs';
 import path from 'path';
 
@@ -51,11 +51,11 @@ export interface Translation {
   Tld: string;
   isSingleLocale: boolean;
   Footer: LinkTranslation[];
-  CountryPage: ExtendedLinkTranslation;
-  IfrPage?: ExtendedLinkTranslation;
-  VfrPage: ExtendedLinkTranslation;
-  HeliportPage: ExtendedLinkTranslation;
-  AirportsPage: ExtendedLinkTranslation;
+  CountryPage: PageTranslation;
+  IfrPage?: SearchPageTranslation;
+  VfrPage: SearchPageTranslation;
+  HeliportPage: SearchPageTranslation;
+  AirportsPage: PageTranslation;
   LocaleSwitcher: {
     native: string;
     english: string;
@@ -74,10 +74,16 @@ interface LinkTranslation {
   hrefTitle: string;
 }
 
-interface ExtendedLinkTranslation extends LinkTranslation {
+interface PageTranslation extends LinkTranslation {
   description: string;
   breadcrumbTitle: string;
   menuTitle: string;
+}
+
+interface SearchPageTranslation extends PageTranslation {
+  searchPlaceholder: string;
+  searchResultHrefTitle: string;
+  searchResultEmpty: string;
 }
 
 /**
@@ -123,6 +129,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('IfrPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('IfrPage.breadcrumbTitle', english, data),
           menuTitle: getValue('IfrPage.menuTitle', english, data),
+          searchPlaceholder: getValue('IfrPage.searchPlaceholder', english, data),
+          searchResultHrefTitle: getValue('IfrPage.searchResultHrefTitle', english, data),
+          searchResultEmpty: getValue('IfrPage.searchResultEmpty', english, data),
         } : undefined,
         VfrPage: {
           title: getValue('VfrPage.title', english, data),
@@ -131,6 +140,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('VfrPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('VfrPage.breadcrumbTitle', english, data),
           menuTitle: getValue('VfrPage.menuTitle', english, data),
+          searchPlaceholder: getValue('VfrPage.searchPlaceholder', english, data),
+          searchResultHrefTitle: getValue('VfrPage.searchResultHrefTitle', english, data),
+          searchResultEmpty: getValue('VfrPage.searchResultEmpty', english, data),
         },
         HeliportPage: {
           title: getValue('HeliportPage.title', english, data),
@@ -139,6 +151,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('HeliportPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('HeliportPage.breadcrumbTitle', english, data),
           menuTitle: getValue('HeliportPage.menuTitle', english, data),
+          searchPlaceholder: getValue('HeliportPage.searchPlaceholder', english, data),
+          searchResultHrefTitle: getValue('HeliportPage.searchResultHrefTitle', english, data),
+          searchResultEmpty: getValue('HeliportPage.searchResultEmpty', english, data),
         },
         AirportsPage: {
           title: getValue('AirportsPage.title', english, data),

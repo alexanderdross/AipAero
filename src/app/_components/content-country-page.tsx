@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Box } from "~/app/_components/box";
 import { Header } from "~/app/_components/header";
 import { generateProductSchema } from "~/lib/generate-schema";
-import { Translation } from "~/lib/i18n";
+import type { Translation } from "~/lib/i18n";
 
 export async function ContentCountryPage({ translation }: { translation: Translation }) {
   const title = translation.CountryPage.title;

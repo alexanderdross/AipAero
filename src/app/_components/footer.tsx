@@ -1,4 +1,4 @@
-import { Translation } from "~/lib/i18n";
+import type { Translation } from "~/lib/i18n";
 import { ExternalLink } from "~/app/_components/external-link";
 
 export default function Footer({ translation }: { translation: Translation["Footer"] }) {

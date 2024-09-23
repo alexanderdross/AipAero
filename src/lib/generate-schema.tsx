@@ -1,4 +1,4 @@
-import { orgUrl } from "~/lib/generate-metadata";
+import { orgLogoSquareUrl, orgLogoUrl, orgUrl } from "~/lib/generate-metadata";
 import { getTranslations } from "~/lib/i18n";
 
 const nativeCountryInfos = getTranslations({ english: false });
@@ -6,7 +6,7 @@ const englishCountryInfos = getTranslations({ english: true });
 const englishCountryNames = englishCountryInfos.map(i => i.Country);
 const countriesAsSentence = englishCountryNames.slice(0, -1).join(', ') + ' and ' + englishCountryNames.slice(-1)[0];
 
-export const generateNavigationSchema = (tld?: string, english?: boolean) => {
+export const generateNavigationSchema = (locale?: string, english?: boolean) => {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -65,25 +65,25 @@ export const generateProductSchema = (name: string, alternateName: string, descr
     "url": orgUrl.toString(),
     "image": [{
       "@type": "ImageObject",
-      "url": new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-450x450.jpg', orgUrl).toString(),
+      "url": orgLogoSquareUrl.toString(),
       "width": 450,
       "height": 450
     },
     {
       "@type": "ImageObject",
-      "url": new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-446x319.jpg', orgUrl).toString(),
+      "url": orgLogoUrl.toString(),
       "width": 446,
       "height": 319
     }],
     "logo": [{
       "@type": "ImageObject",
-      "url": new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-450x450.jpg', orgUrl).toString(),
+      "url": orgLogoSquareUrl.toString(),
       "width": 450,
       "height": 450
     },
     {
       "@type": "ImageObject",
-      "url": new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-446x319.jpg', orgUrl).toString(),
+      "url": orgLogoUrl.toString(),
       "width": 446,
       "height": 319
     }],

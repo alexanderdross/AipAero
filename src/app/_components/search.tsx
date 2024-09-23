@@ -1,10 +1,9 @@
 'use client';
 
 import { LinkIcon } from "@heroicons/react/solid";
-import { useLocale, useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { api } from "~/trpc/react";
+import { ExternalLink } from "./external-link";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value)
@@ -19,23 +18,19 @@ function useDebounce(value: string, delay: number) {
   return debouncedValue;
 }
 
-export default function Search({ placeholder, type }: { placeholder: string; type: "vfr" | "ifr" | "heliport" }) {
-  const locale = useLocale();
-  const pathname = usePathname();
-  const localeKey = pathname.includes('/en/') ? 'english' : 'native';
-
-  let t;
-  if (type === "vfr") {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    t = useTranslations(`VfrPage.${localeKey}`);
-  } else if (type === "ifr") {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    t = useTranslations(`IfrPage.${localeKey}`);
-  } else {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    t = useTranslations(`HeliportPage.${localeKey}`);
-  }
-
+export default function Search({ 
+  locale,
+  searchPlaceholder,
+  searchResultHrefTitle,
+  searchResultEmpty,
+  type 
+}: { 
+  locale: string, 
+  searchPlaceholder: string, 
+  searchResultHrefTitle: string, 
+  searchResultEmpty: string, 
+  type: "ifr" | "vfr" | "heliport"
+ }) {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 500);
   const [data] = api.airport.search.useSuspenseQuery({
@@ -59,28 +54,26 @@ export default function Search({ placeholder, type }: { placeholder: string; typ
         name="search"
         id="search"
         className="shadow-sm focus:ring-drossblue focus:border-drossblue block w-full sm:text-sm border-gray-300 rounded-md text-center"
-        placeholder={placeholder}
-        title={placeholder}
+        placeholder={searchPlaceholder}
+        title={searchPlaceholder}
         value={query}
         onChange={onSearch}
         autoFocus
       />
       <div className="text-center mt-4 w-full text-white">
         {data.map((airport) => (
-          <a
+          <ExternalLink
             key={airport.icao}
             href={`${airport.url}`}
-            target="_blank"
-            rel="noopener, noreferrer, noindex, nofollow"
             className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
-            title={`${t('searchResultHrefTitle')} ${airport.title} ${airport.icao}`}
+            hrefTitle={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`}
           >
             <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
             {airport.title} {airport.icao}
-          </a>
+          </ExternalLink>
         ))}
         {data.length === 0 && query.length !== 0 && (
-          <div className="bg-drossblue py-2">{t('notFound')}</div>
+          <div className="bg-drossblue py-2">{searchResultEmpty}</div>
         )}
       </div>
     </div>

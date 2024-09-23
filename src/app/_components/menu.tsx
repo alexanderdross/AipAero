@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Translation } from "~/lib/i18n";
+import type { Translation } from "~/lib/i18n";
 
 export default function Menu({ translation }: { translation: Translation }) {
   const pathname = usePathname();  

@@ -1,8 +1,8 @@
 import { type Metadata } from "next";
 
 export const orgUrl = new URL('https://aip.aero/');
-export const orgLogo = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-446x319.jpg', orgUrl);
-export const orgLogoSquare = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-450x450.jpg', orgUrl);
+export const orgLogoUrl = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-446x319.jpg', orgUrl);
+export const orgLogoSquareUrl = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-450x450.jpg', orgUrl);
 export const orgTitle = "🛩️ AIP and approach charts of Germany, Austria, the Netherlands";
 export const orgDescription = "Free download of 🛩️ Aeronautical Information Publication (AIP) and approach charts of airports/ airfields in Germany, Austria, the Netherlands";
 export const author = "Alexander Dross";
@@ -46,13 +46,13 @@ export const generateRootMetadata = (): Metadata => {
       type: "website",
       images: [
         {
-          url: orgLogo.toString(),
+          url: orgLogoUrl,
           width: 446,
           height: 319,
           alt: "Logo",
           type: "image/jpg",
         }, {
-          url: orgLogoSquare.toString(),
+          url: orgLogoSquareUrl,
           width: 450,
           height: 450,
           alt: "Logo Quadratisch",

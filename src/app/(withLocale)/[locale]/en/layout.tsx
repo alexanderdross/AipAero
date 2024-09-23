@@ -9,20 +9,15 @@ import Menu from "~/app/_components/menu";
 import { LocaleSwitcher } from "~/app/_components/locale-switcher";
 import { getTranslation, getTranslations } from "~/lib/i18n";
 
-type Props = {
-  children: React.ReactNode;
-  params: { locale: string };
-};
+// All slugs besides the static ones will be 404
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return getTranslations({}).map((country) => ({ locale: country.Tld }));
 }
 
-export default async function LocaleLayout({
-  children,
-  params: { locale }
-}: Props) {
-  const translation = getTranslation({ tld: locale, english: true });
+export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: { locale: string }; }) {
+  const translation = getTranslation({ tld: params.locale, english: true });
   
   return (
     <html lang={"en"} className={`${GeistSans.variable}`}>
@@ -33,7 +28,7 @@ export default async function LocaleLayout({
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
               <div className="border border-[#ccc] p-4">
                 <Menu translation={translation} />
-                <LocaleSwitcher translation={translation.LocaleSwitcher} locale={locale} />
+                <LocaleSwitcher translation={translation.LocaleSwitcher} locale={params.locale} />
               </div>
             </div>
             <Breadcrumbs translation={translation} />

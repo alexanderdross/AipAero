@@ -9,7 +9,7 @@ export function LocaleSwitcher({ translation, locale }: { translation: Translati
   const router = useRouter();
   const [key, setKey] = useState(pathname.includes('/en/') ? 'english' : 'native');
 
-  if (!translation || !translation.native || !translation.english) {
+  if (!translation?.native || !translation?.english) {
     return <></>;
   }
 

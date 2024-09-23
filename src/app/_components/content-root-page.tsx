@@ -1,7 +1,7 @@
 "use server";
 
 import { generateNavigationSchema, generateProductSchema } from "~/lib/generate-schema";
-import { Translation } from "~/lib/i18n";
+import type { Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import { Box } from "~/app/_components/box";
 import Link from "next/link";

@@ -3,7 +3,7 @@
 import { ChevronRightIcon, HomeIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Translation } from "~/lib/i18n";
+import type { Translation } from "~/lib/i18n";
 
 export default function Breadcrumbs({ translation }: { translation: Translation }) {
   const pathname = usePathname();

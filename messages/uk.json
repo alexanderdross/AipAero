@@ -75,9 +75,9 @@
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
 
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR/ IFR",
+      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR/ IFR",
       "searchResultHrefTitle": "AIP VFR Charts of",
-      "notFound": "Airport or ICAO code not found."
+      "searchResultEmpty": "Airport or ICAO code not found."
     }
   },
   "HeliportPage": {
@@ -89,9 +89,9 @@
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
 
-      "placeholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
       "searchResultHrefTitle": "AIP VFR Charts of Heliport",
-      "notFound": "Airport or ICAO code not found."
+      "searchResultEmpty": "Airport or ICAO code not found."
     }
   },
   "AirportsPage": {

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
+
 import React from 'react';
 
-type ChunkHandlers = {
+interface ChunkHandlers {
   [key: string]: (content: string) => JSX.Element;
 };
 
@@ -8,7 +10,7 @@ export default function rich(message: string, handlers: ChunkHandlers): JSX.Elem
   // Helper function to parse the message and replace custom XML/HTML tags with provided handlers
   const parseMessage = (str: string): (JSX.Element | string)[] => {
     const regex = /<([\w]+)>(.*?)<\/\1>/gi; // Regex to match opening and closing tags
-    let result: (JSX.Element | string)[] = [];
+    const result: (JSX.Element | string)[] = [];
     let lastIndex = 0;
 
     let match: RegExpExecArray | null;

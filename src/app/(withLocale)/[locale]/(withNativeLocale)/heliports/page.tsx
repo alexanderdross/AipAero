@@ -1,31 +1,26 @@
-import {useTranslations} from 'next-intl';
-import {getTranslations, unstable_setRequestLocale} from 'next-intl/server';
 import { Header } from '~/app/_components/header';
 import Search from '~/app/_components/search';
-import { generateMetadata as genMetadata } from "~/lib/generate-metadata";
+import { getTranslation } from '~/lib/i18n';
+import { HydrateClient } from '~/trpc/server';
 
-export async function generateMetadata({
-  params: { locale }
-}: Omit<Props, 'children'>) {
-  const t = await getTranslations({ locale, namespace: 'HeliportPage.native' });
-
-  return genMetadata(t('title'), t('description'), `/${locale}/`);
-}
-
-type Props = {
-  params: {locale: string};
-};
-
-export default function CountryPage({params: {locale}}: Props) {
-  // Enable static rendering
-  unstable_setRequestLocale(locale);
-
-  const t = useTranslations('HeliportPage.native');
+export default function Page({ params }: { params: { locale: string } }) {
+  const translation = getTranslation({ tld: params.locale, english: false });
 
   return (
     <>
-      <Header title={t('title')} description={t('description')} />
-      <Search placeholder={t('placeholder')} type="heliport" />
+      <HydrateClient>
+        <Header
+          title={translation.HeliportPage.title}
+          description={translation.HeliportPage.description}
+        />
+        <Search
+          locale={params.locale}
+          searchPlaceholder={translation.HeliportPage.searchPlaceholder}
+          searchResultHrefTitle={translation.HeliportPage.searchResultHrefTitle}
+          searchResultEmpty={translation.HeliportPage.searchResultEmpty}
+          type='heliport'
+        />
+      </HydrateClient>
     </>
   );
 }
