@@ -31,7 +31,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
               <div className="border border-[#ccc] p-4">
                 <Menu translation={translation} />
-                <LocaleSwitcher translation={translation.LocaleSwitcher} locale={params.locale} />
+                <LocaleSwitcher translation={translation} locale={params.locale} />
               </div>
             </div>
             <Breadcrumbs translation={translation} />
