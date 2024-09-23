@@ -4,10 +4,10 @@
 import { LinkIcon } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import { ExternalLink } from "./external-link";
-import type { AirportSearchOutput } from "~/server/api/root";
+import { api } from "~/trpc/react";
 
 function useDebounce(value: string, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState(value)
+  const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
@@ -19,27 +19,28 @@ function useDebounce(value: string, delay: number) {
   return debouncedValue;
 }
 
-export default function Search({ 
+export default function Search({
   locale,
   searchPlaceholder,
   searchResultHrefTitle,
   searchResultEmpty,
-  type 
-}: { 
-  locale: string, 
-  searchPlaceholder: string, 
-  searchResultHrefTitle: string, 
-  searchResultEmpty: string, 
+  type
+}: {
+  locale: string,
+  searchPlaceholder: string,
+  searchResultHrefTitle: string,
+  searchResultEmpty: string,
   type: "ifr" | "vfr" | "heliport"
- }) {
+}) {
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 500);
-  /* const [data] = api.airport.search.useSuspenseQuery({
+  const [data] = api.airport.search.useSuspenseQuery({
     type: type,
     country: locale,
     query: debouncedQuery
-  });*/
-  const data: Awaited<AirportSearchOutput> = [];
+  });
+
+  //const data: Awaited<AirportSearchOutput> = [];
 
   function onSearch(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();

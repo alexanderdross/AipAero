@@ -9,6 +9,9 @@ import Menu from "~/app/_components/menu";
 import { LocaleSwitcher } from "~/app/_components/locale-switcher";
 import { getTranslation, getTranslations } from "~/lib/i18n";
 
+// Needed for build with TRPC to succeed
+export const dynamic = 'force-dynamic'
+
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
 
