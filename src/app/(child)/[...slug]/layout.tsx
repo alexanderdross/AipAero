@@ -25,48 +25,23 @@ export function generateStaticParams({ params }: { params: { slug: string[] } })
   const nativeTranslation = getTranslations({ english: false });
   const englishTranslation = getTranslations({ english: true });
   const routes = [];
-  for (const translation of nativeTranslation) {
-    routes.push({ slug: splitUrlSegments(translation.CountryPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.VfrPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.VfrPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.HeliportPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.HeliportPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.AirportsPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.AirportsPage.href) });
-    // Add IFR page if available
-    if (translation.IfrPage?.href) {
-      routes.push({ slug: splitUrlSegments(translation.IfrPage.href) });
-    }
-  }
-  for (const translation of englishTranslation) {
-    routes.push({ slug: splitUrlSegments(translation.CountryPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.VfrPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.VfrPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.HeliportPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.HeliportPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.AirportsPage.href) });
-    routes.push({ slug: splitUrlSegments(translation.AirportsPage.href) });
-    // Add IFR page if available
-    if (translation.IfrPage?.href) {
-      routes.push({ slug: splitUrlSegments(translation.IfrPage.href) });
+  for (const language of [nativeTranslation, englishTranslation]) {
+    for (const translation of language) {
+      routes.push({ slug: splitUrlSegments(translation.CountryPage.href) });
+      routes.push({ slug: splitUrlSegments(translation.VfrPage.href) });
+      routes.push({ slug: splitUrlSegments(translation.VfrPage.href) });
+      routes.push({ slug: splitUrlSegments(translation.HeliportPage.href) });
+      routes.push({ slug: splitUrlSegments(translation.HeliportPage.href) });
+      routes.push({ slug: splitUrlSegments(translation.AirportsPage.href) });
+      routes.push({ slug: splitUrlSegments(translation.AirportsPage.href) });
+      // Add IFR page if available
+      if (translation.IfrPage?.href) {
+        routes.push({ slug: splitUrlSegments(translation.IfrPage.href) });
+      }
     }
   }
 
-  // Remove duplicates
-  const uniqueRoutes: { slug: string[]; }[] = [];
-  const seenSlugs = new Set();
-  routes.forEach(item => {
-    // Sortiere das slug Array, um gleiche Inhalte in anderer Reihenfolge zu erkennen
-    const sortedSlug = item.slug.slice().sort().toString();
-
-    // Prüfe, ob dieses Array schon gesehen wurde
-    if (!seenSlugs.has(sortedSlug)) {
-      seenSlugs.add(sortedSlug);
-      uniqueRoutes.push(item);
-    }
-  });
-
-  return uniqueRoutes;
+  return routes;
 }
 
 export default async function LocaleLayout({

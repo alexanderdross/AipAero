@@ -24,6 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         return {
           url: url,
           lastModified: new Date(),
+          changeFrequency: "weekly" as const,
+          priority: 0.5,
           alternates: englishLanguageCode ? {
             languages: {
               [nativeLanguageCode]: url,
@@ -43,6 +45,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: orgUrl.toString(),
       lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 1,
     },
     ...messages.flat(),
   ];
