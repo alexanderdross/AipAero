@@ -34,4 +34,20 @@ export const airportRouter = createTRPCRouter({
       });
       return posts;
     }),
+
+  getAllOfCountry: publicProcedure
+    .input(z.object({ country: z.string().length(2) }))
+    .query(async ({ ctx, input }) => {
+      const posts = await ctx.db.query.airports.findMany({
+        columns: {
+          title: true,
+          icao: true,
+          url: true,
+          type: true
+        },
+        where: eq(airports.country, input.country),
+        orderBy: [asc(airports.title)],
+      });
+      return posts;
+    }),
 });

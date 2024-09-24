@@ -20,13 +20,13 @@ function useDebounce(value: string, delay: number) {
 }
 
 export default function Search({
-  locale,
+  country,
   searchPlaceholder,
   searchResultHrefTitle,
   searchResultEmpty,
   type
 }: {
-  locale: string,
+  country: string,
   searchPlaceholder: string,
   searchResultHrefTitle: string,
   searchResultEmpty: string,
@@ -36,7 +36,7 @@ export default function Search({
   const debouncedQuery = useDebounce(query, 500);
   const [data] = api.airport.search.useSuspenseQuery({
     type: type,
-    country: locale,
+    country: country,
     query: debouncedQuery
   });
 
@@ -63,10 +63,10 @@ export default function Search({
         onChange={onSearch}
         autoFocus
       />
-      <div className="text-center mt-4 w-full text-white">
+      <div className="max-w-7xl pr-8 sm:pr-12 lg:pr-16 text-center mt-4 w-full text-white absolute">
         <ol>
           {data.map((airport) => (
-            <li itemScope itemType="https://schema.org/Airport">
+            <li key={airport.icao} itemScope itemType="https://schema.org/Airport">
               <ExternalLink
                 key={airport.icao}
                 href={`${airport.url}`}
