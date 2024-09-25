@@ -4,9 +4,9 @@ import { generateProductSchema } from "~/lib/generate-schema";
 import { ExternalLink } from "./external-link";
 import { LinkIcon } from "@heroicons/react/solid";
 import { api } from "~/trpc/server";
-import { AirportGetAllOfCountryOutput } from "~/server/api/root";
+import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
 
-function generateAirportList(title: string, description: string, airports: Awaited<AirportGetAllOfCountryOutput>) {
+function generateAirportList(title: string, description: string, airports: AirportGetAllOfCountryOutput) {
   return <>
     {airports.length > 0 && (<div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0 whitespace-nowrap">
       <h2 className="text-center text-2xl font-normal">{title}</h2>

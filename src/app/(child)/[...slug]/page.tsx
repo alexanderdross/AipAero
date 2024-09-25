@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { ContentAirportsPage } from '~/app/_components/content-airports-page';
 import { ContentCountryPage } from '~/app/_components/content-country-page';
 import { ContentSearchPage } from '~/app/_components/content-search-page';
-import { getTranslation, Translation } from '~/lib/i18n';
+import { getTranslation, type Translation } from '~/lib/i18n';
 
 function lastUrlSegment(url: string) {
   return url.split('/').filter(Boolean).at(-1);

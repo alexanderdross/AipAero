@@ -1,3 +1,4 @@
+import { type inferRouterOutputs } from "@trpc/server";
 import { airportRouter } from "~/server/api/routers/airports";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
@@ -12,7 +13,10 @@ export const appRouter = createTRPCRouter({
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
-export type AirportSearchOutput = ReturnType<AppRouter["airport"]["search"]>;
+
+type RouterOutput = inferRouterOutputs<AppRouter>;
+export type AirportSearchOutput = RouterOutput["airport"]["search"];
+export type AirportGetAllOfCountryOutput = RouterOutput["airport"]["getAllOfCountry"];
 
 /**
  * Create a server-side caller for the tRPC API.
