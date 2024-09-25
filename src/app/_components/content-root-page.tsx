@@ -20,7 +20,7 @@ export async function ContentRootPage({ translations }: { translations: Translat
       {generateProductSchema(title, 'AIP:Aero', description)}
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-wrap justify-center gap-6">
           {translations.map((e) => (
             <Box
               key={e.Country}
@@ -46,7 +46,7 @@ export async function ContentRootPage({ translations }: { translations: Translat
               ]}
             />
           ))}
-        </ul>
+        </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col justify-center items-center text-center mt-16">

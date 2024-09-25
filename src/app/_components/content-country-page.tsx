@@ -19,7 +19,7 @@ export async function ContentCountryPage({ translation }: { translation: Transla
       )}
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <ul role="list" className={clsx("grid grid-cols-1 gap-6 sm:grid-cols-2", translation.IfrPage && "lg:grid-cols-3")}>
+        <div className="flex flex-wrap justify-center gap-6">
           <Box
             title={translation.VfrPage.title}
             description={translation.VfrPage.description}
@@ -35,7 +35,7 @@ export async function ContentCountryPage({ translation }: { translation: Transla
             description={translation.HeliportPage.description}
             buttons={[{ href: translation.HeliportPage.href, hrefTitle: translation.HeliportPage.hrefTitle, title: translation.HeliportPage.hrefTitle }]}
           />
-        </ul>
+        </div>
       </div>
     </>
   );

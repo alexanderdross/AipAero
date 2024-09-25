@@ -4,45 +4,32 @@ import { ExternalLinkIcon } from '@heroicons/react/solid';
 export function Box({
   title,
   description,
-  flag,
   buttons,
 }: {
   title: string;
   description: string;
-  flag?: string;
   buttons?: { href: string; hrefTitle: string, title?: string }[];
 }) {
   return (
-    <li className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-      <div className="w-full flex items-center justify-between p-6 space-x-6">
-        <div className="flex-1">
-          <div className="flex items-center space-x-3">
-            <h2 className="text-gray-900 text-sm font-medium break-words">{title}</h2>
-          </div>
-          <p className="mt-1 text-gray-500 text-sm">{description}</p>
+    <div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0">
+      <div className="flex flex-col justify-between h-full">
+        <div>
+          <h2 className="text-center text-2xl font-normal">{title}</h2>
+          <p className="text-center">{description}</p>
         </div>
-        {flag && (<div className="w-10 h-10 bg-white rounded-full flex-shrink-0 flex items-center justify-center text-4xl">
-          {flag}
-        </div>)}
+        {buttons?.map((b) => (
+          <Link
+            key={b.hrefTitle}
+            href={b.href}
+            title={b.hrefTitle}
+            className="text-white bg-drossblue py-2 px-4 hover:underline w-full whitespace-nowrap text-center mt-2"
+            target="_self"
+            rel="noopener"
+          >
+            {b.title ?? b.hrefTitle}
+          </Link>
+        ))}
       </div>
-      <div>
-        <div className="-mt-px flex divide-x divide-gray-200">
-          {buttons?.map((b) => (
-            <div key={b.hrefTitle} className="w-0 flex-1 flex px-3">
-              <Link
-                href={b.href}
-                title={b.hrefTitle}
-                className="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500"
-                target="_self"
-                rel="noopener"
-              >
-                <ExternalLinkIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                <span className="ml-3">{b.title ?? b.hrefTitle}</span>
-              </Link>
-            </div>
-          ))}
-        </div>
-      </div>
-    </li>
+    </div>
   );
 }
