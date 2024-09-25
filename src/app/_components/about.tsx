@@ -1,5 +1,5 @@
 import type { Translation } from "~/lib/i18n";
-import rich from "~/app/_components/rich";
+import richText from "~/app/_components/rich-text";
 import { ExternalLink } from "~/app/_components/external-link";
 
 export default function About({ translation }: { translation: Translation["About"] }) {
@@ -8,7 +8,7 @@ export default function About({ translation }: { translation: Translation["About
       <div className="flex flex-col justify-center items-center text-center mt-16">
         <div className="border border-[#ccc] p-4">
           <h3 className="!text-[1.125rem] font-medium">{translation.title}</h3>
-          <p>{rich(translation.description, {
+          <p>{richText(translation.description, {
             aip: (chunk) => <ExternalLink
               className="text-drossblue hover:underline"
               href={translation.aipHref}

@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { Translation } from '~/lib/i18n';
 
-export function LocaleSwitcher({ translation, country }: { translation: Translation, country: string }) {
+export function LocaleSwitcher({ translation, countryCode }: { translation: Translation, countryCode: string }) {
   const pathname = usePathname();
   const router = useRouter();
   const [key, setKey] = useState(pathname.includes('/en/') ? 'english' : 'native');
@@ -19,7 +19,7 @@ export function LocaleSwitcher({ translation, country }: { translation: Translat
       router.push(pathname.replace('/en/', '/'));
     } else {
       setKey('english');
-      router.push(pathname.replace(`/${country}/`, `/${country}/en/`));
+      router.push(pathname.replace(`/${countryCode}/`, `/${countryCode}/en/`));
     }
   };
 

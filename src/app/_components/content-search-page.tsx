@@ -21,7 +21,7 @@ export function ContentSearchPage({translation, type}: { translation: SearchPage
         description={translation.description}
       />
       <Search
-        country={translation.Tld}
+        countryCode={translation.Tld}
         searchPlaceholder={translation.searchPlaceholder}
         searchResultHrefTitle={translation.searchResultHrefTitle}
         searchResultEmpty={translation.searchResultEmpty}

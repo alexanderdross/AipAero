@@ -125,7 +125,6 @@
       "hrefTitle": "HOME VFR Österreich öffnen",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
-
       "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
       "searchResultHrefTitle": "AIP VFR Charts von",
       "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
@@ -137,7 +136,6 @@
       "hrefTitle": "Open HOME VFR Austria",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
-
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
       "searchResultHrefTitle": "AIP VFR Charts of",
       "searchResultEmpty": "Airport or ICAO code not found."
@@ -151,7 +149,6 @@
       "hrefTitle": "AIP VFR Heliports Österreich öffnen",
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
-
       "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
       "searchResultHrefTitle": "AIP VFR Charts von Heliport",
       "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
@@ -163,7 +160,6 @@
       "hrefTitle": "Open AIP VFR Heliports Austria",
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
-
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
       "searchResultHrefTitle": "AIP VFR Charts of Heliport",
       "searchResultEmpty": "Airport or ICAO code not found."
@@ -176,7 +172,13 @@
       "href": "/at/flughafen-liste-oesterreich/",
       "hrefTitle": "Flughafen Liste Österreich öffnen",
       "breadcrumbTitle": "Flughafen Liste",
-      "menuTitle": "Flughafen Liste"
+      "menuTitle": "Flughafen Liste",
+      "VfrAirportsTitle": "VFR Flugplätze",
+      "VfrAirportsDescription": "VFR Flugplätze/ Flughäfen in Österreich",
+      "IfrAirportsTitle": "IFR Flugplätze",
+      "IfrAirportsDescription": "IFR Flugplätze/ Flughäfen in Österreich",
+      "HeliportAirportsTitle": "Hubschrauberlandeplätze",
+      "HeliportAirportsDescription": "Hubschrauberlandeplätze in Österreich"
     },
     "english": {
       "title": "List of Airfields in Austria",
@@ -184,7 +186,13 @@
       "href": "/at/en/airport-list-austria/",
       "hrefTitle": "Open List of Airfields/ Airports Austria",
       "breadcrumbTitle": "Airport List",
-      "menuTitle": "Airport List"
+      "menuTitle": "Airport List",
+      "VfrAirportsTitle": "VFR Airports",
+      "VfrAirportsDescription": "VFR airfields/ airports in Austria",
+      "IfrAirportsTitle": "IFR Airports",
+      "IfrAirportsDescription": "IFR airfields/ airports in Austria",
+      "HeliportAirportsTitle": "Helicopter Aerodromes",
+      "HeliportAirportsDescription": "Helicopter Aerodromes in Austria"
     }
   },
   "LocaleSwitcher": {

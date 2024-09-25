@@ -6,7 +6,7 @@ interface ChunkHandlers {
   [key: string]: (content: string) => JSX.Element;
 };
 
-export default function rich(message: string, handlers: ChunkHandlers): JSX.Element {
+export default function richText(message: string, handlers: ChunkHandlers): JSX.Element {
   // Helper function to parse the message and replace custom XML/HTML tags with provided handlers
   const parseMessage = (str: string): (JSX.Element | string)[] => {
     const regex = /<([\w]+)>(.*?)<\/\1>/gi; // Regex to match opening and closing tags

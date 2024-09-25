@@ -49,7 +49,7 @@ export default async function LocaleLayout({
   params
 }: {
   children: React.ReactNode;
-  params: { country: string; slug: string[]; };
+  params: { countryCode: string; slug: string[]; };
 }) {
   const countryCode = params.slug.at(0);
   if (!countryCode) {
@@ -57,7 +57,7 @@ export default async function LocaleLayout({
   }
   const isEnglish = params.slug.at(1) === "en";
 
-  // Get translation depending on country code and language
+  // Get translation depending on countryCode code and language
   let translation: Translation;
   try {
     translation = getTranslation({ tld: countryCode, english: isEnglish });
@@ -74,7 +74,7 @@ export default async function LocaleLayout({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
             <div className="border border-[#ccc] p-4">
               <Menu translation={translation} />
-              <LocaleSwitcher translation={translation} country={params.country} />
+              <LocaleSwitcher translation={translation} countryCode={params.countryCode} />
             </div>
           </div>
           <Breadcrumbs translation={translation} />

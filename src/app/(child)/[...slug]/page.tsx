@@ -15,7 +15,7 @@ export default function Page({ params }: { params: { slug: string[] } }) {
   }
   const isEnglish = params.slug.at(1) === "en";
 
-  // Get translation depending on country code and language
+  // Get translation depending on countryCode code and language
   let translation: Translation;
   try {
     translation = getTranslation({ tld: countryCode, english: isEnglish });

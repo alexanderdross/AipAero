@@ -49,7 +49,14 @@ export interface Translation extends CountryTranslation {
   IfrPage?: SearchPageTranslation;
   VfrPage: SearchPageTranslation;
   HeliportPage: SearchPageTranslation;
-  AirportsPage: PageTranslation;
+  AirportsPage: PageTranslation & {
+    VfrAirportsTitle: string,
+    VfrAirportsDescription: string,
+    IfrAirportsTitle: string,
+    IfrAirportsDescription: string,
+    HeliportAirportsTitle: string,
+    HeliportAirportsDescription: string
+  };
   LocaleSwitcher: {
     native: string;
     english: string;
@@ -90,10 +97,10 @@ export interface SearchPageTranslation extends PageTranslation, CountryTranslati
 }
 
 /**
- * Get country information from the messages directory.
- * @param tld - Filter a country: top-level domain of the country.
+ * Get countryCode information from the messages directory.
+ * @param tld - Filter a countryCode: top-level domain of the countryCode.
  * @param english - Whether to use the English or native language.
- * @returns The country information.
+ * @returns The countryCode information.
  */
 export function getTranslations({ tld, english = true }: { tld?: string, english?: boolean }) {
   // Get file names under /messages
@@ -175,6 +182,12 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('AirportsPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('AirportsPage.breadcrumbTitle', english, data),
           menuTitle: getValue('AirportsPage.menuTitle', english, data),
+          VfrAirportsTitle: getValue('AirportsPage.VfrAirportsTitle', english, data),
+          VfrAirportsDescription: getValue('AirportsPage.VfrAirportsDescription', english, data),
+          IfrAirportsTitle: getValue('AirportsPage.IfrAirportsTitle', english, data),
+          IfrAirportsDescription: getValue('AirportsPage.IfrAirportsDescription', english, data),
+          HeliportAirportsTitle: getValue('AirportsPage.HeliportAirportsTitle', english, data),
+          HeliportAirportsDescription: getValue('AirportsPage.HeliportAirportsDescription', english, data),
         },
         LocaleSwitcher: {
           native: getValue('LocaleSwitcher', false, data),
@@ -196,10 +209,10 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
 }
 
 /**
- * Get country information from the messages directory.
- * @param tld - Filter a country: top-level domain of the country.
+ * Get countryCode information from the messages directory.
+ * @param tld - Filter a countryCode: top-level domain of the countryCode.
  * @param english - Whether to use the English or native language.
- * @returns The country information.
+ * @returns The countryCode information.
  */
 export function getTranslation({ tld, english = true }: { tld: string, english?: boolean }) {
   const translation = getTranslations({ tld, english });

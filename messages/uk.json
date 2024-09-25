@@ -1,6 +1,6 @@
 {
   "Country": {
-    "native": "United Kingdom"  
+    "native": "United Kingdom"
   },
   "CountryCode": {
     "native": "GB"
@@ -74,7 +74,6 @@
       "hrefTitle": "Open AIP VFR United Kingdom (UK)",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
-
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR/ IFR",
       "searchResultHrefTitle": "AIP VFR Charts of",
       "searchResultEmpty": "Airport or ICAO code not found."
@@ -88,7 +87,6 @@
       "hrefTitle": "Open AIP VFR Heliports United Kingdom (UK)",
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
-
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
       "searchResultHrefTitle": "AIP VFR Charts of Heliport",
       "searchResultEmpty": "Airport or ICAO code not found."
@@ -101,7 +99,13 @@
       "href": "/uk/airport-list-uk/",
       "hrefTitle": "Open List of Airports/ Airfields in the United Kingdom (UK)",
       "breadcrumbTitle": "Airport List",
-      "menuTitle": "Airport List"
+      "menuTitle": "Airport List",
+      "VfrAirportsTitle": "VFR Airports",
+      "VfrAirportsDescription": "VFR airfields/ airports in the United Kingdom",
+      "IfrAirportsTitle": "IFR Airports",
+      "IfrAirportsDescription": "IFR airfields/ airports in the United Kingdom",
+      "HeliportAirportsTitle": "Helicopter Aerodromes",
+      "HeliportAirportsDescription": "Helicopter Aerodromes in the United Kingdom"
     }
   }
 }

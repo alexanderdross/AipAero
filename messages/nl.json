@@ -125,7 +125,6 @@
       "hrefTitle": "HOME VFR Nederland openen",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
-
       "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
       "searchResultHrefTitle": "AIP VFR Charts von",
       "searchResultEmpty": "Luchthaven- of ICAO-code niet gevonden."
@@ -137,7 +136,6 @@
       "hrefTitle": "Open HOME VFR Netherlands",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
-
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
       "searchResultHrefTitle": "AIP VFR Charts of",
       "searchResultEmpty": "Airport or ICAO code not found."
@@ -151,7 +149,6 @@
       "hrefTitle": "AIP VFR Helihavens Nederland openen",
       "breadcrumbTitle": "Helihavens",
       "menuTitle": "Helihavens",
-
       "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan",
       "searchResultHrefTitle": "AIP VFR Charts von Heliport",
       "searchResultEmpty": "Luchthaven- of ICAO-code niet gevonden."
@@ -163,7 +160,6 @@
       "hrefTitle": "Open AIP VFR Heliports Netherlands",
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
-
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
       "searchResultHrefTitle": "AIP VFR Charts of Heliport",
       "searchResultEmpty": "Airport or ICAO code not found."
@@ -177,8 +173,12 @@
       "hrefTitle": "Luchthavenlijst Nederland openen",
       "breadcrumbTitle": "Luchthavenlijst",
       "menuTitle": "Luchthavenlijst",
-
-      "searchResultEmpty": "Luchthaven- of ICAO-code niet gevonden."
+      "VfrAirportsTitle": "VFR Luchthavens",
+      "VfrAirportsDescription": "VFR-vliegvelden/luchthavens in Nederland",
+      "IfrAirportsTitle": "IFR Luchthavens",
+      "IfrAirportsDescription": "IFR-vliegvelden/luchthavens in Nederland",
+      "HeliportAirportsTitle": "Helihavens",
+      "HeliportAirportsDescription": "Helihavens in Nederland"
     },
     "english": {
       "title": "List of Airfields in the Netherlands",
@@ -187,8 +187,12 @@
       "hrefTitle": "Open List of Airports/ Airfields in the Netherlands",
       "breadcrumbTitle": "Airport List",
       "menuTitle": "Airport List",
-      
-      "searchResultEmpty": "Airport or ICAO code not found."
+      "VfrAirportsTitle": "VFR Airports",
+      "VfrAirportsDescription": "VFR airfields/ airports in Netherlands",
+      "IfrAirportsTitle": "IFR Airports",
+      "IfrAirportsDescription": "IFR airfields/ airports in Netherlands",
+      "HeliportAirportsTitle": "Helicopter Aerodromes",
+      "HeliportAirportsDescription": "Helicopter Aerodromes in Netherlands"
     }
   },
   "LocaleSwitcher": {

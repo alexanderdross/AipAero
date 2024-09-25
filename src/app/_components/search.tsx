@@ -20,13 +20,13 @@ function useDebounce(value: string, delay: number) {
 }
 
 export default function Search({
-  country,
+  countryCode,
   searchPlaceholder,
   searchResultHrefTitle,
   searchResultEmpty,
   type
 }: {
-  country: string,
+  countryCode: string,
   searchPlaceholder: string,
   searchResultHrefTitle: string,
   searchResultEmpty: string,
@@ -36,7 +36,7 @@ export default function Search({
   const debouncedQuery = useDebounce(query, 500);
   const [data] = api.airport.search.useSuspenseQuery({
     type: type,
-    country: country,
+    country: countryCode,
     query: debouncedQuery
   });
 
