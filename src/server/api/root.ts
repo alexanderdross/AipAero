@@ -13,8 +13,7 @@ export const appRouter = createTRPCRouter({
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
-
-type RouterOutput = inferRouterOutputs<AppRouter>;
+export type RouterOutput = inferRouterOutputs<AppRouter>;
 export type AirportSearchOutput = RouterOutput["airport"]["search"];
 export type AirportGetAllOfCountryOutput = RouterOutput["airport"]["getAllOfCountry"];
 
