@@ -31,5 +31,5 @@ export function Box({
         ))}
       </div>
     </div>
-  );
+  ); 
 }
