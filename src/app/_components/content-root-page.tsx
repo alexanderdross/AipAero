@@ -5,7 +5,7 @@ import type { Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import { Box } from "~/app/_components/box";
 import Link from "next/link";
-import Metadata from "~/app/_components/metadata";
+import Metadata, { orgUrl } from "~/app/_components/metadata";
 
 export async function ContentRootPage({ translations }: { translations: Translation[] }) {
   const countryNames = translations.map(i => i.Country);
@@ -29,6 +29,27 @@ export async function ContentRootPage({ translations }: { translations: Translat
           hrefLang: e.CountryPage.alternateIetfLang
         }]).flat(1)}
       />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@id": orgUrl.toString(),
+                "name": title,
+                "alternateName": "AIP:Aero",
+                "description": description
+              }
+            }]
+          })
+        }}
+      />
+      
       {generateNavigationSchema()}
       {generateProductSchema(title, 'AIP:Aero', description)}
       <Header title={title} description={description} />

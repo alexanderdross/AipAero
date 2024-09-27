@@ -17,6 +17,7 @@ export default function Metadata({
   canonical,
   alternates,
 }: Props) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   alternates = alternates ? [...(new Set(alternates.map(e => JSON.stringify(e))))].map(e => JSON.parse(e)) : [];
   return (
     <>

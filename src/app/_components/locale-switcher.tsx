@@ -7,6 +7,8 @@ import type { Translation } from '~/lib/i18n';
 export function LocaleSwitcher({ translation }: { translation: Translation }) {
   // Find current page in translation
   const pathname = usePathname();
+  const router = useRouter();
+  const [key, setKey] = useState(translation.LanguageCode === 'en' ? 'english' : 'native');
   const pages = [
     {
       href: translation.CountryPage.href,
@@ -37,9 +39,6 @@ export function LocaleSwitcher({ translation }: { translation: Translation }) {
   if (!translation?.LocaleSwitcher?.native || !translation?.LocaleSwitcher?.english) {
     return <></>;
   }
-
-  const router = useRouter();
-  const [key, setKey] = useState(translation.LanguageCode === 'en' ? 'english' : 'native');
 
   const handleSwitch = () => {
     if (key === 'english') {

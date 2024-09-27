@@ -18,10 +18,10 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
   const breadcrumbsOfIndex = (index: number) => `/${breadcrumbs.slice(0, index + 1).join('/')}/`;
 
   const pages = [
-    translation.CountryPage, 
-    translation.VfrPage, 
-    translation.IfrPage, 
-    translation.HeliportPage, 
+    translation.CountryPage,
+    translation.VfrPage,
+    translation.IfrPage,
+    translation.HeliportPage,
     translation.AirportsPage
   ].filter(x => x !== undefined);
 
@@ -29,10 +29,41 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
     href: key.href,
     hrefTitle: key.hrefTitle,
     title: key.breadcrumbTitle,
+    alternateName: key.menuTitle,
+    description: key.description
   }));
 
-  return (
-    <div className="max-w-7xl mx-auto pt-4 px-4 overflow-hidden sm:px-6 lg:px-8"> 
+  const breadcrumbsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs?.map((breadcrumb, index) => {
+      const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
+      const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
+      const title = currentNavItem?.title ?? breadcrumb.toLocaleUpperCase();
+      const alternateName = currentNavItem?.alternateName ?? breadcrumb.toLocaleUpperCase();
+      const description = currentNavItem?.description ?? breadcrumb.toLocaleUpperCase();
+      const item = {
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@id": href,
+          "name": title,
+          "alternateName": alternateName,
+          "description": description
+        }
+      };
+      return item;
+    })
+  }
+
+  return (<>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(breadcrumbsSchema)
+      }}
+    />
+    <div className="max-w-7xl mx-auto pt-4 px-4 overflow-hidden sm:px-6 lg:px-8">
       <nav className="flex justify-center border border-[#ccc] p-4">
         <ol role="list" className="flex items-center space-x-4">
           <li>
@@ -74,5 +105,5 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
         </ol>
       </nav>
     </div>
-  );
+  </>);
 }

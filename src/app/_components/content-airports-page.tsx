@@ -53,7 +53,7 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
       />
       {generateProductSchema(
         translation.title, // name
-        `${translation.menuTitle} ${translation.Country}`, // alternateName`${translation.menuTitle} ${translation.Country}`, // alternateName
+        `${translation.menuTitle} ${translation.Country}`, // alternateName
         translation.description, // description
         translation.href // href
       )}
