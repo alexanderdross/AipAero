@@ -82,6 +82,7 @@ export interface LinkTranslation {
   title: string;
   href: string;
   hrefTitle: string;
+  canonical?: string;
 }
 
 export interface PageTranslation extends LinkTranslation, CountryTranslation {

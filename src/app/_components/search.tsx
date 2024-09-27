@@ -5,6 +5,7 @@ import { LinkIcon } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import { ExternalLink } from "./external-link";
 import { api } from "~/trpc/react";
+import { useSearchParams } from "next/navigation";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -32,15 +33,16 @@ export default function Search({
   searchResultEmpty: string,
   type: "ifr" | "vfr" | "heliport"
 }) {
-  const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+  // Get keys of searchParams
+  const keys = Array.from(searchParams.keys());
+  const [query, setQuery] = useState(keys.at(0) ?? "");
   const debouncedQuery = useDebounce(query, 500);
   const [data] = api.airport.search.useSuspenseQuery({
     type: type,
     country: countryCode,
     query: debouncedQuery
   });
-
-  //const data: Awaited<AirportSearchOutput> = [];
 
   function onSearch(e: React.FormEvent<HTMLInputElement>) {
     e.preventDefault();
