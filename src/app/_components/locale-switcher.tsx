@@ -13,22 +13,27 @@ export function LocaleSwitcher({ translation }: { translation: Translation }) {
     {
       href: translation.CountryPage.href,
       alternate: translation.CountryPage.alternate,
+      alternateIetfLang: translation.CountryPage.alternateIetfLang,
     },
     {
       href: translation.VfrPage.href,
       alternate: translation.VfrPage.alternate,
+      alternateIetfLang: translation.VfrPage.alternateIetfLang,
     },
     {
       href: translation.IfrPage?.href,
       alternate: translation.IfrPage?.alternate,
+      alternateIetfLang: translation.IfrPage?.alternateIetfLang,
     },
     {
       href: translation.HeliportPage.href,
       alternate: translation.HeliportPage.alternate,
+      alternateIetfLang: translation.HeliportPage.alternateIetfLang,
     },
     {
       href: translation.AirportsPage.href,
       alternate: translation.AirportsPage.alternate,
+      alternateIetfLang: translation.AirportsPage.alternateIetfLang,
     },
   ];
 
@@ -51,12 +56,43 @@ export function LocaleSwitcher({ translation }: { translation: Translation }) {
     }
   };
 
+  const webpageSchema = {
+    "@context": "https://schema.org/",
+    "@type": "WebPage",
+    "potentialAction": {
+      "@type": "Action",
+      "target": [
+        currentPage.href,
+        {
+          "@type": "LinkRole",
+          "target": currentPage.href,
+          "inLanguage": translation.LanguageCode,
+          "linkRelationship": "alternate"
+        },
+        {
+          "@type": "LinkRole",
+          "target": currentPage.alternate,
+          "inLanguage": currentPage.alternateIetfLang?.split('-')[0] ?? 'en',
+          "linkRelationship": "alternate"
+        }
+      ]
+    }
+  }
+
   return (
-    <div className='flex justify-center pt-4'>
-      <select title="switch language" value={key} onChange={handleSwitch} className='m-0 py-0 pl-2 pr-8'>
-        <option value={'native'} title={`switch to ${translation.LocaleSwitcher.native}`} rel="noopener">{translation.LocaleSwitcher.native}</option>
-        <option value={'english'} title={`switch to ${translation.LocaleSwitcher.english}`} rel="noopener">{translation.LocaleSwitcher.english}</option>
-      </select>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(webpageSchema)
+        }}
+      />
+      <div className='flex justify-center pt-4'>
+        <select title="switch language" value={key} onChange={handleSwitch} className='m-0 py-0 pl-2 pr-8'>
+          <option value={'native'} title={`switch to ${translation.LocaleSwitcher.native}`} rel="noopener">{translation.LocaleSwitcher.native}</option>
+          <option value={'english'} title={`switch to ${translation.LocaleSwitcher.english}`} rel="noopener">{translation.LocaleSwitcher.english}</option>
+        </select>
+      </div>
+    </>
   );
 }

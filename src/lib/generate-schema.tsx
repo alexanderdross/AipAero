@@ -6,7 +6,7 @@ const englishCountryInfos = getTranslations({ english: true });
 const englishCountryNames = englishCountryInfos.map(i => i.Country);
 const countriesAsSentence = englishCountryNames.slice(0, -1).join(', ') + ' and ' + englishCountryNames.slice(-1)[0];
 
-export const generateNavigationSchema = (countryCode?: string, english?: boolean) => {
+export const generateRootNavigationSchema = () => {
   const schema = {
     "@context": "https://schema.org",
     "@graph": [

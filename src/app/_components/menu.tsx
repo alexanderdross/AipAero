@@ -19,14 +19,30 @@ export default function Menu({ translation }: { translation: Translation }) {
   const navigationSchema = {
     "@context": "https://schema.org",
     "@graph": [
-      ...pages.map((page, index) => ({
+      {
+        "@context": "https://schema.org",
+        "@type":"SiteNavigationElement",
+        "name": "AIP Anflugkarten für Deutschland, Österreich, die Niederlande und UK",
+        "alternateName": "AIP:Aero",
+        "description":"AIP Anflugkarten VFR, IFR & Heliports für Deutschland, Österreich, die Niederlande und UK",
+        "url": orgUrl.toString()
+      },
+      ...pages.map((page) => ({
         "@context": "https://schema.org",
         "@type": "SiteNavigationElement",
         "name": page.title,
         "alternateName": page.menuTitle,
         "description": page.description,
         "url": page.href
-      }))
+      })),
+      {
+        "@context": "https://schema.org",
+        "@type":"SiteNavigationElement",
+        "name": "Stratux - anti-collision system",
+        "alternateName":"Dross:Aviation",
+        "description":"Stratux, anti-collision system for private aviation and gliders",
+        "url": "https://dross.net/aviation/"
+      }
     ]
   }
 

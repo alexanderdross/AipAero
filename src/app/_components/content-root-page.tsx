@@ -1,6 +1,6 @@
 "use server";
 
-import { generateNavigationSchema, generateProductSchema } from "~/lib/generate-schema";
+import { generateRootNavigationSchema, generateProductSchema } from "~/lib/generate-schema";
 import type { Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import { Box } from "~/app/_components/box";
@@ -49,8 +49,8 @@ export async function ContentRootPage({ translations }: { translations: Translat
           })
         }}
       />
-      
-      {generateNavigationSchema()}
+
+      {generateRootNavigationSchema()}
       {generateProductSchema(title, 'AIP:Aero', description)}
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
