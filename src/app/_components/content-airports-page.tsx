@@ -5,6 +5,7 @@ import { ExternalLink } from "./external-link";
 import { LinkIcon } from "@heroicons/react/solid";
 import { api } from "~/trpc/server";
 import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
+import Metadata from "./metadata";
 
 function generateAirportList(title: string, description: string, airports: AirportGetAllOfCountryOutput) {
   return <>
@@ -41,6 +42,11 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
 
   return (
     <>
+      <Metadata
+        title={translation.title}
+        description={translation.description}
+        url={translation.href}
+      />
       {generateProductSchema(
         translation.title, // name
         `${translation.menuTitle} ${translation.Country}`, // alternateName`${translation.menuTitle} ${translation.Country}`, // alternateName

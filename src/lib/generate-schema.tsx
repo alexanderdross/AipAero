@@ -1,4 +1,4 @@
-import { orgLogoSquareUrl, orgLogoUrl, orgUrl } from "~/lib/generate-metadata";
+import { orgLogoSquareUrl, orgLogoUrl, orgUrl } from "~/app/_components/metadata";
 import { getTranslations } from "~/lib/i18n";
 
 const nativeCountryInfos = getTranslations({ english: false });

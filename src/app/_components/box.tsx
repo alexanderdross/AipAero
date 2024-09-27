@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ExternalLinkIcon } from '@heroicons/react/solid';
 
 export function Box({
   title,

@@ -1,16 +1,21 @@
 'use server';
 
-import clsx from "clsx";
 import { Box } from "~/app/_components/box";
 import { Header } from "~/app/_components/header";
 import { generateProductSchema } from "~/lib/generate-schema";
 import type { Translation } from "~/lib/i18n";
+import Metadata from "./metadata";
 
 export async function ContentCountryPage({ translation }: { translation: Translation }) {
   const title = translation.CountryPage.title;
   const description = translation.CountryPage.description;
   return (
     <>
+      <Metadata
+        title={title}
+        description={description}
+        url={translation.CountryPage.href}
+      />
       {generateProductSchema(
         title, // name
         `AIP ${translation.Country}`, // alternateName

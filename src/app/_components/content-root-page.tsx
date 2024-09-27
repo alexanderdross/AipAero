@@ -5,6 +5,7 @@ import type { Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import { Box } from "~/app/_components/box";
 import Link from "next/link";
+import Metadata from "~/app/_components/metadata";
 
 export async function ContentRootPage({ translations }: { translations: Translation[] }) {
   const countryNames = translations.map(i => i.Country);
@@ -16,6 +17,11 @@ export async function ContentRootPage({ translations }: { translations: Translat
 
   return (
     <>
+      <Metadata
+        title={title}
+        description={description}
+        url="/"
+      />
       {generateNavigationSchema()}
       {generateProductSchema(title, 'AIP:Aero', description)}
       <Header title={title} description={description} />
@@ -56,7 +62,7 @@ export async function ContentRootPage({ translations }: { translations: Translat
               translations.map((e, idx) => (<span key={e.Country}>
                 <Link
                   className="text-drossblue hover:underline"
-                  href={`/${e.Tld}/`} 
+                  href={`/${e.Tld}/`}
                   title={`Aeronautical Information Publication (AIP) of ${e.Country}`}
                   target="_self"
                   rel="noopener"

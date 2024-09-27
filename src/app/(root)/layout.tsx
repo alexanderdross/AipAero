@@ -3,10 +3,7 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 
 import Footer from "~/app/_components/footer";
-import { generateRootMetadata } from "~/lib/generate-metadata";
 import { getTranslation } from "~/lib/i18n";
-
-export const metadata = generateRootMetadata();
 
 export default function Layout({
   children

@@ -22,6 +22,9 @@ export default function Page({ params }: { params: { slug: string[] } }) {
   } catch {
     return notFound();
   }
+  if (translation.isSingleLocale && isEnglish) {
+    return notFound();
+  }
 
   // Return Country Page if requested
   if (params.slug.length === 1 && !isEnglish || params.slug.length === 2 && isEnglish) {

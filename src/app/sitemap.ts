@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/dot-notation,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-argument */
 
 import type { MetadataRoute } from 'next'
-import { orgUrl } from '~/lib/generate-metadata'
+import { orgUrl } from "~/app/_components/metadata";
 import fs from 'fs';
 import path from 'path';
 
