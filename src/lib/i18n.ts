@@ -75,6 +75,7 @@ export interface CountryTranslation {
   Language: string;
   LanguageCode: string;
   Tld: string;
+  ietfLang: string;
   isSingleLocale: boolean;
 }
 
@@ -82,13 +83,15 @@ export interface LinkTranslation {
   title: string;
   href: string;
   hrefTitle: string;
-  canonical?: string;
 }
 
 export interface PageTranslation extends LinkTranslation, CountryTranslation {
   description: string;
   breadcrumbTitle: string;
   menuTitle: string;
+  ietfLang: string;
+  alternate: string;
+  alternateIetfLang: string;
 }
 
 export interface SearchPageTranslation extends PageTranslation, CountryTranslation {
@@ -118,6 +121,7 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
         Language: getValue('Language', english, data),
         LanguageCode: getValue('LanguageCode', english, data),
         Tld: getValue('Tld', english, data),
+        ietfLang: `${getValue('LanguageCode', english, data)}-${getValue('CountryCode', english, data)}`,
         isSingleLocale: isSingleLocale(data),
       }
 
@@ -138,6 +142,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('CountryPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('CountryPage.breadcrumbTitle', english, data),
           menuTitle: getValue('CountryPage.menuTitle', english, data),
+          ietfLang: `${getValue('LanguageCode', english, data)}-${getValue('CountryCode', english, data)}`,
+          alternate: getValue('CountryPage.href', !english, data),
+          alternateIetfLang: `${getValue('LanguageCode', !english, data)}-${getValue('CountryCode', !english, data)}`
         },
         IfrPage: getValue('IfrPage.title', english, data) ? {
           ...countryTranslation,
@@ -147,6 +154,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('IfrPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('IfrPage.breadcrumbTitle', english, data),
           menuTitle: getValue('IfrPage.menuTitle', english, data),
+          ietfLang: `${getValue('LanguageCode', english, data)}-${getValue('CountryCode', english, data)}`,
+          alternate: getValue('IfrPage.href', !english, data),
+          alternateIetfLang: `${getValue('LanguageCode', !english, data)}-${getValue('CountryCode', !english, data)}`,
           searchPlaceholder: getValue('IfrPage.searchPlaceholder', english, data),
           searchResultHrefTitle: getValue('IfrPage.searchResultHrefTitle', english, data),
           searchResultEmpty: getValue('IfrPage.searchResultEmpty', english, data),
@@ -159,6 +169,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('VfrPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('VfrPage.breadcrumbTitle', english, data),
           menuTitle: getValue('VfrPage.menuTitle', english, data),
+          ietfLang: `${getValue('LanguageCode', english, data)}-${getValue('CountryCode', english, data)}`,
+          alternate: getValue('VfrPage.href', !english, data),
+          alternateIetfLang: `${getValue('LanguageCode', !english, data)}-${getValue('CountryCode', !english, data)}`,
           searchPlaceholder: getValue('VfrPage.searchPlaceholder', english, data),
           searchResultHrefTitle: getValue('VfrPage.searchResultHrefTitle', english, data),
           searchResultEmpty: getValue('VfrPage.searchResultEmpty', english, data),
@@ -171,6 +184,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('HeliportPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('HeliportPage.breadcrumbTitle', english, data),
           menuTitle: getValue('HeliportPage.menuTitle', english, data),
+          ietfLang: `${getValue('LanguageCode', english, data)}-${getValue('CountryCode', english, data)}`,
+          alternate: getValue('HeliportPage.href', !english, data),
+          alternateIetfLang: `${getValue('LanguageCode', !english, data)}-${getValue('CountryCode', !english, data)}`,
           searchPlaceholder: getValue('HeliportPage.searchPlaceholder', english, data),
           searchResultHrefTitle: getValue('HeliportPage.searchResultHrefTitle', english, data),
           searchResultEmpty: getValue('HeliportPage.searchResultEmpty', english, data),
@@ -183,6 +199,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           hrefTitle: getValue('AirportsPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('AirportsPage.breadcrumbTitle', english, data),
           menuTitle: getValue('AirportsPage.menuTitle', english, data),
+          ietfLang: `${getValue('LanguageCode', english, data)}-${getValue('CountryCode', english, data)}`,
+          alternate: getValue('AirportsPage.href', !english, data),
+          alternateIetfLang: `${getValue('LanguageCode', !english, data)}-${getValue('CountryCode', !english, data)}`,
           VfrAirportsTitle: getValue('AirportsPage.VfrAirportsTitle', english, data),
           VfrAirportsDescription: getValue('AirportsPage.VfrAirportsDescription', english, data),
           IfrAirportsTitle: getValue('AirportsPage.IfrAirportsTitle', english, data),

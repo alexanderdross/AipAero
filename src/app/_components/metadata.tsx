@@ -17,6 +17,7 @@ export default function Metadata({
   canonical,
   alternates,
 }: Props) {
+  alternates = alternates ? [...(new Set(alternates.map(e => JSON.stringify(e))))].map(e => JSON.parse(e)) : [];
   return (
     <>
       <title>{`🛩️ ${title}`}</title>

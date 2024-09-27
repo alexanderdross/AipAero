@@ -21,6 +21,13 @@ export async function ContentRootPage({ translations }: { translations: Translat
         title={title}
         description={description}
         url="/"
+        alternates={translations.map((e) => [{
+          href: e.CountryPage.href,
+          hrefLang: e.CountryPage.ietfLang
+        }, {
+          href: e.CountryPage.alternate,
+          hrefLang: e.CountryPage.alternateIetfLang
+        }]).flat(1)}
       />
       {generateNavigationSchema()}
       {generateProductSchema(title, 'AIP:Aero', description)}

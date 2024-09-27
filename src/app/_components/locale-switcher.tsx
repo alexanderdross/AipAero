@@ -4,22 +4,51 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { Translation } from '~/lib/i18n';
 
-export function LocaleSwitcher({ translation, countryCode }: { translation: Translation, countryCode: string }) {
+export function LocaleSwitcher({ translation }: { translation: Translation }) {
+  // Find current page in translation
   const pathname = usePathname();
-  const router = useRouter();
-  const [key, setKey] = useState(pathname.includes('/en/') ? 'english' : 'native');
+  const pages = [
+    {
+      href: translation.CountryPage.href,
+      alternate: translation.CountryPage.alternate,
+    },
+    {
+      href: translation.VfrPage.href,
+      alternate: translation.VfrPage.alternate,
+    },
+    {
+      href: translation.IfrPage?.href,
+      alternate: translation.IfrPage?.alternate,
+    },
+    {
+      href: translation.HeliportPage.href,
+      alternate: translation.HeliportPage.alternate,
+    },
+    {
+      href: translation.AirportsPage.href,
+      alternate: translation.AirportsPage.alternate,
+    },
+  ];
 
+  const currentPage = pages.find(page => page.href && pathname === page.href);
+  if (!currentPage || currentPage.href === currentPage.alternate) {
+    return <></>;
+  }
   if (!translation?.LocaleSwitcher?.native || !translation?.LocaleSwitcher?.english) {
     return <></>;
   }
 
+  const router = useRouter();
+  const [key, setKey] = useState(pathname.includes('/en/') ? 'english' : 'native');
+
   const handleSwitch = () => {
     if (key === 'english') {
       setKey('native');
-      router.push(pathname.replace('/en/', '/'));
     } else {
       setKey('english');
-      router.push(pathname.replace(`/${countryCode}/`, `/${countryCode}/en/`));
+    }
+    if (currentPage.alternate) {
+      router.push(currentPage.alternate)
     }
   };
 

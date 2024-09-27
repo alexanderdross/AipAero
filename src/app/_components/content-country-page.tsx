@@ -15,6 +15,10 @@ export async function ContentCountryPage({ translation }: { translation: Transla
         title={title}
         description={description}
         url={translation.CountryPage.href}
+        alternates={translation.CountryPage.alternate && translation.CountryPage.alternateIetfLang
+          ? [{ href: translation.CountryPage.href, hrefLang: translation.CountryPage.ietfLang },
+          { href: translation.CountryPage.alternate, hrefLang: translation.CountryPage.alternateIetfLang }]
+          : [{ href: translation.CountryPage.href, hrefLang: translation.CountryPage.ietfLang }]}
       />
       {generateProductSchema(
         title, // name

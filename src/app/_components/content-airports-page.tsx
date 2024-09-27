@@ -46,6 +46,10 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
         title={translation.title}
         description={translation.description}
         url={translation.href}
+        alternates={translation.alternate && translation.alternateIetfLang
+          ? [{ href: translation.href, hrefLang: translation.ietfLang },
+          { href: translation.alternate, hrefLang: translation.alternateIetfLang }]
+          : [{ href: translation.href, hrefLang: translation.ietfLang }]}
       />
       {generateProductSchema(
         translation.title, // name

@@ -74,7 +74,7 @@ export default async function LocaleLayout({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
             <div className="border border-[#ccc] p-4">
               <Menu translation={translation} />
-              <LocaleSwitcher translation={translation} countryCode={params.countryCode} />
+              <LocaleSwitcher translation={translation} />
             </div>
           </div>
           <Breadcrumbs translation={translation} />
