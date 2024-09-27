@@ -39,7 +39,7 @@ export function LocaleSwitcher({ translation }: { translation: Translation }) {
   }
 
   const router = useRouter();
-  const [key, setKey] = useState(pathname.includes('/en/') ? 'english' : 'native');
+  const [key, setKey] = useState(translation.LanguageCode === 'en' ? 'english' : 'native');
 
   const handleSwitch = () => {
     if (key === 'english') {
