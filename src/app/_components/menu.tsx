@@ -33,7 +33,7 @@ export default function Menu({ translation }: { translation: Translation }) {
         "name": page.title,
         "alternateName": page.menuTitle,
         "description": page.description,
-        "url": page.href
+        "url": new URL(page.href, orgUrl).toString(),
       })),
       {
         "@context": "https://schema.org",

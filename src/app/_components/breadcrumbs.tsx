@@ -4,6 +4,7 @@ import { ChevronRightIcon, HomeIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Translation } from "~/lib/i18n";
+import { orgUrl } from "~/app/_components/metadata";
 
 export default function Breadcrumbs({ translation }: { translation: Translation }) {
   const pathname = usePathname();
@@ -46,7 +47,7 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
         "@type": "ListItem",
         "position": index + 1,
         "item": {
-          "@id": href,
+          "@id": new URL(href, orgUrl).toString(),
           "name": title,
           "alternateName": alternateName,
           "description": description

@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { Translation } from '~/lib/i18n';
+import { orgUrl } from './metadata';
 
 export function LocaleSwitcher({ translation }: { translation: Translation }) {
   // Find current page in translation
@@ -38,7 +39,7 @@ export function LocaleSwitcher({ translation }: { translation: Translation }) {
   ];
 
   const currentPage = pages.find(page => page.href && pathname === page.href);
-  if (!currentPage || currentPage.href === currentPage.alternate) {
+  if (!currentPage || currentPage.href === currentPage.alternate || !currentPage.alternate || !currentPage.href) {
     return <></>;
   }
   if (!translation?.LocaleSwitcher?.native || !translation?.LocaleSwitcher?.english) {
@@ -62,16 +63,16 @@ export function LocaleSwitcher({ translation }: { translation: Translation }) {
     "potentialAction": {
       "@type": "Action",
       "target": [
-        currentPage.href,
+        new URL(currentPage.href, orgUrl).toString(),
         {
           "@type": "LinkRole",
-          "target": currentPage.href,
+          "target": new URL(currentPage.href, orgUrl).toString(),
           "inLanguage": translation.LanguageCode,
           "linkRelationship": "alternate"
         },
         {
           "@type": "LinkRole",
-          "target": currentPage.alternate,
+          "target": new URL(currentPage.alternate, orgUrl).toString(),
           "inLanguage": currentPage.alternateIetfLang?.split('-')[0] ?? 'en',
           "linkRelationship": "alternate"
         }
