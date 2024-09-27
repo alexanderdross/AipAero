@@ -5,7 +5,8 @@ import { LinkIcon } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import { ExternalLink } from "./external-link";
 import { api } from "~/trpc/react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { orgUrl } from "./metadata";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -33,6 +34,7 @@ export default function Search({
   searchResultEmpty: string,
   type: "ifr" | "vfr" | "heliport"
 }) {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   // Get keys of searchParams
   const keys = Array.from(searchParams.keys());
@@ -49,44 +51,64 @@ export default function Search({
     setQuery(e.currentTarget.value);
   }
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": orgUrl.toString(),
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": new URL("/?{query}", orgUrl).toString(),
+      "query": "required",
+      "query-input": "required maxlength=50 name=query"
+    }
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <label htmlFor="search" className="sr-only">
-        Search
-      </label>
-      <input
-        type="text"
-        name="search"
-        id="search"
-        className="shadow-sm focus:ring-drossblue focus:border-drossblue block w-full sm:text-sm border-gray-300 rounded-md text-center"
-        placeholder={searchPlaceholder}
-        title={searchPlaceholder}
-        value={query}
-        onChange={onSearch}
-        autoFocus
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteSchema)
+        }} 
       />
-      <div className="max-w-7xl pr-8 sm:pr-12 lg:pr-16 text-center mt-4 w-full text-white absolute">
-        <ol>
-          {data.map((airport) => (
-            <li key={airport.icao} itemScope itemType="https://schema.org/Airport">
-              <ExternalLink
-                key={airport.icao}
-                href={`${airport.url}`}
-                className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
-                hrefTitle={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`}
-              >
-                <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-                <span itemProp="name">{airport.title} {airport.icao}</span>
-              </ExternalLink>
-              <meta itemProp="description" content={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`} />
-              <meta itemProp="icaoCode" content={airport.icao} />
-            </li>
-          ))}
-        </ol>
-        {data.length === 0 && query.length !== 0 && (
-          <div className="bg-drossblue py-2">{searchResultEmpty}</div>
-        )}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <label htmlFor="search" className="sr-only">
+          Search
+        </label>
+        <input
+          type="text"
+          name="search"
+          id="search"
+          className="shadow-sm focus:ring-drossblue focus:border-drossblue block w-full sm:text-sm border-gray-300 rounded-md text-center"
+          placeholder={searchPlaceholder}
+          title={searchPlaceholder}
+          value={query}
+          onChange={onSearch}
+          autoFocus
+        />
+        <div className="max-w-7xl pr-8 sm:pr-12 lg:pr-16 text-center mt-4 w-full text-white absolute">
+          <ol>
+            {data.map((airport) => (
+              <li key={airport.icao} itemScope itemType="https://schema.org/Airport">
+                <ExternalLink
+                  key={airport.icao}
+                  href={`${airport.url}`}
+                  className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
+                  hrefTitle={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`}
+                >
+                  <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                  <span itemProp="name">{airport.title} {airport.icao}</span>
+                </ExternalLink>
+                <meta itemProp="description" content={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`} />
+                <meta itemProp="icaoCode" content={airport.icao} />
+              </li>
+            ))}
+          </ol>
+          {data.length === 0 && query.length !== 0 && (
+            <div className="bg-drossblue py-2">{searchResultEmpty}</div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
