@@ -6,6 +6,7 @@ import { LinkIcon } from "@heroicons/react/solid";
 import { api } from "~/trpc/server";
 import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
 import Metadata from "./metadata";
+import Link from "next/link";
 
 function generateAirportList(title: string, description: string, internalBaseHref: string, airports: AirportGetAllOfCountryOutput) {
   return <>
@@ -16,15 +17,15 @@ function generateAirportList(title: string, description: string, internalBaseHre
         {airports.map((airport, index) => (
           <li key={airport.icao} itemScope itemType="https://schema.org/Airport" className="flex items-center gap-x-4">
             <span>{index + 1}.</span>
-            <ExternalLink
+            <Link
               key={airport.icao}
               href={`${internalBaseHref}?${airport.icao}`}
               className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
-              hrefTitle={airport.title}
+              title={airport.title}
             >
               <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
               <span itemProp="name">{airport.title}</span>
-            </ExternalLink>
+            </Link>
             <meta itemProp="description" content={airport.title} />
             <meta itemProp="icaoCode" content={airport.icao} />
           </li>
