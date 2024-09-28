@@ -20,12 +20,12 @@ function generateAirportList(title: string, description: string, airports: Airpo
               key={airport.icao}
               href={`${airport.url}`}
               className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
-              hrefTitle={`${airport.title} ${airport.icao}`}
+              hrefTitle={airport.title}
             >
               <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-              <span itemProp="name">{airport.title} {airport.icao}</span>
+              <span itemProp="name">{airport.title}</span>
             </ExternalLink>
-            <meta itemProp="description" content={`${airport.title} ${airport.icao}`} />
+            <meta itemProp="description" content={airport.title} />
             <meta itemProp="icaoCode" content={airport.icao} />
           </li>
         ))}
