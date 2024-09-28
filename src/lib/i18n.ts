@@ -75,6 +75,7 @@ export interface CountryTranslation {
   Language: string;
   LanguageCode: string;
   Tld: string;
+  Flag: string;
   ietfLang: string;
   isSingleLocale: boolean;
 }
@@ -121,6 +122,7 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
         Language: getValue('Language', english, data),
         LanguageCode: getValue('LanguageCode', english, data),
         Tld: getValue('Tld', english, data),
+        Flag: getValue('Flag', english, data),
         ietfLang: `${getValue('LanguageCode', english, data)}-${getValue('CountryCode', english, data)}`,
         isSingleLocale: isSingleLocale(data),
       }

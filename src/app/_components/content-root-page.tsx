@@ -59,7 +59,7 @@ export async function ContentRootPage({ translations }: { translations: Translat
           {translations.map((e) => (
             <Box
               key={e.Country}
-              title={`AIP ${e.Country}`}
+              title={`AIP ${e.Country} ${e.Flag}`}
               description={`Browse AIP of ${e.Country} and download airport approach charts`}
               buttons={e.isSingleLocale ? [
                 {
