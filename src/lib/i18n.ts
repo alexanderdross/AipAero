@@ -99,6 +99,9 @@ export interface SearchPageTranslation extends PageTranslation, CountryTranslati
   searchPlaceholder: string;
   searchResultHrefTitle: string;
   searchResultEmpty: string;
+  countryPageTitle: string;
+  countryPageDescription: string;
+  countryPageButtonTitle: string;
 }
 
 /**
@@ -152,6 +155,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           ...countryTranslation,
           title: getValue('IfrPage.title', english, data),
           description: getValue('IfrPage.description', english, data),
+          countryPageTitle: getValue('IfrPage.countryPageTitle', english, data),
+          countryPageDescription: getValue('IfrPage.countryPageDescription', english, data),
+          countryPageButtonTitle: getValue('IfrPage.countryPageButtonTitle', english, data),
           href: getValue('IfrPage.href', english, data),
           hrefTitle: getValue('IfrPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('IfrPage.breadcrumbTitle', english, data),
@@ -167,6 +173,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           ...countryTranslation,
           title: getValue('VfrPage.title', english, data),
           description: getValue('VfrPage.description', english, data),
+          countryPageTitle: getValue('VfrPage.countryPageTitle', english, data),
+          countryPageDescription: getValue('VfrPage.countryPageDescription', english, data),
+          countryPageButtonTitle: getValue('VfrPage.countryPageButtonTitle', english, data),
           href: getValue('VfrPage.href', english, data),
           hrefTitle: getValue('VfrPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('VfrPage.breadcrumbTitle', english, data),
@@ -182,6 +191,9 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           ...countryTranslation,
           title: getValue('HeliportPage.title', english, data),
           description: getValue('HeliportPage.description', english, data),
+          countryPageTitle: getValue('HeliportPage.countryPageTitle', english, data),
+          countryPageDescription: getValue('HeliportPage.countryPageDescription', english, data),
+          countryPageButtonTitle: getValue('HeliportPage.countryPageButtonTitle', english, data),
           href: getValue('HeliportPage.href', english, data),
           hrefTitle: getValue('HeliportPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('HeliportPage.breadcrumbTitle', english, data),

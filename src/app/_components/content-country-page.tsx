@@ -31,19 +31,19 @@ export async function ContentCountryPage({ translation }: { translation: Transla
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={clsx("grid gap-6", translation.IfrPage ? "grid-cols-3" : "grid-cols-2")}>
           <Box
-            title={translation.VfrPage.title}
-            description={translation.VfrPage.description}
-            buttons={[{ href: translation.VfrPage.href, hrefTitle: translation.VfrPage.hrefTitle, title: translation.VfrPage.hrefTitle }]}
+            title={translation.VfrPage.countryPageTitle}
+            description={translation.VfrPage.countryPageDescription}
+            buttons={[{ href: translation.VfrPage.href, hrefTitle: translation.VfrPage.hrefTitle, title: translation.VfrPage.countryPageButtonTitle }]}
           />
           {translation.IfrPage && <Box
-            title={translation.IfrPage.title}
-            description={translation.IfrPage.description}
-            buttons={[{ href: translation.IfrPage.href, hrefTitle: translation.IfrPage.hrefTitle, title: translation.IfrPage.hrefTitle }]}
+            title={translation.IfrPage.countryPageTitle}
+            description={translation.IfrPage.countryPageDescription}
+            buttons={[{ href: translation.IfrPage.href, hrefTitle: translation.IfrPage.hrefTitle, title: translation.IfrPage.countryPageButtonTitle }]}
           />}
           <Box
-            title={translation.HeliportPage.title}
-            description={translation.HeliportPage.description}
-            buttons={[{ href: translation.HeliportPage.href, hrefTitle: translation.HeliportPage.hrefTitle, title: translation.HeliportPage.hrefTitle }]}
+            title={translation.HeliportPage.countryPageTitle}
+            description={translation.HeliportPage.countryPageDescription}
+            buttons={[{ href: translation.HeliportPage.href, hrefTitle: translation.HeliportPage.hrefTitle, title: translation.HeliportPage.countryPageButtonTitle }]}
           />
         </div>
       </div>

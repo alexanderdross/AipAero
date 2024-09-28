@@ -73,6 +73,9 @@
     "native": {
       "title": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
       "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+      "countryPageTitle": "AIP VFR UK",
+      "countryPageDescription": "Browse AIP VFR of the United Kingdom and download airport approach charts for free",
+      "countryPageButtonTitle": "AIP VFR approach charts",
       "href": "/uk/vfr/",
       "hrefTitle": "Open AIP VFR United Kingdom (UK)",
       "breadcrumbTitle": "VFR",
@@ -86,6 +89,9 @@
     "native": {
       "title": "AIP VFR Charts for Helicopter Aerodromes in the UK",
       "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+      "countryPageTitle": "Helicopter Aerodromes UK",
+      "countryPageDescription": "Browse AIP VFR Helicopter Aerodromes of the UK and download airport approach charts for free",
+      "countryPageButtonTitle": "AIP VFR Helicopter Aerodromes",
       "href": "/uk/heliports/",
       "hrefTitle": "Open AIP VFR Heliports United Kingdom (UK)",
       "breadcrumbTitle": "Heliports",
