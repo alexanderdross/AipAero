@@ -7,7 +7,7 @@ import { api } from "~/trpc/server";
 import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
 import Metadata from "./metadata";
 
-function generateAirportList(title: string, description: string, airports: AirportGetAllOfCountryOutput) {
+function generateAirportList(title: string, description: string, internalBaseHref: string, airports: AirportGetAllOfCountryOutput) {
   return <>
     {airports.length > 0 && (<div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0 whitespace-nowrap">
       <h2 className="text-center text-2xl font-normal">{title}</h2>
@@ -18,7 +18,7 @@ function generateAirportList(title: string, description: string, airports: Airpo
             <span>{index + 1}.</span>
             <ExternalLink
               key={airport.icao}
-              href={`${airport.url}`}
+              href={`${internalBaseHref}?${airport.icao}`}
               className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
               hrefTitle={airport.title}
             >
@@ -34,8 +34,8 @@ function generateAirportList(title: string, description: string, airports: Airpo
   </>;
 }
 
-export async function ContentAirportsPage({ translation }: { translation: Translation["AirportsPage"]; }) {
-  const data = await api.airport.getAllOfCountry({ country: translation.Tld });
+export async function ContentAirportsPage({ translation }: { translation: Translation; }) {
+  const data = await api.airport.getAllOfCountry({ country: translation.AirportsPage.Tld });
   const vfr = data.filter((airport) => airport.type === "vfr");
   const ifr = data.filter((airport) => airport.type === "ifr");
   const heliport = data.filter((airport) => airport.type === "heliport");
@@ -43,29 +43,29 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
   return (
     <>
       <Metadata
-        title={translation.title}
-        description={translation.description}
-        url={translation.href}
-        alternates={translation.alternate && translation.alternateIetfLang
-          ? [{ href: translation.href, hrefLang: translation.ietfLang },
-          { href: translation.alternate, hrefLang: translation.alternateIetfLang }]
-          : [{ href: translation.href, hrefLang: translation.ietfLang }]}
+        title={translation.AirportsPage.title}
+        description={translation.AirportsPage.description}
+        url={translation.AirportsPage.href}
+        alternates={translation.AirportsPage.alternate && translation.AirportsPage.alternateIetfLang
+          ? [{ href: translation.AirportsPage.href, hrefLang: translation.AirportsPage.ietfLang },
+          { href: translation.AirportsPage.alternate, hrefLang: translation.AirportsPage.alternateIetfLang }]
+          : [{ href: translation.AirportsPage.href, hrefLang: translation.AirportsPage.ietfLang }]}
       />
       {generateProductSchema(
-        translation.title, // name
-        `${translation.menuTitle} ${translation.Country}`, // alternateName
-        translation.description, // description
-        translation.href // href
+        translation.AirportsPage.title, // name
+        `${translation.AirportsPage.menuTitle} ${translation.AirportsPage.Country}`, // alternateName
+        translation.AirportsPage.description, // description
+        translation.AirportsPage.href // href
       )}
       <Header
-        title={translation.title}
-        description={translation.description}
+        title={translation.AirportsPage.title}
+        description={translation.AirportsPage.description}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap justify-center gap-6">
-          {generateAirportList(translation.VfrAirportsTitle, translation.VfrAirportsDescription, vfr)}
-          {generateAirportList(translation.IfrAirportsTitle, translation.IfrAirportsDescription, ifr)}
-          {generateAirportList(translation.HeliportAirportsTitle, translation.HeliportAirportsDescription, heliport)}
+          {generateAirportList(translation.AirportsPage.VfrAirportsTitle, translation.AirportsPage.VfrAirportsDescription, translation.VfrPage.href, vfr)}
+          {translation.IfrPage && generateAirportList(translation.AirportsPage.IfrAirportsTitle, translation.AirportsPage.IfrAirportsDescription, translation.IfrPage.href, ifr)}
+          {generateAirportList(translation.AirportsPage.HeliportAirportsTitle, translation.AirportsPage.HeliportAirportsDescription, translation.HeliportPage.href, heliport)}
         </div>
       </div>
     </>

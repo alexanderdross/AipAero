@@ -46,7 +46,7 @@ export default function Page({ params }: { params: { slug: string[] } }) {
     return <ContentSearchPage translation={translation.HeliportPage} type='heliport' />;
   }
   if (slugNeeded === lastUrlSegment(translation.AirportsPage.href)) {
-    return <ContentAirportsPage translation={translation.AirportsPage} />;
+    return <ContentAirportsPage translation={translation} />;
   }
 
   return notFound();
