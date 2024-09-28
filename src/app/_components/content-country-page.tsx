@@ -5,6 +5,7 @@ import { Header } from "~/app/_components/header";
 import { generateProductSchema } from "~/lib/generate-schema";
 import type { Translation } from "~/lib/i18n";
 import Metadata from "./metadata";
+import clsx from "clsx";
 
 export async function ContentCountryPage({ translation }: { translation: Translation }) {
   const title = translation.CountryPage.title;
@@ -28,7 +29,7 @@ export async function ContentCountryPage({ translation }: { translation: Transla
       )}
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className={clsx("grid gap-6", translation.IfrPage ? "grid-cols-3" : "grid-cols-2")}>
           <Box
             title={translation.VfrPage.title}
             description={translation.VfrPage.description}

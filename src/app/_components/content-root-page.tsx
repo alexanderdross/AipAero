@@ -6,6 +6,7 @@ import { Header } from "~/app/_components/header";
 import { Box } from "~/app/_components/box";
 import Link from "next/link";
 import Metadata, { orgUrl } from "~/app/_components/metadata";
+import clsx from "clsx";
 
 export async function ContentRootPage({ translations }: { translations: Translation[] }) {
   const countryNames = translations.map(i => i.Country);
@@ -54,7 +55,7 @@ export async function ContentRootPage({ translations }: { translations: Translat
       {generateProductSchema(title, 'AIP:Aero', description)}
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap justify-center gap-6">
+        <div className={clsx("grid gap-6 grid-cols-3")}>
           {translations.map((e) => (
             <Box
               key={e.Country}

@@ -10,7 +10,7 @@ export function Box({
   buttons?: { href: string; hrefTitle: string, title?: string }[];
 }) {
   return (
-    <div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0">
+    <div className="bg-white py-8 px-6 border border-[#ccc]">
       <div className="flex flex-col justify-between h-full">
         <div>
           <h2 className="text-center text-2xl font-normal">{title}</h2>
