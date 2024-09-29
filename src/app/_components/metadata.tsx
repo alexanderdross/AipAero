@@ -1,4 +1,4 @@
-export const orgUrl = process.env.VERCEL_URL ? new URL(`https://process.env.VERCEL_URL`) : new URL('https://aip.aero/');
+export const orgUrl = process.env.VERCEL_URL ? new URL(`https://${process.env.VERCEL_URL}`) : new URL('https://aip.aero/');
 export const orgLogoUrl = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-446x319.jpg', orgUrl);
 export const orgLogoSquareUrl = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-450x450.jpg', orgUrl);
 
