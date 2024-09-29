@@ -29,7 +29,7 @@ export async function ContentCountryPage({ translation }: { translation: Transla
       )}
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={clsx("grid gap-6", translation.IfrPage ? "grid-cols-3" : "grid-cols-2")}>
+        <div className={clsx("grid gap-6 grid-cols-1 md:grid-cols-2", translation.IfrPage ? "lg:grid-cols-3" : "lg:grid-cols-2")}>
           <Box
             title={translation.VfrPage.countryPageTitle}
             description={translation.VfrPage.countryPageDescription}
