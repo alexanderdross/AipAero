@@ -55,7 +55,7 @@ export async function ContentRootPage({ translations }: { translations: Translat
       {generateProductSchema(title, 'AIP:Aero', description)}
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={"grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-2"}>
+        <div className={"grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"}>
           {translations.map((e) => (
             <Box
               key={e.Country}
