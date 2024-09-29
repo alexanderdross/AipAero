@@ -5,8 +5,8 @@ import { LinkIcon } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
 import { ExternalLink } from "./external-link";
 import { api } from "~/trpc/react";
-import { usePathname, useSearchParams } from "next/navigation";
 import { orgUrl } from "./metadata";
+import { notFound } from "next/navigation";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -26,21 +26,19 @@ export default function Search({
   searchPlaceholder,
   searchResultHrefTitle,
   searchResultEmpty,
-  type
+  type,
+  queryString
 }: {
   countryCode: string,
   searchPlaceholder: string,
   searchResultHrefTitle: string,
   searchResultEmpty: string,
-  type: "ifr" | "vfr" | "heliport"
+  type: "ifr" | "vfr" | "heliport",
+  queryString?: string
 }) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  // Get keys of searchParams
-  const keys = Array.from(searchParams.keys());
-  const [query, setQuery] = useState(keys.at(0) ?? "");
+  const [query, setQuery] = useState(queryString ?? "");
   const debouncedQuery = useDebounce(query, 500);
-  const [data] = api.airport.search.useSuspenseQuery({
+  const { isLoading, data } = api.airport.search.useQuery({
     type: type,
     country: countryCode,
     query: debouncedQuery
@@ -61,6 +59,10 @@ export default function Search({
       "query": "required",
       "query-input": "required maxlength=50 name=query"
     }
+  }
+
+  if (queryString && queryString?.length > 0 && !isLoading && data?.length === 0) {
+    return notFound();
   }
 
   return (
@@ -86,26 +88,29 @@ export default function Search({
           onChange={onSearch}
           autoFocus
         />
-        <div className="max-w-7xl pr-8 sm:pr-12 lg:pr-16 text-center mt-4 w-full text-white absolute">
+        <div className="max-w-7xl pr-8 sm:pr-12 lg:pr-16 text-center mt-3 w-full text-white absolute">
           <ol>
-            {data.map((airport) => (
+            {data && data.map((airport) => (
               <li key={airport.icao} itemScope itemType="https://schema.org/Airport">
                 <ExternalLink
                   key={airport.icao}
                   href={`${airport.url}`}
                   className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
-                  hrefTitle={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`}
+                  hrefTitle={`${searchResultHrefTitle} ${airport.title}`}
                 >
                   <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-                  <span itemProp="name">{airport.title} {airport.icao}</span>
+                  <span itemProp="name">{airport.title}</span>
                 </ExternalLink>
-                <meta itemProp="description" content={`${searchResultHrefTitle} ${airport.title} ${airport.icao}`} />
+                <meta itemProp="description" content={`${searchResultHrefTitle} ${airport.title}`} />
                 <meta itemProp="icaoCode" content={airport.icao} />
               </li>
             ))}
           </ol>
-          {data.length === 0 && query.length !== 0 && (
+          {!isLoading && data?.length === 0 && query.length !== 0 && (
             <div className="bg-drossblue py-2">{searchResultEmpty}</div>
+          )}
+          {isLoading && (
+            <div className="bg-drossblue py-2">...</div>
           )}
         </div>
       </div>

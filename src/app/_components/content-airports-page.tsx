@@ -5,7 +5,7 @@ import { ExternalLink } from "./external-link";
 import { LinkIcon } from "@heroicons/react/solid";
 import { api } from "~/trpc/server";
 import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
-import Metadata from "./metadata";
+import Metadata, { orgUrl } from "./metadata";
 import Link from "next/link";
 
 function generateAirportList(title: string, description: string, internalBaseHref: string, airports: AirportGetAllOfCountryOutput) {
@@ -19,9 +19,11 @@ function generateAirportList(title: string, description: string, internalBaseHre
             <span>{index + 1}.</span>
             <Link
               key={airport.icao}
-              href={`${internalBaseHref}?${airport.icao}`}
+              href={new URL(`${airport.icao}/`, new URL(internalBaseHref, orgUrl)).toString()}
               className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
               title={airport.title}
+              target="_blank"
+              rel="noopener"
             >
               <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
               <span itemProp="name">{airport.title}</span>

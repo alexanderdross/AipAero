@@ -4,7 +4,9 @@ import Search from "~/app/_components/search";
 import { generateAirportSchema, generateProductSchema } from "~/lib/generate-schema";
 import Metadata from "~/app/_components/metadata";
 
-export function ContentSearchPage({ translation, type }: { translation: SearchPageTranslation; type: 'vfr' | 'ifr' | 'heliport'; }) {
+export function ContentSearchPage({ translation, type }: { 
+  translation: SearchPageTranslation; type: 'vfr' | 'ifr' | 'heliport';
+}) {
   return (
     <>
       <Metadata

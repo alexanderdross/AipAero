@@ -102,6 +102,8 @@ export interface SearchPageTranslation extends PageTranslation, CountryTranslati
   countryPageTitle: string;
   countryPageDescription: string;
   countryPageButtonTitle: string;
+  airportPageTitle: string;
+  airportPageDescription: string;
 }
 
 /**
@@ -158,6 +160,8 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           countryPageTitle: getValue('IfrPage.countryPageTitle', english, data),
           countryPageDescription: getValue('IfrPage.countryPageDescription', english, data),
           countryPageButtonTitle: getValue('IfrPage.countryPageButtonTitle', english, data),
+          airportPageTitle: getValue('IfrPage.airportPageTitle', english, data),
+          airportPageDescription: getValue('IfrPage.airportPageDescription', english, data),
           href: getValue('IfrPage.href', english, data),
           hrefTitle: getValue('IfrPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('IfrPage.breadcrumbTitle', english, data),
@@ -176,6 +180,8 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           countryPageTitle: getValue('VfrPage.countryPageTitle', english, data),
           countryPageDescription: getValue('VfrPage.countryPageDescription', english, data),
           countryPageButtonTitle: getValue('VfrPage.countryPageButtonTitle', english, data),
+          airportPageTitle: getValue('VfrPage.airportPageTitle', english, data),
+          airportPageDescription: getValue('VfrPage.airportPageDescription', english, data),
           href: getValue('VfrPage.href', english, data),
           hrefTitle: getValue('VfrPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('VfrPage.breadcrumbTitle', english, data),
@@ -194,6 +200,8 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
           countryPageTitle: getValue('HeliportPage.countryPageTitle', english, data),
           countryPageDescription: getValue('HeliportPage.countryPageDescription', english, data),
           countryPageButtonTitle: getValue('HeliportPage.countryPageButtonTitle', english, data),
+          airportPageTitle: getValue('HeliportPage.airportPageTitle', english, data),
+          airportPageDescription: getValue('HeliportPage.airportPageDescription', english, data),
           href: getValue('HeliportPage.href', english, data),
           hrefTitle: getValue('HeliportPage.hrefTitle', english, data),
           breadcrumbTitle: getValue('HeliportPage.breadcrumbTitle', english, data),
