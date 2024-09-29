@@ -90,7 +90,7 @@ export default function Search({
         />
         <div className="max-w-7xl pr-8 sm:pr-12 lg:pr-16 text-center mt-3 w-full text-white absolute">
           <ol>
-            {data && data.map((airport) => (
+            {data?.map((airport) => (
               <li key={airport.icao} itemScope itemType="https://schema.org/Airport">
                 <ExternalLink
                   key={airport.icao}

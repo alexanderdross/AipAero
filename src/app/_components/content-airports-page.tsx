@@ -1,7 +1,6 @@
 import type { Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import { generateProductSchema } from "~/lib/generate-schema";
-import { ExternalLink } from "./external-link";
 import { LinkIcon } from "@heroicons/react/solid";
 import { api } from "~/trpc/server";
 import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
