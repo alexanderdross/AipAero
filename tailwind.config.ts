@@ -15,6 +15,7 @@ export default {
           },
         'drossgray': {
           DEFAULT: '#f0f2f2',
+          dark: '#626262'
         }
       }
     },

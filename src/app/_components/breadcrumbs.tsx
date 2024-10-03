@@ -83,7 +83,7 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
               <Link
                 href="/"
                 title="AIP Home"
-                className="text-gray-400 hover:text-gray-500"
+                className="text-drossgray-dark hover:text-drossblue"
                 target="_self"
                 rel="noopener"
               >
@@ -100,11 +100,11 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
 
             return (<li key={breadcrumb}>
               <div className="flex items-center">
-                <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-gray-400" aria-hidden="true" />
+                <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-drossgray-dark" aria-hidden="true" />
                 <Link
                   href={href}
                   title={hrefTitle}
-                  className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                  className="ml-4 text-sm font-medium text-drossgray-dark hover:text-drossblue"
                   aria-current={index === breadcrumbs.length - 1 ? 'page' : undefined}
                   target="_self"
                   rel="noopener"
