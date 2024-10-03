@@ -32,7 +32,7 @@ export default async function LocaleLayout({
   // Get translation depending on countryCode code and language
   let translation: Translation;
   try {
-    translation = getTranslation({ tld: countryCode, english: isEnglish });
+    translation = await getTranslation({ tld: countryCode, english: isEnglish });
   } catch {
     return notFound();
   }

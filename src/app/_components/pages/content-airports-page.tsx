@@ -1,11 +1,11 @@
 import type { Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
-import { generateProductSchema } from "~/lib/generate-schema";
 import { LinkIcon } from "@heroicons/react/solid";
 import { api } from "~/trpc/server";
 import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
-import Metadata, { orgUrl } from "./metadata";
+import Metadata, { orgUrl } from "~/app/_components/metadata";
 import Link from "next/link";
+import { SchemaProduct } from "../schemas/schema-product";
 
 function generateAirportList(title: string, description: string, internalBaseHref: string, airports: AirportGetAllOfCountryOutput) {
   return <>
@@ -18,7 +18,8 @@ function generateAirportList(title: string, description: string, internalBaseHre
             <span>{index + 1}.</span>
             <Link
               key={airport.icao}
-              href={new URL(`${airport.icao}/`, new URL(internalBaseHref, orgUrl)).toString()}
+              //href={new URL(`${airport.icao}/`, new URL(internalBaseHref, orgUrl)).toString()}
+              href={new URL(`${internalBaseHref}?${airport.icao}/`, orgUrl).toString()}
               className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
               title={airport.title}
               target="_blank"
@@ -53,12 +54,12 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
           { href: translation.AirportsPage.alternate, hrefLang: translation.AirportsPage.alternateIetfLang }]
           : [{ href: translation.AirportsPage.href, hrefLang: translation.AirportsPage.ietfLang }]}
       />
-      {generateProductSchema(
-        translation.AirportsPage.title, // name
-        `${translation.AirportsPage.menuTitle} ${translation.AirportsPage.Country}`, // alternateName
-        translation.AirportsPage.description, // description
-        translation.AirportsPage.href // href
-      )}
+      <SchemaProduct
+        name={translation.AirportsPage.title}
+        alternateName={`${translation.AirportsPage.menuTitle} ${translation.AirportsPage.Country}`}
+        description={translation.AirportsPage.description}
+        href={translation.AirportsPage.href}
+      />
       <Header
         title={translation.AirportsPage.title}
         description={translation.AirportsPage.description}

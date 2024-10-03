@@ -1,12 +1,16 @@
 'use client';
 /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-import { LinkIcon } from "@heroicons/react/solid";
+import type { SearchPageTranslation } from "~/lib/i18n";
+import { Header } from "~/app/_components/header";
+import Metadata, { orgUrl } from "~/app/_components/metadata";
 import { useEffect, useState } from "react";
-import { ExternalLink } from "./external-link";
+import { useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
-import { orgUrl } from "./metadata";
-import { notFound } from "next/navigation";
+import { ExternalLink } from "~/app/_components/external-link";
+import { LinkIcon } from "@heroicons/react/solid";
+import { SchemaProduct } from "../schemas/schema-product";
+import { SchemaAirport } from "../schemas/schema-airport";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -21,26 +25,18 @@ function useDebounce(value: string, delay: number) {
   return debouncedValue;
 }
 
-export default function Search({
-  countryCode,
-  searchPlaceholder,
-  searchResultHrefTitle,
-  searchResultEmpty,
-  type,
-  queryString
-}: {
-  countryCode: string,
-  searchPlaceholder: string,
-  searchResultHrefTitle: string,
-  searchResultEmpty: string,
-  type: "ifr" | "vfr" | "heliport",
-  queryString?: string
+export function ContentSearchPage({ translation, type }: {
+  translation: SearchPageTranslation; type: 'vfr' | 'ifr' | 'heliport';
 }) {
-  const [query, setQuery] = useState(queryString ?? "");
+  const searchParams = useSearchParams();
+  // Get keys of searchParams
+  const keys = Array.from(searchParams.keys());
+  const airportParam = keys.at(0);
+  const [query, setQuery] = useState(airportParam ?? "");
   const debouncedQuery = useDebounce(query, 500);
   const { isLoading, data } = api.airport.search.useQuery({
     type: type,
-    country: countryCode,
+    country: translation.Tld,
     query: debouncedQuery
   });
 
@@ -61,12 +57,38 @@ export default function Search({
     }
   }
 
-  if (queryString && queryString?.length > 0 && !isLoading && data?.length === 0) {
-    return notFound();
+  let title = translation.title;
+  let description = translation.description;
+  if (airportParam && data?.length === 1 && data[0]?.title) {
+    title = `${translation.airportPageTitle} ${data[0].title}`
+    description = translation.airportPageDescription.replace('XXXX', data[0].title);
   }
 
   return (
     <>
+      <Metadata
+        title={title}
+        description={description}
+        url={translation.href}
+        alternates={translation.alternate && translation.alternateIetfLang
+          ? [{ href: translation.href, hrefLang: translation.ietfLang },
+          { href: translation.alternate, hrefLang: translation.alternateIetfLang }]
+          : [{ href: translation.href, hrefLang: translation.ietfLang }]}
+      />
+      <SchemaProduct
+        name={title}
+        alternateName={translation.menuTitle}
+        description={description}
+        href={translation.href}
+      />
+      <SchemaAirport
+        alternateName={title}
+        description={description}
+      />
+      <Header
+        title={translation.title}
+        description={translation.description}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -82,8 +104,8 @@ export default function Search({
           name="search"
           id="search"
           className="shadow-sm focus:ring-drossblue focus:border-drossblue block w-full sm:text-sm border-gray-300 rounded-md text-center"
-          placeholder={searchPlaceholder}
-          title={searchPlaceholder}
+          placeholder={translation.searchPlaceholder}
+          title={translation.searchPlaceholder}
           value={query}
           onChange={onSearch}
           autoFocus
@@ -96,18 +118,18 @@ export default function Search({
                   key={airport.icao}
                   href={`${airport.url}`}
                   className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
-                  hrefTitle={`${searchResultHrefTitle} ${airport.title}`}
+                  hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
                 >
                   <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                   <span itemProp="name">{airport.title}</span>
                 </ExternalLink>
-                <meta itemProp="description" content={`${searchResultHrefTitle} ${airport.title}`} />
+                <meta itemProp="description" content={`${translation.searchResultHrefTitle} ${airport.title}`} />
                 <meta itemProp="icaoCode" content={airport.icao} />
               </li>
             ))}
           </ol>
           {!isLoading && data?.length === 0 && query.length !== 0 && (
-            <div className="bg-drossblue py-2">{searchResultEmpty}</div>
+            <div className="bg-drossblue py-2">{translation.searchResultEmpty}</div>
           )}
           {isLoading && (
             <div className="bg-drossblue py-2">...</div>
@@ -115,5 +137,5 @@ export default function Search({
         </div>
       </div>
     </>
-  )
+  );
 }

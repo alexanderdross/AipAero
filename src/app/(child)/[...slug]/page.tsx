@@ -1,15 +1,10 @@
 'use server';
 
-import { asc, eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
-import { ContentAirportPage } from '~/app/_components/content-airport-page';
-import { ContentAirportsPage } from '~/app/_components/content-airports-page';
-import { ContentCountryPage } from '~/app/_components/content-country-page';
-import { ContentSearchPage } from '~/app/_components/content-search-page';
+import { ContentAirportsPage } from '~/app/_components/pages/content-airports-page';
+import { ContentCountryPage } from '~/app/_components/pages/content-country-page';
+import { ContentSearchPage } from '~/app/_components/pages/content-search-page';
 import { getTranslation, getTranslations, type Translation } from '~/lib/i18n';
-import { db } from '~/server/db';
-import { airports } from '~/server/db/schema';
-import { api } from '~/trpc/server';
 
 function lastUrlSegment(url: string) {
   return url.split('/').filter(Boolean).at(-1);
@@ -21,8 +16,8 @@ function splitUrlSegments(url: string) {
 
 // generateStaticParams will be called at build time, important for sitemap.xml
 export async function generateStaticParams({ params }: { params: { slug: string[] } }) {
-  const nativeTranslation = getTranslations({ english: false });
-  const englishTranslation = getTranslations({ english: true });
+  const nativeTranslation = await getTranslations({ english: false });
+  const englishTranslation = await getTranslations({ english: true });
   const routes = [];
   for (const language of [nativeTranslation, englishTranslation]) {
     for (const translation of language) {
@@ -37,7 +32,7 @@ export async function generateStaticParams({ params }: { params: { slug: string[
       }
 
       // Get all airports of the country
-      const airportsQuery = await db.query.airports.findMany({
+      /*const airportsQuery = await db.query.airports.findMany({
         columns: {
           icao: true,
           type: true
@@ -53,7 +48,7 @@ export async function generateStaticParams({ params }: { params: { slug: string[
         } else if (airport.type === "heliport") {
           routes.push({ slug: [...splitUrlSegments(translation.HeliportPage.href), airport.icao] });
         }
-      }
+      }*/
     }
   }
   return routes;
@@ -69,7 +64,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   // Get translation depending on countryCode code and language
   let translation: Translation;
   try {
-    translation = getTranslation({ tld: countryCode, english: isEnglish });
+    translation = await getTranslation({ tld: countryCode, english: isEnglish });
   } catch {
     return notFound();
   }
@@ -87,14 +82,14 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
     return notFound();
   }
 
-  const airportQuery = isEnglish ? params.slug.at(3) : params.slug.at(2);
+  // const airportQuery = isEnglish ? params.slug.at(3) : params.slug.at(2);
   const type = pageSlug === lastUrlSegment(translation.VfrPage.href)
     ? 'vfr'
     : translation.IfrPage && pageSlug === lastUrlSegment(translation.IfrPage?.href)
       ? 'ifr' : pageSlug === lastUrlSegment(translation.HeliportPage.href)
         ? 'heliport' : undefined;
   
-  if (airportQuery && type) {
+  /*if (airportQuery && type) {
     const airport = await api.airport.search({ type: type, country: translation.CountryCode, query: airportQuery });
     if (airport.length === 0 || !airport[0]) {
       return notFound();
@@ -108,7 +103,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
     if (type === 'heliport') {
       return <ContentAirportPage translation={translation.HeliportPage} airport={airport[0]} />;
     }
-  }
+  }*/
 
   if (type === 'vfr') {
     return <ContentSearchPage translation={translation.VfrPage} type={type} />;

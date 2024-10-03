@@ -1,12 +1,12 @@
 "use server";
 
-import { generateRootNavigationSchema, generateProductSchema } from "~/lib/generate-schema";
 import type { Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import { Box } from "~/app/_components/box";
 import Link from "next/link";
 import Metadata, { orgUrl } from "~/app/_components/metadata";
-import clsx from "clsx";
+import { SchemaRootNavigation } from "../schemas/schema-root-navigation";
+import { SchemaProduct } from "../schemas/schema-product";
 
 export async function ContentRootPage({ translations }: { translations: Translation[] }) {
   const countryNames = translations.map(i => i.Country);
@@ -51,8 +51,13 @@ export async function ContentRootPage({ translations }: { translations: Translat
         }}
       />
 
-      {generateRootNavigationSchema()}
-      {generateProductSchema(title, 'AIP:Aero', description)}
+      <SchemaRootNavigation />
+      <SchemaProduct
+        name={title}
+        alternateName="AIP:Aero"
+        description={description}
+        href="/"
+      />
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={"grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"}>

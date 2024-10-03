@@ -1,3 +1,5 @@
+'use server';
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/dot-notation,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-call */
 import fs from 'fs';
 import path from 'path';
@@ -112,7 +114,7 @@ export interface SearchPageTranslation extends PageTranslation, CountryTranslati
  * @param english - Whether to use the English or native language.
  * @returns The countryCode information.
  */
-export function getTranslations({ tld, english = true }: { tld?: string, english?: boolean }) {
+export async function getTranslations({ tld, english = true }: { tld?: string, english?: boolean }) {
   // Get file names under /messages
   const messages = fs.readdirSync(messagesDirectory)
     .filter((file) => tld ? file.endsWith(`${tld}.json`) : file.endsWith('.json'))
@@ -256,8 +258,8 @@ export function getTranslations({ tld, english = true }: { tld?: string, english
  * @param english - Whether to use the English or native language.
  * @returns The countryCode information.
  */
-export function getTranslation({ tld, english = true }: { tld: string, english?: boolean }) {
-  const translation = getTranslations({ tld, english });
+export async function getTranslation({ tld, english = true }: { tld: string, english?: boolean }) {
+  const translation = await getTranslations({ tld, english });
   if (translation.length === 0 || !translation[0]) {
     throw new Error(`No translation found for ${tld}`);
   }

@@ -1,10 +1,11 @@
 import type { SearchPageTranslation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
-import { generateAirportSchema, generateProductSchema } from "~/lib/generate-schema";
 import Metadata from "~/app/_components/metadata";
 import { AirportSearchOutput } from "~/server/api/root";
-import { ExternalLink } from "./external-link";
+import { ExternalLink } from "~/app/_components/external-link";
 import { LinkIcon } from "@heroicons/react/solid";
+import { SchemaProduct } from "../schemas/schema-product";
+import { SchemaAirport } from "../schemas/schema-airport";
 
 export function ContentAirportPage({ translation, airport }: {
   translation: SearchPageTranslation;
@@ -23,16 +24,16 @@ export function ContentAirportPage({ translation, airport }: {
           { href: translation.alternate, hrefLang: translation.alternateIetfLang }]
           : [{ href: translation.href, hrefLang: translation.ietfLang }]}
       />
-      {generateProductSchema(
-        title, // name
-        `${translation.menuTitle} ${translation.Country}`, // alternateName
-        description, // description
-        translation.href // href
-      )}
-      {generateAirportSchema(
-        title, // name
-        description, // description
-      )}
+      <SchemaProduct
+        name={title}
+        alternateName={translation.menuTitle}
+        description={description}
+        href={translation.href}
+      />
+      <SchemaAirport
+        alternateName={airport.title}
+        description={description}
+      />
       <Header
         title={title}
         description={description}

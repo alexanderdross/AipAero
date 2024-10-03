@@ -2,10 +2,10 @@
 
 import { Box } from "~/app/_components/box";
 import { Header } from "~/app/_components/header";
-import { generateProductSchema } from "~/lib/generate-schema";
 import type { Translation } from "~/lib/i18n";
-import Metadata from "./metadata";
+import Metadata from "~/app/_components/metadata";
 import clsx from "clsx";
+import { SchemaProduct } from "../schemas/schema-product";
 
 export async function ContentCountryPage({ translation }: { translation: Translation }) {
   const title = translation.CountryPage.title;
@@ -21,12 +21,12 @@ export async function ContentCountryPage({ translation }: { translation: Transla
           { href: translation.CountryPage.alternate, hrefLang: translation.CountryPage.alternateIetfLang }]
           : [{ href: translation.CountryPage.href, hrefLang: translation.CountryPage.ietfLang }]}
       />
-      {generateProductSchema(
-        title, // name
-        `AIP ${translation.Country}`, // alternateName
-        description, // description
-        translation.CountryPage.href // href
-      )}
+      <SchemaProduct
+        name={title}
+        alternateName={`AIP ${translation.Country}`}
+        description={description}
+        href={translation.CountryPage.href}
+      />
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={clsx("grid gap-6 grid-cols-1 md:grid-cols-2", translation.IfrPage ? "lg:grid-cols-3" : "lg:grid-cols-2")}>
