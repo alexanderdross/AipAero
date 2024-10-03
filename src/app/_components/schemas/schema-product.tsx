@@ -1,15 +1,18 @@
+'use client';
+
+import { usePathname } from "next/navigation";
 import { orgLogoSquareUrl, orgLogoUrl, orgUrl } from "../metadata";
 
 interface Props {
   name: string;
   alternateName: string;
   description: string;
-  href?: string;
 }
 
 export function SchemaProduct({ 
-  name, alternateName, description, href 
+  name, alternateName, description 
 }: Props) {
+  const pathname = usePathname();
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -24,7 +27,7 @@ export function SchemaProduct({
     "name": name,
     "alternateName": alternateName,
     "description": description,
-    "url": href ? (new URL(href, orgUrl)).toString() : orgUrl.toString(),
+    "url": new URL(pathname, orgUrl).toString(),
     "image": [{
       "@type": "ImageObject",
       "url": orgLogoSquareUrl.toString(),

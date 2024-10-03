@@ -58,7 +58,6 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
         name={translation.AirportsPage.title}
         alternateName={`${translation.AirportsPage.menuTitle} ${translation.AirportsPage.Country}`}
         description={translation.AirportsPage.description}
-        href={translation.AirportsPage.href}
       />
       <Header
         title={translation.AirportsPage.title}

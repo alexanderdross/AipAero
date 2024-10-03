@@ -1,7 +1,7 @@
 import type { SearchPageTranslation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import Metadata from "~/app/_components/metadata";
-import { AirportSearchOutput } from "~/server/api/root";
+import { type AirportSearchOutput } from "~/server/api/root";
 import { ExternalLink } from "~/app/_components/external-link";
 import { LinkIcon } from "@heroicons/react/solid";
 import { SchemaProduct } from "../schemas/schema-product";
@@ -28,9 +28,9 @@ export function ContentAirportPage({ translation, airport }: {
         name={title}
         alternateName={translation.menuTitle}
         description={description}
-        href={translation.href}
       />
       <SchemaAirport
+        name={airport.title}
         alternateName={airport.title}
         description={description}
       />

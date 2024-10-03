@@ -37,24 +37,35 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
   const breadcrumbsSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": breadcrumbs?.map((breadcrumb, index) => {
-      const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
-      const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
-      const title = currentNavItem?.title ?? breadcrumb.toLocaleUpperCase();
-      const alternateName = currentNavItem?.alternateName ?? breadcrumb.toLocaleUpperCase();
-      const description = currentNavItem?.description ?? breadcrumb.toLocaleUpperCase();
-      const item = {
+    "itemListElement": [
+      {
         "@type": "ListItem",
-        "position": index + 1,
+        "position": 1,
         "item": {
-          "@id": new URL(href, orgUrl).toString(),
-          "name": title,
-          "alternateName": alternateName,
-          "description": description
+          "@id": orgUrl.toString(),
+          "name": "AIP approach charts VFR, IFR & Heliports",
+          "alternateName": "AIP:Aero",
+          "description": "AIP approach charts VFR, IFR & Heliports"
         }
-      };
-      return item;
-    })
+      },
+      ...breadcrumbs?.map((breadcrumb, index) => {
+        const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
+        const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
+        const title = currentNavItem?.title ?? breadcrumb.toLocaleUpperCase();
+        const alternateName = currentNavItem?.alternateName ?? breadcrumb.toLocaleUpperCase();
+        const description = currentNavItem?.description ?? breadcrumb.toLocaleUpperCase();
+        const item = {
+          "@type": "ListItem",
+          "position": index + 2,
+          "item": {
+            "@id": new URL(href, orgUrl).toString(),
+            "name": title,
+            "alternateName": alternateName,
+            "description": description
+          }
+        };
+        return item;
+      })]
   }
 
   return (<>

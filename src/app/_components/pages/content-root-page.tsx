@@ -56,7 +56,6 @@ export async function ContentRootPage({ translations }: { translations: Translat
         name={title}
         alternateName="AIP:Aero"
         description={description}
-        href="/"
       />
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

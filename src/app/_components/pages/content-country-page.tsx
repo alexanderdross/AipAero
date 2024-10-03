@@ -25,7 +25,6 @@ export async function ContentCountryPage({ translation }: { translation: Transla
         name={title}
         alternateName={`AIP ${translation.Country}`}
         description={description}
-        href={translation.CountryPage.href}
       />
       <Header title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

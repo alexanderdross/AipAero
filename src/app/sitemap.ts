@@ -51,9 +51,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         where: eq(airports.country, data.CountryCode.english),
         orderBy: [asc(airports.title)],
       })
-      /*pages.push(...airportsQuery.map((airport) => {
+      pages.push(...airportsQuery.map((airport) => {
         const airportUrl = new URL(data.AirportsPage.native.href, orgUrl);
-        airportUrl.pathname = `${airportUrl.pathname}${airport.icao}`;
+        //airportUrl.pathname = `${airportUrl.pathname}${airport.icao}`;
+        airportUrl.pathname = `${airportUrl.pathname}?${airport.icao}`;
         return {
           url: airportUrl.toString(),
           lastModified: new Date(),
@@ -70,7 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             },
           },
         };
-      }));*/
+      }));
       return pages;
     }));
 

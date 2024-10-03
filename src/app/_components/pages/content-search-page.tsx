@@ -3,7 +3,7 @@
 
 import type { SearchPageTranslation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
-import Metadata, { orgUrl } from "~/app/_components/metadata";
+import Metadata from "~/app/_components/metadata";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
@@ -11,6 +11,8 @@ import { ExternalLink } from "~/app/_components/external-link";
 import { LinkIcon } from "@heroicons/react/solid";
 import { SchemaProduct } from "../schemas/schema-product";
 import { SchemaAirport } from "../schemas/schema-airport";
+import { SchemaWebsite } from "../schemas/schema-website";
+import { LoadingSpinner } from "../loading-spinner";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -32,6 +34,12 @@ export function ContentSearchPage({ translation, type }: {
   // Get keys of searchParams
   const keys = Array.from(searchParams.keys());
   const airportParam = keys.at(0);
+  // Prefetch query at first render
+  airportParam && airportParam.length > 0 && api.airport.search.usePrefetchQuery({
+    type: type,
+    country: translation.Tld,
+    query: airportParam
+  });
   const [query, setQuery] = useState(airportParam ?? "");
   const debouncedQuery = useDebounce(query, 500);
   const { isLoading, data } = api.airport.search.useQuery({
@@ -45,26 +53,18 @@ export function ContentSearchPage({ translation, type }: {
     setQuery(e.currentTarget.value);
   }
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "url": orgUrl.toString(),
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": new URL("/?{query}", orgUrl).toString(),
-      "query": "required",
-      "query-input": "required maxlength=50 name=query"
-    }
-  }
+  const isAirportResultAndLoading = isLoading && airportParam?.length !== 0 && airportParam === query;
+  const isAirportResult = airportParam && data?.length === 1 && data[0]?.title;
 
-  let title = translation.title;
-  let description = translation.description;
-  if (airportParam && data?.length === 1 && data[0]?.title) {
-    title = `${translation.airportPageTitle} ${data[0].title}`
-    description = translation.airportPageDescription.replace('XXXX', data[0].title);
-  }
+  const airportName = isAirportResult ? data[0]!.title : "";
+  const title = isAirportResult
+    ? `${translation.airportPageTitle} ${data[0]!.title}` : translation.title;
+  const description = isAirportResult
+    ? translation.airportPageDescription.replace('XXXX', data[0]!.title) : translation.description;
 
-  return (
+  return (isAirportResultAndLoading ? <div className="flex justify-center mt-16">
+    <LoadingSpinner />
+  </div> :
     <>
       <Metadata
         title={title}
@@ -79,21 +79,16 @@ export function ContentSearchPage({ translation, type }: {
         name={title}
         alternateName={translation.menuTitle}
         description={description}
-        href={translation.href}
       />
-      <SchemaAirport
+      {isAirportResult && <SchemaAirport
+        name={airportName}
         alternateName={title}
         description={description}
-      />
+      />}
+      <SchemaWebsite />
       <Header
-        title={translation.title}
-        description={translation.description}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(websiteSchema)
-        }} 
+        title={title}
+        description={description}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <label htmlFor="search" className="sr-only">
@@ -113,7 +108,7 @@ export function ContentSearchPage({ translation, type }: {
         <div className="max-w-7xl pr-8 sm:pr-12 lg:pr-16 text-center mt-3 w-full text-white absolute">
           <ol>
             {data?.map((airport) => (
-              <li key={airport.icao} itemScope itemType="https://schema.org/Airport">
+              <li key={airport.icao}>
                 <ExternalLink
                   key={airport.icao}
                   href={`${airport.url}`}
@@ -121,10 +116,8 @@ export function ContentSearchPage({ translation, type }: {
                   hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
                 >
                   <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-                  <span itemProp="name">{airport.title}</span>
+                  <span>{airport.title}</span>
                 </ExternalLink>
-                <meta itemProp="description" content={`${translation.searchResultHrefTitle} ${airport.title}`} />
-                <meta itemProp="icaoCode" content={airport.icao} />
               </li>
             ))}
           </ol>
