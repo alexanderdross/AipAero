@@ -20,9 +20,9 @@ export function ContentAirportPage({ translation, airport }: {
         description={description}
         url={translation.href}
         alternates={translation.alternate && translation.alternateIetfLang
-          ? [{ href: translation.href, hrefLang: translation.ietfLang },
+          ? [{ href: translation.href, hrefLang: translation.LanguageCode },
           { href: translation.alternate, hrefLang: translation.alternateIetfLang }]
-          : [{ href: translation.href, hrefLang: translation.ietfLang }]}
+          : [{ href: translation.href, hrefLang: translation.LanguageCode }]}
       />
       <SchemaProduct
         name={title}

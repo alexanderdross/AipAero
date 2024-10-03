@@ -33,7 +33,7 @@ export default function Metadata({
       <link rel="canonical" href={new URL(canonical ?? url, orgUrl).toString()} />
       <link rel="alternate" hrefLang="x-default" href={orgUrl.toString()} />
       {alternates?.map(({ href, hrefLang }) => (
-        <link key={hrefLang} rel="alternate" hrefLang={hrefLang} href={href} />
+        <link key={hrefLang} rel="alternate" hrefLang={hrefLang.split('-')[0]} href={href} />
       ))}
       <meta property="fb:admins" content="1378231674" />
       <meta property="og:title" content={`🛩️ ${title}`} />
