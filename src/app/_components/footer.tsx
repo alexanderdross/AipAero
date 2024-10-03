@@ -29,7 +29,7 @@ export default function Footer({ translation }: { translation: Translation["Foot
             </span>
           ))}
         </div>
-        <p className="mt-2 text-center text-base text-gray-600">&copy; 2024 made with ♥ by{" "}
+        <p className="mt-2 text-center text-base text-drossgray-dark">&copy; 2024 made with ♥ by{" "}
           <ExternalLink
             href={translation.at(-1)?.href ?? ''}
             hrefTitle={translation.at(-1)?.hrefTitle ?? ''}
