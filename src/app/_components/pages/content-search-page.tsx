@@ -62,9 +62,7 @@ export function ContentSearchPage({ translation, type }: {
   const description = isAirportResult
     ? translation.airportPageDescription.replace('XXXX', data[0]!.title) : translation.description;
 
-  return (isAirportResultAndLoading ? <div className="flex justify-center mt-16">
-    <LoadingSpinner />
-  </div> :
+  return (
     <>
       <Metadata
         title={title}
@@ -86,10 +84,13 @@ export function ContentSearchPage({ translation, type }: {
         description={description}
       />}
       <SchemaWebsite />
-      <Header
-        title={title}
-        description={description}
-      />
+      {isAirportResultAndLoading ? <div className="flex justify-center py-20 sm:py-14">
+        <LoadingSpinner />
+      </div> :
+        <Header
+          title={title}
+          description={description}
+        />}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <label htmlFor="search" className="sr-only">
           Search
