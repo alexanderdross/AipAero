@@ -52,22 +52,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         orderBy: [asc(airports.title)],
       })
       pages.push(...airportsQuery.map((airport) => {
-        const airportUrl = new URL(data.AirportsPage.native.href, orgUrl);
-        //airportUrl.pathname = `${airportUrl.pathname}${airport.icao}`;
-        airportUrl.pathname = `${airportUrl.pathname}?${airport.icao}`;
+        let airportHrefNative = '';
+        let airportHrefEnglish = '';
+        if (airport.type === "vfr") {
+          airportHrefNative = data.VfrPage.native.href;
+          airportHrefEnglish = data.VfrPage.english.href;
+        }
+        if (airport.type === "ifr") {
+          airportHrefNative = data.IfrPage.native.href;
+          airportHrefEnglish = data.IfrPage.english.href;
+        }
+        if (airport.type === "heliport") {
+          airportHrefNative = data.HeliportPage.native.href;
+          airportHrefEnglish = data.HeliportPage.english.href;
+        }
+        airportHrefNative += `?${airport.icao}`;
+        airportHrefEnglish += `?${airport.icao}`;
+        const airportUrlNative = new URL(airportHrefNative, orgUrl);
+        const airportUrlEnglish = new URL(airportHrefEnglish, orgUrl);
         return {
-          url: airportUrl.toString(),
+          url: airportUrlNative.toString(),
           lastModified: new Date(),
           changeFrequency: "weekly" as const,
           priority: 0.5,
           alternates: englishLanguageCode ? {
             languages: {
-              [nativeLanguageCode]: airportUrl.toString(),
-              [englishLanguageCode]: new URL(data.AirportsPage.english.href, orgUrl).toString(),
+              [nativeLanguageCode]: airportUrlNative.toString(),
+              [englishLanguageCode]: airportUrlEnglish.toString(),
             },
           } : {
             languages: {
-              [nativeLanguageCode]: airportUrl.toString(),
+              [nativeLanguageCode]: airportUrlNative.toString(),
             },
           },
         };
