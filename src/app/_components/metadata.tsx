@@ -22,6 +22,7 @@ export default function Metadata({
   // Remove duplicates
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   alternates = alternates ? [...(new Set(alternates.map(e => JSON.stringify(e))))].map(e => JSON.parse(e)) : [];
+  // Add param to href if it exists
   href = param ? `${href}?${param}` : href;
   const url = new URL(href, orgUrl).toString();
 
@@ -35,14 +36,16 @@ export default function Metadata({
       <meta name="robots" content="index,follow,noodp,noydir" />
       <link rel="canonical" href={new URL(canonical ?? url, orgUrl).toString()} />
       <link rel="alternate" hrefLang="x-default" href={orgUrl.toString()} />
-      {alternates?.map(({ href, hrefLang }) => (
-        <link 
-          key={hrefLang} 
-          rel="alternate" 
-          hrefLang={hrefLang.split('-')[0]} 
-          href={new URL(href, orgUrl).toString()} 
+      {alternates?.map(({ href, hrefLang }) => {
+        // Add param to href if it exists
+        href = param ? `${href}?${param}` : href;
+        return <link
+          key={hrefLang}
+          rel="alternate"
+          hrefLang={hrefLang.split('-')[0]}
+          href={new URL(href, orgUrl).toString()}
         />
-      ))}
+      })}
       <meta property="fb:admins" content="1378231674" />
       <meta property="og:title" content={`🛩️ ${title}`} />
       <meta property="og:description" content={`${description} 🗺️`} />
