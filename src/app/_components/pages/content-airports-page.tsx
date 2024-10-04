@@ -19,7 +19,7 @@ function generateAirportList(title: string, description: string, internalBaseHre
             <Link
               key={airport.icao}
               //href={new URL(`${airport.icao}/`, new URL(internalBaseHref, orgUrl)).toString()}
-              href={new URL(`${internalBaseHref}?${airport.icao}/`, orgUrl).toString()}
+              href={new URL(`${internalBaseHref}?${airport.icao}`, orgUrl).toString()}
               className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
               title={airport.title}
               target="_blank"
