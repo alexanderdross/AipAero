@@ -16,7 +16,7 @@ export default function Footer({ translation }: { translation: Translation["Foot
             {translation.at(0)?.title}
           </ExternalLink>
         </div>
-        <div className="flex flex-wrap justify-center" aria-label="Footer">
+        <div className="flex flex-wrap justify-center">
           {middlepart.map((item, idx) => (
             <span key={idx}>
               <ExternalLink

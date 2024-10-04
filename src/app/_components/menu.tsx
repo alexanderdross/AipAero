@@ -61,7 +61,6 @@ export default function Menu({ translation }: { translation: Translation }) {
               href={page.href ?? ''}
               title={page.hrefTitle ?? ''}
               className={clsx('text-drossblue hover:underline mx-2', page.href === pathname && 'underline text-nowrap')}
-              aria-disabled={page.href === pathname}
               target="_self"
               rel="noopener"
             >
