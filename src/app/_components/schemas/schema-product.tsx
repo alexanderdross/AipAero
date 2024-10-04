@@ -67,7 +67,7 @@ export function SchemaProduct({
         "https://dross.net/alexander/blog/",
         "https://dross.net/alexander/feed",
         "https://aip.aero/",
-        "https://dross.net/aviation/"
+        "https://dross.net/aviation/?aip"
       ],
       "reviewRating": {
         "@type": "Rating",

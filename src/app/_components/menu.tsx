@@ -41,7 +41,7 @@ export default function Menu({ translation }: { translation: Translation }) {
         "name": "Stratux - anti-collision system",
         "alternateName":"Dross:Aviation",
         "description":"Stratux, anti-collision system for private aviation and gliders",
-        "url": "https://dross.net/aviation/"
+        "url": "https://dross.net/aviation/?aip"
       }
     ]
   }
