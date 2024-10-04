@@ -9,7 +9,7 @@ export default function Footer({ translation }: { translation: Translation["Foot
       <div className="max-w-7xl mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
         <div className="px-5 py-2 flex justify-center">
           <ExternalLink
-            href={translation.at(0)?.title ?? ''}
+            href={translation.at(0)?.href ?? ''}
             hrefTitle={translation.at(0)?.hrefTitle ?? ''}
             className="text-base text-drossblue hover:underline"
           >
