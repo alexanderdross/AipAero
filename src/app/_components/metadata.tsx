@@ -8,6 +8,7 @@ interface Props {
   href: string;
   canonical?: string;
   alternates?: { href: string; hrefLang: string }[];
+  param?: string;
 }
 
 export default function Metadata({
@@ -16,11 +17,12 @@ export default function Metadata({
   href,
   canonical,
   alternates,
+  param
 }: Props) {
-
   // Remove duplicates
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   alternates = alternates ? [...(new Set(alternates.map(e => JSON.stringify(e))))].map(e => JSON.parse(e)) : [];
+  href = param ? `${href}?${param}` : href;
   const url = new URL(href, orgUrl).toString();
 
   return (

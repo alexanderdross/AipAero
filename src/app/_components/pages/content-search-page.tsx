@@ -72,6 +72,7 @@ export function ContentSearchPage({ translation, type }: {
           ? [{ href: translation.href, hrefLang: translation.ietfLang },
           { href: translation.alternate, hrefLang: translation.alternateIetfLang }]
           : [{ href: translation.href, hrefLang: translation.ietfLang }]}
+        param={isAirportResult ? airportParam : undefined}
       />
       <SchemaProduct
         name={title}
