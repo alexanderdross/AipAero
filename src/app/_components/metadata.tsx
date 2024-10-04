@@ -5,7 +5,7 @@ export const orgLogoSquareUrl = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AI
 interface Props {
   title: string;
   description: string;
-  url: string;
+  href: string;
   canonical?: string;
   alternates?: { href: string; hrefLang: string }[];
 }
@@ -13,7 +13,7 @@ interface Props {
 export default function Metadata({
   title,
   description,
-  url,
+  href,
   canonical,
   alternates,
 }: Props) {
@@ -21,6 +21,7 @@ export default function Metadata({
   // Remove duplicates
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   alternates = alternates ? [...(new Set(alternates.map(e => JSON.stringify(e))))].map(e => JSON.parse(e)) : [];
+  const url = new URL(href, orgUrl).toString();
 
   return (
     <>
@@ -58,6 +59,7 @@ export default function Metadata({
       <meta property="og:type" content="website" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@alexanderdross" />
+      <meta name="twitter:url" content={url} />
       <meta name="twitter:title" content={`🛩️ ${title}`} />
       <meta name="twitter:description" content={`${description} 🗺️`} />
       <meta name="twitter:image" content={orgLogoUrl.toString()} />

@@ -67,7 +67,7 @@ export function ContentSearchPage({ translation, type }: {
       <Metadata
         title={title}
         description={description}
-        url={translation.href}
+        href={translation.href}
         alternates={translation.alternate && translation.alternateIetfLang
           ? [{ href: translation.href, hrefLang: translation.ietfLang },
           { href: translation.alternate, hrefLang: translation.alternateIetfLang }]

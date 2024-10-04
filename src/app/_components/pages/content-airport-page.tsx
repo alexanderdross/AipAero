@@ -18,7 +18,7 @@ export function ContentAirportPage({ translation, airport }: {
       <Metadata
         title={title}
         description={description}
-        url={translation.href}
+        href={translation.href}
         alternates={translation.alternate && translation.alternateIetfLang
           ? [{ href: translation.href, hrefLang: translation.LanguageCode },
           { href: translation.alternate, hrefLang: translation.alternateIetfLang }]

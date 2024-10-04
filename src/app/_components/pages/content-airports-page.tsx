@@ -48,7 +48,7 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
       <Metadata
         title={translation.AirportsPage.title}
         description={translation.AirportsPage.description}
-        url={translation.AirportsPage.href}
+        href={translation.AirportsPage.href}
         alternates={translation.AirportsPage.alternate && translation.AirportsPage.alternateIetfLang
           ? [{ href: translation.AirportsPage.href, hrefLang: translation.AirportsPage.ietfLang },
           { href: translation.AirportsPage.alternate, hrefLang: translation.AirportsPage.alternateIetfLang }]

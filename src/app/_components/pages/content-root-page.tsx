@@ -21,7 +21,7 @@ export async function ContentRootPage({ translations }: { translations: Translat
       <Metadata
         title={title}
         description={description}
-        url="/"
+        href="/"
         alternates={translations.map((e) => [{
           href: e.CountryPage.href,
           hrefLang: e.CountryPage.ietfLang
