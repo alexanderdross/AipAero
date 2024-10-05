@@ -33,7 +33,7 @@ export default function Footer({ translation }: { translation: Translation["Foot
           <ExternalLink
             href={translation.at(-1)?.href ?? ''}
             hrefTitle={translation.at(-1)?.hrefTitle ?? ''}
-            className="text-drossblue hover:underline"
+            className="text-drossblue italic hover:underline"
           >
             {translation.at(-1)?.title}
           </ExternalLink></p>
