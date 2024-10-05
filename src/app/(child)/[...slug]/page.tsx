@@ -1,6 +1,7 @@
 'use server';
 
 import { notFound } from 'next/navigation';
+import About from '~/app/_components/about';
 import { ContentAirportsPage } from '~/app/_components/pages/content-airports-page';
 import { ContentCountryPage } from '~/app/_components/pages/content-country-page';
 import { ContentSearchPage } from '~/app/_components/pages/content-search-page';
@@ -30,25 +31,6 @@ export async function generateStaticParams({ params }: { params: { slug: string[
       if (translation.IfrPage?.href) {
         routes.push({ slug: splitUrlSegments(translation.IfrPage.href) });
       }
-
-      // Get all airports of the country
-      /*const airportsQuery = await db.query.airports.findMany({
-        columns: {
-          icao: true,
-          type: true
-        },
-        where: eq(airports.country, translation.CountryCode),
-        orderBy: [asc(airports.title)],
-      })
-      for (const airport of airportsQuery) {
-        if (airport.type === "vfr") {
-          routes.push({ slug: [...splitUrlSegments(translation.VfrPage.href), airport.icao] });
-        } else if (airport.type === "ifr" && translation.IfrPage?.href) {
-          routes.push({ slug: [...splitUrlSegments(translation.IfrPage.href), airport.icao] });
-        } else if (airport.type === "heliport") {
-          routes.push({ slug: [...splitUrlSegments(translation.HeliportPage.href), airport.icao] });
-        }
-      }*/
     }
   }
   return routes;
@@ -74,7 +56,10 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
 
   // Return Country Page if requested
   if (params.slug.length === 1 && !isEnglish || params.slug.length === 2 && isEnglish) {
-    return <ContentCountryPage translation={translation} />;
+    return <>
+      <ContentCountryPage translation={translation} />
+      <About translation={translation.About} titleAs='h3' />
+    </>;
   }
 
   const pageSlug = isEnglish ? params.slug.at(2) : params.slug.at(1);
@@ -88,34 +73,31 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
     : translation.IfrPage && pageSlug === lastUrlSegment(translation.IfrPage?.href)
       ? 'ifr' : pageSlug === lastUrlSegment(translation.HeliportPage.href)
         ? 'heliport' : undefined;
-  
-  /*if (airportQuery && type) {
-    const airport = await api.airport.search({ type: type, country: translation.CountryCode, query: airportQuery });
-    if (airport.length === 0 || !airport[0]) {
-      return notFound();
-    }
-    if (type === 'vfr') {
-      return <ContentAirportPage translation={translation.VfrPage} airport={airport[0]} />;
-    }
-    if (type === 'ifr' && translation.IfrPage) {
-      return <ContentAirportPage translation={translation.IfrPage} airport={airport[0]} />;
-    }
-    if (type === 'heliport') {
-      return <ContentAirportPage translation={translation.HeliportPage} airport={airport[0]} />;
-    }
-  }*/
 
   if (type === 'vfr') {
-    return <ContentSearchPage translation={translation.VfrPage} type={type} />;
+    return <>
+      <ContentSearchPage translation={translation.VfrPage} type={type} />
+      <About translation={translation.About} titleAs='h2' />
+    </>;
   }
   if (type === 'ifr' && translation.IfrPage) {
-    return <ContentSearchPage translation={translation.IfrPage} type={type} />;
+    return <>
+      <ContentSearchPage translation={translation.IfrPage} type={type} />
+      <About translation={translation.About} titleAs='h2' />
+    </>;
   }
   if (type === 'heliport') {
-    return <ContentSearchPage translation={translation.HeliportPage} type={type} />;
+    return <>
+      <ContentSearchPage translation={translation.HeliportPage} type={type} />
+      <About translation={translation.About} titleAs='h2' />
+    </>;
   }
   if (pageSlug === lastUrlSegment(translation.AirportsPage.href)) {
-    return <ContentAirportsPage translation={translation} />;
+    return <>
+      <ContentAirportsPage translation={translation} />
+      <About translation={translation.About} titleAs='h3' />
+    </>;
   }
+
   return notFound();
 }
