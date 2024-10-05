@@ -1,0 +1,81 @@
+'use server';
+import * as cheerio from "cheerio";
+import { eq } from "drizzle-orm";
+import { db } from "~/server/db";
+import { airports } from "~/server/db/schema";
+
+const rootUrl = 'https://eaip.austrocontrol.at';
+
+interface Airport {
+  icao: string;
+  title: string;
+  url: string;
+  type: 'vfr' | 'ifr' | 'heliport';
+  country: string;
+}
+
+async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
+  const response = await fetch(url);
+  const $ = cheerio.load(await response.text());
+  const tableRows = $('table tr');
+  const airports: Airport[] = [];
+  for (const row of tableRows) {
+    const cells = $(row).find('td');
+    if (cells.length < 2) {
+      continue;
+    }
+    const icao = $(cells[0]).find('a').first().text().trim();
+    const title = $(cells[1]).text().trim();
+    const fullTitle = `${title} ${icao}`;
+    const href = $(cells[0]).find('a').last().attr('href');
+    if (!href || icao === 'AD 3') {
+      continue;
+    }
+    // This is either a PDF or a link to another page
+    const fullUrl = new URL(href, url).toString();
+    if (fullUrl.endsWith('.pdf')) {
+      // Just use the PDF link
+      airports.push({ icao, title: fullTitle, url: fullUrl, type, country: 'AT' } as Airport);
+    } else {
+      // TODO: Follow link and differentiate between VFR and IFR
+      airports.push({ icao, title: fullTitle, url: fullUrl, type, country: 'AT' } as Airport);
+    }
+  }
+  return airports;
+}
+
+export async function crawl_at() {
+  // Start at the Austro Control main page
+  let response = await fetch(rootUrl);
+  let $ = cheerio.load(await response.text());
+  let href = $('a:contains("aktuelle Ausgabe / current version")').attr('href');
+  if (!href) {
+    throw new Error(`Could not find the ""aktuelle Ausgabe / current version"" link in ${rootUrl}`);
+  }
+  // Go to the current release page
+  const mainAipUrl = new URL(href, rootUrl).toString();
+  response = await fetch(mainAipUrl);
+  $ = cheerio.load(await response.text());
+  href = $('a:contains("Part III - AD")').attr('href');
+  if (!href) {
+    throw new Error(`Could not find "Part III - AD" link in ${mainAipUrl}`);
+  }
+  // Go to the Part III - AD page
+  const adUrl = new URL(href, mainAipUrl).toString();
+  response = await fetch(adUrl);
+  $ = cheerio.load(await response.text());
+  const hrefAirports = $('a:contains("AD 2")').attr('href');
+  const hrefHeliports = $('a:contains("AD 3")').attr('href');
+  if (!hrefAirports || !hrefHeliports) {
+    throw new Error(`Could not find "AD 2" or "AD 3" link in ${adUrl}`);
+  }
+  // Go to the AD 2 and AD 3 pages
+  const airportsUrl = new URL(hrefAirports, adUrl).toString();
+  const heliportsUrl = new URL(hrefHeliports, adUrl).toString();
+  const airportsList = await extractAirports(airportsUrl, 'vfr');
+  airportsList.push(...await extractAirports(heliportsUrl, 'heliport'));
+
+  await db.delete(airports).where(eq(airports.country, 'AT')).execute();
+  await db.insert(airports).values(airportsList).execute();
+  return airportsList;
+}
