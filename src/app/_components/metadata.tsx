@@ -35,7 +35,8 @@ export default function Metadata({
       <meta name="publisher" content="Alexander Dross" />
       <meta name="robots" content="index,follow,noodp,noydir" />
       <link rel="canonical" href={new URL(canonical ?? url, orgUrl).toString()} />
-      <link rel="alternate" hrefLang="x-default" href={orgUrl.toString()} />
+      {/* Only show x-default when not showing a search result */}
+      {!param && <link rel="alternate" hrefLang="x-default" href={orgUrl.toString()} />}
       {alternates?.map(({ href, hrefLang }) => {
         // Add param to href if it exists
         href = param ? `${href}?${param}` : href;
