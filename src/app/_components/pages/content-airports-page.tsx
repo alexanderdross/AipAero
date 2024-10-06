@@ -9,7 +9,7 @@ import { SchemaProduct } from "../schemas/schema-product";
 
 function generateAirportList(title: string, description: string, internalBaseHref: string, airports: AirportGetAllOfCountryOutput) {
   return <>
-    {airports.length > 0 && (<div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0 whitespace-nowrap">
+    {airports.length > 0 && (<div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0 min-w-80">
       <h2 className="text-center text-2xl font-normal">{title}</h2>
       <p className="text-center pb-2">{description}</p>
       <ol>
