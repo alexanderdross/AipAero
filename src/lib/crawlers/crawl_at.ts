@@ -14,9 +14,17 @@ interface Airport {
   country: string;
 }
 
-async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
+async function fetchIso8859(url: string) {
   const response = await fetch(url);
-  const $ = cheerio.load(await response.text());
+  const buffer = await response.arrayBuffer();
+  const decoder = new TextDecoder("iso-8859-1");
+  const decoded = decoder.decode(buffer);
+  return decoded;
+}
+
+async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
+  const text = await fetchIso8859(url);
+  const $ = cheerio.load(text);
   const tableRows = $('table tr');
   const airports: Airport[] = [];
   for (const row of tableRows) {
@@ -46,24 +54,24 @@ async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
 
 export async function crawl_at() {
   // Start at the Austro Control main page
-  let response = await fetch(rootUrl);
-  let $ = cheerio.load(await response.text());
+  let response = await fetchIso8859(rootUrl);
+  let $ = cheerio.load(response);
   let href = $('a:contains("aktuelle Ausgabe / current version")').attr('href');
   if (!href) {
-    throw new Error(`Could not find the ""aktuelle Ausgabe / current version"" link in ${rootUrl}`);
+    throw new Error(`Could not find the "aktuelle Ausgabe / current version" link in ${rootUrl}`);
   }
   // Go to the current release page
   const mainAipUrl = new URL(href, rootUrl).toString();
-  response = await fetch(mainAipUrl);
-  $ = cheerio.load(await response.text());
+  response = await fetchIso8859(mainAipUrl);
+  $ = cheerio.load(response);
   href = $('a:contains("Part III - AD")').attr('href');
   if (!href) {
     throw new Error(`Could not find "Part III - AD" link in ${mainAipUrl}`);
   }
   // Go to the Part III - AD page
   const adUrl = new URL(href, mainAipUrl).toString();
-  response = await fetch(adUrl);
-  $ = cheerio.load(await response.text());
+  response = await fetchIso8859(adUrl);
+  $ = cheerio.load(response);
   const hrefAirports = $('a:contains("AD 2")').attr('href');
   const hrefHeliports = $('a:contains("AD 3")').attr('href');
   if (!hrefAirports || !hrefHeliports) {
