@@ -3,7 +3,6 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { TRPCReactProvider } from "~/trpc/react";
 import Footer from "~/app/_components/footer";
-import About from "~/app/_components/about";
 import Breadcrumbs from "~/app/_components/breadcrumbs";
 import Menu from "~/app/_components/menu";
 import { LocaleSwitcher } from "~/app/_components/locale-switcher";
