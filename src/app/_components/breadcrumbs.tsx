@@ -2,12 +2,14 @@
 
 import { ChevronRightIcon, HomeIcon } from "@heroicons/react/solid";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import type { Translation } from "~/lib/i18n";
 import { orgUrl } from "~/app/_components/metadata";
 
 export default function Breadcrumbs({ translation }: { translation: Translation }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const icaoParam = Array.from(searchParams.keys()).at(0);
   const breadcrumbs = pathname.split('/').filter(Boolean);
   if (!translation.isSingleLocale) {
     // Get index of "en" and join it with the preceding element inside the array
@@ -65,7 +67,18 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
           }
         };
         return item;
-      })]
+      }),
+      icaoParam && {
+        "@type": "ListItem",
+        "position": breadcrumbs.length + 2,
+        "item": {
+          "@id": new URL(orgUrl.toString(), orgUrl).toString()+`?${icaoParam}`,
+          "name": icaoParam,
+          "alternateName": icaoParam,
+          "description": `${icaoParam} Details`
+        }
+      }
+    ]
   }
 
   return (<>
