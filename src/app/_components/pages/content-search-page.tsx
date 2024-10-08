@@ -57,6 +57,7 @@ export function ContentSearchPage({ translation, type }: {
   const isAirportResult = airportParam && data?.length === 1 && data[0]?.title;
 
   const airportName = isAirportResult ? data[0]!.title : "";
+  const icaoCode = isAirportResult ? data[0]!.icao : "";
   const title = isAirportResult
     ? `${translation.airportPageTitle} ${data[0]!.title}` : translation.title;
   const description = isAirportResult
@@ -81,6 +82,7 @@ export function ContentSearchPage({ translation, type }: {
       />
       {isAirportResult && <SchemaAirport
         name={airportName}
+        icaoCode={icaoCode}
         alternateName={title}
         description={description}
       />}

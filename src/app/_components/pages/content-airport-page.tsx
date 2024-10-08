@@ -31,6 +31,7 @@ export function ContentAirportPage({ translation, airport }: {
       />
       <SchemaAirport
         name={airport.title}
+        icaoCode={airport.icao}
         alternateName={airport.title}
         description={description}
       />

@@ -1,11 +1,13 @@
 interface Props {
   name: string;
+  icaoCode: string;
   alternateName: string;
   description: string;
 }
 
 export function SchemaAirport({
   name,
+  icaoCode,
   alternateName,
   description
 }: Props) {
@@ -13,6 +15,7 @@ export function SchemaAirport({
     "@context": "https://schema.org",
     "@type": "Airport",
     "name": name,
+    "iacoCode": icaoCode,
     "alternateName": alternateName,
     "description": description
   };
