@@ -22,7 +22,7 @@ function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, t
     const element = $(row).find('a').last();
     const text = element.text().trim();
     const icao = text.split(' ')[0]?.trim();
-    const title = text.split(' ').slice(1).join(' ').split(';')[0]?.replace('_HP', '') + ' ' + icao;
+    const title = text.split(' ').slice(1).join(' ').split(';')[0]?.replace('TAD_HP', '') + ' ' + icao;
     // Find the chart details
     const adDetails = $(row).next().find('a').filter((_,el) => $(el).text().includes('CHARTS RELATED'));
     const href = adDetails.attr('href');
