@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from 'next/navigation';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { Translation } from '~/lib/i18n';
 import { orgUrl } from './metadata';
@@ -8,6 +8,7 @@ import { orgUrl } from './metadata';
 export function LocaleSwitcher({ translation }: { translation: Translation }) {
   // Find current page in translation
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [key, setKey] = useState(translation.LanguageCode === 'en' ? 'english' : 'native');
   const pages = [
@@ -57,22 +58,23 @@ export function LocaleSwitcher({ translation }: { translation: Translation }) {
     }
   };
 
+  const icao = Array.from(searchParams.keys()).length === 1 ? `?${Array.from(searchParams.keys())[0]}` : '';
   const webpageSchema = {
     "@context": "https://schema.org/",
     "@type": "WebPage",
     "potentialAction": {
       "@type": "Action",
       "target": [
-        new URL(currentPage.href, orgUrl).toString(),
+        new URL(currentPage.href+icao, orgUrl).toString(),
         {
           "@type": "LinkRole",
-          "target": new URL(currentPage.href, orgUrl).toString(),
+          "target": new URL(currentPage.href+icao, orgUrl).toString(),
           "inLanguage": translation.LanguageCode,
           "linkRelationship": "alternate"
         },
         {
           "@type": "LinkRole",
-          "target": new URL(currentPage.alternate, orgUrl).toString(),
+          "target": new URL(currentPage.alternate+icao, orgUrl).toString(),
           "inLanguage": currentPage.alternateIetfLang?.split('-')[0] ?? 'en',
           "linkRelationship": "alternate"
         }
