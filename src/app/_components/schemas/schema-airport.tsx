@@ -15,7 +15,7 @@ export function SchemaAirport({
     "@context": "https://schema.org",
     "@type": "Airport",
     "name": name,
-    "iacoCode": icaoCode,
+    "icaoCode": icaoCode,
     "alternateName": alternateName,
     "description": description
   };
