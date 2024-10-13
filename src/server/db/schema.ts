@@ -1,7 +1,9 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
+import { sql, type SQL } from "drizzle-orm";
 import {
+  type AnyMySqlColumn,
   bigint,
   index,
   mysqlEnum,
@@ -34,3 +36,8 @@ export const airports = createTable(
     countryIndex: index("country_idx").on(airport.country),
   })
 );
+
+// See https://orm.drizzle.team/docs/guides/unique-case-insensitive-email#mysql
+export function lower(input: AnyMySqlColumn): SQL {
+  return sql`lower(${input})`;
+}

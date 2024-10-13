@@ -7,6 +7,17 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   trailingSlash: true,
+  publicRuntimeConfig: {
+    modifiedDate: new Date().toISOString(),
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/:slug/sitemap.xml',
+        destination: '/sitemaps/:slug/sitemap.xml',
+      },
+    ]
+  },
 };
 
 export default config;
