@@ -3,16 +3,9 @@ import * as cheerio from "cheerio";
 import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
 import { airports } from "~/server/db/schema";
+import { type Airport } from '~/lib/crawlers/utils';
 
 const rootUrl = 'https://eaip.austrocontrol.at';
-
-interface Airport {
-  icao: string;
-  title: string;
-  url: string;
-  type: 'vfr' | 'ifr' | 'heliport';
-  country: string;
-}
 
 async function fetchIso8859(url: string) {
   const response = await fetch(url);

@@ -4,16 +4,9 @@ import * as cheerio from 'cheerio';
 import { eq } from 'drizzle-orm';
 import { db } from '~/server/db';
 import { airports } from '~/server/db/schema';
+import { type Airport } from '~/lib/crawlers/utils';
 
 const rootUrl = 'https://www.lvnl.nl/diensten/aip';
-
-interface Airport {
-  icao: string;
-  title: string;
-  url: string;
-  type: 'vfr' | 'ifr' | 'heliport';
-  country: string;
-}
 
 function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, type: 'vfr' | 'ifr' | 'heliport') {
   const heliportRows = $(selector);
