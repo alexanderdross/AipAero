@@ -68,7 +68,7 @@ export function ContentSearchPage({ translation, type }: {
   useEffect(() => {
     if (data?.length === 1) {
       router.push(pathname + '?' + data.at(0)!.icao.toUpperCase());
-    } else if (airportParam) {
+    } else {
       router.push(pathname);
     }
   }, [data]);
@@ -121,8 +121,8 @@ export function ContentSearchPage({ translation, type }: {
         />
         <div className="max-w-7xl pr-8 sm:pr-12 lg:pr-16 text-center mt-3 w-full text-white absolute">
           <ol>
-            {data?.map((airport) => (
-              <li key={airport.icao}>
+            {data?.map((airport, index) => (
+              <li key={index}>
                 <ExternalLink
                   key={airport.icao}
                   href={`${airport.url}`}

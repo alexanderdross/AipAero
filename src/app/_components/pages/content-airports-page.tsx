@@ -14,7 +14,12 @@ function generateAirportList(title: string, description: string, internalBaseHre
       <p className="text-center pb-2">{description}</p>
       <ol>
         {airports.map((airport, index) => (
-          <li key={airport.icao} itemScope itemType="https://schema.org/Airport" className="flex items-center gap-x-4">
+          <li 
+            key={airport.icao} 
+            itemScope 
+            itemType="https://schema.org/Airport" 
+            className="flex items-center gap-x-4"
+          >
             <span>{index + 1}.</span>
             <Link
               key={airport.icao}
@@ -22,6 +27,7 @@ function generateAirportList(title: string, description: string, internalBaseHre
               href={new URL(`${internalBaseHref}?${airport.icao}`, orgUrl).toString()}
               className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
               title={airport.title}
+              aria-label={airport.title}
               target="_blank"
               rel="noopener"
             >
