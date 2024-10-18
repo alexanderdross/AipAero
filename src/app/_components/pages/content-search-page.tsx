@@ -68,7 +68,7 @@ export function ContentSearchPage({ translation, type }: {
   useEffect(() => {
     if (data?.length === 1) {
       router.push(pathname + '?' + data.at(0)!.icao.toUpperCase());
-    } else {
+    } else if (airportParam) {
       router.push(pathname);
     }
   }, [data]);
