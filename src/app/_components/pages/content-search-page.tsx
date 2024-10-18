@@ -5,7 +5,7 @@ import type { SearchPageTranslation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import Metadata from "~/app/_components/metadata";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
 import { ExternalLink } from "~/app/_components/external-link";
 import { LinkIcon } from "@heroicons/react/solid";
@@ -30,6 +30,8 @@ function useDebounce(value: string, delay: number) {
 export function ContentSearchPage({ translation, type }: {
   translation: SearchPageTranslation; type: 'vfr' | 'ifr' | 'heliport';
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   // Get keys of searchParams
   const keys = Array.from(searchParams.keys());
@@ -62,6 +64,14 @@ export function ContentSearchPage({ translation, type }: {
     ? `${translation.airportPageTitle} ${data[0]!.title}` : translation.title;
   const description = isAirportResult
     ? translation.airportPageDescription.replace('XXXX', data[0]!.title) : translation.description;
+
+  useEffect(() => {
+    if (data?.length === 1) {
+      router.push(pathname + '?' + data.at(0)!.icao.toUpperCase());
+    } else {
+      router.push(pathname);
+    }
+  }, [data]);
 
   return (
     <>
