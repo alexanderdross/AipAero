@@ -108,8 +108,8 @@ export function ContentSearchPage({
       <SchemaWebsite />
 
       <Breadcrumbs 
-        icaoName={title} 
-        icaoDescription={description} 
+        icaoName={airportName} 
+        icaoDescription={title} 
         translation={fullTranslation} 
       />
       {isAirportResultAndLoading ? <div className="flex justify-center py-8 sm:py-6">
