@@ -153,7 +153,7 @@ export function ContentSearchPage({
           {!isLoading && data?.length === 0 && query.length !== 0 && (
             <div className="bg-drossblue py-2">{translation.searchResultEmpty}</div>
           )}
-          {isLoading && (
+          {isLoading && query.length !== 0 && (
             <div className="bg-drossblue py-2">...</div>
           )}
         </div>
