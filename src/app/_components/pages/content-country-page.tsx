@@ -7,7 +7,9 @@ import Metadata from "~/app/_components/metadata";
 import clsx from "clsx";
 import { SchemaProduct } from "../schemas/schema-product";
 
-export async function ContentCountryPage({ translation }: { translation: Translation }) {
+export async function ContentCountryPage({ 
+  translation 
+}: { translation: Translation }) {
   const title = translation.CountryPage.title;
   const description = translation.CountryPage.description;
   return (

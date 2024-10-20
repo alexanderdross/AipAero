@@ -1,9 +1,11 @@
 import type { Translation } from "~/lib/i18n";
 import { ExternalLink } from "~/app/_components/external-link";
 
-export default function Footer({ translation }: { translation: Translation["Footer"] }) {
+export default function Footer({ 
+  translation 
+}: { translation: Translation["Footer"] }) {
   const middlepart = translation.slice(1, -1);
-  
+
   return (
     <footer className="bg-drossgray">
       <div className="max-w-7xl mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">

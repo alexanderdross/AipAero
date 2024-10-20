@@ -6,7 +6,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import type { Translation } from "~/lib/i18n";
 import { orgUrl } from "~/app/_components/metadata";
 
-export default function Breadcrumbs({ translation }: { translation: Translation }) {
+export default function Breadcrumbs({ 
+  translation 
+}: { translation: Translation }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const icaoParam = Array.from(searchParams.keys()).at(0);
@@ -72,7 +74,7 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
         "@type": "ListItem",
         "position": breadcrumbs.length + 2,
         "item": {
-          "@id": new URL(orgUrl.toString(), orgUrl).toString()+`?${icaoParam}`,
+          "@id": new URL(orgUrl.toString(), orgUrl).toString() + `?${icaoParam}`,
           "name": icaoParam,
           "alternateName": icaoParam,
           "description": `${icaoParam} Details`
@@ -88,6 +90,7 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
         __html: JSON.stringify(breadcrumbsSchema)
       }}
     />
+
     <div className="max-w-7xl mx-auto pt-4 px-4 overflow-hidden sm:px-6 lg:px-8">
       <nav className="flex justify-center border border-[#ccc] p-4">
         <ol className="flex items-center space-x-4">
@@ -105,6 +108,7 @@ export default function Breadcrumbs({ translation }: { translation: Translation 
               </Link>
             </div>
           </li>
+
           {breadcrumbs?.map((breadcrumb, index) => {
             const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
             const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);

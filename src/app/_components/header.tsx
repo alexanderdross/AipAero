@@ -1,4 +1,12 @@
-export function Header({ title, description }: { title: string; description: string }) {
+interface Props {
+  title: string;
+  description: string;
+}
+
+export function Header({ 
+  title, 
+  description 
+}: Props) {
   return (
     <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center py-[40px]">

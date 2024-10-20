@@ -15,13 +15,15 @@ export const dynamic = 'force-dynamic';
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
 
+interface Props {
+  children: React.ReactNode;
+  params: { countryCode: string; slug: string[]; };
+}
+
 export default async function LocaleLayout({
   children,
   params
-}: {
-  children: React.ReactNode;
-  params: { countryCode: string; slug: string[]; };
-}) {
+}: Props) {
   const countryCode = params.slug.at(0);
   if (!countryCode) {
     return notFound();

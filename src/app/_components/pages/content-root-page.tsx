@@ -8,7 +8,9 @@ import Metadata, { orgUrl } from "~/app/_components/metadata";
 import { SchemaRootNavigation } from "../schemas/schema-root-navigation";
 import { SchemaProduct } from "../schemas/schema-product";
 
-export async function ContentRootPage({ translations }: { translations: Translation[] }) {
+export async function ContentRootPage({ 
+  translations 
+}: { translations: Translation[] }) {
   const countryNames = translations.map(i => i.Country);
   const countriesAsSentence = countryNames.slice(0, -1).join(', ') + ' and ' + countryNames.slice(-1)[0];
 

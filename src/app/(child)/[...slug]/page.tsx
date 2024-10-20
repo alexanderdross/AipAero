@@ -36,7 +36,9 @@ export async function generateStaticParams({ params }: { params: { slug: string[
   return routes;
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
+export default async function Page({ 
+  params
+}: { params: { slug: string[] } }) {
   const countryCode = params.slug.at(0);
   if (!countryCode) {
     return notFound();

@@ -5,7 +5,9 @@ import { useState } from 'react';
 import type { Translation } from '~/lib/i18n';
 import { orgUrl } from './metadata';
 
-export function LocaleSwitcher({ translation }: { translation: Translation }) {
+export function LocaleSwitcher({ 
+  translation 
+}: { translation: Translation }) {
   // Find current page in translation
   const pathname = usePathname();
   const searchParams = useSearchParams();

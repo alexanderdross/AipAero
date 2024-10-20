@@ -6,7 +6,9 @@ import { usePathname } from "next/navigation";
 import type { Translation } from "~/lib/i18n";
 import { orgUrl } from "./metadata";
 
-export default function Menu({ translation }: { translation: Translation }) {
+export default function Menu({ 
+  translation 
+}: { translation: Translation }) {
   const pathname = usePathname();
   const pages = [
     translation.CountryPage,

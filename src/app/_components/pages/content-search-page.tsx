@@ -27,9 +27,15 @@ function useDebounce(value: string, delay: number) {
   return debouncedValue;
 }
 
-export function ContentSearchPage({ translation, type }: {
-  translation: SearchPageTranslation; type: 'vfr' | 'ifr' | 'heliport';
-}) {
+interface Props {
+  translation: SearchPageTranslation;
+  type: 'vfr' | 'ifr' | 'heliport';
+}
+
+export function ContentSearchPage({ 
+  translation, 
+  type 
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

@@ -10,7 +10,9 @@ interface Props {
 }
 
 export function SchemaProduct({ 
-  name, alternateName, description 
+  name, 
+  alternateName, 
+  description 
 }: Props) {
   const pathname = usePathname();
   const schema = {

@@ -7,7 +7,7 @@ import Metadata, { orgUrl } from "~/app/_components/metadata";
 import Link from "next/link";
 import { SchemaProduct } from "../schemas/schema-product";
 
-interface AirportListProps {
+interface Props {
   title: string;
   description: string;
   internalBaseHref: string;
@@ -21,7 +21,7 @@ function AirportList({
   hrefDescription,
   internalBaseHref,
   airports
-}: AirportListProps) {
+}: Props) {
   return <>
     {airports.length > 0 && (<div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0 min-w-80">
       <h2 className="text-center text-2xl font-normal">{title}</h2>

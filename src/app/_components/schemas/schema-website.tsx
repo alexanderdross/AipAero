@@ -5,14 +5,16 @@ import { orgUrl } from "~/app/_components/metadata";
 
 export function SchemaWebsite() {
   const pathname = usePathname();
-  const url = new URL(pathname, orgUrl)
+  const url = new URL(pathname, orgUrl).toString();
+  const target = new URL(`${pathname}?{query}`, orgUrl).toString();
+  
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "url": url.toString(),
+    "url": url,
     "potentialAction": {
       "@type": "SearchAction",
-      "target": new URL(`${pathname}?{query}`, orgUrl).toString(),
+      "target": target,
       "query": "required",
       "query-input": "required maxlength=50 name=query"
     }

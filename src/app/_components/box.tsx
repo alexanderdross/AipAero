@@ -1,14 +1,16 @@
 import Link from "next/link";
 
+interface Props {
+  title: string;
+  description: string;
+  buttons?: { href: string; hrefTitle: string, title?: string }[];
+}
+
 export function Box({
   title,
   description,
   buttons,
-}: {
-  title: string;
-  description: string;
-  buttons?: { href: string; hrefTitle: string, title?: string }[];
-}) {
+}: Props) {
   return (
     <div className="bg-white py-8 px-6 border border-[#ccc]">
       <div className="flex flex-col justify-between h-full break-words hyphens-auto" lang="de">
