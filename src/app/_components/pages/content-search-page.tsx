@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
 import { ExternalLink } from "~/app/_components/external-link";
-import { LinkIcon } from "@heroicons/react/solid";
+import { ExternalLinkIcon } from "@heroicons/react/solid";
 import { SchemaProduct } from "~/app/_components/schemas/schema-product";
 import { SchemaAirport } from "~/app/_components/schemas/schema-airport";
 import { SchemaWebsite } from "~/app/_components/schemas/schema-website";
@@ -144,7 +144,7 @@ export function ContentSearchPage({
                   className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
                   hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
                 >
-                  <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                  <ExternalLinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
                   <span>{airport.title}</span>
                 </ExternalLink>
               </li>
