@@ -3,7 +3,6 @@ import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { TRPCReactProvider } from "~/trpc/react";
 import Footer from "~/app/_components/footer";
-import Breadcrumbs from "~/app/_components/breadcrumbs";
 import Menu from "~/app/_components/menu";
 import { LocaleSwitcher } from "~/app/_components/locale-switcher";
 import { getTranslation, type Translation } from "~/lib/i18n";
@@ -49,7 +48,6 @@ export default async function LocaleLayout({
               <LocaleSwitcher translation={translation} />
             </div>
           </div>
-          <Breadcrumbs translation={translation} />
           <Footer translation={translation.Footer} />
         </TRPCReactProvider>
       </body>

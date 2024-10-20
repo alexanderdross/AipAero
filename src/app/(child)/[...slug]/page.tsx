@@ -16,7 +16,7 @@ function splitUrlSegments(url: string) {
 }
 
 // generateStaticParams will be called at build time, important for sitemap.xml
-export async function generateStaticParams({ params }: { params: { slug: string[] } }) {
+export async function generateStaticParams() {
   const nativeTranslation = await getTranslations({ english: false });
   const englishTranslation = await getTranslations({ english: true });
   const routes = [];
@@ -78,19 +78,31 @@ export default async function Page({
 
   if (type === 'vfr') {
     return <>
-      <ContentSearchPage translation={translation.VfrPage} type={type} />
+      <ContentSearchPage 
+        translation={translation.VfrPage} 
+        fullTranslation={translation}
+        type={type} 
+      />
       <About translation={translation.About} titleAs='h2' />
     </>;
   }
   if (type === 'ifr' && translation.IfrPage) {
     return <>
-      <ContentSearchPage translation={translation.IfrPage} type={type} />
+      <ContentSearchPage 
+        translation={translation.IfrPage} 
+        fullTranslation={translation}
+        type={type} 
+      />
       <About translation={translation.About} titleAs='h2' />
     </>;
   }
   if (type === 'heliport') {
     return <>
-      <ContentSearchPage translation={translation.HeliportPage} type={type} />
+      <ContentSearchPage 
+        translation={translation.HeliportPage} 
+        fullTranslation={translation}
+        type={type} 
+      />
       <About translation={translation.About} titleAs='h2' />
     </>;
   }

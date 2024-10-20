@@ -1,7 +1,7 @@
 'use client';
 /* eslint-disable @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment */
 
-import type { SearchPageTranslation } from "~/lib/i18n";
+import type { SearchPageTranslation, Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import Metadata from "~/app/_components/metadata";
 import { useEffect, useState } from "react";
@@ -9,10 +9,11 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { api } from "~/trpc/react";
 import { ExternalLink } from "~/app/_components/external-link";
 import { LinkIcon } from "@heroicons/react/solid";
-import { SchemaProduct } from "../schemas/schema-product";
-import { SchemaAirport } from "../schemas/schema-airport";
-import { SchemaWebsite } from "../schemas/schema-website";
-import { LoadingSpinner } from "../loading-spinner";
+import { SchemaProduct } from "~/app/_components/schemas/schema-product";
+import { SchemaAirport } from "~/app/_components/schemas/schema-airport";
+import { SchemaWebsite } from "~/app/_components/schemas/schema-website";
+import { LoadingSpinner } from "~/app/_components/loading-spinner";
+import Breadcrumbs from "~/app/_components/breadcrumbs";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -29,12 +30,14 @@ function useDebounce(value: string, delay: number) {
 
 interface Props {
   translation: SearchPageTranslation;
+  fullTranslation: Translation
   type: 'vfr' | 'ifr' | 'heliport';
 }
 
-export function ContentSearchPage({ 
-  translation, 
-  type 
+export function ContentSearchPage({
+  translation,
+  fullTranslation,
+  type
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -103,7 +106,13 @@ export function ContentSearchPage({
         description={description}
       />}
       <SchemaWebsite />
-      {isAirportResultAndLoading ? <div className="flex justify-center py-20 sm:py-14">
+
+      <Breadcrumbs 
+        icaoName={title} 
+        icaoDescription={description} 
+        translation={fullTranslation} 
+      />
+      {isAirportResultAndLoading ? <div className="flex justify-center py-8 sm:py-6">
         <LoadingSpinner />
       </div> :
         <Header

@@ -6,9 +6,17 @@ import { usePathname, useSearchParams } from "next/navigation";
 import type { Translation } from "~/lib/i18n";
 import { orgUrl } from "~/app/_components/metadata";
 
-export default function Breadcrumbs({ 
-  translation 
-}: { translation: Translation }) {
+interface Props {
+  icaoName?: string;
+  icaoDescription?: string;
+  translation: Translation;
+}
+
+export default function Breadcrumbs({
+  icaoName,
+  icaoDescription,
+  translation
+}: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const icaoParam = Array.from(searchParams.keys()).at(0);
@@ -52,7 +60,7 @@ export default function Breadcrumbs({
           "description": "AIP approach charts VFR, IFR & Heliports"
         }
       },
-      ...breadcrumbs?.map((breadcrumb, index) => {
+      ...breadcrumbs.map((breadcrumb, index) => {
         const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
         const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
         const title = currentNavItem?.title ?? breadcrumb.toLocaleUpperCase();
@@ -70,14 +78,14 @@ export default function Breadcrumbs({
         };
         return item;
       }),
-      icaoParam && {
+      icaoParam && icaoName && icaoDescription && {
         "@type": "ListItem",
         "position": breadcrumbs.length + 2,
         "item": {
-          "@id": new URL(orgUrl.toString(), orgUrl).toString() + `?${icaoParam}`,
-          "name": icaoParam,
+          "@id": new URL(navItems.at(-1)?.href ?? '', orgUrl).toString() + `?${icaoParam}`,
+          "name": icaoName,
           "alternateName": icaoParam,
-          "description": `${icaoParam} Details`
+          "description": icaoDescription
         }
       }
     ]
@@ -91,48 +99,62 @@ export default function Breadcrumbs({
       }}
     />
 
-    <div className="max-w-7xl mx-auto pt-4 px-4 overflow-hidden sm:px-6 lg:px-8">
-      <nav className="flex justify-center border border-[#ccc] p-4">
-        <ol className="flex items-center space-x-4">
-          <li>
-            <div>
+    <nav className="flex justify-center py-6 mt-8">
+      <ol className="flex items-center space-x-4">
+        <li>
+          <div>
+            <Link
+              href="/"
+              title="AIP Home"
+              className="text-drossgray-dark hover:text-drossblue"
+              target="_self"
+              rel="noopener"
+            >
+              <HomeIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+              <span className="sr-only">AIP Home</span>
+            </Link>
+          </div>
+        </li>
+
+        {breadcrumbs.map((breadcrumb, index) => {
+          const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
+          const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
+          const hrefTitle = currentNavItem?.hrefTitle ?? breadcrumb.toLocaleUpperCase();
+          const title = currentNavItem?.title ?? breadcrumb.toLocaleUpperCase();
+
+          return (<li key={breadcrumb}>
+            <div className="flex items-center">
+              <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-drossgray-dark" aria-hidden="true" />
               <Link
-                href="/"
-                title="AIP Home"
-                className="text-drossgray-dark hover:text-drossblue"
+                href={href}
+                title={hrefTitle}
+                className="ml-4 text-sm font-medium text-drossgray-dark hover:text-drossblue"
+                aria-current={index === breadcrumbs.length - 1 && !icaoParam ? 'page' : undefined}
                 target="_self"
                 rel="noopener"
               >
-                <HomeIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-                <span className="sr-only">AIP Home</span>
+                {title}
               </Link>
             </div>
-          </li>
+          </li>);
+        })}
 
-          {breadcrumbs?.map((breadcrumb, index) => {
-            const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
-            const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
-            const hrefTitle = currentNavItem?.hrefTitle ?? breadcrumb.toLocaleUpperCase();
-            const title = currentNavItem?.title ?? breadcrumb.toLocaleUpperCase();
-
-            return (<li key={breadcrumb}>
-              <div className="flex items-center">
-                <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-drossgray-dark" aria-hidden="true" />
-                <Link
-                  href={href}
-                  title={hrefTitle}
-                  className="ml-4 text-sm font-medium text-drossgray-dark hover:text-drossblue"
-                  aria-current={index === breadcrumbs.length - 1 ? 'page' : undefined}
-                  target="_self"
-                  rel="noopener"
-                >
-                  {title}
-                </Link>
-              </div>
-            </li>);
-          })}
-        </ol>
-      </nav>
-    </div>
+        {icaoParam && icaoName && icaoDescription && <li>
+          <div className="flex items-center">
+            <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-drossgray-dark" aria-hidden="true" />
+            <Link
+              href={new URL(navItems.at(-1)?.href ?? '', orgUrl).toString() + `?${icaoParam}`}
+              title={icaoName}
+              className="ml-4 text-sm font-medium text-drossgray-dark hover:text-drossblue"
+              aria-current={'page'}
+              target="_self"
+              rel="noopener"
+            >
+              {icaoParam}
+            </Link>
+          </div>
+        </li>}
+      </ol>
+    </nav>
   </>);
 }

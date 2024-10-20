@@ -5,8 +5,8 @@ import { Header } from "~/app/_components/header";
 import { Box } from "~/app/_components/box";
 import Link from "next/link";
 import Metadata, { orgUrl } from "~/app/_components/metadata";
-import { SchemaRootNavigation } from "../schemas/schema-root-navigation";
-import { SchemaProduct } from "../schemas/schema-product";
+import { SchemaRootNavigation } from "~/app/_components/schemas/schema-root-navigation";
+import { SchemaProduct } from "~/app/_components/schemas/schema-product";
 
 export async function ContentRootPage({ 
   translations 
@@ -59,7 +59,7 @@ export async function ContentRootPage({
         alternateName="AIP:Aero"
         description={description}
       />
-      <Header title={title} description={description} />
+      <Header className={"pt-[40px]"} title={title} description={description} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={"grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"}>
           {translations.map((e) => (

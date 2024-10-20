@@ -5,7 +5,8 @@ import { api } from "~/trpc/server";
 import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
 import Metadata, { orgUrl } from "~/app/_components/metadata";
 import Link from "next/link";
-import { SchemaProduct } from "../schemas/schema-product";
+import { SchemaProduct } from "~/app/_components/schemas/schema-product";
+import Breadcrumbs from "~/app/_components/breadcrumbs";
 
 interface Props {
   title: string;
@@ -83,6 +84,7 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
         alternateName={`${translation.AirportsPage.menuTitle} ${translation.AirportsPage.Country}`}
         description={translation.AirportsPage.description}
       />
+      <Breadcrumbs translation={translation} />
       <Header
         title={translation.AirportsPage.title}
         description={translation.AirportsPage.description}
