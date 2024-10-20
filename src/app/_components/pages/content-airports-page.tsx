@@ -7,37 +7,55 @@ import Metadata, { orgUrl } from "~/app/_components/metadata";
 import Link from "next/link";
 import { SchemaProduct } from "../schemas/schema-product";
 
-function generateAirportList(title: string, description: string, internalBaseHref: string, airports: AirportGetAllOfCountryOutput) {
+interface AirportListProps {
+  title: string;
+  description: string;
+  internalBaseHref: string;
+  hrefDescription: string;
+  airports: AirportGetAllOfCountryOutput;
+}
+
+function AirportList({
+  title,
+  description,
+  hrefDescription,
+  internalBaseHref,
+  airports
+}: AirportListProps) {
   return <>
     {airports.length > 0 && (<div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0 min-w-80">
       <h2 className="text-center text-2xl font-normal">{title}</h2>
       <p className="text-center pb-2">{description}</p>
       <ol>
-        {airports.map((airport, index) => (
-          <li 
-            key={airport.icao} 
-            itemScope 
-            itemType="https://schema.org/Airport" 
-            className="flex items-center gap-x-4"
-          >
-            <span>{index + 1}.</span>
-            <Link
+        {airports.map((airport, index) => {
+          const url = new URL(`${internalBaseHref}?${airport.icao}`, orgUrl).toString();
+          const description = hrefDescription.replace('XXXX', airport.title);
+          return (
+            <li
               key={airport.icao}
-              //href={new URL(`${airport.icao}/`, new URL(internalBaseHref, orgUrl)).toString()}
-              href={new URL(`${internalBaseHref}?${airport.icao}`, orgUrl).toString()}
-              className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
-              title={airport.title}
-              aria-label={airport.title}
-              target="_blank"
-              rel="noopener"
+              itemScope
+              itemType="https://schema.org/Airport"
+              className="flex items-center gap-x-4"
             >
-              <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-              <span itemProp="name">{airport.title}</span>
-            </Link>
-            <meta itemProp="description" content={airport.title} />
-            <meta itemProp="icaoCode" content={airport.icao} />
-          </li>
-        ))}
+              <span>{index + 1}.</span>
+              <Link
+                key={airport.icao}
+                href={url}
+                itemProp="url"
+                className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
+                title={description}
+                aria-label={description}
+                target="_blank"
+                rel="noopener"
+              >
+                <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                <span itemProp="name">{airport.title}</span>
+              </Link>
+              <meta itemProp="description" content={description} />
+              <meta itemProp="icaoCode" content={airport.icao} />
+            </li>
+          );
+        })}
       </ol>
     </div>)}
   </>;
@@ -45,9 +63,9 @@ function generateAirportList(title: string, description: string, internalBaseHre
 
 export async function ContentAirportsPage({ translation }: { translation: Translation; }) {
   const data = await api.airport.getAllOfCountry({ country: translation.AirportsPage.Tld });
-  const vfr = data.filter((airport) => airport.type === "vfr");
-  const ifr = data.filter((airport) => airport.type === "ifr");
-  const heliport = data.filter((airport) => airport.type === "heliport");
+  const vfrAirports = data.filter((airport) => airport.type === "vfr");
+  const ifrAirports = data.filter((airport) => airport.type === "ifr");
+  const heliports = data.filter((airport) => airport.type === "heliport");
 
   return (
     <>
@@ -71,9 +89,27 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap justify-center gap-6">
-          {generateAirportList(translation.AirportsPage.VfrAirportsTitle, translation.AirportsPage.VfrAirportsDescription, translation.VfrPage.href, vfr)}
-          {translation.IfrPage && generateAirportList(translation.AirportsPage.IfrAirportsTitle, translation.AirportsPage.IfrAirportsDescription, translation.IfrPage.href, ifr)}
-          {generateAirportList(translation.AirportsPage.HeliportAirportsTitle, translation.AirportsPage.HeliportAirportsDescription, translation.HeliportPage.href, heliport)}
+          {<AirportList
+            title={translation.AirportsPage.VfrAirportsTitle}
+            description={translation.AirportsPage.VfrAirportsDescription}
+            hrefDescription={translation.VfrPage.airportPageDescription}
+            internalBaseHref={translation.VfrPage.href}
+            airports={vfrAirports}
+          />}
+          {translation.IfrPage && <AirportList
+            title={translation.AirportsPage.IfrAirportsTitle}
+            description={translation.AirportsPage.IfrAirportsDescription}
+            hrefDescription={translation.IfrPage.airportPageDescription}
+            internalBaseHref={translation.IfrPage.href}
+            airports={ifrAirports}
+          />}
+          {<AirportList
+            title={translation.AirportsPage.HeliportAirportsTitle}
+            description={translation.AirportsPage.HeliportAirportsDescription}
+            hrefDescription={translation.HeliportPage.airportPageDescription}
+            internalBaseHref={translation.HeliportPage.href}
+            airports={heliports}
+          />}
         </div>
       </div>
     </>
