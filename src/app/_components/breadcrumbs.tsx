@@ -82,7 +82,7 @@ export default function Breadcrumbs({
         "@type": "ListItem",
         "position": breadcrumbs.length + 2,
         "item": {
-          "@id": new URL(navItems.at(-1)?.href ?? '', orgUrl).toString() + `?${icaoParam}`,
+          "@id": new URL(pathname, orgUrl).toString() + `?${icaoParam}`,
           "name": icaoName,
           "alternateName": icaoParam,
           "description": icaoDescription

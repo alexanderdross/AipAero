@@ -49,6 +49,7 @@ export function LocaleSwitcher({
     return <></>;
   }
 
+  const icao = Array.from(searchParams.keys()).length === 1 ? `?${Array.from(searchParams.keys())[0]}` : '';
   const handleSwitch = () => {
     if (key === 'english') {
       setKey('native');
@@ -56,11 +57,10 @@ export function LocaleSwitcher({
       setKey('english');
     }
     if (currentPage.alternate) {
-      router.push(currentPage.alternate)
+      router.push(currentPage.alternate+icao);
     }
   };
 
-  const icao = Array.from(searchParams.keys()).length === 1 ? `?${Array.from(searchParams.keys())[0]}` : '';
   const webpageSchema = {
     "@context": "https://schema.org/",
     "@type": "WebPage",
