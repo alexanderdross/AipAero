@@ -41,6 +41,7 @@ export default function Breadcrumbs({
   const navItems = pages.map((key) => ({
     href: key.href,
     hrefTitle: key.hrefTitle,
+    schemaTitle: key.title,
     title: key.breadcrumbTitle,
     alternateName: key.menuTitle,
     description: key.description
@@ -63,8 +64,8 @@ export default function Breadcrumbs({
       ...breadcrumbs.map((breadcrumb, index) => {
         const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
         const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
-        const title = currentNavItem?.title ?? breadcrumb.toLocaleUpperCase();
-        const alternateName = currentNavItem?.alternateName ?? breadcrumb.toLocaleUpperCase();
+        const title = currentNavItem?.schemaTitle ?? breadcrumb.toLocaleUpperCase();
+        const alternateName = currentNavItem?.hrefTitle ?? breadcrumb.toLocaleUpperCase();
         const description = currentNavItem?.description ?? breadcrumb.toLocaleUpperCase();
         const item = {
           "@type": "ListItem",
