@@ -1,7 +1,9 @@
 'use server';
 
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import About from '~/app/_components/about';
+import { LoadingSpinner } from '~/app/_components/loading-spinner';
 import { ContentAirportsPage } from '~/app/_components/pages/content-airports-page';
 import { ContentCountryPage } from '~/app/_components/pages/content-country-page';
 import { ContentSearchPage } from '~/app/_components/pages/content-search-page';
@@ -36,9 +38,14 @@ export async function generateStaticParams() {
   return routes;
 }
 
-export default async function Page({ 
-  params
-}: { params: { slug: string[] } }) {
+export default async function Page({
+  params,
+  searchParams
+}: {
+  params: { slug: string[] };
+  searchParams?: Record<string, string | string[] | undefined>;
+}) {
+
   const countryCode = params.slug.at(0);
   if (!countryCode) {
     return notFound();
@@ -52,6 +59,8 @@ export default async function Page({
   } catch {
     return notFound();
   }
+
+  // Don't allow /en/ if native language is English
   if (translation.isSingleLocale && isEnglish) {
     return notFound();
   }
@@ -69,46 +78,30 @@ export default async function Page({
     return notFound();
   }
 
-  // const airportQuery = isEnglish ? params.slug.at(3) : params.slug.at(2);
   const type = pageSlug === lastUrlSegment(translation.VfrPage.href)
     ? 'vfr'
     : translation.IfrPage && pageSlug === lastUrlSegment(translation.IfrPage?.href)
       ? 'ifr' : pageSlug === lastUrlSegment(translation.HeliportPage.href)
         ? 'heliport' : undefined;
 
-  if (type === 'vfr') {
+  if (type) {
     return <>
-      <ContentSearchPage 
-        translation={translation.VfrPage} 
-        fullTranslation={translation}
-        type={type} 
-      />
-      <About translation={translation.About} titleAs='h2' />
-    </>;
-  }
-  if (type === 'ifr' && translation.IfrPage) {
-    return <>
-      <ContentSearchPage 
-        translation={translation.IfrPage} 
-        fullTranslation={translation}
-        type={type} 
-      />
-      <About translation={translation.About} titleAs='h2' />
-    </>;
-  }
-  if (type === 'heliport') {
-    return <>
-      <ContentSearchPage 
-        translation={translation.HeliportPage} 
-        fullTranslation={translation}
-        type={type} 
-      />
+      <Suspense fallback={<div className="flex justify-center py-8 sm:py-6"><LoadingSpinner /></div>}>
+        <ContentSearchPage
+          translation={translation}
+          type={type}
+          countryCode={countryCode}
+          searchParams={searchParams}
+        />
+      </Suspense>
       <About translation={translation.About} titleAs='h2' />
     </>;
   }
   if (pageSlug === lastUrlSegment(translation.AirportsPage.href)) {
     return <>
-      <ContentAirportsPage translation={translation} />
+      <Suspense fallback={<div className="flex justify-center py-8 sm:py-6"><LoadingSpinner /></div>}>
+        <ContentAirportsPage translation={translation} />
+      </Suspense>
       <About translation={translation.About} titleAs='h3' />
     </>;
   }

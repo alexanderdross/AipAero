@@ -7,14 +7,14 @@ import type { Translation } from "~/lib/i18n";
 import { orgUrl } from "~/app/_components/metadata";
 
 interface Props {
-  icaoName?: string;
-  icaoDescription?: string;
+  airportTitle?: string;
+  airportDescription?: string;
   translation: Translation;
 }
 
 export default function Breadcrumbs({
-  icaoName,
-  icaoDescription,
+  airportTitle,
+  airportDescription,
   translation
 }: Props) {
   const pathname = usePathname();
@@ -78,14 +78,14 @@ export default function Breadcrumbs({
         };
         return item;
       }),
-      icaoParam && icaoName && icaoDescription && {
+      icaoParam && airportTitle && airportDescription && {
         "@type": "ListItem",
         "position": breadcrumbs.length + 2,
         "item": {
           "@id": new URL(pathname, orgUrl).toString() + `?${icaoParam}`,
-          "name": icaoName,
+          "name": airportTitle,
           "alternateName": icaoParam,
-          "description": icaoDescription
+          "description": airportDescription
         }
       }
     ]
@@ -139,12 +139,12 @@ export default function Breadcrumbs({
           </li>);
         })}
 
-        {icaoParam && icaoName && icaoDescription && <li>
+        {icaoParam && airportTitle && airportDescription && <li>
           <div className="flex items-center">
             <ChevronRightIcon className="flex-shrink-0 h-5 w-5 text-drossgray-dark" aria-hidden="true" />
             <Link
               href={new URL(navItems.at(-1)?.href ?? '', orgUrl).toString() + `?${icaoParam}`}
-              title={icaoName}
+              title={airportTitle}
               className="ml-4 text-sm font-medium text-drossgray-dark hover:text-drossblue"
               aria-current={'page'}
               target="_self"

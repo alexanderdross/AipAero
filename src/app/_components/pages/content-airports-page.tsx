@@ -1,12 +1,15 @@
 import type { Translation } from "~/lib/i18n";
 import { Header } from "~/app/_components/header";
 import { LinkIcon } from "@heroicons/react/solid";
-import { api } from "~/trpc/server";
 import { type AirportGetAllOfCountryOutput } from "~/server/api/root";
 import Metadata, { orgUrl } from "~/app/_components/metadata";
 import Link from "next/link";
 import { SchemaProduct } from "~/app/_components/schemas/schema-product";
 import Breadcrumbs from "~/app/_components/breadcrumbs";
+import { db } from "~/server/db";
+import { airports } from "~/server/db/schema";
+import { asc, eq } from "drizzle-orm";
+import { headers } from "next/headers";
 
 interface Props {
   title: string;
@@ -63,7 +66,18 @@ function AirportList({
 }
 
 export async function ContentAirportsPage({ translation }: { translation: Translation; }) {
-  const data = await api.airport.getAllOfCountry({ country: translation.AirportsPage.Tld });
+  headers();
+  const data = await db.query.airports.findMany({
+    columns: {
+      title: true,
+      icao: true,
+      url: true,
+      type: true
+    },
+    where: eq(airports.country, translation.AirportsPage.Tld),
+    orderBy: [asc(airports.title)],
+  });
+
   const vfrAirports = data.filter((airport) => airport.type === "vfr");
   const ifrAirports = data.filter((airport) => airport.type === "ifr");
   const heliports = data.filter((airport) => airport.type === "heliport");
