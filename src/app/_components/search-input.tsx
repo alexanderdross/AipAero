@@ -1,7 +1,7 @@
 'use client';
 import { skipToken } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { SearchPageTranslation } from "~/lib/i18n";
+import { type SearchPageTranslation } from "~/lib/i18n";
 import { api } from "~/trpc/react";
 import { ExternalLink } from "./external-link";
 import { ExternalLinkIcon } from "@heroicons/react/solid";

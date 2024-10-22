@@ -7,16 +7,16 @@ interface Props {
   name: string;
   alternateName: string;
   description: string;
+  icaoParam?: string;
 }
 
 export function SchemaProduct({ 
   name, 
   alternateName, 
-  description 
+  description,
+  icaoParam
 }: Props) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const icaoParam = Array.from(searchParams.keys()).at(0) ?? '';
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",

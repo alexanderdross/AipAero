@@ -55,6 +55,7 @@ export async function ContentSearchPage({
         name={title}
         alternateName={currentTranslation.menuTitle}
         description={description}
+        icaoParam={icaoParam}
       />
       {airport && <SchemaAirport
         name={airport.title}
