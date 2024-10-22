@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { orgLogoSquareUrl, orgLogoUrl, orgUrl } from "../metadata";
 
 interface Props {
@@ -15,6 +15,8 @@ export function SchemaProduct({
   description 
 }: Props) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const icaoParam = Array.from(searchParams.keys()).at(0) ?? '';
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -29,7 +31,7 @@ export function SchemaProduct({
     "name": name,
     "alternateName": alternateName,
     "description": description,
-    "url": new URL(pathname, orgUrl).toString(),
+    "url": new URL(`${pathname}?${icaoParam}`, orgUrl).toString(),
     "image": [{
       "@type": "ImageObject",
       "url": orgLogoSquareUrl.toString(),
