@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { orgLogoSquareUrl, orgLogoUrl, orgUrl } from "../metadata";
 
 interface Props {

@@ -99,9 +99,7 @@ export default async function Page({
   }
   if (pageSlug === lastUrlSegment(translation.AirportsPage.href)) {
     return <>
-      <Suspense fallback={<div className="flex justify-center py-8 sm:py-6"><LoadingSpinner /></div>}>
-        <ContentAirportsPage translation={translation} />
-      </Suspense>
+      <ContentAirportsPage translation={translation} />
       <About translation={translation.About} titleAs='h3' />
     </>;
   }
