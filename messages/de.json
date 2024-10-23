@@ -94,7 +94,7 @@
       "title": "Wozu diese Website?",
       "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Deutschland</aip> steht nun seitens Deutsche Flugsicherung (DFS) als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
       "aipHref": "https://aip.dfs.de/basicAIP/",
-      "aipHrefTitle": "Luftfahrthandbuch AIP Deutschland öffnen"
+      "aipHrefTitle": "Luftfahrthandbuch AIP Deutschland"
     },
     "english": {
       "title": "What is this website for?",
@@ -108,7 +108,7 @@
       "title": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
       "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
       "href": "/de/",
-      "hrefTitle": "HOME AIP Deutschland öffnen",
+      "hrefTitle": "HOME AIP Deutschland",
       "breadcrumbTitle": "Deutschland (Deutsch)",
       "menuTitle": "AIP HOME"
     },
@@ -131,7 +131,7 @@
       "airportPageTitle": "AIP VFR Charts von ",
       "airportPageDescription": "AIP VFR Charts und Anflugkarte für XXXX hier ansehen und runterladen.",
       "href": "/de/vfr/",
-      "hrefTitle": "AIP VFR Deutschland öffnen",
+      "hrefTitle": "AIP VFR Deutschland",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
       "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
@@ -165,7 +165,7 @@
       "airportPageTitle": "AIP IFR Charts von ",
       "airportPageDescription": "AIP IFR Charts und Anflugkarte für XXXX hier ansehen und runterladen.",
       "href": "/de/ifr/",
-      "hrefTitle": "AIP IFR Deutschland öffnen",
+      "hrefTitle": "AIP IFR Deutschland",
       "breadcrumbTitle": "IFR",
       "menuTitle": "AIP IFR",
       "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen",
@@ -199,7 +199,7 @@
       "airportPageTitle": "AIP VFR Hubschrauberlandeplatz Charts von ",
       "airportPageDescription": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für XXXX hier ansehen und runterladen.",
       "href": "/de/heliports/",
-      "hrefTitle": "AIP VFR Heliports Deutschland öffnen",
+      "hrefTitle": "AIP VFR Heliports Deutschland",
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
       "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
@@ -228,7 +228,7 @@
       "title": "Liste der Flugplätze in Deutschland",
       "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick",
       "href": "/de/flughafen-liste-deutschland/",
-      "hrefTitle": "Liste der Flughäfen Deutschland öffnen",
+      "hrefTitle": "Liste der Flughäfen Deutschland",
       "breadcrumbTitle": "Flughafen Liste",
       "menuTitle": "Flughafen Liste",
       "VfrAirportsTitle": "VFR Flugplätze",

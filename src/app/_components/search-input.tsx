@@ -67,7 +67,6 @@ export function SearchInput({
         title={translation.searchPlaceholder}
         value={query}
         onChange={onSearch}
-        autoFocus
       />
       <div className="max-w-7xl px-4 sm:px-6 lg:px-8 text-center mt-3 w-full text-white absolute left-1/2 transform -translate-x-1/2">
         <ol>
