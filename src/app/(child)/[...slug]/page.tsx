@@ -86,14 +86,14 @@ export default async function Page({
 
   if (type) {
     return <>
-      <Suspense fallback={<div className="flex justify-center py-8 sm:py-6"><LoadingSpinner /></div>}>
+      {/*<Suspense fallback={<div className="flex justify-center py-8 sm:py-6"><LoadingSpinner /></div>}>*/}
         <ContentSearchPage
           translation={translation}
           type={type}
           countryCode={countryCode}
           searchParams={searchParams}
         />
-      </Suspense>
+      {/*</Suspense>*/}
       <About translation={translation.About} titleAs='h2' />
     </>;
   }
