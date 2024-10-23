@@ -3,8 +3,12 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { Translation } from "~/lib/i18n";
+import type { Translation, SearchPageTranslation } from "~/lib/i18n";
 import { orgUrl } from "./metadata";
+
+function instanceOfSearchPageTranslation(object: object): object is SearchPageTranslation {
+  return 'airportPageDescription' in object;
+}
 
 export default function Menu({ 
   translation 
@@ -34,7 +38,7 @@ export default function Menu({
         "@type": "SiteNavigationElement",
         "name": page.title,
         "alternateName": `${page.menuTitle} ${translation.Country}`,
-        "description": page.description,
+        "description": instanceOfSearchPageTranslation(page) ? page.airportPageDescription.replace('XXXX', translation.Country) : page.description,
         "url": new URL(page.href, orgUrl).toString(),
       })),
       {
