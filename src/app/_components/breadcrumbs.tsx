@@ -65,7 +65,10 @@ export default function Breadcrumbs({
         const currentNavItem = navItems.find(e => breadcrumbsOfIndex(index) === e.href);
         const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
         const title = currentNavItem?.schemaTitle ?? breadcrumb.toLocaleUpperCase();
-        const alternateName = currentNavItem?.hrefTitle ?? breadcrumb.toLocaleUpperCase();
+        let alternateName = currentNavItem?.hrefTitle ?? breadcrumb.toLocaleUpperCase();
+        if (index === 0) {
+          alternateName = `${translation.AirportsPage.menuTitle} ${translation.AirportsPage.Country}`;
+        }
         const description = currentNavItem?.description ?? breadcrumb.toLocaleUpperCase();
         const item = {
           "@type": "ListItem",
