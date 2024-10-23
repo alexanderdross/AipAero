@@ -17,6 +17,10 @@ export function SchemaProduct({
   icaoParam
 }: Props) {
   const pathname = usePathname();
+  let url = new URL(pathname, orgUrl).toString();
+  if (icaoParam) {
+    url += `?${icaoParam}`;
+  }
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -31,7 +35,7 @@ export function SchemaProduct({
     "name": name,
     "alternateName": alternateName,
     "description": description,
-    "url": new URL(`${pathname}?${icaoParam}`, orgUrl).toString(),
+    "url": url,
     "image": [{
       "@type": "ImageObject",
       "url": orgLogoSquareUrl.toString(),
