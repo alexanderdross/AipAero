@@ -1,13 +1,15 @@
 /** @type {import("eslint").Linter.Config} */
-const config = {
+import tseslint from 'typescript-eslint';
+import tseslintPlugin from '@typescript-eslint/eslint-plugin';
+
+export default tseslint.config({
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": true
   },
-  "plugins": [
-    "@typescript-eslint",
-    "drizzle"
-  ],
+  "plugins": {
+    "@typescript-eslint": tseslintPlugin,
+  },
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-type-checked",
@@ -57,5 +59,4 @@ const config = {
       }
     ]
   }
-}
-module.exports = config;
+});

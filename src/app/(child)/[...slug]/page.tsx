@@ -1,9 +1,7 @@
 'use server';
 
 import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
 import About from '~/app/_components/about';
-import { LoadingSpinner } from '~/app/_components/loading-spinner';
 import { ContentAirportsPage } from '~/app/_components/pages/content-airports-page';
 import { ContentCountryPage } from '~/app/_components/pages/content-country-page';
 import { ContentSearchPage } from '~/app/_components/pages/content-search-page';
@@ -38,14 +36,12 @@ export async function generateStaticParams() {
   return routes;
 }
 
-export default async function Page({
-  params,
-  searchParams
-}: {
-  params: { slug: string[] };
-  searchParams?: Record<string, string | string[] | undefined>;
+export default async function Page(props: {
+  params: Promise<{ slug: string[] }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
-
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const countryCode = params.slug.at(0);
   if (!countryCode) {
     return notFound();

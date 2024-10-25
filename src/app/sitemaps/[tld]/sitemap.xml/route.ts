@@ -92,9 +92,9 @@ async function generateSitemap(fullPath: string, modifiedDate: string) {
   return pages;
 }
 
-export async function GET(_: NextRequest, {
-  params
-}: { params: { tld: string } }) {
+export async function GET(
+  _: NextRequest, segmentData: { params: Promise<{ tld: string }> }) {
+  const params = await segmentData.params
   const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
   const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
   const formattedDate = modifiedDate.toISOString().split('T').at(0) ?? new Date().toISOString().split('T').at(0) ?? '';
