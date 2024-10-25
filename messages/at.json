@@ -100,7 +100,7 @@
       "title": "About this website",
       "description": "The <aip>AIP Austria</aip> is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by Austro Control does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
       "aipHref": "https://eaip.austrocontrol.at/",
-      "aipHrefTitle": "Open AIP Austria"
+      "aipHrefTitle": "AIP Austria"
     }
   },
   "CountryPage": {
@@ -116,7 +116,7 @@
       "title": "AIP and approach charts of Austria",
       "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria",
       "href": "/at/en/",
-      "hrefTitle": "Open HOME AIP Austria",
+      "hrefTitle": "HOME AIP Austria",
       "breadcrumbTitle": "Austria (English)",
       "menuTitle": "HOME AIP"
     }
@@ -145,9 +145,9 @@
       "countryPageDescription": "Browse AIP VFR Austria and download airport approach charts for free",
       "countryPageButtonTitle": "AIP VFR approach charts",
       "airportPageTitle": "AIP VFR Charts of ",
-      "airportPageDescription": "Click on the link below to open AIP VFR and visual approach chart of XXXX",
+      "airportPageDescription": "Click on the link below to AIP VFR and visual approach chart of XXXX",
       "href": "/at/en/vfr/",
-      "hrefTitle": "Open HOME VFR Austria",
+      "hrefTitle": "HOME VFR Austria",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
@@ -179,9 +179,9 @@
       "countryPageDescription": "Browse AIP VFR Helicopter Aerodromes Austria and download airport approach charts for free",
       "countryPageButtonTitle": "AIP VFR Helicopter Aerodromes",
       "airportPageTitle": "AIP VFR Helicopter Charts of ",
-      "airportPageDescription": "Click on the link below to open AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
+      "airportPageDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
       "href": "/at/en/heliports/",
-      "hrefTitle": "Open AIP VFR Heliports Austria",
+      "hrefTitle": "AIP VFR Heliports Austria",
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
@@ -208,7 +208,7 @@
       "title": "List of Airfields in Austria",
       "description": "Overview of all airfields/ airports in Austria",
       "href": "/at/en/airport-list-austria/",
-      "hrefTitle": "Open List of Airfields/ Airports Austria",
+      "hrefTitle": "List of Airfields/ Airports Austria",
       "breadcrumbTitle": "Airport List",
       "menuTitle": "Airport List",
       "VfrAirportsTitle": "VFR Airports",

@@ -100,7 +100,7 @@
       "title": "About this website",
       "description": "The <aip>AIP of the Netherlands</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by Air Traffic Control the Netherlands (LVNL) does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
       "aipHref": "https://www.lvnl.nl/diensten/aip",
-      "aipHrefTitle": "Open AIP of the Netherlands"
+      "aipHrefTitle": "AIP of the Netherlands"
     }
   },
   "CountryPage": {
@@ -108,7 +108,7 @@
       "title": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
       "description": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
       "href": "/nl/",
-      "hrefTitle": "Open HOME AIP Nederland",
+      "hrefTitle": "HOME AIP Nederland",
       "breadcrumbTitle": "Nederland (Dutch)",
       "menuTitle": "HOME AIP"
     },
@@ -116,7 +116,7 @@
       "title": "AIP and approach charts of the Netherlands",
       "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands",
       "href": "/nl/en/",
-      "hrefTitle": "Open HOME AIP Netherlands",
+      "hrefTitle": "HOME AIP Netherlands",
       "breadcrumbTitle": "Netherlands (English)",
       "menuTitle": "HOME AIP"
     }
@@ -145,9 +145,9 @@
       "countryPageDescription": "Browse AIP VFR of the Netherlands and download airport approach charts for free",
       "countryPageButtonTitle": "AIP VFR approach charts",
       "airportPageTitle": "AIP VFR Charts of ",
-      "airportPageDescription": "Click on the link below to open AIP VFR and visual approach chart of XXXX",
+      "airportPageDescription": "Click on the link below to AIP VFR and visual approach chart of XXXX",
       "href": "/nl/en/vfr/",
-      "hrefTitle": "Open HOME VFR Netherlands",
+      "hrefTitle": "HOME VFR Netherlands",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
@@ -179,9 +179,9 @@
       "countryPageDescription": "Browse AIP VFR Helicopter Aerodromes of the Netherlands and download airport approach charts for free",
       "countryPageButtonTitle": "AIP VFR Helicopter Aerodromes",
       "airportPageTitle": "AIP VFR Helicopter Charts of ",
-      "airportPageDescription": "Click on the link below to open AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
+      "airportPageDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
       "href": "/nl/en/heliports/",
-      "hrefTitle": "Open AIP VFR Heliports Netherlands",
+      "hrefTitle": "AIP VFR Heliports Netherlands",
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
@@ -208,7 +208,7 @@
       "title": "List of Airfields in the Netherlands",
       "description": "Overview of all airfields/ airports/ heliports in the Netherlands",
       "href": "/nl/en/airport-list-netherlands/",
-      "hrefTitle": "Open List of Airports/ Airfields in the Netherlands",
+      "hrefTitle": "List of Airports/ Airfields in the Netherlands",
       "breadcrumbTitle": "Airport List",
       "menuTitle": "Airport List",
       "VfrAirportsTitle": "VFR Airports",

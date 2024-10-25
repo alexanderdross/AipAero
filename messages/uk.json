@@ -56,7 +56,7 @@
       "title": "About this website",
       "description": "The <aip>AIP of the United Kingdom (UK)</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by NATS does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
       "aipHref": "https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/",
-      "aipHrefTitle": "Open AIP of the United Kingdom (UK)"
+      "aipHrefTitle": "AIP of the United Kingdom (UK)"
     }
   },
   "CountryPage": {
@@ -64,7 +64,7 @@
       "title": "AIP and approach charts of the UK",
       "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
       "href": "/uk/",
-      "hrefTitle": "Open Home AIP United Kingdom (UK)",
+      "hrefTitle": "Home AIP United Kingdom (UK)",
       "breadcrumbTitle": "United Kingdom",
       "menuTitle": "HOME AIP"
     }
@@ -77,9 +77,9 @@
       "countryPageDescription": "Browse AIP VFR of the United Kingdom and download airport approach charts for free",
       "countryPageButtonTitle": "AIP VFR approach charts",
       "airportPageTitle": "AIP VFR Charts of ",
-      "airportPageDescription": "Click on the link below to open AIP VFR and visual approach chart of XXXX",
+      "airportPageDescription": "Click on the link below to AIP VFR and visual approach chart of XXXX",
       "href": "/uk/vfr/",
-      "hrefTitle": "Open AIP VFR United Kingdom (UK)",
+      "hrefTitle": "AIP VFR United Kingdom (UK)",
       "breadcrumbTitle": "VFR",
       "menuTitle": "AIP VFR",
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR/ IFR",
@@ -95,9 +95,9 @@
       "countryPageDescription": "Browse AIP VFR Helicopter Aerodromes of the UK and download airport approach charts for free",
       "countryPageButtonTitle": "AIP VFR Helicopter Aerodromes",
       "airportPageTitle": "AIP VFR Helicopter Charts of ",
-      "airportPageDescription": "Click on the link below to open AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
+      "airportPageDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
       "href": "/uk/heliports/",
-      "hrefTitle": "Open AIP VFR Heliports United Kingdom (UK)",
+      "hrefTitle": "AIP VFR Heliports United Kingdom (UK)",
       "breadcrumbTitle": "Heliports",
       "menuTitle": "Heliports",
       "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
@@ -110,7 +110,7 @@
       "title": "List of Airfields in the United Kingdom",
       "description": "Overview of all airfields/ airports/ heliports in the UK",
       "href": "/uk/airport-list-uk/",
-      "hrefTitle": "Open List of Airports/ Airfields in the United Kingdom (UK)",
+      "hrefTitle": "List of Airports/ Airfields in the United Kingdom (UK)",
       "breadcrumbTitle": "Airport List",
       "menuTitle": "Airport List",
       "VfrAirportsTitle": "VFR Airports",

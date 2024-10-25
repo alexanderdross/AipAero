@@ -70,18 +70,18 @@ export async function ContentRootPage({
               buttons={e.isSingleLocale ? [
                 {
                   title: `AIP ${e.Country} in ${e.Language}`,
-                  hrefTitle: `Open AIP ${e.Country} in ${e.Language}`,
+                  hrefTitle: `AIP ${e.Country} in ${e.Language}`,
                   href: `/${e.Tld}/`,
                 }
               ] : [
                 {
                   title: `AIP ${e.Country} in English`,
-                  hrefTitle: `Open AIP ${e.Country} in English`,
+                  hrefTitle: `AIP ${e.Country} in English`,
                   href: `/${e.Tld}/en/`,
                 },
                 {
                   title: `AIP ${e.Country} in ${e.Language}`,
-                  hrefTitle: `Open AIP ${e.Country} in ${e.Language}`,
+                  hrefTitle: `AIP ${e.Country} in ${e.Language}`,
                   href: `/${e.Tld}/`,
                 },
               ]}
