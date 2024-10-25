@@ -20,6 +20,7 @@ export function SchemaProduct({
   let url = new URL(pathname, orgUrl).toString();
   if (icaoParam) {
     url += `?${icaoParam}`;
+    alternateName += ` ${icaoParam}`;
   }
   const schema = {
     "@context": "https://schema.org",
