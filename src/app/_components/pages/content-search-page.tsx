@@ -35,7 +35,7 @@ export async function ContentSearchPage({
   }
 
   const title = airport
-    ? `${currentTranslation.airportPageTitle}${airport.title}` : currentTranslation.title;
+    ? `${currentTranslation.airportPageTitle} ${airport.title}` : currentTranslation.title;
   const description = airport
     ? currentTranslation.airportPageDescription.replace('XXXX', airport.title) : currentTranslation.description;
 
