@@ -28,9 +28,9 @@ export default function Metadata({
 
   return (
     <>
-      <title>{`🛩️ ${title}`}</title>
-      <meta name="description" content={`${description} 🗺️`} />
-      <meta name="abstract" content={`${description} 🗺️`} />
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      <meta name="abstract" content={description} />
       <meta name="author" content="Alexander Dross" />
       <meta name="publisher" content="Alexander Dross" />
       <meta name="robots" content="index,follow,noodp,noydir" />
@@ -48,10 +48,10 @@ export default function Metadata({
         />
       })}
       <meta property="fb:admins" content="1378231674" />
-      <meta property="og:title" content={`🛩️ ${title}`} />
-      <meta property="og:description" content={`${description} 🗺️`} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
-      <meta property="og:site_name" content={`🛩️ ${title}`} />
+      <meta property="og:site_name" content={title} />
       <meta property="og:image" content={orgLogoUrl.toString()} />
       <meta property="og:image:width" content="446" />
       <meta property="og:image:height" content="319" />
@@ -66,8 +66,8 @@ export default function Metadata({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@alexanderdross" />
       <meta name="twitter:url" content={url} />
-      <meta name="twitter:title" content={`🛩️ ${title}`} />
-      <meta name="twitter:description" content={`${description} 🗺️`} />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={orgLogoUrl.toString()} />
       <meta name="twitter:image:width" content="446" />
       <meta name="twitter:image:height" content="319" />
