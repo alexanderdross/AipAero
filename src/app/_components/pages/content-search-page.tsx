@@ -38,18 +38,18 @@ export async function ContentSearchPage({
     ? `${currentTranslation.airportPageTitle} ${airport.title}` : currentTranslation.title;
   const description = airport
     ? currentTranslation.airportPageDescription.replace('XXXX', airport.title) : currentTranslation.description;
+  const hrefParam = icaoParam ? `?${icaoParam}` : '';
 
   return (
     <>
       <Metadata
-        title={title}
-        description={description}
-        href={currentTranslation.href}
+        title={`🛩️ ${title}${icaoParam ? '✔️' : ''}`}
+        description={`${description}🗺️`}
+        href={currentTranslation.href + hrefParam}
         alternates={currentTranslation.alternate && currentTranslation.alternateIetfLang
-          ? [{ href: currentTranslation.href, hrefLang: currentTranslation.ietfLang },
-          { href: currentTranslation.alternate, hrefLang: currentTranslation.alternateIetfLang }]
-          : [{ href: currentTranslation.href, hrefLang: currentTranslation.ietfLang }]}
-        param={icaoParam}
+          ? [{ href: currentTranslation.href + hrefParam, hrefLang: currentTranslation.ietfLang },
+          { href: currentTranslation.alternate + hrefParam, hrefLang: currentTranslation.alternateIetfLang }]
+          : [{ href: currentTranslation.href + hrefParam, hrefLang: currentTranslation.ietfLang }]}
       />
       <SchemaProduct
         name={title}

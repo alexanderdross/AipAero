@@ -85,8 +85,8 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
   return (
     <>
       <Metadata
-        title={translation.AirportsPage.title}
-        description={translation.AirportsPage.description}
+        title={`🛩️ ${translation.AirportsPage.title}`}
+        description={`${translation.AirportsPage.description}🗺️`}
         href={translation.AirportsPage.href}
         alternates={translation.AirportsPage.alternate && translation.AirportsPage.alternateIetfLang
           ? [{ href: translation.AirportsPage.href, hrefLang: translation.AirportsPage.ietfLang },

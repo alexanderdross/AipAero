@@ -8,7 +8,6 @@ interface Props {
   href: string;
   canonical?: string;
   alternates?: { href: string; hrefLang: string }[];
-  param?: string;
 }
 
 export default function Metadata({
@@ -17,13 +16,11 @@ export default function Metadata({
   href,
   canonical,
   alternates,
-  param
 }: Props) {
   // Remove duplicates
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   alternates = alternates ? [...(new Set(alternates.map(e => JSON.stringify(e))))].map(e => JSON.parse(e)) : [];
   // Add param to href if it exists
-  href = param ? `${href}?${param}` : href;
   const url = new URL(href, orgUrl).toString();
 
   return (
@@ -36,10 +33,9 @@ export default function Metadata({
       <meta name="robots" content="index,follow,noodp,noydir" />
       <link rel="canonical" href={new URL(canonical ?? url, orgUrl).toString()} />
       {/* Only show x-default when not showing a search result */}
-      {!param && <link rel="alternate" hrefLang="x-default" href={orgUrl.toString()} />}
+      {!href.includes('?') && <link rel="alternate" hrefLang="x-default" href={orgUrl.toString()} />}
       {alternates?.map(({ href, hrefLang }) => {
         // Add param to href if it exists
-        href = param ? `${href}?${param}` : href;
         return <link
           key={hrefLang}
           rel="alternate"

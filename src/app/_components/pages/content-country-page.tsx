@@ -13,11 +13,12 @@ export async function ContentCountryPage({
 }: { translation: Translation }) {
   const title = translation.CountryPage.title;
   const description = translation.CountryPage.description;
+
   return (
     <>
       <Metadata
-        title={title}
-        description={description}
+        title={`🛩️ ${title}`}
+        description={`${description}🗺️`}
         href={translation.CountryPage.href}
         alternates={translation.CountryPage.alternate && translation.CountryPage.alternateIetfLang
           ? [{ href: translation.CountryPage.href, hrefLang: translation.CountryPage.ietfLang },
