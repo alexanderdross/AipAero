@@ -26,7 +26,7 @@ export async function ContentCountryPage({
           : [{ href: translation.CountryPage.href, hrefLang: translation.CountryPage.ietfLang }]}
       />
       <SchemaProduct
-        name={translation.CountryPage.hrefTitle}
+        name={translation.CountryPage.title}
         alternateName={`AIP ${translation.Country}`}
         description={description}
       />
