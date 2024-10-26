@@ -94,11 +94,12 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
           : [{ href: translation.AirportsPage.href, hrefLang: translation.AirportsPage.ietfLang }]}
       />
       <SchemaProduct
-        name={translation.AirportsPage.title}
-        alternateName={`${translation.AirportsPage.menuTitle} ${translation.AirportsPage.Country}`}
+        name={translation.AirportsPage.hrefTitle}
+        alternateName={translation.AirportsPage.countryPageDescription ?? translation.AirportsPage.description}
         description={translation.AirportsPage.description}
       />
       <Breadcrumbs translation={translation} />
+
       <Header
         title={translation.AirportsPage.title}
         description={translation.AirportsPage.description}

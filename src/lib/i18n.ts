@@ -89,6 +89,7 @@ export interface LinkTranslation {
 }
 
 export interface PageTranslation extends LinkTranslation, CountryTranslation {
+  countryPageDescription?: string;
   description: string;
   breadcrumbTitle: string;
   menuTitle: string;

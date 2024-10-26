@@ -52,9 +52,9 @@ export async function ContentSearchPage({
           : [{ href: currentTranslation.href + hrefParam, hrefLang: currentTranslation.ietfLang }]}
       />
       <SchemaProduct
-        name={title}
+        name={currentTranslation.hrefTitle}
         alternateName={currentTranslation.menuTitle}
-        description={description}
+        description={currentTranslation.countryPageDescription}
         icaoParam={icaoParam}
       />
       {airport && <SchemaAirport

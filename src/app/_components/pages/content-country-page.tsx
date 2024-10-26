@@ -26,12 +26,15 @@ export async function ContentCountryPage({
           : [{ href: translation.CountryPage.href, hrefLang: translation.CountryPage.ietfLang }]}
       />
       <SchemaProduct
-        name={title}
+        name={translation.CountryPage.hrefTitle}
         alternateName={`AIP ${translation.Country}`}
         description={description}
       />
       <Breadcrumbs translation={translation} />
-      <Header title={title} description={description} />
+      <Header 
+        title={title} 
+        description={description} 
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={clsx("grid gap-6 grid-cols-1 md:grid-cols-2", translation.IfrPage ? "lg:grid-cols-3" : "lg:grid-cols-2")}>
           <Box

@@ -44,7 +44,7 @@ export default function Breadcrumbs({
     schemaTitle: key.title,
     title: key.breadcrumbTitle,
     alternateName: key.menuTitle,
-    description: key.description
+    description: key.countryPageDescription ?? key.description
   }));
 
   const breadcrumbsSchema = {
@@ -81,18 +81,21 @@ export default function Breadcrumbs({
           }
         };
         return item;
-      }),
-      icaoParam && airportTitle && airportDescription && {
-        "@type": "ListItem",
-        "position": breadcrumbs.length + 2,
-        "item": {
-          "@id": new URL(pathname, orgUrl).toString() + `?${icaoParam}`,
-          "name": airportTitle,
-          "alternateName": icaoParam,
-          "description": airportDescription
-        }
-      }
+      })
     ]
+  }
+
+  if (icaoParam && airportTitle && airportDescription) {
+    breadcrumbsSchema.itemListElement.push({
+      "@type": "ListItem",
+      "position": breadcrumbs.length + 2,
+      "item": {
+        "@id": new URL(pathname, orgUrl).toString() + `?${icaoParam}`,
+        "name": airportTitle,
+        "alternateName": icaoParam,
+        "description": airportDescription
+      }
+    });
   }
 
   return (<>
