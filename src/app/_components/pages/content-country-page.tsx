@@ -7,12 +7,17 @@ import Metadata from "~/app/_components/metadata";
 import clsx from "clsx";
 import { SchemaProduct } from "~/app/_components/schemas/schema-product";
 import Breadcrumbs from "~/app/_components/breadcrumbs";
+import getConfig from "next/config";
 
 export async function ContentCountryPage({
   translation
 }: { translation: Translation }) {
   const title = translation.CountryPage.title;
   const description = translation.CountryPage.description;
+
+  const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
+  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+  const formattedDate = modifiedDate.toISOString().split('T').at(0) ?? new Date().toISOString().split('T').at(0) ?? '';
 
   return (
     <>
@@ -29,6 +34,7 @@ export async function ContentCountryPage({
         name={translation.CountryPage.title}
         alternateName={`AIP ${translation.Country}`}
         description={description}
+        formattedDate={formattedDate}
       />
       <Breadcrumbs translation={translation} />
       <Header 

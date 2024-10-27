@@ -7,6 +7,7 @@ interface Props {
   name: string;
   alternateName: string;
   description: string;
+  formattedDate: string;
   icaoParam?: string;
 }
 
@@ -14,7 +15,8 @@ export function SchemaProduct({
   name, 
   alternateName, 
   description,
-  icaoParam
+  icaoParam,
+  formattedDate
 }: Props) {
   const pathname = usePathname();
   let url = new URL(pathname, orgUrl).toString();
@@ -22,6 +24,7 @@ export function SchemaProduct({
     url += `?${icaoParam}`;
     alternateName += ` ${icaoParam}`;
   }
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -68,7 +71,7 @@ export function SchemaProduct({
         "name": "Alexander Dross",
         "url": "https://dross.net/alexander/"
       },
-      "datePublished": "2024-07-19",
+      "datePublished": formattedDate,
       "additionalType": [
         "https://dross.net/alexander/",
         "https://dross.net/media/",

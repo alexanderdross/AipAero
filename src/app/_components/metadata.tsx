@@ -1,3 +1,5 @@
+import getConfig from "next/config";
+
 export const orgUrl = new URL('https://aip.aero/');
 export const orgLogoUrl = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-446x319.jpg', orgUrl);
 export const orgLogoSquareUrl = new URL('/favicon/Suchmaske-Luftfahrthandbuch-AIP-Aeronautical-Information-Publication-VFR-IFR-Heliports-450x450.jpg', orgUrl);
@@ -22,6 +24,9 @@ export default function Metadata({
   alternates = alternates ? [...(new Set(alternates.map(e => JSON.stringify(e))))].map(e => JSON.parse(e)) : [];
   // Add param to href if it exists
   const url = new URL(href, orgUrl).toString();
+  const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
+  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+  const formattedDate = modifiedDate.toISOString().split('T').at(0) ?? new Date().toISOString().split('T').at(0) ?? '';
 
   return (
     <>
@@ -48,6 +53,7 @@ export default function Metadata({
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
       <meta property="og:site_name" content={title} />
+      <meta property="og:updated_time" content={formattedDate} />
       <meta property="og:image" content={orgLogoUrl.toString()} />
       <meta property="og:image:width" content="446" />
       <meta property="og:image:height" content="319" />
@@ -59,6 +65,8 @@ export default function Metadata({
       <meta property="og:image:alt" content="Logo Quadratisch" />
       <meta property="og:image:type" content="image/jpg" />
       <meta property="og:type" content="website" />
+      <meta property="article:published_time" content={formattedDate} />
+      <meta property="article:modified_time" content={formattedDate} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@alexanderdross" />
       <meta name="twitter:url" content={url} />

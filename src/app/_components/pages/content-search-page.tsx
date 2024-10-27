@@ -10,6 +10,7 @@ import { notFound } from "next/navigation";
 import { SearchInput } from "~/app/_components/search-input";
 import { ExternalLink } from "../external-link";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
+import getConfig from "next/config";
 
 interface Props {
   translation: Translation;
@@ -40,6 +41,10 @@ export async function ContentSearchPage({
     ? currentTranslation.airportPageDescription.replace('XXXX', airport.title) : currentTranslation.description;
   const hrefParam = icaoParam ? `?${icaoParam}` : '';
 
+  const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
+  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+  const formattedDate = modifiedDate.toISOString().split('T').at(0) ?? new Date().toISOString().split('T').at(0) ?? '';
+
   return (
     <>
       <Metadata
@@ -56,6 +61,7 @@ export async function ContentSearchPage({
         alternateName={currentTranslation.menuTitle}
         description={currentTranslation.countryPageDescription}
         icaoParam={icaoParam}
+        formattedDate={formattedDate}
       />
       {airport && <SchemaAirport
         name={airport.title}
