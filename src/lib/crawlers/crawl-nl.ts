@@ -28,7 +28,7 @@ function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, t
   return airports;
 }
 
-export async function crawl_nl() {
+export async function crawlNl() {
   // Start at the LVNL main page
   let response = await fetch(rootUrl);
   let $ = cheerio.load(await response.text());

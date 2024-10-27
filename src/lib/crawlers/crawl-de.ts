@@ -9,7 +9,7 @@ import { type Airport, cheerioFetch } from '~/lib/crawlers/utils';
 const rootVfrUrl = 'https://aip.dfs.de/BasicVFR/';
 const rootIfrUrl = 'https://aip.dfs.de/BasicIFR/';
 
-export async function crawl_de() {
+export async function crawlDe() {
   const airportsList: Airport[] = [];
   const linkPromises = []
 

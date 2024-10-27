@@ -1,24 +1,27 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "~/env";
-import { crawl_at } from "~/lib/crawlers/crawl_at";
-import { crawl_de } from "~/lib/crawlers/crawl_de";
-import { crawl_nl } from "~/lib/crawlers/crawl_nl";
-import { crawl_uk } from "~/lib/crawlers/crawl_uk";
+import { crawlAt } from "~/lib/crawlers/crawl-at";
+import { crawlDe } from "~/lib/crawlers/crawl-de";
+import { crawlNl } from "~/lib/crawlers/crawl-nl";
+import { crawlUk } from "~/lib/crawlers/crawl-uk";
 
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
+  // See https://vercel.com/docs/cron-jobs
   if (req.headers.get('Authorization') !== `Bearer ${env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
   try {
+    // Run all crawlers in parallel
     await Promise.all([
-      crawl_at(),
-      crawl_de(),
-      crawl_nl(),
-      crawl_uk()
-    ])
+      crawlAt(),
+      crawlDe(),
+      crawlNl(),
+      crawlUk()
+    ]);
     return NextResponse.json({}, { status: 200 });
   } catch (error) {
     let message = 'An error occurred';

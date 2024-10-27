@@ -45,7 +45,7 @@ async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
   return airports;
 }
 
-export async function crawl_at() {
+export async function crawlAt() {
   // Start at the Austro Control main page
   let response = await fetchIso8859(rootUrl);
   let $ = cheerio.load(response);
