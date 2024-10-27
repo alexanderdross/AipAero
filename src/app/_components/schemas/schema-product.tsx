@@ -7,7 +7,7 @@ interface Props {
   name: string;
   alternateName: string;
   description: string;
-  formattedDate: string;
+  publishedDate: Date;
   icaoParam?: string;
 }
 
@@ -16,7 +16,7 @@ export function SchemaProduct({
   alternateName, 
   description,
   icaoParam,
-  formattedDate
+  publishedDate
 }: Props) {
   const pathname = usePathname();
   let url = new URL(pathname, orgUrl).toString();
@@ -24,6 +24,7 @@ export function SchemaProduct({
     url += `?${icaoParam}`;
     alternateName += ` ${icaoParam}`;
   }
+  const formattedDate = publishedDate.toISOString().split('T').at(0) ?? new Date().toISOString().split('T').at(0) ?? '';
 
   const schema = {
     "@context": "https://schema.org",

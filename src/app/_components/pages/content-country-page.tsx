@@ -17,7 +17,6 @@ export async function ContentCountryPage({
 
   const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
   const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
-  const formattedDate = modifiedDate.toISOString().split('T').at(0) ?? new Date().toISOString().split('T').at(0) ?? '';
 
   return (
     <>
@@ -34,7 +33,7 @@ export async function ContentCountryPage({
         name={translation.CountryPage.title}
         alternateName={`AIP ${translation.Country}`}
         description={description}
-        formattedDate={formattedDate}
+        publishedDate={modifiedDate}
       />
       <Breadcrumbs translation={translation} />
       <Header 

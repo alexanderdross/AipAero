@@ -43,7 +43,6 @@ export async function ContentSearchPage({
 
   const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
   const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
-  const formattedDate = modifiedDate.toISOString().split('T').at(0) ?? new Date().toISOString().split('T').at(0) ?? '';
 
   return (
     <>
@@ -61,7 +60,7 @@ export async function ContentSearchPage({
         alternateName={currentTranslation.menuTitle}
         description={currentTranslation.countryPageDescription}
         icaoParam={icaoParam}
-        formattedDate={formattedDate}
+        publishedDate={modifiedDate}
       />
       {airport && <SchemaAirport
         name={airport.title}

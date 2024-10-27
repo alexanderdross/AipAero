@@ -84,7 +84,6 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
 
   const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
   const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
-  const formattedDate = modifiedDate.toISOString().split('T').at(0) ?? new Date().toISOString().split('T').at(0) ?? '';
 
   return (
     <>
@@ -101,7 +100,7 @@ export async function ContentAirportsPage({ translation }: { translation: Transl
         name={translation.AirportsPage.hrefTitle}
         alternateName={translation.AirportsPage.countryPageDescription ?? translation.AirportsPage.description}
         description={translation.AirportsPage.description}
-        formattedDate={formattedDate}
+        publishedDate={modifiedDate}
       />
       <Breadcrumbs translation={translation} />
 

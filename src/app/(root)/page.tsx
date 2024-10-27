@@ -6,6 +6,7 @@ import Metadata, { orgUrl } from "~/app/_components/metadata";
 import { SchemaRootNavigation } from "~/app/_components/schemas/schema-root-navigation";
 import { SchemaProduct } from "~/app/_components/schemas/schema-product";
 import { Fragment } from "react";
+import getConfig from "next/config";
 
 export default async function Home() {
   const countries = await getTranslations({});
@@ -22,6 +23,9 @@ export default async function Home() {
 
   const aboutPart1 = 'This website aims to simplify the search for approach charts and Aeronautical Information Publication (AIP) for aerodromes, airports, and airfields in ';
   const aboutPart2 = '. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.'
+
+  const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
+  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
 
   return (
     <>
@@ -63,6 +67,7 @@ export default async function Home() {
         name={title}
         alternateName="AIP:Aero"
         description={description}
+        publishedDate={modifiedDate}
       />
 
       <Header className={"pt-[40px]"} title={title} description={description} />
