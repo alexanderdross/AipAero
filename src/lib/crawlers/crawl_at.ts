@@ -76,6 +76,9 @@ export async function crawl_at() {
   const airportsList = await extractAirports(airportsUrl, 'vfr');
   airportsList.push(...await extractAirports(heliportsUrl, 'heliport'));
 
+  if (airportsList.length === 0) {
+    throw new Error('No AT airports found');
+  }
   await db.delete(airports).where(eq(airports.country, 'AT')).execute();
   await db.insert(airports).values(airportsList).execute();
   return airportsList;

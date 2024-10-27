@@ -67,6 +67,9 @@ export async function crawl_nl() {
   const airportsList = extractAirports($, '#AD-2details>.Hx', url, 'vfr');
   airportsList.push(...extractAirports($, '#AD-3details>.Hx', url, 'heliport'));
   
+  if (airportsList.length === 0) {
+    throw new Error('No NL airports found');
+  }
   await db.delete(airports).where(eq(airports.country, 'NL')).execute();
   await db.insert(airports).values(airportsList).execute();
   return airportsList;

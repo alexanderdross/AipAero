@@ -36,14 +36,13 @@ function AirportList({
           const description = hrefDescription.replace('XXXX', airport.title);
           return (
             <li
-              key={airport.icao}
+              key={index}
               itemScope
               itemType="https://schema.org/Airport"
               className="flex items-center gap-x-4"
             >
               <span>{index + 1}.</span>
               <Link
-                key={airport.icao}
                 href={url}
                 itemProp="url"
                 className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"

@@ -59,6 +59,9 @@ export async function crawl_uk() {
   const airportsList = extractAirports($, '#AD-2details>.Hx', url, 'vfr');
   airportsList.push(...extractAirports($, '#AD-3details>.Hx', url, 'heliport'));
   
+  if (airportsList.length === 0) {
+    throw new Error('No UK airports found');
+  }
   await db.delete(airports).where(eq(airports.country, 'UK')).execute();
   await db.insert(airports).values(airportsList).execute();
   return airportsList;

@@ -12,9 +12,19 @@ export async function GET(req: NextRequest) {
   if (req.headers.get('Authorization') !== `Bearer ${env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const at = await crawl_at();
-  const de = await crawl_de();
-  const nl = await crawl_nl();
-  const uk = await crawl_uk();
-  return NextResponse.json({ at, de, nl, uk });
+  try {
+    await Promise.all([
+      crawl_at(),
+      crawl_de(),
+      crawl_nl(),
+      crawl_uk()
+    ])
+    return NextResponse.json({}, { status: 200 });
+  } catch (error) {
+    let message = 'An error occurred';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+    return NextResponse.json({ message: message }, { status: 500 });
+  }
 }

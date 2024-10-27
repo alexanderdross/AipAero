@@ -11,7 +11,9 @@ const rootIfrUrl = 'https://aip.dfs.de/BasicIFR/';
 
 export async function crawl_de() {
   const airportsList: Airport[] = [];
-  for (let rootUrl of [rootVfrUrl, rootIfrUrl]) {
+  const linkPromises = []
+
+  async function getLink(rootUrl: string) {
     // Start at the LVNL main page
     let response = await fetch(rootUrl, { cache: 'no-store' });
     // Check if we were redirected to the current date page
@@ -28,23 +30,28 @@ export async function crawl_de() {
       const $heliports = cheerio.load(await cheerioFetch(rootUrl, responseText, 'a:contains("AD 3 Heliports")', 'href'));
       const aerodomeLinks = [...new Set($aerodomes('a.folder-link').map((_, el) => $aerodomes(el).attr('href')).get())];
       const heliportLinks = [...new Set($heliports('a.folder-link').map((_, el) => $heliports(el).attr('href')).get())];
+      const linkPromises = []
+      async function getLink(link: string, linkType: string) {
+        const url = new URL(link, rootUrl);
+        const response = await fetch(url, { cache: 'no-store' });
+        const $ = cheerio.load(await response.text());
+        const city = $('div.headlineText.left>span').first().text().trim();
+        const icao = $('a.document-link>span.document-name').first().text().trim().match(/([A-Z]{4})/)?.at(0) ?? '';
+        airportsList.push({
+          icao,
+          title: `${city} ${icao}`,
+          url: url.toString(),
+          type: linkType === 'aerodomes' ? 'ifr' : 'heliport',
+          country: 'DE'
+        });
+      }
       for (const linkType of ['aerodomes', 'heliports']) {
         const links = linkType === 'aerodomes' ? aerodomeLinks : heliportLinks;
         for (const link of links) {
-          const url = new URL(link, rootUrl);
-          const response = await fetch(url, { cache: 'no-store' });
-          const $ = cheerio.load(await response.text());
-          const city = $('div.headlineText.left>span').first().text().trim();
-          const icao = $('a.document-link>span.document-name').first().text().trim().match(/([A-Z]{4})/)?.at(0) ?? '';
-          airportsList.push({
-            icao,
-            title: `${city} ${icao}`,
-            url: url.toString(),
-            type: linkType === 'aerodomes' ? 'ifr' : 'heliport',
-            country: 'DE'
-          });
+          linkPromises.push(getLink(link, linkType));
         }
       }
+      await Promise.all(linkPromises);
     } else {
       const $aerodomes = cheerio.load(await cheerioFetch(rootUrl, responseText, 'a:contains("AD Aerodromes")', 'href'));
       const $heliports = cheerio.load(await cheerioFetch(rootUrl, responseText, 'a:contains("HEL AD Helicopter Aerodromes")', 'href'));
@@ -54,8 +61,9 @@ export async function crawl_de() {
       const heliportLinks = $heliports('a.folder-link').map((_, el) => $heliports(el).attr('href')).get().slice(1);
       for (const linkType of ['aerodomes', 'heliports']) {
         const links = linkType === 'aerodomes' ? aerodomeLinks : heliportLinks;
+        const linkPromises = []
         // We iterate through the A, B, C, ... links
-        for (const link of links) {
+        async function getLink(link: string) {
           const url = new URL(link, rootUrl);
           const response = await fetch(url, { cache: 'no-store' });
           const $ = cheerio.load(await response.text());
@@ -72,10 +80,22 @@ export async function crawl_de() {
             });
           });
         }
+        for (const link of links) {
+          linkPromises.push(getLink(link));
+        }
+        await Promise.all(linkPromises);
       }
     }
   }
-  
+
+  for (let rootUrl of [rootVfrUrl, rootIfrUrl]) {
+    linkPromises.push(getLink(rootUrl));
+  }
+  await Promise.all(linkPromises);
+
+  if (airportsList.length === 0) {
+    throw new Error('No DE airports found');
+  }
   await db.delete(airports).where(eq(airports.country, 'DE')).execute();
   await db.insert(airports).values(airportsList).execute();
   return airportsList;

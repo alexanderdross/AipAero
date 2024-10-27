@@ -66,8 +66,8 @@ export default function Breadcrumbs({
         const href = currentNavItem?.href ?? breadcrumbsOfIndex(index);
         const title = currentNavItem?.schemaTitle ?? breadcrumb.toLocaleUpperCase();
         let alternateName = currentNavItem?.hrefTitle ?? breadcrumb.toLocaleUpperCase();
-        if (index === 0) {
-          alternateName = `${translation.AirportsPage.menuTitle} ${translation.AirportsPage.Country}`;
+        if (index === breadcrumb.length - 1) {
+          alternateName = translation.AirportsPage.description;
         }
         const description = currentNavItem?.description ?? breadcrumb.toLocaleUpperCase();
         const item = {
