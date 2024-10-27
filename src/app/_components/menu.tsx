@@ -37,7 +37,7 @@ export default function Menu({
         "@context": "https://schema.org",
         "@type": "SiteNavigationElement",
         "name": page.title,
-        "alternateName": `${page.menuTitle} ${translation.Country}`,
+        "alternateName": page.hrefTitle,
         "description": instanceOfSearchPageTranslation(page) ? page.airportPageDescription.replace('XXXX', translation.Country) : page.description,
         "url": new URL(page.href, orgUrl).toString(),
       })),

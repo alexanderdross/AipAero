@@ -108,7 +108,7 @@
       "title": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
       "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
       "href": "/de/",
-      "hrefTitle": "HOME AIP Deutschland",
+      "hrefTitle": "AIP Deutschland",
       "breadcrumbTitle": "Deutschland (Deutsch)",
       "menuTitle": "AIP HOME"
     },
@@ -116,7 +116,7 @@
       "title": "AIP and approach charts of Germany",
       "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany",
       "href": "/de/en/",
-      "hrefTitle": "HOME AIP Germany",
+      "hrefTitle": "AIP Germany",
       "breadcrumbTitle": "Germany (English)",
       "menuTitle": "AIP HOME"
     }

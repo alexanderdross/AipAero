@@ -108,7 +108,7 @@
       "title": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
       "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download",
       "href": "/at/",
-      "hrefTitle": "HOME AIP Österreich",
+      "hrefTitle": "AIP Österreich",
       "breadcrumbTitle": "Österreich (Deutsch)",
       "menuTitle": "HOME AIP"
     },
@@ -116,7 +116,7 @@
       "title": "AIP and approach charts of Austria",
       "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria",
       "href": "/at/en/",
-      "hrefTitle": "HOME AIP Austria",
+      "hrefTitle": "AIP Austria",
       "breadcrumbTitle": "Austria (English)",
       "menuTitle": "HOME AIP"
     }

@@ -108,7 +108,7 @@
       "title": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
       "description": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
       "href": "/nl/",
-      "hrefTitle": "HOME AIP Nederland",
+      "hrefTitle": "AIP Nederland",
       "breadcrumbTitle": "Nederland (Dutch)",
       "menuTitle": "HOME AIP"
     },
@@ -116,7 +116,7 @@
       "title": "AIP and approach charts of the Netherlands",
       "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands",
       "href": "/nl/en/",
-      "hrefTitle": "HOME AIP Netherlands",
+      "hrefTitle": "AIP Netherlands",
       "breadcrumbTitle": "Netherlands (English)",
       "menuTitle": "HOME AIP"
     }
