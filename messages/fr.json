@@ -1,0 +1,260 @@
+{
+  "Country": {
+    "native": "France",
+    "english": "France"
+  },
+  "CountryCode": {
+    "native": "FR",
+    "english": "FR"
+  },
+  "Language": {
+    "native": "Français",
+    "english": "French"
+  },
+  "LanguageCode": {
+    "native": "fr",
+    "english": "en"
+  },
+  "Tld": {
+    "native": "fr",
+    "english": "fr"
+  },
+  "Flag": {
+    "native": "🇫🇷",
+    "english": "🇫🇷"
+  },
+  "Footer": {
+    "native": [
+      {
+        "title": "📡 Stratux - système anti-collision",
+        "hrefTitle": "Stratux - système anti-collision pour l'aviation privée et les planeurs",
+        "href": "https://dross.net/aviation/?aip"
+      },
+      {
+        "title": "Accueil",
+        "hrefTitle": "Accueil - Dross:Network",
+        "href": "https://dross.net"
+      },
+      {
+        "title": "Mentions légales",
+        "hrefTitle": "Mentions légales",
+        "href": "https://dross.net/imprint"
+      },
+      {
+        "title": "Contact",
+        "hrefTitle": "Contact",
+        "href": "https://dross.net/contact"
+      },
+      {
+        "title": "Confidentialité",
+        "hrefTitle": "Politique de confidentialité",
+        "href": "https://dross.net/privacy-policy"
+      },
+      {
+        "title": "Alexander Dross",
+        "hrefTitle": "Site web d'Alexander Dross",
+        "href": "https://dross.net/alexander/"
+      }
+    ],
+    "english": [
+      {
+        "title": "📡 Stratux - anti-collision system",
+        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
+        "href": "https://dross.net/aviation/?aip"
+      },
+      {
+        "title": "Home",
+        "hrefTitle": "Home - Dross:Network",
+        "href": "https://dross.net"
+      },
+      {
+        "title": "Imprint",
+        "hrefTitle": "Imprint",
+        "href": "https://dross.net/imprint"
+      },
+      {
+        "title": "Contact",
+        "hrefTitle": "Contact",
+        "href": "https://dross.net/contact"
+      },
+      {
+        "title": "Privacy",
+        "hrefTitle": "Privacy Policy",
+        "href": "https://dross.net/privacy-policy"
+      },
+      {
+        "title": "Alexander Dross",
+        "hrefTitle": "Website of Alexander Dross",
+        "href": "https://dross.net/alexander/"
+      }
+    ]
+  },
+  "About": {
+    "native": {
+      "title": "À quoi sert ce site?",
+      "description": "La <aip>Publication d'Information Aéronautique AIP</aip> gratuite est désormais disponible en version de base de la part de la SIA - La référence en information aéronautique, mais sans fonction de recherche. Notre site facilite la recherche des aérodromes, mais nous n'acceptons aucune responsabilité quant à l'exactitude ou à l'actualité de l'AIP (Publication d'Information Aéronautique), car il n'est pas exploité par nous. Nous ne faisons que lier aux cartes d'approche respectives.",
+      "aipHref": "https://www.sia.aviation-civile.gouv.fr",
+      "aipHrefTitle": "Publication d'Information Aéronautique AIP France"
+    },
+    "english": {
+      "title": "What is this website for?",
+      "description": "The free <aip>French Aeronautical Information Publication AIP</aip> is now available as a basic version from the SIA - La référence en information aéronautique, but without a search function. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
+      "aipHref": "https://www.sia.aviation-civile.gouv.fr",
+      "aipHrefTitle": "AIP France"
+    }
+  },
+  "CountryPage": {
+    "native": {
+      "title": "Cartes d'approche & Publication d'Information Aéronautique AIP pour la France",
+      "description": "Téléchargez ici tous les manuels d'information aéronautique (AIP) et les cartes d'approche pour la France",
+      "href": "/fr/",
+      "hrefTitle": "AIP France",
+      "breadcrumbTitle": "France (Français)",
+      "menuTitle": "AIP ACCUEIL"
+    },
+    "english": {
+      "title": "AIP and approach charts of France",
+      "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in France",
+      "href": "/fr/en/",
+      "hrefTitle": "AIP France",
+      "breadcrumbTitle": "France (English)",
+      "menuTitle": "AIP HOME"
+    }
+  },
+  "VfrPage": {
+    "native": {
+      "title": "Formulaire de recherche pour les cartes d'approche AIP VFR France",
+      "description": "Entrez le nom ou le code OACI de l'aéroport pour accéder aux cartes d'approche VFR fournies par la DGAC",
+      "countryPageTitle": "Publication d'Information Aéronautique AIP VFR",
+      "countryPageDescription": "Recherchez et téléchargez les cartes d'approche des aérodromes AIP VFR France",
+      "countryPageButtonTitle": "Publication d'Information Aéronautique AIP VFR",
+      "airportPageTitle": "Cartes AIP VFR de XXXX",
+      "airportPageDescription": "Voir et télécharger ici les cartes AIP VFR et les cartes d'approche pour XXXX.",
+      "href": "/fr/vfr/",
+      "hrefTitle": "Publication d'Information Aéronautique AIP VFR France",
+      "breadcrumbTitle": "VFR",
+      "menuTitle": "AIP VFR",
+      "searchPlaceholder": "Entrez le nom de l'aéroport ou le code OACI pour accéder à l'AIP VFR",
+      "searchResultHrefTitle": "Cartes AIP VFR de",
+      "searchResultEmpty": "Aéroport ou code OACI non trouvé."
+    },
+    "english": {
+      "title": "Index of AIP VFR and visual approach charts France",
+      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+      "countryPageTitle": "AIP VFR France",
+      "countryPageDescription": "Browse AIP VFR France and download airport approach charts for free",
+      "countryPageButtonTitle": "AIP VFR approach charts",
+      "airportPageTitle": "AIP VFR Charts of XXXX",
+      "airportPageDescription": "Click on the link below to AIP VFR and visual approach chart of XXXX",
+      "href": "/fr/en/vfr/",
+      "hrefTitle": "AIP VFR France",
+      "breadcrumbTitle": "VFR",
+      "menuTitle": "AIP VFR",
+      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+      "searchResultHrefTitle": "AIP VFR Charts of",
+      "searchResultEmpty": "Airport or ICAO code not found."
+    }
+  },
+  "IfrPage": {
+    "native": {
+      "title": "Formulaire de recherche pour les cartes d'approche AIP IFR France",
+      "description": "Entrez le nom ou le code OACI de l'aéroport pour accéder aux cartes d'approche IFR fournies par la DGAC",
+      "countryPageTitle": "Publication d'Information Aéronautique AIP IFR",
+      "countryPageDescription": "Recherchez et téléchargez les cartes d'approche des aérodromes AIP IFR France",
+      "countryPageButtonTitle": "Publication d'Information Aéronautique AIP IFR",
+      "airportPageTitle": "Cartes AIP IFR de XXXX",
+      "airportPageDescription": "Voir et télécharger ici les cartes AIP IFR et les cartes d'approche pour XXXX.",
+      "href": "/fr/ifr/",
+      "hrefTitle": "Publication d'Information Aéronautique AIP IFR France",
+      "breadcrumbTitle": "IFR",
+      "menuTitle": "AIP IFR",
+      "searchPlaceholder": "Entrez le nom de l'aéroport ou le code OACI pour accéder à l'AIP IFR",
+      "searchResultHrefTitle": "Cartes AIP IFR de",
+      "searchResultEmpty": "Aéroport ou code OACI non trouvé."
+    },
+    "english": {
+      "title": "Index of AIP IFR and approach charts France",
+      "description": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
+      "countryPageTitle": "AIP IFR France",
+      "countryPageDescription": "Browse AIP IFR France and download airport approach charts for free",
+      "countryPageButtonTitle": "AIP IFR approach charts",
+      "airportPageTitle": "AIP IFR Charts of XXXX",
+      "airportPageDescription": "Click on the link below to AIP IFR and visual approach chart of XXXX",
+      "href": "/fr/en/ifr/",
+      "hrefTitle": "AIP IFR France",
+      "breadcrumbTitle": "IFR",
+      "menuTitle": "AIP IFR",
+      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP IFR",
+      "searchResultHrefTitle": "AIP IFR Charts of",
+      "searchResultEmpty": "Airport or ICAO code not found."
+    }
+  },
+  "HeliportPage": {
+    "native": {
+      "title": "Formulaire de recherche pour les cartes d'approche AIP VFR HEL AD Héliports en France",
+      "description": "Entrez le nom ou le code OACI de l'aéroport pour accéder aux cartes d'approche VFR fournies par la DGAC pour les héliports",
+      "countryPageTitle": "Héliports",
+      "countryPageDescription": "Recherchez et téléchargez les cartes d'approche des héliports AIP VFR France",
+      "countryPageButtonTitle": "Publication d'Information Aéronautique AIP VFR Héliports",
+      "airportPageTitle": "Cartes AIP VFR Héliport de XXXX",
+      "airportPageDescription": "Voir et télécharger ici les cartes AIP VFR Héliport et les cartes d'approche pour XXXX.",
+      "href": "/fr/heliports/",
+      "hrefTitle": "Publication d'Information Aéronautique AIP VFR Héliports France",
+      "breadcrumbTitle": "Héliports",
+      "menuTitle": "Héliports",
+      "searchPlaceholder": "Entrez le nom de l'aéroport ou le code OACI pour accéder à l'AIP VFR pour les héliports",
+      "searchResultHrefTitle": "Cartes AIP VFR de Héliport",
+      "searchResultEmpty": "Aéroport ou code OACI non trouvé."
+    },
+    "english": {
+      "title": "AIP VFR Charts for Helicopter Aerodromes in France",
+      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+      "countryPageTitle": "Helicopter Aerodromes",
+      "countryPageDescription": "Browse AIP VFR Helicopter Aerodromes France and download airport approach charts for free",
+      "countryPageButtonTitle": "AIP VFR Helicopter Aerodromes",
+      "airportPageTitle": "AIP VFR Helicopter Charts of XXXX",
+      "airportPageDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
+      "href": "/fr/en/heliports/",
+      "hrefTitle": "AIP VFR Helicopter Aerodromes France",
+      "breadcrumbTitle": "Heliports",
+      "menuTitle": "Heliports",
+      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+      "searchResultHrefTitle": "AIP VFR Charts of Heliport",
+      "searchResultEmpty": "Airport or ICAO code not found."
+    }
+  },
+  "AirportsPage": {
+    "native": {
+      "title": "Liste des aérodromes en France",
+      "description": "Aperçu de tous les aérodromes/ aéroports en France",
+      "href": "/fr/liste-aeroports-france/",
+      "hrefTitle": "Liste des aéroports France",
+      "breadcrumbTitle": "Liste des aéroports",
+      "menuTitle": "Liste des aéroports",
+      "VfrAirportsTitle": "Aéroports VFR",
+      "VfrAirportsDescription": "Aéroports VFR en France",
+      "IfrAirportsTitle": "Aéroports IFR",
+      "IfrAirportsDescription": "Aéroports IFR en France",
+      "HeliportAirportsTitle": "Héliports",
+      "HeliportAirportsDescription": "Héliports en France"
+    },
+    "english": {
+      "title": "List of Airfields in France",
+      "description": "Overview of all airfields/ airports in France",
+      "href": "/fr/en/airport-list-france/",
+      "hrefTitle": "List of Airfields/ Airports France",
+      "breadcrumbTitle": "Airport List",
+      "menuTitle": "Airport List",
+      "VfrAirportsTitle": "VFR Airports",
+      "VfrAirportsDescription": "VFR airfields/ airports in France",
+      "IfrAirportsTitle": "IFR Airports",
+      "IfrAirportsDescription": "IFR airfields/ airports in France",
+      "HeliportAirportsTitle": "Helicopter Aerodromes",
+      "HeliportAirportsDescription": "Helicopter Aerodromes in France"
+    }
+  },
+  "LocaleSwitcher": {
+    "native": "🇫🇷 Français",
+    "english": "🇬🇧 English"
+  }
+}
