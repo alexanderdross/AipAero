@@ -1,19 +1,19 @@
 {
   "LocaleSwitcher": {
-    "label": "Taal wijzigen",
-    "locale": "{locale, select, nl {🇳🇱 Dutch} en {🇬🇧 English} other {Onbekend}}"
+    "label": "Switch language",
+    "locale": "{locale, select, at {🇩🇪 Deutsch} en {🇬🇧 English} other {Unknown}}"
   },
   "CountryPage": {
-    "title": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
-    "metaTitle": "🛩️ Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
-    "description": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
-    "metaDescription": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden🗺️"
+    "title": "AIP and approach charts of Austria",
+    "metaTitle": "🛩️ AIP and approach charts of Austria",
+    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria🗺️"
   },
   "About": {
-    "title": "Waarom deze website?",
-    "description": "De <aip>AIP van Nederland</aip> is beschikbaar als gratis versie. Deze website heeft tot doel het zoeken naar vliegvelden te vereenvoudigen, aangezien de basisversie van Luchtverkeersleiding Nederland (LVNL) geen zoekmasker bevat. Wij zijn niet aansprakelijk voor de juistheid en nauwkeurigheid van AIP’s (Aeronautical Information Publication), aangezien deze niet door ons worden beheerd. Wij bieden alleen handige links naar overeenkomstige naderingskaarten.",
-    "aipUrl": "https://www.lvnl.nl/diensten/aip",
-    "aipTitle": "AIP of the Netherlands"
+    "title": "About this website",
+    "description": "The <aip>AIP Austria</aip> is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by Austro Control does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
+    "aipUrl": "https://eaip.austrocontrol.at",
+    "aipTitle": "AIP Austria"
   },
   "Footer": {
     "stratux": {
@@ -32,23 +32,23 @@
       "href": "https://dross.net"
     },
     "imprint": {
-      "title": "Impressum",
-      "hrefTitle": "Impressum",
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
       "href": "https://dross.net/imprint"
     },
     "contact": {
-      "title": "Kontakt",
-      "hrefTitle": "Kontakt",
+      "title": "Contact",
+      "hrefTitle": "Contact",
       "href": "https://dross.net/contact"
     },
     "privacy": {
-      "title": "Datenschutz",
-      "hrefTitle": "Privacybeleid",
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {
       "title": "Alexander Dross",
-      "hrefTitle": "Webseite von Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
       "href": "https://dross.net/alexander/"
     }
   },

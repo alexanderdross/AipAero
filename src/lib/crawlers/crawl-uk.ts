@@ -3,19 +3,20 @@
 import * as cheerio from 'cheerio';
 import { eq } from 'drizzle-orm';
 import { db } from '~/server/db';
-import { airports } from '~/server/db/schema';
-import { type Airport } from '~/lib/crawlers/utils';
+import { airports, type InsertAirport } from '~/server/db/schema';
+import {slug} from 'github-slugger';
 
+const COUNTRY = 'UK';
 const rootUrl = 'https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/AIP/';
 
 function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, type: 'vfr' | 'ifr' | 'heliport') {
   const heliportRows = $(selector);
-  const airports: Airport[] = [];
+  const airports: InsertAirport[] = [];
   for (const row of heliportRows) {
     const element = $(row).find('a').last();
     const text = element.text().trim();
-    const icao = text.split(' ')[0]?.trim();
-    const title = text.split(' ').slice(1).join(' ').split(';')[0]?.replace('TAD_HP', '') + ' ' + icao;
+    const icao = text.split(' ')[0]?.trim() ?? '';
+    const city = text.split(' ').slice(1).join(' ').split(';')[0]?.replace('TAD_HP', '') ?? '';
     // Find the chart details
     const adDetails = $(row).next().find('a').filter((_,el) => $(el).text().includes('CHARTS RELATED'));
     const href = adDetails.attr('href');
@@ -23,7 +24,14 @@ function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, t
       continue;
     }
     const fullUrl = new URL(href, url).toString();
-    airports.push({ icao, title: title, url: fullUrl, type, country: 'UK' } as Airport);
+    airports.push({ 
+      icao: icao, 
+      title: icao === '' ? city : `${city} ${icao}`, 
+      url: fullUrl, 
+      type,
+      country: COUNTRY,
+      slug: icao === '' ? slug(city) : icao
+    });
   }
   return airports;
 }
@@ -32,7 +40,7 @@ export async function crawlUk() {
   // Start at the LVNL main page
   let response = await fetch(rootUrl);
   let $ = cheerio.load(await response.text());
-  const eaipUrl = $('a:contains("Current AIRAC")').attr('href');
+  const eaipUrl = $('a:contains("Online Version")').attr('href');
   if (!eaipUrl) {
     throw new Error(`Could not find the "eAIP" link button in ${rootUrl}`);
   }
@@ -60,9 +68,9 @@ export async function crawlUk() {
   airportsList.push(...extractAirports($, '#AD-3details>.Hx', url, 'heliport'));
   
   if (airportsList.length === 0) {
-    throw new Error('No UK airports found');
+    throw new Error(`No ${COUNTRY} airports found`);
   }
-  await db.delete(airports).where(eq(airports.country, 'UK')).execute();
+  await db.delete(airports).where(eq(airports.country, COUNTRY)).execute();
   await db.insert(airports).values(airportsList).execute();
   return airportsList;
 }

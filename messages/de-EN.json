@@ -1,19 +1,19 @@
 {
   "LocaleSwitcher": {
-    "label": "Taal wijzigen",
-    "locale": "{locale, select, nl {🇳🇱 Dutch} en {🇬🇧 English} other {Onbekend}}"
+    "label": "Switch language",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇬🇧 English} other {Unknown}}"
   },
   "CountryPage": {
-    "title": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
-    "metaTitle": "🛩️ Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
-    "description": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
-    "metaDescription": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden🗺️"
+    "title": "AIP and approach charts of Germany",
+    "metaTitle": "🛩️ AIP and approach charts of Germany",
+    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany🗺️"
   },
   "About": {
-    "title": "Waarom deze website?",
-    "description": "De <aip>AIP van Nederland</aip> is beschikbaar als gratis versie. Deze website heeft tot doel het zoeken naar vliegvelden te vereenvoudigen, aangezien de basisversie van Luchtverkeersleiding Nederland (LVNL) geen zoekmasker bevat. Wij zijn niet aansprakelijk voor de juistheid en nauwkeurigheid van AIP’s (Aeronautical Information Publication), aangezien deze niet door ons worden beheerd. Wij bieden alleen handige links naar overeenkomstige naderingskaarten.",
-    "aipUrl": "https://www.lvnl.nl/diensten/aip",
-    "aipTitle": "AIP of the Netherlands"
+    "title": "What is this website for?",
+    "description": "The free <aip>German Aeronautical Information Publication AIP</aip> is now available as a basic version from Deutsche Flugsicherung (DFS), but without a search function. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
+    "aipUrl": "https://aip.dfs.de/basicAIP/",
+    "aipTitle": "AIP Germany"
   },
   "Footer": {
     "stratux": {
@@ -32,23 +32,23 @@
       "href": "https://dross.net"
     },
     "imprint": {
-      "title": "Impressum",
-      "hrefTitle": "Impressum",
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
       "href": "https://dross.net/imprint"
     },
     "contact": {
-      "title": "Kontakt",
-      "hrefTitle": "Kontakt",
+      "title": "Contact",
+      "hrefTitle": "Contact",
       "href": "https://dross.net/contact"
     },
     "privacy": {
-      "title": "Datenschutz",
-      "hrefTitle": "Privacybeleid",
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {
       "title": "Alexander Dross",
-      "hrefTitle": "Webseite von Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
       "href": "https://dross.net/alexander/"
     }
   },

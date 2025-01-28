@@ -3,14 +3,16 @@
 import * as cheerio from 'cheerio';
 import { eq } from 'drizzle-orm';
 import { db } from '~/server/db';
-import { airports } from '~/server/db/schema';
-import { type Airport, cheerioFetch } from '~/lib/crawlers/utils';
+import { airports, type InsertAirport } from '~/server/db/schema';
+import { cheerioFetch } from '~/lib/crawlers/utils';
+import {slug} from 'github-slugger';
 
+const COUNTRY = 'DE';
 const rootVfrUrl = 'https://aip.dfs.de/BasicVFR/';
 const rootIfrUrl = 'https://aip.dfs.de/BasicIFR/';
 
 export async function crawlDe() {
-  const airportsList: Airport[] = [];
+  const airportsList: InsertAirport[] = [];
   const linkPromises = []
 
   async function getLink(rootUrl: string) {
@@ -38,11 +40,12 @@ export async function crawlDe() {
         const city = $('div.headlineText.left>span').first().text().trim();
         const icao = $('a.document-link>span.document-name').first().text().trim().match(/([A-Z]{4})/)?.at(0) ?? '';
         airportsList.push({
-          icao,
+          icao: icao === '' ? null : icao,
           title: `${city} ${icao}`,
           url: url.toString(),
           type: linkType === 'aerodomes' ? 'ifr' : 'heliport',
-          country: 'DE'
+          country: COUNTRY,
+          slug: icao === '' ? slug(city) : icao
         });
       }
       for (const linkType of ['aerodomes', 'heliports']) {
@@ -72,11 +75,12 @@ export async function crawlDe() {
             const title = $(el).find('span').first().text().trim() ?? '';
             const icao = title.match(/([A-Z]{4})$/)?.at(0) ?? '';
             airportsList.push({
-              icao,
-              title,
+              icao: icao === '' ? null : icao,
+              title: title,
               url: new URL(href, url).toString(),
               type: linkType === 'aerodomes' ? 'vfr' : 'heliport',
-              country: 'DE'
+              country: COUNTRY,
+              slug: icao === '' ? slug(title) : icao
             });
           });
         }
@@ -94,9 +98,9 @@ export async function crawlDe() {
   await Promise.all(linkPromises);
 
   if (airportsList.length === 0) {
-    throw new Error('No DE airports found');
+    throw new Error(`No ${COUNTRY} airports found`);
   }
-  await db.delete(airports).where(eq(airports.country, 'DE')).execute();
+  await db.delete(airports).where(eq(airports.country, COUNTRY)).execute();
   await db.insert(airports).values(airportsList).execute();
   return airportsList;
 }

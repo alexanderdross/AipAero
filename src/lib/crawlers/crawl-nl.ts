@@ -3,19 +3,20 @@
 import * as cheerio from 'cheerio';
 import { eq } from 'drizzle-orm';
 import { db } from '~/server/db';
-import { airports } from '~/server/db/schema';
-import { type Airport } from '~/lib/crawlers/utils';
+import { airports, type InsertAirport } from '~/server/db/schema';
+import {slug} from 'github-slugger';
 
+const COUNTRY = 'NL';
 const rootUrl = 'https://www.lvnl.nl/diensten/aip';
 
 function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, type: 'vfr' | 'ifr' | 'heliport') {
   const heliportRows = $(selector);
-  const airports: Airport[] = [];
+  const airports: InsertAirport[] = [];
   for (const row of heliportRows) {
     const element = $(row).find('a').last();
     const text = element.text().trim();
-    const icao = text.split('—')[0]?.trim();
-    const title = text.split('—')[1]?.trim() + ' ' + icao;
+    const icao = text.split('—')[0]?.trim() ?? '';
+    const city = text.split('—')[1]?.trim() ?? '';
     // Find the chart details
     const adDetails = $(row).next().find('a').last();
     const href = adDetails.attr('href');
@@ -23,7 +24,14 @@ function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, t
       continue;
     }
     const fullUrl = new URL(href, url).toString();
-    airports.push({ icao, title: title, url: fullUrl, type, country: 'NL' } as Airport);
+    airports.push({ 
+      icao, 
+      title: icao === '' ? city : `${city} ${icao}`, 
+      url: fullUrl, 
+      type, 
+      country: COUNTRY,
+      slug: icao === '' ? slug(city) : icao
+    });
   }
   return airports;
 }
@@ -68,9 +76,9 @@ export async function crawlNl() {
   airportsList.push(...extractAirports($, '#AD-3details>.Hx', url, 'heliport'));
   
   if (airportsList.length === 0) {
-    throw new Error('No NL airports found');
+    throw new Error(`No ${COUNTRY} airports found`);
   }
-  await db.delete(airports).where(eq(airports.country, 'NL')).execute();
+  await db.delete(airports).where(eq(airports.country, COUNTRY)).execute();
   await db.insert(airports).values(airportsList).execute();
   return airportsList;
 }

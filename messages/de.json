@@ -1,260 +1,95 @@
 {
-  "Country": {
-    "native": "Deutschland",
-    "english": "Germany"
-  },
-  "CountryCode": {
-    "native": "DE",
-    "english": "DE"
-  },
-  "Language": {
-    "native": "Deutsch",
-    "english": "German"
-  },
-  "LanguageCode": {
-    "native": "de",
-    "english": "en"
-  },
-  "Tld": {
-    "native": "de",
-    "english": "de"
-  },
-  "Flag": {
-    "native": "🇩🇪",
-    "english": "🇩🇪"
-  },
-  "Footer": {
-    "native": [
-      {
-        "title": "📡 Stratux - anti-collision system",
-        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
-        "href": "https://dross.net/aviation/?aip"
-      },
-      {
-        "title": "Home",
-        "hrefTitle": "Home - Dross:Network",
-        "href": "https://dross.net"
-      },
-      {
-        "title": "Impressum",
-        "hrefTitle": "Impressum",
-        "href": "https://dross.net/imprint"
-      },
-      {
-        "title": "Kontakt",
-        "hrefTitle": "Kontakt",
-        "href": "https://dross.net/contact"
-      },
-      {
-        "title": "Datenschutz",
-        "hrefTitle": "Datenschutz",
-        "href": "https://dross.net/privacy-policy"
-      },
-      {
-        "title": "Alexander Dross",
-        "hrefTitle": "Webseite von Alexander Dross",
-        "href": "https://dross.net/alexander/"
-      }
-    ],
-    "english": [
-      {
-        "title": "📡 Stratux - anti-collision system",
-        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
-        "href": "https://dross.net/aviation/?aip"
-      },
-      {
-        "title": "Home",
-        "hrefTitle": "Home - Dross:Network",
-        "href": "https://dross.net"
-      },
-      {
-        "title": "Imprint",
-        "hrefTitle": "Imprint",
-        "href": "https://dross.net/imprint"
-      },
-      {
-        "title": "Contact",
-        "hrefTitle": "Contact",
-        "href": "https://dross.net/contact"
-      },
-      {
-        "title": "Privacy",
-        "hrefTitle": "Privacy Policy",
-        "href": "https://dross.net/privacy-policy"
-      },
-      {
-        "title": "Alexander Dross",
-        "hrefTitle": "Website of Alexander Dross",
-        "href": "https://dross.net/alexander/"
-      }
-    ]
-  },
-  "About": {
-    "native": {
-      "title": "Wozu diese Website?",
-      "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Deutschland</aip> steht nun seitens Deutsche Flugsicherung (DFS) als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
-      "aipHref": "https://aip.dfs.de/basicAIP/",
-      "aipHrefTitle": "Luftfahrthandbuch AIP Deutschland"
-    },
-    "english": {
-      "title": "What is this website for?",
-      "description": "The free <aip>German Aeronautical Information Publication AIP</aip> is now available as a basic version from Deutsche Flugsicherung (DFS), but without a search function. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
-      "aipHref": "https://aip.dfs.de/basicAIP/",
-      "aipHrefTitle": "AIP Germany"
-    }
+  "LocaleSwitcher": {
+    "label": "Sprache ändern",
+    "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇬🇧 English} other {Unbekannt}}"
   },
   "CountryPage": {
-    "native": {
-      "title": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
-      "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
-      "href": "/de/",
-      "hrefTitle": "AIP Deutschland",
-      "breadcrumbTitle": "Deutschland (Deutsch)",
-      "menuTitle": "AIP HOME"
+    "title": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
+    "metaTitle": "🛩️ Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
+    "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
+    "metaDescription": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download🗺️"
+  },
+  "About": {
+    "title": "Wozu diese Website?",
+    "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Deutschland</aip> steht nun seitens Deutsche Flugsicherung (DFS) als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
+    "aipUrl": "https://aip.dfs.de/basicAIP/",
+    "aipTitle": "Luftfahrthandbuch AIP Deutschland"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
     },
-    "english": {
-      "title": "AIP and approach charts of Germany",
-      "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany",
-      "href": "/de/en/",
-      "hrefTitle": "AIP Germany",
-      "breadcrumbTitle": "Germany (English)",
-      "menuTitle": "AIP HOME"
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impressum",
+      "hrefTitle": "Impressum",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Datenschutz",
+      "hrefTitle": "Datenschutz",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Webseite von Alexander Dross",
+      "href": "https://dross.net/alexander/"
     }
   },
-  "VfrPage": {
-    "native": {
-      "title": "Suchmaske für Anflugkarten AIP VFR Deutschland",
-      "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten VFR Anflugkarten zu gelangen",
-      "countryPageTitle": "Luftfahrthandbuch AIP VFR",
-      "countryPageDescription": "AIP VFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen",
-      "countryPageButtonTitle": "Luftfahrthandbuch AIP VFR",
-      "airportPageTitle": "AIP VFR Charts von",
-      "airportPageDescription": "AIP VFR Charts und Anflugkarte für XXXX hier ansehen und runterladen.",
-      "href": "/de/vfr/",
-      "hrefTitle": "Luftfahrthandbuch AIP VFR Deutschland",
-      "breadcrumbTitle": "VFR",
-      "menuTitle": "AIP VFR",
-      "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
-      "searchResultHrefTitle": "AIP VFR Charts von",
-      "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
-    },
-    "english": {
-      "title": "Index of AIP VFR and visual approach charts Germany",
-      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
-      "countryPageTitle": "AIP VFR Germany",
-      "countryPageDescription": "Browse AIP VFR Germany and download airport approach charts for free",
-      "countryPageButtonTitle": "AIP VFR approach charts",
-      "airportPageTitle": "AIP VFR Charts of",
-      "airportPageDescription": "Click on the link below to AIP VFR and visual approach chart of XXXX",
-      "href": "/de/en/vfr/",
-      "hrefTitle": "AIP VFR Germany",
-      "breadcrumbTitle": "VFR",
-      "menuTitle": "AIP VFR",
-      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
-      "searchResultHrefTitle": "AIP VFR Charts of",
-      "searchResultEmpty": "Airport or ICAO code not found."
+  "Error": {
+    "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
+    "title": "Etwas ist schief gelaufen!"
+  },
+  "IndexPage": {
+    "description": "Dies ist ein Beispiel, das die Verwendung von <code>next-intl</code> mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
+    "title": "next-intl Beispiel"
+  },
+  "LocaleLayout": {
+    "title": "next-intl Beispiel"
+  },
+  "Manifest": {
+    "name": ""
+  },
+  "Navigation": {
+    "home": "Start",
+    "pathnames": "Pfadnamen"
+  },
+  "NotFoundPage": {
+    "description": "Bitte überprüfe die Addressleiste deines Browsers oder verwende die Navigation um zu einer bekannten Seite zu wechseln.",
+    "title": "Seite nicht gefunden"
+  },
+  "PageLayout": {
+    "links": {
+      "docs": {
+        "description": "Erfahre mehr über next-intl in der offiziellen Dokumentation.",
+        "href": "https://next-intl.dev",
+        "title": "Dokumentation"
+      },
+      "source": {
+        "description": "Sieh dir den Quellcode dieses Beispiels auf GitHub an.",
+        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
+        "title": "Quellcode"
+      }
     }
   },
-  "IfrPage": {
-    "native": {
-      "title": "Suchmaske für Anflugkarten AIP IFR Deutschland",
-      "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten IFR Anflugkarten zu gelangen",
-      "countryPageTitle": "Luftfahrthandbuch AIP IFR",
-      "countryPageDescription": "AIP IFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen",
-      "countryPageButtonTitle": "Luftfahrthandbuch AIP IFR",
-      "airportPageTitle": "AIP IFR Charts von",
-      "airportPageDescription": "AIP IFR Charts und Anflugkarte für XXXX hier ansehen und runterladen.",
-      "href": "/de/ifr/",
-      "hrefTitle": "Luftfahrthandbuch AIP IFR Deutschland",
-      "breadcrumbTitle": "IFR",
-      "menuTitle": "AIP IFR",
-      "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen",
-      "searchResultHrefTitle": "AIP IFR Charts von",
-      "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
-    },
-    "english": {
-      "title": "Index of AIP IFR and approach charts Germany",
-      "description": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
-      "countryPageTitle": "AIP IFR Germany",
-      "countryPageDescription": "Browse AIP IFR Germany and download airport approach charts for free",
-      "countryPageButtonTitle": "AIP IFR approach charts",
-      "airportPageTitle": "AIP IFR Charts of",
-      "airportPageDescription": "Click on the link below to AIP IFR and visual approach chart of XXXX",
-      "href": "/de/en/ifr/",
-      "hrefTitle": "AIP IFR Germany",
-      "breadcrumbTitle": "IFR",
-      "menuTitle": "AIP IFR",
-      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP IFR",
-      "searchResultHrefTitle": "AIP IFR Charts of",
-      "searchResultEmpty": "Airport or ICAO code not found."
-    }
-  },
-  "HeliportPage": {
-    "native": {
-      "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Deutschland",
-      "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
-      "countryPageTitle": "Hubschrauberlandeplätze",
-      "countryPageDescription": "AIP VFR Deutschland HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen",
-      "countryPageButtonTitle": "AIP VFR Hubschrauberlandeplätze",
-      "airportPageTitle": "AIP VFR Hubschrauberlandeplatz Charts von",
-      "airportPageDescription": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für XXXX hier ansehen und runterladen.",
-      "href": "/de/heliports/",
-      "hrefTitle": "AIP VFR Heliports Deutschland",
-      "breadcrumbTitle": "Heliports",
-      "menuTitle": "Heliports",
-      "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
-      "searchResultHrefTitle": "AIP VFR Charts von Heliport",
-      "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
-    },
-    "english": {
-      "title": "AIP VFR Charts for Helicopter Aerodromes in Germany",
-      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
-      "countryPageTitle": "Helicopter Aerodromes",
-      "countryPageDescription": "Browse AIP VFR Helicopter Aerodromes Germany and download airport approach charts for free",
-      "countryPageButtonTitle": "AIP VFR Helicopter Aerodromes",
-      "airportPageTitle": "AIP VFR Helicopter Charts of",
-      "airportPageDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
-      "href": "/de/en/heliports/",
-      "hrefTitle": "AIP VFR Helicopter Aerodromes Germany",
-      "breadcrumbTitle": "Heliports",
-      "menuTitle": "Heliports",
-      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-      "searchResultHrefTitle": "AIP VFR Charts of Heliport",
-      "searchResultEmpty": "Airport or ICAO code not found."
-    }
-  },
-  "AirportsPage": {
-    "native": {
-      "title": "Liste der Flugplätze in Deutschland",
-      "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick",
-      "href": "/de/flughafen-liste-deutschland/",
-      "hrefTitle": "Liste der Flughäfen Deutschland",
-      "breadcrumbTitle": "Flughafen Liste",
-      "menuTitle": "Flughafen Liste",
-      "VfrAirportsTitle": "VFR Flugplätze",
-      "VfrAirportsDescription": "VFR Flugplätze/ Flughäfen in Deutschland",
-      "IfrAirportsTitle": "IFR Flugplätze",
-      "IfrAirportsDescription": "IFR Flugplätze/ Flughäfen in Deutschland",
-      "HeliportAirportsTitle": "Hubschrauberlandeplätze",
-      "HeliportAirportsDescription": "Hubschrauberlandeplätze in Deutschland"
-    },
-    "english": {
-      "title": "List of Airfields in Germany",
-      "description": "Overview of all airfields/ airports in Germany",
-      "href": "/de/en/airport-list-germany/",
-      "hrefTitle": "List of Airfields/ Airports Germany",
-      "breadcrumbTitle": "Airport List",
-      "menuTitle": "Airport List",
-      "VfrAirportsTitle": "VFR Airports",
-      "VfrAirportsDescription": "VFR airfields/ airports in Germany",
-      "IfrAirportsTitle": "IFR Airports",
-      "IfrAirportsDescription": "IFR airfields/ airports in Germany",
-      "HeliportAirportsTitle": "Helicopter Aerodromes",
-      "HeliportAirportsDescription": "Helicopter Aerodromes in Germany"
-    }
-  },
-  "LocaleSwitcher": {
-    "native": "🇩🇪 Deutsch",
-    "english": "🇬🇧 English"
+  "PathnamesPage": {
+    "description": "<p>Auch die Pfadnamen sind internationalisiert.</p><p>Wenn du die Standardsprache Englisch verwendest, siehst du <code>/en/pathnames</code> in der Adressleiste des Browsers auf dieser Seite.</p><p>Wenn du die Sprache auf Deutsch änderst, wird die URL entsprechend lokalisiert (<code>/de/pfadnamen</code>).</p>",
+    "title": "Pfadnamen"
   }
 }

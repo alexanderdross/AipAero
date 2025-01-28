@@ -1,124 +1,95 @@
 {
-  "Country": {
-    "native": "United Kingdom"
-  },
-  "CountryCode": {
-    "native": "GB"
-  },
-  "Language": {
-    "native": "English"
-  },
-  "LanguageCode": {
-    "native": "en"
-  },
-  "Tld": {
-    "native": "uk"
-  },
-  "Flag": {
-    "native": "🇬🇧"
-  },
-  "Footer": {
-    "native": [
-      {
-        "title": "📡 Stratux - anti-collision system",
-        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
-        "href": "https://dross.net/aviation/?aip"
-      },
-      {
-        "title": "Home",
-        "hrefTitle": "Home - Dross:Network",
-        "href": "https://dross.net"
-      },
-      {
-        "title": "Imprint",
-        "hrefTitle": "Imprint",
-        "href": "https://dross.net/imprint"
-      },
-      {
-        "title": "Contact",
-        "hrefTitle": "Contact",
-        "href": "https://dross.net/contact"
-      },
-      {
-        "title": "Privacy",
-        "hrefTitle": "Privacy Policy",
-        "href": "https://dross.net/privacy-policy"
-      },
-      {
-        "title": "Alexander Dross",
-        "hrefTitle": "Website of Alexander Dross",
-        "href": "https://dross.net/alexander/"
-      }
-    ]
-  },
-  "About": {
-    "native": {
-      "title": "About this website",
-      "description": "The <aip>AIP of the United Kingdom (UK)</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by NATS does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
-      "aipHref": "https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/",
-      "aipHrefTitle": "AIP of the United Kingdom (UK)"
-    }
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, en {🇬🇧 English} other {Unknown}}"
   },
   "CountryPage": {
-    "native": {
-      "title": "AIP and approach charts of the UK",
-      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
-      "href": "/uk/",
-      "hrefTitle": "AIP United Kingdom (UK)",
-      "breadcrumbTitle": "United Kingdom",
-      "menuTitle": "HOME AIP"
+    "title": "AIP and approach charts of the UK",
+    "metaTitle": "🛩️ AIP and approach charts of the UK",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)🗺️"
+  },
+  "About": {
+    "title": "About this website",
+    "description": "The <aip>AIP of the United Kingdom (UK)</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by NATS does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
+    "aipUrl": "https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/",
+    "aipTitle": "AIP of the United Kingdom (UK)"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
     }
   },
-  "VfrPage": {
-    "native": {
-      "title": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
-      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
-      "countryPageTitle": "AIP VFR UK",
-      "countryPageDescription": "Browse AIP VFR of the United Kingdom and download airport approach charts for free",
-      "countryPageButtonTitle": "AIP VFR approach charts",
-      "airportPageTitle": "AIP VFR Charts of",
-      "airportPageDescription": "Click on the link below to AIP VFR and visual approach chart of XXXX",
-      "href": "/uk/vfr/",
-      "hrefTitle": "AIP VFR United Kingdom (UK)",
-      "breadcrumbTitle": "VFR",
-      "menuTitle": "AIP VFR",
-      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR/ IFR",
-      "searchResultHrefTitle": "AIP VFR Charts of",
-      "searchResultEmpty": "Airport or ICAO code not found."
+  "Error": {
+    "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
+    "title": "Etwas ist schief gelaufen!"
+  },
+  "IndexPage": {
+    "description": "Dies ist ein Beispiel, das die Verwendung von <code>next-intl</code> mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
+    "title": "next-intl Beispiel"
+  },
+  "LocaleLayout": {
+    "title": "next-intl Beispiel"
+  },
+  "Manifest": {
+    "name": ""
+  },
+  "Navigation": {
+    "home": "Start",
+    "pathnames": "Pfadnamen"
+  },
+  "NotFoundPage": {
+    "description": "Bitte überprüfe die Addressleiste deines Browsers oder verwende die Navigation um zu einer bekannten Seite zu wechseln.",
+    "title": "Seite nicht gefunden"
+  },
+  "PageLayout": {
+    "links": {
+      "docs": {
+        "description": "Erfahre mehr über next-intl in der offiziellen Dokumentation.",
+        "href": "https://next-intl.dev",
+        "title": "Dokumentation"
+      },
+      "source": {
+        "description": "Sieh dir den Quellcode dieses Beispiels auf GitHub an.",
+        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
+        "title": "Quellcode"
+      }
     }
   },
-  "HeliportPage": {
-    "native": {
-      "title": "AIP VFR Charts for Helicopter Aerodromes in the UK",
-      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
-      "countryPageTitle": "Helicopter Aerodromes UK",
-      "countryPageDescription": "Browse AIP VFR Helicopter Aerodromes of the UK and download airport approach charts for free",
-      "countryPageButtonTitle": "AIP VFR Helicopter Aerodromes",
-      "airportPageTitle": "AIP VFR Helicopter Charts of",
-      "airportPageDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
-      "href": "/uk/heliports/",
-      "hrefTitle": "AIP VFR Heliports United Kingdom (UK)",
-      "breadcrumbTitle": "Heliports",
-      "menuTitle": "Heliports",
-      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-      "searchResultHrefTitle": "AIP VFR Charts of Heliport",
-      "searchResultEmpty": "Airport or ICAO code not found."
-    }
-  },
-  "AirportsPage": {
-    "native": {
-      "title": "List of Airfields in the United Kingdom",
-      "description": "Overview of all airfields/ airports/ heliports in the UK",
-      "href": "/uk/airport-list-uk/",
-      "hrefTitle": "List of Airports/ Airfields in the United Kingdom (UK)",
-      "breadcrumbTitle": "Airport List",
-      "menuTitle": "Airport List",
-      "VfrAirportsTitle": "VFR Airports",
-      "VfrAirportsDescription": "VFR airfields/ airports in the United Kingdom",
-      "IfrAirportsTitle": "IFR Airports",
-      "IfrAirportsDescription": "IFR airfields/ airports in the United Kingdom",
-      "HeliportAirportsTitle": "Helicopter Aerodromes",
-      "HeliportAirportsDescription": "Helicopter Aerodromes in the United Kingdom"
-    }
+  "PathnamesPage": {
+    "description": "<p>Auch die Pfadnamen sind internationalisiert.</p><p>Wenn du die Standardsprache Englisch verwendest, siehst du <code>/en/pathnames</code> in der Adressleiste des Browsers auf dieser Seite.</p><p>Wenn du die Sprache auf Deutsch änderst, wird die URL entsprechend lokalisiert (<code>/de/pfadnamen</code>).</p>",
+    "title": "Pfadnamen"
   }
 }

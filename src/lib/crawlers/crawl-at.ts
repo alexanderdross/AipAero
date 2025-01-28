@@ -2,8 +2,8 @@
 import * as cheerio from "cheerio";
 import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
-import { airports } from "~/server/db/schema";
-import { type Airport } from '~/lib/crawlers/utils';
+import { airports, type InsertAirport } from "~/server/db/schema";
+import {slug} from 'github-slugger';
 
 const rootUrl = 'https://eaip.austrocontrol.at';
 
@@ -19,15 +19,14 @@ async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
   const text = await fetchIso8859(url);
   const $ = cheerio.load(text);
   const tableRows = $('table tr');
-  const airports: Airport[] = [];
+  const airports: InsertAirport[] = [];
   for (const row of tableRows) {
     const cells = $(row).find('td');
     if (cells.length < 2) {
       continue;
     }
     const icao = $(cells[0]).find('a').first().text().trim();
-    const title = $(cells[1]).text().trim();
-    const fullTitle = `${title} ${icao}`;
+    const city = $(cells[1]).text().trim();
     const href = $(cells[0]).find('a').last().attr('href');
     if (!href || icao === 'AD 3') {
       continue;
@@ -36,10 +35,24 @@ async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
     const fullUrl = new URL(href, url).toString();
     if (fullUrl.endsWith('.pdf')) {
       // Just use the PDF link
-      airports.push({ icao, title: fullTitle, url: fullUrl, type, country: 'AT' } as Airport);
+      airports.push({ 
+        icao: icao === '' ? null : icao,
+        title: `${city} ${icao}`, 
+        url: fullUrl, 
+        type, 
+        country: 'AT',
+        slug: icao === '' ? slug(city) : icao
+      });
     } else {
       // TODO: Follow link and differentiate between VFR and IFR
-      airports.push({ icao, title: fullTitle, url: fullUrl, type, country: 'AT' } as Airport);
+      airports.push({ 
+        icao: icao === '' ? null : icao,
+        title: `${city} ${icao}`, 
+        url: fullUrl, 
+        type, 
+        country: 'AT', 
+        slug: icao === '' ? slug(city) : icao 
+      });
     }
   }
   return airports;

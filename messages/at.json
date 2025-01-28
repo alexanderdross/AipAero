@@ -1,226 +1,95 @@
 {
-  "Country": {
-    "native": "Österreich",
-    "english": "Austria"
-  },
-  "CountryCode": {
-    "native": "AT",
-    "english": "AT"
-  },
-  "Language": {
-    "native": "Deutsch",
-    "english": "German"
-  },
-  "LanguageCode": {
-    "native": "de",
-    "english": "en"
-  },
-  "Tld": {
-    "native": "at",
-    "english": "at"
-  },
-  "Flag": {
-    "native": "🇦🇹",
-    "english": "🇦🇹"
-  },
-  "Footer": {
-    "native": [
-      {
-        "title": "📡 Stratux - anti-collision system",
-        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
-        "href": "https://dross.net/aviation/?aip"
-      },
-      {
-        "title": "Home",
-        "hrefTitle": "Home - Dross:Network",
-        "href": "https://dross.net"
-      },
-      {
-        "title": "Impressum",
-        "hrefTitle": "Impressum",
-        "href": "https://dross.net/imprint"
-      },
-      {
-        "title": "Kontakt",
-        "hrefTitle": "Kontakt",
-        "href": "https://dross.net/contact"
-      },
-      {
-        "title": "Datenschutz",
-        "hrefTitle": "Datenschutz",
-        "href": "https://dross.net/privacy-policy"
-      },
-      {
-        "title": "Alexander Dross",
-        "hrefTitle": "Webseite von Alexander Dross",
-        "href": "https://dross.net/alexander/"
-      }
-    ],
-    "english": [
-      {
-        "title": "📡 Stratux - anti-collision system",
-        "hrefTitle": "Stratux - anti-collision system for private aviation and gliders",
-        "href": "https://dross.net/aviation/?aip"
-      },
-      {
-        "title": "Home",
-        "hrefTitle": "Home - Dross:Network",
-        "href": "https://dross.net"
-      },
-      {
-        "title": "Imprint",
-        "hrefTitle": "Imprint",
-        "href": "https://dross.net/imprint"
-      },
-      {
-        "title": "Contact",
-        "hrefTitle": "Contact",
-        "href": "https://dross.net/contact"
-      },
-      {
-        "title": "Privacy",
-        "hrefTitle": "Privacy Policy",
-        "href": "https://dross.net/privacy-policy"
-      },
-      {
-        "title": "Alexander Dross",
-        "hrefTitle": "Website of Alexander Dross",
-        "href": "https://dross.net/alexander/"
-      }
-    ]
-  },
-  "About": {
-    "native": {
-      "title": "Wozu diese Website?",
-      "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Österreich</aip> steht seitens Austro Control als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
-      "aipHref": "https://eaip.austrocontrol.at/",
-      "aipHrefTitle": "Luftfahrthandbuch AIP Österreich"
-    },
-    "english": {
-      "title": "About this website",
-      "description": "The <aip>AIP Austria</aip> is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by Austro Control does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
-      "aipHref": "https://eaip.austrocontrol.at/",
-      "aipHrefTitle": "AIP Austria"
-    }
+  "LocaleSwitcher": {
+    "label": "Sprache ändern",
+    "locale": "{locale, select, at {🇩🇪 Deutsch} en {🇬🇧 English} other {Unbekannt}}"
   },
   "CountryPage": {
-    "native": {
-      "title": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
-      "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download",
-      "href": "/at/",
-      "hrefTitle": "AIP Österreich",
-      "breadcrumbTitle": "Österreich (Deutsch)",
-      "menuTitle": "HOME AIP"
+    "title": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
+    "metaTitle": "🛩️ Anflugkarten & Luftfahrthandbuch AIP für Österreich",
+    "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download",
+    "metaDescription": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download🗺️"
+  },
+  "About": {
+    "title": "Wozu diese Website?",
+    "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Österreich</aip> steht seitens Austro Control als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns betrieben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
+    "aipUrl": "https://eaip.austrocontrol.at",
+    "aipTitle": "Luftfahrthandbuch AIP Österreich"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
     },
-    "english": {
-      "title": "AIP and approach charts of Austria",
-      "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria",
-      "href": "/at/en/",
-      "hrefTitle": "AIP Austria",
-      "breadcrumbTitle": "Austria (English)",
-      "menuTitle": "HOME AIP"
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impressum",
+      "hrefTitle": "Impressum",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Datenschutz",
+      "hrefTitle": "Datenschutz",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Webseite von Alexander Dross",
+      "href": "https://dross.net/alexander/"
     }
   },
-  "VfrPage": {
-    "native": {
-      "title": "Suchmaske für Anflugkarten AIP VFR Österreich",
-      "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten zu gelangen",
-      "countryPageTitle": "Luftfahrthandbuch AIP VFR Österreich",
-      "countryPageDescription": "AIP VFR Österreich AD Flugplätze durchsuchen und Anflugkarten runterladen",
-      "countryPageButtonTitle": "Luftfahrthandbuch AIP VFR",
-      "airportPageTitle": "AIP VFR Charts von",
-      "airportPageDescription": "AIP VFR Charts und Anflugkarte für XXXX hier ansehen und runterladen.",
-      "href": "/at/vfr/",
-      "hrefTitle": "Luftfahrthandbuch VFR Österreich",
-      "breadcrumbTitle": "VFR",
-      "menuTitle": "AIP VFR",
-      "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
-      "searchResultHrefTitle": "AIP VFR Charts von",
-      "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
-    },
-    "english": {
-      "title": "Index of AIP VFR and visual approach charts Austria",
-      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
-      "countryPageTitle": "AIP VFR Austria",
-      "countryPageDescription": "Browse AIP VFR Austria and download airport approach charts for free",
-      "countryPageButtonTitle": "AIP VFR approach charts",
-      "airportPageTitle": "AIP VFR Charts of",
-      "airportPageDescription": "Click on the link below to AIP VFR and visual approach chart of XXXX",
-      "href": "/at/en/vfr/",
-      "hrefTitle": "AIP VFR Austria",
-      "breadcrumbTitle": "VFR",
-      "menuTitle": "AIP VFR",
-      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
-      "searchResultHrefTitle": "AIP VFR Charts of",
-      "searchResultEmpty": "Airport or ICAO code not found."
+  "Error": {
+    "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
+    "title": "Etwas ist schief gelaufen!"
+  },
+  "IndexPage": {
+    "description": "Dies ist ein Beispiel, das die Verwendung von <code>next-intl</code> mit dem Next.js App Router demonstriert. Bei Ändern der Sprache rechts oben ändert sich der Inhalt dieser Seite.",
+    "title": "next-intl Beispiel"
+  },
+  "LocaleLayout": {
+    "title": "next-intl Beispiel"
+  },
+  "Manifest": {
+    "name": ""
+  },
+  "Navigation": {
+    "home": "Start",
+    "pathnames": "Pfadnamen"
+  },
+  "NotFoundPage": {
+    "description": "Bitte überprüfe die Addressleiste deines Browsers oder verwende die Navigation um zu einer bekannten Seite zu wechseln.",
+    "title": "Seite nicht gefunden"
+  },
+  "PageLayout": {
+    "links": {
+      "docs": {
+        "description": "Erfahre mehr über next-intl in der offiziellen Dokumentation.",
+        "href": "https://next-intl.dev",
+        "title": "Dokumentation"
+      },
+      "source": {
+        "description": "Sieh dir den Quellcode dieses Beispiels auf GitHub an.",
+        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
+        "title": "Quellcode"
+      }
     }
   },
-  "HeliportPage": {
-    "native": {
-      "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
-      "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
-      "countryPageTitle": "Hubschrauberlandeplätze Österreich",
-      "countryPageDescription": "AIP VFR Österreich HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen",
-      "countryPageButtonTitle": "AIP VFR Hubschrauberlandeplätze",
-      "airportPageTitle": "AIP VFR Hubschrauberlandeplatz Charts von",
-      "airportPageDescription": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für XXXX hier ansehen und runterladen.",
-      "href": "/at/heliports/",
-      "hrefTitle": "AIP VFR Heliports Österreich",
-      "breadcrumbTitle": "Heliports",
-      "menuTitle": "Heliports",
-      "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
-      "searchResultHrefTitle": "AIP VFR Charts von Heliport",
-      "searchResultEmpty": "Flughafen oder ICAO Code nicht gefunden."
-    },
-    "english": {
-      "title": "AIP VFR Charts for Helicopter Aerodromes in Austria",
-      "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
-      "countryPageTitle": "Helicopter Aerodromes Austria",
-      "countryPageDescription": "Browse AIP VFR Helicopter Aerodromes Austria and download airport approach charts for free",
-      "countryPageButtonTitle": "AIP VFR Helicopter Aerodromes",
-      "airportPageTitle": "AIP VFR Helicopter Charts of",
-      "airportPageDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of XXXX",
-      "href": "/at/en/heliports/",
-      "hrefTitle": "AIP VFR Heliports Austria",
-      "breadcrumbTitle": "Heliports",
-      "menuTitle": "Heliports",
-      "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-      "searchResultHrefTitle": "AIP VFR Charts of Heliport",
-      "searchResultEmpty": "Airport or ICAO code not found."
-    }
-  },
-  "AirportsPage": {
-    "native": {
-      "title": "Liste der Flugplätze in Österreich",
-      "description": "Alle Flugplätze/ Flughäfen in Österreich im Überblick",
-      "href": "/at/flughafen-liste-oesterreich/",
-      "hrefTitle": "Flughafen Liste Österreich",
-      "breadcrumbTitle": "Flughafen Liste",
-      "menuTitle": "Flughafen Liste",
-      "VfrAirportsTitle": "VFR Flugplätze",
-      "VfrAirportsDescription": "VFR Flugplätze/ Flughäfen in Österreich",
-      "IfrAirportsTitle": "IFR Flugplätze",
-      "IfrAirportsDescription": "IFR Flugplätze/ Flughäfen in Österreich",
-      "HeliportAirportsTitle": "Hubschrauberlandeplätze",
-      "HeliportAirportsDescription": "Hubschrauberlandeplätze in Österreich"
-    },
-    "english": {
-      "title": "List of Airfields in Austria",
-      "description": "Overview of all airfields/ airports in Austria",
-      "href": "/at/en/airport-list-austria/",
-      "hrefTitle": "List of Airfields/ Airports Austria",
-      "breadcrumbTitle": "Airport List",
-      "menuTitle": "Airport List",
-      "VfrAirportsTitle": "VFR Airports",
-      "VfrAirportsDescription": "VFR airfields/ airports in Austria",
-      "IfrAirportsTitle": "IFR Airports",
-      "IfrAirportsDescription": "IFR airfields/ airports in Austria",
-      "HeliportAirportsTitle": "Helicopter Aerodromes",
-      "HeliportAirportsDescription": "Helicopter Aerodromes in Austria"
-    }
-  },
-  "LocaleSwitcher": {
-    "native": "🇩🇪 Deutsch",
-    "english": "🇬🇧 English"
+  "PathnamesPage": {
+    "description": "<p>Auch die Pfadnamen sind internationalisiert.</p><p>Wenn du die Standardsprache Englisch verwendest, siehst du <code>/en/pathnames</code> in der Adressleiste des Browsers auf dieser Seite.</p><p>Wenn du die Sprache auf Deutsch änderst, wird die URL entsprechend lokalisiert (<code>/de/pfadnamen</code>).</p>",
+    "title": "Pfadnamen"
   }
 }

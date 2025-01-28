@@ -1,13 +1,5 @@
 import * as cheerio from 'cheerio';
 
-export interface Airport {
-  icao: string;
-  title: string;
-  url: string;
-  type: 'vfr' | 'ifr' | 'heliport';
-  country: string;
-}
-
 export async function cheerioFetch(url: string, content: string, selector: string, attr: string) {
   const $ = cheerio.load(content);
   const href = $(selector).attr(attr);
