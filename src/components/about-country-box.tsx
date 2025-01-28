@@ -1,9 +1,9 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { AboutBox } from "~/components/about-box";
 import { ExternalLink } from "~/components/external-link";
 
-export function AboutCountryBox() {
-  const t = useTranslations('About');
+export async function AboutCountryBox() {
+  const t = await getTranslations('About');
 
   return (
     <AboutBox title={t('title')}>

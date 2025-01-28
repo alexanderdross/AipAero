@@ -55,7 +55,7 @@ export default function Footer() {
       </footer>
       
       {/* Cloudflare Web Analytics */}
-      {env.NODE_ENV === "production" && <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2670b414c17d439c81ec294732f48bf8"}'></script>}
+      {/*env.NODE_ENV === "production" && <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2670b414c17d439c81ec294732f48bf8"}'></script>*/}
     </>
   )
 }

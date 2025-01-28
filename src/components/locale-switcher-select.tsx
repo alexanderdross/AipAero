@@ -41,7 +41,7 @@ export default function LocaleSwitcherSelect({
       disabled={isPending}
       onValueChange={onSelectChange}
     >
-      <SelectTrigger className="w-32">
+      <SelectTrigger className="w-32" aria-label={label}>
         <SelectValue placeholder={label} />
       </SelectTrigger>
       <SelectContent>
