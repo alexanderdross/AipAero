@@ -1,5 +1,4 @@
 import type { Metadata, ResolvingMetadata } from 'next'
-import { GeistSans } from "geist/font/sans";
 import { setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import { Fragment } from "react";
@@ -7,7 +6,6 @@ import { AboutBox } from "~/components/about-box";
 import { Box } from "~/components/box";
 import Footer from "~/components/footer";
 import { Title } from "~/components/title";
-import { cn } from "~/lib/utils";
 import { Header } from '~/components/header';
 
 export async function generateMetadata(
@@ -63,12 +61,14 @@ export default async function RootPage() {
 
   return (
     <html className="h-full" lang="en">
+
+     {/* We cant set the alternate links via metadata api, since it disallows the use of duplicate hrefLang */} 
       <head>
         {countries.map((e) => <link key={e.name} rel="alternate" hrefLang={e.lang} href={`https://aip.aero/${e.tld}/`} />)}
         {countries.filter(e => !e.isSingleLocale).map((e) => <link key={e.name} rel="alternate" hrefLang='en' href={`https://aip.aero/${e.tld}/en/`} />)}
       </head>
 
-      <body className={cn(GeistSans.className, 'bg-drossgray')}>
+      <body className={'bg-drossgray font-sans'}>
 
         <Header />
 

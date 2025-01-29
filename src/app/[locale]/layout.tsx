@@ -1,9 +1,7 @@
 import {notFound} from 'next/navigation';
 import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
-import {routing} from '~/i18n/routing';
+import {localeLangMapping, routing} from '~/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
-import { cn } from '~/lib/utils';
-import { GeistSans } from "geist/font/sans";
 import Footer from '~/components/footer';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Header } from '~/components/header';
@@ -38,11 +36,10 @@ export default async function LocaleLayout(props: Readonly<{
   setRequestLocale(locale);
 
   const messages = await getMessages();
-  const lang = locale === 'at' ? 'de' : locale === 'uk' ? 'en' : locale;
 
   return (
-    <html className="h-full" lang={lang}>
-      <body className={cn(GeistSans.className, 'bg-drossgray')}>
+    <html className="h-full" lang={localeLangMapping[locale]}>
+      <body className={'bg-drossgray font-sans'}>
         <NextIntlClientProvider messages={messages}>
           <Header withLangSwitcher />
           {props.children}

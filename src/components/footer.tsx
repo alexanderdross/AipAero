@@ -1,10 +1,9 @@
 import { Fragment } from 'react';
 import { ExternalLink } from "~/components/external-link";
-import { env } from "~/env";
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
-export default function Footer() {
-  const t = useTranslations('Footer');
+export default async function Footer() {
+  const t = await getTranslations('Footer');
   const keysTop = ['stratux', 'tradeaero'] as const;
   const keysMiddle = ['home', 'imprint', 'contact', 'privacy', 'madeBy'] as const;
 

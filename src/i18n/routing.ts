@@ -33,3 +33,13 @@ export type Locale = (typeof routing.locales)[number];
 
 export const {Link, getPathname, redirect, usePathname, useRouter} =
   createNavigation(routing);
+
+export const localeLangMapping: Record<typeof routing.locales[number] | string, string> = {
+  'at': 'de',
+  'at-EN': 'en',
+  'de': 'de',
+  'de-EN': 'en',
+  'nl': 'nl',
+  'nl-EN': 'en',
+  'uk': 'en'
+};
