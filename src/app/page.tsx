@@ -109,7 +109,7 @@ export default async function RootPage() {
         </div>
 
         {/* About Box */}
-        <AboutBox title="About this website">
+        <AboutBox title="About this website" isH3={true}>
           This website aims to simplify the search for approach charts and Aeronautical Information Publication (AIP) for aerodromes, airports, and airfields in{' '}
           {countries.map((e, idx) => (<Fragment key={e.name}>
             <Link

@@ -1,5 +1,6 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { AboutCountryBox } from '~/components/about-country-box';
 import { Title } from '~/components/title';
 import { routing } from '~/i18n/routing';
 
@@ -43,6 +44,9 @@ export default async function IndexPage(props: Readonly<{
         title={t('title')}
         description={t('description')}
       />
+
+      {/* About AIP Box */}
+      <AboutCountryBox isH3={false} />
 
     </>
   );

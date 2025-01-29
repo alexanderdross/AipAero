@@ -32,7 +32,6 @@ export default async function LocaleLayout(props: Readonly<{
         <NextIntlClientProvider messages={messages}>
           <Header withLangSwitcher />
           {props.children}
-          <AboutCountryBox />
           <Footer />
         </NextIntlClientProvider>
       </body>
