@@ -1,4 +1,12 @@
 {
+  "VfrPage": {
+    "title": "Suchmaske für Anflugkarten AIP VFR Österreich",
+    "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR Österreich",
+    "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten zu gelangen",
+    "metaDescription": "AIP VFR Österreich AD Flugplätze durchsuchen und Anflugkarten runterladen🗺️",
+    "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
+    "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen"
+  },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
     "locale": "{locale, select, at {🇩🇪 Deutsch} en {🇬🇧 English} other {Unbekannt}}"

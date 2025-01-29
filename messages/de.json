@@ -1,4 +1,12 @@
 {
+  "VfrPage": {
+    "title": "Suchmaske für Anflugkarten AIP VFR Deutschland",
+    "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR Deutschland",
+    "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten VFR Anflugkarten zu gelangen",
+    "metaDescription": "AIP VFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen🗺️",
+    "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
+    "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen"
+  },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
     "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇬🇧 English} other {Unbekannt}}"

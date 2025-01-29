@@ -1,4 +1,12 @@
 {
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts Austria",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Austria",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+    "metaDescription": "Browse AIP VFR Austria and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR"
+  },
   "LocaleSwitcher": {
     "label": "Switch language",
     "locale": "{locale, select, at {🇩🇪 Deutsch} en {🇬🇧 English} other {Unknown}}"

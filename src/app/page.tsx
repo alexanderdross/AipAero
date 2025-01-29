@@ -73,7 +73,6 @@ export default async function RootPage() {
         <Header />
 
         <Title
-          className={"pt-[40px]"} 
           title='Free AIP and Approach Charts for VFR, IFR & Heliports'
           description='Open Library for Aeronautical Information Publication (AIP) for VFR, IFR & Heliports.'
         />

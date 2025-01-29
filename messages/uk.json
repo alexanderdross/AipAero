@@ -1,4 +1,12 @@
 {
+  "VfrPage": {
+    "title": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
+    "metaTitle": "🛩️ Zoekmasker voor naderingskaarten AIP VFR Nederland",
+    "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten van Luchtverkeersleiding Nederland (LVNL).",
+    "metaDescription": "AIP VFR Nederland AD Zoek luchthavens en download naderingskaarten🗺️",
+    "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
+    "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan"
+  },
   "LocaleSwitcher": {
     "label": "Switch language",
     "locale": "{locale, select, en {🇬🇧 English} other {Unknown}}"
