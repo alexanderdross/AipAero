@@ -7,7 +7,28 @@
     "title": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
     "metaTitle": "🛩️ Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
     "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
-    "metaDescription": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download🗺️"
+    "metaDescription": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download🗺️",
+    "vfrCard": {
+      "title": "Luftfahrthandbuch AIP VFR",
+      "description": "AIP VFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen",
+      "buttonTitle": "Luftfahrthandbuch AIP VFR",
+      "buttonHref": "/de/vfr/",
+      "buttonHrefTitle": "Luftfahrthandbuch AIP VFR Deutschland"
+    },
+    "ifrCard": {
+      "title": "Luftfahrthandbuch AIP IFR",
+      "description": "AIP IFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen",
+      "buttonTitle": "Luftfahrthandbuch AIP IFR",
+      "buttonHref": "/de/ifr/",
+      "buttonHrefTitle": "Luftfahrthandbuch AIP IFR Deutschland"
+    },
+    "heliportCard": {
+      "title": "Hubschrauberlandeplätze",
+      "description": "AIP VFR Deutschland HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen",
+      "buttonTitle": "AIP VFR Hubschrauberlandeplätze",
+      "buttonHref": "/de/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports Deutschland"
+    }
   },
   "About": {
     "title": "Wozu diese Website?",

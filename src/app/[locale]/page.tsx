@@ -1,5 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { Box } from '~/components/box';
 import { Title } from '~/components/title';
+import { cn } from '~/lib/utils';
 
 export default async function IndexPage(props: Readonly<{
   params: Promise<{ locale: string; }>;
@@ -10,10 +12,34 @@ export default async function IndexPage(props: Readonly<{
 
   const t = await getTranslations('CountryPage');
 
+  // Only Germany has IFR Card
+  const keys = locale.startsWith('de') ?
+    ['vfrCard', 'ifrCard', 'heliportCard'] as const
+    : ['vfrCard', 'heliportCard'] as const;
+
   return (
-    <Title
-      title={t('title')}
-      description={t('description')}
-    />
+    <>
+      <Title
+        title={t('title')}
+        description={t('description')}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={cn("grid gap-6 grid-cols-1 md:grid-cols-2", keys.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2")}>
+          {keys.map((key) => (
+            <Box
+              key={key}
+              title={t(`${key}.title`)}
+              description={t(`${key}.description`)}
+              buttons={[{
+                href: t(`${key}.buttonHref`),
+                hrefTitle: t(`${key}.buttonHrefTitle`),
+                title: t(`${key}.buttonTitle`),
+              }]}
+            />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

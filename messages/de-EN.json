@@ -7,7 +7,28 @@
     "title": "AIP and approach charts of Germany",
     "metaTitle": "🛩️ AIP and approach charts of Germany",
     "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany",
-    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany🗺️"
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Germany",
+      "description": "Browse AIP VFR Germany and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/de/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Germany"
+    },
+    "ifrCard": {
+      "title": "AIP IFR Germany",
+      "description": "Browse AIP IFR Germany and download airport approach charts for free",
+      "buttonTitle": "AIP IFR approach charts",
+      "buttonHref": "/de/en/ifr/",
+      "buttonHrefTitle": "AIP IFR Germany"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Browse AIP VFR Helicopter Aerodromes Germany and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/de/en/heliports/",
+      "buttonHrefTitle": "AIP VFR Helicopter Aerodromes Germany"
+    }
   },
   "About": {
     "title": "What is this website for?",

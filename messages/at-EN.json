@@ -7,7 +7,21 @@
     "title": "AIP and approach charts of Austria",
     "metaTitle": "🛩️ AIP and approach charts of Austria",
     "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria",
-    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria🗺️"
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Austria",
+      "description": "Browse AIP VFR Austria and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/at/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Austria"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes Austria",
+      "description": "Browse AIP VFR Helicopter Aerodromes Austria and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/at/en/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports Austria"
+    }
   },
   "About": {
     "title": "About this website",

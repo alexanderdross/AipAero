@@ -7,7 +7,21 @@
     "title": "AIP and approach charts of the UK",
     "metaTitle": "🛩️ AIP and approach charts of the UK",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
-    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)🗺️"
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)🗺️",
+    "vfrCard": {
+      "title": "AIP VFR UK",
+      "description": "Browse AIP VFR of the United Kingdom and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/uk/vfr/",
+      "buttonHrefTitle": "AIP VFR United Kingdom (UK)"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes UK",
+      "description": "Browse AIP VFR Helicopter Aerodromes of the UK and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/uk/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports United Kingdom (UK)"
+    }
   },
   "About": {
     "title": "About this website",

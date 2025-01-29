@@ -7,7 +7,21 @@
     "title": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
     "metaTitle": "🛩️ Anflugkarten & Luftfahrthandbuch AIP für Österreich",
     "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download",
-    "metaDescription": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download🗺️"
+    "metaDescription": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download🗺️",
+    "vfrCard": {
+      "title": "Luftfahrthandbuch AIP VFR Österreich",
+      "description": "AIP VFR Österreich AD Flugplätze durchsuchen und Anflugkarten runterladen",
+      "buttonTitle": "Luftfahrthandbuch AIP VFR",
+      "buttonHref": "/at/vfr/",
+      "buttonHrefTitle": "Luftfahrthandbuch VFR Österreich"
+    },
+    "heliportCard": {
+      "title": "Hubschrauberlandeplätze Österreich",
+      "description": "AIP VFR Österreich HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen",
+      "buttonTitle": "AIP VFR Hubschrauberlandeplätze",
+      "buttonHref": "/at/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports Österreich"
+    }
   },
   "About": {
     "title": "Wozu diese Website?",

@@ -7,7 +7,21 @@
     "title": "AIP and approach charts of the Netherlands",
     "metaTitle": "🛩️ AIP and approach charts of the Netherlands",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands",
-    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands🗺️"
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Netherlands",
+      "description": "Browse AIP VFR of the Netherlands and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/nl/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Netherlands"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes Netherlands",
+      "description": "Browse AIP VFR Helicopter Aerodromes of the Netherlands and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/nl/en/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports Netherlands"
+    }
   },
   "About": {
     "title": "About this website",
