@@ -1,4 +1,20 @@
 {
+  "IfrPage": {
+    "title": "Suchmaske für Anflugkarten AIP IFR Deutschland",
+    "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP IFR Deutschland",
+    "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten IFR Anflugkarten zu gelangen",
+    "metaDescription": "AIP IFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen🗺️",
+    "searchTitle": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen",
+    "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen"
+  },
+  "HeliportPage": {
+    "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Deutschland",
+    "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Deutschland",
+    "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der DFS bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
+    "metaDescription": "AIP VFR Deutschland HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen🗺️",
+    "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
+    "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen"
+  },
   "VfrPage": {
     "title": "Suchmaske für Anflugkarten AIP VFR Deutschland",
     "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR Deutschland",

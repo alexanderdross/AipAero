@@ -1,4 +1,12 @@
 {
+  "HeliportPage": {
+    "title": "Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
+    "metaTitle": "🛩️ Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
+    "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten voor helikopterplatforms van Luchtverkeersleiding Nederland (LVNL)",
+    "metaDescription": "AIP VFR Nederland HEL AD Zoek helihavens en download naderingskaarten🗺️",
+    "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan",
+    "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan"
+  },
   "VfrPage": {
     "title": "Zoekmasker voor naderingskaarten AIP VFR Nederland",
     "metaTitle": "🛩️ Zoekmasker voor naderingskaarten AIP VFR Nederland",

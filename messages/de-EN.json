@@ -1,4 +1,20 @@
 {
+  "IfrPage": {
+    "title": "Index of AIP IFR and approach charts Germany",
+    "metaTitle": "🛩️ Index of AIP IFR and approach charts Germany",
+    "description": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
+    "metaDescription": "Browse AIP IFR Germany and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP IFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP IFR"
+  },
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Helicopter Aerodromes in Germany",
+    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Germany",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+    "metaDescription": "Browse AIP VFR Helicopter Aerodromes Germany and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters"
+  },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Germany",
     "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Germany",

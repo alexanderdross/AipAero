@@ -1,4 +1,12 @@
 {
+  "HeliportPage": {
+    "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
+    "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
+    "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
+    "metaDescription": "AIP VFR Österreich HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen🗺️",
+    "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
+    "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen"
+  },
   "VfrPage": {
     "title": "Suchmaske für Anflugkarten AIP VFR Österreich",
     "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR Österreich",

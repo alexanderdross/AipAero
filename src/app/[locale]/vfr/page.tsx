@@ -3,6 +3,9 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Title } from '~/components/title';
 import { routing } from '~/i18n/routing';
 
+// All slugs besides the static ones will be 404
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }

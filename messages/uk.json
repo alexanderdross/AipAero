@@ -1,4 +1,12 @@
 {
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Helicopter Aerodromes in the UK",
+    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in the UK",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+    "metaDescription": "Browse AIP VFR Helicopter Aerodromes of the UK and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters"
+  },
   "VfrPage": {
     "title": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
     "metaTitle": "🛩️ Zoekmasker voor naderingskaarten AIP VFR Nederland",
