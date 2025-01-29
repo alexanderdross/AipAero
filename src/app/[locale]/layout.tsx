@@ -1,5 +1,5 @@
 import {notFound} from 'next/navigation';
-import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
+import {getMessages, setRequestLocale} from 'next-intl/server';
 import {localeLangMapping, routing} from '~/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
 import Footer from '~/components/footer';
@@ -8,17 +8,6 @@ import { Header } from '~/components/header';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
-}
-
-export async function generateMetadata(props: Readonly<{
-  params: Promise<{ locale: string; }>;
-}>) {
-  const { locale } = await props.params;
-  const t = await getTranslations({locale, namespace: 'LocaleLayout'});
-
-  return {
-    title: t('title')
-  };
 }
 
 export default async function LocaleLayout(props: Readonly<{

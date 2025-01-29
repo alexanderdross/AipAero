@@ -1,10 +1,34 @@
+import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Box } from '~/components/box';
 import { Title } from '~/components/title';
+import { routing } from '~/i18n/routing';
 import { cn } from '~/lib/utils';
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({locale}));
+}
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ locale: string }> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({locale, namespace: 'CountryPage'});
+  const previousOpenGraph = (await parent).openGraph ?? {};
+ 
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+    openGraph: {
+      ...previousOpenGraph,
+      siteName: t('metaTitle'),
+    },
+  }
+}
+
 export default async function IndexPage(props: Readonly<{
-  params: Promise<{ locale: string; }>;
+  params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await props.params;
   // Enable static rendering
