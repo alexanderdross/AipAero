@@ -1,4 +1,25 @@
 {
+  "AirportsPage": {
+    "title": "Liste der Flugplätze in Deutschland",
+    "metaTitle": "🛩️ Liste der Flugplätze in Deutschland",
+    "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick",
+    "metaDescription": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick🗺️",
+    "vfrCard": {
+      "title": "VFR Flugplätze",
+      "description": "VFR Flugplätze/ Flughäfen in Deutschland",
+      "linkTitle": "AIP VFR Charts und Anflugkarte für {airport} EDKA hier ansehen und runterladen."
+    },
+    "ifrCard": {
+      "title": "IFR Flugplätze",
+      "description": "IFR Flugplätze/ Flughäfen in Deutschland",
+      "linkTitle": "AIP IFR Charts und Anflugkarte für {airport} hier ansehen und runterladen."
+    },
+    "heliportCard": {
+      "title": "Hubschrauberlandeplätze",
+      "description": "Hubschrauberlandeplätze in Deutschland",
+      "linkTitle": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen."
+    }
+  },
   "IfrPage": {
     "title": "Suchmaske für Anflugkarten AIP IFR Deutschland",
     "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP IFR Deutschland",

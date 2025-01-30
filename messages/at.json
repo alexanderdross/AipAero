@@ -1,4 +1,20 @@
 {
+  "AirportsPage": {
+    "title": "Liste der Flugplätze in Österreich",
+    "metaTitle": "🛩️ Liste der Flugplätze in Österreich",
+    "description": "Alle Flugplätze/ Flughäfen in Österreich im Überblick",
+    "metaDescription": "Alle Flugplätze/ Flughäfen in Österreich im Überblick🗺️",
+    "vfrCard": {
+      "title": "VFR Flugplätze",
+      "description": "VFR Flugplätze/ Flughäfen in Österreich",
+      "linkTitle": "AIP VFR Charts und Anflugkarte für {airport} LOXA hier ansehen und runterladen."
+    },
+    "heliportCard": {
+      "title": "Hubschrauberlandeplätze",
+      "description": "Hubschrauberlandeplätze in Österreich",
+      "linkTitle": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen."
+    }
+  },
   "HeliportPage": {
     "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
     "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",

@@ -1,4 +1,25 @@
 {
+  "AirportsPage": {
+    "title": "List of Airfields in Germany",
+    "metaTitle": "🛩️ List of Airfields in Germany",
+    "description": "Overview of all airfields/ airports in Germany",
+    "metaDescription": "Overview of all airfields/ airports in Germany🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Germany",
+      "linkTitle": "Click on the link below to AIP VFR and visual approach chart of {airport}"
+    },
+    "ifrCard": {
+      "title": "IFR Airports",
+      "description": "IFR airfields/ airports in Germany",
+      "linkTitle": "Click on the link below to AIP IFR and visual approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Helicopter Aerodromes in Germany",
+      "linkTitle": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    }
+  },
   "IfrPage": {
     "title": "Index of AIP IFR and approach charts Germany",
     "metaTitle": "🛩️ Index of AIP IFR and approach charts Germany",

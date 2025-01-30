@@ -1,4 +1,20 @@
 {
+  "AirportsPage": {
+    "title": "List of Airfields in Austria",
+    "metaTitle": "🛩️ List of Airfields in Austria",
+    "description": "Overview of all airfields/ airports in Austria",
+    "metaDescription": "Overview of all airfields/ airports in Austria🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Austria",
+      "linkTitle": "Click on the link below to AIP VFR and visual approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Helicopter Aerodromes in Austria",
+      "linkTitle": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    }
+  },
   "HeliportPage": {
     "title": "AIP VFR Charts for Helicopter Aerodromes in Austria",
     "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Austria",

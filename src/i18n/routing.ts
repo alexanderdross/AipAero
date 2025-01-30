@@ -14,6 +14,9 @@ export const routing = defineRouting({
   },
   pathnames: {
     '/': '/',
+    '/vfr': '/vfr',
+    '/ifr': '/ifr',
+    '/heliports': '/heliports',
     '/airport-list': {
       'at': '/flughafen-liste-oesterreich',
       'at-EN': '/airport-list-austria',

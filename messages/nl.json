@@ -1,4 +1,20 @@
 {
+  "AirportsPage": {
+    "title": "Luchthavenlijst Nederland",
+    "metaTitle": "🛩️ Luchthavenlijst Nederland",
+    "description": "Alle vliegvelden/luchthavens in Nederland op een rij",
+    "metaDescription": "Alle vliegvelden/luchthavens in Nederland op een rij🗺️",
+    "vfrCard": {
+      "title": "VFR Luchthavens",
+      "description": "VFR-vliegvelden/luchthavens in Nederland",
+      "linkTitle": "AIP VFR-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier."
+    },
+    "heliportCard": {
+      "title": "Helihavens",
+      "description": "Helihavens in Nederland",
+      "linkTitle": "AIP VFR helihavens-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier."
+    }
+  },
   "HeliportPage": {
     "title": "Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
     "metaTitle": "🛩️ Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",

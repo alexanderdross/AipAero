@@ -3,6 +3,7 @@
 
 import { 
   type InferInsertModel, 
+  InferSelectModel, 
   sql, 
   type SQL 
 } from "drizzle-orm";
@@ -49,3 +50,4 @@ export function lower(input: AnyMySqlColumn): SQL {
 }
 
 export type InsertAirport = InferInsertModel<typeof airports>;
+export type Airport = Omit<InferSelectModel<typeof airports>, "id">;

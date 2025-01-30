@@ -3,8 +3,8 @@ import {getMessages, setRequestLocale} from 'next-intl/server';
 import {localeLangMapping, routing} from '~/i18n/routing';
 import { NextIntlClientProvider } from 'next-intl';
 import Footer from '~/components/footer';
-import { AboutCountryBox } from '~/components/about-country-box';
 import { Header } from '~/components/header';
+import { BreadCrumbs } from '~/components/breadcrumbs';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
@@ -32,6 +32,7 @@ export default async function LocaleLayout(props: Readonly<{
         <NextIntlClientProvider messages={messages}>
           <Header withLangSwitcher />
           {props.children}
+          <BreadCrumbs />
           <Footer />
         </NextIntlClientProvider>
       </body>
