@@ -1,4 +1,26 @@
 {
+  "Header": {
+    "home": {
+      "title": "AIP Deutschland",
+      "hrefTitle": "AIP Deutschland"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Luftfahrthandbuch AIP VFR Deutschland"
+    },
+    "ifr": {
+      "title": "AIP IFR",
+      "hrefTitle": "Luftfahrthandbuch AIP IFR Deutschland"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Deutschland"
+    },
+    "airports": {
+      "title": "Flughafen Liste",
+      "hrefTitle": "Liste der Flughäfen Deutschland"
+    }
+  },
   "AirportsPage": {
     "title": "Liste der Flugplätze in Deutschland",
     "metaTitle": "🛩️ Liste der Flugplätze in Deutschland",

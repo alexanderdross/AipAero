@@ -1,4 +1,22 @@
 {
+  "Header": {
+    "home": {
+      "title": "AIP Nederland",
+      "hrefTitle": "AIP Netherlands"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Luchtvaarthandboek VFR Nederland"
+    },
+    "heliports": {
+      "title": "Helihavens",
+      "hrefTitle": "AIP VFR Helihavens Nederland"
+    },
+    "airports": {
+      "title": "Luchthavenlijst",
+      "hrefTitle": "Luchthavenlijst Nederland"
+    }
+  },
   "AirportsPage": {
     "title": "Luchthavenlijst Nederland",
     "metaTitle": "🛩️ Luchthavenlijst Nederland",

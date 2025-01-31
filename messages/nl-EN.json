@@ -1,4 +1,22 @@
 {
+  "Header": {
+    "home": {
+      "title": "AIP Netherlands",
+      "hrefTitle": "AIP Netherlands"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Netherlands"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Netherlands"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airports/ Airfields in the Netherlands"
+    }
+  },
   "AirportsPage": {
     "title": "List of Airfields in the Netherlands",
     "metaTitle": "🛩️ List of Airfields in the Netherlands",

@@ -1,4 +1,26 @@
 {
+  "Header": {
+    "home": {
+      "title": "AIP Germany",
+      "hrefTitle": "AIP Germany"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Germany"
+    },
+    "ifr": {
+      "title": "AIP IFR",
+      "hrefTitle": "AIP IFR Germany"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Helicopter Aerodromes Germany"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Germany"
+    }
+  },
   "AirportsPage": {
     "title": "List of Airfields in Germany",
     "metaTitle": "🛩️ List of Airfields in Germany",

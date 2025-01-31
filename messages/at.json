@@ -2,23 +2,19 @@
   "Header": {
     "home": {
       "title": "AIP Österreich",
-      "hrefTitle": "AIP Österreich",
-      "href": "/at/"
+      "hrefTitle": "AIP Österreich"
     },
     "vfr": {
       "title": "AIP VFR",
-      "hrefTitle": "Luftfahrthandbuch VFR Österreich",
-      "href": "/at/vfr/"
+      "hrefTitle": "Luftfahrthandbuch VFR Österreich"
     },
     "heliports": {
       "title": "Heliports",
-      "hrefTitle": "AIP VFR Heliports Österreich",
-      "href": "/at/heliports/"
+      "hrefTitle": "AIP VFR Heliports Österreich"
     },
     "airports": {
       "title": "Flughafen Liste",
-      "hrefTitle": "Flughafen Liste Österreich",
-      "href": "/at/flughafen-liste-oesterreich/"
+      "hrefTitle": "Flughafen Liste Österreich"
     }
   },
   "AirportsPage": {

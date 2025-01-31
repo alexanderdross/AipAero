@@ -1,4 +1,22 @@
 {
+  "Header": {
+    "home": {
+      "title": "AIP UK",
+      "hrefTitle": "AIP UK"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR United Kingdom (UK)"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports United Kingdom (UK)"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airports/ Airfields in the United Kingdom (UK)"
+    }
+  },
   "AirportsPage": {
     "title": "List of Airfields in the United Kingdom",
     "metaTitle": "🛩️ List of Airfields in the United Kingdom",
