@@ -5,7 +5,7 @@ import { Link as IntLink, usePathname } from '~/i18n/routing';
 import { cn } from "~/lib/utils";
 
 export function Menu() {
-  const t = useTranslations('Header');
+  const t = useTranslations('Menu');
   const pathname = usePathname();
   const items = [
     { href: '/' as const, key: 'home.title' },
