@@ -7,14 +7,24 @@ import { cn } from "~/lib/utils";
 export function Menu() {
   const t = useTranslations('Header');
   const pathname = usePathname();
+  const items = [
+    { href: '/' as const, key: 'home.title' },
+    { href: '/vfr' as const, key: 'vfr.title' },
+    { href: '/ifr' as const, key: 'ifr.title' },
+    { href: '/heliports' as const, key: 'heliports.title' },
+    { href: '/airport-list' as const, key: 'airports.title' },
+  ];
 
   return (
     <nav className="flex items-center gap-4 text-sm xl:gap-6">
-      <IntLink className={cn("transition-colors hover:underline text-foreground/80", pathname === '/' && "underline")} href="/">{t('home.title')}</IntLink>
-      <IntLink className={cn("transition-colors hover:underline text-foreground", pathname === '/vfr' && "underline")} href="/vfr">{t('vfr.title')}</IntLink>
-      {t.has('ifr.title') && <IntLink className={cn("transition-colors hover:underline text-foreground", pathname === '/ifr' && "underline")} href="/ifr">{t('ifr.title')}</IntLink>}
-      <IntLink className={cn("transition-colors hover:underline text-foreground/80", pathname === '/heliports' && "underline")} href="/heliports">{t('heliports.title')}</IntLink>
-      <IntLink className={cn("transition-colors hover:underline text-foreground/80", pathname === '/airport-list' && "underline")} href="/airport-list">{t('airports.title')}</IntLink>
+      {items.map((item) => (
+        t.has(item.key) && <IntLink
+          key={item.key}
+          className={cn("transition-colors hover:underline text-foreground/80", pathname === item.href && "underline")}
+          href={item.href}>
+          {t(item.key)}
+        </IntLink>
+      ))}
     </nav>
   );
 }
