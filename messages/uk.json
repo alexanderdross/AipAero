@@ -39,15 +39,19 @@
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
     "metaDescription": "Browse AIP VFR Helicopter Aerodromes of the UK and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters"
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
+    "resultDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
   },
   "VfrPage": {
     "title": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
-    "metaTitle": "🛩️ Zoekmasker voor naderingskaarten AIP VFR Nederland",
-    "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten van Luchtverkeersleiding Nederland (LVNL).",
-    "metaDescription": "AIP VFR Nederland AD Zoek luchthavens en download naderingskaarten🗺️",
-    "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
-    "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan"
+    "metaTitle": "🛩️ Index of AIP VFR/ IFR and visual approach charts United Kingdom",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)🗺️",
+    "searchTitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+    "searchPlaceholder": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to AIP VFR and visual approach chart of {airport}"
   },
   "LocaleSwitcher": {
     "label": "Switch language",

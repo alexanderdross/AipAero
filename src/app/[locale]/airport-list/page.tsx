@@ -1,4 +1,3 @@
-import { asc, eq } from 'drizzle-orm';
 import { LinkIcon } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -6,9 +5,9 @@ import { Suspense } from 'react';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Title } from '~/components/title';
 import { Link, routing } from '~/i18n/routing';
-import { db } from '~/server/db';
-import { type Airport, airports } from '~/server/db/schema';
+import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
+import { QUERIES } from '~/server/db/queries';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -35,37 +34,6 @@ export async function generateMetadata(
   }
 }
 
-async function AirportLists({ locale }: { locale: string }) {
-  const country = locale.split('-')[0] as string;
-  const data = await db.query.airports.findMany({
-    where: eq(airports.country, country),
-    orderBy: [asc(airports.title)],
-  });
-
-  const vfrAirports = data.filter((airport) => airport.type === "vfr");
-  const ifrAirports = data.filter((airport) => airport.type === "ifr");
-  const heliports = data.filter((airport) => airport.type === "heliport");
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-wrap justify-center gap-6">
-        {vfrAirports.length > 0 && <AirportList
-          internalBaseHref={'/vfr'}
-          airports={vfrAirports}
-        />}
-        {ifrAirports.length > 0 && <AirportList
-          internalBaseHref={'/ifr'}
-          airports={ifrAirports}
-        />}
-        {heliports.length > 0 && <AirportList
-          internalBaseHref={'/heliports'}
-          airports={heliports}
-        />}
-      </div>
-    </div>
-  );
-}
-
 export default async function IndexPage(props: Readonly<{
   params: Promise<{ locale: string }>;
 }>) {
@@ -89,48 +57,70 @@ export default async function IndexPage(props: Readonly<{
   );
 }
 
-async function AirportList({
-  internalBaseHref,
-  airports
-}: {
-  internalBaseHref: '/vfr' | '/ifr' | '/heliports';
-  airports: Airport[];
-}) {
+async function AirportLists({ locale }: { locale: string }) {
   const t = await getTranslations('AirportsPage');
-  const key = internalBaseHref === '/vfr' ? 'vfrCard' : internalBaseHref === '/ifr' ? 'ifrCard' : 'heliportCard';
+  const country = locale.split('-')[0] as string;
+
+  const [vfrAirports, ifrAirports, heliports] = await Promise.all([
+    QUERIES.vfrAirports(country),
+    QUERIES.ifrAirports(country),
+    QUERIES.heliports(country),
+  ]);
+
+  const i18nKeyMapping: Record<Airport['type'], string> = {
+    'vfr': 'vfrCard',
+    'ifr': 'ifrCard',
+    'heliport': 'heliportCard',
+  }
+
+  const i18nPathMapping: Record<Airport['type'], keyof typeof routing['pathnames']> = {
+    'vfr': '/vfr',
+    'ifr': '/ifr',
+    'heliport': '/heliports',
+  }
 
   return (
-    <div className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0 min-w-80">
-      <h2 className="text-center text-2xl font-normal">{t(`${key}.title`)}</h2>
-      <p className="text-center pb-2">{t(`${key}.description`)}</p>
-      <ol>
-        {airports.map((airport, index) => {
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-wrap justify-center gap-6">
+        {[vfrAirports, ifrAirports, heliports].filter(x => x.length > 0).map((airports, index) => {
+          const airportType = airports[0]?.type as Airport['type'];
+          const key = i18nKeyMapping[airportType];
           return (
-            <li
-              key={index}
-              itemScope
-              itemType="https://schema.org/Airport"
-              className="flex items-center gap-x-4"
-            >
-              <span>{index + 1}.</span>
-              <Link
-                href={{ pathname: internalBaseHref, query: { slug: airport.slug } }}
-                itemProp="url"
-                className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
-                title={t(`${key}.linkTitle`, { airport: airport.title })}
-                aria-label={t(`${key}.linkTitle`, { airport: airport.title })}
-                target="_blank"
-                rel="noopener"
-              >
-                <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
-                <span itemProp="name">{airport.title}</span>
-              </Link>
-              <meta itemProp="description" content={t(`${key}.linkTitle`, { airport: airport.title })} />
-              {airport.icao && <meta itemProp="icaoCode" content={airport.icao} />}
-            </li>
+            <div key={index} className="bg-white py-8 px-6 border border-[#ccc] flex-grow basis-0 min-w-80">
+              <h2 className="text-center text-2xl font-normal">{t(`${key}.title`)}</h2>
+              <p className="text-center pb-2">{t(`${key}.description`)}</p>
+              <ol>
+                {airports.map((airport, index) => {
+                  return (
+                    <li
+                      key={index}
+                      itemScope
+                      itemType="https://schema.org/Airport"
+                      className="flex items-center gap-x-4"
+                    >
+                      <span>{index + 1}.</span>
+                      <Link
+                        href={{ pathname: i18nPathMapping[airportType], query: airport.slug }}
+                        itemProp="url"
+                        className="text-drossblue py-2 flex gap-x-2 justify-left hover:underline"
+                        title={t(`${key}.linkTitle`, { airport: airport.title })}
+                        aria-label={t(`${key}.linkTitle`, { airport: airport.title })}
+                        target="_blank"
+                        rel="noopener"
+                      >
+                        <LinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                        <span itemProp="name">{airport.title}</span>
+                      </Link>
+                      <meta itemProp="description" content={t(`${key}.linkTitle`, { airport: airport.title })} />
+                      {airport.icao && <meta itemProp="icaoCode" content={airport.icao} />}
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
           );
         })}
-      </ol>
+      </div>
     </div>
   );
 }

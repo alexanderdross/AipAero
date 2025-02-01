@@ -1,14 +1,19 @@
+import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AboutCountryBox } from '~/components/about-country-box';
+import { ExternalLink } from '~/components/external-link';
+import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
-import { routing } from '~/i18n/routing';
+import { localeCountryMapping, routing } from '~/i18n/routing';
+import { QUERIES } from '~/server/db/queries';
+import { Airport } from '~/server/db/schema';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({locale}));
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata(
@@ -16,9 +21,9 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({locale, namespace: 'VfrPage'});
+  const t = await getTranslations({ locale, namespace: 'VfrPage' });
   const previousOpenGraph = (await parent).openGraph ?? {};
- 
+
   return {
     title: t('metaTitle'),
     description: t('metaDescription'),
@@ -29,21 +34,55 @@ export async function generateMetadata(
   }
 }
 
-export default async function IndexPage(props: Readonly<{
+export default async function IndexPage({
+  params,
+  searchParams
+}: Readonly<{
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }>) {
-  const { locale } = await props.params;
+  const { locale } = await params;
   // Enable static rendering
   setRequestLocale(locale);
 
+  const p = Object.keys((await searchParams));
   const t = await getTranslations('VfrPage');
+
+  let data: Airport | undefined;
+  if (p.at(0) !== undefined) {
+    const country = localeCountryMapping[locale] as string;
+    data = await QUERIES.airport(p.at(0) as string, country);
+  }
 
   return (
     <>
       <Title
-        title={t('title')}
-        description={t('description')}
+        title={data ? t('resultTitle', { airport: data.title }) : t('title')}
+        description={data ? t('resultDescription', { airport: data.title }) : t('description')}
       />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SearchInputField
+          value={data?.icao ?? undefined}
+          title={t('searchTitle')}
+        />
+        <div className="max-w-7xl px-4 sm:px-6 lg:px-8 text-center mt-3 w-full text-white absolute left-1/2 transform -translate-x-1/2">
+          <ol>
+            {data && (
+              <li>
+                <ExternalLink
+                  href={`${data.url}`}
+                  className="bg-drossblue py-2 flex gap-x-2 content-center justify-center hover:bg-drossblue-light"
+                  hrefTitle={t('resultTitle', { airport: data.title })}
+                >
+                  <span>{data.title}</span>
+                  <ExternalLinkIcon className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
+                </ExternalLink>
+              </li>
+            )}
+          </ol>
+        </div>
+      </div>
 
       {/* About AIP Box */}
       <AboutCountryBox isH3={false} />

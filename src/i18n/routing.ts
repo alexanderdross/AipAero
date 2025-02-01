@@ -46,3 +46,14 @@ export const localeLangMapping: Record<typeof routing.locales[number] | string, 
   'nl-EN': 'en',
   'uk': 'en'
 };
+
+
+export const localeCountryMapping: Record<typeof routing.locales[number] | string, string> = {
+  'at': 'at',
+  'at-EN': 'at',
+  'de': 'de',
+  'de-EN': 'de',
+  'nl': 'nl',
+  'nl-EN': 'nl',
+  'uk': 'uk'
+};

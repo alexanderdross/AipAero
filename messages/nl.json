@@ -39,7 +39,9 @@
     "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten voor helikopterplatforms van Luchtverkeersleiding Nederland (LVNL)",
     "metaDescription": "AIP VFR Nederland HEL AD Zoek helihavens en download naderingskaarten🗺️",
     "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan",
-    "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan"
+    "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan",
+    "resultTitle": "AIP VFR helihavens-kaarten van {airport}",
+    "resultDescription": "AIP VFR helihavens-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier."
   },
   "VfrPage": {
     "title": "Zoekmasker voor naderingskaarten AIP VFR Nederland",
@@ -47,7 +49,9 @@
     "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten van Luchtverkeersleiding Nederland (LVNL).",
     "metaDescription": "AIP VFR Nederland AD Zoek luchthavens en download naderingskaarten🗺️",
     "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
-    "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan"
+    "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
+    "resultTitle": "AIP VFR-kaarten van {airport}",
+    "resultDescription": "AIP VFR-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier."
   },
   "LocaleSwitcher": {
     "label": "Taal wijzigen",

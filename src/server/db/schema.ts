@@ -50,4 +50,4 @@ export function lower(input: AnyMySqlColumn): SQL {
 }
 
 export type InsertAirport = InferInsertModel<typeof airports>;
-export type Airport = Omit<InferSelectModel<typeof airports>, "id">;
+export type Airport = InferSelectModel<typeof airports>;

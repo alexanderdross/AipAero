@@ -48,7 +48,9 @@
     "description": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
     "metaDescription": "Browse AIP IFR Germany and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP IFR",
-    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP IFR"
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP IFR",
+    "resultTitle": "AIP IFR Charts of {airport}",
+    "resultDescription": "Click on the link below to AIP IFR and visual approach chart of {airport}"
   },
   "HeliportPage": {
     "title": "AIP VFR Charts for Helicopter Aerodromes in Germany",
@@ -56,7 +58,9 @@
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
     "metaDescription": "Browse AIP VFR Helicopter Aerodromes Germany and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters"
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
+    "resultDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Germany",
@@ -64,7 +68,9 @@
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
     "metaDescription": "Browse AIP VFR Germany and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
-    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR"
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to AIP VFR and visual approach chart of {airport}"
   },
   "LocaleSwitcher": {
     "label": "Switch language",

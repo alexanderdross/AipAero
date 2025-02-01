@@ -19,11 +19,9 @@ export default async function LoadingList() {
             <h2 className="text-center text-2xl font-normal">{item.title}</h2>
             <p className="text-center pb-2">{item.description}</p>
             <ol>
-              {[...Array(25).keys()].map((airport, index) => (
+              {[...Array(25).keys()].map((_, index) => (
                 <li
                   key={index}
-                  itemScope
-                  itemType="https://schema.org/Airport"
                   className="flex items-center gap-x-4"
                 >
                   <span>{index + 1}.</span>
