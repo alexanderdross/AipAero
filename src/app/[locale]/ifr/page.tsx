@@ -5,15 +5,19 @@ import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
-import { localeCountryMapping, routing } from '~/i18n/routing';
+import { localeCountryMapping } from '~/i18n/routing';
 import { QUERIES } from '~/server/db/queries';
 import { Airport } from '~/server/db/schema';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
 
+// Only available for Germany
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return [
+    { locale: 'de-EN' },
+    { locale: 'de' }
+  ];
 }
 
 export async function generateMetadata(
