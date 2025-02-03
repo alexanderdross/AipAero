@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import LocaleSwitcher from './locale-switcher';
 import { Menu } from './menu';
+import { MobileNav } from './mobile-menu';
 
 export async function Header({ withLangSwitcher = false }) {
   return (
@@ -24,6 +25,7 @@ export async function Header({ withLangSwitcher = false }) {
           </Link>
           {withLangSwitcher && <Menu />}
           {withLangSwitcher && <LocaleSwitcher />}
+          {withLangSwitcher && <MobileNav />}
         </div>
       </div>
     </header>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import { Input } from "~/components/ui/input";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -21,14 +22,12 @@ export function SearchInputField({ value, title }: { value?: string; title: stri
       <label htmlFor="search" className="sr-only">
         Search
       </label>
-      <input
-        type="text"
-        name="search"
-        id="search"
-        className="shadow-sm focus:ring-drossblue focus:border-drossblue block w-full sm:text-sm border-drossblue-light rounded-md text-center"
-        placeholder={title}
+      <Input 
+        className="text-center"
+        type="text" 
+        placeholder={title} 
         title={title}
-        value={value}
+        value={value} 
         onChange={(e) => e.currentTarget.form?.requestSubmit()}
         autoFocus
       />
