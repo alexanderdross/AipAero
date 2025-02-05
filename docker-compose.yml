@@ -1,5 +1,5 @@
 services:
-  aip_aero:
+  aip_aero_dev:
     container_name: aip_aero_dev
     build: 
       context: .
@@ -10,7 +10,7 @@ services:
     networks:
       - aip_network_dev
 
-  nginx:
+  nginx_dev:
     container_name: nginx_dev
     image: nginx
     restart: always
