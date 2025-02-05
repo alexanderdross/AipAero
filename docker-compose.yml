@@ -1,0 +1,27 @@
+services:
+  aip_aero:
+    container_name: aip_aero_dev
+    build: 
+      context: .
+      network: host
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - aip_network_dev
+
+  nginx:
+    container_name: nginx_dev
+    image: nginx
+    restart: always
+    depends_on:
+      - aip_aero
+    ports:
+      - 127.0.0.1:8081:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - aip_network_dev
+
+networks:
+  aip_network_dev:
