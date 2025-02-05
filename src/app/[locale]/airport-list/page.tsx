@@ -57,15 +57,20 @@ export default async function IndexPage(props: Readonly<{
   );
 }
 
-async function AirportLists({ locale }: { locale: string }) {
-  const t = await getTranslations('AirportsPage');
-  const country = locale.split('-')[0] as string;
-
-  const [vfrAirports, ifrAirports, heliports] = await Promise.all([
+async function getData(country: string) {
+  "use cache"
+  return Promise.all([
     QUERIES.vfrAirports(country),
     QUERIES.ifrAirports(country),
     QUERIES.heliports(country),
   ]);
+}
+
+async function AirportLists({ locale }: { locale: string }) {
+  const t = await getTranslations('AirportsPage');
+  const country = locale.split('-')[0] as string;
+
+  const [vfrAirports, ifrAirports, heliports] = await getData(country);
 
   const i18nKeyMapping: Record<Airport['type'], string> = {
     'vfr': 'vfrCard',

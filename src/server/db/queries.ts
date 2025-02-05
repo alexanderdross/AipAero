@@ -6,6 +6,7 @@ import { airports } from "./schema";
 
 export const QUERIES = {
   vfrAirports: function (country: string) {
+    console.log('findMany VFR', country);
     return db.query.airports.findMany({
       where: and(
         eq(airports.country, country),
@@ -15,6 +16,7 @@ export const QUERIES = {
     });
   },
   ifrAirports: function (country: string) {
+    console.log('findMany IFR', country);
     return db.query.airports.findMany({
       where: and(
         eq(airports.country, country),
@@ -24,6 +26,7 @@ export const QUERIES = {
     });
   },
   heliports: function (country: string) {
+    console.log('findMany Heli', country);
     return db.query.airports.findMany({
       where: and(
         eq(airports.country, country),
@@ -33,6 +36,7 @@ export const QUERIES = {
     });
   },
   airport: function (icao: string, country: string) {
+    console.log('findFirst', icao, country);
     return db.query.airports.findFirst({
       where: and(
         eq(airports.icao, icao),

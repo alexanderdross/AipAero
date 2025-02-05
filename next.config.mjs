@@ -9,6 +9,9 @@ const nextConfig = {
   publicRuntimeConfig: {
     modifiedDate: new Date().toISOString(),
   },
+  experimental: {
+    useCache: true,
+  },
   async rewrites() {
     return [
       {

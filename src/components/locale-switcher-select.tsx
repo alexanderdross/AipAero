@@ -1,9 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { ChangeEvent, ReactNode, useTransition } from 'react';
+import {  ReactNode, useTransition } from 'react';
 import { Locale, usePathname, useRouter } from '~/i18n/routing';
-import { cn } from '~/lib/utils';
 import { Select, SelectContent, SelectTrigger, SelectValue } from '~/components/ui/select';
 
 type Props = {

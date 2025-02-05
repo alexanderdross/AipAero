@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { LinkProps } from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Link as IntLink } from "~/i18n/routing"
 
 

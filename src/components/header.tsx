@@ -3,10 +3,15 @@ import Link from 'next/link';
 import LocaleSwitcher from './locale-switcher';
 import { Menu } from './menu';
 import { MobileNav } from './mobile-menu';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { pick } from 'lodash';
 
 export async function Header({ withLangSwitcher = false }) {
+  const messages = await getMessages();
+
   return (
-    <header className="border-grid sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-white">
+    <header className="border-grid sticky top-0 z-50 w-full border-b bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-12 items-center justify-between">
           <Link
@@ -23,9 +28,20 @@ export async function Header({ withLangSwitcher = false }) {
               sizes="33vw"
             />
           </Link>
-          {withLangSwitcher && <Menu />}
-          {withLangSwitcher && <LocaleSwitcher />}
-          {withLangSwitcher && <MobileNav />}
+
+          {withLangSwitcher && <NextIntlClientProvider
+            messages={
+              pick(messages, 'Menu')
+            }>
+            <Menu />
+          </NextIntlClientProvider>}
+          <LocaleSwitcher />
+          {withLangSwitcher && <NextIntlClientProvider
+            messages={
+              pick(messages, 'Menu')
+            }>
+            <MobileNav />
+          </NextIntlClientProvider>}
         </div>
       </div>
     </header>
