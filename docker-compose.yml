@@ -15,7 +15,7 @@ services:
     image: nginx
     restart: always
     depends_on:
-      - aip_aero
+      - aip_aero_dev
     ports:
       - 127.0.0.1:8081:80
     volumes:
