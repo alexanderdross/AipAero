@@ -30,16 +30,22 @@ export function BreadCrumbs() {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <IntLink
-                href="/"
-                title={t("/.hrefTitle")}
-              >{t("/.hrefTitle")}
-              </IntLink>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
+          {pathname === '/' ? (
+            <BreadcrumbItem>
+              <BreadcrumbPage>{t("/.title")}</BreadcrumbPage>
+            </BreadcrumbItem>
+          ) : (<>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <IntLink
+                  href="/"
+                  title={t("/.hrefTitle")}
+                >{t("/.title")}
+                </IntLink>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+          </>)}
           {pathname !== undefined && pathname !== '/' && (
             <>
               <BreadcrumbItem>
@@ -54,9 +60,6 @@ export function BreadCrumbs() {
               <BreadcrumbSeparator />
             </>
           )}
-          <BreadcrumbItem>
-            <BreadcrumbPage>Current</BreadcrumbPage>
-          </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
     </div>

@@ -46,7 +46,7 @@ export default async function Footer() {
           <ExternalLink
             href={t('madeBy.href')}
             hrefTitle={t('madeBy.hrefTitle')}
-            className="text-base text-drossblue hover:underline mx-2"
+            className="text-base text-drossblue hover:underline mx-2 italic"
           >
             {t('madeBy.title')}
           </ExternalLink>
