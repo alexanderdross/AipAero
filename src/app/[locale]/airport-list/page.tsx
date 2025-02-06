@@ -8,7 +8,6 @@ import { Link, routing } from '~/i18n/routing';
 import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
 import { QUERIES } from '~/server/db/queries';
-import { useTranslations } from 'next-intl';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -41,7 +40,7 @@ export default async function IndexPage(props: Readonly<{
   const { locale } = await props.params;
   // Enable static rendering
   setRequestLocale(locale);
-  const t = useTranslations('AirportsPage');
+  const t = await getTranslations('AirportsPage');
 
   return (
     <>

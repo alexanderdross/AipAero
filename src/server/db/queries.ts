@@ -2,7 +2,7 @@
 
 import { and, eq, asc } from "drizzle-orm";
 import { db } from "~/server/db";
-import { airports } from "./schema";
+import { Airport, airports } from "./schema";
 
 export const QUERIES = {
   vfrAirports: function (country: string) {
@@ -35,12 +35,13 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
-  airport: function (icao: string, country: string) {
+  airport: function (icao: string, country: string, type: Airport['type']) {
     console.log('findFirst', icao, country);
     return db.query.airports.findFirst({
       where: and(
         eq(airports.icao, icao),
-        eq(airports.country, country)
+        eq(airports.country, country),
+        eq(airports.type, type)
       )
     })
   }

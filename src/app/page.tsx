@@ -13,7 +13,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const previousOpenGraph = (await parent).openGraph ?? {};
- 
+
   return {
     title: '🛩️ Free AIP and Approach Charts for VFR, IFR & Heliports',
     description: '🛩️ Open Library for Aeronautical Information Publication (AIP) for VFR, IFR & Heliports.',
@@ -62,7 +62,7 @@ export default async function RootPage() {
   return (
     <html className="h-full" lang="en">
 
-     {/* We cant set the alternate links via metadata api, since it disallows the use of duplicate hrefLang */} 
+      {/* We cant set the alternate links via metadata api, since it disallows the use of duplicate hrefLang */}
       <head>
         {countries.map((e) => <link key={e.name} rel="alternate" hrefLang={e.lang} href={`https://aip.aero/${e.tld}/`} />)}
         {countries.filter(e => !e.isSingleLocale).map((e) => <link key={e.name} rel="alternate" hrefLang='en' href={`https://aip.aero/${e.tld}/en/`} />)}

@@ -1,6 +1,5 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { useTranslations } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
@@ -39,6 +38,11 @@ export async function generateMetadata(
   }
 }
 
+async function getData(icao: string, country: string) {
+  "use cache"
+  return QUERIES.airport(icao, country, 'ifr');
+}
+
 export default async function IndexPage({
   params,
   searchParams
@@ -51,12 +55,12 @@ export default async function IndexPage({
   setRequestLocale(locale);
 
   const p = Object.keys((await searchParams));
-  const t = useTranslations('IfrPage');
+  const t = await getTranslations('IfrPage');
 
   let data: Airport | undefined;
   if (p.at(0) !== undefined) {
     const country = localeCountryMapping[locale] as string;
-    data = await QUERIES.airport(p.at(0) as string, country);
+    data = await getData(p.at(0) as string, country);
   }
 
   return (
