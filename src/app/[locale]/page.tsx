@@ -1,5 +1,4 @@
 import type { Metadata, ResolvingMetadata } from 'next';
-import { useTranslations } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Box } from '~/components/box';
@@ -39,7 +38,7 @@ export default async function IndexPage(props: Readonly<{
   // Enable static rendering
   setRequestLocale(locale);
 
-  const t = useTranslations('CountryPage');
+  const t = await getTranslations('CountryPage');
 
   // Only Germany has IFR Card
   const keys = locale.startsWith('de') ?
