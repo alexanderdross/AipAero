@@ -1,5 +1,6 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
+import { useTranslations } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
@@ -46,7 +47,7 @@ export default async function IndexPage({
   setRequestLocale(locale);
 
   const p = Object.keys((await searchParams));
-  const t = await getTranslations('HeliportPage');
+  const t = useTranslations('HeliportPage');
 
   let data: Airport | undefined;
   if (p.at(0) !== undefined) {
