@@ -1,5 +1,7 @@
+import { LoadingSub } from "~/components/loading-sub";
+
 export default function Loading() {
   return (
-    <div>Loading...</div>
+    <LoadingSub />
   );
-}
+};

@@ -16,7 +16,7 @@ export function Menu() {
   ];
 
   return (
-    <nav className="hidden sm:flex items-center gap-4 text-sm xl:gap-6">
+    <nav className="hidden md:flex items-center gap-4 text-sm xl:gap-6">
       {items.map((item) => (
         t.has(item.key) && <IntLink
           key={item.key}
