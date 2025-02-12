@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation'
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,6 +16,7 @@ import { usePathname, Link as IntLink } from "~/i18n/routing";
 export function BreadCrumbs() {
   const t = useTranslations('BreadCrumbs');
   const pathname = usePathname();
+  const icao = useSearchParams().keys().next().value;
 
   return (
     <div className="w-max mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
@@ -46,18 +48,32 @@ export function BreadCrumbs() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
           </>)}
-          {pathname !== undefined && pathname !== '/' && (
+
+          {pathname !== '/' && icao && (
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <IntLink
+                  href={pathname}
+                  title={t(`${pathname}.hrefTitle`)}
+                >{t(`${pathname}.title`)}
+                </IntLink>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          )}
+
+          {pathname !== '/' && !icao && (
+            <BreadcrumbItem>
+              <BreadcrumbPage>{t(`${pathname}.title`)}</BreadcrumbPage>
+            </BreadcrumbItem>
+          )}
+
+          {/* Render the param breadcrumb item */}
+          {icao && (
             <>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <IntLink
-                    href={pathname}
-                    title={t(`${pathname}.hrefTitle`)}
-                  >{t(`${pathname}.title`)}
-                  </IntLink>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
               <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{icao}</BreadcrumbPage>
+              </BreadcrumbItem>
             </>
           )}
         </BreadcrumbList>

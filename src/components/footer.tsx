@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server';
 export default async function Footer() {
   const t = await getTranslations('Footer');
   const keysTop = ['stratux', 'tradeaero'] as const;
-  const keysMiddle = ['home', 'imprint', 'contact', 'privacy', 'madeBy'] as const;
+  const keysMiddle = ['home', 'imprint', 'contact', 'privacy'] as const;
 
   return (
     <>
