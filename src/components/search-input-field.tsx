@@ -6,6 +6,7 @@ import { Input } from "~/components/ui/input";
 import { searchAirports } from "~/server/actions";
 import { ExternalLink } from "./external-link";
 import type { Airport } from "~/server/db/schema";
+import { useRouter } from "next/navigation";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -27,11 +28,21 @@ const initialState = {
 export function SearchInputField({ value, title, type, country }: { value?: string; title: string, type: Airport['type'], country: string }) {
   const [state, formAction, pending] = useActionState(searchAirports, initialState);
   const [search, setSearch] = useState(value ?? '');
+  const router = useRouter();
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearch(e.currentTarget.value);
     e.currentTarget.form?.requestSubmit();
   }
+
+  useEffect(() => {
+    // If single result, redirect to the airport page
+    if (state.airports.length === 1) {
+      router.push(`./?${state.airports.at(0)?.icao}`);
+    } else if (state.airports.length > 1) {
+      router.push('./');
+    }
+  }, [state]);
 
   return (
     <>
