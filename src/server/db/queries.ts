@@ -1,6 +1,6 @@
 'server-only';
 
-import { and, eq, asc } from "drizzle-orm";
+import { and, eq, asc, like } from "drizzle-orm";
 import { db } from "~/server/db";
 import { Airport, airports } from "./schema";
 
@@ -40,5 +40,16 @@ export const QUERIES = {
         eq(airports.type, type)
       )
     })
+  },
+  airports: function (search: string, country: string, type: Airport['type']) {
+    return db.query.airports.findMany({
+      limit: 5,
+      where: and(
+        eq(airports.country, country),
+        eq(airports.type, type),
+        like(airports.title, `%${search}%`)
+      ),
+      orderBy: [asc(airports.title)],
+    });
   }
 };

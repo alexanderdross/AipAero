@@ -50,12 +50,12 @@ export default async function IndexPage({
   // Enable static rendering
   setRequestLocale(locale);
 
+  const p = Object.keys((await searchParams));
   const t = await getTranslations('VfrPage');
 
   let data: Airport | undefined;
-  const p = Object.keys((await searchParams));
+  const country = localeCountryMapping[locale] as string;
   if (p.at(0) !== undefined) {
-    const country = localeCountryMapping[locale] as string;
     data = await getData(p.at(0) as string, country);
   }
 
@@ -70,6 +70,8 @@ export default async function IndexPage({
         <SearchInputField
           value={data?.icao ?? undefined}
           title={t('searchTitle')}
+          type="vfr"
+          country={country}
         />
         <div className="max-w-7xl px-4 sm:px-6 lg:px-8 text-center mt-3 w-full text-white absolute left-1/2 transform -translate-x-1/2">
           <ol>
