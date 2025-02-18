@@ -1,6 +1,7 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
 import { SearchInputField } from '~/components/search-input-field';
@@ -57,6 +58,9 @@ export default async function IndexPage({
   const country = localeCountryMapping[locale] as string;
   if (p.at(0) !== undefined) {
     data = await getData(p.at(0) as string, country);
+    if (!data) {
+      return notFound();
+    }
   }
 
   return (

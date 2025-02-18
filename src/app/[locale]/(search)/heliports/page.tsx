@@ -1,23 +1,20 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
-import { localeCountryMapping } from '~/i18n/routing';
+import { localeCountryMapping, routing } from '~/i18n/routing';
 import { QUERIES } from '~/server/db/queries';
 import { Airport } from '~/server/db/schema';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
 
-// Only available for Germany
 export function generateStaticParams() {
-  return [
-    { locale: 'de-EN' },
-    { locale: 'de' }
-  ];
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata(
@@ -25,7 +22,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'IfrPage' });
+  const t = await getTranslations({ locale, namespace: 'HeliportPage' });
   const previousOpenGraph = (await parent).openGraph ?? {};
 
   return {
@@ -40,7 +37,7 @@ export async function generateMetadata(
 
 async function getData(icao: string, country: string) {
   "use cache"
-  return QUERIES.airport(icao, country, 'ifr');
+  return QUERIES.airport(icao, country, 'heliport');
 }
 
 export default async function IndexPage({
@@ -55,12 +52,15 @@ export default async function IndexPage({
   setRequestLocale(locale);
 
   const p = Object.keys((await searchParams));
-  const t = await getTranslations('IfrPage');
+  const t = await getTranslations('HeliportPage');
 
   let data: Airport | undefined;
   const country = localeCountryMapping[locale] as string;
   if (p.at(0) !== undefined) {
     data = await getData(p.at(0) as string, country);
+    if (!data) {
+      return notFound();
+    }
   }
 
   return (
@@ -74,7 +74,7 @@ export default async function IndexPage({
         <SearchInputField
           value={data?.icao ?? undefined}
           title={t('searchTitle')}
-          type="ifr"
+          type="heliport"
           country={country}
         />
         <div className="max-w-7xl px-4 sm:px-6 lg:px-8 text-center mt-3 w-full text-white absolute left-1/2 transform -translate-x-1/2">
