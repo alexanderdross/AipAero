@@ -1,5 +1,5 @@
 import type { Metadata, ResolvingMetadata } from 'next'
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import { Fragment } from "react";
 import { AboutBox } from "~/components/about-box";
@@ -7,6 +7,10 @@ import { Box } from "~/components/box";
 import Footer from "~/components/footer";
 import { Title } from "~/components/title";
 import { Header } from '~/components/header';
+import { orgUrl } from '~/lib/utils';
+import { SchemaProduct } from '~/components/schemas/schema-product';
+import getConfig from "next/config";
+import { routing } from "~/i18n/routing";
 
 export async function generateMetadata(
   { params }: { params: Promise<{}> },
@@ -26,6 +30,17 @@ export async function generateMetadata(
 
 export default async function RootPage() {
   setRequestLocale('uk');
+
+  const localeTranslations = await Promise.all(
+    routing.locales.map(x => getTranslations({ locale: x, namespace: 'CountrySiteNavElement' }))
+  );
+  const localeElements = localeTranslations.map(x => ({
+    name: x('name'),
+    alternateName: x('alternateName'),
+    description: x('description'),
+    inLanguage: x('inLanguage'),
+    url: x('url'),
+  }));
 
   const countries = [
     {
@@ -59,6 +74,11 @@ export default async function RootPage() {
     }
   ].sort((a, b) => a.name.localeCompare(b.name));
 
+  const title = 'Free AIP and Approach Charts for VFR, IFR & Heliports';
+  const description = 'Open Library for Aeronautical Information Publication (AIP) for VFR, IFR & Heliports.';
+  const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
+  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+
   return (
     <html className="h-full" lang="en">
 
@@ -73,8 +93,62 @@ export default async function RootPage() {
         <Header />
 
         <Title
-          title='Free AIP and Approach Charts for VFR, IFR & Heliports'
-          description='Open Library for Aeronautical Information Publication (AIP) for VFR, IFR & Heliports.'
+          title={title}
+          description={description}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@id": orgUrl.toString(),
+                  "name": "AIP:Aero",
+                  "alternateName": title,
+                  "description": description
+                }
+              }]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@context": "https://schema.org",
+                  "@type": "SiteNavigationElement",
+                  "name": title,
+                  "alternateName": "AIP:Aero",
+                  "description": description,
+                  "inLanguage": "en",
+                  "url": orgUrl.toString()
+                },
+                ...localeElements.map(x => ({
+                  "@context": "https://schema.org",
+                  "@type": "SiteNavigationElement",
+                  "name": x.name,
+                  "alternateName": x.alternateName,
+                  "description": x.description,
+                  "inLanguage": x.inLanguage,
+                  "url": x.url
+                })),
+              ]
+            })
+          }}
+        />
+        <SchemaProduct
+          name={title}
+          alternateName="AIP:Aero"
+          description={description}
+          publishedDate={modifiedDate}
         />
 
         {/* Country Boxes */}

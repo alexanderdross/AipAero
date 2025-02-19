@@ -102,6 +102,13 @@
     "label": "Sprache ändern",
     "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇬🇧 English} other {Unbekannt}}"
   },
+  "CountrySiteNavElement": {
+    "name": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
+    "alternateName": "AIP Germany",
+    "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
+    "inLanguage": "de",
+    "url": "https://aip.aero/de/"
+  },
   "CountryPage": {
     "title": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
     "metaTitle": "🛩️ Anflugkarten & Luftfahrthandbuch AIP für Deutschland",

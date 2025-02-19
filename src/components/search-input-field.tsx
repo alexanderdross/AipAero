@@ -52,7 +52,7 @@ export function SearchInputField({ value, title, type, country }: { value?: stri
         </label>
         <Input
           name="search"
-          className="text-center"
+          className="text-center bg-white"
           type="text"
           placeholder={title}
           title={title}

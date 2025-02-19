@@ -102,6 +102,13 @@
     "label": "Switch language",
     "locale": "{locale, select, de {🇩🇪 Deutsch} en {🇬🇧 English} other {Unknown}}"
   },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Germany",
+    "alternateName": "AIP Germany",
+    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Germany",
+    "inLanguage": "en",
+    "url": "https://aip.aero/de/en/"
+  },
   "CountryPage": {
     "title": "AIP and approach charts of Germany",
     "metaTitle": "🛩️ AIP and approach charts of Germany",

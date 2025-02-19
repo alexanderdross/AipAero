@@ -79,6 +79,13 @@
     "label": "Switch language",
     "locale": "{locale, select, nl {🇳🇱 Dutch} en {🇬🇧 English} other {Unknown}}"
   },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of the Netherlands",
+    "alternateName": "AIP Netherlands",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the Netherlands",
+    "inLanguage": "en",
+    "url": "https://aip.aero/nl/en/"
+  },
   "CountryPage": {
     "title": "AIP and approach charts of the Netherlands",
     "metaTitle": "🛩️ AIP and approach charts of the Netherlands",

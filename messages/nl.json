@@ -79,6 +79,13 @@
     "label": "Taal wijzigen",
     "locale": "{locale, select, nl {🇳🇱 Dutch} en {🇬🇧 English} other {Onbekend}}"
   },
+  "CountrySiteNavElement": {
+    "name": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
+    "alternateName": "AIP Nederland",
+    "description": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
+    "inLanguage": "nl",
+    "url": "https://aip.aero/nl/"
+  },
   "CountryPage": {
     "title": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
     "metaTitle": "🛩️ Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",

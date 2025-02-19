@@ -5,8 +5,9 @@ import { db } from "~/server/db";
 import { Airport, airports } from "./schema";
 
 export const QUERIES = {
-  vfrAirports: function (country: string) {
-    return db.query.airports.findMany({
+  vfrAirports: async function (country: string) {
+    "use cache"
+    return await db.query.airports.findMany({
       where: and(
         eq(airports.country, country),
         eq(airports.type, 'vfr')
@@ -14,8 +15,9 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
-  ifrAirports: function (country: string) {
-    return db.query.airports.findMany({
+  ifrAirports: async function (country: string) {
+    "use cache"
+    return await db.query.airports.findMany({
       where: and(
         eq(airports.country, country),
         eq(airports.type, 'ifr')
@@ -23,8 +25,9 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
-  heliports: function (country: string) {
-    return db.query.airports.findMany({
+  heliports: async function (country: string) {
+    "use cache"
+    return await db.query.airports.findMany({
       where: and(
         eq(airports.country, country),
         eq(airports.type, 'heliport')
@@ -32,8 +35,9 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
-  airport: function (icao: string, country: string, type: Airport['type']) {
-    return db.query.airports.findFirst({
+  airport: async function (icao: string, country: string, type: Airport['type']) {
+    "use cache"
+    return await db.query.airports.findFirst({
       where: and(
         eq(airports.icao, icao),
         eq(airports.country, country),
@@ -41,8 +45,9 @@ export const QUERIES = {
       )
     })
   },
-  airports: function (search: string, country: string, type: Airport['type']) {
-    return db.query.airports.findMany({
+  airports: async function (search: string, country: string, type: Airport['type']) {
+    "use cache"
+    return await db.query.airports.findMany({
       limit: 5,
       where: and(
         eq(airports.country, country),

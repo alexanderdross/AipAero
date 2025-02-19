@@ -79,6 +79,13 @@
     "label": "Switch language",
     "locale": "{locale, select, at {🇩🇪 Deutsch} en {🇬🇧 English} other {Unknown}}"
   },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Austria",
+    "alternateName": "AIP Austria",
+    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria",
+    "inLanguage": "en",
+    "url": "https://aip.aero/at/en/"
+  },
   "CountryPage": {
     "title": "AIP and approach charts of Austria",
     "metaTitle": "🛩️ AIP and approach charts of Austria",

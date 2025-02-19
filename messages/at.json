@@ -79,6 +79,13 @@
     "label": "Sprache ändern",
     "locale": "{locale, select, at {🇩🇪 Deutsch} en {🇬🇧 English} other {Unbekannt}}"
   },
+  "CountrySiteNavElement": {
+    "name": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
+    "alternateName": "AIP Österreich",
+    "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download",
+    "inLanguage": "de",
+    "url": "https://aip.aero/at/"
+  },
   "CountryPage": {
     "title": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
     "metaTitle": "🛩️ Anflugkarten & Luftfahrthandbuch AIP für Österreich",

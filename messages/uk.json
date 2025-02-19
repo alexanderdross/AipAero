@@ -79,6 +79,13 @@
     "label": "Switch language",
     "locale": "{locale, select, en {🇬🇧 English} other {Unknown}}"
   },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of the UK",
+    "alternateName": "AIP United Kingdom",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)",
+    "inLanguage": "en",
+    "url": "https://aip.aero/uk/"
+  },
   "CountryPage": {
     "title": "AIP and approach charts of the UK",
     "metaTitle": "🛩️ AIP and approach charts of the UK",
