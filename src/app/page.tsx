@@ -7,7 +7,7 @@ import { Box } from "~/components/box";
 import Footer from "~/components/footer";
 import { Title } from "~/components/title";
 import { Header } from '~/components/header';
-import { orgUrl } from '~/lib/utils';
+import { orgUrl, rootBreadcrumb, rootDescription, rootTitle } from '~/lib/utils';
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import getConfig from "next/config";
 import { routing } from "~/i18n/routing";
@@ -17,13 +17,12 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const previousOpenGraph = (await parent).openGraph ?? {};
-
   return {
-    title: '🛩️ Free AIP and Approach Charts for VFR, IFR & Heliports',
-    description: '🛩️ Open Library for Aeronautical Information Publication (AIP) for VFR, IFR & Heliports.',
+    title: `🛩️ ${rootTitle}`,
+    description: `🛩️ ${rootDescription}`,
     openGraph: {
       ...previousOpenGraph,
-      siteName: '🛩️ Free AIP and Approach Charts for VFR, IFR & Heliports',
+      siteName: `🛩️ ${rootTitle}`,
     },
   }
 }
@@ -74,8 +73,6 @@ export default async function RootPage() {
     }
   ].sort((a, b) => a.name.localeCompare(b.name));
 
-  const title = 'Free AIP and Approach Charts for VFR, IFR & Heliports';
-  const description = 'Open Library for Aeronautical Information Publication (AIP) for VFR, IFR & Heliports.';
   const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
   const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
 
@@ -93,8 +90,8 @@ export default async function RootPage() {
         <Header />
 
         <Title
-          title={title}
-          description={description}
+          title={rootTitle}
+          description={rootDescription}
         />
 
         <script
@@ -103,16 +100,7 @@ export default async function RootPage() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "BreadcrumbList",
-              "itemListElement": [{
-                "@type": "ListItem",
-                "position": 1,
-                "item": {
-                  "@id": orgUrl.toString(),
-                  "name": "AIP:Aero",
-                  "alternateName": title,
-                  "description": description
-                }
-              }]
+              "itemListElement": [rootBreadcrumb]
             })
           }}
         />
@@ -125,9 +113,9 @@ export default async function RootPage() {
                 {
                   "@context": "https://schema.org",
                   "@type": "SiteNavigationElement",
-                  "name": title,
+                  "name": rootTitle,
                   "alternateName": "AIP:Aero",
-                  "description": description,
+                  "description": rootDescription,
                   "inLanguage": "en",
                   "url": orgUrl.toString()
                 },
@@ -145,9 +133,9 @@ export default async function RootPage() {
           }}
         />
         <SchemaProduct
-          name={title}
+          name={rootTitle}
           alternateName="AIP:Aero"
-          description={description}
+          description={rootDescription}
           publishedDate={modifiedDate}
         />
 

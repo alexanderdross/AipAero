@@ -63,7 +63,12 @@
     "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan",
     "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan",
     "resultTitle": "AIP VFR helihavens-kaarten van {airport}",
-    "resultDescription": "AIP VFR helihavens-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier."
+    "resultDescription": "AIP VFR helihavens-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier.",
+    "breadcrumb": {
+      "name": "AIP VFR Helihavens Nederland",
+      "alternateName": "Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
+      "description": "AIP VFR Nederland HEL AD Zoek helihavens en download naderingskaarten"
+    }
   },
   "VfrPage": {
     "title": "Zoekmasker voor naderingskaarten AIP VFR Nederland",
@@ -73,7 +78,12 @@
     "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
     "searchPlaceholder": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
     "resultTitle": "AIP VFR-kaarten van {airport}",
-    "resultDescription": "AIP VFR-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier."
+    "resultDescription": "AIP VFR-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier.",
+    "breadcrumb": {
+      "name": "Luchtvaarthandboek VFR Nederland",
+      "alternateName": "Zoekmasker voor naderingskaarten AIP VFR Nederland",
+      "description": "AIP VFR Nederland AD Zoek luchthavens en download naderingskaarten"
+    }
   },
   "LocaleSwitcher": {
     "label": "Taal wijzigen",
@@ -104,6 +114,11 @@
       "buttonTitle": "AIP VFR Helikopterplatforms",
       "buttonHref": "/nl/heliports/",
       "buttonHrefTitle": "AIP VFR Helihavens Nederland"
+    },
+    "breadcrumb": {
+      "name": "AIP Nederland",
+      "alternateName": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
+      "description": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden"
     }
   },
   "About": {

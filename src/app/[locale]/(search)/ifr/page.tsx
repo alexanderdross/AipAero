@@ -6,7 +6,8 @@ import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
-import { localeCountryMapping } from '~/i18n/routing';
+import { localeCountryMapping, localeUrlMapping } from '~/i18n/routing';
+import { orgUrl, rootBreadcrumb } from '~/lib/utils';
 import { QUERIES } from '~/server/db/queries';
 import { Airport } from '~/server/db/schema';
 
@@ -39,11 +40,6 @@ export async function generateMetadata(
   }
 }
 
-async function getData(icao: string, country: string) {
-  "use cache"
-  return QUERIES.airport(icao, country, 'ifr');
-}
-
 export default async function IndexPage({
   params,
   searchParams
@@ -61,10 +57,52 @@ export default async function IndexPage({
   let data: Airport | undefined;
   const country = localeCountryMapping[locale] as string;
   if (p.at(0) !== undefined) {
-    data = await getData(p.at(0) as string, country);
+    data = await QUERIES.airport(p.at(0) as string, country, 'ifr');
     if (!data) {
       return notFound();
     }
+  }
+
+  const localeUrl = localeUrlMapping[locale] as string;
+  const tCountry = await getTranslations('CountryPage');
+  const breadcrumbsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      rootBreadcrumb,
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@id": new URL(localeUrl, orgUrl).toString(),
+          "name": tCountry('breadcrumb.name'),
+          "alternateName": tCountry('breadcrumb.alternateName'),
+          "description": tCountry('breadcrumb.description')
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": new URL(`${localeUrl}/heliports`, orgUrl).toString(),
+          "name": t('breadcrumb.name'),
+          "alternateName": t('breadcrumb.alternateName'),
+          "description": t('breadcrumb.description'),
+        }
+      },
+    ]
+  };
+  if (data) {
+    breadcrumbsSchema.itemListElement.push({
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@id": new URL(`${localeUrl}/ifr/?${data.slug}`, orgUrl).toString(),
+        "name": data.icao ?? data.title,
+        "alternateName": t('resultTitle', { airport: data.title }),
+        "description": t('resultDescription', { airport: data.title })
+      }
+    });
   }
 
   return (
@@ -72,6 +110,13 @@ export default async function IndexPage({
       <Title
         title={data ? t('resultTitle', { airport: data.title }) : t('title')}
         description={data ? t('resultDescription', { airport: data.title }) : t('description')}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbsSchema)
+        }}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

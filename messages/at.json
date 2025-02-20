@@ -63,7 +63,12 @@
     "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
     "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
     "resultTitle": "AIP VFR Hubschrauberlandeplatz Charts von {airport}",
-    "resultDescription": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen."
+    "resultDescription": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen.",
+    "breadcrumb": {
+      "name": "AIP VFR Heliports Österreich",
+      "alternateName": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
+      "description": "AIP VFR Österreich HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen"
+    }
   },
   "VfrPage": {
     "title": "Suchmaske für Anflugkarten AIP VFR Österreich",
@@ -73,7 +78,12 @@
     "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
     "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
     "resultTitle": "AIP VFR Charts von {airport}",
-    "resultDescription": "AIP VFR Charts und Anflugkarte für {airport} hier ansehen und runterladen."
+    "resultDescription": "AIP VFR Charts und Anflugkarte für {airport} hier ansehen und runterladen.",
+    "breadcrumb": {
+      "name": "Luftfahrthandbuch VFR Österreich",
+      "alternateName": "Suchmaske für Anflugkarten AIP VFR Österreich",
+      "description": "AIP VFR Österreich AD Flugplätze durchsuchen und Anflugkarten runterladen"
+    }
   },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
@@ -104,6 +114,11 @@
       "buttonTitle": "AIP VFR Hubschrauberlandeplätze",
       "buttonHref": "/at/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports Österreich"
+    },
+    "breadcrumb": {
+      "name": "AIP Österreich",
+      "alternateName": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
+      "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download"
     }
   },
   "About": {

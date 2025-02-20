@@ -63,7 +63,12 @@
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
     "resultTitle": "AIP VFR Helicopter Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    "resultDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Heliports United Kingdom (UK)",
+      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in the UK",
+      "description": "Browse AIP VFR Helicopter Aerodromes of the UK and download airport approach charts for free"
+    }
   },
   "VfrPage": {
     "title": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
@@ -73,7 +78,12 @@
     "searchTitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
     "searchPlaceholder": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
     "resultTitle": "AIP VFR Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP VFR and visual approach chart of {airport}"
+    "resultDescription": "Click on the link below to AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR United Kingdom (UK)",
+      "alternateName": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",
+      "description": "Browse AIP VFR of the United Kingdom and download airport approach charts for free"
+    }
   },
   "LocaleSwitcher": {
     "label": "Switch language",
@@ -104,6 +114,11 @@
       "buttonTitle": "AIP VFR Helicopter Aerodromes",
       "buttonHref": "/uk/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports United Kingdom (UK)"
+    },
+    "breadcrumb": {
+      "name": "AIP United Kingdom",
+      "alternateName": "AIP and approach charts of the UK",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in the United Kingdom (UK)"
     }
   },
   "About": {

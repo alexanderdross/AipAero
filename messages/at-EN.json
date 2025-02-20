@@ -63,7 +63,12 @@
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
     "resultTitle": "AIP VFR Helicopter Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    "resultDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Heliports Austria",
+      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Austria",
+      "description": "Browse AIP VFR Helicopter Aerodromes Austria and download airport approach charts for free"
+    }
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Austria",
@@ -73,7 +78,12 @@
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
     "resultTitle": "AIP VFR Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP IFR and visual approach chart of {airport}"
+    "resultDescription": "Click on the link below to AIP IFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Austria",
+      "alternateName": "Index of AIP VFR and visual approach charts Austria",
+      "description": "Browse AIP VFR Austria and download airport approach charts for free"
+    }
   },
   "LocaleSwitcher": {
     "label": "Switch language",
@@ -104,6 +114,11 @@
       "buttonTitle": "AIP VFR Helicopter Aerodromes",
       "buttonHref": "/at/en/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports Austria"
+    },
+    "breadcrumb": {
+      "name": "AIP Austria",
+      "alternateName": "AIP and approach charts of Austria",
+      "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria"
     }
   },
   "About": {

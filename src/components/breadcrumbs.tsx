@@ -72,7 +72,7 @@ export function BreadCrumbs() {
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{icao}</BreadcrumbPage>
+                <BreadcrumbPage>{icao.split('-').map(x => String(x).charAt(0).toUpperCase() + String(x).slice(1)).join(' ')}</BreadcrumbPage>
               </BreadcrumbItem>
             </>
           )}

@@ -4,10 +4,11 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Title } from '~/components/title';
-import { Link, routing } from '~/i18n/routing';
+import { Link, localeUrlMapping, routing } from '~/i18n/routing';
 import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
 import { QUERIES } from '~/server/db/queries';
+import { orgUrl, rootBreadcrumb } from '~/lib/utils';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -42,11 +43,47 @@ export default async function IndexPage(props: Readonly<{
   setRequestLocale(locale);
   const t = await getTranslations('AirportsPage');
 
+  const localeUrl = localeUrlMapping[locale] as string;
+  const tCountry = await getTranslations('CountryPage');
+  const breadcrumbsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      rootBreadcrumb,
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@id": new URL(localeUrl, orgUrl).toString(),
+          "name": tCountry('breadcrumb.name'),
+          "alternateName": tCountry('breadcrumb.alternateName'),
+          "description": tCountry('breadcrumb.description')
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": new URL(`${localeUrl}/${routing.pathnames['/airport-list'][locale as typeof routing.locales[number]]}`, orgUrl).toString(),
+          "name": t('breadcrumb.name'),
+          "alternateName": t('breadcrumb.alternateName'),
+          "description": t('breadcrumb.description'),
+        }
+      },
+    ]
+  };
+
   return (
     <>
       <Title
         title={t('title')}
         description={t('description')}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbsSchema)
+        }}
       />
       <Suspense fallback={<LoadingList />}>
         <AirportLists locale={locale} />
@@ -57,20 +94,15 @@ export default async function IndexPage(props: Readonly<{
   );
 }
 
-async function getData(country: string) {
-  "use cache"
-  return Promise.all([
-    QUERIES.vfrAirports(country),
-    QUERIES.ifrAirports(country),
-    QUERIES.heliports(country),
-  ]);
-}
-
 async function AirportLists({ locale }: { locale: string }) {
   const t = await getTranslations('AirportsPage');
   const country = locale.split('-')[0] as string;
 
-  const [vfrAirports, ifrAirports, heliports] = await getData(country);
+  const [vfrAirports, ifrAirports, heliports] = await Promise.all([
+    QUERIES.vfrAirports(country),
+    QUERIES.ifrAirports(country),
+    QUERIES.heliports(country),
+  ])
 
   const i18nKeyMapping: Record<Airport['type'], string> = {
     'vfr': 'vfrCard',

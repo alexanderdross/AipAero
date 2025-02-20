@@ -76,7 +76,12 @@
     "searchTitle": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen",
     "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur IFR AIP zu gelangen",
     "resultTitle": "AIP IFR Charts von {airport}",
-    "resultDescription": "AIP IFR Charts und Anflugkarte für {airport} hier ansehen und runterladen."
+    "resultDescription": "AIP IFR Charts und Anflugkarte für {airport} hier ansehen und runterladen.",
+    "breadcrumb": {
+      "name": "Luftfahrthandbuch AIP IFR Deutschland",
+      "alternateName": "Suchmaske für Anflugkarten AIP IFR Deutschland",
+      "description": "AIP IFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen"
+    }
   },
   "HeliportPage": {
     "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Deutschland",
@@ -86,7 +91,12 @@
     "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
     "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
     "resultTitle": "AIP VFR Hubschrauberlandeplatz Charts von {airport}",
-    "resultDescription": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen."
+    "resultDescription": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen.",
+    "breadcrumb": {
+      "name": "AIP VFR Heliports Deutschland",
+      "alternateName": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Deutschland",
+      "description": "AIP VFR Deutschland HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen"
+    }
   },
   "VfrPage": {
     "title": "Suchmaske für Anflugkarten AIP VFR Deutschland",
@@ -96,7 +106,12 @@
     "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
     "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
     "resultTitle": "AIP VFR Charts von {airport}",
-    "resultDescription": "AIP VFR Charts und Anflugkarte für {airport} hier ansehen und runterladen."
+    "resultDescription": "AIP VFR Charts und Anflugkarte für {airport} hier ansehen und runterladen.",
+    "breadcrumb": {
+      "name": "Luftfahrthandbuch AIP VFR Deutschland",
+      "alternateName": "Suchmaske für Anflugkarten AIP VFR Deutschland",
+      "description": "AIP VFR Deutschland AD Flugplätze durchsuchen und Anflugkarten runterladen"
+    }
   },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
@@ -104,7 +119,7 @@
   },
   "CountrySiteNavElement": {
     "name": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
-    "alternateName": "AIP Germany",
+    "alternateName": "AIP Deutschland",
     "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download",
     "inLanguage": "de",
     "url": "https://aip.aero/de/"
@@ -134,6 +149,11 @@
       "buttonTitle": "AIP VFR Hubschrauberlandeplätze",
       "buttonHref": "/de/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports Deutschland"
+    },
+    "breadcrumb": {
+      "name": "AIP Deutschland",
+      "alternateName": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",
+      "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Deutschland zum Download"
     }
   },
   "About": {

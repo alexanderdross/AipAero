@@ -35,11 +35,11 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
-  airport: async function (icao: string, country: string, type: Airport['type']) {
+  airport: async function (slug: string, country: string, type: Airport['type']) {
     "use cache"
     return await db.query.airports.findFirst({
       where: and(
-        eq(airports.icao, icao),
+        eq(airports.slug, slug),
         eq(airports.country, country),
         eq(airports.type, type)
       )
