@@ -22,20 +22,35 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ locale: string }> },
-  parent: ResolvingMetadata
+export async function generateMetadata({ 
+  params, 
+  searchParams 
+}: { 
+  params: Promise<{ locale: string }>; 
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>; 
+}, 
+parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'HeliportPage' });
   const previousOpenGraph = (await parent).openGraph ?? {};
 
+  let data: Airport | undefined;
+  const country = localeCountryMapping[locale] as string;
+  const p = Object.keys((await searchParams));
+  if (p.at(0) !== undefined) {
+    data = await QUERIES.airport(p.at(0) as string, country, 'heliport');
+    if (!data) {
+      return notFound();
+    }
+  }
+
   return {
-    title: t('metaTitle'),
-    description: t('metaDescription'),
+    title: data ? t('resultTitle', { airport: data.title }) : t('metaTitle'),
+    description: data ? t('resultDescription', { airport: data.title }) : t('metaDescription'),
     openGraph: {
       ...previousOpenGraph,
-      siteName: t('metaTitle'),
+      siteName: data ? t('resultTitle', { airport: data.title }) : t('metaTitle'),
     },
   }
 }
