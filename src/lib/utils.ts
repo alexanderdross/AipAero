@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { routing } from "~/i18n/routing";
+import { Airport } from "~/server/db/schema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -38,3 +40,8 @@ export const rootSiteNav = [
     "url": "https://dross.net/aviation/?aip"
   }
 ];
+export const i18nPathMapping: Record<Airport['type'], keyof typeof routing['pathnames']> = {
+  'vfr': '/vfr',
+  'ifr': '/ifr',
+  'heliport': '/heliports',
+}

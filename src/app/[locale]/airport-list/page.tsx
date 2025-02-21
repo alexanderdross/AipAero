@@ -8,7 +8,7 @@ import { getPathname, Link, type Pathnames, routing } from '~/i18n/routing';
 import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
 import { QUERIES } from '~/server/db/queries';
-import { orgUrl, rootBreadcrumb, rootSiteNav } from '~/lib/utils';
+import { i18nPathMapping, orgUrl, rootBreadcrumb, rootSiteNav } from '~/lib/utils';
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import getConfig from 'next/config';
 
@@ -160,11 +160,7 @@ async function AirportLists({ locale }: { locale: string }) {
     'heliport': 'heliportCard',
   }
 
-  const i18nPathMapping: Record<Airport['type'], keyof typeof routing['pathnames']> = {
-    'vfr': '/vfr',
-    'ifr': '/ifr',
-    'heliport': '/heliports',
-  }
+  
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

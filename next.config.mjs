@@ -15,8 +15,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/2d6a9a/:slug/sitemap.xml',
-        destination: '/2d6a9a/sitemaps/:slug/sitemap.xml',
+        source: '/2d6a9a/sitemap.xml',
+        destination: '/2d6a9a/index.xml',
       },
     ]
   },
