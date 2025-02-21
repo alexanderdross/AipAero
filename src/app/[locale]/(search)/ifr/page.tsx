@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
 import { SchemaProduct } from '~/components/schemas/schema-product';
+import { SchemaWebsite } from '~/components/schemas/schema-website';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
 import { getPathname, localeCountryMapping } from '~/i18n/routing';
@@ -136,6 +137,7 @@ export default async function IndexPage({
         publishedDate={modifiedDate}
         currentUrl={currentUrl}
       />
+      <SchemaWebsite />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SearchInputField
           value={data?.icao ?? undefined}
