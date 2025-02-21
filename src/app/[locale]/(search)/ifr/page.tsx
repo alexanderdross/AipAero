@@ -10,8 +10,8 @@ import { SchemaProduct } from '~/components/schemas/schema-product';
 import { SchemaWebsite } from '~/components/schemas/schema-website';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
-import { getPathname, localeCountryMapping } from '~/i18n/routing';
-import { orgUrl, rootBreadcrumb } from '~/lib/utils';
+import { getPathname, localeCountryMapping, type Pathnames } from '~/i18n/routing';
+import { orgUrl, rootBreadcrumb, rootSiteNav } from '~/lib/utils';
 import { QUERIES } from '~/server/db/queries';
 import { Airport } from '~/server/db/schema';
 
@@ -116,6 +116,38 @@ export default async function IndexPage({
     });
   }
 
+  const siteKeys = locale.startsWith('de') ?
+    ['VfrPage', 'IfrPage', 'HeliportPage', 'AirportsPage'] as const
+    : ['VfrPage', 'HeliportPage', 'AirportsPage'] as const;
+  const siteTranslations = await Promise.all(
+    siteKeys.map(x => getTranslations(x))
+  );
+  const slugs = locale.startsWith('de') ?
+    ['/vfr', '/ifr', '/heliports', '/airports'] as Pathnames[]
+    : ['/vfr', '/heliports', '/airports'] as Pathnames[]
+  const siteNavSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      ...rootSiteNav,
+      {
+        "@context": "https://schema.org",
+        "@type": "SiteNavigationElement",
+        "name": t('breadcrumb.alternateName'),
+        "alternateName": t('breadcrumb.name'),
+        "description": t('breadcrumb.description'),
+        "url": currentUrl,
+      },
+      ...siteTranslations.map((p, i) => ({
+        "@context": "https://schema.org",
+        "@type": "SiteNavigationElement",
+        "name": p('breadcrumb.alternateName'),
+        "alternateName": p('breadcrumb.name'),
+        "description": p('breadcrumb.description'),
+        "url": new URL(getPathname({ href: slugs[i] as Pathnames, locale }), orgUrl).toString(),
+      }))
+    ]
+  }
+
   const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
   const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
 
@@ -148,6 +180,12 @@ export default async function IndexPage({
           url={currentUrl}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(siteNavSchema)
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SearchInputField
           value={data?.icao ?? undefined}

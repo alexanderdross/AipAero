@@ -4,11 +4,11 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Title } from '~/components/title';
-import { getPathname, Link, routing } from '~/i18n/routing';
+import { getPathname, Link, type Pathnames, routing } from '~/i18n/routing';
 import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
 import { QUERIES } from '~/server/db/queries';
-import { orgUrl, rootBreadcrumb } from '~/lib/utils';
+import { orgUrl, rootBreadcrumb, rootSiteNav } from '~/lib/utils';
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import getConfig from 'next/config';
 
@@ -75,6 +75,38 @@ export default async function IndexPage(props: Readonly<{
     ]
   };
 
+  const siteKeys = locale.startsWith('de') ?
+    ['VfrPage', 'IfrPage', 'HeliportPage', 'AirportsPage'] as const
+    : ['VfrPage', 'HeliportPage', 'AirportsPage'] as const;
+  const siteTranslations = await Promise.all(
+    siteKeys.map(x => getTranslations(x))
+  );
+  const slugs = locale.startsWith('de') ?
+    ['/vfr', '/ifr', '/heliports', '/airports'] as Pathnames[]
+    : ['/vfr', '/heliports', '/airports'] as Pathnames[]
+  const siteNavSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      ...rootSiteNav,
+      {
+        "@context": "https://schema.org",
+        "@type": "SiteNavigationElement",
+        "name": t('breadcrumb.alternateName'),
+        "alternateName": t('breadcrumb.name'),
+        "description": t('breadcrumb.description'),
+        "url": currentUrl,
+      },
+      ...siteTranslations.map((p, i) => ({
+        "@context": "https://schema.org",
+        "@type": "SiteNavigationElement",
+        "name": p('breadcrumb.alternateName'),
+        "alternateName": p('breadcrumb.name'),
+        "description": p('breadcrumb.description'),
+        "url": new URL(getPathname({ href: slugs[i] as Pathnames, locale }), orgUrl).toString(),
+      }))
+    ]
+  }
+
   const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
   const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
 
@@ -96,6 +128,12 @@ export default async function IndexPage(props: Readonly<{
         description={t('breadcrumb.description')}
         publishedDate={modifiedDate}
         currentUrl={currentUrl}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(siteNavSchema)
+        }}
       />
       <Suspense fallback={<LoadingList />}>
         <AirportLists locale={locale} />
