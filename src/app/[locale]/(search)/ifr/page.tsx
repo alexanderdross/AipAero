@@ -5,6 +5,7 @@ import getConfig from 'next/config';
 import { notFound } from 'next/navigation';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
+import { SchemaAirport } from '~/components/schemas/schema-airport';
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import { SchemaWebsite } from '~/components/schemas/schema-website';
 import { SearchInputField } from '~/components/search-input-field';
@@ -138,6 +139,15 @@ export default async function IndexPage({
         currentUrl={currentUrl}
       />
       <SchemaWebsite />
+      {data && (
+        <SchemaAirport
+          name={data.title}
+          icaoCode={data.icao}
+          alternateName={t('resultTitle', { airport: data.title })}
+          description={t('resultDescription', { airport: data.title })}
+          url={currentUrl}
+        />
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SearchInputField
           value={data?.icao ?? undefined}
