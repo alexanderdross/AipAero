@@ -53,6 +53,11 @@
       "title": "Helicopter Aerodromes",
       "description": "Helicopter Aerodromes in Austria",
       "linkTitle": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airfields/ Airports Austria",
+      "alternateName": "List of Airfields in Austria",
+      "description": "Overview of all airfields/ airports in Austria"
     }
   },
   "HeliportPage": {

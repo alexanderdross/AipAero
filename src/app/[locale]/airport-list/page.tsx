@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Title } from '~/components/title';
-import { Link, localeUrlMapping, routing } from '~/i18n/routing';
+import { getPathname, Link, routing } from '~/i18n/routing';
 import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
 import { QUERIES } from '~/server/db/queries';
@@ -43,7 +43,6 @@ export default async function IndexPage(props: Readonly<{
   setRequestLocale(locale);
   const t = await getTranslations('AirportsPage');
 
-  const localeUrl = localeUrlMapping[locale] as string;
   const tCountry = await getTranslations('CountryPage');
   const breadcrumbsSchema = {
     "@context": "https://schema.org",
@@ -54,7 +53,7 @@ export default async function IndexPage(props: Readonly<{
         "@type": "ListItem",
         "position": 2,
         "item": {
-          "@id": new URL(localeUrl, orgUrl).toString(),
+          "@id": new URL(getPathname({href: '/', locale}), orgUrl).toString() + '/',
           "name": tCountry('breadcrumb.name'),
           "alternateName": tCountry('breadcrumb.alternateName'),
           "description": tCountry('breadcrumb.description')
@@ -64,7 +63,7 @@ export default async function IndexPage(props: Readonly<{
         "@type": "ListItem",
         "position": 3,
         "item": {
-          "@id": new URL(`${localeUrl}/${routing.pathnames['/airport-list'][locale as typeof routing.locales[number]]}`, orgUrl).toString(),
+          "@id": new URL(getPathname({href: '/airport-list', locale}), orgUrl).toString(),
           "name": t('breadcrumb.name'),
           "alternateName": t('breadcrumb.alternateName'),
           "description": t('breadcrumb.description'),

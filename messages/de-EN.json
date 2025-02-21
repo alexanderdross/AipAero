@@ -66,6 +66,11 @@
       "title": "Helicopter Aerodromes",
       "description": "Helicopter Aerodromes in Germany",
       "linkTitle": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airfields/ Airports Germany",
+      "alternateName": "List of Airfields in Germany",
+      "description": "Overview of all airfields/ airports in Germany"
     }
   },
   "IfrPage": {

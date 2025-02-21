@@ -53,6 +53,11 @@
       "title": "Helicopter Aerodromes",
       "description": "Helicopter Aerodromes in Netherlands",
       "linkTitle": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airports/ Airfields in the Netherlands",
+      "alternateName": "List of Airfields in the Netherlands",
+      "description": "Overview of all airfields/ airports/ heliports in the Netherlands"
     }
   },
   "HeliportPage": {

@@ -66,6 +66,11 @@
       "title": "Hubschrauberlandeplätze",
       "description": "Hubschrauberlandeplätze in Deutschland",
       "linkTitle": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen."
+    },
+    "breadcrumb": {
+      "name": "Liste der Flughäfen Deutschland",
+      "alternateName": "Liste der Flugplätze in Deutschland",
+      "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick"
     }
   },
   "IfrPage": {

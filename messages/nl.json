@@ -53,6 +53,11 @@
       "title": "Helihavens",
       "description": "Helihavens in Nederland",
       "linkTitle": "AIP VFR helihavens-kaarten en naderingskaart voor de luchthaven van {airport} Bekijk en download hier."
+    },
+    "breadcrumb": {
+      "name": "Luchthavenlijst Nederland",
+      "alternateName": "Luchthavenlijst Nederland",
+      "description": "Alle vliegvelden/luchthavens in Nederland op een rij"
     }
   },
   "HeliportPage": {

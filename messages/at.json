@@ -53,6 +53,11 @@
       "title": "Hubschrauberlandeplätze",
       "description": "Hubschrauberlandeplätze in Österreich",
       "linkTitle": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen."
+    },
+    "breadcrumb": {
+      "name": "Flughafen Liste Österreich",
+      "alternateName": "Liste der Flugplätze in Österreich",
+      "description": "Alle Flugplätze/ Flughäfen in Österreich im Überblick"
     }
   },
   "HeliportPage": {

@@ -6,7 +6,7 @@ import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
-import { localeCountryMapping, localeUrlMapping, routing } from '~/i18n/routing';
+import { getPathname, localeCountryMapping, routing } from '~/i18n/routing';
 import { orgUrl, rootBreadcrumb } from '~/lib/utils';
 import { QUERIES } from '~/server/db/queries';
 import { Airport } from '~/server/db/schema';
@@ -59,7 +59,6 @@ export default async function IndexPage({
     }
   }
 
-  const localeUrl = localeUrlMapping[locale] as string;
   const tCountry = await getTranslations('CountryPage');
   const breadcrumbsSchema = {
     "@context": "https://schema.org",
@@ -70,7 +69,7 @@ export default async function IndexPage({
         "@type": "ListItem",
         "position": 2,
         "item": {
-          "@id": new URL(localeUrl, orgUrl).toString(),
+          "@id": new URL(getPathname({href: '/', locale}), orgUrl).toString() + '/',
           "name": tCountry('breadcrumb.name'),
           "alternateName": tCountry('breadcrumb.alternateName'),
           "description": tCountry('breadcrumb.description')
@@ -80,7 +79,7 @@ export default async function IndexPage({
         "@type": "ListItem",
         "position": 3,
         "item": {
-          "@id": new URL(`${localeUrl}/heliports`, orgUrl).toString(),
+          "@id": new URL(getPathname({href: '/vfr', locale}), orgUrl).toString(),
           "name": t('breadcrumb.name'),
           "alternateName": t('breadcrumb.alternateName'),
           "description": t('breadcrumb.description'),
@@ -93,7 +92,7 @@ export default async function IndexPage({
       "@type": "ListItem",
       "position": 4,
       "item": {
-        "@id": new URL(`${localeUrl}/vfr/?${data.slug}`, orgUrl).toString(),
+        "@id": new URL(getPathname({href: {pathname: '/vfr', query: {[data.slug]: ''}}, locale}), orgUrl).toString().replace('=',''),
         "name": data.icao ?? data.title,
         "alternateName": t('resultTitle', { airport: data.title }),
         "description": t('resultDescription', { airport: data.title })

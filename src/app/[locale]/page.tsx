@@ -3,14 +3,14 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Box } from '~/components/box';
 import { Title } from '~/components/title';
-import { routing } from '~/i18n/routing';
-import { cn } from '~/lib/utils';
+import { getPathname, routing } from '~/i18n/routing';
+import { cn, orgUrl, rootBreadcrumb } from '~/lib/utils';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({locale}));
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata(
@@ -18,9 +18,9 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({locale, namespace: 'CountryPage'});
+  const t = await getTranslations({ locale, namespace: 'CountryPage' });
   const previousOpenGraph = (await parent).openGraph ?? {};
- 
+
   return {
     title: t('metaTitle'),
     description: t('metaDescription'),
@@ -31,7 +31,7 @@ export async function generateMetadata(
   }
 }
 
-export default async function IndexPage(props: Readonly<{
+export default async function CountryPage(props: Readonly<{
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await props.params;
@@ -45,13 +45,36 @@ export default async function IndexPage(props: Readonly<{
     ['vfrCard', 'ifrCard', 'heliportCard'] as const
     : ['vfrCard', 'heliportCard'] as const;
 
+  const breadcrumbsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      rootBreadcrumb,
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@id": new URL(getPathname({ href: '/', locale }), orgUrl).toString() + '/',
+          "name": t('breadcrumb.name'),
+          "alternateName": t('breadcrumb.alternateName'),
+          "description": t('breadcrumb.description')
+        }
+      }
+    ]
+  };
+
   return (
     <>
       <Title
         title={t('title')}
         description={t('description')}
       />
-
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbsSchema)
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={cn("grid gap-6 grid-cols-1 md:grid-cols-2", keys.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2")}>
           {keys.map((key) => (
