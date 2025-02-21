@@ -1,9 +1,11 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import getConfig from 'next/config';
 import { notFound } from 'next/navigation';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
+import { SchemaProduct } from '~/components/schemas/schema-product';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
 import { getPathname, localeCountryMapping, routing } from '~/i18n/routing';
@@ -60,6 +62,10 @@ export default async function IndexPage({
   }
 
   const tCountry = await getTranslations('CountryPage');
+  let currentUrl = new URL(getPathname({ href: '/heliports', locale }), orgUrl).toString();
+  let schemaProductName = t('breadcrumb.alternateName');
+  let schemaAlternateName = t('breadcrumb.name');
+  let schemaDescription = t('breadcrumb.description');
   const breadcrumbsSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -88,11 +94,15 @@ export default async function IndexPage({
     ]
   };
   if (data) {
+    currentUrl = new URL(getPathname({ href: { pathname: '/heliports', query: { [data.slug]: '' } }, locale }), orgUrl).toString().replace('=', '');
+    schemaProductName = t('resultTitle', { airport: data.title });
+    schemaAlternateName = data.icao ?? data.title;
+    schemaDescription = t('resultDescription', { airport: data.title });
     breadcrumbsSchema.itemListElement.push({
       "@type": "ListItem",
       "position": 4,
       "item": {
-        "@id": new URL(getPathname({ href: { pathname: '/heliports', query: { [data.slug]: '' } }, locale }), orgUrl).toString().replace('=', ''),
+        "@id": currentUrl,
         "name": data.icao ?? data.title,
         "alternateName": t('resultTitle', { airport: data.title }),
         "description": t('resultDescription', { airport: data.title })
@@ -100,20 +110,28 @@ export default async function IndexPage({
     });
   }
 
+  const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
+  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+
   return (
     <>
       <Title
         title={data ? t('resultTitle', { airport: data.title }) : t('title')}
         description={data ? t('resultDescription', { airport: data.title }) : t('description')}
       />
-
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbsSchema)
         }}
       />
-
+      <SchemaProduct
+        name={schemaProductName}
+        alternateName={schemaAlternateName}
+        description={schemaDescription}
+        publishedDate={modifiedDate}
+        currentUrl={currentUrl}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SearchInputField
           value={data?.icao ?? undefined}

@@ -137,6 +137,7 @@ export default async function RootPage() {
           alternateName="AIP:Aero"
           description={rootDescription}
           publishedDate={modifiedDate}
+          currentUrl={orgUrl.toString()}
         />
 
         {/* Country Boxes */}

@@ -9,6 +9,8 @@ import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
 import { QUERIES } from '~/server/db/queries';
 import { orgUrl, rootBreadcrumb } from '~/lib/utils';
+import { SchemaProduct } from '~/components/schemas/schema-product';
+import getConfig from 'next/config';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -44,6 +46,7 @@ export default async function IndexPage(props: Readonly<{
   const t = await getTranslations('AirportsPage');
 
   const tCountry = await getTranslations('CountryPage');
+  const currentUrl = new URL(getPathname({ href: '/airport-list', locale }), orgUrl).toString();
   const breadcrumbsSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -53,7 +56,7 @@ export default async function IndexPage(props: Readonly<{
         "@type": "ListItem",
         "position": 2,
         "item": {
-          "@id": new URL(getPathname({href: '/', locale}), orgUrl).toString() + '/',
+          "@id": new URL(getPathname({ href: '/', locale }), orgUrl).toString() + '/',
           "name": tCountry('breadcrumb.name'),
           "alternateName": tCountry('breadcrumb.alternateName'),
           "description": tCountry('breadcrumb.description')
@@ -63,7 +66,7 @@ export default async function IndexPage(props: Readonly<{
         "@type": "ListItem",
         "position": 3,
         "item": {
-          "@id": new URL(getPathname({href: '/airport-list', locale}), orgUrl).toString(),
+          "@id": currentUrl,
           "name": t('breadcrumb.name'),
           "alternateName": t('breadcrumb.alternateName'),
           "description": t('breadcrumb.description'),
@@ -71,6 +74,9 @@ export default async function IndexPage(props: Readonly<{
       },
     ]
   };
+
+  const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
+  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
 
   return (
     <>
@@ -83,6 +89,13 @@ export default async function IndexPage(props: Readonly<{
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbsSchema)
         }}
+      />
+      <SchemaProduct
+        name={t('breadcrumb.alternateName')}
+        alternateName={t('breadcrumb.name')}
+        description={t('breadcrumb.description')}
+        publishedDate={modifiedDate}
+        currentUrl={currentUrl}
       />
       <Suspense fallback={<LoadingList />}>
         <AirportLists locale={locale} />

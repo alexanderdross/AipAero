@@ -1,7 +1,9 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import getConfig from 'next/config';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Box } from '~/components/box';
+import { SchemaProduct } from '~/components/schemas/schema-product';
 import { Title } from '~/components/title';
 import { getPathname, routing } from '~/i18n/routing';
 import { cn, orgUrl, rootBreadcrumb } from '~/lib/utils';
@@ -45,6 +47,7 @@ export default async function CountryPage(props: Readonly<{
     ['vfrCard', 'ifrCard', 'heliportCard'] as const
     : ['vfrCard', 'heliportCard'] as const;
 
+  const currentUrl = new URL(getPathname({ href: '/', locale }), orgUrl).toString() + '/'
   const breadcrumbsSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -54,7 +57,7 @@ export default async function CountryPage(props: Readonly<{
         "@type": "ListItem",
         "position": 2,
         "item": {
-          "@id": new URL(getPathname({ href: '/', locale }), orgUrl).toString() + '/',
+          "@id": currentUrl,
           "name": t('breadcrumb.name'),
           "alternateName": t('breadcrumb.alternateName'),
           "description": t('breadcrumb.description')
@@ -62,6 +65,9 @@ export default async function CountryPage(props: Readonly<{
       }
     ]
   };
+
+  const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
+  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
 
   return (
     <>
@@ -74,6 +80,13 @@ export default async function CountryPage(props: Readonly<{
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(breadcrumbsSchema)
         }}
+      />
+      <SchemaProduct
+        name={t('breadcrumb.alternateName')}
+        alternateName={t('breadcrumb.name')}
+        description={t('breadcrumb.description')}
+        publishedDate={modifiedDate}
+        currentUrl={currentUrl}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={cn("grid gap-6 grid-cols-1 md:grid-cols-2", keys.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2")}>

@@ -1,7 +1,6 @@
 'use client';
 
-import { usePathname } from "next/navigation";
-import { orgLogoSquareUrl, orgLogoUrl, orgUrl } from "~/lib/utils";
+import { orgLogoSquareUrl, orgLogoUrl } from "~/lib/utils";
 import dayjs from "dayjs";
 
 interface Props {
@@ -9,23 +8,16 @@ interface Props {
   alternateName: string;
   description: string;
   publishedDate: Date;
-  icaoParam?: string;
+  currentUrl: string;
 }
 
 export function SchemaProduct({ 
   name, 
   alternateName, 
   description,
-  icaoParam,
-  publishedDate
+  publishedDate,
+  currentUrl
 }: Props) {
-  const pathname = usePathname();
-  let url = new URL(pathname, orgUrl).toString();
-  if (icaoParam) {
-    url += `?${icaoParam}`;
-    alternateName += ` ${icaoParam}`;
-  }
-
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -40,7 +32,7 @@ export function SchemaProduct({
     "name": name,
     "alternateName": alternateName,
     "description": description,
-    "url": url,
+    "url": currentUrl,
     "image": [{
       "@type": "ImageObject",
       "url": orgLogoSquareUrl.toString(),
