@@ -30,6 +30,7 @@ export async function generateMetadata(
 
   return {
     title: t('metaTitle'),
+    abstract: t('metaDescription'),
     description: t('metaDescription'),
     openGraph: {
       ...previousOpenGraph,

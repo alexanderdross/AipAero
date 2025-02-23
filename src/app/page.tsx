@@ -19,6 +19,7 @@ export async function generateMetadata(
   const previousOpenGraph = (await parent).openGraph ?? {};
   return {
     title: `🛩️ ${rootTitle}`,
+    abstract: `🛩️ ${rootDescription}`,
     description: `🛩️ ${rootDescription}`,
     openGraph: {
       ...previousOpenGraph,

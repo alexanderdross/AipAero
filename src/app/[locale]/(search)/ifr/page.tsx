@@ -52,6 +52,7 @@ parent: ResolvingMetadata
 
   return {
     title: data ? `🛩️ ${t('resultTitle', { airport: data.title })}` : t('metaTitle'),
+    abstract: data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
     description: data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
     openGraph: {
       ...previousOpenGraph,
