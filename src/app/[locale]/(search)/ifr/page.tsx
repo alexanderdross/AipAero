@@ -11,8 +11,8 @@ import { SchemaSitenav } from '~/components/schemas/schema-sitenav';
 import { SchemaWebsite } from '~/components/schemas/schema-website';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
-import { getPathname, localeCountryMapping, type Pathnames } from '~/i18n/routing';
-import { orgUrl, rootBreadcrumb, rootSiteNav } from '~/lib/utils';
+import { getPathname, localeCountryMapping } from '~/i18n/routing';
+import { orgUrl, rootBreadcrumb } from '~/lib/utils';
 import { QUERIES } from '~/server/db/queries';
 import { Airport } from '~/server/db/schema';
 

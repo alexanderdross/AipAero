@@ -4,9 +4,10 @@ import getConfig from 'next/config';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Box } from '~/components/box';
 import { SchemaProduct } from '~/components/schemas/schema-product';
+import { SchemaSitenav } from '~/components/schemas/schema-sitenav';
 import { Title } from '~/components/title';
-import { getPathname, type Pathnames, routing } from '~/i18n/routing';
-import { cn, orgUrl, rootBreadcrumb, rootSiteNav } from '~/lib/utils';
+import { getPathname, routing } from '~/i18n/routing';
+import { cn, orgUrl, rootBreadcrumb } from '~/lib/utils';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -66,38 +67,6 @@ export default async function CountryPage(props: Readonly<{
     ]
   };
 
-  const siteKeys = locale.startsWith('de') ?
-    ['VfrPage', 'IfrPage', 'HeliportPage', 'AirportsPage'] as const
-    : ['VfrPage', 'HeliportPage', 'AirportsPage'] as const;
-  const siteTranslations = await Promise.all(
-    siteKeys.map(x => getTranslations(x))
-  );
-  const slugs = locale.startsWith('de') ?
-    ['/vfr', '/ifr', '/heliports', '/airports'] as Pathnames[]
-    : ['/vfr', '/heliports', '/airports'] as Pathnames[]
-  const siteNavSchema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      ...rootSiteNav,
-      {
-        "@context": "https://schema.org",
-        "@type": "SiteNavigationElement",
-        "name": t('breadcrumb.alternateName'),
-        "alternateName": t('breadcrumb.name'),
-        "description": t('breadcrumb.description'),
-        "url": currentUrl,
-      },
-      ...siteTranslations.map((p, i) => ({
-        "@context": "https://schema.org",
-        "@type": "SiteNavigationElement",
-        "name": p('breadcrumb.alternateName'),
-        "alternateName": p('breadcrumb.name'),
-        "description": p('breadcrumb.description'),
-        "url": new URL(getPathname({ href: slugs[i] as Pathnames, locale }), orgUrl).toString(),
-      }))
-    ]
-  }
-
   const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
   const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
 
@@ -120,12 +89,7 @@ export default async function CountryPage(props: Readonly<{
         publishedDate={modifiedDate}
         currentUrl={currentUrl}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(siteNavSchema)
-        }}
-      />
+      <SchemaSitenav locale={locale} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={cn("grid gap-6 grid-cols-1 md:grid-cols-2", keys.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2")}>
           {keys.map((key) => (

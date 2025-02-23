@@ -22,24 +22,6 @@ export const rootBreadcrumb = {
     "description": rootDescription
   }
 };
-export const rootSiteNav = [
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": rootTitle,
-    "alternateName": "AIP:Aero",
-    "description": rootDescription,
-    "url": orgUrl.toString()
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "SiteNavigationElement",
-    "name": "Stratux - Anti-Collision System",
-    "alternateName": "Dross:Aviation",
-    "description": "Stratux, Anti-Collision System for private aviation and gliders",
-    "url": "https://dross.net/aviation/?aip"
-  }
-];
 export const i18nPathMapping: Record<Airport['type'], keyof typeof routing['pathnames']> = {
   'vfr': '/vfr',
   'ifr': '/ifr',

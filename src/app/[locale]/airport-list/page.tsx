@@ -4,11 +4,11 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Title } from '~/components/title';
-import { getPathname, Link, type Pathnames, routing } from '~/i18n/routing';
+import { getPathname, Link, routing } from '~/i18n/routing';
 import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
 import { QUERIES } from '~/server/db/queries';
-import { i18nPathMapping, orgUrl, rootBreadcrumb, rootSiteNav } from '~/lib/utils';
+import { i18nPathMapping, orgUrl, rootBreadcrumb } from '~/lib/utils';
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import getConfig from 'next/config';
 import { SchemaSitenav } from '~/components/schemas/schema-sitenav';
@@ -123,8 +123,6 @@ async function AirportLists({ locale }: { locale: string }) {
     'ifr': 'ifrCard',
     'heliport': 'heliportCard',
   }
-
-  
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

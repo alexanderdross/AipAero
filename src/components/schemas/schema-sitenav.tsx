@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { getPathname, Pathnames } from "~/i18n/routing";
-import { orgUrl, rootSiteNav } from "~/lib/utils";
+import { orgUrl, rootDescription, rootTitle } from "~/lib/utils";
 
 export async function SchemaSitenav({ locale }: { locale: string }) {
   const siteKeys = locale.startsWith('de') ?
@@ -15,7 +15,22 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
   const siteNavSchema = {
     "@context": "https://schema.org",
     "@graph": [
-      ...rootSiteNav,
+      {
+        "@context": "https://schema.org",
+        "@type": "SiteNavigationElement",
+        "name": "AIP approach charts of Austria, Germany, Netherlands and United Kingdom",
+        "alternateName": "AIP:Aero",
+        "description": "AIP approach charts VFR, IFR & Heliports of Austria, Germany, Netherlands and United Kingdom",
+        "url": orgUrl.toString()
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "SiteNavigationElement",
+        "name": "Stratux - Anti-Collision System",
+        "alternateName": "Dross:Aviation",
+        "description": "Stratux, Anti-Collision System for private aviation and gliders",
+        "url": "https://dross.net/aviation/?aip"
+      },
       ...siteTranslations.map((p, i) => ({
         "@context": "https://schema.org",
         "@type": "SiteNavigationElement",
