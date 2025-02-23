@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Suspense } from 'react';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Title } from '~/components/title';
-import { getPathname, Link, routing } from '~/i18n/routing';
+import { getPathname, Link, localeLangMapping, routing } from '~/i18n/routing';
 import { type Airport } from '~/server/db/schema';
 import LoadingList from './loading-list';
 import { QUERIES } from '~/server/db/queries';
@@ -31,20 +31,30 @@ export async function generateMetadata(
   const previousOpenGraph = parentMetadata.openGraph ?? {};
   const previousOther = parentMetadata.other ?? {};
   const pathname = getPathname({ href: '/airport-list', locale });
-  const url = (new URL(pathname, orgUrl)).toString();
+  const currentUrl = (new URL(pathname, orgUrl)).toString();
+
+  const nativeLocale = locale.replace('-EN', '');
+  const englishLocale = nativeLocale + '-EN';
+  const locales = [...new Set([nativeLocale, englishLocale])];
 
   return {
     title: t('metaTitle'),
     abstract: t('metaDescription'),
     description: t('metaDescription'),
+    alternates: {
+      canonical: currentUrl,
+      languages: Object.assign({}, ...locales.map((l) => ({
+        [localeLangMapping[l] as string]: new URL(getPathname({ href: '/', locale: l }), orgUrl).toString()
+      })))
+    },
     openGraph: {
       ...previousOpenGraph,
-      url: url,
+      url: currentUrl,
       siteName: t('metaTitle'),
     },
     other: {
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
-      'twitter:url': url,
+      'twitter:url': currentUrl,
     }
   }
 }

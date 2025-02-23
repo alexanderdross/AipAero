@@ -7,7 +7,7 @@ import { Box } from '~/components/box';
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import { SchemaSitenav } from '~/components/schemas/schema-sitenav';
 import { Title } from '~/components/title';
-import { getPathname, routing } from '~/i18n/routing';
+import { getPathname, Locale, localeLangMapping, routing } from '~/i18n/routing';
 import { cn, orgUrl, rootBreadcrumb } from '~/lib/utils';
 
 // All slugs besides the static ones will be 404
@@ -27,20 +27,30 @@ export async function generateMetadata(
   const previousOpenGraph = parentMetadata.openGraph ?? {};
   const previousOther = parentMetadata.other ?? {};
   const pathname = getPathname({ href: '/', locale });
-  const url = (new URL(pathname, orgUrl)).toString();
+  const currentUrl = (new URL(pathname, orgUrl)).toString();
+
+  const nativeLocale = locale.replace('-EN', '');
+  const englishLocale = nativeLocale + '-EN';
+  const locales = [...new Set([nativeLocale, englishLocale])];
 
   return {
     title: t('metaTitle'),
     abstract: t('metaDescription'),
     description: t('metaDescription'),
+    alternates: {
+      canonical: currentUrl,
+      languages: Object.assign({}, ...locales.map((l) => ({
+        [localeLangMapping[l] as string]: new URL(getPathname({ href: '/', locale: l }), orgUrl).toString()
+      })))
+    },
     openGraph: {
       ...previousOpenGraph,
-      url: url,
+      url: currentUrl,
       siteName: t('metaTitle'),
     },
     other: {
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
-      'twitter:url': url,
+      'twitter:url': currentUrl,
     }
   }
 }

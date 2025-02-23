@@ -12,7 +12,7 @@ import { SchemaSitenav } from '~/components/schemas/schema-sitenav';
 import { SchemaWebsite } from '~/components/schemas/schema-website';
 import { SearchInputField } from '~/components/search-input-field';
 import { Title } from '~/components/title';
-import { getPathname, localeCountryMapping, routing } from '~/i18n/routing';
+import { getPathname, localeCountryMapping, localeLangMapping, routing } from '~/i18n/routing';
 import { orgUrl, rootBreadcrumb } from '~/lib/utils';
 import { QUERIES } from '~/server/db/queries';
 import { Airport } from '~/server/db/schema';
@@ -24,14 +24,14 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ 
-  params, 
-  searchParams 
-}: { 
-  params: Promise<{ locale: string }>; 
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>; 
-}, 
-parent: ResolvingMetadata
+export async function generateMetadata({
+  params,
+  searchParams
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+},
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'VfrPage' });
@@ -39,7 +39,11 @@ parent: ResolvingMetadata
   const previousOpenGraph = parentMetadata.openGraph ?? {};
   const previousOther = parentMetadata.other ?? {};
   const pathname = getPathname({ href: '/vfr', locale });
-  let url = new URL(pathname, orgUrl).toString();
+  let currentUrl = new URL(pathname, orgUrl).toString();
+
+  const nativeLocale = locale.replace('-EN', '');
+  const englishLocale = nativeLocale + '-EN';
+  const locales = [...new Set([nativeLocale, englishLocale])];
 
   let data: Airport | undefined;
   const country = localeCountryMapping[locale] as string;
@@ -49,21 +53,27 @@ parent: ResolvingMetadata
     if (!data) {
       return notFound();
     }
-    url += `?${data.slug}`;
+    currentUrl += `?${data.slug}`;
   }
 
   return {
     title: data ? `🛩️ ${t('resultTitle', { airport: data.title })}` : t('metaTitle'),
     abstract: data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
     description: data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
+    alternates: {
+      canonical: currentUrl,
+      languages: Object.assign({}, ...locales.map((l) => ({
+        [localeLangMapping[l] as string]: new URL(getPathname({ href: '/', locale: l }), orgUrl).toString() + `${data ? `/?${data.slug}` : ''}`
+      })))
+    },
     openGraph: {
       ...previousOpenGraph,
-      url: url,
+      url: currentUrl,
       siteName: data ? `🛩️ ${t('resultTitle', { airport: data.title })}` : t('metaTitle'),
     },
     other: {
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
-      'twitter:url': url
+      'twitter:url': currentUrl
     }
   }
 }

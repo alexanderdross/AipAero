@@ -24,6 +24,12 @@ export async function generateMetadata(
     title: `🛩️ ${rootTitle}`,
     abstract: `🛩️ ${rootDescription}`,
     description: `🛩️ ${rootDescription}`,
+    alternates: {
+      canonical: orgUrl,
+      languages: {
+        'x-default': orgUrl,
+      }
+    },
     openGraph: {
       ...previousOpenGraph,
       url: orgUrl.toString(),

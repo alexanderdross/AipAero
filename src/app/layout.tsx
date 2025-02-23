@@ -9,12 +9,6 @@ const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modified
 
 export const metadata: Metadata = {
   metadataBase: orgUrl,
-  alternates: {
-    canonical: orgUrl,
-    languages: {
-      'x-default': orgUrl,
-    }
-  },
   authors: [{ name: 'Alexander Dross' }],
   publisher: 'Alexander Dross',
   robots: 'index,follow,noodp,noydir',
