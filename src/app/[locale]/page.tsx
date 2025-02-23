@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import getConfig from 'next/config';
+import type { DeprecatedMetadataFields } from 'next/dist/lib/metadata/types/metadata-types';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { Box } from '~/components/box';
 import { SchemaProduct } from '~/components/schemas/schema-product';
@@ -19,10 +20,14 @@ export function generateStaticParams() {
 export async function generateMetadata(
   { params }: { params: Promise<{ locale: string }> },
   parent: ResolvingMetadata
-): Promise<Metadata> {
+): Promise<Metadata & DeprecatedMetadataFields> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'CountryPage' });
-  const previousOpenGraph = (await parent).openGraph ?? {};
+  const parentMetadata = await parent;
+  const previousOpenGraph = parentMetadata.openGraph ?? {};
+  const previousOther = parentMetadata.other ?? {};
+  const pathname = getPathname({ href: '/', locale });
+  const url = (new URL(pathname, orgUrl)).toString();
 
   return {
     title: t('metaTitle'),
@@ -30,9 +35,13 @@ export async function generateMetadata(
     description: t('metaDescription'),
     openGraph: {
       ...previousOpenGraph,
-      url: new URL(getPathname({ href: '/', locale }), orgUrl).toString(),
+      url: url,
       siteName: t('metaTitle'),
     },
+    other: {
+      ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
+      'twitter:url': url,
+    }
   }
 }
 

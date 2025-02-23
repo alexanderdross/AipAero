@@ -2,6 +2,7 @@ import { ExternalLinkIcon } from 'lucide-react';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import getConfig from 'next/config';
+import type { DeprecatedMetadataFields } from 'next/dist/lib/metadata/types/metadata-types';
 import { notFound } from 'next/navigation';
 import { AboutCountryBox } from '~/components/about-country-box';
 import { ExternalLink } from '~/components/external-link';
@@ -34,7 +35,11 @@ parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'HeliportPage' });
-  const previousOpenGraph = (await parent).openGraph ?? {};
+  const parentMetadata = await parent;
+  const previousOpenGraph = parentMetadata.openGraph ?? {};
+  const previousOther = parentMetadata.other ?? {};
+  const pathname = getPathname({ href: '/ifr', locale });
+  let url = new URL(pathname, orgUrl).toString();
 
   let data: Airport | undefined;
   const country = localeCountryMapping[locale] as string;
@@ -44,6 +49,7 @@ parent: ResolvingMetadata
     if (!data) {
       return notFound();
     }
+    url += `?${data.slug}`;
   }
 
   return {
@@ -52,8 +58,13 @@ parent: ResolvingMetadata
     description: data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
     openGraph: {
       ...previousOpenGraph,
+      url: url,
       siteName: data ? `🛩️ ${t('resultTitle', { airport: data.title })}` : t('metaTitle'),
     },
+    other: {
+      ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
+      'twitter:url': url
+    }
   }
 }
 

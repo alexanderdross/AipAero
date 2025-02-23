@@ -12,6 +12,7 @@ import { i18nPathMapping, orgUrl, rootBreadcrumb } from '~/lib/utils';
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import getConfig from 'next/config';
 import { SchemaSitenav } from '~/components/schemas/schema-sitenav';
+import type { DeprecatedMetadataFields } from 'next/dist/lib/metadata/types/metadata-types';
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -26,7 +27,11 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'AirportsPage' });
-  const previousOpenGraph = (await parent).openGraph ?? {};
+  const parentMetadata = await parent;
+  const previousOpenGraph = parentMetadata.openGraph ?? {};
+  const previousOther = parentMetadata.other ?? {};
+  const pathname = getPathname({ href: '/airport-list', locale });
+  const url = (new URL(pathname, orgUrl)).toString();
 
   return {
     title: t('metaTitle'),
@@ -34,9 +39,13 @@ export async function generateMetadata(
     description: t('metaDescription'),
     openGraph: {
       ...previousOpenGraph,
-      url: new URL(getPathname({ href: '/airport-list', locale }), orgUrl).toString(),
+      url: url,
       siteName: t('metaTitle'),
     },
+    other: {
+      ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
+      'twitter:url': url,
+    }
   }
 }
 

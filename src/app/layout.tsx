@@ -1,17 +1,18 @@
 import type { Metadata } from 'next'
 import getConfig from 'next/config';
 import { env } from '~/env';
+import { orgUrl } from '~/lib/utils';
 
 import "~/styles/globals.css";
 
 const { publicRuntimeConfig } = getConfig() as { publicRuntimeConfig: { modifiedDate: string } };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aip.aero'),
+  metadataBase: orgUrl,
   alternates: {
-    canonical: 'https://aip.aero',
+    canonical: orgUrl,
     languages: {
-      'x-default': 'https://aip.aero',
+      'x-default': orgUrl,
     }
   },
   authors: [{ name: 'Alexander Dross' }],
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
   other: {
     'google-adsense-account': `ca-pub-${env.ADSENSE_ID}`,
     'article:modified_time': publicRuntimeConfig.modifiedDate,
-    'article:published_time': publicRuntimeConfig.modifiedDate,
+    'article:published_time': publicRuntimeConfig.modifiedDate
   }
 }
 

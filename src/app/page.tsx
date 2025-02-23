@@ -11,12 +11,15 @@ import { orgUrl, rootBreadcrumb, rootDescription, rootTitle } from '~/lib/utils'
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import getConfig from "next/config";
 import { routing } from "~/i18n/routing";
+import type { DeprecatedMetadataFields } from 'next/dist/lib/metadata/types/metadata-types';
 
 export async function generateMetadata(
   { params }: { params: Promise<{}> },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const previousOpenGraph = (await parent).openGraph ?? {};
+  const parentMetadata = await parent;
+  const previousOpenGraph = parentMetadata.openGraph ?? {};
+  const previousOther = parentMetadata.other ?? {};
   return {
     title: `🛩️ ${rootTitle}`,
     abstract: `🛩️ ${rootDescription}`,
@@ -26,6 +29,10 @@ export async function generateMetadata(
       url: orgUrl.toString(),
       siteName: `🛩️ ${rootTitle}`,
     },
+    other: {
+      ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
+      'twitter:url': orgUrl.toString(),
+    }
   }
 }
 
