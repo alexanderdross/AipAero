@@ -30,6 +30,7 @@ export async function generateMetadata(
     description: t('metaDescription'),
     openGraph: {
       ...previousOpenGraph,
+      url: new URL(getPathname({ href: '/', locale }), orgUrl).toString(),
       siteName: t('metaTitle'),
     },
   }

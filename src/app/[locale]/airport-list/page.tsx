@@ -34,6 +34,7 @@ export async function generateMetadata(
     description: t('metaDescription'),
     openGraph: {
       ...previousOpenGraph,
+      url: new URL(getPathname({ href: '/airport-list', locale }), orgUrl).toString(),
       siteName: t('metaTitle'),
     },
   }

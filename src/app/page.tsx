@@ -23,6 +23,7 @@ export async function generateMetadata(
     description: `🛩️ ${rootDescription}`,
     openGraph: {
       ...previousOpenGraph,
+      url: orgUrl.toString(),
       siteName: `🛩️ ${rootTitle}`,
     },
   }
