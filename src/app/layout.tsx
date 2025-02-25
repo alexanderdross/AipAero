@@ -40,7 +40,8 @@ export const metadata: Metadata = {
   other: {
     'google-adsense-account': `ca-pub-${env.ADSENSE_ID}`,
     'article:modified_time': publicRuntimeConfig.modifiedDate,
-    'article:published_time': publicRuntimeConfig.modifiedDate
+    'article:published_time': publicRuntimeConfig.modifiedDate,
+    'og:updated_time': publicRuntimeConfig.modifiedDate
   }
 }
 

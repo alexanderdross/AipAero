@@ -62,7 +62,6 @@ export async function generateMetadata({
 
   return {
     title: data ? `🛩️ ${t('resultTitle', { airport: data.title })}` : t('metaTitle'),
-    abstract: data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
     description: data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
     alternates: {
       canonical: currentUrl,
@@ -78,6 +77,7 @@ export async function generateMetadata({
     other: {
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
       'twitter:url': currentUrl,
+      'abstract': data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
     }
   }
 }

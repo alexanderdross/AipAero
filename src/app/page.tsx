@@ -22,7 +22,6 @@ export async function generateMetadata(
   const previousOther = parentMetadata.other ?? {};
   return {
     title: `🛩️ ${rootTitle}`,
-    abstract: `🛩️ ${rootDescription}`,
     description: `🛩️ ${rootDescription}`,
     alternates: {
       canonical: orgUrl,
@@ -38,6 +37,7 @@ export async function generateMetadata(
     other: {
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
       'twitter:url': orgUrl.toString(),
+      'abstract': `🛩️ ${rootDescription}`,
     }
   }
 }

@@ -39,7 +39,6 @@ export async function generateMetadata(
 
   return {
     title: t('metaTitle'),
-    abstract: t('metaDescription'),
     description: t('metaDescription'),
     alternates: {
       canonical: currentUrl,
@@ -55,6 +54,7 @@ export async function generateMetadata(
     other: {
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
       'twitter:url': currentUrl,
+      'abstract': t('metaDescription'),
     }
   }
 }
