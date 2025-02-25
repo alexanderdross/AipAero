@@ -38,6 +38,7 @@ export async function generateMetadata(
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
       'twitter:url': orgUrl.toString(),
       'abstract': `🛩️ ${rootDescription}`,
+      'og:image:alt': rootTitle
     }
   }
 }

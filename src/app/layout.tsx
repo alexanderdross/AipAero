@@ -23,14 +23,12 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/aip-logo-446x319.jpg',
-        alt: 'Logo',
         width: 446,
         height: 319,
         type: 'image/jpeg',
       },
       {
         url: '/aip-logo-450x450.jpg',
-        alt: 'Logo Quadratisch',
         width: 450,
         height: 450,
         type: 'image/jpeg',

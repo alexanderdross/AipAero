@@ -78,6 +78,7 @@ export async function generateMetadata({
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
       'twitter:url': currentUrl,
       'abstract': data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
+      'og:image:alt': data ? t('resultTitle', { airport: data.title }) : t('breadcrumb.name')
     }
   }
 }
