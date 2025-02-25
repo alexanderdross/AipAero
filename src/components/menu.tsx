@@ -21,7 +21,7 @@ export function Menu() {
         t.has(item.key) && <IntLink
           title={t(item.key)}
           key={item.key}
-          className={cn("transition-colors hover:underline text-foreground/80", pathname === item.href && "underline")}
+          className={cn("transition-colors text-lg hover:underline text-foreground/80", pathname === item.href && "underline")}
           href={item.href}>
           {t(item.key)}
         </IntLink>
