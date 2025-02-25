@@ -17,6 +17,10 @@ export function SchemaWebpage({
   const searchParams = useSearchParams();
   const icao = Array.from(searchParams.entries()).at(0)?.at(0);
   const params = icao ? `?${icao}` : '';
+  
+  function trailingSlash(url: string) {
+    return url.endsWith('/') ? url : url + '/';
+  }
 
   const schema = {
     "@context": "https://schema.org/",
@@ -24,16 +28,16 @@ export function SchemaWebpage({
     "potentialAction": {
       "@type": "Action",
       "target": [
-        new URL(getPathname({ href: pathname, locale: currentLocale })+params, orgUrl).toString(),
+        trailingSlash(new URL(getPathname({ href: pathname, locale: currentLocale }), orgUrl).toString())+params,
         {
           "@type": "LinkRole",
-          "target": new URL(getPathname({ href: pathname, locale: nonEnglishLocale })+params, orgUrl).toString(),
+          "target": trailingSlash(new URL(getPathname({ href: pathname, locale: nonEnglishLocale }), orgUrl).toString())+params,
           "inLanguage": localeLangMapping[nonEnglishLocale],
           "linkRelationship": "alternate"
         },
         {
           "@type": "LinkRole",
-          "target": new URL(getPathname({ href: pathname, locale: englishLocale })+params, orgUrl).toString(),
+          "target": trailingSlash(new URL(getPathname({ href: pathname, locale: englishLocale }), orgUrl).toString())+params,
           "inLanguage": localeLangMapping[englishLocale],
           "linkRelationship": "alternate"
         }
