@@ -29,6 +29,10 @@ export default async function sitemap({
 type Href = Parameters<typeof getPathname>[0]['href'];
 
 async function getEntries(pathname: Href, country: Locale) {
+  // Only show IFR page for Germany
+  if (pathname === '/ifr' && country !== 'de' && country !== 'de-EN') {
+    return [];
+  }
   const alternateLangs = routing.locales.filter(l => l.startsWith(country)).map(l => ({
     locale: l,
     lang: localeLangMapping[l],
