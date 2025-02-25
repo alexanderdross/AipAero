@@ -73,6 +73,7 @@ export function MobileNav() {
             {items.map((item) =>
               t.has(item.key) && (
                 <MobileLink
+                  title={t(item.key)}
                   key={item.href}
                   href={item.href}
                   onOpenChange={setOpen}

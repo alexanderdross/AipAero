@@ -19,6 +19,7 @@ export function Menu() {
     <nav className="hidden md:flex items-center gap-4 text-sm xl:gap-6">
       {items.map((item) => (
         t.has(item.key) && <IntLink
+          title={t(item.key)}
           key={item.key}
           className={cn("transition-colors hover:underline text-foreground/80", pathname === item.href && "underline")}
           href={item.href}>
