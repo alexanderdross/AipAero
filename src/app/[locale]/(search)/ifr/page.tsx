@@ -61,7 +61,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: data ? `🛩️ ${t('resultTitle', { airport: data.title })}` : t('metaTitle'),
+    title: data ? `🛩️ ${t('resultTitle', { airport: data.title })}✔️` : t('metaTitle'),
     description: data ? `${t('resultDescription', { airport: data.title })}🗺️` : t('metaDescription'),
     alternates: {
       canonical: currentUrl,
@@ -72,7 +72,7 @@ export async function generateMetadata({
     openGraph: {
       ...previousOpenGraph,
       url: currentUrl,
-      siteName: data ? `🛩️ ${t('resultTitle', { airport: data.title })}` : t('metaTitle'),
+      siteName: data ? `🛩️ ${t('resultTitle', { airport: data.title })}✔️` : t('metaTitle'),
     },
     other: {
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
