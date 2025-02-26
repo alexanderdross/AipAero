@@ -1,8 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import { getPathname, Pathnames } from "~/i18n/routing";
-import { orgUrl, rootDescription, rootTitle } from "~/lib/utils";
+import { orgUrl } from "~/lib/utils";
 
 export async function SchemaSitenav({ locale }: { locale: string }) {
+  function trailingSlash(url: string) {
+    return url.endsWith('/') ? url : url + '/';
+  }
+
   const siteKeys = locale.startsWith('de') ?
     ['VfrPage', 'IfrPage', 'HeliportPage', 'AirportsPage'] as const
     : ['VfrPage', 'HeliportPage', 'AirportsPage'] as const;
@@ -10,8 +14,8 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
     siteKeys.map(x => getTranslations(x))
   );
   const slugs = locale.startsWith('de') ?
-    ['/vfr', '/ifr', '/heliports', '/airport-list'] as Pathnames[]
-    : ['/vfr', '/heliports', '/airport-list'] as Pathnames[]
+    ['/', '/vfr', '/ifr', '/heliports', '/airport-list'] as Pathnames[]
+    : ['/', '/vfr', '/heliports', '/airport-list'] as Pathnames[]
   const siteNavSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -37,7 +41,7 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
         "name": p('breadcrumb.alternateName'),
         "alternateName": p('breadcrumb.name'),
         "description": p('breadcrumb.description'),
-        "url": new URL(getPathname({ href: slugs[i] as Pathnames, locale }), orgUrl).toString(),
+        "url": trailingSlash(new URL(getPathname({ href: slugs[i] as Pathnames, locale }), orgUrl).toString()),
       }))
     ]
   }
