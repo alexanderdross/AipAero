@@ -137,7 +137,7 @@ export default async function IndexPage({
   if (data) {
     currentUrl = new URL(getPathname({ href: { pathname: '/vfr', query: { [data.slug]: '' } }, locale }), orgUrl).toString().replace('=', '');
     schemaProductName = t('resultTitle', { airport: data.title });
-    schemaAlternateName = data.icao ?? data.title;
+    schemaAlternateName = data.icao ? `AIP VFR ${data.icao}` : data.title;
     schemaDescription = t('resultDescription', { airport: data.title });
     breadcrumbsSchema.itemListElement.push({
       "@type": "ListItem",
