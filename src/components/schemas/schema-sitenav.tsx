@@ -8,8 +8,8 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
   }
 
   const siteKeys = locale.startsWith('de') ?
-    ['VfrPage', 'IfrPage', 'HeliportPage', 'AirportsPage'] as const
-    : ['VfrPage', 'HeliportPage', 'AirportsPage'] as const;
+    ['CountryPage', 'VfrPage', 'IfrPage', 'HeliportPage', 'AirportsPage'] as const
+    : ['CountryPage', 'VfrPage', 'HeliportPage', 'AirportsPage'] as const;
   const siteTranslations = await Promise.all(
     siteKeys.map(x => getTranslations(x))
   );
