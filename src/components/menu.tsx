@@ -8,22 +8,22 @@ export function Menu() {
   const t = useTranslations('Menu');
   const pathname = usePathname();
   const items = [
-    { href: '/' as const, key: 'home.title' },
-    { href: '/vfr' as const, key: 'vfr.title' },
-    { href: '/ifr' as const, key: 'ifr.title' },
-    { href: '/heliports' as const, key: 'heliports.title' },
-    { href: '/airport-list' as const, key: 'airports.title' },
+    { href: '/' as const, key: 'home' },
+    { href: '/vfr' as const, key: 'vfr' },
+    { href: '/ifr' as const, key: 'ifr' },
+    { href: '/heliports' as const, key: 'heliports' },
+    { href: '/airport-list' as const, key: 'airports' },
   ];
 
   return (
     <nav className="hidden lg:flex items-center gap-4 text-sm xl:gap-6">
       {items.map((item) => (
-        t.has(item.key) && <IntLink
-          title={t(item.key)}
+        t.has(`${item.key}.title`) && <IntLink
+          title={t(`${item.key}.hrefTitle`)}
           key={item.key}
           className={cn("transition-colors text-lg hover:underline text-foreground/80", pathname === item.href && "underline")}
           href={item.href}>
-          {t(item.key)}
+          {t(`${item.key}.title`)}
         </IntLink>
       ))}
     </nav>

@@ -1,12 +1,11 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { LinkProps } from "next/link"
-import { useRouter } from "next/navigation"
-import { Link as IntLink } from "~/i18n/routing"
+import * as React from "react";
+import { LinkProps } from "next/link";
+import { useRouter } from "next/navigation";
+import { Link as IntLink } from "~/i18n/routing";
 
-
-import { cn } from "~/lib/utils"
+import { cn } from "~/lib/utils";
 import {
   Drawer,
   DrawerContent,
@@ -16,28 +15,28 @@ import {
   DrawerTrigger,
 } from "~/components/ui/drawer";
 import { Button } from "~/components/ui/button";
-import { useTranslations } from "next-intl"
+import { useTranslations } from "next-intl";
 
 export function MobileNav() {
-  const t = useTranslations('Menu');
+  const t = useTranslations("Menu");
   const items = [
-    { href: '/' as const, key: 'home.title' },
-    { href: '/vfr' as const, key: 'vfr.title' },
-    { href: '/ifr' as const, key: 'ifr.title' },
-    { href: '/heliports' as const, key: 'heliports.title' },
-    { href: '/airport-list' as const, key: 'airports.title' },
+    { href: "/" as const, key: "home" },
+    { href: "/vfr" as const, key: "vfr" },
+    { href: "/ifr" as const, key: "ifr" },
+    { href: "/heliports" as const, key: "heliports" },
+    { href: "/airport-list" as const, key: "airports" },
   ];
 
   const [open, setOpen] = React.useState(false);
 
   const onOpenChange = React.useCallback(
     (open: boolean) => {
-      setOpen(open)
+      setOpen(open);
       //setMetaColor(open ? "#09090b" : metaColor)
     },
-    [open]
+    [open],
     //[setMetaColor, metaColor]
-  )
+  );
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
@@ -65,33 +64,35 @@ export function MobileNav() {
       </DrawerTrigger>
       <DrawerContent className="max-h-[60svh] p-0">
         <DrawerHeader className="hidden">
-          <DrawerTitle/>
-          <DrawerDescription/>
+          <DrawerTitle />
+          <DrawerDescription />
         </DrawerHeader>
         <div className="overflow-auto p-6">
           <div className="flex flex-col space-y-3">
-            {items.map((item) =>
-              t.has(item.key) && (
-                <MobileLink
-                  title={t(item.key)}
-                  key={item.href}
-                  href={item.href}
-                  onOpenChange={setOpen}
-                >
-                  {t(item.key)}
-                </MobileLink>
-              ))}
+            {items.map(
+              (item) =>
+                t.has(`${item.key}.title`) && (
+                  <MobileLink
+                    title={t(`${item.key}.hrefTitle`)}
+                    key={item.href}
+                    href={item.href}
+                    onOpenChange={setOpen}
+                  >
+                    {t(`${item.key}.title`)}
+                  </MobileLink>
+                ),
+            )}
           </div>
         </div>
       </DrawerContent>
     </Drawer>
-  )
+  );
 }
 
 interface MobileLinkProps extends LinkProps {
-  onOpenChange?: (open: boolean) => void
-  children: React.ReactNode
-  className?: string
+  onOpenChange?: (open: boolean) => void;
+  children: React.ReactNode;
+  className?: string;
 }
 
 function MobileLink({
@@ -101,18 +102,18 @@ function MobileLink({
   children,
   ...props
 }: MobileLinkProps & React.ComponentProps<typeof IntLink>) {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <IntLink
       href={href}
       onClick={() => {
-        router.push(href.toString())
-        onOpenChange?.(false)
+        router.push(href.toString());
+        onOpenChange?.(false);
       }}
       className={cn("text-base", className)}
       {...props}
     >
       {children}
     </IntLink>
-  )
+  );
 }
