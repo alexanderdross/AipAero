@@ -38,7 +38,7 @@ export async function generateMetadata({
   const parentMetadata = await parent;
   const previousOpenGraph = parentMetadata.openGraph ?? {};
   const previousOther = parentMetadata.other ?? {};
-  const pathname = getPathname({ href: '/ifr', locale });
+  const pathname = getPathname({ href: '/heliports', locale });
   let currentUrl = new URL(pathname, orgUrl).toString();
 
   const nativeLocale = locale.replace('-EN', '');
