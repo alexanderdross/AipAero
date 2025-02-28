@@ -33,37 +33,41 @@ async function getEntries(pathname: Href, country: Locale) {
   if (pathname === '/ifr' && country !== 'de' && country !== 'de-EN') {
     return [];
   }
+  // Alternate languages are the current country and its optional English version
   const alternateLangs = routing.locales.filter(l => l.startsWith(country)).map(l => ({
     locale: l,
     lang: localeLangMapping[l],
   }));
-  const pageEntry = {
-    url: getUrl(pathname, country),
+  // Both the current country and its English version of the base pathname should be included
+  const pageEntries = alternateLangs.map(l => ({
+    url: getUrl(pathname, l.locale),
     alternates: {
       languages: Object.fromEntries(
         alternateLangs.map((l) => [l.lang, getUrl(pathname, l.locale)])
       )
     },
-  }
+  }));
+  // In case of the airport list, repeat for every airport
   if (pathname === '/airport-list') {
     const [vfrAirports, ifrAirports, heliports] = await Promise.all([
       QUERIES.vfrAirports(country),
       QUERIES.ifrAirports(country),
       QUERIES.heliports(country),
     ]);
-    const airports = [vfrAirports, ifrAirports, heliports].filter(x => x.length > 0).flat().map(x => {
-      return {
-        url: getAirportUrl(i18nPathMapping[x.type], x.slug, country),
+    const airports = [vfrAirports, ifrAirports, heliports].filter(x => x.length > 0).flat()
+    const airportEntries = airports.map(x => {
+      return alternateLangs.map(l => ({
+        url: getAirportUrl(i18nPathMapping[x.type], x.slug, l.locale),
         alternates: {
           languages: Object.fromEntries(
             alternateLangs.map((l) => [l.lang, getAirportUrl(i18nPathMapping[x.type], x.slug, l.locale)])
           )
         },
-      };
-    });
-    return [pageEntry, ...airports];
+      }));
+    }).flat();
+    return [...pageEntries, ...airportEntries];
   }
-  return [pageEntry];
+  return [...pageEntries];
 }
 
 function getUrl(href: Href, locale: Locale) {
