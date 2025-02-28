@@ -28,7 +28,7 @@ export const routing = defineRouting({
     }
   },
   localeCookie: false,
-  localeDetection: true
+  localeDetection: true,
 });
 
 export type Pathnames = keyof typeof routing.pathnames;

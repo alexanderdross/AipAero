@@ -6,6 +6,7 @@ import { Header } from '~/components/header';
 import { BreadCrumbs } from '~/components/breadcrumbs';
 import { NextIntlClientProvider } from 'next-intl';
 import { pick } from 'lodash';
+import { Suspense } from 'react';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -35,7 +36,9 @@ export default async function LocaleLayout(props: Readonly<{
           messages={
             pick(messages, 'BreadCrumbs')
           }>
-          <BreadCrumbs />
+          <Suspense fallback={null}>
+            <BreadCrumbs />
+          </Suspense>
         </NextIntlClientProvider>
         <Footer />
       </body>

@@ -1,6 +1,7 @@
 import {NextRequest} from 'next/server';
 import createMiddleware from 'next-intl/middleware';
-import {routing} from './i18n/routing';
+import LinkHeader from 'http-link-header';
+import {localeLangMapping, routing} from './i18n/routing';
 
 const handleI18nRouting = createMiddleware(routing);
  
@@ -19,7 +20,14 @@ export default function middleware(request: NextRequest) {
     return;
   }
 
-  return handleI18nRouting(request);
+  const response = handleI18nRouting(request);
+  // See https://next-intl.dev/docs/routing#alternate-links-customization
+  const link = LinkHeader.parse(response.headers.get('link') ?? '');
+  link.refs.forEach(entry => {
+    entry.hreflang = localeLangMapping[entry.hreflang as typeof routing.locales[number]] ?? '';
+  });
+  response.headers.set('link', link.toString());
+  return response;
 }
 
 export const config = {

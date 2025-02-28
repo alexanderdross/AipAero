@@ -2,6 +2,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import LocaleSwitcherSelect from '~/components/locale-switcher-select';
 import { SelectItem } from "~/components/ui/select";
 import { SchemaWebpage } from './schemas/schema-webpage';
+import { Suspense } from 'react';
 
 export default function LocaleSwitcher() {
   const t = useTranslations('LocaleSwitcher');
@@ -15,7 +16,7 @@ export default function LocaleSwitcher() {
   }
 
   return (
-    <>
+    <Suspense fallback={null}>
       <SchemaWebpage 
         nonEnglishLocale={nonEnglish} 
         englishLocale={english}
@@ -28,6 +29,6 @@ export default function LocaleSwitcher() {
           {t('locale', { locale: 'en' })}
         </SelectItem>
       </LocaleSwitcherSelect>
-    </>
+    </Suspense>
   );
 }
