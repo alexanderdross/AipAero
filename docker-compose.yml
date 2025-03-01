@@ -1,6 +1,6 @@
 services:
-  aip_aero_dev:
-    container_name: aip_aero_dev
+  aip_aero:
+    container_name: aip_aero
     build: 
       context: .
       network: host
