@@ -22,8 +22,8 @@ export async function Header({ withLangSwitcher = false }) {
               className='h-10 w-auto py-2 sm:py-1'
               src="/logo.webp"
               alt="AIP:Aero Logo"
-              width={1071}
-              height={450}
+              width={841}
+              height={130}
               fetchPriority='high'
             />
           </Link>
