@@ -18,15 +18,13 @@ export async function Header({ withLangSwitcher = false }) {
             href="/"
             title='Go to AIP Index'
           >
-            <Image
+            <img
               className='h-10 w-auto py-2 sm:py-1'
               src="/logo.webp"
+              alt="AIP:Aero Logo"
               width={1071}
               height={450}
-              priority={true}
-              alt="AIP:Aero Logo"
-              quality={75}
-              sizes="33vw"
+              fetchPriority='high'
             />
           </Link>
 
