@@ -25,6 +25,7 @@ export async function Header({ withLangSwitcher = false }) {
               height={450}
               priority={true}
               alt="AIP:Aero Logo"
+              quality={75}
               sizes="33vw"
             />
           </Link>
