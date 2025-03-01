@@ -47,12 +47,12 @@
     "vfrCard": {
       "title": "VFR Airports",
       "description": "VFR airfields/ airports in the United Kingdom",
-      "linkTitle": "Click on the link below to AIP VFR and visual approach chart of {airport}"
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
     },
     "heliportCard": {
       "title": "Helicopter Aerodromes",
       "description": "Helicopter Aerodromes in the United Kingdom",
-      "linkTitle": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
     },
     "breadcrumb": {
       "name": "List of Airports/ Airfields in the United Kingdom (UK)",
@@ -68,7 +68,7 @@
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
     "resultTitle": "AIP VFR Helicopter Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
     "breadcrumb": {
       "name": "AIP VFR Heliports United Kingdom (UK)",
       "alternateName": "AIP VFR Charts for Helicopter Aerodromes in the UK",
@@ -83,7 +83,7 @@
     "searchTitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
     "searchPlaceholder": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
     "resultTitle": "AIP VFR Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP VFR and visual approach chart of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
     "breadcrumb": {
       "name": "AIP VFR United Kingdom (UK)",
       "alternateName": "Index of AIP VFR/ IFR and visual approach charts United Kingdom",

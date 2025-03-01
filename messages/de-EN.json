@@ -55,17 +55,17 @@
     "vfrCard": {
       "title": "VFR Airports",
       "description": "VFR airfields/ airports in Germany",
-      "linkTitle": "Click on the link below to AIP VFR and visual approach chart of {airport}"
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
     },
     "ifrCard": {
       "title": "IFR Airports",
       "description": "IFR airfields/ airports in Germany",
-      "linkTitle": "Click on the link below to AIP IFR and visual approach chart of {airport}"
+      "linkTitle": "Click on the link below to access AIP IFR and visual approach chart of {airport}"
     },
     "heliportCard": {
       "title": "Helicopter Aerodromes",
       "description": "Helicopter Aerodromes in Germany",
-      "linkTitle": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
     },
     "breadcrumb": {
       "name": "List of Airfields/ Airports Germany",
@@ -81,7 +81,7 @@
     "searchTitle": "Enter airport name or its ICAO code to access AIP IFR",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP IFR",
     "resultTitle": "AIP IFR Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP IFR and visual approach chart of {airport}",
+    "resultDescription": "Click on the link below to access AIP IFR and visual approach chart of {airport}",
     "breadcrumb": {
       "name": "AIP IFR Germany",
       "alternateName": "Index of AIP IFR and approach charts Germany",
@@ -96,7 +96,7 @@
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
     "resultTitle": "AIP VFR Helicopter Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
     "breadcrumb": {
       "name": "AIP VFR Helicopter Aerodromes Germany",
       "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Germany",
@@ -111,7 +111,7 @@
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
     "resultTitle": "AIP VFR Charts of {airport}",
-    "resultDescription": "Click on the link below to AIP VFR and visual approach chart of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
     "breadcrumb": {
       "name": "AIP VFR Germany",
       "alternateName": "Index of AIP VFR and visual approach charts Germany",

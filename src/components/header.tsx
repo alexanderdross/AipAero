@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import LocaleSwitcher from './locale-switcher';
 import { Menu } from './menu';
