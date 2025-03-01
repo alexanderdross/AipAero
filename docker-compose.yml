@@ -6,6 +6,6 @@ services:
       network: host
     restart: always
     ports:
-      - 127.0.0.1:8082:3000
+      - 127.0.0.1:8080:3000
     env_file:
       - .env
