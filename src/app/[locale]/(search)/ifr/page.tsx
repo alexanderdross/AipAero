@@ -66,7 +66,7 @@ export async function generateMetadata({
     alternates: {
       canonical: currentUrl,
       languages: locale === 'uk' ? undefined : Object.assign({}, ...locales.map((l) => ({
-        [localeLangMapping[l] as string]: new URL(getPathname({ href: '/ifr', locale: l }), orgUrl).toString() + `${data ? `/?${data.slug}` : ''}`
+        [localeLangMapping[l] as string]: new URL(getPathname({ href: '/ifr', locale: l }), orgUrl).toString() + `${data ? `?${data.slug}` : ''}`
       })))
     },
     openGraph: {
