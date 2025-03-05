@@ -38,7 +38,7 @@ export async function generateMetadata(
     description: t('metaDescription'),
     alternates: {
       canonical: currentUrl,
-      languages: Object.assign({}, ...locales.map((l) => ({
+      languages: locale === 'uk' ? undefined : Object.assign({}, ...locales.map((l) => ({
         [localeLangMapping[l] as string]: new URL(getPathname({ href: '/', locale: l }), orgUrl).toString()
       })))
     },
