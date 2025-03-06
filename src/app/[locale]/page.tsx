@@ -17,6 +17,10 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+function trailingSlash(url: string) {
+  return url.endsWith('/') ? url : url + '/';
+}
+
 export async function generateMetadata(
   { params }: { params: Promise<{ locale: string }> },
   parent: ResolvingMetadata
@@ -37,19 +41,19 @@ export async function generateMetadata(
     title: t('metaTitle'),
     description: t('metaDescription'),
     alternates: {
-      canonical: currentUrl,
+      canonical: trailingSlash(currentUrl),
       languages: locale === 'uk' ? undefined : Object.assign({}, ...locales.map((l) => ({
         [localeLangMapping[l] as string]: new URL(getPathname({ href: '/', locale: l }), orgUrl).toString()
       })))
     },
     openGraph: {
       ...previousOpenGraph,
-      url: currentUrl,
+      url: trailingSlash(currentUrl),
       siteName: t('metaTitle'),
     },
     other: {
       ...previousOther as Omit<Metadata['other'], keyof DeprecatedMetadataFields>,
-      'twitter:url': currentUrl,
+      'twitter:url': trailingSlash(currentUrl),
       'abstract': t('metaDescription'),
       'og:image:alt': t('breadcrumb.name')
     }
