@@ -1,10 +1,10 @@
 'use server';
 import * as cheerio from "cheerio";
-import { eq } from "drizzle-orm";
-import { db } from "~/server/db";
-import { airports, type InsertAirport } from "~/server/db/schema";
+import { type InsertAirport } from "~/server/db/schema";
 import {slug} from 'github-slugger';
+import { MUTATIONS } from "~/server/db/queries";
 
+const COUNTRY = 'AT';
 const rootUrl = 'https://eaip.austrocontrol.at';
 
 async function fetchIso8859(url: string) {
@@ -40,7 +40,7 @@ async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
         title: `${city} ${icao}`, 
         url: fullUrl, 
         type, 
-        country: 'AT',
+        country: COUNTRY,
         slug: icao === '' ? slug(city) : icao
       });
     } else {
@@ -50,7 +50,7 @@ async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
         title: `${city} ${icao}`, 
         url: fullUrl, 
         type, 
-        country: 'AT', 
+        country: COUNTRY, 
         slug: icao === '' ? slug(city) : icao 
       });
     }
@@ -90,9 +90,7 @@ export async function crawlAt() {
   airportsList.push(...await extractAirports(heliportsUrl, 'heliport'));
 
   if (airportsList.length === 0) {
-    throw new Error('No AT airports found');
+    throw new Error(`No ${COUNTRY} airports found`);
   }
-  await db.delete(airports).where(eq(airports.country, 'AT')).execute();
-  await db.insert(airports).values(airportsList).execute();
-  return airportsList;
+  MUTATIONS.insertAirports({ airports: airportsList, country: 'AT' });
 }

@@ -1,10 +1,9 @@
 'use server';
 
 import * as cheerio from 'cheerio';
-import { eq } from 'drizzle-orm';
-import { db } from '~/server/db';
-import { airports, type InsertAirport } from '~/server/db/schema';
+import { type InsertAirport } from '~/server/db/schema';
 import {slug} from 'github-slugger';
+import { MUTATIONS } from '~/server/db/queries';
 
 const COUNTRY = 'UK';
 const rootUrl = 'https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/AIP/';
@@ -70,7 +69,5 @@ export async function crawlUk() {
   if (airportsList.length === 0) {
     throw new Error(`No ${COUNTRY} airports found`);
   }
-  await db.delete(airports).where(eq(airports.country, COUNTRY)).execute();
-  await db.insert(airports).values(airportsList).execute();
-  return airportsList;
+  MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
 }

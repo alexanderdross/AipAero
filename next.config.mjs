@@ -10,7 +10,7 @@ const nextConfig = {
     modifiedDate: new Date().toISOString(),
   },
   experimental: {
-    useCache: true,
+    dynamicIO: true,
   },
   async rewrites() {
     return [
