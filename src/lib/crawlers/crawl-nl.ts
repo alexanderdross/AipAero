@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio';
 import { type InsertAirport } from '~/server/db/schema';
 import {slug} from 'github-slugger';
 import { MUTATIONS } from '~/server/db/queries';
+import { log } from 'next-axiom';
 
 const COUNTRY = 'NL';
 const rootUrl = 'https://www.lvnl.nl/diensten/aip';
@@ -78,4 +79,5 @@ export async function crawlNl() {
     throw new Error(`No ${COUNTRY} airports found`);
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
+  log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
 }

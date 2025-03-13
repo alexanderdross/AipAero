@@ -4,6 +4,7 @@ import * as cheerio from 'cheerio';
 import { type InsertAirport } from '~/server/db/schema';
 import {slug} from 'github-slugger';
 import { MUTATIONS } from '~/server/db/queries';
+import { log } from 'next-axiom';
 
 const COUNTRY = 'UK';
 const rootUrl = 'https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/AIP/';
@@ -70,4 +71,5 @@ export async function crawlUk() {
     throw new Error(`No ${COUNTRY} airports found`);
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
+  log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
 }

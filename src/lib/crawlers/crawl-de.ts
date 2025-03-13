@@ -5,6 +5,7 @@ import { type InsertAirport } from '~/server/db/schema';
 import { cheerioFetch } from '~/lib/crawlers/utils';
 import {slug} from 'github-slugger';
 import { MUTATIONS } from '~/server/db/queries';
+import { log } from 'next-axiom';
 
 const COUNTRY = 'DE';
 const rootVfrUrl = 'https://aip.dfs.de/BasicVFR/';
@@ -100,4 +101,5 @@ export async function crawlDe() {
     throw new Error(`No ${COUNTRY} airports found`);
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
+  log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
 }
