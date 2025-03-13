@@ -23,7 +23,6 @@ export default function LocaleSwitcherSelect({
 
   function onSelectChange(value: string) {
     const nextLocale = value as Locale;
-    console.log("searchParams", searchParams);
     startTransition(() => {
       router.replace(
         { pathname: pathname, query: searchParams },

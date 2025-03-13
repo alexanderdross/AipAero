@@ -1,4 +1,6 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { withAxiom, type AxiomRequest } from "next-axiom";
+
 import { env } from "~/env";
 import { crawlAt } from "~/lib/crawlers/crawl-at";
 import { crawlDe } from "~/lib/crawlers/crawl-de";
@@ -9,8 +11,11 @@ import { tryCatch } from "~/lib/try-catch";
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: NextRequest) {
+export const GET = withAxiom(async (req: AxiomRequest) => {
+  req.log.info("Crawl function called");
+
   if (req.headers.get('Authorization') !== `Bearer ${env.CRON_SECRET}`) {
+    req.log.info("Unauthorized request");
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -25,7 +30,7 @@ export async function GET(req: NextRequest) {
     for (const result of response) {
       const { error } = result;
       if (error) {
-        console.error(error);
+        req.log.error(error.message);
       }
     }
     return NextResponse.json({}, { status: 200 });
@@ -34,6 +39,7 @@ export async function GET(req: NextRequest) {
     if (error instanceof Error) {
       message = error.message;
     }
+    req.log.error(message);
     return NextResponse.json({ message: message }, { status: 500 });
   }
-}
+});
