@@ -33,7 +33,11 @@ export async function Header({ withLangSwitcher = false }) {
             }>
             <Menu />
           </NextIntlClientProvider>}
-          <LocaleSwitcher />
+          <NextIntlClientProvider messages={
+            pick(messages, 'LocaleSwitcher')
+          }>
+            <LocaleSwitcher />
+          </NextIntlClientProvider>
           {withLangSwitcher && <NextIntlClientProvider
             messages={
               pick(messages, 'Menu')

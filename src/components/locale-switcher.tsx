@@ -21,14 +21,14 @@ export default function LocaleSwitcher() {
         nonEnglishLocale={nonEnglish} 
         englishLocale={english}
       />
-      <LocaleSwitcherSelect defaultValue={locale} label={t('label')}>
-        <SelectItem value={nonEnglish}>
-          {t('locale', { locale: nonEnglish })}
-        </SelectItem>
-        <SelectItem value={english}>
-          {t('locale', { locale: 'en' })}
-        </SelectItem>
-      </LocaleSwitcherSelect>
+        <LocaleSwitcherSelect defaultValue={locale} label={t('label')}>
+          <SelectItem value={nonEnglish}>
+            {t('locale', { locale: nonEnglish })}
+          </SelectItem>
+          <SelectItem value={english}>
+            {t('locale', { locale: 'en' })}
+          </SelectItem>
+        </LocaleSwitcherSelect>
     </Suspense>
   );
 }

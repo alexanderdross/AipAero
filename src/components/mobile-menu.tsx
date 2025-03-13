@@ -102,12 +102,10 @@ function MobileLink({
   children,
   ...props
 }: MobileLinkProps & React.ComponentProps<typeof IntLink>) {
-  const router = useRouter();
   return (
     <IntLink
       href={href}
       onClick={() => {
-        router.push(href.toString());
         onOpenChange?.(false);
       }}
       className={cn("text-base", className)}
