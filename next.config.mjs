@@ -1,5 +1,5 @@
 import createNextIntlPlugin from 'next-intl/plugin';
-import { withAxiom } from next-axiom;
+import { withAxiomNextConfig } from 'next-axiom';
  
 const withNextIntl = createNextIntlPlugin();
 
@@ -11,7 +11,7 @@ const nextConfig = {
     modifiedDate: new Date().toISOString(),
   },
   experimental: {
-    dynamicIO: true,
+    useCache: true,
   },
   async rewrites() {
     return [
@@ -23,4 +23,4 @@ const nextConfig = {
   },
 };
 
-export default withAxiom(withNextIntl(nextConfig));
+export default withAxiomNextConfig(withNextIntl(nextConfig));
