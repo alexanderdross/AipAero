@@ -4,6 +4,7 @@ import { withAxiom, type AxiomRequest } from "next-axiom";
 import { env } from "~/env";
 import { crawlAt } from "~/lib/crawlers/crawl-at";
 import { crawlDe } from "~/lib/crawlers/crawl-de";
+import { crawlFr } from "~/lib/crawlers/crawl-fr";
 import { crawlNl } from "~/lib/crawlers/crawl-nl";
 import { crawlUk } from "~/lib/crawlers/crawl-uk";
 import { tryCatch } from "~/lib/try-catch";
@@ -24,12 +25,14 @@ export const GET = withAxiom(async (req: AxiomRequest) => {
     const response = await Promise.all([
       tryCatch(crawlAt()),
       tryCatch(crawlDe()),
+      tryCatch(crawlFr()),
       tryCatch(crawlNl()),
       tryCatch(crawlUk())
     ]);
     for (const result of response) {
       const { error } = result;
       if (error) {
+        console.error(error);
         req.log.error(error.message);
       }
     }

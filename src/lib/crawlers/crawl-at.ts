@@ -4,17 +4,10 @@ import { type InsertAirport } from "~/server/db/schema";
 import {slug} from 'github-slugger';
 import { MUTATIONS } from "~/server/db/queries";
 import { log } from "next-axiom";
+import { fetchIso8859 } from "./utils";
 
 const COUNTRY = 'AT';
 const rootUrl = 'https://eaip.austrocontrol.at';
-
-async function fetchIso8859(url: string) {
-  const response = await fetch(url);
-  const buffer = await response.arrayBuffer();
-  const decoder = new TextDecoder("iso-8859-1");
-  const decoded = decoder.decode(buffer);
-  return decoded;
-}
 
 async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
   const text = await fetchIso8859(url);
