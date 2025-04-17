@@ -19,7 +19,7 @@ export function BreadCrumbs() {
   const icao = useSearchParams().keys().next().value;
 
   return (
-    <div className="w-max mx-auto py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
+    <div className="flex justify-center py-8 px-4 overflow-hidden sm:px-6 lg:px-8">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
