@@ -38,7 +38,7 @@ export function SearchInputField({ value, title, type, country }: { value?: stri
   useEffect(() => {
     // If single result, redirect to the airport page
     if (state.airports.length === 1) {
-      router.push(`./?${state.airports.at(0)?.icao}`);
+      router.push(`./?${state.airports.at(0)?.slug}`);
     } else if (state.airports.length > 1) {
       router.push('./');
     }
