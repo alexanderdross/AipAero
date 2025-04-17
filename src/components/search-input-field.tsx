@@ -58,6 +58,7 @@ export function SearchInputField({ value, title, type, country }: { value?: stri
           title={title}
           value={search ?? value}
           onChange={(e) => onChange(e)}
+          autoComplete="off"
           autoFocus
         />
         <input type="hidden" name="type" value={type} />
