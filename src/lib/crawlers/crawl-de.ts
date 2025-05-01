@@ -102,5 +102,7 @@ export async function crawlDe() {
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
   log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
-  console.log(airportsList)
+  for (const airport of airportsList) {
+    log.info(`Inserted ${airport.title}/${airport.icao} - ${airport.type} - ${airport.url}`);
+  }
 }
