@@ -102,4 +102,5 @@ export async function crawlDe() {
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
   log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
+  console.log(airportsList)
 }
