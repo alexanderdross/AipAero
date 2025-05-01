@@ -50,107 +50,107 @@
   "AirportsPage": {
     "title": "Liste des aérodromes en France",
     "metaTitle": "🛩️ Liste des aérodromes en France",
-    "description": "Tous les aérodromes/ aéroports en France en un coup d'œil",
-    "metaDescription": "Tous les aérodromes/ aéroports en France en un coup d'œil🗺️",
+    "description": "Vue d'ensemble de tous les aérodromes/aéroports en France",
+    "metaDescription": "Vue d'ensemble de tous les aérodromes/aéroports en France 🗺️",
     "vfrCard": {
       "title": "Aérodromes VFR",
-      "description": "Aérodromes/ aéroports VFR en France",
-      "linkTitle": "Voir et télécharger les cartes AIP VFR et les cartes d'approche pour {airport} ici."
+      "description": "Aérodromes/aéroports VFR en France",
+      "linkTitle": "Consultez et téléchargez ici les cartes AIP VFR et les cartes d'approche pour {airport}."
     },
     "ifrCard": {
       "title": "Aérodromes IFR",
-      "description": "Aérodromes/ aéroports IFR en France",
-      "linkTitle": "Voir et télécharger les cartes AIP IFR et les cartes d'approche pour {airport} ici."
+      "description": "Aérodromes/aéroports IFR en France",
+      "linkTitle": "Consultez et téléchargez ici les cartes AIP IFR et les cartes d'approche pour {airport}."
     },
     "heliportCard": {
       "title": "Héliports",
       "description": "Héliports en France",
-      "linkTitle": "Voir et télécharger les cartes AIP VFR Héliports et les cartes d'approche pour {airport} ici."
+      "linkTitle": "Consultez et téléchargez ici les cartes AIP VFR pour les héliports et les cartes d'approche pour {airport}."
     },
     "breadcrumb": {
       "name": "Liste des aéroports France",
       "alternateName": "Liste des aérodromes en France",
-      "description": "Tous les aérodromes/ aéroports en France en un coup d'œil"
+      "description": "Vue d'ensemble de tous les aérodromes/aéroports en France"
     }
   },
   "IfrPage": {
-    "title": "Formulaire de recherche pour les cartes d'approche AIP IFR France",
-    "metaTitle": "🛩️ Formulaire de recherche pour les cartes d'approche AIP IFR France",
-    "description": "Entrez le nom ou le code ICAO de l'aéroport pour accéder aux cartes d'approche IFR fournies par la DFS",
-    "metaDescription": "Recherchez et téléchargez les cartes d'approche AIP IFR France AD🗺️",
-    "searchTitle": "Entrez le nom de l'aéroport ou le code ICAO pour accéder à l'AIP IFR",
-    "searchPlaceholder": "Entrez le nom de l'aéroport ou le code ICAO pour accéder à l'AIP IFR",
+    "title": "Recherche de cartes d'approche AIP IFR France",
+    "metaTitle": "🛩️ Recherche de cartes d'approche AIP IFR France",
+    "description": "Entrez le nom ou le code OACI de l'aéroport pour accéder aux cartes d'approche IFR fournies par la DSNA",
+    "metaDescription": "Recherchez les aérodromes AIP IFR France et téléchargez les cartes d'approche 🗺️",
+    "searchTitle": "Entrez le nom ou le code OACI de l'aéroport pour accéder à l'AIP IFR",
+    "searchPlaceholder": "Entrez le nom ou le code OACI de l'aéroport pour accéder à l'AIP IFR",
     "resultTitle": "Cartes AIP IFR de {airport}",
-    "resultDescription": "Voir et télécharger les cartes AIP IFR et les cartes d'approche pour {airport} ici.",
+    "resultDescription": "Consultez et téléchargez ici les cartes AIP IFR et les cartes d'approche pour {airport}.",
     "breadcrumb": {
       "name": "Manuel d'aviation AIP IFR France",
-      "alternateName": "Formulaire de recherche pour les cartes d'approche AIP IFR France",
-      "description": "Recherchez et téléchargez les cartes d'approche AIP IFR France AD"
+      "alternateName": "Recherche de cartes d'approche AIP IFR France",
+      "description": "Recherchez les aérodromes AIP IFR France et téléchargez les cartes d'approche"
     }
   },
   "HeliportPage": {
-    "title": "Formulaire de recherche pour les cartes d'approche AIP VFR HEL AD Héliports en France",
-    "metaTitle": "🛩️ Formulaire de recherche pour les cartes d'approche AIP VFR HEL AD Héliports en France",
-    "description": "Entrez le nom ou le code ICAO de l'aéroport pour accéder aux cartes d'approche VFR fournies par la DFS pour les héliports",
-    "metaDescription": "Recherchez et téléchargez les cartes d'approche AIP VFR France HEL AD Héliports🗺️",
-    "searchTitle": "Entrez le nom de l'aéroport ou le code ICAO pour accéder à l'AIP VFR pour les héliports",
-    "searchPlaceholder": "Entrez le nom de l'aéroport ou le code ICAO pour accéder à l'AIP VFR pour les héliports",
-    "resultTitle": "Cartes AIP VFR Héliports de {airport}",
-    "resultDescription": "Voir et télécharger les cartes AIP VFR Héliports et les cartes d'approche pour {airport} ici.",
+    "title": "Recherche de cartes d'approche AIP VFR HEL AD Héliports en France",
+    "metaTitle": "🛩️ Recherche de cartes d'approche AIP VFR HEL AD Héliports en France",
+    "description": "Entrez le nom ou le code OACI de l'aéroport pour accéder aux cartes d'approche VFR pour les héliports fournies par la DSNA",
+    "metaDescription": "Recherchez les héliports AIP VFR France HEL AD et téléchargez les cartes d'approche 🗺️",
+    "searchTitle": "Entrez le nom ou le code OACI de l'aéroport pour accéder à l'AIP VFR pour les héliports",
+    "searchPlaceholder": "Entrez le nom ou le code OACI de l'aéroport pour accéder à l'AIP VFR pour les héliports",
+    "resultTitle": "Cartes AIP VFR pour les héliports de {airport}",
+    "resultDescription": "Consultez et téléchargez ici les cartes AIP VFR pour les héliports et les cartes d'approche pour {airport}.",
     "breadcrumb": {
       "name": "AIP VFR Héliports France",
-      "alternateName": "Formulaire de recherche pour les cartes d'approche AIP VFR HEL AD Héliports en France",
-      "description": "Recherchez et téléchargez les cartes d'approche AIP VFR France HEL AD Héliports"
+      "alternateName": "Recherche de cartes d'approche AIP VFR HEL AD Héliports en France",
+      "description": "Recherchez les héliports AIP VFR France HEL AD et téléchargez les cartes d'approche"
     }
   },
   "VfrPage": {
-    "title": "Formulaire de recherche pour les cartes d'approche AIP VFR France",
-    "metaTitle": "🛩️ Formulaire de recherche pour les cartes d'approche AIP VFR France",
-    "description": "Entrez le nom ou le code ICAO de l'aéroport pour accéder aux cartes d'approche VFR fournies par la DFS",
-    "metaDescription": "Recherchez et téléchargez les cartes d'approche AIP VFR France AD🗺️",
-    "searchTitle": "Entrez le nom de l'aéroport ou le code ICAO pour accéder à l'AIP VFR",
-    "searchPlaceholder": "Entrez le nom de l'aéroport ou le code ICAO pour accéder à l'AIP VFR",
+    "title": "Recherche de cartes d'approche AIP VFR France",
+    "metaTitle": "🛩️ Recherche de cartes d'approche AIP VFR France",
+    "description": "Entrez le nom ou le code OACI de l'aéroport pour accéder aux cartes d'approche VFR fournies par la DSNA",
+    "metaDescription": "Recherchez les aérodromes AIP VFR France et téléchargez les cartes d'approche 🗺️",
+    "searchTitle": "Entrez le nom ou le code OACI de l'aéroport pour accéder à l'AIP VFR",
+    "searchPlaceholder": "Entrez le nom ou le code OACI de l'aéroport pour accéder à l'AIP VFR",
     "resultTitle": "Cartes AIP VFR de {airport}",
-    "resultDescription": "Voir et télécharger les cartes AIP VFR et les cartes d'approche pour {airport} ici.",
+    "resultDescription": "Consultez et téléchargez ici les cartes AIP VFR et les cartes d'approche pour {airport}.",
     "breadcrumb": {
       "name": "Manuel d'aviation AIP VFR France",
-      "alternateName": "Formulaire de recherche pour les cartes d'approche AIP VFR France",
-      "description": "Recherchez et téléchargez les cartes d'approche AIP VFR France AD"
+      "alternateName": "Recherche de cartes d'approche AIP VFR France",
+      "description": "Recherchez les aérodromes AIP VFR France et téléchargez les cartes d'approche"
     }
   },
   "LocaleSwitcher": {
     "label": "Changer de langue",
-    "locale": "{locale, select, de {🇫🇷 Français} en {🇬🇧 Anglais} other {Inconnu}}"
+    "locale": "{locale, select, fr {🇫🇷 Français} en {🇬🇧 Anglais} other {Inconnu}}"
   },
   "CountrySiteNavElement": {
     "name": "Cartes d'approche & Manuel d'aviation AIP pour la France",
     "alternateName": "AIP France",
-    "description": "Téléchargez ici tous les manuels d'aviation AIP (Publication d'Information Aéronautique) et les cartes d'approche pour la France",
+    "description": "Téléchargez ici tous les manuels d'aviation AIP (Aeronautical Information Publication) et les cartes d'approche pour la France",
     "inLanguage": "fr",
     "url": "https://aip.aero/fr/"
   },
   "CountryPage": {
     "title": "Cartes d'approche & Manuel d'aviation AIP pour la France",
     "metaTitle": "🛩️ Cartes d'approche & Manuel d'aviation AIP pour la France",
-    "description": "Téléchargez ici tous les manuels d'aviation AIP (Publication d'Information Aéronautique) et les cartes d'approche pour la France",
-    "metaDescription": "Téléchargez ici tous les manuels d'aviation AIP (Publication d'Information Aéronautique) et les cartes d'approche pour la France🗺️",
+    "description": "Téléchargez ici tous les manuels d'aviation AIP (Aeronautical Information Publication) et les cartes d'approche pour la France",
+    "metaDescription": "Téléchargez ici tous les manuels d'aviation AIP (Aeronautical Information Publication) et les cartes d'approche pour la France 🗺️",
     "vfrCard": {
       "title": "Manuel d'aviation AIP VFR",
-      "description": "Recherchez et téléchargez les cartes d'approche AIP VFR France AD",
+      "description": "Recherchez les aérodromes AIP VFR France et téléchargez les cartes d'approche",
       "buttonTitle": "Manuel d'aviation AIP VFR",
       "buttonHref": "/fr/vfr/",
       "buttonHrefTitle": "Manuel d'aviation AIP VFR France"
     },
     "ifrCard": {
       "title": "Manuel d'aviation AIP IFR",
-      "description": "Recherchez et téléchargez les cartes d'approche AIP IFR France AD",
+      "description": "Recherchez les aérodromes AIP IFR France et téléchargez les cartes d'approche",
       "buttonTitle": "Manuel d'aviation AIP IFR",
       "buttonHref": "/fr/ifr/",
       "buttonHrefTitle": "Manuel d'aviation AIP IFR France"
     },
     "heliportCard": {
       "title": "Héliports",
-      "description": "Recherchez et téléchargez les cartes d'approche AIP VFR France HEL AD Héliports",
+      "description": "Recherchez les héliports AIP VFR France HEL AD et téléchargez les cartes d'approche",
       "buttonTitle": "AIP VFR Héliports",
       "buttonHref": "/fr/heliports/",
       "buttonHrefTitle": "AIP VFR Héliports France"
@@ -158,14 +158,14 @@
     "breadcrumb": {
       "name": "AIP France",
       "alternateName": "Cartes d'approche & Manuel d'aviation AIP pour la France",
-      "description": "Téléchargez ici tous les manuels d'aviation AIP (Publication d'Information Aéronautique) et les cartes d'approche pour la France"
+      "description": "Téléchargez ici tous les manuels d'aviation AIP (Aeronautical Information Publication) et les cartes d'approche pour la France"
     }
   },
   "About": {
-    "title": "Pourquoi ce site?",
-    "description": "Le <aip>Publication eAIP</aip> gratuit est désormais disponible auprès de la Direction Générale de l'Aviation Civile (DGAC) en version de base, mais sans fonction de recherche. Notre site facilite la recherche des aérodromes, mais n'assume aucune responsabilité quant à l'exactitude ou à l'actualité de l'AIP (Publication d'Information Aéronautique), car il n'est pas exploité par nous. Nous ne faisons que lier aux cartes d'approche respectives.",
+    "title": "Pourquoi ce site web ?",
+    "description": "Le <aip>Manuel d'aviation AIP France</aip> gratuit est désormais disponible via la Direction des Service de l'information aéronautique en version de base, mais sans fonction de recherche. Notre site facilite la recherche d'aérodromes, mais nous ne garantissons pas l'exactitude ou l'actualité des informations AIP (Aeronautical Information Publication), car nous ne les gérons pas. Nous fournissons uniquement des liens vers les cartes d'approche correspondantes.",
     "aipUrl": "https://www.sia.aviation-civile.gouv.fr/plandesite",
-    "aipTitle": "Publication eAIP"
+    "aipTitle": "Manuel d'aviation AIP France"
   },
   "Footer": {
     "stratux": {
@@ -174,8 +174,8 @@
       "href": "https://dross.net/aviation/?aip"
     },
     "tradeaero": {
-      "title": "Trade:Aero - Votre site de référence pour les offres d'avions!",
-      "hrefTitle": "Trade:Aero - Le premier marché pour acheter et vendre des avions, des hélicoptères et tous types d'aéronefs",
+      "title": "Trade:Aero - Votre plateforme pour les transactions aéronautiques !",
+      "hrefTitle": "Trade:Aero - Le marché de référence pour acheter et vendre des avions, hélicoptères et autres aéronefs",
       "href": "https://trade.aero"
     },
     "home": {
@@ -206,6 +206,6 @@
   },
   "Error": {
     "description": "<p>Un problème est survenu.</p><p>Vous pouvez essayer de <retry>recharger cette page</retry>.</p>",
-    "title": "Quelque chose a mal tourné!"
+    "title": "Quelque chose s'est mal passé !"
   }
 }

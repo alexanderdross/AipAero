@@ -22,7 +22,7 @@ import {
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = mysqlTableCreator((name) => `aip_aero_v2_${name}`);
+export const createTable = mysqlTableCreator((name) => `aip_aero_v3_${name}`);
 
 export const airports = createTable(
   "airports",

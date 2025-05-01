@@ -24,7 +24,9 @@ export const dynamicParams = false;
 export function generateStaticParams() {
   return [
     { locale: 'de-EN' },
-    { locale: 'de' }
+    { locale: 'de' },
+    { locale: 'fr-EN' },
+    { locale: 'fr' },
   ];
 }
 

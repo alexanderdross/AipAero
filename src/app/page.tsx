@@ -74,6 +74,13 @@ export default async function RootPage() {
       nativeLang: 'German',
     },
     {
+      tld: 'fr',
+      lang: 'fr',
+      name: 'France',
+      flag: '🇫🇷',
+      nativeLang: 'French',
+    },
+    {
       tld: 'nl',
       lang: 'nl',
       name: 'Netherlands',

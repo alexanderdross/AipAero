@@ -7,7 +7,7 @@ import { Box } from '~/components/box';
 import { SchemaProduct } from '~/components/schemas/schema-product';
 import { SchemaSitenav } from '~/components/schemas/schema-sitenav';
 import { Title } from '~/components/title';
-import { getPathname, Locale, localeLangMapping, routing } from '~/i18n/routing';
+import { getPathname, localeLangMapping, routing } from '~/i18n/routing';
 import { cn, orgUrl, rootBreadcrumb } from '~/lib/utils';
 
 // All slugs besides the static ones will be 404
@@ -70,7 +70,7 @@ export default async function CountryPage(props: Readonly<{
   const t = await getTranslations('CountryPage');
 
   // Only Germany has IFR Card
-  const keys = locale.startsWith('de') ?
+  const keys = locale.startsWith('de') || locale.startsWith('fr') ?
     ['vfrCard', 'ifrCard', 'heliportCard'] as const
     : ['vfrCard', 'heliportCard'] as const;
 

@@ -10,19 +10,19 @@
     },
     "/vfr": {
       "title": "VFR",
-      "hrefTitle": "AIP VFR France"
+      "hrefTitle": "Aeronautical Information Publication AIP VFR France"
     },
     "/ifr": {
       "title": "IFR",
-      "hrefTitle": "AIP IFR France"
+      "hrefTitle": "Aeronautical Information Publication AIP IFR France"
     },
     "/heliports": {
       "title": "Heliports",
-      "hrefTitle": "AIP VFR Helicopter Aerodromes France"
+      "hrefTitle": "AIP VFR Heliports France"
     },
     "/airport-list": {
       "title": "Airport List",
-      "hrefTitle": "List of Airfields/ Airports France"
+      "hrefTitle": "List of Airports France"
     }
   },
   "Menu": {
@@ -32,140 +32,140 @@
     },
     "vfr": {
       "title": "AIP VFR",
-      "hrefTitle": "AIP VFR France"
+      "hrefTitle": "Aeronautical Information Publication AIP VFR France"
     },
     "ifr": {
       "title": "AIP IFR",
-      "hrefTitle": "AIP IFR France"
+      "hrefTitle": "Aeronautical Information Publication AIP IFR France"
     },
     "heliports": {
       "title": "Heliports",
-      "hrefTitle": "AIP VFR Helicopter Aerodromes France"
+      "hrefTitle": "AIP VFR Heliports France"
     },
     "airports": {
       "title": "Airport List",
-      "hrefTitle": "List of Airfields/ Airports France"
+      "hrefTitle": "List of Airports France"
     }
   },
   "AirportsPage": {
-    "title": "List of Airfields in France",
-    "metaTitle": "🛩️ List of Airfields in France",
-    "description": "Overview of all airfields/ airports in France",
-    "metaDescription": "Overview of all airfields/ airports in France🗺️",
+    "title": "List of Aerodromes in France",
+    "metaTitle": "🛩️ List of Aerodromes in France",
+    "description": "Overview of all aerodromes/airports in France",
+    "metaDescription": "Overview of all aerodromes/airports in France 🗺️",
     "vfrCard": {
-      "title": "VFR Airports",
-      "description": "VFR airfields/ airports in France",
-      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
+      "title": "VFR Aerodromes",
+      "description": "VFR Aerodromes/Airports in France",
+      "linkTitle": "View and download AIP VFR charts and approach charts for {airport} here."
     },
     "ifrCard": {
-      "title": "IFR Airports",
-      "description": "IFR airfields/ airports in France",
-      "linkTitle": "Click on the link below to access AIP IFR and visual approach chart of {airport}"
+      "title": "IFR Aerodromes",
+      "description": "IFR Aerodromes/Airports in France",
+      "linkTitle": "View and download AIP IFR charts and approach charts for {airport} here."
     },
     "heliportCard": {
-      "title": "Helicopter Aerodromes",
-      "description": "Helicopter Aerodromes in France",
-      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+      "title": "Heliports",
+      "description": "Heliports in France",
+      "linkTitle": "View and download AIP VFR heliport charts and approach charts for {airport} here."
     },
     "breadcrumb": {
-      "name": "List of Airfields/ Airports France",
-      "alternateName": "List of Airfields in France",
-      "description": "Overview of all airfields/ airports in France"
+      "name": "List of Airports France",
+      "alternateName": "List of Aerodromes in France",
+      "description": "Overview of all aerodromes/airports in France"
     }
   },
   "IfrPage": {
-    "title": "Index of AIP IFR and approach charts France",
-    "metaTitle": "🛩️ Index of AIP IFR and approach charts France",
-    "description": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
-    "metaDescription": "Browse AIP IFR France and download airport approach charts for free🗺️",
-    "searchTitle": "Enter airport name or its ICAO code to access AIP IFR",
-    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP IFR",
-    "resultTitle": "AIP IFR Charts of {airport}",
-    "resultDescription": "Click on the link below to access AIP IFR and visual approach chart of {airport}",
+    "title": "Search for Approach Charts AIP IFR France",
+    "metaTitle": "🛩️ Search for Approach Charts AIP IFR France",
+    "description": "Enter the name or ICAO code of the airport to access IFR approach charts provided by DSNA",
+    "metaDescription": "Search AIP IFR France aerodromes and download approach charts 🗺️",
+    "searchTitle": "Enter airport name or ICAO code to access IFR AIP",
+    "searchPlaceholder": "Enter airport name or ICAO code to access IFR AIP",
+    "resultTitle": "AIP IFR Charts for {airport}",
+    "resultDescription": "View and download AIP IFR charts and approach charts for {airport} here.",
     "breadcrumb": {
-      "name": "AIP IFR France",
-      "alternateName": "Index of AIP IFR and approach charts France",
-      "description": "Browse AIP IFR France and download airport approach charts for free"
+      "name": "Aeronautical Information Publication AIP IFR France",
+      "alternateName": "Search for Approach Charts AIP IFR France",
+      "description": "Search AIP IFR France aerodromes and download approach charts"
     }
   },
   "HeliportPage": {
-    "title": "AIP VFR Charts for Helicopter Aerodromes in France",
-    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in France",
-    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
-    "metaDescription": "Browse AIP VFR Helicopter Aerodromes France and download airport approach charts for free🗺️",
-    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
-    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "title": "Search for Approach Charts AIP VFR HEL AD Heliports in France",
+    "metaTitle": "🛩️ Search for Approach Charts AIP VFR HEL AD Heliports in France",
+    "description": "Enter the name or ICAO code of the airport to access VFR approach charts for heliports provided by DSNA",
+    "metaDescription": "Search AIP VFR France HEL AD heliports and download approach charts 🗺️",
+    "searchTitle": "Enter airport name or ICAO code to access VFR AIP for heliports",
+    "searchPlaceholder": "Enter airport name or ICAO code to access VFR AIP for heliports",
+    "resultTitle": "AIP VFR Heliport Charts for {airport}",
+    "resultDescription": "View and download AIP VFR heliport charts and approach charts for {airport} here.",
     "breadcrumb": {
-      "name": "AIP VFR Helicopter Aerodromes France",
-      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in France",
-      "description": "Browse AIP VFR Helicopter Aerodromes France and download airport approach charts for free"
+      "name": "AIP VFR Heliports France",
+      "alternateName": "Search for Approach Charts AIP VFR HEL AD Heliports in France",
+      "description": "Search AIP VFR France HEL AD heliports and download approach charts"
     }
   },
   "VfrPage": {
-    "title": "Index of AIP VFR and visual approach charts France",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts France",
-    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
-    "metaDescription": "Browse AIP VFR France and download airport approach charts for free🗺️",
-    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
-    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
-    "resultTitle": "AIP VFR Charts of {airport}",
-    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "title": "Search for Approach Charts AIP VFR France",
+    "metaTitle": "🛩️ Search for Approach Charts AIP VFR France",
+    "description": "Enter the name or ICAO code of the airport to access VFR approach charts provided by DSNA",
+    "metaDescription": "Search AIP VFR France aerodromes and download approach charts 🗺️",
+    "searchTitle": "Enter airport name or ICAO code to access VFR AIP",
+    "searchPlaceholder": "Enter airport name or ICAO code to access VFR AIP",
+    "resultTitle": "AIP VFR Charts for {airport}",
+    "resultDescription": "View and download AIP VFR charts and approach charts for {airport} here.",
     "breadcrumb": {
-      "name": "AIP VFR France",
-      "alternateName": "Index of AIP VFR and visual approach charts France",
-      "description": "Browse AIP VFR France and download airport approach charts for free"
+      "name": "Aeronautical Information Publication AIP VFR France",
+      "alternateName": "Search for Approach Charts AIP VFR France",
+      "description": "Search AIP VFR France aerodromes and download approach charts"
     }
   },
   "LocaleSwitcher": {
-    "label": "Switch language",
-    "locale": "{locale, select, de {🇫🇷 Français} en {🇬🇧 English} other {Unknown}}"
+    "label": "Change Language",
+    "locale": "{locale, select, fr {🇫🇷 French} en {🇬🇧 English} other {Unknown}}"
   },
   "CountrySiteNavElement": {
-    "name": "AIP and approach charts of France",
+    "name": "Approach Charts & Aeronautical Information Publication AIP for France",
     "alternateName": "AIP France",
-    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in France",
+    "description": "Download all AIP (Aeronautical Information Publication) manuals and approach charts for France here",
     "inLanguage": "en",
-    "url": "https://aip.aero/fr/en/"
+    "url": "https://aip.aero/fr/"
   },
   "CountryPage": {
-    "title": "AIP and approach charts of France",
-    "metaTitle": "🛩️ AIP and approach charts of France",
-    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in France",
-    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in France🗺️",
+    "title": "Approach Charts & Aeronautical Information Publication AIP for France",
+    "metaTitle": "🛩️ Approach Charts & Aeronautical Information Publication AIP for France",
+    "description": "Download all AIP (Aeronautical Information Publication) manuals and approach charts for France here",
+    "metaDescription": "Download all AIP (Aeronautical Information Publication) manuals and approach charts for France here 🗺️",
     "vfrCard": {
-      "title": "AIP VFR France",
-      "description": "Browse AIP VFR France and download airport approach charts for free",
-      "buttonTitle": "AIP VFR approach charts",
-      "buttonHref": "/fr/en/vfr/",
-      "buttonHrefTitle": "AIP VFR France"
+      "title": "Aeronautical Information Publication AIP VFR",
+      "description": "Search AIP VFR France aerodromes and download approach charts",
+      "buttonTitle": "Aeronautical Information Publication AIP VFR",
+      "buttonHref": "/fr/vfr/",
+      "buttonHrefTitle": "Aeronautical Information Publication AIP VFR France"
     },
     "ifrCard": {
-      "title": "AIP IFR France",
-      "description": "Browse AIP IFR France and download airport approach charts for free",
-      "buttonTitle": "AIP IFR approach charts",
-      "buttonHref": "/fr/en/ifr/",
-      "buttonHrefTitle": "AIP IFR France"
+      "title": "Aeronautical Information Publication AIP IFR",
+      "description": "Search AIP IFR France aerodromes and download approach charts",
+      "buttonTitle": "Aeronautical Information Publication AIP IFR",
+      "buttonHref": "/fr/ifr/",
+      "buttonHrefTitle": "Aeronautical Information Publication AIP IFR France"
     },
     "heliportCard": {
-      "title": "Helicopter Aerodromes",
-      "description": "Browse AIP VFR Helicopter Aerodromes France and download airport approach charts for free",
-      "buttonTitle": "AIP VFR Helicopter Aerodromes",
-      "buttonHref": "/fr/en/heliports/",
-      "buttonHrefTitle": "AIP VFR Helicopter Aerodromes France"
+      "title": "Heliports",
+      "description": "Search AIP VFR France HEL AD heliports and download approach charts",
+      "buttonTitle": "AIP VFR Heliports",
+      "buttonHref": "/fr/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports France"
     },
     "breadcrumb": {
       "name": "AIP France",
-      "alternateName": "AIP and approach charts of France",
-      "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in France"
+      "alternateName": "Approach Charts & Aeronautical Information Publication AIP for France",
+      "description": "Download all AIP (Aeronautical Information Publication) manuals and approach charts for France here"
     }
   },
   "About": {
-    "title": "What is this website for?",
-    "description": "The free <aip>Publication eAIP</aip> is now available as a basic version from Direction Générale de l'Aviation Civile (DGAC), but without a search function. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
-    "aipUrl": "https://aip.dgac.fr/basicAIP/",
-    "aipTitle": "Publication eAIP France"
+    "title": "Why this website?",
+    "description": "The free <aip>Aeronautical Information Publication AIP France</aip> is now available from the Service de l'information aéronautique as a basic version, but without a search function. Our site makes it easier to find aerodromes but does not guarantee the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only provide links to the respective approach charts.",
+    "aipUrl": "https://www.sia.aviation-civile.gouv.fr/plandesite",
+    "aipTitle": "Aeronautical Information Publication AIP France"
   },
   "Footer": {
     "stratux": {
@@ -194,13 +194,13 @@
       "href": "https://dross.net/contact"
     },
     "privacy": {
-      "title": "Privacy",
+      "title": "Privacy Policy",
       "hrefTitle": "Privacy Policy",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {
       "title": "Alexander Dross",
-      "hrefTitle": "Website of Alexander Dross",
+      "hrefTitle": "Website by Alexander Dross",
       "href": "https://dross.net/alexander/"
     }
   },
