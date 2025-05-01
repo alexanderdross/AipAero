@@ -42,6 +42,7 @@ export async function crawlNl() {
   let $ = cheerio.load(await response.text());
   const eaipUrl = $('a:contains("eAIP")').attr('href');
   if (!eaipUrl) {
+    log.error(`Could not find the "eAIP" link button in ${rootUrl}`);
     throw new Error(`Could not find the "eAIP" link button in ${rootUrl}`);
   }
   // Go to the eAIP page
@@ -49,6 +50,7 @@ export async function crawlNl() {
   $ = cheerio.load(await response.text());
   let href = $('frame[name="eAISMenuContentFrame"]').attr('src');
   if (!href) {
+    log.error(`Could not find the "eAISMenuContentFrame" frame in ${eaipUrl}`);
     throw new Error(`Could not find the "eAISMenuContentFrame" frame in ${eaipUrl}`);
   }
   // Go to the eAISMenuContentFrame
@@ -57,6 +59,7 @@ export async function crawlNl() {
   $ = cheerio.load(await response.text());
   href = $('frame[name="eAISMenuFrameset"]').attr('src');
   if (!href) {
+    log.error(`Could not find the "eAISMenuFrameset" frame in ${url}`);
     throw new Error(`Could not find the "eAISMenuFrameset" frame in ${url}`);
   }
   // Go to the eAISMenuFrameset
@@ -65,6 +68,7 @@ export async function crawlNl() {
   $ = cheerio.load(await response.text());
   href = $('frame[name="eAISMenuContent"]').attr('src');
   if (!href) {
+    log.error(`Could not find the "eAISMenuContent" frame in ${url}`);
     throw new Error(`Could not find the "eAISMenuContent" frame in ${url}`);
   }
   // Go to the eAISMenuContent
@@ -76,12 +80,9 @@ export async function crawlNl() {
   airportsList.push(...extractAirports($, '#AD-3details>.Hx', url, 'heliport'));
   
   if (airportsList.length === 0) {
+    log.error(`No ${COUNTRY} airports found`);
     throw new Error(`No ${COUNTRY} airports found`);
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
   log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
-
-  for (const airport of airportsList) {
-    log.info(`Inserted ${airport.title}/${airport.icao} - ${airport.type} - ${airport.url}`);
-  }
 }

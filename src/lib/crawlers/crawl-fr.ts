@@ -43,6 +43,7 @@ export async function crawlFr() {
   let $ = cheerio.load(await r.text());
   let url = $('a:contains("eAIP FRANCE")').attr('href');
   if (!url) {
+    log.error(`Could not find the eAIP FRANCE url in ${rootUrl}`);
     throw new Error(`Could not find the eAIP FRANCE url in ${rootUrl}`);
   }
   
@@ -51,6 +52,7 @@ export async function crawlFr() {
   $ = cheerio.load(response);
   url = $('object').attr('data');
   if (!url) {
+    log.error(`Could not find the Currently Effective eAIP object frame in ${url}`);
     throw new Error(`Could not find the Currently Effective eAIP object frame in ${rootUrl}`);
   }
   
@@ -67,10 +69,12 @@ export async function crawlFr() {
   const regex = /init\('[^']*','(\d{4})','(\d{2})','(\d{2})','\d{2}'\)/;
   const matches = onLoadValue?.match(regex);
   if (!matches) {
+    log.error(`Could not find the init() function in ${url} body`);
     throw new Error(`Could not find the init() function in ${url} body`);
   }
   const [, year, month, day] = matches;
   if (!year || !month || !day) {
+    log.error(`Could not extract the year, month and day from ${url} body`);
     throw new Error(`Could not extract the year, month and day from ${url} body`);
   }
   let href: string | undefined = `AIRAC-${year}-${month}-${day}/html/index-fr-FR.html`;
@@ -81,6 +85,7 @@ export async function crawlFr() {
   $ = cheerio.load(response);
   href = $('frame[name="eAISNavigationBase"]').attr('src');
   if (!href) {
+    log.error(`Could not find the "eAISNavigationBase" frame in ${eaipUrl}`);
     throw new Error(`Could not find the "eAISNavigationBase" frame in ${eaipUrl}`);
   }
   // Go to the eAISNavigationBase
@@ -89,6 +94,7 @@ export async function crawlFr() {
   $ = cheerio.load(response);
   href = $('frame[name="eAISNavigation"]').attr('src');
   if (!href) {
+    log.error(`Could not find the "eAISNavigation" frame in ${url}`);
     throw new Error(`Could not find the "eAISNavigation" frame in ${url}`);
   }
   // Go to the eAISMenuContent
@@ -100,6 +106,7 @@ export async function crawlFr() {
   airportsList.push(...extractAirports($, '#AD-3details>.H3', url, 'heliport'));
   
   if (airportsList.length === 0) {
+    log.error(`No ${COUNTRY} airports found`);
     throw new Error(`No ${COUNTRY} airports found`);
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });

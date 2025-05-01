@@ -58,6 +58,7 @@ export async function crawlAt() {
   let $ = cheerio.load(response);
   let href = $('a:contains("aktuelle Ausgabe / current version")').attr('href');
   if (!href) {
+    log.error(`Could not find the "aktuelle Ausgabe / current version" link in ${rootUrl}`);
     throw new Error(`Could not find the "aktuelle Ausgabe / current version" link in ${rootUrl}`);
   }
   // Go to the current release page
@@ -66,6 +67,7 @@ export async function crawlAt() {
   $ = cheerio.load(response);
   href = $('a:contains("Part III - AD")').attr('href');
   if (!href) {
+    log.error(`Could not find "Part III - AD" link in ${mainAipUrl}`);
     throw new Error(`Could not find "Part III - AD" link in ${mainAipUrl}`);
   }
   // Go to the Part III - AD page
@@ -75,6 +77,7 @@ export async function crawlAt() {
   const hrefAirports = $('a:contains("AD 2")').attr('href');
   const hrefHeliports = $('a:contains("AD 3")').attr('href');
   if (!hrefAirports || !hrefHeliports) {
+    log.error(`Could not find "AD 2" or "AD 3" link in ${adUrl}`);
     throw new Error(`Could not find "AD 2" or "AD 3" link in ${adUrl}`);
   }
   // Go to the AD 2 and AD 3 pages
@@ -84,6 +87,7 @@ export async function crawlAt() {
   airportsList.push(...await extractAirports(heliportsUrl, 'heliport'));
 
   if (airportsList.length === 0) {
+    log.error(`No ${COUNTRY} airports found`);
     throw new Error(`No ${COUNTRY} airports found`);
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });

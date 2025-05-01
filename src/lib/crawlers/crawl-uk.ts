@@ -42,6 +42,7 @@ export async function crawlUk() {
   let $ = cheerio.load(await response.text());
   const eaipUrl = $('a:contains("Online Version")').attr('href');
   if (!eaipUrl) {
+    log.error(`Could not find the "eAIP" link button in ${rootUrl}`);
     throw new Error(`Could not find the "eAIP" link button in ${rootUrl}`);
   }
   // Go to the eAIP page
@@ -49,6 +50,7 @@ export async function crawlUk() {
   $ = cheerio.load(await response.text());
   let href = $('frame[name="eAISNavigationBase"]').attr('src');
   if (!href) {
+    log.error(`Could not find the "eAISNavigationBase" frame in ${eaipUrl}`);
     throw new Error(`Could not find the "eAISNavigationBase" frame in ${eaipUrl}`);
   }
   // Go to the eAISNavigationBase
@@ -57,6 +59,7 @@ export async function crawlUk() {
   $ = cheerio.load(await response.text());
   href = $('frame[name="eAISNavigation"]').attr('src');
   if (!href) {
+    log.error(`Could not find the "eAISNavigation" frame in ${url}`);
     throw new Error(`Could not find the "eAISNavigation" frame in ${url}`);
   }
   // Go to the eAISNavigation
@@ -68,11 +71,12 @@ export async function crawlUk() {
   airportsList.push(...extractAirports($, '#AD-3details>.Hx', url, 'heliport'));
   
   if (airportsList.length === 0) {
+    log.error(`No ${COUNTRY} airports found`);
     throw new Error(`No ${COUNTRY} airports found`);
   }
   MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
   log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
-  
+
   for (const airport of airportsList) {
     log.info(`Inserted ${airport.title}/${airport.icao} - ${airport.type} - ${airport.url}`);
   }
