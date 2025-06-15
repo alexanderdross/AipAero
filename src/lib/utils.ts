@@ -26,4 +26,6 @@ export const i18nPathMapping: Record<Airport['type'], keyof typeof routing['path
   'vfr': '/vfr',
   'ifr': '/ifr',
   'heliport': '/heliports',
+  'mil': '/military',
+  'aeroport': '/aeroports'
 }

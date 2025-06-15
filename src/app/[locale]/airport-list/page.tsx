@@ -144,6 +144,8 @@ async function AirportLists({ locale }: { locale: string }) {
     'vfr': 'vfrCard',
     'ifr': 'ifrCard',
     'heliport': 'heliportCard',
+    'mil': 'militaryCard',
+    'aeroport': 'aeroportCard',
   }
 
   return (

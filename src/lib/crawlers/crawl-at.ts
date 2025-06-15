@@ -1,7 +1,7 @@
 'use server';
 import * as cheerio from "cheerio";
 import { type InsertAirport } from "~/server/db/schema";
-import {slug} from 'github-slugger';
+import slug from 'slug';
 import { MUTATIONS } from "~/server/db/queries";
 import { log } from "next-axiom";
 import { fetchIso8859 } from "./utils";
@@ -29,23 +29,23 @@ async function extractAirports(url: string, type: 'vfr' | 'ifr' | 'heliport') {
     const fullUrl = new URL(href, url).toString();
     if (fullUrl.endsWith('.pdf')) {
       // Just use the PDF link
-      airports.push({ 
+      airports.push({
         icao: icao === '' ? null : icao,
-        title: `${city} ${icao}`, 
-        url: fullUrl, 
-        type, 
+        title: `${city} ${icao}`,
+        url: fullUrl,
+        type,
         country: COUNTRY,
         slug: icao === '' ? slug(city) : icao
       });
     } else {
       // TODO: Follow link and differentiate between VFR and IFR
-      airports.push({ 
+      airports.push({
         icao: icao === '' ? null : icao,
-        title: `${city} ${icao}`, 
-        url: fullUrl, 
-        type, 
-        country: COUNTRY, 
-        slug: icao === '' ? slug(city) : icao 
+        title: `${city} ${icao}`,
+        url: fullUrl,
+        type,
+        country: COUNTRY,
+        slug: icao === '' ? slug(city) : icao
       });
     }
   }
@@ -90,6 +90,6 @@ export async function crawlAt() {
     log.error(`No ${COUNTRY} airports found`);
     throw new Error(`No ${COUNTRY} airports found`);
   }
-  MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
+  MUTATIONS.insertAirports(airportsList);
   log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
 }

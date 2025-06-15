@@ -2,7 +2,7 @@
 
 import * as cheerio from 'cheerio';
 import { type InsertAirport } from '~/server/db/schema';
-import {slug} from 'github-slugger';
+import slug from 'slug';
 import { MUTATIONS } from '~/server/db/queries';
 import { log } from 'next-axiom';
 import { fetchIso8859 } from './utils';
@@ -25,11 +25,11 @@ function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, t
       continue;
     }
     const fullUrl = new URL(href, url).toString();
-    airports.push({ 
-      icao, 
-      title: icao === '' ? city : `${city} ${icao}`, 
-      url: fullUrl, 
-      type, 
+    airports.push({
+      icao,
+      title: icao === '' ? city : `${city} ${icao}`,
+      url: fullUrl,
+      type,
       country: COUNTRY,
       slug: icao === '' ? slug(city) : icao
     });
@@ -46,7 +46,7 @@ export async function crawlFr() {
     log.error(`Could not find the eAIP FRANCE url in ${rootUrl}`);
     throw new Error(`Could not find the eAIP FRANCE url in ${rootUrl}`);
   }
-  
+
   // Go to eAIP FRANCE 
   let response = await fetchIso8859(url);
   $ = cheerio.load(response);
@@ -55,7 +55,7 @@ export async function crawlFr() {
     log.error(`Could not find the Currently Effective eAIP object frame in ${url}`);
     throw new Error(`Could not find the Currently Effective eAIP object frame in ${rootUrl}`);
   }
-  
+
   // Go to the Currently Effective eAIP object frame
   response = await fetchIso8859(url);
   $ = cheerio.load(response);
@@ -104,11 +104,11 @@ export async function crawlFr() {
   // Extract VFR airports
   const airportsList = extractAirports($, '#AD-2-IFRdetails>.H3', url, 'ifr');
   airportsList.push(...extractAirports($, '#AD-3details>.H3', url, 'heliport'));
-  
+
   if (airportsList.length === 0) {
     log.error(`No ${COUNTRY} airports found`);
     throw new Error(`No ${COUNTRY} airports found`);
   }
-  MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
+  MUTATIONS.insertAirports(airportsList);
   log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
 }

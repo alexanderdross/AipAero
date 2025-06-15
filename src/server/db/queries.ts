@@ -6,6 +6,7 @@ import { InsertAirport, Airport, airports } from "./schema";
 import { unstable_cacheLife as cacheLife } from 'next/cache';
 import { unstable_cacheTag as cacheTag } from 'next/cache';
 import { revalidateTag } from 'next/cache';
+import { log } from "next-axiom";
 
 export const QUERIES = {
   vfrAirports: async function (country: string) {
@@ -73,12 +74,13 @@ export const QUERIES = {
 };
 
 export const MUTATIONS = {
-  insertAirports: async function (input: {
-    airports: InsertAirport[],
-    country: string
-  }) {
-    await db.delete(airports).where(eq(airports.country, input.country)).execute();
-    const result = await db.insert(airports).values(input.airports).execute();
+  insertAirports: async function (input: InsertAirport[]) {
+    if (!input[0]) {
+      log.warn('No airports to insert');
+      return;
+    }
+    await db.delete(airports).where(eq(airports.country, input[0].country)).execute();
+    const result = await db.insert(airports).values(input).execute();
     // Invalidate the cache tags
     revalidateTag('vfrAirports');
     revalidateTag('ifrAirports');

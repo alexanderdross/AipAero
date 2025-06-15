@@ -3,7 +3,7 @@
 import * as cheerio from 'cheerio';
 import { type InsertAirport } from '~/server/db/schema';
 import { cheerioFetch } from '~/lib/crawlers/utils';
-import {slug} from 'github-slugger';
+import slug from 'slug';
 import { MUTATIONS } from '~/server/db/queries';
 import { log } from 'next-axiom';
 
@@ -100,6 +100,6 @@ export async function crawlDe() {
   if (airportsList.length === 0) {
     throw new Error(`No ${COUNTRY} airports found`);
   }
-  MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
+  MUTATIONS.insertAirports(airportsList);
   log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
 }

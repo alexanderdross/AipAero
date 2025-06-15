@@ -2,7 +2,7 @@
 
 import * as cheerio from 'cheerio';
 import { type InsertAirport } from '~/server/db/schema';
-import {slug} from 'github-slugger';
+import slug from 'slug';
 import { MUTATIONS } from '~/server/db/queries';
 import { log } from 'next-axiom';
 
@@ -18,16 +18,16 @@ function extractAirports($: cheerio.CheerioAPI, selector: string, url: string, t
     const icao = text.split(' ')[0]?.trim() ?? '';
     const city = text.split(' ').slice(1).join(' ').split(';')[0]?.replace('TAD_HP', '') ?? '';
     // Find the chart details
-    const adDetails = $(row).next().find('a').filter((_,el) => $(el).text().includes('CHARTS RELATED'));
+    const adDetails = $(row).next().find('a').filter((_, el) => $(el).text().includes('CHARTS RELATED'));
     const href = adDetails.attr('href');
     if (!href) {
       continue;
     }
     const fullUrl = new URL(href, url).toString();
-    airports.push({ 
-      icao: icao, 
-      title: icao === '' ? city : `${city} ${icao}`, 
-      url: fullUrl, 
+    airports.push({
+      icao: icao,
+      title: icao === '' ? city : `${city} ${icao}`,
+      url: fullUrl,
       type,
       country: COUNTRY,
       slug: icao === '' ? slug(city) : icao
@@ -69,11 +69,11 @@ export async function crawlUk() {
   // Extract VFR airports
   const airportsList = extractAirports($, '#AD-2details>.Hx', url, 'vfr');
   airportsList.push(...extractAirports($, '#AD-3details>.Hx', url, 'heliport'));
-  
+
   if (airportsList.length === 0) {
     log.error(`No ${COUNTRY} airports found`);
     throw new Error(`No ${COUNTRY} airports found`);
   }
-  MUTATIONS.insertAirports({ airports: airportsList, country: COUNTRY });
+  MUTATIONS.insertAirports(airportsList);
   log.info(`Inserted ${airportsList.length} airports for ${COUNTRY}`);
 }
