@@ -1,3 +1,27 @@
+# AIP:Aero Next.js Frontend
+
+## Design Architecture
+
+```mermaid
+flowchart TD
+ subgraph subGraph0["Next.js Application"]
+        API["API Endpoint /api/airports"]
+        Website["Website"]
+        InsertAction["Server Action: Insert Airports"]
+        ReadAction["Server Action: Read Airports"]
+        Cache["Cache"]
+        IsHit{"Cache hit?"}
+  end
+    Crawlers["Airport Crawlers"] -- POST data --> API
+    API -- calls --> InsertAction
+    InsertAction -- inserts airports --> MySQL[("MySQL Database")]
+    InsertAction -- clears --> Cache
+    Website -- uses --> ReadAction
+    ReadAction -- queries airports --> Cache
+    Cache --> IsHit
+    IsHit -- No --> MySQL
+```
+
 # Create T3 App
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
