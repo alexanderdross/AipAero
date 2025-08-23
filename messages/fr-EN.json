@@ -137,21 +137,21 @@
     "vfrCard": {
       "title": "Aeronautical Information Publication AIP VFR",
       "description": "Search AIP VFR France aerodromes and download approach charts",
-      "buttonTitle": "Aeronautical Information Publication AIP VFR",
+      "buttonTitle": "AIP VFR Approach Charts",
       "buttonHref": "/fr/vfr/",
       "buttonHrefTitle": "Aeronautical Information Publication AIP VFR France"
     },
     "ifrCard": {
       "title": "Aeronautical Information Publication AIP IFR",
       "description": "Search AIP IFR France aerodromes and download approach charts",
-      "buttonTitle": "Aeronautical Information Publication AIP IFR",
+      "buttonTitle": "AIP IFR Approach Charts",
       "buttonHref": "/fr/ifr/",
       "buttonHrefTitle": "Aeronautical Information Publication AIP IFR France"
     },
     "heliportCard": {
       "title": "Heliports",
       "description": "Search AIP VFR France HEL AD heliports and download approach charts",
-      "buttonTitle": "AIP VFR Heliports",
+      "buttonTitle": "AIP Helicopter Aerodromes",
       "buttonHref": "/fr/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports France"
     },
