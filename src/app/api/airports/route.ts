@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Insert the airports into the database
-    MUTATIONS.insertAirports(enrichedAirports);
+    await MUTATIONS.insertAirports(enrichedAirports);
+    return NextResponse.json({ message: 'Airports inserted successfully' }, { status: 201 });
 
   } catch (error: unknown) {
     if (error instanceof z.ZodError) {
