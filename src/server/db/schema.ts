@@ -23,7 +23,7 @@ import { createInsertSchema } from 'drizzle-zod';
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = mysqlTableCreator((name) => `aip_aero_v3_${name}`);
+export const createTable = mysqlTableCreator((name) => `aip_aero_v4_${name}`);
 
 export const airports = createTable(
   "airports",
