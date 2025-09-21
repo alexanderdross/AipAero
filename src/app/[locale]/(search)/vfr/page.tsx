@@ -21,7 +21,7 @@ import { Airport } from '~/server/db/schema';
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return routing.locales.filter(locale => !locale.startsWith('fr')).map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
