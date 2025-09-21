@@ -23,8 +23,8 @@ export const dynamicParams = false;
 // Only available for Germany
 export function generateStaticParams() {
   return [
-    { locale: 'de-EN' },
-    { locale: 'de' },
+    { locale: 'fr-EN' },
+    { locale: 'fr' },
   ];
 }
 
@@ -38,11 +38,11 @@ export async function generateMetadata({
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'IfrPage' });
+  const t = await getTranslations({ locale, namespace: 'AeroportPage' });
   const parentMetadata = await parent;
   const previousOpenGraph = parentMetadata.openGraph ?? {};
   const previousOther = parentMetadata.other ?? {};
-  const pathname = getPathname({ href: '/ifr', locale });
+  const pathname = getPathname({ href: '/aeroports', locale });
   let currentUrl = new URL(pathname, orgUrl).toString();
 
   const nativeLocale = locale.replace('-EN', '');
@@ -53,7 +53,7 @@ export async function generateMetadata({
   const country = localeCountryMapping[locale] as string;
   const p = Object.keys((await searchParams));
   if (p.at(0) !== undefined) {
-    data = await QUERIES.airport(p.at(0) as string, country, 'ifr');
+    data = await QUERIES.airport(p.at(0) as string, country, 'aeroport');
     if (!data) {
       return notFound();
     }
@@ -66,7 +66,7 @@ export async function generateMetadata({
     alternates: {
       canonical: currentUrl,
       languages: locale === 'uk' ? undefined : Object.assign({}, ...locales.map((l) => ({
-        [localeLangMapping[l] as string]: new URL(getPathname({ href: '/ifr', locale: l }), orgUrl).toString() + `${data ? `?${data.slug}` : ''}`
+        [localeLangMapping[l] as string]: new URL(getPathname({ href: '/aeroports', locale: l }), orgUrl).toString() + `${data ? `?${data.slug}` : ''}`
       })))
     },
     openGraph: {
@@ -95,19 +95,19 @@ export default async function IndexPage({
   setRequestLocale(locale);
 
   const p = Object.keys((await searchParams));
-  const t = await getTranslations('IfrPage');
+  const t = await getTranslations('AeroportPage');
 
   let data: Airport | undefined;
   const country = localeCountryMapping[locale] as string;
   if (p.at(0) !== undefined) {
-    data = await QUERIES.airport(p.at(0) as string, country, 'ifr');
+    data = await QUERIES.airport(p.at(0) as string, country, 'aeroport');
     if (!data) {
       return notFound();
     }
   }
 
   const tCountry = await getTranslations('CountryPage');
-  let currentUrl = new URL(getPathname({ href: '/ifr', locale }), orgUrl).toString();
+  let currentUrl = new URL(getPathname({ href: '/aeroports', locale }), orgUrl).toString();
   let schemaProductName = t('breadcrumb.alternateName');
   let schemaAlternateName = t('breadcrumb.name');
   let schemaDescription = t('breadcrumb.description');
@@ -130,7 +130,7 @@ export default async function IndexPage({
         "@type": "ListItem",
         "position": 3,
         "item": {
-          "@id": new URL(getPathname({ href: '/ifr', locale }), orgUrl).toString(),
+          "@id": new URL(getPathname({ href: '/aeroports', locale }), orgUrl).toString(),
           "name": t('breadcrumb.name'),
           "alternateName": t('breadcrumb.alternateName'),
           "description": t('breadcrumb.description'),
@@ -139,9 +139,9 @@ export default async function IndexPage({
     ]
   };
   if (data) {
-    currentUrl = new URL(getPathname({ href: { pathname: '/ifr', query: { [data.slug]: '' } }, locale }), orgUrl).toString().replace('=', '');
+    currentUrl = new URL(getPathname({ href: { pathname: '/aeroports', query: { [data.slug]: '' } }, locale }), orgUrl).toString().replace('=', '');
     schemaProductName = t('resultTitle', { airport: data.title });
-    schemaAlternateName = data.icao ? `AIP IFR ${data.icao}` : data.title;
+    schemaAlternateName = data.icao ? `AIP ${data.icao}` : data.title;
     schemaDescription = t('resultDescription', { airport: data.title });
     breadcrumbsSchema.itemListElement.push({
       "@type": "ListItem",
@@ -192,8 +192,8 @@ export default async function IndexPage({
         <SearchInputField
           value={data?.icao ?? undefined}
           title={t('searchTitle')}
-          type="ifr"
-          country={country}
+          type="aeroport"
+          country={country.toUpperCase()}
         />
         <div className="max-w-7xl px-4 sm:px-6 lg:px-8 text-center mt-3 w-full text-white absolute left-1/2 transform -translate-x-1/2">
           <ol>

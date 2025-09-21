@@ -70,9 +70,9 @@ export default async function CountryPage(props: Readonly<{
   const t = await getTranslations('CountryPage');
 
   // Only Germany has IFR Card
-  const keys = locale.startsWith('de') || locale.startsWith('fr') ?
-    ['vfrCard', 'ifrCard', 'heliportCard'] as const
-    : ['vfrCard', 'heliportCard'] as const;
+  const keys = locale.startsWith('de') ? ['vfrCard', 'ifrCard', 'heliportCard'] as const
+    : locale.startsWith('fr') ? ['aeroportCard', 'militaryCard'] as const
+      : ['vfrCard', 'heliportCard'] as const;
 
   const currentUrl = new URL(getPathname({ href: '/', locale }), orgUrl).toString() + '/'
   const breadcrumbsSchema = {

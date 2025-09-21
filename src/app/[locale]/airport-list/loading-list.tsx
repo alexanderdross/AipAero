@@ -6,9 +6,11 @@ export default async function LoadingList() {
   const t = await getTranslations('AirportsPage');
 
   const items = [
-    { title: t('vfrCard.title'), description: t('vfrCard.description') },
+    t.has('vfrCard') && { title: t('vfrCard.title'), description: t('vfrCard.description') },
     t.has('ifrCard') && { title: t('ifrCard.title'), description: t('ifrCard.description') },
-    { title: t('heliportCard.title'), description: t('heliportCard.description') },
+    t.has('heliportCard') && { title: t('heliportCard.title'), description: t('heliportCard.description') },
+    t.has('aeroportCard') && { title: t('aeroportCard.title'), description: t('aeroportCard.description') },
+    t.has('militaryCard') && { title: t('militaryCard.title'), description: t('militaryCard.description') },
   ].filter(x => x !== false);
 
   return (

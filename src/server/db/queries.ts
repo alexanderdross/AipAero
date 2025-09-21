@@ -45,6 +45,30 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
+  militaryAirports: async function (country: string) {
+    "use cache"
+    cacheLife('hours');
+    cacheTag('militaryAirports', country);
+    return await db.query.airports.findMany({
+      where: and(
+        eq(airports.country, country),
+        eq(airports.type, 'mil')
+      ),
+      orderBy: [asc(airports.title)],
+    });
+  },
+  aeroportAirports: async function (country: string) {
+    "use cache"
+    cacheLife('hours');
+    cacheTag('aeroportAirports', country);
+    return await db.query.airports.findMany({
+      where: and(
+        eq(airports.country, country),
+        eq(airports.type, 'aeroport')
+      ),
+      orderBy: [asc(airports.title)],
+    });
+  },
   airport: async function (slug: string, country: string, type: Airport['type']) {
     "use cache"
     cacheLife('hours');

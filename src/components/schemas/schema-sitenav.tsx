@@ -9,13 +9,15 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
 
   const siteKeys = locale.startsWith('de') ?
     ['CountryPage', 'VfrPage', 'IfrPage', 'HeliportPage', 'AirportsPage'] as const
-    : ['CountryPage', 'VfrPage', 'HeliportPage', 'AirportsPage'] as const;
+    : locale.startsWith('fr') ? ['CountryPage', 'AeroportPage', 'MilitaryPage', 'AirportsPage'] as const
+      : ['CountryPage', 'VfrPage', 'HeliportPage', 'AirportsPage'] as const;
   const siteTranslations = await Promise.all(
     siteKeys.map(x => getTranslations(x))
   );
   const slugs = locale.startsWith('de') ?
     ['/', '/vfr', '/ifr', '/heliports', '/airport-list'] as Pathnames[]
-    : ['/', '/vfr', '/heliports', '/airport-list'] as Pathnames[]
+    : locale.startsWith('fr') ? ['/', '/aeroports', '/military', '/airport-list'] as Pathnames[]
+      : ['/', '/vfr', '/heliports', '/airport-list'] as Pathnames[]
   const siteNavSchema = {
     "@context": "https://schema.org",
     "@graph": [

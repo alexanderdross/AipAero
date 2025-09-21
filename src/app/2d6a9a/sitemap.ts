@@ -33,6 +33,10 @@ async function getEntries(pathname: Href, country: Locale) {
   if (pathname === '/ifr' && country !== 'de' && country !== 'de-EN') {
     return [];
   }
+  // Don't show vfr or ifr or heliport page for France
+  if ((country === 'fr' || country === 'fr-EN') && (pathname === "/vfr" || pathname === "/ifr" || pathname === "/heliports")) {
+    return [];
+  }
   // Alternate languages are the current country and its optional English version
   const alternateLangs = routing.locales.filter(l => l.startsWith(country)).map(l => ({
     locale: l,
@@ -49,12 +53,14 @@ async function getEntries(pathname: Href, country: Locale) {
   }));
   // In case of the airport list, repeat for every airport
   if (pathname === '/airport-list') {
-    const [vfrAirports, ifrAirports, heliports] = await Promise.all([
+    const [vfrAirports, ifrAirports, heliports, aeroports, militaryAirports] = await Promise.all([
       QUERIES.vfrAirports(country),
       QUERIES.ifrAirports(country),
       QUERIES.heliports(country),
+      QUERIES.aeroportAirports(country),
+      QUERIES.militaryAirports(country),
     ]);
-    const airports = [vfrAirports, ifrAirports, heliports].filter(x => x.length > 0).flat()
+    const airports = [vfrAirports, ifrAirports, heliports, aeroports, militaryAirports].filter(x => x.length > 0).flat()
     const airportEntries = airports.map(x => {
       return alternateLangs.map(l => ({
         url: getAirportUrl(i18nPathMapping[x.type], x.slug, l.locale),

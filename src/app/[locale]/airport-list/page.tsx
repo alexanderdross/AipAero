@@ -134,10 +134,12 @@ async function AirportLists({ locale }: { locale: string }) {
   const t = await getTranslations('AirportsPage');
   const country = locale.split('-')[0] as string;
 
-  const [vfrAirports, ifrAirports, heliports] = await Promise.all([
+  const [vfrAirports, ifrAirports, heliports, militaryAirports, aeroportAirports] = await Promise.all([
     QUERIES.vfrAirports(country),
     QUERIES.ifrAirports(country),
     QUERIES.heliports(country),
+    QUERIES.aeroportAirports(country),
+    QUERIES.militaryAirports(country),
   ])
 
   const i18nKeyMapping: Record<Airport['type'], string> = {
@@ -151,7 +153,7 @@ async function AirportLists({ locale }: { locale: string }) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-wrap justify-center gap-6">
-        {[vfrAirports, ifrAirports, heliports].filter(x => x.length > 0).map((airports, index) => {
+        {[vfrAirports, ifrAirports, heliports, militaryAirports, aeroportAirports].filter(x => x.length > 0).map((airports, index) => {
           const airportType = airports[0]?.type as Airport['type'];
           const key = i18nKeyMapping[airportType];
           return (
