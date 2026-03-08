@@ -1,0 +1,6 @@
+[Unit]
+Description=Send ntfy alert when %i fails
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/curl -d "❌ Crawling Failed: %i" ntfy.sh/aip-crawler-e082-4459-8807-faeaa3131581

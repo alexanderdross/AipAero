@@ -1,0 +1,8 @@
+[Unit]
+Description=Runs aip-aero-crawler every 10 Minutes
+
+[Timer]
+OnCalendar=0/2:00
+
+[Install]
+WantedBy=timers.target

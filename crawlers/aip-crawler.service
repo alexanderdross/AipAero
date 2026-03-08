@@ -1,0 +1,13 @@
+[Unit]
+Description=aip-aero-crawlers
+Documentation=https://github.com/aip-aero/aip-aero-crawlers
+After=network.target
+OnFailure=notify-failure@%n.service
+
+[Service]
+WorkingDirectory=/home/ansible/aip-aero-crawlers
+User=ansible
+ExecStart=/home/ansible/.local/bin/uv run main.py
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,909 @@
+2026-01-10T10:05:26 INFO [main.py:21:main()] Starting crawling process
+2026-01-10T10:05:26 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:05:29 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:29 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:30 INFO [logger.py:11:log()] There is no [mac64] chromedriver "143.0.7499.192" for browser google-chrome "143.0.7499" in cache
+2026-01-10T10:05:30 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:30 INFO [logger.py:11:log()] WebDriver version 143.0.7499.192 selected
+2026-01-10T10:05:30 INFO [logger.py:11:log()] Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/143.0.7499.192/mac-arm64/chromedriver-mac-arm64.zip
+2026-01-10T10:05:30 INFO [logger.py:11:log()] About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/143.0.7499.192/mac-arm64/chromedriver-mac-arm64.zip
+2026-01-10T10:05:30 INFO [logger.py:11:log()] Driver downloading response is 200
+2026-01-10T10:05:31 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:31 INFO [logger.py:11:log()] Driver has been saved in cache [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192]
+2026-01-10T10:05:33 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:05:33 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:34 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:34 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:05:35 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:05:35 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:35 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:36 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:05:36 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:05:37 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:37 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:37 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:05:37 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:05:38 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:38 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:05:38 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:05:38 INFO [main.py:25:main()] Starting crawler: AT
+2026-01-10T10:05:40 INFO [at.py:142:crawl()] Found 72 airports for AT
+2026-01-10T10:05:40 INFO [main.py:31:main()] Finished crawling AT in 1.51 seconds
+2026-01-10T10:05:40 INFO [output_handler.py:20:write_output()] Writing output for AT to https://aip.aero/api/airports
+2026-01-10T10:05:40 INFO [output_handler.py:41:write_output()] Successfully wrote output for AT.
+2026-01-10T10:05:40 INFO [main.py:25:main()] Starting crawler: DE
+2026-01-10T10:05:40 INFO [de.py:267:crawl()] Starting VFR processing...
+2026-01-10T10:05:40 INFO [de.py:23:fetch_page_with_redirect()] Fetching: https://aip.dfs.de/BasicVFR/
+2026-01-10T10:05:42 INFO [de.py:29:fetch_page_with_redirect()] Redirected from https://aip.dfs.de/BasicVFR/ to https://aip.dfs.de/BasicVFR/2026JAN09/chapter/2e9c6a5f9ed6cd324b8c6e8a989c6860.html
+2026-01-10T10:05:46 INFO [de.py:207:_process_vfr()] Found 14 aerodrome links and 14 heliport links for VFR
+2026-01-10T10:05:46 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 1/14
+2026-01-10T10:05:48 INFO [de.py:236:_process_vfr_link()] Found 22 airports in VFR link
+2026-01-10T10:05:48 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 2/14
+2026-01-10T10:05:51 INFO [de.py:236:_process_vfr_link()] Found 58 airports in VFR link
+2026-01-10T10:05:51 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 3/14
+2026-01-10T10:05:54 INFO [de.py:236:_process_vfr_link()] Found 21 airports in VFR link
+2026-01-10T10:05:54 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 4/14
+2026-01-10T10:05:57 INFO [de.py:236:_process_vfr_link()] Found 28 airports in VFR link
+2026-01-10T10:05:57 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 5/14
+2026-01-10T10:05:59 INFO [de.py:236:_process_vfr_link()] Found 57 airports in VFR link
+2026-01-10T10:05:59 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 6/14
+2026-01-10T10:06:01 INFO [de.py:236:_process_vfr_link()] Found 10 airports in VFR link
+2026-01-10T10:06:01 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 7/14
+2026-01-10T10:06:03 INFO [de.py:236:_process_vfr_link()] Found 47 airports in VFR link
+2026-01-10T10:06:03 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 8/14
+2026-01-10T10:06:05 INFO [de.py:236:_process_vfr_link()] Found 29 airports in VFR link
+2026-01-10T10:06:05 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 9/14
+2026-01-10T10:06:08 INFO [de.py:236:_process_vfr_link()] Found 25 airports in VFR link
+2026-01-10T10:06:08 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 10/14
+2026-01-10T10:06:10 INFO [de.py:236:_process_vfr_link()] Found 32 airports in VFR link
+2026-01-10T10:06:10 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 11/14
+2026-01-10T10:06:12 INFO [de.py:236:_process_vfr_link()] Found 18 airports in VFR link
+2026-01-10T10:06:12 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 12/14
+2026-01-10T10:06:15 INFO [de.py:236:_process_vfr_link()] Found 45 airports in VFR link
+2026-01-10T10:06:15 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 13/14
+2026-01-10T10:06:17 INFO [de.py:236:_process_vfr_link()] Found 11 airports in VFR link
+2026-01-10T10:06:17 INFO [de.py:213:_process_vfr()] Processing VFR aerodrome 14/14
+2026-01-10T10:06:19 INFO [de.py:236:_process_vfr_link()] Found 37 airports in VFR link
+2026-01-10T10:06:19 INFO [de.py:218:_process_vfr()] Processing VFR heliport 1/14
+2026-01-10T10:06:23 INFO [de.py:236:_process_vfr_link()] Found 7 airports in VFR link
+2026-01-10T10:06:23 INFO [de.py:218:_process_vfr()] Processing VFR heliport 2/14
+2026-01-10T10:06:25 INFO [de.py:236:_process_vfr_link()] Found 37 airports in VFR link
+2026-01-10T10:06:25 INFO [de.py:218:_process_vfr()] Processing VFR heliport 3/14
+2026-01-10T10:06:27 INFO [de.py:236:_process_vfr_link()] Found 18 airports in VFR link
+2026-01-10T10:06:27 INFO [de.py:218:_process_vfr()] Processing VFR heliport 4/14
+2026-01-10T10:06:29 INFO [de.py:236:_process_vfr_link()] Found 26 airports in VFR link
+2026-01-10T10:06:29 INFO [de.py:218:_process_vfr()] Processing VFR heliport 5/14
+2026-01-10T10:06:32 INFO [de.py:236:_process_vfr_link()] Found 36 airports in VFR link
+2026-01-10T10:06:32 INFO [de.py:218:_process_vfr()] Processing VFR heliport 6/14
+2026-01-10T10:06:34 INFO [de.py:236:_process_vfr_link()] Found 6 airports in VFR link
+2026-01-10T10:06:34 INFO [de.py:218:_process_vfr()] Processing VFR heliport 7/14
+2026-01-10T10:06:36 INFO [de.py:236:_process_vfr_link()] Found 36 airports in VFR link
+2026-01-10T10:06:36 INFO [de.py:218:_process_vfr()] Processing VFR heliport 8/14
+2026-01-10T10:07:46 INFO [de.py:236:_process_vfr_link()] Found 22 airports in VFR link
+2026-01-10T10:07:46 INFO [de.py:218:_process_vfr()] Processing VFR heliport 9/14
+2026-01-10T10:07:53 INFO [de.py:236:_process_vfr_link()] Found 12 airports in VFR link
+2026-01-10T10:07:53 INFO [de.py:218:_process_vfr()] Processing VFR heliport 10/14
+2026-01-10T10:07:55 INFO [de.py:236:_process_vfr_link()] Found 23 airports in VFR link
+2026-01-10T10:07:55 INFO [de.py:218:_process_vfr()] Processing VFR heliport 11/14
+2026-01-10T10:07:57 INFO [de.py:236:_process_vfr_link()] Found 11 airports in VFR link
+2026-01-10T10:07:57 INFO [de.py:218:_process_vfr()] Processing VFR heliport 12/14
+2026-01-10T10:07:59 INFO [de.py:236:_process_vfr_link()] Found 28 airports in VFR link
+2026-01-10T10:07:59 INFO [de.py:218:_process_vfr()] Processing VFR heliport 13/14
+2026-01-10T10:08:01 INFO [de.py:236:_process_vfr_link()] Found 14 airports in VFR link
+2026-01-10T10:08:01 INFO [de.py:218:_process_vfr()] Processing VFR heliport 14/14
+2026-01-10T10:08:03 INFO [de.py:236:_process_vfr_link()] Found 15 airports in VFR link
+2026-01-10T10:08:04 INFO [de.py:269:crawl()] VFR processing complete. Found 731 airports so far.
+2026-01-10T10:08:04 INFO [de.py:274:crawl()] Starting IFR processing...
+2026-01-10T10:08:04 INFO [de.py:23:fetch_page_with_redirect()] Fetching: https://aip.dfs.de/BasicIFR/
+2026-01-10T10:08:06 INFO [de.py:29:fetch_page_with_redirect()] Redirected from https://aip.dfs.de/BasicIFR/ to https://aip.dfs.de/BasicIFR/2025DEC25/chapter/a2c1c32693f8afc32458a8b065d680fe.html
+2026-01-10T10:08:13 INFO [de.py:130:_process_ifr()] Found 58 aerodrome links and 2 heliport links for IFR
+2026-01-10T10:10:29 INFO [de.py:277:crawl()] IFR processing complete. Found 60 additional airports.
+2026-01-10T10:10:29 INFO [de.py:286:crawl()] Found 791 airports for DE
+2026-01-10T10:10:29 INFO [de.py:287:crawl()] E.g. EDNY: [Airport(country='DE', icao='EDNY', title='Friedrichshafen EDNY', url='https://aip.dfs.de/BasicVFR/2026JAN09/chapter/0a4dcf73c33998ce18e618154c62bb25.html', airport_type='vfr'), Airport(country='DE', icao='EDNY', title='Friedrichshafen EDNY', url='https://aip.dfs.de/BasicIFR/2025DEC25/chapter/a317bed0c58c0be41f13bd4503cdec6e.html', airport_type='ifr')]
+2026-01-10T10:10:29 INFO [main.py:31:main()] Finished crawling DE in 288.56 seconds
+2026-01-10T10:10:29 INFO [output_handler.py:20:write_output()] Writing output for DE to https://aip.aero/api/airports
+2026-01-10T10:10:31 INFO [output_handler.py:41:write_output()] Successfully wrote output for DE.
+2026-01-10T10:10:31 INFO [main.py:25:main()] Starting crawler: FR
+2026-01-10T10:10:31 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:10:42 ERROR [fr.py:61:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x000000010523fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000105237cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000104d32b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000104d79ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x0000000104dbaa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x0000000104d6e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000105204194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000105207900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x00000001051e442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000105208170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x00000001051d4e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x000000010522714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x00000001052272cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000105237910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:10:43 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_101042_FR_screenshot.png'
+2026-01-10T10:10:43 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_101043_FR_page_source.html'
+2026-01-10T10:10:43 INFO [main.py:31:main()] Finished crawling FR in 11.96 seconds
+2026-01-10T10:10:43 WARNING [output_handler.py:17:write_output()] No airports found for FR. Skipping output.
+2026-01-10T10:10:43 INFO [main.py:25:main()] Starting crawler: NL
+2026-01-10T10:10:43 INFO [nl.py:28:crawl()] Crawling airports in NL
+2026-01-10T10:10:49 ERROR [nl.py:72:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x0000000102dafdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000102da7cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x00000001028a2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x00000001028e9ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x000000010292aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x00000001028de22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000102d74194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000102d77900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x0000000102d5442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000102d78170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000102d44e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x0000000102d9714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x0000000102d972cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000102da7910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:10:49 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_101049_NL_screenshot.png'
+2026-01-10T10:10:49 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_101049_NL_page_source.html'
+2026-01-10T10:10:49 INFO [main.py:31:main()] Finished crawling NL in 6.47 seconds
+2026-01-10T10:10:49 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:10:49 INFO [main.py:25:main()] Starting crawler: UK
+2026-01-10T10:10:49 INFO [uk.py:13:crawl()] Crawling airports in UK
+2026-01-10T10:10:55 ERROR [uk.py:56:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x000000010497fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000104977cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000104472b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x00000001044b9ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x00000001044faa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x00000001044ae22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000104944194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000104947900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x000000010492442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000104948170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000104914e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x000000010496714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x00000001049672cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000104977910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:10:56 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_101055_UK_screenshot.png'
+2026-01-10T10:10:56 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_101056_UK_page_source.html'
+2026-01-10T10:10:56 INFO [main.py:31:main()] Finished crawling UK in 6.52 seconds
+2026-01-10T10:10:56 WARNING [output_handler.py:17:write_output()] No airports found for UK. Skipping output.
+2026-01-10T10:10:56 INFO [main.py:63:<module>()] Finished crawling all countries in 330.07 seconds
+2026-01-10T10:13:06 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:13:06 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:13:06 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:13:06 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:13:07 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:13:08 INFO [main.py:27:main()] Starting crawler: FR
+2026-01-10T10:13:08 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:13:16 ERROR [fr.py:61:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x00000001006a7dfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x000000010069fcb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x000000010019ab90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x00000001001e1ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x0000000100222a28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x00000001001d622c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x000000010066c194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x000000010066f900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x000000010064c42c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000100670170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x000000010063ce10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x000000010068f14c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x000000010068f2cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x000000010069f910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:13:16 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_101316_FR_screenshot.png'
+2026-01-10T10:13:16 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_101316_FR_page_source.html'
+2026-01-10T10:13:16 INFO [main.py:33:main()] Finished crawling FR in 8.49 seconds
+2026-01-10T10:13:16 WARNING [output_handler.py:17:write_output()] No airports found for FR. Skipping output.
+2026-01-10T10:13:16 INFO [main.py:65:<module>()] Finished crawling all countries in 10.57 seconds
+2026-01-10T10:16:00 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:16:00 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:16:01 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:16:01 DEBUG [connectionpool.py:1049:_new_conn()] Starting new HTTPS connection (1): googlechromelabs.github.io:443
+2026-01-10T10:16:01 DEBUG [connectionpool.py:544:_make_request()] https://googlechromelabs.github.io:443 "GET /chrome-for-testing/latest-patch-versions-per-build.json HTTP/1.1" 200 14755
+2026-01-10T10:16:01 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:16:01 DEBUG [connectionpool.py:1049:_new_conn()] Starting new HTTPS connection (1): googlechromelabs.github.io:443
+2026-01-10T10:16:02 DEBUG [connectionpool.py:544:_make_request()] https://googlechromelabs.github.io:443 "GET /chrome-for-testing/latest-patch-versions-per-build.json HTTP/1.1" 200 14755
+2026-01-10T10:16:02 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:16:02 DEBUG [driver_finder.py:60:_binary_paths()] Skipping Selenium Manager; path to chrome driver specified in Service class: /Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver
+2026-01-10T10:16:02 DEBUG [service.py:231:_start_process()] Started executable: `/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver` in a child process with pid: 85980 using 0 to output -3
+2026-01-10T10:16:02 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session {'capabilities': {'firstMatch': [{}], 'alwaysMatch': {'browserName': 'chrome', 'pageLoadStrategy': <PageLoadStrategy.normal: 'normal'>, 'goog:chromeOptions': {'extensions': [], 'args': ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--window-size=1920,1080', '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36']}}}}
+2026-01-10T10:16:02 DEBUG [connectionpool.py:241:_new_conn()] Starting new HTTP connection (1): localhost:64644
+2026-01-10T10:16:03 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session HTTP/1.1" 200 0
+2026-01-10T10:16:03 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":{"capabilities":{"acceptInsecureCerts":false,"browserName":"chrome","browserVersion":"143.0.7499.193","chrome":{"chromedriverVersion":"143.0.7499.192 (be2c1f4fd451578a9ada68a0ac12d659362b44bf-refs/branch-heads/7499@{#4083})","userDataDir":"/var/folders/13/qpzz94490vnbqzm085nwpqtm0000gn/T/.org.chromium.Chromium.scoped_dir.dnjeeg"},"fedcm:accounts":true,"goog:chromeOptions":{"debuggerAddress":"localhost:64655"},"goog:processID":85981,"networkConnectionEnabled":false,"pageLoadStrategy":"normal","platformName":"mac","proxy":{},"setWindowRect":true,"strictFileInteractability":false,"timeouts":{"implicit":0,"pageLoad":300000,"script":30000},"unhandledPromptBehavior":"dismiss and notify","webauthn:extension:credBlob":true,"webauthn:extension:largeBlob":true,"webauthn:extension:minPinLength":true,"webauthn:extension:prf":true,"webauthn:virtualAuthenticators":true},"sessionId":"88dac5bff07ba39ea16c09b61ecb6412"}} | headers=HTTPHeaderDict({'Content-Length': '926', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:03 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:03 INFO [main.py:27:main()] Starting crawler: FR
+2026-01-10T10:16:03 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:16:03 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/url {'url': 'https://www.sia.aviation-civile.gouv.fr/plandesite'}
+2026-01-10T10:16:04 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/url HTTP/1.1" 200 0
+2026-01-10T10:16:04 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:04 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:04 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'xpath', 'value': "//div[contains(@id, 'plandesite')][.//h2[text()='AIP']]//a[contains(text(), 'eAIP FRANCE')]"}
+2026-01-10T10:16:04 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 200 0
+2026-01-10T10:16:04 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":{"element-6066-11e4-a52e-4f735466cecf":"f.A4B5B7C15428E425570B674573D362A0.d.6BC263BF295ED4CE875D8D80BB341AA7.e.18"}} | headers=HTTPHeaderDict({'Content-Length': '126', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:04 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:04 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync {'script': '/* isDisplayed */return (function(){return (function(){var g=this||self;\nfunction aa(a){var b=typeof...', 'args': [{'element-6066-11e4-a52e-4f735466cecf': 'f.A4B5B7C15428E425570B674573D362A0.d.6BC263BF295ED4CE875D8D80BB341AA7.e.18'}]}
+2026-01-10T10:16:04 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync HTTP/1.1" 200 0
+2026-01-10T10:16:04 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":true} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:04 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:04 DEBUG [remote_connection.py:403:execute()] GET http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element/f.A4B5B7C15428E425570B674573D362A0.d.6BC263BF295ED4CE875D8D80BB341AA7.e.18/enabled {}
+2026-01-10T10:16:04 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "GET /session/88dac5bff07ba39ea16c09b61ecb6412/element/f.A4B5B7C15428E425570B674573D362A0.d.6BC263BF295ED4CE875D8D80BB341AA7.e.18/enabled HTTP/1.1" 200 0
+2026-01-10T10:16:04 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":true} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:04 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:04 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync {'script': '/* getAttribute */return (function(){return (function(){var d=this||self;function f(a,b){function c(...', 'args': [{'element-6066-11e4-a52e-4f735466cecf': 'f.A4B5B7C15428E425570B674573D362A0.d.6BC263BF295ED4CE875D8D80BB341AA7.e.18'}, 'href']}
+2026-01-10T10:16:04 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync HTTP/1.1" 200 0
+2026-01-10T10:16:04 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":"https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?f=dvd/eAIP_25_DEC_2025/FRANCE/home.html"} | headers=HTTPHeaderDict({'Content-Length': '110', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:04 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:04 DEBUG [fr.py:30:crawl()] https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?f=dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:16:04 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/url {'url': 'https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?f=dvd/eAIP_25_DEC_2025/FRANCE/home.html'}
+2026-01-10T10:16:06 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/url HTTP/1.1" 200 0
+2026-01-10T10:16:06 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:06 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:06 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'object'}
+2026-01-10T10:16:06 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 200 0
+2026-01-10T10:16:06 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":{"element-6066-11e4-a52e-4f735466cecf":"f.A4B5B7C15428E425570B674573D362A0.d.E535F3370125B4A56464F775FFB67D20.e.29"}} | headers=HTTPHeaderDict({'Content-Length': '126', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:06 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:06 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync {'script': '/* getAttribute */return (function(){return (function(){var d=this||self;function f(a,b){function c(...', 'args': [{'element-6066-11e4-a52e-4f735466cecf': 'f.A4B5B7C15428E425570B674573D362A0.d.E535F3370125B4A56464F775FFB67D20.e.29'}, 'data']}
+2026-01-10T10:16:06 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync HTTP/1.1" 200 0
+2026-01-10T10:16:06 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":"https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/home.html"} | headers=HTTPHeaderDict({'Content-Length': '95', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:06 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:06 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/url {'url': 'https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/home.html'}
+2026-01-10T10:16:06 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/url HTTP/1.1" 200 0
+2026-01-10T10:16:06 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:06 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:06 DEBUG [fr.py:42:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:16:06 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'xpath', 'value': "//a[contains(@id, 'dateVig')]"}
+2026-01-10T10:16:06 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 200 0
+2026-01-10T10:16:06 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":{"element-6066-11e4-a52e-4f735466cecf":"f.A4B5B7C15428E425570B674573D362A0.d.CBE9E58E597ABB23B8CF3570C1DE7675.e.69"}} | headers=HTTPHeaderDict({'Content-Length': '126', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:06 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:06 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync {'script': '/* isDisplayed */return (function(){return (function(){var g=this||self;\nfunction aa(a){var b=typeof...', 'args': [{'element-6066-11e4-a52e-4f735466cecf': 'f.A4B5B7C15428E425570B674573D362A0.d.CBE9E58E597ABB23B8CF3570C1DE7675.e.69'}]}
+2026-01-10T10:16:06 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync HTTP/1.1" 200 0
+2026-01-10T10:16:06 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":true} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:06 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:06 DEBUG [remote_connection.py:403:execute()] GET http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element/f.A4B5B7C15428E425570B674573D362A0.d.CBE9E58E597ABB23B8CF3570C1DE7675.e.69/enabled {}
+2026-01-10T10:16:06 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "GET /session/88dac5bff07ba39ea16c09b61ecb6412/element/f.A4B5B7C15428E425570B674573D362A0.d.CBE9E58E597ABB23B8CF3570C1DE7675.e.69/enabled HTTP/1.1" 200 0
+2026-01-10T10:16:06 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":true} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:06 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:06 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync {'script': '/* getAttribute */return (function(){return (function(){var d=this||self;function f(a,b){function c(...', 'args': [{'element-6066-11e4-a52e-4f735466cecf': 'f.A4B5B7C15428E425570B674573D362A0.d.CBE9E58E597ABB23B8CF3570C1DE7675.e.69'}, 'href']}
+2026-01-10T10:16:06 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/execute/sync HTTP/1.1" 200 0
+2026-01-10T10:16:06 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":"https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/LF_Amdt_A_2026_01_AIP_en.pdf"} | headers=HTTPHeaderDict({'Content-Length': '114', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:06 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:06 DEBUG [fr.py:47:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/LF_Amdt_A_2026_01_AIP_en.pdf
+2026-01-10T10:16:06 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/url {'url': 'https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/LF_Amdt_A_2026_01_AIP_en.p...'}
+2026-01-10T10:16:07 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/url HTTP/1.1" 200 0
+2026-01-10T10:16:07 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:07 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:07 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:07 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:07 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:07 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:07 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:07 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:07 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:07 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:08 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:08 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:08 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:08 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:08 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:08 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:08 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:08 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:09 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:09 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:09 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:09 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:09 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:09 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:09 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:09 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:10 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:10 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:10 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:10 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:10 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:10 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:10 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:10 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:11 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:11 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:11 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:11 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:11 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:11 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:11 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:11 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:12 DEBUG [remote_connection.py:403:execute()] POST http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/element {'using': 'tag name', 'value': 'frameset'}
+2026-01-10T10:16:12 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "POST /session/88dac5bff07ba39ea16c09b61ecb6412/element HTTP/1.1" 404 0
+2026-01-10T10:16:12 DEBUG [remote_connection.py:436:_request()] Remote response: status=404 | data={"value":{"error":"no such element","message":"no such element: Unable to locate element: {\"method\":\"tag name\",\"selector\":\"frameset\"}\n  (Session info: chrome=143.0.7499.193)","stacktrace":"0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016\n1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924\n2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192\n3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788\n4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888\n5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548\n6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176\n7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364\n8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768\n9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524\n10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764\n11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464\n12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848\n13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988\n14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136\n15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8\n"}} | headers=HTTPHeaderDict({'Content-Length': '1788', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:12 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:12 ERROR [fr.py:64:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x0000000104bffdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000104bf7cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x00000001046f2b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000104739ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x000000010477aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x000000010472e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000104bc4194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000104bc7900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x0000000104ba442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000104bc8170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000104b94e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x0000000104be714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x0000000104be72cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000104bf7910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:16:12 DEBUG [remote_connection.py:403:execute()] GET http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/screenshot {}
+2026-01-10T10:16:12 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "GET /session/88dac5bff07ba39ea16c09b61ecb6412/screenshot HTTP/1.1" 200 0
+2026-01-10T10:16:12 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":"iVBORw0KGgoAAAANSUhEUgAAB4AAAAOtCAIAAADvve9qAAAQAElEQVR4nOzde/BVdf3v8Q2iSUiihre8DQzgrTKE8jYSECdvJSaaJZI6XjrjOGGMIGSDiVpzJsZQ0FKUCrxVNF6OFVIWdiHRyBjCSK1II8vUg5dwLOK8f981fYcRvl++Gi/r9/Px+GPN2muvva77r+de89k9jjjiiBYAAAAAAGxpPVoAAAAAABAgQAMAAAAAECFAAwAAAAAQIUADAAAAABAhQAMAAAAAECFAAwAAAAAQIUADAAAAABAhQAMAAAAAECFAAwAAAAAQIUADAAAAABAhQAMAAAAAECFAAwAAAAAQIUADAAAAABAhQAMAAAAAECFAAwAAAAAQIUADAAAAABAhQAMAAAAAECFAAwAAAAAQIUADAAAAABAhQAMAAAAAECFAAwAAAAAQ0b1FwHve855Pf/rTu+66a+t10adPn8GDB/fosYmfE3Zvs/HybbbZZsiQIb179974rdpOba1Xr16truloF//j9e3bt+7yoYce2rzs16/fhRde+LnPfa4FAAAAALTZkk9An3rqqV1c86abbmptOQsXLvz73/9+9NFHb7x822233XDJ7bffPn369E42dfnllx955JF//OMfTz755Na/4H+1WbBgwZNPPjl8+PCDDz742muvffHFFzf7wcq+3/rWt7p3737uueeuWLFis+tXA509e/aOO+7YvKxTvvTSS5v5QYMG1cluv/32Nb9mzZpqow8//HDN18ZnzZp14IEHNqv9/ve/P+uss9auXdu89cUvfnHfffft1q1bvXzkkUfOP//8Tg67o1202qr01VdfvfPOOy9ZsmTChAmt13Ti++yzz9y5c5cuXfqJT3zi7LPPHjduXLN8/fr1zz///F133VVH2/r3GThwYN3l+u4tXry4Z8+ec+bMqeN/6aWXWgAAAABAmy0ZoD/60Y92cc0tG6C32mqrjpb/4x//+OlPf9q+5MEHH2x1qnmadbfdduvdu3clztaWMHr06MGDB99xxx3Vcze7cl3Dipg1c/rpp0+cOHGz619//fVVn6s718arz44aNWrZsmXV2WsjTRq+9957K9eOGDGiXn7wgx+sWnrJJZdUfa71v/3tbx933HH9+vW77LLLmkY8bdq0/fbbb9WqVbXBYcOGDRgwoIr8+PHjN7nrTnbxoQ99qJJxcyLbbLNNqws6OfFmC827L7zwwgMPPLDHHnv079+/fvB4+eWXb7zxxtZ/gHe/+911hD/60Y8mT57cAgAAAADabMkAfeyxx7b+w1SgnDRpUhdXruS69dZbP/7443vuuedpp512zTXXNMsvuuiiaqAVsk855ZSqq1ddddXatWsvuOCCPn36VAydMWNGs9r+++9fSXTvvfe+//7725v4+eefP2jQoJr51Kc+9bOf/ezqq6/u/BiOPvrodevWVWYdMmRIa3N69eq10047PfbYY81Tz3Xkn/3sZ9/73vdWgB4zZkyl4QruU6dObdY85JBD6vjnzZt38MEH/+1vfzvzzDNr+fz583/wgx/UkbfaxvE48sgjn3322bFjx9bLr3zlKxWmq+B3tPdOdlFbqFOYOXPmlClTWl3TxRO/+eab586dWzO12pVXXllfuY4C9Lbbbls38bDDDnvuuefuvvvue+65pxa+/e1vP+ecc772ta8NHz584MCBixYtqg2+4hHv6sh1T5csWVL3+qijjnr66ae//vWvL168uHm3LvgZZ5xx0EEHVaav3Nws/MAHPtD8+lL3uj5b8b0FAAAAAPgTwg195CMfqenEiRNvuumm97///e0BurLsdtttN3LkyMrZlTWbiFxltkePHpWbazp9+vR99tnn2muvrXZZbffkk0+ultp8tpb37Nmz1TYkRdXVzg+g1unbt+8vf/nL3/72t8cdd1zt8Xvf+14n61c5rXXaG3EdTE3//Oc/1/SAAw6oaZXW5q1bbrml6nATmkePHt2+hV122aVbt27NgVWYrmm12nPPPfdd73rXH/7wh1tvvXX58uUd7b2TXcyZM6e2079//1bXvNoTLw899ND69evf8pa3bPLduhEVpuuHhPqpoG7B4MGDaxdf/vKXBwwYUO24MnStUyc+bty4ESNGNPe9Xf14UOsceOCBdWfrjvfr12/o0KGTJ0+u3Fy/T1SXr+xe93evvfY6/PDDm4/stttudSVbbRH/FaO+AAAAAMAb2ZYM0F3/+7WLLrqo9bp405veNGvWrPaX48ePr0C8yTWrLe63337PPPPME088sXLlypqvfPn4448371asnDRp0uLFi2fMmFE18+GHHz7nnHMq+M6bN6+qa60wZcqUip5VJ2fPnl3Fs2aaD06YMKH5yHnnnbfZIThOP/30mn7zm99csWJFddgPf/jDm+2wVUibmTras846q2L0l770pVZb+K7po48+2rz72GOP1bSaaU3br0AF1ubiNB9pRoUeM2ZMJdRap/ryqFGjLr300u9+97ub3HUnu7jrrrta/xw0oyte7YnXkdetrJtSN2uTK9RZ1AX54Q9/WPelTueOO+4444wzKkA3765Zs+aEE06ojdTyt73tbfULQTME9it20UTnYcOGXXbZZRdeeGHNjx07tupzfT3qUtcXZv78+TvssEOtfN11161evbq+IbVkw+8bAAAAALzBdTUR/jdVjXL/DXQ0WnSpIlnB9P77768cuWDBgtY/q2ij+aO5mvnFL35R0+9///s1XbVq1bp166px1/wee+xR81Wfa/53v/tdV/4/cGPVOqsg//jHP3766adfeOGFfffdt4sDKO+000433nhjNdMrrriiPtu+vP3h6I1H0qiTveGGG/r27btw4cImMffu3bvVNnJFnfiIESMuvvjiunqf/OQnO991J7vouq6feHX/ujuVp48//vi64F/4whc2udrQoUNbbQ9WT58+/fLLL3/zm99c5ztgwIDm3fvuu692V+1++fLldY71Y8PGW6gjaUbYWLRoUQXrPn36tNpG8KjpVVdd1Wrr+O1PfwMAAAAAm7Qln4B+3Z5r7rqXXnpp1KhRXVnzxBNPbLWNRFyaJSNHjpw2bVozv379+g1n2kfYaF9eGXrDZ6srWbZepXe+853VSWvmO9/5TvvCk046abN/2Lj99tvPmzevwvGsWbOadN5qi+P9+vUbOHBg082b9tr+QHe55ppraoUHHnigGT+69c9HmOuKNTMVXp966qkq1NW1q79vvN/N7iJx4nXB66jq+q9cufK2225rDnVjO+64Y0132GGHpqrX+s8991yvXr2ad9v/XvIVoz9v6K9//Wv7/Nq1a+si13Woaeufg5y02iJ1CwAAAADomDGg/0ufPn123333mmkfpWHcuHFbbbXVkCFDHnzwwa5s4S9/+cvubVavXl0vN36otmmsnag91nT58uXNHnfeeedjjjnm+OOP7zxAV1SdO3fudtttV0H51ltvbV++YsWK4cOHjxkzpqnD1XObhc27V1555QEHHLB06dINH3D++c9/3pxI87J79+5Vb//eZpO77nwXXfeqTvz6669v/oSwc3UYVcZnzpy5cOHCVtsT4rXZatZVzDv5VJ1y+3Pcu+666zbbbPPyyy/37NnzrW99a3X5ug6//vWva7Pve9/7qvjXOkcccUQLAAAAAOjYlgzQd999dxfXPPbYY1tb1NZbb93+JG+55557mvETuqhpoPPnz7/hhhuaJU888cTFF1982mmndTFAV+j82Mc+NmfOnAULFrzjHe9onsBtPProo4MHD540aVLV7TqwTX680metU4nzvPPOa2+ghx566G677VbxtKMnbetTVWN32GGHdevWDRo06JJLLqmFv/nNb7761a9+4xvfqOMZOnTolClT1q9ff/jhh7/44otNof7MZz5TYb1mnn322eYjlVmvuOKKX/3qV6tWrdp7771nzJhRV2/06NHbbrvtQw891OpAJ7vous5PvPVa3XnnnZWwJ0+e3L9//9rsKaecUj8nHHXUUZ18pJrynnvueeqpp/7pT39qtX2j6lzuu+++YcOG9ejRo/ka1De8vrpnn332XnvtVXVegAYAAACAzm3JAH3zzTe3/k0qLw4fPrz95dq1a19VgB45cmRNb7nllvYlFZQrX1ZKbm0wzkb7/MZLZs+ePWDAgEMOOeSEE06onrty5coqws0K1YiPOeaYipsf//jHOwrQI0aMqMq5bNmyDUdSXrRoUVXgsWPHVhFudXDWffv2bWaaUyjVcytAV9KdMGHC9OnTmxFFKg1PnDixGSSkGR+5/awbFaBresEFF8ycOXNwm3r5yCOP1JJWBzrZRaMro0J3fuK33357+8INr/lm1ZFPmzatjqeCcqttXJGpU6fWt6KTQ+rZs2e3bt3ax55evXp1r169TjzxxNpvNf36/aDV9pj2ddddd+aZZ9Yp1/Kf/OQnhx12WLN++6gsAAAAAEC7bm+cpzhPOumkpqu+wvPPP9/k139d9+7dd91112YUjleosln1c/z48Zt8sLfKZkdDbdQxN6NbbOzzn//8Zoch3meffVpt/4vY6rI6hf79+y9durSKbe/evadMmbLJ1e68885m8I3N7qIrG3kNurLZJtA/9dRTrc2pe1cNujL61ltvfe+991bCrtC8yy67rFmzpvr1K1befffdn3zyyX/lfxcBAAAA4I3gDTQG9KhRozYemrnV9qDulgrQtalN1udW2zAXrbY/OWx/xnZD1XA7CtAHHXRQRz8S3HbbbZsN0K8qPTeebNPMb7fddh3t/Zlnnmki72Z30ZWNvAZd2WxX0nOj7t3G/0nYDMexsY7uMgAAAACwoTfQE9Ddu3fv6K3X7VHW13YMHX3q9TnsLXLdQhc/sdna5tSpU5ctWzZ//vwWAAAAAPAveAMFaAAAAAAAXk9voCE4AAAAAAB4PQnQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARHT7P//3pRYAAAAA/Hf2/5585L4v/+8W8B/GE9AAAAAAAEQI0AAAAAAARHTbd7/9W8C/z7uHDlmyZEkLAAAAAP7H8QQ0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAACQVgawAAEABJREFUABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0AAAAAAARAjQAAAAAABECNAAAAAAAEQI0LQAAAACABAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAA9BVZgAAAqlSURBVACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAACACAEaAAAAAIAIARoAAAAAgAgBGgAAAADg/7NjxwIAAAAAg/ytR7GvMGIhoAEAAAAAWAhoAAAAAAAWAhoAAAAAgIWABgAAAABgIaABAAAAAFgIaAAAAAAAFgIaAAAAAICFgAYAAAAAYCGgAQAAAABYCGgAAAAAABYCGgAAAACAhYAGAAAAAGAhoAEAAAAAWAhoAAAAAAAWAhoAAAAAgIWABgAAAABgIaABAAAAAFgIaAAAAAAAFgIaAAAAAICFgAYAAAAAYCGgAQAAAABYCGgAAAAAABYCGgAAAACAhYAGAAAAAGAhoAEAAAAAWAhoAAAAAAAWAhoAAAAAgIWABgAAAABgIaABAAAAAFgIaAAAAAAAFgIaAAAAAICFgAYAAAAAYCGgAQAAAABYCGgAAAAAABYCGgAAAACAhYAGAAAAAGAhoAEAAAAAWAhoAAAAAAAWAhoAAAAAgIWABgAAAABgIaABAAAAAFgIaAAAAAAAFgIaAAAAAICFgAYAAAAAYCGgAQAAAABYCGgAAAAAABYCGgAAAACAhYAGAAAAAGAhoAEAAAAAWAhoAAAAAAAWAhoAAAAAgIWABgAAAABgIaABAAAAAFgIaAAAAAAAFgIaAAAAAICFgAYAAAAAYCGgAQAAAABYCGgAAAAAABYCGgAAAACAhYAGAAAAAGAhoAEAAAAAWAhoAAAAAAAWAhoAAAAAgIWABgAAAABgIaABAAAAAFgIaAAAAAAAFgIaAAAAAICFgAYAAAAAYCGgAQAAAABYCGgAAAAAABYCGgAAAACAhYAGAAAAAGAhoAEAAAAAWAhoAAAAAAAWAhoAAAAAgIWABgAAAABgIaABAAAAAFgIaAAAAAAAFgIaAAAAAIBFAAAA///dAp/GAAAABklEQVQDAA8VItzcO8J8AAAAAElFTkSuQmCC"} | headers=HTTPHeaderDict({'Content-Length': '14700', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:12 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:12 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_101612_FR_screenshot.png'
+2026-01-10T10:16:12 DEBUG [remote_connection.py:403:execute()] GET http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412/source {}
+2026-01-10T10:16:12 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "GET /session/88dac5bff07ba39ea16c09b61ecb6412/source HTTP/1.1" 200 0
+2026-01-10T10:16:12 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":"\u003Chtml>\u003Chead>\u003C/head>\u003Cbody style=\"height: 100%; width: 100%; overflow: hidden; margin:0px; background-color: rgb(40, 40, 40);\">\u003Cembed name=\"CC2668207AFD4C9580D703C566DE6E42\" style=\"position:absolute; left: 0; top: 0;\" width=\"100%\" height=\"100%\" src=\"about:blank\" type=\"application/pdf\" internalid=\"CC2668207AFD4C9580D703C566DE6E42\">\u003C/body>\u003C/html>"} | headers=HTTPHeaderDict({'Content-Length': '407', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:12 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:12 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_101612_FR_page_source.html'
+2026-01-10T10:16:12 DEBUG [remote_connection.py:403:execute()] DELETE http://localhost:64644/session/88dac5bff07ba39ea16c09b61ecb6412 {}
+2026-01-10T10:16:12 DEBUG [connectionpool.py:544:_make_request()] http://localhost:64644 "DELETE /session/88dac5bff07ba39ea16c09b61ecb6412 HTTP/1.1" 200 0
+2026-01-10T10:16:12 DEBUG [remote_connection.py:436:_request()] Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2026-01-10T10:16:12 DEBUG [remote_connection.py:465:_request()] Finished Request
+2026-01-10T10:16:12 INFO [main.py:33:main()] Finished crawling FR in 9.31 seconds
+2026-01-10T10:16:12 WARNING [output_handler.py:17:write_output()] No airports found for FR. Skipping output.
+2026-01-10T10:16:12 INFO [main.py:65:<module>()] Finished crawling all countries in 11.68 seconds
+2026-01-10T10:17:21 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:17:21 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:17:21 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:17:21 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:17:21 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:17:23 INFO [main.py:27:main()] Starting crawler: FR
+2026-01-10T10:17:23 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:17:24 INFO [fr.py:30:crawl()] https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?f=dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:17:25 INFO [fr.py:42:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:17:25 INFO [fr.py:47:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/LF_Amdt_A_2026_01_AIP_en.pdf
+2026-01-10T10:17:30 WARNING [connectionpool.py:868:urlopen()] Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectionResetError(54, 'Connection reset by peer')': /session/912a621872b6ea344f6374799d0807c1
+2026-01-10T10:17:30 WARNING [connectionpool.py:868:urlopen()] Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10977e210>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/912a621872b6ea344f6374799d0807c1
+2026-01-10T10:17:30 WARNING [connectionpool.py:868:urlopen()] Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10977e660>: Failed to establish a new connection: [Errno 61] Connection refused')': /session/912a621872b6ea344f6374799d0807c1
+2026-01-10T10:33:23 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:33:23 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:33:23 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:33:23 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:33:24 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:33:25 INFO [main.py:27:main()] Starting crawler: FR
+2026-01-10T10:33:25 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:33:28 INFO [fr.py:30:crawl()] https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?f=dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:33:30 INFO [fr.py:42:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:33:30 INFO [fr.py:49:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:33:31 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:33:32 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:33:32 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:33:32 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:33:32 INFO [main.py:33:main()] Finished crawling FR in 7.20 seconds
+2026-01-10T10:33:32 INFO [output_handler.py:20:write_output()] Writing output for FR to https://aip.aero/api/airports
+2026-01-10T10:33:33 INFO [output_handler.py:41:write_output()] Successfully wrote output for FR.
+2026-01-10T10:33:33 INFO [main.py:65:<module>()] Finished crawling all countries in 10.65 seconds
+2026-01-10T10:34:10 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:34:10 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:34:10 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:34:11 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:34:11 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:34:12 INFO [main.py:27:main()] Starting crawler: FR
+2026-01-10T10:34:12 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:34:15 INFO [fr.py:30:crawl()] https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?f=dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:34:17 INFO [fr.py:42:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:34:17 INFO [fr.py:49:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:34:18 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:34:19 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:34:19 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:34:19 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:34:19 INFO [fr.py:71:crawl()] [Airport(country='FR', icao='LFBA', title='AGEN LA GARENNE LFBA', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBA-fr-FR.html#AD-2.24.eAIP.LFBA', airport_type='aeroport'), Airport(country='FR', icao='LFMA', title='AIX LES MILLES LFMA', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMA-fr-FR.html#AD-2.24.eAIP.LFMA', airport_type='aeroport'), Airport(country='FR', icao='LFKJ', title='AJACCIO NAPOLEON BONAPARTE LFKJ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFKJ-fr-FR.html#AD-2.24.eAIP.LFKJ', airport_type='aeroport'), Airport(country='FR', icao='LFAQ', title='ALBERT BRAY LFAQ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFAQ-fr-FR.html#AD-2.24.eAIP.LFAQ', airport_type='aeroport'), Airport(country='FR', icao='LFCI', title='ALBI LE SEQUESTRE LFCI', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFCI-fr-FR.html#AD-2.24.eAIP.LFCI', airport_type='aeroport'), Airport(country='FR', icao='LFAY', title='AMIENS-GLISY LFAY', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFAY-fr-FR.html#AD-2.24.eAIP.LFAY', airport_type='aeroport'), Airport(country='FR', icao='LFJR', title='ANGERS MARCE LFJR', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFJR-fr-FR.html#AD-2.24.eAIP.LFJR', airport_type='aeroport'), Airport(country='FR', icao='LFBU', title='ANGOULEME BRIE CHAMPNIERS LFBU', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBU-fr-FR.html#AD-2.24.eAIP.LFBU', airport_type='aeroport'), Airport(country='FR', icao='LFLP', title='ANNECY MEYTHET LFLP', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLP-fr-FR.html#AD-2.24.eAIP.LFLP', airport_type='aeroport'), Airport(country='FR', icao='LFDH', title='AUCH GERS LFDH', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFDH-fr-FR.html#AD-2.24.eAIP.LFDH', airport_type='aeroport'), Airport(country='FR', icao='LFLW', title='AURILLAC LFLW', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLW-fr-FR.html#AD-2.24.eAIP.LFLW', airport_type='aeroport'), Airport(country='FR', icao='LFLA', title='AUXERRE BRANCHES LFLA', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLA-fr-FR.html#AD-2.24.eAIP.LFLA', airport_type='aeroport'), Airport(country='FR', icao='LFMV', title='AVIGNON CAUMONT LFMV', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMV-fr-FR.html#AD-2.24.eAIP.LFMV', airport_type='aeroport'), Airport(country='FR', icao='LFSB', title='BALE-MULHOUSE LFSB', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSB-fr-FR.html#AD-2.24.eAIP.LFSB', airport_type='aeroport'), Airport(country='FR', icao='LFKB', title='BASTIA PORETTA LFKB', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFKB-fr-FR.html#AD-2.24.eAIP.LFKB', airport_type='aeroport'), Airport(country='FR', icao='LFOB', title='BEAUVAIS TILLE LFOB', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOB-fr-FR.html#AD-2.24.eAIP.LFOB', airport_type='aeroport'), Airport(country='FR', icao='LFBE', title='BERGERAC DORDOGNE PERIGORD LFBE', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBE-fr-FR.html#AD-2.24.eAIP.LFBE', airport_type='aeroport'), Airport(country='FR', icao='LFQM', title='BESANCON LA VEZE LFQM', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFQM-fr-FR.html#AD-2.24.eAIP.LFQM', airport_type='aeroport'), Airport(country='FR', icao='LFMU', title='BEZIERS VIAS LFMU', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMU-fr-FR.html#AD-2.24.eAIP.LFMU', airport_type='aeroport'), Airport(country='FR', icao='LFBZ', title='BIARRITZ PAYS BASQUE LFBZ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBZ-fr-FR.html#AD-2.24.eAIP.LFBZ', airport_type='aeroport'), Airport(country='FR', icao='LFBS', title='BISCARROSSE PARENTIS LFBS', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBS-fr-FR.html#AD-2.24.eAIP.LFBS', airport_type='aeroport'), Airport(country='FR', icao='LFOQ', title='BLOIS LE BREUIL LFOQ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOQ-fr-FR.html#AD-2.24.eAIP.LFOQ', airport_type='aeroport'), Airport(country='FR', icao='LFBD', title='BORDEAUX MERIGNAC LFBD', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBD-fr-FR.html#AD-2.24.eAIP.LFBD', airport_type='aeroport'), Airport(country='FR', icao='LFLD', title='BOURGES LFLD', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLD-fr-FR.html#AD-2.24.eAIP.LFLD', airport_type='aeroport'), Airport(country='FR', icao='LFRB', title='BREST BRETAGNE LFRB', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRB-fr-FR.html#AD-2.24.eAIP.LFRB', airport_type='aeroport'), Airport(country='FR', icao='LFSL', title='BRIVE SOUILLAC LFSL', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSL-fr-FR.html#AD-2.24.eAIP.LFSL', airport_type='aeroport'), Airport(country='FR', icao='LFRK', title='CAEN CARPIQUET LFRK', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRK-fr-FR.html#AD-2.24.eAIP.LFRK', airport_type='aeroport'), Airport(country='FR', icao='LFCC', title='CAHORS LALBENQUE LFCC', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFCC-fr-FR.html#AD-2.24.eAIP.LFCC', airport_type='aeroport'), Airport(country='FR', icao='LFAC', title='CALAIS MARCK LFAC', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFAC-fr-FR.html#AD-2.24.eAIP.LFAC', airport_type='aeroport'), Airport(country='FR', icao='LFKC', title='CALVI SAINTE CATHERINE LFKC', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFKC-fr-FR.html#AD-2.24.eAIP.LFKC', airport_type='aeroport'), Airport(country='FR', icao='LFMD', title='CANNES MANDELIEU LFMD', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMD-fr-FR.html#AD-2.24.eAIP.LFMD', airport_type='aeroport'), Airport(country='FR', icao='LFMK', title='CARCASSONNE SALVAZA LFMK', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMK-fr-FR.html#AD-2.24.eAIP.LFMK', airport_type='aeroport'), Airport(country='FR', icao='LFCK', title='CASTRES MAZAMET LFCK', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFCK-fr-FR.html#AD-2.24.eAIP.LFCK', airport_type='aeroport'), Airport(country='FR', icao='LFLH', title='CHALON CHAMPFORGEUIL LFLH', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLH-fr-FR.html#AD-2.24.eAIP.LFLH', airport_type='aeroport'), Airport(country='FR', icao='LFOK', title='CHALONS VATRY LFOK', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOK-fr-FR.html#AD-2.24.eAIP.LFOK', airport_type='aeroport'), Airport(country='FR', icao='LFLB', title='CHAMBERY AIX LES BAINS LFLB', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLB-fr-FR.html#AD-2.24.eAIP.LFLB', airport_type='aeroport'), Airport(country='FR', icao='LFJY', title='CHAMBLEY LFJY', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFJY-fr-FR.html#AD-2.24.eAIP.LFJY', airport_type='aeroport'), Airport(country='FR', icao='LFLX', title='CHATEAUROUX DEOLS LFLX', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLX-fr-FR.html#AD-2.24.eAIP.LFLX', airport_type='aeroport'), Airport(country='FR', icao='LFRC', title='CHERBOURG MANCHE LFRC', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRC-fr-FR.html#AD-2.24.eAIP.LFRC', airport_type='aeroport'), Airport(country='FR', icao='LFOU', title='CHOLET LE PONTREAU LFOU', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOU-fr-FR.html#AD-2.24.eAIP.LFOU', airport_type='aeroport'), Airport(country='FR', icao='LFLC', title='CLERMONT FERRAND AUVERGNE LFLC', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLC-fr-FR.html#AD-2.24.eAIP.LFLC', airport_type='aeroport'), Airport(country='FR', icao='LFGA', title='COLMAR HOUSSEN LFGA', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFGA-fr-FR.html#AD-2.24.eAIP.LFGA', airport_type='aeroport'), Airport(country='FR', icao='LFRG', title='DEAUVILLE NORMANDIE LFRG', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRG-fr-FR.html#AD-2.24.eAIP.LFRG', airport_type='aeroport'), Airport(country='FR', icao='LFSD', title='DIJON LONGVIC LFSD', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSD-fr-FR.html#AD-2.24.eAIP.LFSD', airport_type='aeroport'), Airport(country='FR', icao='LFRD', title='DINARD PLEURTUIT SAINT MALO LFRD', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRD-fr-FR.html#AD-2.24.eAIP.LFRD', airport_type='aeroport'), Airport(country='FR', icao='LFGJ', title='DOLE TAVAUX LFGJ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFGJ-fr-FR.html#AD-2.24.eAIP.LFGJ', airport_type='aeroport'), Airport(country='FR', icao='LFSG', title='EPINAL MIRECOURT LFSG', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSG-fr-FR.html#AD-2.24.eAIP.LFSG', airport_type='aeroport'), Airport(country='FR', icao='LFKF', title='FIGARI SUD CORSE LFKF', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFKF-fr-FR.html#AD-2.24.eAIP.LFKF', airport_type='aeroport'), Airport(country='FR', icao='LFFK', title='FONTENAY LE COMTE LFFK', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFFK-fr-FR.html#AD-2.24.eAIP.LFFK', airport_type='aeroport'), Airport(country='FR', icao='LFEV', title='GRAY SAINT ADRIEN LFEV', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFEV-fr-FR.html#AD-2.24.eAIP.LFEV', airport_type='aeroport'), Airport(country='FR', icao='LFLS', title='GRENOBLE ALPES ISERE LFLS', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLS-fr-FR.html#AD-2.24.eAIP.LFLS', airport_type='aeroport'), Airport(country='FR', icao='LFEY', title="ILE D'YEU LFEY", url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFEY-fr-FR.html#AD-2.24.eAIP.LFEY', airport_type='aeroport'), Airport(country='FR', icao='LFTZ', title='LA MOLE LFTZ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFTZ-fr-FR.html#AD-2.24.eAIP.LFTZ', airport_type='aeroport'), Airport(country='FR', icao='LFRI', title='LA ROCHE SUR YON LES AJONCS LFRI', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRI-fr-FR.html#AD-2.24.eAIP.LFRI', airport_type='aeroport'), Airport(country='FR', icao='LFBH', title='LA ROCHELLE ILE DE RE LFBH', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBH-fr-FR.html#AD-2.24.eAIP.LFBH', airport_type='aeroport'), Airport(country='FR', icao='LFRO', title='LANNION LFRO', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRO-fr-FR.html#AD-2.24.eAIP.LFRO', airport_type='aeroport'), Airport(country='FR', icao='LFOV', title='LAVAL ENTRAMMES LFOV', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOV-fr-FR.html#AD-2.24.eAIP.LFOV', airport_type='aeroport'), Airport(country='FR', icao='LFMQ', title='LE CASTELLET LFMQ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMQ-fr-FR.html#AD-2.24.eAIP.LFMQ', airport_type='aeroport'), Airport(country='FR', icao='LFOH', title='LE HAVRE OCTEVILLE LFOH', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOH-fr-FR.html#AD-2.24.eAIP.LFOH', airport_type='aeroport'), Airport(country='FR', icao='LFRM', title='LE MANS ARNAGE LFRM', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRM-fr-FR.html#AD-2.24.eAIP.LFRM', airport_type='aeroport'), Airport(country='FR', icao='LFHP', title='LE PUY LOUDES LFHP', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFHP-fr-FR.html#AD-2.24.eAIP.LFHP', airport_type='aeroport'), Airport(country='FR', icao='LFAT', title='LE TOUQUET ELIZABETH II LFAT', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFAT-fr-FR.html#AD-2.24.eAIP.LFAT', airport_type='aeroport'), Airport(country='FR', icao='LFQQ', title='LILLE LESQUIN LFQQ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFQQ-fr-FR.html#AD-2.24.eAIP.LFQQ', airport_type='aeroport'), Airport(country='FR', icao='LFBL', title='LIMOGES BELLEGARDE LFBL', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBL-fr-FR.html#AD-2.24.eAIP.LFBL', airport_type='aeroport'), Airport(country='FR', icao='LFLY', title='LYON BRON LFLY', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLY-fr-FR.html#AD-2.24.eAIP.LFLY', airport_type='aeroport'), Airport(country='FR', icao='LFLL', title='LYON SAINT EXUPERY LFLL', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLL-fr-FR.html#AD-2.24.eAIP.LFLL', airport_type='aeroport'), Airport(country='FR', icao='LFML', title='MARSEILLE PROVENCE LFML', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFML-fr-FR.html#AD-2.24.eAIP.LFML', airport_type='aeroport'), Airport(country='FR', icao='LFPM', title='MELUN VILLAROCHE LFPM', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFPM-fr-FR.html#AD-2.24.eAIP.LFPM', airport_type='aeroport'), Airport(country='FR', icao='LFNB', title='MENDE BRENOUX LFNB', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFNB-fr-FR.html#AD-2.24.eAIP.LFNB', airport_type='aeroport'), Airport(country='FR', icao='LFQT', title='MERVILLE CALONNE LFQT', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFQT-fr-FR.html#AD-2.24.eAIP.LFQT', airport_type='aeroport'), Airport(country='FR', icao='LFJL', title='METZ NANCY LORRAINE LFJL', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFJL-fr-FR.html#AD-2.24.eAIP.LFJL', airport_type='aeroport'), Airport(country='FR', icao='LFSM', title='MONTBELIARD COURCELLES LFSM', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSM-fr-FR.html#AD-2.24.eAIP.LFSM', airport_type='aeroport'), Airport(country='FR', icao='LFBK', title='MONTLUCON GUERET LFBK', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBK-fr-FR.html#AD-2.24.eAIP.LFBK', airport_type='aeroport'), Airport(country='FR', icao='LFMT', title='MONTPELLIER MEDITERRANEE LFMT', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMT-fr-FR.html#AD-2.24.eAIP.LFMT', airport_type='aeroport'), Airport(country='FR', icao='LFRU', title='MORLAIX PLOUJEAN LFRU', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRU-fr-FR.html#AD-2.24.eAIP.LFRU', airport_type='aeroport'), Airport(country='FR', icao='LFHY', title='MOULINS MONTBEUGNY LFHY', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFHY-fr-FR.html#AD-2.24.eAIP.LFHY', airport_type='aeroport'), Airport(country='FR', icao='LFBR', title='MURET LHERM LFBR', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBR-fr-FR.html#AD-2.24.eAIP.LFBR', airport_type='aeroport'), Airport(country='FR', icao='LFSN', title='NANCY ESSEY LFSN', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSN-fr-FR.html#AD-2.24.eAIP.LFSN', airport_type='aeroport'), Airport(country='FR', icao='LFRS', title='NANTES ATLANTIQUE LFRS', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRS-fr-FR.html#AD-2.24.eAIP.LFRS', airport_type='aeroport'), Airport(country='FR', icao='LFQG', title='NEVERS FOURCHAMBAULT LFQG', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFQG-fr-FR.html#AD-2.24.eAIP.LFQG', airport_type='aeroport'), Airport(country='FR', icao='LFMN', title="NICE COTE D'AZUR LFMN", url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMN-fr-FR.html#AD-2.24.eAIP.LFMN', airport_type='aeroport'), Airport(country='FR', icao='LFTW', title='NIMES GARONS LFTW', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFTW-fr-FR.html#AD-2.24.eAIP.LFTW', airport_type='aeroport'), Airport(country='FR', icao='LFBN', title='NIORT MARAIS POITEVIN LFBN', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBN-fr-FR.html#AD-2.24.eAIP.LFBN', airport_type='aeroport'), Airport(country='FR', icao='LFOZ', title="ORLEANS SAINT DENIS DE L'HOTEL LFOZ", url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOZ-fr-FR.html#AD-2.24.eAIP.LFOZ', airport_type='aeroport'), Airport(country='FR', icao='LFEC', title='OUESSANT LFEC', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFEC-fr-FR.html#AD-2.24.eAIP.LFEC', airport_type='aeroport'), Airport(country='FR', icao='LFDJ', title='PAMIERS LES PUJOLS LFDJ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFDJ-fr-FR.html#AD-2.24.eAIP.LFDJ', airport_type='aeroport'), Airport(country='FR', icao='LFPG', title='PARIS CHARLES DE GAULLE LFPG', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFPG-fr-FR.html#AD-2.24.eAIP.LFPG', airport_type='aeroport'), Airport(country='FR', icao='LFPB', title='PARIS LE BOURGET LFPB', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFPB-fr-FR.html#AD-2.24.eAIP.LFPB', airport_type='aeroport'), Airport(country='FR', icao='LFPO', title='PARIS ORLY LFPO', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFPO-fr-FR.html#AD-2.24.eAIP.LFPO', airport_type='aeroport'), Airport(country='FR', icao='LFPN', title='PARIS SACLAY VERSAILLES LFPN', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFPN-fr-FR.html#AD-2.24.eAIP.LFPN', airport_type='aeroport'), Airport(country='FR', icao='LFBP', title='PAU PYRENEES LFBP', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBP-fr-FR.html#AD-2.24.eAIP.LFBP', airport_type='aeroport'), Airport(country='FR', icao='LFBX', title='PERIGUEUX BASSILLAC LFBX', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBX-fr-FR.html#AD-2.24.eAIP.LFBX', airport_type='aeroport'), Airport(country='FR', icao='LFMP', title='PERPIGNAN RIVESALTES LFMP', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMP-fr-FR.html#AD-2.24.eAIP.LFMP', airport_type='aeroport'), Airport(country='FR', icao='LFBI', title='POITIERS BIARD LFBI', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBI-fr-FR.html#AD-2.24.eAIP.LFBI', airport_type='aeroport'), Airport(country='FR', icao='LFPT', title='PONTOISE CORMEILLES EN VEXIN LFPT', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFPT-fr-FR.html#AD-2.24.eAIP.LFPT', airport_type='aeroport'), Airport(country='FR', icao='LFRQ', title='QUIMPER PLUGUFFAN LFRQ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRQ-fr-FR.html#AD-2.24.eAIP.LFRQ', airport_type='aeroport'), Airport(country='FR', icao='LFQA', title='REIMS PRUNAY LFQA', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFQA-fr-FR.html#AD-2.24.eAIP.LFQA', airport_type='aeroport'), Airport(country='FR', icao='LFRN', title='RENNES SAINT JACQUES LFRN', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRN-fr-FR.html#AD-2.24.eAIP.LFRN', airport_type='aeroport'), Airport(country='FR', icao='LFLO', title='ROANNE LFLO', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLO-fr-FR.html#AD-2.24.eAIP.LFLO', airport_type='aeroport'), Airport(country='FR', icao='LFDN', title='ROCHEFORT CHARENTE-MARITIME LFDN', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFDN-fr-FR.html#AD-2.24.eAIP.LFDN', airport_type='aeroport'), Airport(country='FR', icao='LFCR', title='RODEZ AVEYRON LFCR', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFCR-fr-FR.html#AD-2.24.eAIP.LFCR', airport_type='aeroport'), Airport(country='FR', icao='LFOP', title='ROUEN VALLEE DE SEINE LFOP', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOP-fr-FR.html#AD-2.24.eAIP.LFOP', airport_type='aeroport'), Airport(country='FR', icao='LFCY', title='ROYAN MEDIS LFCY', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFCY-fr-FR.html#AD-2.24.eAIP.LFCY', airport_type='aeroport'), Airport(country='FR', icao='LFRT', title='SAINT BRIEUC ARMOR LFRT', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRT-fr-FR.html#AD-2.24.eAIP.LFRT', airport_type='aeroport'), Airport(country='FR', icao='LFMH', title='SAINT ETIENNE LOIRE LFMH', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMH-fr-FR.html#AD-2.24.eAIP.LFMH', airport_type='aeroport'), Airport(country='FR', icao='LFRZ', title='SAINT NAZAIRE MONTOIR LFRZ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRZ-fr-FR.html#AD-2.24.eAIP.LFRZ', airport_type='aeroport'), Airport(country='FR', icao='LFLN', title='SAINT YAN LFLN', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLN-fr-FR.html#AD-2.24.eAIP.LFLN', airport_type='aeroport'), Airport(country='FR', icao='LFST', title='STRASBOURG ENTZHEIM LFST', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFST-fr-FR.html#AD-2.24.eAIP.LFST', airport_type='aeroport'), Airport(country='FR', icao='LFBT', title='TARBES LOURDES PYRENEES LFBT', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBT-fr-FR.html#AD-2.24.eAIP.LFBT', airport_type='aeroport'), Airport(country='FR', icao='LFBO', title='TOULOUSE BLAGNAC LFBO', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBO-fr-FR.html#AD-2.24.eAIP.LFBO', airport_type='aeroport'), Airport(country='FR', icao='LFBF', title='TOULOUSE FRANCAZAL LFBF', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBF-fr-FR.html#AD-2.24.eAIP.LFBF', airport_type='aeroport'), Airport(country='FR', icao='LFOT', title='TOURS VAL DE LOIRE LFOT', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOT-fr-FR.html#AD-2.24.eAIP.LFOT', airport_type='aeroport'), Airport(country='FR', icao='LFQB', title='TROYES BARBEREY LFQB', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFQB-fr-FR.html#AD-2.24.eAIP.LFQB', airport_type='aeroport'), Airport(country='FR', icao='LFLU', title='VALENCE CHABEUIL LFLU', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLU-fr-FR.html#AD-2.24.eAIP.LFLU', airport_type='aeroport'), Airport(country='FR', icao='LFAV', title='VALENCIENNES DENAIN LFAV', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFAV-fr-FR.html#AD-2.24.eAIP.LFAV', airport_type='aeroport'), Airport(country='FR', icao='LFRV', title='VANNES GOLFE DU MORBIHAN LFRV', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRV-fr-FR.html#AD-2.24.eAIP.LFRV', airport_type='aeroport'), Airport(country='FR', icao='LFLV', title='VICHY CHARMEIL LFLV', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLV-fr-FR.html#AD-2.24.eAIP.LFLV', airport_type='aeroport'), Airport(country='FR', icao='LFHV', title='VILLEFRANCHE TARARE LFHV', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFHV-fr-FR.html#AD-2.24.eAIP.LFHV', airport_type='aeroport'), Airport(country='FR', icao='LFLG', title='GRENOBLE LE VERSOUD LFLG', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFLG-fr-FR.html#AD-2.24.eAIP.LFLG', airport_type='aeroport'), Airport(country='FR', icao='LFOA', title='AVORD LFOA', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOA-fr-FR.html#AD-2.24.eAIP.LFOA', airport_type='mil'), Airport(country='FR', icao='LFBC', title='CAZAUX LFBC', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBC-fr-FR.html#AD-2.24.eAIP.LFBC', airport_type='mil'), Airport(country='FR', icao='LFBG', title='COGNAC CHATEAUBERNARD LFBG', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBG-fr-FR.html#AD-2.24.eAIP.LFBG', airport_type='mil'), Airport(country='FR', icao='LFBY', title='DAX SEYRESSE LFBY', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBY-fr-FR.html#AD-2.23.LFBY', airport_type='mil'), Airport(country='FR', icao='LFQE', title='ETAIN ROUVRES LFQE', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFQE-fr-FR.html#AD-2.23.LFQE', airport_type='mil'), Airport(country='FR', icao='LFOE', title='EVREUX FAUVILLE LFOE', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOE-fr-FR.html#AD-2.24.eAIP.LFOE', airport_type='mil'), Airport(country='FR', icao='LFTH', title='HYERES LE PALYVESTRE LFTH', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFTH-fr-FR.html#AD-2.24.eAIP.LFTH', airport_type='mil'), Airport(country='FR', icao='LFMI', title='ISTRES LE TUBE LFMI', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMI-fr-FR.html#AD-2.24.eAIP.LFMI', airport_type='mil'), Airport(country='FR', icao='LFRJ', title='LANDIVISIAU LFRJ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRJ-fr-FR.html#AD-2.24.eAIP.LFRJ', airport_type='mil'), Airport(country='FR', icao='LFRL', title='LANVEOC POULMIC LFRL', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRL-fr-FR.html#AD-2.23.LFRL', airport_type='mil'), Airport(country='FR', icao='LFMC', title='LE LUC LE CANNET LFMC', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMC-fr-FR.html#AD-2.24.eAIP.LFMC', airport_type='mil'), Airport(country='FR', icao='LFRH', title='LORIENT LANN BIHOUE LFRH', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFRH-fr-FR.html#AD-2.24.eAIP.LFRH', airport_type='mil'), Airport(country='FR', icao='LFSX', title='LUXEUIL SAINT SAUVEUR LFSX', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSX-fr-FR.html#AD-2.23.LFSX', airport_type='mil'), Airport(country='FR', icao='LFBM', title='MONT DE MARSAN LFBM', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFBM-fr-FR.html#AD-2.24.eAIP.LFBM', airport_type='mil'), Airport(country='FR', icao='LFSO', title='NANCY OCHEY LFSO', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSO-fr-FR.html#AD-2.23.LFSO', airport_type='mil'), Airport(country='FR', icao='LFMO', title='ORANGE CARITAT LFMO', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMO-fr-FR.html#AD-2.23.LFMO', airport_type='mil'), Airport(country='FR', icao='LFOJ', title='ORLEANS BRICY LFOJ', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFOJ-fr-FR.html#AD-2.24.eAIP.LFOJ', airport_type='mil'), Airport(country='FR', icao='LFQP', title='PHALSBOURG BOURSCHEID LFQP', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFQP-fr-FR.html#AD-2.23.LFQP', airport_type='mil'), Airport(country='FR', icao='LFSI', title='SAINT DIZIER ROBINSON LFSI', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFSI-fr-FR.html#AD-2.24.eAIP.LFSI', airport_type='mil'), Airport(country='FR', icao='LFMY', title='SALON DE PROVENCE LFMY', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFMY-fr-FR.html#AD-2.23.LFMY', airport_type='mil'), Airport(country='FR', icao='LFKS', title='SOLENZARA LFKS', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFKS-fr-FR.html#AD-2.24.eAIP.LFKS', airport_type='mil'), Airport(country='FR', icao='LFPV', title='VILLACOUBLAY VELIZY LFPV', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-2.LFPV-fr-FR.html#AD-2.24.eAIP.LFPV', airport_type='mil'), Airport(country='FR', icao='LFWF', title='BREST C.H. CAVALE BLANCHE LFWF', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-3.LFWF-fr-FR.html#AD-3.23.eAIP.LFWF', airport_type='aeroport'), Airport(country='FR', icao='LFWM', title='COLMAR HOPITAL PASTEUR LFWM', url='https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/eAIP/FR-AD-3.LFWM-fr-FR.html#AD-2.23.eAIP.LFWM', airport_type='aeroport')]
+2026-01-10T10:34:19 INFO [main.py:33:main()] Finished crawling FR in 6.74 seconds
+2026-01-10T10:34:19 INFO [output_handler.py:20:write_output()] Writing output for FR to https://aip.aero/api/airports
+2026-01-10T10:34:20 INFO [output_handler.py:41:write_output()] Successfully wrote output for FR.
+2026-01-10T10:34:20 INFO [main.py:65:<module>()] Finished crawling all countries in 10.38 seconds
+2026-01-10T10:35:15 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:35:15 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:35:16 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:35:16 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:35:16 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:35:17 INFO [main.py:27:main()] Starting crawler: FR
+2026-01-10T10:35:17 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:35:26 ERROR [fr.py:62:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x0000000104cb3dfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000104cabcb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x00000001047a6b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x00000001047edab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x000000010482ea28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x00000001047e222c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000104c78194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000104c7b900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x0000000104c5842c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000104c7c170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000104c48e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x0000000104c9b14c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x0000000104c9b2cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000104cab910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:35:26 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_103526_FR_screenshot.png'
+2026-01-10T10:35:26 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_103526_FR_page_source.html'
+2026-01-10T10:35:26 INFO [fr.py:67:crawl()] Found 0 airports for FR.
+2026-01-10T10:35:26 INFO [main.py:33:main()] Finished crawling FR in 8.35 seconds
+2026-01-10T10:35:26 WARNING [output_handler.py:17:write_output()] No airports found for FR. Skipping output.
+2026-01-10T10:35:26 INFO [main.py:65:<module>()] Finished crawling all countries in 10.31 seconds
+2026-01-10T10:36:10 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:36:10 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:36:10 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:36:10 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:36:11 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:36:12 INFO [main.py:27:main()] Starting crawler: FR
+2026-01-10T10:36:12 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:36:16 INFO [fr.py:30:crawl()] https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?f=dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:36:17 INFO [fr.py:42:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:36:17 INFO [fr.py:49:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:36:22 ERROR [fr.py:65:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x0000000102a5fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000102a57cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000102552b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000102599ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x00000001025daa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x000000010258e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000102a24194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000102a27900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x0000000102a0442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000102a28170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x00000001029f4e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x0000000102a4714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x0000000102a472cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000102a57910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:36:23 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_103622_FR_screenshot.png'
+2026-01-10T10:36:23 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_103623_FR_page_source.html'
+2026-01-10T10:36:23 INFO [fr.py:70:crawl()] Found 0 airports for FR.
+2026-01-10T10:36:23 INFO [main.py:33:main()] Finished crawling FR in 10.61 seconds
+2026-01-10T10:36:23 WARNING [output_handler.py:17:write_output()] No airports found for FR. Skipping output.
+2026-01-10T10:36:23 INFO [main.py:65:<module>()] Finished crawling all countries in 12.88 seconds
+2026-01-10T10:38:44 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:38:44 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:38:44 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:38:45 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:38:45 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:38:46 INFO [main.py:27:main()] Starting crawler: FR
+2026-01-10T10:38:46 INFO [fr.py:13:crawl()] Crawling airports in FR
+2026-01-10T10:38:47 INFO [fr.py:30:crawl()] https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?f=dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:38:49 INFO [fr.py:42:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/home.html
+2026-01-10T10:38:49 INFO [fr.py:50:crawl()] https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:38:49 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:38:50 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:38:50 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:38:50 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_25_DEC_2025/FRANCE/AIRAC-2025-11-27/html/index-fr-FR.html
+2026-01-10T10:38:50 INFO [fr.py:71:crawl()] Found 143 airports for FR.
+2026-01-10T10:38:50 INFO [main.py:33:main()] Finished crawling FR in 4.39 seconds
+2026-01-10T10:38:50 INFO [output_handler.py:20:write_output()] Writing output for FR to https://aip.aero/api/airports
+2026-01-10T10:38:51 INFO [output_handler.py:41:write_output()] Successfully wrote output for FR.
+2026-01-10T10:38:51 INFO [main.py:65:<module>()] Finished crawling all countries in 7.34 seconds
+2026-01-10T10:41:45 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:41:45 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:41:46 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:41:46 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:41:46 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:41:47 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T10:41:47 INFO [nl.py:28:crawl()] Crawling airports in NL
+2026-01-10T10:41:53 ERROR [nl.py:72:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x0000000100aabdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000100aa3cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x000000010059eb90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x00000001005e5ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x0000000100626a28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x00000001005da22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000100a70194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000100a73900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x0000000100a5042c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000100a74170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000100a40e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x0000000100a9314c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x0000000100a932cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000100aa3910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:41:53 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_104153_NL_screenshot.png'
+2026-01-10T10:41:53 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_104153_NL_page_source.html'
+2026-01-10T10:41:53 INFO [main.py:33:main()] Finished crawling NL in 6.28 seconds
+2026-01-10T10:41:53 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:41:53 INFO [main.py:65:<module>()] Finished crawling all countries in 8.16 seconds
+2026-01-10T10:45:25 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:45:25 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:45:25 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:45:26 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:45:26 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:45:27 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T10:45:27 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-10T10:45:29 INFO [nl.py:52:crawl()] https://eaip.lvnl.nl/web/eaip/default.html
+2026-01-10T10:45:34 ERROR [nl.py:72:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x000000010506fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000105067cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000104b62b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000104ba9ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x0000000104beaa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x0000000104b9e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000105034194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000105037900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x000000010501442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000105038170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000105004e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x000000010505714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x00000001050572cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000105067910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:45:34 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_104534_NL_screenshot.png'
+2026-01-10T10:45:34 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_104534_NL_page_source.html'
+2026-01-10T10:45:34 INFO [main.py:33:main()] Finished crawling NL in 7.01 seconds
+2026-01-10T10:45:34 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:45:34 INFO [main.py:65:<module>()] Finished crawling all countries in 9.41 seconds
+2026-01-10T10:47:17 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:47:17 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:47:17 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:47:18 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:47:18 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:47:19 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T10:47:19 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-10T10:47:20 INFO [nl.py:39:crawl()] https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:47:26 ERROR [crawler_base.py:102:switch_to_last_frame()] Error switching to frame 'eAISMenuContentFrame': Message: 
+Stacktrace:
+0   chromedriver                        0x000000010292fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000102927cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000102422b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000102469ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x00000001024aaa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x000000010245e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x00000001028f4194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x00000001028f7900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x00000001028d442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x00000001028f8170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x00000001028c4e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x000000010291714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x00000001029172cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000102927910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:47:26 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_104726_NL_frame_switch_error.png'
+2026-01-10T10:47:26 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_104726_NL_frame_switch_error.html'
+2026-01-10T10:47:26 ERROR [nl.py:60:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x000000010292fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000102927cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000102422b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000102469ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x00000001024aaa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x000000010245e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x00000001028f4194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x00000001028f7900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x00000001028d442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x00000001028f8170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x00000001028c4e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x000000010291714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x00000001029172cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000102927910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:47:26 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_104726_NL_screenshot.png'
+2026-01-10T10:47:26 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_104726_NL_page_source.html'
+2026-01-10T10:47:26 INFO [main.py:33:main()] Finished crawling NL in 7.17 seconds
+2026-01-10T10:47:26 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:47:26 INFO [main.py:65:<module>()] Finished crawling all countries in 9.39 seconds
+2026-01-10T10:48:01 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:48:01 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:48:01 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:48:01 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:48:02 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:48:03 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T10:48:03 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-10T10:48:04 INFO [nl.py:39:crawl()] https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:48:09 ERROR [crawler_base.py:102:switch_to_last_frame()] Error switching to frame 'eAISMenuContentFrame': Message: 
+Stacktrace:
+0   chromedriver                        0x000000010301fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000103017cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000102b12b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000102b59ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x0000000102b9aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x0000000102b4e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000102fe4194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000102fe7900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x0000000102fc442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000102fe8170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000102fb4e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x000000010300714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x00000001030072cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000103017910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:48:10 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_104809_NL_frame_switch_error.png'
+2026-01-10T10:48:10 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_104810_NL_frame_switch_error.html'
+2026-01-10T10:48:10 ERROR [nl.py:54:crawl()] Message: 
+Stacktrace:
+0   chromedriver                        0x000000010301fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000103017cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000102b12b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000102b59ab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x0000000102b9aa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x0000000102b4e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000102fe4194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000102fe7900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x0000000102fc442c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000102fe8170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000102fb4e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x000000010300714c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x00000001030072cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000103017910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:48:10 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_104810_NL_screenshot.png'
+2026-01-10T10:48:10 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_104810_NL_page_source.html'
+2026-01-10T10:48:10 INFO [main.py:33:main()] Finished crawling NL in 6.83 seconds
+2026-01-10T10:48:10 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:48:10 INFO [main.py:65:<module>()] Finished crawling all countries in 8.94 seconds
+2026-01-10T10:50:33 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:50:33 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:50:34 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:50:34 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:50:35 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:50:36 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T10:50:36 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-10T10:50:37 INFO [nl.py:39:crawl()] https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:50:38 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:50:38 ERROR [nl.py:50:crawl()] Message: no such element: Unable to locate element: {"method":"css selector","selector":"[id$='AD-2details']"}
+  (Session info: chrome=143.0.7499.193); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+0   chromedriver                        0x0000000104f63dfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000104f5bcb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000104a56b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000104a9dab4 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364788
+4   chromedriver                        0x0000000104adea28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+5   chromedriver                        0x0000000104a9222c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+6   chromedriver                        0x0000000104f28194 cxxbridge1$str$ptr + 2786176
+7   chromedriver                        0x0000000104f2b900 cxxbridge1$str$ptr + 2800364
+8   chromedriver                        0x0000000104f0842c cxxbridge1$str$ptr + 2655768
+9   chromedriver                        0x0000000104f2c170 cxxbridge1$str$ptr + 2802524
+10  chromedriver                        0x0000000104ef8e10 cxxbridge1$str$ptr + 2592764
+11  chromedriver                        0x0000000104f4b14c cxxbridge1$str$ptr + 2929464
+12  chromedriver                        0x0000000104f4b2cc cxxbridge1$str$ptr + 2929848
+13  chromedriver                        0x0000000104f5b910 cxxbridge1$str$ptr + 2996988
+14  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+15  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:50:38 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_105038_NL_screenshot.png'
+2026-01-10T10:50:38 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_105038_NL_page_source.html'
+2026-01-10T10:50:38 INFO [main.py:33:main()] Finished crawling NL in 2.05 seconds
+2026-01-10T10:50:38 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:50:38 INFO [main.py:65:<module>()] Finished crawling all countries in 4.92 seconds
+2026-01-10T10:52:05 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:52:05 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:52:06 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:52:06 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:52:06 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:52:07 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T10:52:07 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-10T10:52:08 INFO [nl.py:39:crawl()] https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:52:09 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:52:09 ERROR [nl.py:50:crawl()] Message: invalid selector: An invalid or illegal selector was specified
+  (Session info: chrome=143.0.7499.193); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+Stacktrace:
+0   chromedriver                        0x0000000102be3dfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000102bdbcb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x00000001026d6b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x00000001026dca50 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 98448
+4   chromedriver                        0x00000001026deb34 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 106868
+5   chromedriver                        0x00000001026debec _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 107052
+6   chromedriver                        0x000000010271d690 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 363728
+7   chromedriver                        0x0000000102713808 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 323144
+8   chromedriver                        0x000000010275ea28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+9   chromedriver                        0x000000010271222c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+10  chromedriver                        0x0000000102ba8194 cxxbridge1$str$ptr + 2786176
+11  chromedriver                        0x0000000102bab900 cxxbridge1$str$ptr + 2800364
+12  chromedriver                        0x0000000102b8842c cxxbridge1$str$ptr + 2655768
+13  chromedriver                        0x0000000102bac170 cxxbridge1$str$ptr + 2802524
+14  chromedriver                        0x0000000102b78e10 cxxbridge1$str$ptr + 2592764
+15  chromedriver                        0x0000000102bcb14c cxxbridge1$str$ptr + 2929464
+16  chromedriver                        0x0000000102bcb2cc cxxbridge1$str$ptr + 2929848
+17  chromedriver                        0x0000000102bdb910 cxxbridge1$str$ptr + 2996988
+18  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+19  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:52:09 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_105209_NL_screenshot.png'
+2026-01-10T10:52:09 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_105209_NL_page_source.html'
+2026-01-10T10:52:09 INFO [nl.py:55:crawl()] Found 0 airports for NL.
+2026-01-10T10:52:09 INFO [main.py:33:main()] Finished crawling NL in 1.70 seconds
+2026-01-10T10:52:09 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:52:09 INFO [main.py:65:<module>()] Finished crawling all countries in 4.12 seconds
+2026-01-10T10:53:02 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:53:02 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:53:02 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:53:03 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:53:03 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:53:04 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T10:53:04 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-10T10:53:05 INFO [nl.py:39:crawl()] https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:53:05 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:53:05 ERROR [nl.py:50:crawl()] Message: invalid selector: An invalid or illegal selector was specified
+  (Session info: chrome=143.0.7499.193); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+Stacktrace:
+0   chromedriver                        0x0000000100f6fdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000100f67cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000100a62b90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000100a68a50 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 98448
+4   chromedriver                        0x0000000100a6ab34 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 106868
+5   chromedriver                        0x0000000100a6abec _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 107052
+6   chromedriver                        0x0000000100aa9690 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 363728
+7   chromedriver                        0x0000000100a9f808 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 323144
+8   chromedriver                        0x0000000100aeaa28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+9   chromedriver                        0x0000000100a9e22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+10  chromedriver                        0x0000000100f34194 cxxbridge1$str$ptr + 2786176
+11  chromedriver                        0x0000000100f37900 cxxbridge1$str$ptr + 2800364
+12  chromedriver                        0x0000000100f1442c cxxbridge1$str$ptr + 2655768
+13  chromedriver                        0x0000000100f38170 cxxbridge1$str$ptr + 2802524
+14  chromedriver                        0x0000000100f04e10 cxxbridge1$str$ptr + 2592764
+15  chromedriver                        0x0000000100f5714c cxxbridge1$str$ptr + 2929464
+16  chromedriver                        0x0000000100f572cc cxxbridge1$str$ptr + 2929848
+17  chromedriver                        0x0000000100f67910 cxxbridge1$str$ptr + 2996988
+18  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+19  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:53:05 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_105305_NL_screenshot.png'
+2026-01-10T10:53:05 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_105305_NL_page_source.html'
+2026-01-10T10:53:05 INFO [nl.py:55:crawl()] Found 0 airports for NL.
+2026-01-10T10:53:05 INFO [main.py:33:main()] Finished crawling NL in 1.36 seconds
+2026-01-10T10:53:05 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:53:05 INFO [main.py:65:<module>()] Finished crawling all countries in 3.41 seconds
+2026-01-10T10:53:10 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T10:53:10 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T10:53:11 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:53:11 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T10:53:11 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T10:53:11 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T10:53:11 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-10T10:53:12 INFO [nl.py:39:crawl()] https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:53:12 INFO [eurocontrol_base.py:19:extract_airports()] Extracting airport data from https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T10:53:12 ERROR [nl.py:50:crawl()] Message: invalid selector: An invalid or illegal selector was specified
+  (Session info: chrome=143.0.7499.193); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+Stacktrace:
+0   chromedriver                        0x0000000104847dfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x000000010483fcb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x000000010433ab90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000104340a50 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 98448
+4   chromedriver                        0x0000000104342b34 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 106868
+5   chromedriver                        0x0000000104342bec _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 107052
+6   chromedriver                        0x0000000104381690 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 363728
+7   chromedriver                        0x0000000104377808 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 323144
+8   chromedriver                        0x00000001043c2a28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+9   chromedriver                        0x000000010437622c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+10  chromedriver                        0x000000010480c194 cxxbridge1$str$ptr + 2786176
+11  chromedriver                        0x000000010480f900 cxxbridge1$str$ptr + 2800364
+12  chromedriver                        0x00000001047ec42c cxxbridge1$str$ptr + 2655768
+13  chromedriver                        0x0000000104810170 cxxbridge1$str$ptr + 2802524
+14  chromedriver                        0x00000001047dce10 cxxbridge1$str$ptr + 2592764
+15  chromedriver                        0x000000010482f14c cxxbridge1$str$ptr + 2929464
+16  chromedriver                        0x000000010482f2cc cxxbridge1$str$ptr + 2929848
+17  chromedriver                        0x000000010483f910 cxxbridge1$str$ptr + 2996988
+18  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+19  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T10:53:12 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_105312_NL_screenshot.png'
+2026-01-10T10:53:12 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_105312_NL_page_source.html'
+2026-01-10T10:53:12 INFO [nl.py:55:crawl()] Found 0 airports for NL.
+2026-01-10T10:53:12 INFO [main.py:33:main()] Finished crawling NL in 1.15 seconds
+2026-01-10T10:53:12 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T10:53:12 INFO [main.py:65:<module>()] Finished crawling all countries in 2.19 seconds
+2026-01-10T11:01:47 INFO [main.py:22:main()] Starting crawling process
+2026-01-10T11:01:47 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-10T11:01:49 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T11:01:50 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-10T11:01:50 INFO [logger.py:11:log()] Driver [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192/chromedriver-mac-arm64/chromedriver] found in cache
+2026-01-10T11:01:51 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-10T11:01:51 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-10T11:01:52 INFO [nl.py:39:crawl()] https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T11:01:53 INFO [eurocontrol_base.py:20:extract_airports()] Extracting airport data from https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-10T11:01:53 ERROR [nl.py:50:crawl()] Message: invalid selector: An invalid or illegal selector was specified
+  (Session info: chrome=143.0.7499.193); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+Stacktrace:
+0   chromedriver                        0x0000000104c7bdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000104c73cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x000000010476eb90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000104774a50 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 98448
+4   chromedriver                        0x0000000104776b34 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 106868
+5   chromedriver                        0x0000000104776bec _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 107052
+6   chromedriver                        0x00000001047b5690 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 363728
+7   chromedriver                        0x00000001047ab808 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 323144
+8   chromedriver                        0x00000001047f6a28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+9   chromedriver                        0x00000001047aa22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+10  chromedriver                        0x0000000104c40194 cxxbridge1$str$ptr + 2786176
+11  chromedriver                        0x0000000104c43900 cxxbridge1$str$ptr + 2800364
+12  chromedriver                        0x0000000104c2042c cxxbridge1$str$ptr + 2655768
+13  chromedriver                        0x0000000104c44170 cxxbridge1$str$ptr + 2802524
+14  chromedriver                        0x0000000104c10e10 cxxbridge1$str$ptr + 2592764
+15  chromedriver                        0x0000000104c6314c cxxbridge1$str$ptr + 2929464
+16  chromedriver                        0x0000000104c632cc cxxbridge1$str$ptr + 2929848
+17  chromedriver                        0x0000000104c73910 cxxbridge1$str$ptr + 2996988
+18  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+19  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-10T11:01:53 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260110_110153_NL_screenshot.png'
+2026-01-10T11:01:53 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260110_110153_NL_page_source.html'
+2026-01-10T11:01:53 INFO [nl.py:55:crawl()] Found 0 airports for NL.
+2026-01-10T11:01:53 INFO [main.py:33:main()] Finished crawling NL in 2.12 seconds
+2026-01-10T11:01:53 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-10T11:01:53 INFO [main.py:65:<module>()] Finished crawling all countries in 6.11 seconds
+2026-01-11T14:26:11 INFO [main.py:22:main()] Starting crawling process
+2026-01-11T14:26:11 INFO [logger.py:11:log()] ====== WebDriver manager ======
+2026-01-11T14:26:11 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-11T14:26:11 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-11T14:26:12 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-11T14:26:12 INFO [logger.py:11:log()] WebDriver version 143.0.7499.192 selected
+2026-01-11T14:26:12 INFO [logger.py:11:log()] Modern chrome version https://storage.googleapis.com/chrome-for-testing-public/143.0.7499.192/mac-arm64/chromedriver-mac-arm64.zip
+2026-01-11T14:26:12 INFO [logger.py:11:log()] About to download new driver from https://storage.googleapis.com/chrome-for-testing-public/143.0.7499.192/mac-arm64/chromedriver-mac-arm64.zip
+2026-01-11T14:26:12 INFO [logger.py:11:log()] Driver downloading response is 200
+2026-01-11T14:26:13 INFO [logger.py:11:log()] Get LATEST chromedriver version for google-chrome
+2026-01-11T14:26:13 INFO [logger.py:11:log()] Driver has been saved in cache [/Users/nzedler/.wdm/drivers/chromedriver/mac64/143.0.7499.192]
+2026-01-11T14:26:14 INFO [main.py:27:main()] Starting crawler: NL
+2026-01-11T14:26:14 INFO [nl.py:27:crawl()] Crawling airports in NL
+2026-01-11T14:26:15 INFO [nl.py:39:crawl()] https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-11T14:26:15 INFO [eurocontrol_base.py:20:extract_airports()] Extracting airport data from https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2013-2025_2025_12_25/index.html
+2026-01-11T14:26:15 ERROR [nl.py:50:crawl()] Message: invalid selector: An invalid or illegal selector was specified
+  (Session info: chrome=143.0.7499.193); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#invalid-selector-exception
+Stacktrace:
+0   chromedriver                        0x000000010135bdfc cxxbridge1$str$ptr + 3031016
+1   chromedriver                        0x0000000101353cb8 cxxbridge1$str$ptr + 2997924
+2   chromedriver                        0x0000000100e4eb90 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74192
+3   chromedriver                        0x0000000100e54a50 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 98448
+4   chromedriver                        0x0000000100e56b34 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 106868
+5   chromedriver                        0x0000000100e56bec _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 107052
+6   chromedriver                        0x0000000100e95690 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 363728
+7   chromedriver                        0x0000000100e8b808 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 323144
+8   chromedriver                        0x0000000100ed6a28 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630888
+9   chromedriver                        0x0000000100e8a22c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317548
+10  chromedriver                        0x0000000101320194 cxxbridge1$str$ptr + 2786176
+11  chromedriver                        0x0000000101323900 cxxbridge1$str$ptr + 2800364
+12  chromedriver                        0x000000010130042c cxxbridge1$str$ptr + 2655768
+13  chromedriver                        0x0000000101324170 cxxbridge1$str$ptr + 2802524
+14  chromedriver                        0x00000001012f0e10 cxxbridge1$str$ptr + 2592764
+15  chromedriver                        0x000000010134314c cxxbridge1$str$ptr + 2929464
+16  chromedriver                        0x00000001013432cc cxxbridge1$str$ptr + 2929848
+17  chromedriver                        0x0000000101353910 cxxbridge1$str$ptr + 2996988
+18  libsystem_pthread.dylib             0x0000000188259c08 _pthread_start + 136
+19  libsystem_pthread.dylib             0x0000000188254ba8 thread_start + 8
+
+2026-01-11T14:26:16 INFO [crawler_base.py:76:save_screenshot()] Screenshot gespeichert als 'error_logs/20260111_142615_NL_screenshot.png'
+2026-01-11T14:26:16 INFO [crawler_base.py:88:save_page_source()] Seitenquelltext gespeichert als 'error_logs/20260111_142616_NL_page_source.html'
+2026-01-11T14:26:16 INFO [nl.py:55:crawl()] Found 0 airports for NL.
+2026-01-11T14:26:16 INFO [main.py:33:main()] Finished crawling NL in 1.18 seconds
+2026-01-11T14:26:16 WARNING [output_handler.py:17:write_output()] No airports found for NL. Skipping output.
+2026-01-11T14:26:16 INFO [main.py:65:<module>()] Finished crawling all countries in 4.75 seconds
