@@ -6,15 +6,14 @@ Guidance for Claude Code when working in this repository.
 
 **AIP:Aero** — the Next.js frontend for [https://aip.aero](https://aip.aero), an aggregator of European AIP (Aeronautical Information Publication) AD (Aerodrome) data. Bootstrapped with [create-t3-app](https://create.t3.gg/).
 
-## Hosting
+## Hosting (split architecture)
 
-- **Production target:** [Vercel](https://vercel.com). The new version of `aip.aero` is hosted on Vercel; deployments are triggered through the Vercel GitHub integration.
-- **Legacy:** the previous version ran on a [netcup](https://www.netcup.eu/) root server using Docker (`Dockerfile` + `docker-compose.yml`). These files are kept for local container testing and as a fallback, but **do not assume Docker/netcup is the deployment path** when proposing changes.
-- When adding features (env vars, file system writes, long-running tasks, large bundles, custom servers), keep Vercel's serverless model in mind:
-  - No persistent local filesystem at runtime — use the database or external storage.
-  - Long-running work belongs in cron jobs / external workers, not request handlers.
-  - New env vars must be added to `.env.example`, validated in `src/env.js`, and set in the Vercel project settings.
-  - `next.config.mjs` currently sets `output: "standalone"` (for the Docker image). Vercel ignores it, so leave it in place unless explicitly asked to change.
+The system runs on **two hosts** by design — do not try to consolidate them:
+
+- **Website (`src/`) → [Vercel](https://vercel.com).** The new `aip.aero` is served from Vercel via the GitHub integration. Treat all Next.js code as serverless: no persistent filesystem at runtime, no long-running request handlers, no Chromium/Selenium. New env vars must be added to `.env.example`, validated in `src/env.js`, and set in the Vercel project settings.
+- **Crawlers (`crawlers/`) → [netcup](https://www.netcup.eu/) root server.** The Python scrapers continue to run on the existing netcup VM under systemd (`aip-crawler.service` + `aip-crawler.timer`). They are **not** deployed to Vercel — serverless is the wrong model for scheduled, long-running, browser-driven scraping. They reach the website by HTTP, posting to `https://aip.aero/api/airports` with `CRON_SECRET`.
+- **Legacy:** the website used to run on the same netcup host via Docker (`Dockerfile` + `docker-compose.yml`). Those files are kept for local container testing only; the netcup host no longer serves the website.
+- `next.config.mjs` currently sets `output: "standalone"` (left over from the Docker image). Vercel ignores it — leave it in place unless explicitly asked to change.
 
 ## Tech Stack
 
@@ -107,4 +106,11 @@ When adding a new var: update `.env.example`, add it to both `server`/`client` a
 
 ## Crawlers (subproject)
 
-`crawlers/` is a separate Python project managed with [`uv`](https://github.com/astral-sh/uv). Each country crawler inherits `CrawlerBase` and writes `Airport` records back to the Next.js API. See `crawlers/README.md` for the per-country task list and the expected `Airport` schema. The crawlers run on a systemd timer (`aip-crawler.timer`) on a separate host — they are **not** deployed to Vercel.
+`crawlers/` is a separate Python project managed with [`uv`](https://github.com/astral-sh/uv). Each country crawler inherits `CrawlerBase` and writes `Airport` records back to the Next.js API. See `crawlers/README.md` for the per-country task list and the expected `Airport` schema.
+
+Runtime: scheduled by systemd (`aip-crawler.service` + `aip-crawler.timer`) on the netcup root server. The crawlers are **never** deployed to Vercel; treat the website and the crawlers as two independent deploy targets that communicate only over HTTP.
+
+Modernisation plan (in progress):
+- The active crawlers (AT, DE, FR, NL, UK) hit static HTML pages — no JS engine is needed. They are being migrated off Selenium to `httpx` (async) + `BeautifulSoup` / `selectolax` for a large speed and reliability win.
+- A single Playwright (Python) fallback is acceptable for any future country whose AIP genuinely requires JS rendering (e.g. potentially CZ / GR / HR from the open task list). **Do not** introduce Puppeteer (Node-only) or run a browser inside a Vercel function.
+- Once a crawler is ported, drop its Selenium imports, its `webdriver-manager` usage, and any per-call `driver.quit()`.

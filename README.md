@@ -4,14 +4,18 @@ This repo contains the code for [https://aip.aero](https://aip.aero). It is a [T
 
 ## Hosting
 
-- **Current (legacy):** self-hosted on a [netcup](https://www.netcup.eu/) root server via Docker (see `Dockerfile` / `docker-compose.yml`).
-- **New target:** [Vercel](https://vercel.com). Going forward, deployments to `aip.aero` are served from Vercel's edge network. The Docker setup remains in the repo only as a fallback / for local container testing.
+The project is split across two hosts:
+
+- **Website (`src/`) → [Vercel](https://vercel.com).** The new `aip.aero` is served from Vercel via the GitHub integration.
+- **Crawlers (`crawlers/`) → [netcup](https://www.netcup.eu/) root server.** The Python scrapers stay on the existing netcup VM under systemd (`aip-crawler.service` + `aip-crawler.timer`). Serverless is the wrong runtime for scheduled, long-running scraping, so the crawlers are **not** deployed to Vercel. They reach the website over HTTP and post results to `https://aip.aero/api/airports`.
+
+The Docker setup (`Dockerfile` / `docker-compose.yml`) is the legacy way the website used to run on the same netcup host. It's kept for local container testing only and is no longer the production path.
 
 ## Design Architecture
 
 ```mermaid
 flowchart TD
- subgraph subGraph0["Next.js Application (Vercel)"]
+ subgraph subGraph0["Next.js Application (Vercel, https://aip.aero)"]
         API["API Endpoint /api/airports"]
         Website["Website"]
         InsertAction["Server Action: Insert Airports"]
@@ -19,7 +23,10 @@ flowchart TD
         Cache["Cache"]
         IsHit{"Cache hit?"}
   end
-    Crawlers["Airport Crawlers"] -- POST data --> API
+ subgraph subGraph1["netcup root server (systemd timer)"]
+        Crawlers["Airport Crawlers (Python)"]
+  end
+    Crawlers -- POST data --> API
     API -- calls --> InsertAction
     InsertAction -- inserts airports --> MySQL[("MySQL Database")]
     InsertAction -- clears --> Cache
@@ -58,13 +65,17 @@ The MySQL database is reachable from Vercel's serverless functions over the publ
 
 See the official [Vercel deployment guide for T3](https://create.t3.gg/en/deployment/vercel) for details.
 
-### Docker (legacy / netcup)
+### Docker (legacy)
 
 ```bash
 docker compose up --build -d
 ```
 
-The container exposes port `3000` internally (mapped to `127.0.0.1:8080` by `docker-compose.yml`) and is intended to sit behind a reverse proxy on the netcup host. This path is no longer the recommended deployment target.
+The container exposes port `3000` internally (mapped to `127.0.0.1:8080` by `docker-compose.yml`) and used to sit behind a reverse proxy on the netcup host. This path is no longer used in production — it remains only for local container testing.
+
+### Crawlers (netcup)
+
+The Python crawlers under `crawlers/` run on the netcup root server, scheduled by `aip-crawler.timer`. See `crawlers/README.md` for details on the crawler subproject.
 
 ## Learn More
 

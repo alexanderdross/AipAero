@@ -1,50 +1,98 @@
-# ✈️ Development of Python Webscrapers
-- Your task is to develop Python webscrapers using **Selenium Headless**
-- You shall write webscrapers (extracting the airports) **for every country**:
+# Airport Crawlers
+
+Python web scrapers that extract aerodrome / heliport / military airfield listings from the official AIP publications of European civil-aviation authorities and POST them to the AIP:Aero API.
+
+## Hosting
+
+These crawlers run on the **netcup root server** (not on Vercel) under systemd:
+
+- `aip-crawler.service` — one-shot service that runs `uv run main.py`
+- `aip-crawler.timer`   — schedules the service
+- `notify-failure@.service` — failure notification hook
+
+The website itself is hosted on Vercel; the crawlers reach it over HTTPS at `https://aip.aero/api/airports`, authenticating with the shared `CRON_SECRET`. During local development, point them at `http://localhost:3000` instead.
+
+Serverless platforms (Vercel, Lambda, etc.) are explicitly **not** a target: scheduled, long-running, browser-driven scraping doesn't fit that runtime model.
+
+## Stack
+
+- Python ≥ 3.12, managed with [uv](https://github.com/astral-sh/uv)
+- HTTP: `httpx` (async) + `BeautifulSoup` / `selectolax` for static pages — preferred
+- Browser fallback: a single Playwright (Python) path for sites that genuinely require JS rendering — only when there's no static URL to follow
+- Pydantic for the `Airport` model and settings
+
+> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`. None of the active sites (AT, DE, FR, NL, UK) actually need a JS engine — they serve static HTML, sometimes inside legacy framesets. The migration to plain HTTP is in progress; new crawlers should not introduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
+
+## Country Status
+
+Active (in `crawlers/`):
+
+- [x] Austria (https://eaip.austrocontrol.at)
+- [x] Germany (https://aip.dfs.de/)
+- [x] France (https://www.sia.aviation-civile.gouv.fr/plandesite)
+- [x] Netherlands (https://eaip.lvnl.nl/)
+- [x] United Kingdom (https://nats-uk.ead-it.com/)
+
+Open (see `tasks/` for per-country research notes):
 
 1. [ ] Denmark (https://aim.naviair.dk/)
-3. [ ] Norway (https://avinor.no/en/ais/aipnorway/)
-4. [ ] Sweden (https://aro.lfv.se/content/eaip/default_offline.html)
-5. [ ] Poland (https://www.ais.pansa.pl/en/publications/aip-poland/)
-6. [ ] Czech Republic (https://aim.rlp.cz/eaip/html/index-cz-CZ.html)
-7. [ ] Croacia (https://www.crocontrol.hr/UserDocsImages/AIS%20produkti/eAIP/start.html)
-8. [ ] Greece (https://aisgr.hasp.gov.gr/)
-9. [ ] France (https://www.sia.aviation-civile.gouv.fr/plandesite)
-10. [ ] Belgium+Luxembourg (https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/index-en-GB.html)
+2. [ ] Norway (https://avinor.no/en/ais/aipnorway/)
+3. [ ] Sweden (https://aro.lfv.se/content/eaip/default_offline.html)
+4. [ ] Poland (https://www.ais.pansa.pl/en/publications/aip-poland/)
+5. [ ] Czech Republic (https://aim.rlp.cz/eaip/html/index-cz-CZ.html)
+6. [ ] Croatia (https://www.crocontrol.hr/UserDocsImages/AIS%20produkti/eAIP/start.html)
+7. [ ] Greece (https://aisgr.hasp.gov.gr/)
+8. [ ] Belgium + Luxembourg (https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/index-en-GB.html)
 
-## What should you extract?
+## What to extract
 
-We need of every country the **AIP PART 3 / (AD)**. This is often structured into 
-- ~AD 0 AERODROMES~ (not needed by us)
-- ~AD 1 AERODROMES-HELIPORTS - INTRODUCTION~ (not needed by us)
-- **AD 2 AERODROMES** (needed)
-- **AD 3 HELIPORTS** (needed)
-- **AD 4 MILITARY** (needed as well)
+From each country's **AIP PART 3 — AD (Aerodromes)**:
 
-For each airport we need the following information:
-- ICAO Code if available (4 capital letters)
+- ~AD 0 AERODROMES~ (skipped)
+- ~AD 1 AERODROMES-HELIPORTS — INTRODUCTION~ (skipped)
+- **AD 2 AERODROMES** (extracted)
+- **AD 3 HELIPORTS** (extracted)
+- **AD 4 MILITARY** (extracted)
+
+For each airport, capture:
+
+- ICAO code (4 capital letters), if published
 - Title of the airport
-- URL of 
+- URL pointing to the airport's chart page
 
-- An airport has **one** of the categories:
-  - VFR
-  - IFR
-  - Heliport
-  - Military
-  - Aeroport (**only if nothing is specified on website**)
-- Your crawler **must inherit the base class `CrawlerBase`** with the `crawl()`  and `write_to_output()` method and should be called in `main.py`.
-- The `write_to_output()` method expects a list of
-  ```python
-  class Airport(BaseModel):
+Each airport has exactly one category:
+
+- `vfr`
+- `ifr`
+- `heliport`
+- `mil`
+- `aeroport` (only when the source publication doesn't categorise the airfield)
+
+## Crawler interface
+
+Every country crawler inherits `CrawlerBase` (`crawlers/crawler_base.py`) and implements `crawl()`, returning a list of:
+
+```python
+class Airport(BaseModel):
+    country: str
     icao: str | None
     title: str
     url: str
-    airport_type: Literal["vfr", "ifr", "heliport", "military", "aeroport"] = Field(alias="type")
-  ```
-- The project must use [uv](https://github.com/astral-sh/uv) as the Python package and project manager.
-- Run the crawlers via `uv run main.py`
+    airport_type: Literal["vfr", "ifr", "heliport", "mil", "aeroport"] = Field(alias="type")
+```
 
-## Design Architecture
+Register the new crawler in `main.py`. Output is written by `OutputHandler.write_output(airports, country)`.
+
+## Running
+
+```bash
+uv sync
+uv run main.py
+```
+
+Logs go to stdout and to `crawlers.log`. On failures, `crawler_base.py` writes a screenshot + page source to `error_logs/` for debugging — once a crawler is migrated off Selenium, that fallback drops to just the HTTP response.
+
+## Architecture
 
 ```mermaid
 flowchart TD
@@ -56,7 +104,10 @@ flowchart TD
         Cache["Cache"]
         IsHit{"Cache hit?"}
   end
-    Crawlers["Airport Crawlers"] -- POST data --> API
+ subgraph subGraph1["netcup root server (systemd timer)"]
+        Crawlers["Airport Crawlers (Python, this subproject)"]
+  end
+    Crawlers -- POST data + CRON_SECRET --> API
     API -- calls --> InsertAction
     InsertAction -- inserts airports --> MySQL[("MySQL Database")]
     InsertAction -- clears --> Cache
@@ -65,6 +116,3 @@ flowchart TD
     Cache --> IsHit
     IsHit -- No --> MySQL
 ```
-
-The crawlers POST to the production API at `https://aip.aero/api/airports`, authenticating with the `CRON_SECRET` shared with the Next.js app on Vercel. Run them locally against `http://localhost:3000` during development.
-
