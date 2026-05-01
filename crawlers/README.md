@@ -48,7 +48,7 @@ For each airport we need the following information:
 
 ```mermaid
 flowchart TD
- subgraph subGraph0["Next.js Application"]
+ subgraph subGraph0["Next.js Application (Vercel, https://aip.aero)"]
         API["API Endpoint /api/airports"]
         Website["Website"]
         InsertAction["Server Action: Insert Airports"]
@@ -65,4 +65,6 @@ flowchart TD
     Cache --> IsHit
     IsHit -- No --> MySQL
 ```
+
+The crawlers POST to the production API at `https://aip.aero/api/airports`, authenticating with the `CRON_SECRET` shared with the Next.js app on Vercel. Run them locally against `http://localhost:3000` during development.
 
