@@ -67,6 +67,23 @@ pnpm db:studio
 
 Always run `pnpm check` before declaring a code change complete.
 
+## CI
+
+GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request to `main` and on every push to `main`. Two parallel jobs:
+
+| Job | Steps |
+| --- | --- |
+| **Website (Next.js)** | `pnpm install --frozen-lockfile` → `pnpm typecheck` → `pnpm format:check` |
+| **Crawlers (Python)** | `uv lock --check` → `uv sync --frozen` → `python -m compileall` → import smoke test for AT/FR/NL/UK |
+
+Notes / known gaps:
+
+- **Lint is not yet gated.** `pnpm lint` (`next lint`) drops into an interactive setup prompt because `.eslintrc.mjs` imports the `typescript-eslint` package, which isn't installed, *and* uses the legacy ESLint config filename for an ESLint 9 flat config. Fix the config separately, then add a lint step to the website job.
+- **`pnpm build` is not run in CI.** The build pre-renders sitemaps, which hit MySQL, and CI has no DB. Vercel builds every PR via the GitHub integration and posts its own status check — make that check required in branch protection if you want to gate merges on a successful build.
+- **DE crawler is excluded from the import smoke test.** Its Selenium parent (`CrawlerBase.__init__`) tries to spin up Chromium, which isn't installed on the runner. Add DE to the smoke test once it's ported off Selenium.
+
+To gate merges on these checks, enable branch protection on `main` in repo settings → *Branches* → *Branch protection rules*, and mark `Website (Next.js)` and `Crawlers (Python)` as required status checks.
+
 ## Architecture Notes
 
 ```
