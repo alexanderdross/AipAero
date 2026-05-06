@@ -1,56 +1,75 @@
-import logging
-import time
-from typing import Literal, Optional
 from urllib.parse import urljoin
 
-from bs4 import BeautifulSoup
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-
-from crawlers.crawler_base import Airport
-from crawlers.eurocontrol_base import EurocontrolBase
-
-# Setup logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from crawlers.http_base import Airport
+from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "NL"
 ROOT_URL = "https://eaip.lvnl.nl/web/eaip/default.html"
 
 
-class NL(EurocontrolBase):
-    def __init__(self):
+class NL(HttpEurocontrolBase):
+    """Netherlands AIP crawler.
+
+    LVNL's eAIP is a static eurocontrol-style frameset:
+
+        default.html
+            └─ <a href="…/index.html">  (current effective edition)
+                └─ frameset
+                    └─ frame name=eAISNavigationBase
+                        └─ frame name=eAISNavigation  ← the menu we parse
+
+    No JS execution is needed — every step resolves to a plain HTML doc.
+    """
+
+    def __init__(self) -> None:
         super().__init__(COUNTRY)
 
     def crawl(self) -> list[Airport]:
-        """Main crawling function for Dutch airports"""
         self.logger.info(f"Crawling airports in {self.country}")
-        airports = []
+        airports: list[Airport] = []
+        last_url = ROOT_URL
+        last_html: str | None = None
 
         try:
-            # Start at the LVNL main page
-            self.driver.get(ROOT_URL)
+            # 1. Resolve the link to the current effective edition.
+            default_html = self.fetch(ROOT_URL)
+            last_url, last_html = ROOT_URL, default_html
 
-            eaip_url = self.wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//a[contains(@href, 'index.html')]")
+            soup = self.soup(default_html)
+            edition_link = soup.find(
+                "a", href=lambda h: bool(h) and "index.html" in h
+            )
+            if edition_link is None:
+                raise ValueError(
+                    f"Could not find current-edition link in {ROOT_URL}"
                 )
-            ).get_attribute("href")
-            self.logger.info(eaip_url)
-            self.driver.get(eaip_url)
-            self.wait.until(EC.presence_of_element_located((By.TAG_NAME, "frameset")))
+            edition_url = urljoin(ROOT_URL, edition_link["href"])
+            self.logger.info(f"Current edition: {edition_url}")
 
-            # Switch to the correct frame
-            self.switch_to_last_frame(["eAISNavigationBase", "eAISNavigation"])
+            # 2. Walk the frame chain to the navigation HTML.
+            nav_url, nav_html = self.follow_frame_chain(
+                edition_url, ["eAISNavigationBase", "eAISNavigation"]
+            )
+            last_url, last_html = nav_url, nav_html
 
-            airports.extend(self.extract_airports("AD 2en-GBdetails", "vfr"))
-            airports.extend(self.extract_airports("AD 3en-GBdetails", "heliport"))
-
+            # 3. Extract aerodromes (AD 2) and heliports (AD 3).
+            airports.extend(
+                self.extract_airports_from_html(
+                    nav_html, nav_url, "AD 2en-GBdetails", "vfr"
+                )
+            )
+            airports.extend(
+                self.extract_airports_from_html(
+                    nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+                )
+            )
         except Exception as e:
-            self.logger.error(e)
-            self.save_screenshot()
-            self.save_page_source()
+            self.logger.error(f"NL crawl failed: {e}")
+            if last_html is not None:
+                self.save_response(last_url, last_html, prefix="crawl_error")
+            raise
         finally:
-            self.driver.quit()
-        self.logger.info(f"Found {len(airports)} airports for NL.")
+            self.close()
+
+        self.logger.info(f"Found {len(airports)} airports for {self.country}.")
         return airports
