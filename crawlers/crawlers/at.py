@@ -1,150 +1,130 @@
-import logging
-from typing import Optional, Literal
+from typing import Literal, Optional
 from urllib.parse import urljoin
+
 from bs4 import BeautifulSoup
-import requests
 
-from crawlers.crawler_base import Airport, CrawlerBase
-
-logger = logging.getLogger(__name__)
+from crawlers.http_base import Airport, HttpCrawlerBase
 
 COUNTRY = "AT"
 ROOT_URL = "https://eaip.austrocontrol.at"
 
 
-class AT(CrawlerBase):
-    def __init__(self):
+class AT(HttpCrawlerBase):
+    """Austria AIP crawler.
+
+    Austrocontrol's eAIP is plain ISO-8859-1 encoded HTML — no frames,
+    no JS. Navigate through three index pages (current version → Part
+    III/AD → AD 2/AD 3) and parse a simple table of <td><a>ICAO</a></td>
+    rows on each leaf.
+    """
+
+    def __init__(self) -> None:
         super().__init__(COUNTRY)
 
-    def fetch_iso8859(self, url: str) -> str:
-        """Fetch page content with ISO-8859-1 encoding"""
-        try:
-            response = requests.get(url, timeout=30)
-            response.encoding = "iso-8859-1"
-            return response.text
-        except Exception as e:
-            logger.error(f"Error fetching {url}: {e}")
-            raise
+    def fetch_iso(self, url: str) -> str:
+        return self.fetch(url, encoding="iso-8859-1")
+
+    @staticmethod
+    def find_link_by_text(soup: BeautifulSoup, text: str) -> Optional[str]:
+        link = soup.find("a", string=lambda t: bool(t) and text in t)
+        return link.get("href") if link else None
 
     def extract_airports(
         self, url: str, airport_type: Literal["vfr", "ifr", "heliport"]
     ) -> list[Airport]:
-        """Extract airports from the given URL"""
-        text = self.fetch_iso8859(url)
-        soup = BeautifulSoup(text, "html.parser")
-        table_rows = soup.find_all("tr")
-        airports = []
+        text = self.fetch_iso(url)
+        soup = self.soup(text)
+        airports: list[Airport] = []
 
-        for row in table_rows:
+        for row in soup.find_all("tr"):
             cells = row.find_all("td")
             if len(cells) < 2:
                 continue
 
-            # Extract ICAO code from first cell's first link
-            first_link = cells[0].find("a")
-            if not first_link:
+            first_links = cells[0].find_all("a")
+            if not first_links:
                 continue
 
-            icao = first_link.get_text(strip=True)
+            icao = first_links[0].get_text(strip=True)
             city = cells[1].get_text(strip=True)
+            href = first_links[-1].get("href")
 
-            # Get href from last link in first cell
-            last_link = cells[0].find_all("a")[-1] if cells[0].find_all("a") else None
-            if not last_link:
-                continue
-
-            href = last_link.get("href")
             if not href or icao == "AD 3":
+                # "AD 3" is a section header row, not an aerodrome.
                 continue
 
-            # Create full URL
             full_url = urljoin(url, href)
-
-            # Determine if it's a PDF or another page
-            if full_url.endswith(".pdf"):
-                airports.append(
-                    Airport(
-                        icao=icao if icao else None,
-                        title=f"{city} {icao}",
-                        url=full_url,
-                        type=airport_type,
-                        country=COUNTRY,
-                    )
+            airports.append(
+                Airport(
+                    country=COUNTRY,
+                    icao=icao or None,
+                    title=f"{city} {icao}",
+                    url=full_url,
+                    type=airport_type,
                 )
-            else:
-                # TODO: Follow link and differentiate between VFR and IFR
-                airports.append(
-                    Airport(
-                        icao=icao if icao else None,
-                        title=f"{city} {icao}",
-                        url=full_url,
-                        type=airport_type,
-                        country=COUNTRY,
-                    )
-                )
-
+            )
         return airports
 
-    def find_link_by_text(self, soup: BeautifulSoup, text: str) -> Optional[str]:
-        """Find link by text content"""
-        link = soup.find("a", string=lambda t: t and text in t)
-        return link.get("href") if link else None
-
     def crawl(self) -> list[Airport]:
-        """Main crawling function for Austrian airports"""
+        self.logger.info(f"Crawling airports in {self.country}")
+        last_url = ROOT_URL
+        last_html: str | None = None
         try:
-            # Start at the Austro Control main page
-            response = self.fetch_iso8859(ROOT_URL)
-            soup = BeautifulSoup(response, "html.parser")
+            # 1. Root → "aktuelle Ausgabe / current version".
+            root_html = self.fetch_iso(ROOT_URL)
+            last_url, last_html = ROOT_URL, root_html
 
-            href = self.find_link_by_text(soup, "aktuelle Ausgabe / current version")
+            href = self.find_link_by_text(
+                self.soup(root_html), "aktuelle Ausgabe / current version"
+            )
             if not href:
-                error_msg = f'Could not find "aktuelle Ausgabe / current version" link in {ROOT_URL}'
-                logger.error(error_msg)
-                raise Exception(error_msg)
-
-            # Go to the current release page
+                raise ValueError(
+                    f"'aktuelle Ausgabe / current version' link not found in "
+                    f"{ROOT_URL}"
+                )
             main_aip_url = urljoin(ROOT_URL, href)
-            response = self.fetch_iso8859(main_aip_url)
-            soup = BeautifulSoup(response, "html.parser")
 
-            href = self.find_link_by_text(soup, "Part III - AD")
+            # 2. Current version → "Part III - AD".
+            main_html = self.fetch_iso(main_aip_url)
+            last_url, last_html = main_aip_url, main_html
+
+            href = self.find_link_by_text(self.soup(main_html), "Part III - AD")
             if not href:
-                error_msg = f'Could not find "Part III - AD" link in {main_aip_url}'
-                logger.error(error_msg)
-                raise Exception(error_msg)
-
-            # Go to the Part III - AD page
+                raise ValueError(
+                    f"'Part III - AD' link not found in {main_aip_url}"
+                )
             ad_url = urljoin(main_aip_url, href)
-            response = self.fetch_iso8859(ad_url)
-            soup = BeautifulSoup(response, "html.parser")
 
-            href_airports = self.find_link_by_text(soup, "AD 2")
-            href_heliports = self.find_link_by_text(soup, "AD 3")
+            # 3. AD index → AD 2 (aerodromes) and AD 3 (heliports).
+            ad_html = self.fetch_iso(ad_url)
+            last_url, last_html = ad_url, ad_html
+            ad_soup = self.soup(ad_html)
 
+            href_airports = self.find_link_by_text(ad_soup, "AD 2")
+            href_heliports = self.find_link_by_text(ad_soup, "AD 3")
             if not href_airports or not href_heliports:
-                error_msg = f'Could not find "AD 2" or "AD 3" link in {ad_url}'
-                logger.error(error_msg)
-                raise Exception(error_msg)
+                raise ValueError(
+                    f"'AD 2' or 'AD 3' link not found in {ad_url}"
+                )
 
-            # Go to the AD 2 and AD 3 pages
-            airports_url = urljoin(ad_url, href_airports)
-            heliports_url = urljoin(ad_url, href_heliports)
+            airports = self.extract_airports(
+                urljoin(ad_url, href_airports), "vfr"
+            )
+            airports.extend(
+                self.extract_airports(
+                    urljoin(ad_url, href_heliports), "heliport"
+                )
+            )
 
-            airports_list = self.extract_airports(airports_url, "vfr")
-            airports_list.extend(self.extract_airports(heliports_url, "heliport"))
+            if not airports:
+                raise ValueError(f"No {COUNTRY} airports found")
 
-            if len(airports_list) == 0:
-                error_msg = f"No {COUNTRY} airports found"
-                logger.error(error_msg)
-                raise Exception(error_msg)
-
-            logger.info(f"Found {len(airports_list)} airports for {COUNTRY}")
-            return airports_list
-
+            self.logger.info(f"Found {len(airports)} airports for {COUNTRY}")
+            return airports
         except Exception as e:
-            logger.error(f"Error during crawling: {e}")
+            self.logger.error(f"AT crawl failed: {e}")
+            if last_html is not None:
+                self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:
-            if self.driver:
-                self.driver.quit()
+            self.close()

@@ -75,7 +75,7 @@ The container exposes port `3000` internally (mapped to `127.0.0.1:8080` by `doc
 
 ### Crawlers (netcup)
 
-The Python crawlers under `crawlers/` run on the netcup root server, scheduled by `aip-crawler.timer`. See `crawlers/README.md` for details on the crawler subproject.
+The Python crawlers under `crawlers/` run on the netcup root server, scheduled by `aip-crawler.timer`. They use `httpx` + `BeautifulSoup` for static AIP sites (AT, NL, UK, FR are on this path; DE is the last Selenium holdout). See `crawlers/README.md` for the per-country status, the `Airport` schema, and how to add a new country.
 
 ## Learn More
 

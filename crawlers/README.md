@@ -17,21 +17,32 @@ Serverless platforms (Vercel, Lambda, etc.) are explicitly **not** a target: sch
 ## Stack
 
 - Python ≥ 3.12, managed with [uv](https://github.com/astral-sh/uv)
-- HTTP: `httpx` (async) + `BeautifulSoup` / `selectolax` for static pages — preferred
+- HTTP: `httpx` + `BeautifulSoup` for static pages — preferred and used by AT, NL, UK, FR
 - Browser fallback: a single Playwright (Python) path for sites that genuinely require JS rendering — only when there's no static URL to follow
-- Pydantic for the `Airport` model and settings
+- Pydantic for the `Airport` model (`crawlers/crawlers/models.py`) and settings
 
-> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`. None of the active sites (AT, DE, FR, NL, UK) actually need a JS engine — they serve static HTML, sometimes inside legacy framesets. The migration to plain HTTP is in progress; new crawlers should not introduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
+> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`. None of the active sites need a JS engine — they serve static HTML, sometimes inside legacy framesets. AT, NL, UK, and FR have been ported off Selenium; DE is the last holdout and will follow once we've verified the new HTTP path on the netcup host. New crawlers must not introduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
+
+## Base classes
+
+| Module                    | Class                  | Use when                                                 |
+| ------------------------- | ---------------------- | -------------------------------------------------------- |
+| `http_base.py`            | `HttpCrawlerBase`      | The source serves static HTML over HTTP (default choice). |
+| `http_eurocontrol_base.py`| `HttpEurocontrolBase`  | The source is a eurocontrol-style eAIP frameset (used by NL, UK, FR). |
+| `crawler_base.py`         | `CrawlerBase`          | *Legacy, Selenium.* Only DE still inherits from it.      |
+| `eurocontrol_base.py`     | `EurocontrolBase`      | *Legacy, Selenium.* Orphaned, slated for deletion.       |
+
+`HttpCrawlerBase` provides `fetch(url, encoding=…)`, `soup(html)`, `get_frame_src(html, base_url, name)`, `follow_frame_chain(start_url, [name1, name2, …])`, `clean_text(text)`, and `save_response(url, body, prefix)` for dumping the last response to `error_logs/` on failure. `HttpEurocontrolBase` adds `extract_airports_from_html(html, base_url, id_in_menu, category)`, which parses the standard eAIP nav menu (paired title/details `<div>`s) and prefers `<a title*='charts related'>` for the airport's chart URL.
 
 ## Country Status
 
 Active (in `crawlers/`):
 
-- [x] Austria (https://eaip.austrocontrol.at)
-- [x] Germany (https://aip.dfs.de/)
-- [x] France (https://www.sia.aviation-civile.gouv.fr/plandesite)
-- [x] Netherlands (https://eaip.lvnl.nl/)
-- [x] United Kingdom (https://nats-uk.ead-it.com/)
+- [x] Austria (https://eaip.austrocontrol.at) — `HttpCrawlerBase`
+- [x] Germany (https://aip.dfs.de/) — *Selenium (legacy)*, port pending
+- [x] France (https://www.sia.aviation-civile.gouv.fr/plandesite) — `HttpEurocontrolBase`
+- [x] Netherlands (https://eaip.lvnl.nl/) — `HttpEurocontrolBase`
+- [x] United Kingdom (https://nats-uk.ead-it.com/) — `HttpEurocontrolBase`
 
 Open (see `tasks/` for per-country research notes):
 
@@ -70,7 +81,7 @@ Each airport has exactly one category:
 
 ## Crawler interface
 
-Every country crawler inherits `CrawlerBase` (`crawlers/crawler_base.py`) and implements `crawl()`, returning a list of:
+Every country crawler inherits `HttpCrawlerBase` (or `HttpEurocontrolBase` for eurocontrol eAIPs) and implements `crawl()`, returning a list of:
 
 ```python
 class Airport(BaseModel):
@@ -81,7 +92,30 @@ class Airport(BaseModel):
     airport_type: Literal["vfr", "ifr", "heliport", "mil", "aeroport"] = Field(alias="type")
 ```
 
-Register the new crawler in `main.py`. Output is written by `OutputHandler.write_output(airports, country)`.
+The model lives in `crawlers/crawlers/models.py`. Register the new crawler in `main.py`; output is written by `OutputHandler.write_output(airports, country)`.
+
+A minimal eurocontrol-style crawler looks like:
+
+```python
+from crawlers.http_base import Airport
+from crawlers.http_eurocontrol_base import HttpEurocontrolBase
+
+class XX(HttpEurocontrolBase):
+    def __init__(self): super().__init__("XX")
+
+    def crawl(self) -> list[Airport]:
+        try:
+            edition_url = ...                              # find current edition
+            nav_url, nav_html = self.follow_frame_chain(
+                edition_url, ["eAISNavigationBase", "eAISNavigation"]
+            )
+            return [
+                *self.extract_airports_from_html(nav_html, nav_url, "AD-2details", "vfr"),
+                *self.extract_airports_from_html(nav_html, nav_url, "AD-3details", "heliport"),
+            ]
+        finally:
+            self.close()
+```
 
 ## Running
 
@@ -90,7 +124,7 @@ uv sync
 uv run main.py
 ```
 
-Logs go to stdout and to `crawlers.log`. On failures, `crawler_base.py` writes a screenshot + page source to `error_logs/` for debugging — once a crawler is migrated off Selenium, that fallback drops to just the HTTP response.
+Logs go to stdout and to `crawlers.log`. On failures, the HTTP-based crawlers persist the last response body to `error_logs/` via `save_response()` so the failure can be reproduced offline against the same bytes the parser saw. The remaining Selenium crawler (DE) writes a screenshot + page source instead.
 
 ## Architecture
 

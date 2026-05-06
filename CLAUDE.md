@@ -106,11 +106,27 @@ When adding a new var: update `.env.example`, add it to both `server`/`client` a
 
 ## Crawlers (subproject)
 
-`crawlers/` is a separate Python project managed with [`uv`](https://github.com/astral-sh/uv). Each country crawler inherits `CrawlerBase` and writes `Airport` records back to the Next.js API. See `crawlers/README.md` for the per-country task list and the expected `Airport` schema.
+`crawlers/` is a separate Python project managed with [`uv`](https://github.com/astral-sh/uv). Each country crawler implements `crawl()` and returns a list of `Airport` records (`crawlers/crawlers/models.py`) which `OutputHandler` POSTs to `https://aip.aero/api/airports`. See `crawlers/README.md` for the per-country task list and the `Airport` schema.
 
 Runtime: scheduled by systemd (`aip-crawler.service` + `aip-crawler.timer`) on the netcup root server. The crawlers are **never** deployed to Vercel; treat the website and the crawlers as two independent deploy targets that communicate only over HTTP.
 
-Modernisation plan (in progress):
-- The active crawlers (AT, DE, FR, NL, UK) hit static HTML pages — no JS engine is needed. They are being migrated off Selenium to `httpx` (async) + `BeautifulSoup` / `selectolax` for a large speed and reliability win.
-- A single Playwright (Python) fallback is acceptable for any future country whose AIP genuinely requires JS rendering (e.g. potentially CZ / GR / HR from the open task list). **Do not** introduce Puppeteer (Node-only) or run a browser inside a Vercel function.
-- Once a crawler is ported, drop its Selenium imports, its `webdriver-manager` usage, and any per-call `driver.quit()`.
+Two base classes coexist during the in-flight Selenium → httpx migration:
+
+- **`crawlers/crawlers/http_base.py` → `HttpCrawlerBase`** — preferred. Wraps an `httpx.Client` (pooled, redirects, sane UA), exposes `fetch()`, `soup()`, `get_frame_src()`, `follow_frame_chain()`, `clean_text()`, and `save_response()` for post-mortem debugging. No browser.
+- **`crawlers/crawlers/http_eurocontrol_base.py` → `HttpEurocontrolBase`** — extends `HttpCrawlerBase` with `extract_airports_from_html()`, the BS4 parser for the eurocontrol-style eAIP navigation HTML (NL, UK, FR all share it).
+- **`crawlers/crawlers/crawler_base.py` → `CrawlerBase`** *(legacy, Selenium)* — only DE still inherits from it. Re-exports `Airport` from `models.py` so old imports keep working.
+- **`crawlers/crawlers/eurocontrol_base.py` → `EurocontrolBase`** *(legacy, Selenium)* — orphaned after the NL/UK/FR ports; kept until `crawler_base.py` is deleted.
+
+Migration status:
+
+| Country | Base class                        | Browser? |
+| ------- | --------------------------------- | -------- |
+| AT      | `HttpCrawlerBase`                 | no       |
+| NL      | `HttpEurocontrolBase`             | no       |
+| UK      | `HttpEurocontrolBase`             | no       |
+| FR      | `HttpEurocontrolBase`             | no       |
+| DE      | `CrawlerBase` *(Selenium, legacy)* | yes — port pending netcup verification of the others |
+
+When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEurocontrolBase` if the source is a eurocontrol eAIP). **Do not** introduce Puppeteer (Node-only) or run a browser inside a Vercel function. If a future AIP genuinely requires JS rendering (e.g. potentially CZ / GR / HR from the open task list), add a single Playwright (Python) fallback path.
+
+Once DE is ported, delete `crawler_base.py`, `eurocontrol_base.py`, and the `selenium` / `webdriver-manager` dependencies from `crawlers/pyproject.toml` in one commit.
