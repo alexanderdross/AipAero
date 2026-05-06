@@ -5,7 +5,7 @@ import { Menu } from "./menu";
 import { MobileNav } from "./mobile-menu";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { pick } from "lodash";
+import pick from "lodash/pick";
 
 export async function Header({ withLangSwitcher = false }) {
   const messages = await getMessages();

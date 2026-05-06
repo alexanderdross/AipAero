@@ -44,3 +44,6 @@ yarn-error.log*
 
 # idea files
 .idea
+
+# crawler runtime state (per-host, not source-tracked)
+crawlers/last_run_counts.json

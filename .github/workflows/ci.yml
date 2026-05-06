@@ -89,18 +89,15 @@ jobs:
         run: uv run python -m compileall -q crawlers main.py output_handler.py settings.py
 
       - name: Import smoke test for HTTP-based crawlers
-        # The Selenium-based crawler (DE) is intentionally excluded: its
-        # CrawlerBase.__init__ tries to spin up Chromium, which isn't
-        # installed on the CI runner. Once DE is ported off Selenium,
-        # add it here as well.
         run: |
           uv run python - <<'PY'
           from crawlers.at import AT
+          from crawlers.de import DE
           from crawlers.fr import FR
           from crawlers.nl import NL
           from crawlers.uk import UK
 
-          for cls in (AT, FR, NL, UK):
+          for cls in (AT, DE, FR, NL, UK):
               inst = cls()
               assert inst.country == cls.__name__, (cls, inst.country)
               inst.close()

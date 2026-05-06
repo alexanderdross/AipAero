@@ -71,7 +71,7 @@ This is queued for the netcup access loop — the four already-ported crawlers n
 | 6 | ⚠️ partial | Audit `src/components/schemas/*.tsx` for unnecessary `"use client"` (only `schema-product` was free; `schema-webpage` and `schema-website` use `usePathname()` and need a refactor to convert) | performance |
 | 7 | ⚠️ partial | Add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`. CSP intentionally deferred — needs careful nonce/origin work to not break inline JSON-LD, AdSense, and Axiom. | security |
 | 8 | ⏸ pending | Run UAT once against production | uat |
-| 9 | ⏸ deferred | Port DE crawler off Selenium; delete `crawler_base.py` + Selenium deps (needs netcup verification of the four already-ported crawlers first) | cross-cutting |
+| 9 | ✅ done (DE) ⚠️ partial (cleanup) | DE ported to `HttpCrawlerBase` and added to the CI smoke test. Legacy `crawler_base.py` / `eurocontrol_base.py` plus `selenium` / `webdriver-manager` remain only because the experimental `belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run` crawlers still depend on them — none are wired into the active scheduler. | cross-cutting |
 | 10 | ✅ done | Wire `@next/bundle-analyzer` as a `pnpm analyze` script | performance |
 
 Items 1–4, 6 (partial), 7 (partial), and 10 landed together; see commit history.

@@ -60,7 +60,7 @@ Notes / known gaps:
 
 - **Lint is not yet gated.** `pnpm lint` (`next lint`) drops into an interactive setup prompt because `.eslintrc.mjs` imports the `typescript-eslint` package, which isn't installed, *and* uses the legacy ESLint config filename for an ESLint 9 flat config. Fix the config separately, then add a lint step to the website job.
 - **`pnpm build` is not run in CI.** The build pre-renders sitemaps, which hit MySQL, and CI has no DB. Vercel builds every PR via the GitHub integration and posts its own status check — make that check required in branch protection if you want to gate merges on a successful build.
-- **DE crawler is excluded from the import smoke test.** Its Selenium parent (`CrawlerBase.__init__`) tries to spin up Chromium, which isn't installed on the runner. Add DE to the smoke test once it's ported off Selenium.
+- **DE crawler is now part of the import smoke test.** It was the last Selenium holdout; ported to `HttpCrawlerBase` in this commit. The legacy `crawler_base.py` / `eurocontrol_base.py` files remain in the tree only for the experimental belgium / car_sam_nam / pac_n / pac_p / run crawlers (none currently in production); they can be removed once those are either ported or pruned.
 
 To gate merges on these checks, enable branch protection on `main` in repo settings → *Branches* → *Branch protection rules* (or *Rules → Rulesets*), and mark `Website (Next.js)`, `Crawlers (Python)`, and (optionally) `Vercel` as required status checks.
 
@@ -75,7 +75,7 @@ Website (Vercel) ──▶ read server action ──▶ cache ──(miss)──
 ```
 
 ### Data Flow
-1. **Python crawlers** scrape AIP websites for airport data. AT, NL, UK, FR run on `httpx` + BeautifulSoup; DE is the last Selenium holdout.
+1. **Python crawlers** scrape AIP websites for airport data. All five active country crawlers (AT, DE, FR, NL, UK) run on `httpx` + BeautifulSoup. The crawler subsystem also retries transient HTTP failures with exponential backoff, and `OutputHandler` refuses to publish if the new airport count drops > 50% from the last successful run (override with `CRAWLER_FORCE_PUBLISH=1`).
 2. Crawlers POST airport data to `/api/airports` (authenticated via `CRON_SECRET` Bearer token).
 3. The API validates with Zod, enriches with slugs, deletes existing country data, inserts new data.
 4. Cache is invalidated via `revalidateTag()` on insert.
@@ -252,12 +252,12 @@ Website (Vercel) ──▶ read server action ──▶ cache ──(miss)──
 | Country        | Code | Crawler Class | Base                  | Browser?        | AIP Source            |
 |----------------|------|---------------|-----------------------|-----------------|-----------------------|
 | Austria        | AT   | `AT`          | `HttpCrawlerBase`     | no              | Austro Control eAIP   |
-| Germany        | DE   | `DE`          | `CrawlerBase` (legacy)| yes — Selenium  | DFS BasicVFR/BasicIFR |
+| Germany        | DE   | `DE`          | `HttpCrawlerBase`     | no              | DFS BasicVFR/BasicIFR |
 | France         | FR   | `FR`          | `HttpEurocontrolBase` | no              | SIA eAIP              |
 | Netherlands    | NL   | `NL`          | `HttpEurocontrolBase` | no              | LVNL eAIP             |
 | United Kingdom | UK   | `UK`          | `HttpEurocontrolBase` | no              | NATS eAIP             |
 
-DE is the only country still on Selenium. Once it's ported to `HttpCrawlerBase`, delete `crawler_base.py`, `eurocontrol_base.py`, and the `selenium` / `webdriver-manager` dependencies from `crawlers/pyproject.toml` in one commit.
+All five active country crawlers (AT, DE, FR, NL, UK) are off Selenium. The legacy `crawler_base.py` and `eurocontrol_base.py` modules remain only for the experimental `belgium.py` / `car_sam_nam.py` / `pac_n.py` / `pac_p.py` / `run.py` files — none of which are currently scheduled in `main.py`'s active list. Once those experimental crawlers are either ported to `HttpCrawlerBase` or removed, the legacy bases plus `selenium` / `webdriver-manager` can come out in one cleanup commit.
 
 ## API Endpoint
 
