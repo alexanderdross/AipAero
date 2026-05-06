@@ -106,3 +106,6 @@ jobs:
               inst.close()
           print("HTTP crawler import smoke test OK")
           PY
+
+      - name: Unit tests
+        run: uv run pytest tests/
