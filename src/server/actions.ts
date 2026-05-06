@@ -5,7 +5,7 @@ import { QUERIES } from "~/server/db/queries";
 
 const schema = z.object({
   search: z.string().min(1).max(50),
-  country: z.string().max(2),
+  country: z.string().length(2),
   type: z.enum(["vfr", "ifr", "heliport"]),
 });
 

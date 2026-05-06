@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import LocaleSwitcher from "./locale-switcher";
 import { Menu } from "./menu";
@@ -14,13 +15,13 @@ export async function Header({ withLangSwitcher = false }) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-12 items-center justify-between">
           <Link href="/" title="Go to AIP Index">
-            <img
+            <Image
               className="h-10 w-auto py-2 sm:py-1"
               src="/logo.webp"
               alt="AIP:Aero Logo"
               width={841}
               height={130}
-              fetchPriority="high"
+              priority
             />
           </Link>
 

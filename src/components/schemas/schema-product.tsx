@@ -1,5 +1,3 @@
-"use client";
-
 import { orgLogoSquareUrl, orgLogoUrl } from "~/lib/utils";
 import dayjs from "dayjs";
 

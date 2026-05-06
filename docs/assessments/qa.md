@@ -61,20 +61,20 @@ This is queued for the netcup access loop — the four already-ported crawlers n
 
 ## Consolidated action list, ranked
 
-| # | Action | Source | Effort | ROI |
-| - | --- | --- | --- | --- |
-| 1 | Add `revalidateTag("militaryAirports")` and `revalidateTag("aeroportAirports")` in `MUTATIONS.insertAirports` | best-practices, performance | trivial | high — fixes France stale-cache bug |
-| 2 | Tighten `searchAirports` country validation: `z.string().max(2)` → `z.string().length(2)` | security | trivial | medium |
-| 3 | Migrate header logo to `next/image` | performance, best-practices | small | medium — Core Web Vitals |
-| 4 | Enable Vercel Speed Insights in `[locale]/layout.tsx` | performance | trivial | high — gives data we don't currently have |
-| 5 | Fix the ESLint config so `pnpm lint` works, then add it to CI | best-practices, regression | small-medium | medium — closes a regression-gate gap |
-| 6 | Audit `src/components/schemas/*.tsx` for unnecessary `"use client"` | performance | small | medium — client bundle shrinks |
-| 7 | Add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-Content-Type-Options`, baseline CSP | security | small | medium |
-| 8 | Run UAT once against production | uat | medium (human time) | high |
-| 9 | Port DE crawler off Selenium; delete `crawler_base.py` + Selenium deps | (cross-cutting) | medium | medium — closes the last Selenium debt |
-| 10 | Wire `@next/bundle-analyzer` as a `pnpm analyze` script | performance | small | low — diagnostic |
+| # | Status | Action | Source |
+| - | :---: | --- | --- |
+| 1 | ✅ done | Add `revalidateTag("militaryAirports")` and `revalidateTag("aeroportAirports")` in `MUTATIONS.insertAirports` | best-practices, performance |
+| 2 | ✅ done | Tighten `searchAirports` country validation: `z.string().max(2)` → `z.string().length(2)` | security |
+| 3 | ✅ done | Migrate header logo to `next/image` | performance, best-practices |
+| 4 | ✅ done | Enable Vercel Speed Insights in `[locale]/layout.tsx` | performance |
+| 5 | ⏸ deferred | Fix the ESLint config so `pnpm lint` works, then add it to CI | best-practices, regression |
+| 6 | ⚠️ partial | Audit `src/components/schemas/*.tsx` for unnecessary `"use client"` (only `schema-product` was free; `schema-webpage` and `schema-website` use `usePathname()` and need a refactor to convert) | performance |
+| 7 | ⚠️ partial | Add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`. CSP intentionally deferred — needs careful nonce/origin work to not break inline JSON-LD, AdSense, and Axiom. | security |
+| 8 | ⏸ pending | Run UAT once against production | uat |
+| 9 | ⏸ deferred | Port DE crawler off Selenium; delete `crawler_base.py` + Selenium deps (needs netcup verification of the four already-ported crawlers first) | cross-cutting |
+| 10 | ✅ done | Wire `@next/bundle-analyzer` as a `pnpm analyze` script | performance |
 
-Items 1, 2, 4 are each a single small commit. Worth doing in one PR.
+Items 1–4, 6 (partial), 7 (partial), and 10 landed together; see commit history.
 
 ## What the CI gate currently catches (from `regression.md`)
 
