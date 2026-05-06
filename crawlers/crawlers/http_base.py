@@ -2,6 +2,7 @@ import datetime
 import html as html_module
 import logging
 import re
+import time
 from pathlib import Path
 from urllib.parse import urljoin
 
@@ -17,6 +18,10 @@ DEFAULT_USER_AGENT = (
     "aip-aero-crawler/1.0 (+https://aip.aero)"
 )
 
+# Retry on transient errors only. 4xx (except 429) are caller bugs and
+# shouldn't be retried; 5xx and connection-level failures are.
+_RETRYABLE_STATUSES = frozenset({429, 500, 502, 503, 504})
+
 
 class HttpCrawlerBase:
     """Base for crawlers that talk to AIP sites over plain HTTP.
@@ -27,6 +32,8 @@ class HttpCrawlerBase:
     """
 
     timeout = httpx.Timeout(30.0, connect=10.0)
+    max_retries = 3
+    retry_initial_delay = 1.0  # seconds; doubles each attempt
 
     def __init__(self, country: str):
         self.country = country.upper()
@@ -51,13 +58,55 @@ class HttpCrawlerBase:
             pass
 
     def fetch(self, url: str, *, encoding: str | None = None) -> str:
-        """Fetch a URL and return the decoded body."""
+        """Fetch a URL and return the decoded body.
+
+        Retries up to ``max_retries`` times on connection errors and on
+        retryable 5xx / 429 responses, with exponential backoff. Other 4xx
+        responses propagate immediately — those are typically caller bugs,
+        not transient.
+        """
         self.logger.debug(f"GET {url}")
-        response = self.client.get(url)
-        response.raise_for_status()
-        if encoding is not None:
-            response.encoding = encoding
-        return response.text
+        delay = self.retry_initial_delay
+        last_exc: Exception | None = None
+
+        for attempt in range(1, self.max_retries + 1):
+            try:
+                response = self.client.get(url)
+            except httpx.TransportError as exc:
+                last_exc = exc
+                if attempt < self.max_retries:
+                    self.logger.warning(
+                        f"GET {url} transport error ({exc!s}); "
+                        f"retry {attempt}/{self.max_retries - 1} in {delay:.1f}s"
+                    )
+                    time.sleep(delay)
+                    delay *= 2
+                continue
+
+            if response.status_code in _RETRYABLE_STATUSES:
+                last_exc = httpx.HTTPStatusError(
+                    f"retryable status {response.status_code}",
+                    request=response.request,
+                    response=response,
+                )
+                if attempt < self.max_retries:
+                    self.logger.warning(
+                        f"GET {url} -> {response.status_code}; "
+                        f"retry {attempt}/{self.max_retries - 1} in {delay:.1f}s"
+                    )
+                    time.sleep(delay)
+                    delay *= 2
+                continue
+
+            # 2xx success or non-retryable 4xx/3xx — bail out of the loop.
+            response.raise_for_status()
+            if encoding is not None:
+                response.encoding = encoding
+            return response.text
+
+        # Exhausted all retries.
+        assert last_exc is not None
+        raise last_exc
 
     def soup(self, html: str, *, parser: str = "html.parser") -> BeautifulSoup:
         return BeautifulSoup(html, parser)

@@ -126,6 +126,85 @@ def test_fetch_raises_on_non_2xx():
         c.close()
 
 
+# ----- retry behaviour --------------------------------------------------------
+
+
+class _NoSleep(_Concrete):
+    """Subclass with zero retry delay so tests don't hang."""
+
+    retry_initial_delay = 0.0
+
+
+def test_fetch_retries_transient_503_then_succeeds():
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] < 3:
+            return httpx.Response(503, text="busy")
+        return httpx.Response(200, text="ok")
+
+    c = _NoSleep("xx")
+    c.client = httpx.Client(transport=httpx.MockTransport(handler), timeout=2.0)
+    try:
+        assert c.fetch("https://example.test/flaky") == "ok"
+        assert calls["n"] == 3
+    finally:
+        c.close()
+
+
+def test_fetch_gives_up_after_max_retries_on_persistent_503():
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        return httpx.Response(503)
+
+    c = _NoSleep("xx")
+    c.client = httpx.Client(transport=httpx.MockTransport(handler), timeout=2.0)
+    try:
+        with pytest.raises(httpx.HTTPStatusError):
+            c.fetch("https://example.test/dead")
+        assert calls["n"] == c.max_retries
+    finally:
+        c.close()
+
+
+def test_fetch_does_not_retry_on_404():
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        return httpx.Response(404)
+
+    c = _NoSleep("xx")
+    c.client = httpx.Client(transport=httpx.MockTransport(handler), timeout=2.0)
+    try:
+        with pytest.raises(httpx.HTTPStatusError):
+            c.fetch("https://example.test/nope")
+        assert calls["n"] == 1, "404 must not be retried"
+    finally:
+        c.close()
+
+
+def test_fetch_retries_on_transport_error():
+    calls = {"n": 0}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls["n"] += 1
+        if calls["n"] < 2:
+            raise httpx.ConnectError("simulated")
+        return httpx.Response(200, text="recovered")
+
+    c = _NoSleep("xx")
+    c.client = httpx.Client(transport=httpx.MockTransport(handler), timeout=2.0)
+    try:
+        assert c.fetch("https://example.test/transport") == "recovered"
+        assert calls["n"] == 2
+    finally:
+        c.close()
+
+
 def test_follow_frame_chain_walks_two_levels():
     edition = """<frameset><frame name="eAISNavigationBase" src="navbase.html"></frameset>"""
     navbase = """<frameset><frame name="eAISNavigation" src="nav.html"></frameset>"""

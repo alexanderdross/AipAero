@@ -96,11 +96,14 @@ export const MUTATIONS = {
       log.warn("No airports to insert");
       return;
     }
-    await db
-      .delete(airports)
-      .where(eq(airports.country, input[0].country))
-      .execute();
-    const result = await db.insert(airports).values(input).execute();
+    const country = input[0].country;
+    // Atomic delete-then-insert. Without a transaction a process kill or
+    // network blip between the two statements leaves the country with zero
+    // airports until the next crawl.
+    const result = await db.transaction(async (tx) => {
+      await tx.delete(airports).where(eq(airports.country, country)).execute();
+      return await tx.insert(airports).values(input).execute();
+    });
     // Invalidate the cache tags
     revalidateTag("vfrAirports");
     revalidateTag("ifrAirports");

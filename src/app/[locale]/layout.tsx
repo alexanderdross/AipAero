@@ -5,7 +5,7 @@ import Footer from "~/components/footer";
 import { Header } from "~/components/header";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { NextIntlClientProvider } from "next-intl";
-import { pick } from "lodash";
+import pick from "lodash/pick";
 import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 

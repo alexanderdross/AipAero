@@ -1,295 +1,232 @@
-import logging
+"""Germany AIP crawler.
+
+DFS publishes two parallel sites: BasicVFR (https://aip.dfs.de/BasicVFR/)
+and BasicIFR (https://aip.dfs.de/BasicIFR/). Each is a folder-link tree:
+
+    BasicVFR/  →  AD Aerodromes        → letter-grouped pages → leaf pages
+                  HEL AD Helicopter…   → letter-grouped pages → leaf pages
+    BasicIFR/  →  AD Aerodromes        → AD 2 / AD 3 indexes → leaf pages
+
+Some early-stage redirects on the DFS site have been server-side, others
+HTML meta-refresh — we follow either kind via `fetch_with_meta_refresh`.
+
+Title and ICAO extraction differs per fork:
+  - VFR leaves embed the title (with trailing 4-letter ICAO) in a span
+    inside the `<a class="folder-link">`.
+  - IFR leaves carry the city in `div.headlineText.left > span` and the
+    ICAO in `a.document-link > span.document-name`.
+"""
+
+from __future__ import annotations
+
 import re
-import time
+from typing import Literal
 from urllib.parse import urljoin
-from bs4 import BeautifulSoup
 
-from crawlers.crawler_base import Airport, CrawlerBase
+from bs4 import Tag
 
-logger = logging.getLogger(__name__)
+from crawlers.http_base import Airport, HttpCrawlerBase
 
 COUNTRY = "DE"
 ROOT_VFR_URL = "https://aip.dfs.de/BasicVFR/"
 ROOT_IFR_URL = "https://aip.dfs.de/BasicIFR/"
 
+_ICAO_TRAILING = re.compile(r"([A-Z]{4})$")
+_ICAO_ANYWHERE = re.compile(r"([A-Z]{4})")
+_META_REFRESH_URL = re.compile(r"url=([^;]+)", re.IGNORECASE)
 
-class DE(CrawlerBase):
-    def __init__(self):
+
+class DE(HttpCrawlerBase):
+    def __init__(self) -> None:
         super().__init__(COUNTRY)
 
-    def fetch_page_with_redirect(self, url: str) -> tuple[str, str]:
-        """Fetch page content and return (content, final_url) after following redirects"""
+    # ----- helpers ------------------------------------------------------------
+
+    def fetch_with_meta_refresh(
+        self, url: str, *, max_hops: int = 5
+    ) -> tuple[str, str]:
+        """Fetch `url`, then follow any `<meta http-equiv="refresh">` chain.
+
+        httpx already follows HTTP 30x redirects automatically; this covers
+        the legacy meta-refresh path that some DFS landing pages use.
+        Returns ``(final_url, final_html)``.
+        """
+        for _ in range(max_hops):
+            html = self.fetch(url)
+            soup = self.soup(html)
+            meta = soup.find(
+                "meta",
+                attrs={
+                    "http-equiv": lambda v: bool(v) and v.lower() == "refresh"
+                },
+            )
+            if not isinstance(meta, Tag):
+                return url, html
+            content = meta.get("content", "") or ""
+            match = _META_REFRESH_URL.search(content)
+            if not match:
+                return url, html
+            next_url = urljoin(url, match.group(1).strip().strip("'\""))
+            if next_url == url:
+                return url, html  # avoid loops
+            self.logger.info(f"meta-refresh: {url} -> {next_url}")
+            url = next_url
+        return url, html
+
+    def find_link_by_text(
+        self, html: str, base_url: str, text_substring: str
+    ) -> str:
+        """Return absolute URL of the first `<a>` whose text contains the substring."""
+        for a in self.soup(html).find_all("a", href=True):
+            if text_substring in a.get_text():
+                return urljoin(base_url, a["href"])
+        raise ValueError(
+            f"Link containing {text_substring!r} not found in {base_url}"
+        )
+
+    def folder_link_hrefs(self, html: str) -> list[str]:
+        """All hrefs from `<a class="folder-link">` elements, in document order."""
+        return [
+            a["href"]
+            for a in self.soup(html).find_all("a", class_="folder-link")
+            if a.get("href")
+        ]
+
+    # ----- VFR ----------------------------------------------------------------
+
+    def _process_vfr(self, airports: list[Airport]) -> None:
+        root_url, root_html = self.fetch_with_meta_refresh(ROOT_VFR_URL)
+        ad_url = self.find_link_by_text(root_html, root_url, "AD Aerodromes")
+        ad_html = self.fetch(ad_url)
+        heli_url = self.find_link_by_text(
+            root_html, root_url, "HEL AD Helicopter Aerodromes"
+        )
+        heli_html = self.fetch(heli_url)
+
+        # The first 3 folder-links on the aerodromes page are AD 0 Content,
+        # AD 1 General Remarks, and AD 2 list of Aerodromes — not airfields.
+        aerodrome_links = self.folder_link_hrefs(ad_html)[3:]
+        # The first heliport link is the HEL AD 3 list, also not an airfield.
+        heliport_links = self.folder_link_hrefs(heli_html)[1:]
+        self.logger.info(
+            f"VFR: {len(aerodrome_links)} aerodrome groups, "
+            f"{len(heliport_links)} heliport groups"
+        )
+
+        for href in aerodrome_links:
+            self._extract_vfr_group(urljoin(ad_url, href), "vfr", airports)
+        for href in heliport_links:
+            self._extract_vfr_group(urljoin(heli_url, href), "heliport", airports)
+
+    def _extract_vfr_group(
+        self,
+        url: str,
+        category: Literal["vfr", "heliport"],
+        airports: list[Airport],
+    ) -> None:
         try:
-            logger.info(f"Fetching: {url}")
-            self.driver.get(url)
-            time.sleep(1)  # Wait for any redirects and page to load
-
-            final_url = self.driver.current_url
-            if url != final_url:
-                logger.info(f"Redirected from {url} to {final_url}")
-
-            return self.driver.page_source, final_url
+            html = self.fetch(url)
         except Exception as e:
-            logger.error(f"Error fetching {url}: {e}")
-            raise
-
-    def fetch_page(self, url: str) -> str:
-        """Fetch page content using Selenium"""
-        try:
-            logger.debug(f"Fetching: {url}")
-            self.driver.get(url)
-            time.sleep(2)  # Wait for page to load
-            return self.driver.page_source
-        except Exception as e:
-            logger.error(f"Error fetching {url}: {e}")
-            raise
-
-    def cheerio_fetch(self, base_url: str, html: str, selector: str, attr: str) -> str:
-        """Equivalent to cheerioFetch utility function"""
-        soup = BeautifulSoup(html, "html.parser")
-
-        # Handle :contains() selector
-        if ":contains(" in selector:
-            # Extract the text to search for
-            parts = selector.split(":contains(")
-            tag = parts[0]
-            text_part = parts[1].rstrip(")")
-            text_to_find = text_part.strip('"').strip("'")
-
-            # Find element containing the text
-            elements = soup.find_all(tag)
-            element = None
-            for el in elements:
-                if text_to_find in el.get_text():
-                    element = el
-                    break
-        else:
-            element = soup.select_one(selector)
-
-        if not element:
-            raise Exception(f"Could not find element with selector: {selector}")
-
-        href = element.get(attr)
-        if not href:
-            raise Exception(f"Could not find attribute {attr} in element")
-
-        full_url = urljoin(base_url, href)
-        return self.fetch_page(full_url)
-
-    def find_links_by_class(self, html: str, class_name: str) -> list[str]:
-        """Find all links with specific class"""
-        soup = BeautifulSoup(html, "html.parser")
-        links = soup.find_all("a", class_=class_name)
-        return [link.get("href") for link in links if link.get("href")]
-
-    def get_link(self, root_url: str, airports_list: list[Airport]):
-        """Process a single root URL (VFR or IFR)"""
-        try:
-            # Start at the DFS main page and follow redirects
-            response_text, final_url = self.fetch_page_with_redirect(root_url)
-
-            # Update root_url to the final redirected URL
-            root_url = final_url
-
-            if "BasicIFR" in root_url:
-                # IFR processing
-                self._process_ifr(root_url, response_text, airports_list)
-            else:
-                # VFR processing
-                self._process_vfr(root_url, response_text, airports_list)
-
-        except Exception as e:
-            logger.error(f"Error processing {root_url}: {e}")
-            raise
-
-    def _process_ifr(
-        self, root_url: str, response_text: str, airports_list: list[Airport]
-    ):
-        """Process IFR airports"""
-        try:
-            # Navigate to AD Aerodromes
-            response_text = self.cheerio_fetch(
-                root_url, response_text, 'a:contains("AD Aerodromes")', "href"
+            self.logger.warning(f"Skipping VFR group {url}: {e}")
+            return
+        for el in self.soup(html).find_all("a", class_="folder-link"):
+            href = el.get("href")
+            if not href:
+                continue
+            title_span = el.find("span")
+            title = (
+                title_span.get_text(strip=True)
+                if title_span is not None
+                else el.get_text(strip=True)
             )
-
-            # Get aerodromes and heliports
-            aerodromes_html = self.cheerio_fetch(
-                root_url, response_text, 'a:contains("AD 2 Aerodromes")', "href"
-            )
-            heliports_html = self.cheerio_fetch(
-                root_url, response_text, 'a:contains("AD 3 Heliports")', "href"
-            )
-
-            aerodrome_links = list(
-                set(self.find_links_by_class(aerodromes_html, "folder-link"))
-            )
-            heliport_links = list(
-                set(self.find_links_by_class(heliports_html, "folder-link"))
-            )
-
-            logger.info(
-                f"Found {len(aerodrome_links)} aerodrome links and {len(heliport_links)} heliport links for IFR"
-            )
-
-            # Process aerodrome links
-            for i, link in enumerate(aerodrome_links):
-                logger.debug(f"Processing IFR aerodrome {i + 1}/{len(aerodrome_links)}")
-                self._process_ifr_link(root_url, link, "aerodomes", airports_list)
-
-            # Process heliport links
-            for i, link in enumerate(heliport_links):
-                logger.debug(f"Processing IFR heliport {i + 1}/{len(heliport_links)}")
-                self._process_ifr_link(root_url, link, "heliports", airports_list)
-
-        except Exception as e:
-            logger.error(f"Error in IFR processing: {e}")
-            raise
-
-    def _process_ifr_link(
-        self, root_url: str, link: str, link_type: str, airports_list: list[Airport]
-    ):
-        """Process individual IFR link"""
-        try:
-            url = urljoin(root_url, link)
-            response_text = self.fetch_page(url)
-
-            soup = BeautifulSoup(response_text, "html.parser")
-
-            # Extract city
-            city_element = soup.select_one("div.headlineText.left > span")
-            city = city_element.get_text(strip=True) if city_element else ""
-
-            # Extract ICAO
-            icao_element = soup.select_one("a.document-link > span.document-name")
-            icao = ""
-            if icao_element:
-                icao_text = icao_element.get_text(strip=True)
-                icao_match = re.search(r"([A-Z]{4})", icao_text)
-                if icao_match:
-                    icao = icao_match.group(1)
-
-            if city or icao:  # Only add if we found some data
-                airports_list.append(
-                    Airport(
-                        icao=icao if icao else None,
-                        title=f"{city} {icao}".strip(),
-                        url=url,
-                        type="ifr" if link_type == "aerodomes" else "heliport",
-                        country=COUNTRY,
-                    )
+            if not title:
+                continue
+            match = _ICAO_TRAILING.search(title)
+            icao = match.group(1) if match else None
+            airports.append(
+                Airport(
+                    country=COUNTRY,
+                    icao=icao,
+                    title=title,
+                    url=urljoin(url, href),
+                    type=category,
                 )
+            )
 
-        except Exception as e:
-            logger.error(f"Error processing IFR link {link}: {e}")
+    # ----- IFR ----------------------------------------------------------------
 
-    def _process_vfr(
-        self, root_url: str, response_text: str, airports_list: list[Airport]
-    ):
-        """Process VFR airports"""
+    def _process_ifr(self, airports: list[Airport]) -> None:
+        root_url, root_html = self.fetch_with_meta_refresh(ROOT_IFR_URL)
+        ad_url = self.find_link_by_text(root_html, root_url, "AD Aerodromes")
+        ad_html = self.fetch(ad_url)
+        ad2_url = self.find_link_by_text(ad_html, ad_url, "AD 2 Aerodromes")
+        ad3_url = self.find_link_by_text(ad_html, ad_url, "AD 3 Heliports")
+        ad2_html = self.fetch(ad2_url)
+        ad3_html = self.fetch(ad3_url)
+
+        # dict.fromkeys preserves order while deduplicating (the original
+        # code used set() which doesn't preserve insertion order).
+        ad2_links = list(dict.fromkeys(self.folder_link_hrefs(ad2_html)))
+        ad3_links = list(dict.fromkeys(self.folder_link_hrefs(ad3_html)))
+        self.logger.info(
+            f"IFR: {len(ad2_links)} aerodromes, {len(ad3_links)} heliports"
+        )
+
+        for href in ad2_links:
+            self._extract_ifr_leaf(urljoin(ad2_url, href), "ifr", airports)
+        for href in ad3_links:
+            self._extract_ifr_leaf(urljoin(ad3_url, href), "heliport", airports)
+
+    def _extract_ifr_leaf(
+        self,
+        url: str,
+        category: Literal["ifr", "heliport"],
+        airports: list[Airport],
+    ) -> None:
         try:
-            aerodromes_html = self.cheerio_fetch(
-                root_url, response_text, 'a:contains("AD Aerodromes")', "href"
-            )
-            heliports_html = self.cheerio_fetch(
-                root_url,
-                response_text,
-                'a:contains("HEL AD Helicopter Aerodromes")',
-                "href",
-            )
-
-            # Remove the first 3 links for aerodromes (AD 0 Content, AD 1 General Remarks, AD 2 list of Aerodromes)
-            aerodrome_links = self.find_links_by_class(aerodromes_html, "folder-link")[
-                3:
-            ]
-            # Remove the first link for heliports (HEL AD 3 list of Helicopter Aerodromes)
-            heliport_links = self.find_links_by_class(heliports_html, "folder-link")[1:]
-
-            logger.info(
-                f"Found {len(aerodrome_links)} aerodrome links and {len(heliport_links)} heliport links for VFR"
-            )
-
-            # Process aerodrome links
-            for i, link in enumerate(aerodrome_links):
-                logger.info(f"Processing VFR aerodrome {i + 1}/{len(aerodrome_links)}")
-                self._process_vfr_link(root_url, link, "aerodomes", airports_list)
-
-            # Process heliport links
-            for i, link in enumerate(heliport_links):
-                logger.info(f"Processing VFR heliport {i + 1}/{len(heliport_links)}")
-                self._process_vfr_link(root_url, link, "heliports", airports_list)
-
+            html = self.fetch(url)
         except Exception as e:
-            logger.error(f"Error in VFR processing: {e}")
-            raise
+            self.logger.warning(f"Skipping IFR leaf {url}: {e}")
+            return
+        soup = self.soup(html)
+        city_el = soup.select_one("div.headlineText.left > span")
+        city = city_el.get_text(strip=True) if city_el else ""
+        icao = ""
+        icao_el = soup.select_one("a.document-link > span.document-name")
+        if icao_el:
+            match = _ICAO_ANYWHERE.search(icao_el.get_text(strip=True))
+            if match:
+                icao = match.group(1)
+        if not (city or icao):
+            return
+        airports.append(
+            Airport(
+                country=COUNTRY,
+                icao=icao or None,
+                title=f"{city} {icao}".strip(),
+                url=url,
+                type=category,
+            )
+        )
 
-    def _process_vfr_link(
-        self, root_url: str, link: str, link_type: str, airports_list: list[Airport]
-    ):
-        """Process individual VFR link (A, B, C, ... links)"""
-        try:
-            url = urljoin(root_url, link)
-            response_text = self.fetch_page(url)
-
-            soup = BeautifulSoup(response_text, "html.parser")
-            folder_links = soup.find_all("a", class_="folder-link")
-
-            logger.info(f"Found {len(folder_links)} airports in VFR link")
-
-            for el in folder_links:
-                href = el.get("href", "")
-                title_element = el.find("span")
-                title = title_element.get_text(strip=True) if title_element else ""
-
-                # Extract ICAO from title
-                icao_match = re.search(r"([A-Z]{4})$", title)
-                icao = icao_match.group(1) if icao_match else ""
-
-                if title:  # Only add if we found a title
-                    airports_list.append(
-                        Airport(
-                            country=COUNTRY,
-                            icao=icao if icao else None,
-                            title=title,
-                            url=urljoin(url, href),
-                            type="vfr" if link_type == "aerodomes" else "heliport",
-                        )
-                    )
-
-        except Exception as e:
-            logger.error(f"Error processing VFR link {link}: {e}")
+    # ----- entry point --------------------------------------------------------
 
     def crawl(self) -> list[Airport]:
-        """Main crawling function for German airports"""
-        airports_list = []
-
+        self.logger.info(f"Crawling airports in {self.country}")
+        airports: list[Airport] = []
         try:
-            # Process VFR URLs
-            logger.info("Starting VFR processing...")
-            self.get_link(ROOT_VFR_URL, airports_list)
-            logger.info(
-                f"VFR processing complete. Found {len(airports_list)} airports so far."
+            self._process_vfr(airports)
+            self.logger.info(
+                f"VFR done: {len(airports)} airports so far."
             )
-
-            # Process IFR URLs
-            logger.info("Starting IFR processing...")
-            ifr_start_count = len(airports_list)
-            self.get_link(ROOT_IFR_URL, airports_list)
-            logger.info(
-                f"IFR processing complete. Found {len(airports_list) - ifr_start_count} additional airports."
+            ifr_start = len(airports)
+            self._process_ifr(airports)
+            self.logger.info(
+                f"IFR done: {len(airports) - ifr_start} additional airports."
             )
-
-            if len(airports_list) == 0:
-                error_msg = f"No {COUNTRY} airports found"
-                logger.error(error_msg)
-                raise Exception(error_msg)
-
-            logger.info(f"Found {len(airports_list)} airports for {COUNTRY}")
-            logger.info(f"E.g. EDNY: {[a for a in airports_list if a.icao == 'EDNY']}")
-            return airports_list
-
-        except Exception as e:
-            logger.error(f"Error during crawling: {e}")
-            raise
+            if not airports:
+                raise ValueError(f"No {COUNTRY} airports found")
+            self.logger.info(f"Found {len(airports)} airports for {COUNTRY}.")
+            return airports
         finally:
-            if self.driver:
-                self.driver.quit()
+            self.close()
