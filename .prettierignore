@@ -1,0 +1,17 @@
+# Build artefacts and dependencies — never useful to format.
+node_modules/
+.next/
+.vercel/
+build/
+out/
+
+# pnpm-managed artefacts.
+pnpm-lock.yaml
+
+# Python venvs created by `uv sync` inside the crawlers subproject.
+crawlers/.venv/
+**/.venv/
+**/__pycache__/
+
+# Lock files from other ecosystems.
+*.lock
