@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 type Props = {
   error: Error;
@@ -13,7 +13,7 @@ export default function Error({ error, reset }: Props) {
   }, [error]);
 
   return (
-    <div className='flex-col items-center justify-center'>
+    <div className="flex-col items-center justify-center">
       <p className="mt-4">There was an error</p>
       <button
         className="text-white underline underline-offset-2"

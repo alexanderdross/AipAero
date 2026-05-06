@@ -1,9 +1,14 @@
-'use client';
+"use client";
 
-import { useSearchParams } from 'next/navigation';
-import { ReactNode, useTransition } from 'react';
-import { Locale, usePathname, useRouter } from '~/i18n/routing';
-import { Select, SelectContent, SelectTrigger, SelectValue } from '~/components/ui/select';
+import { useSearchParams } from "next/navigation";
+import { ReactNode, useTransition } from "react";
+import { Locale, usePathname, useRouter } from "~/i18n/routing";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 type Props = {
   children: ReactNode;
@@ -14,7 +19,7 @@ type Props = {
 export default function LocaleSwitcherSelect({
   children,
   defaultValue,
-  label
+  label,
 }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -26,7 +31,7 @@ export default function LocaleSwitcherSelect({
     startTransition(() => {
       router.replace(
         { pathname: pathname, query: searchParams },
-        { locale: nextLocale }
+        { locale: nextLocale },
       );
     });
   }
@@ -40,9 +45,7 @@ export default function LocaleSwitcherSelect({
       <SelectTrigger className="w-32" aria-label={label}>
         <SelectValue placeholder={label} />
       </SelectTrigger>
-      <SelectContent>
-        {children}
-      </SelectContent>
+      <SelectContent>{children}</SelectContent>
     </Select>
   );
 }
