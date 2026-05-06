@@ -143,14 +143,14 @@ Expectation: post-port runs are 5-20× faster, depending on page count, since th
 
 ## Recommended action items, ranked by ROI
 
-1. **Add the two missing `revalidateTag` calls** (military, aeroport). Trivial fix, eliminates stale data on FR pages. Code change.
-2. **Migrate header / OG images to `next/image`.** One-component change, real Core Web Vitals (LCP) improvement.
-3. **Audit `src/components/schemas/*.tsx` for unnecessary `"use client"`.** Probably 3-4 components moveable to server, reducing client JS.
-4. **Enable Vercel Speed Insights.** ~10 lines of code, gives real-user data we can act on next time.
-5. **Verify `cheerio` isn't shipped to clients** (probably unused in `src/`). If unused, drop it from `package.json`.
-6. **Wire up `@next/bundle-analyzer`** as a `pnpm analyze` script for occasional health checks.
+1. ✅ **Done.** `MUTATIONS.insertAirports` now includes `revalidateTag("militaryAirports")` and `revalidateTag("aeroportAirports")`.
+2. ✅ **Done.** Header logo migrated to `next/image` with `priority` (LCP candidate).
+3. ⚠️ **Partial.** `schema-product` is now a server component. `schema-webpage` and `schema-website` use `usePathname()` and need a refactor (pathname plumbed via prop) to convert — not done in this pass.
+4. ✅ **Done.** `<SpeedInsights />` wired into `src/app/[locale]/layout.tsx`. After the next production deploy, Web Vitals start populating in Vercel's dashboard.
+5. **Verify `cheerio` isn't shipped to clients** (appears unused in `src/`). If confirmed unused, drop it from `package.json`.
+6. ✅ **Done.** `@next/bundle-analyzer` wired up; run `pnpm analyze` to produce the treemap.
 
-After applying 1–4, take a fresh Lighthouse + Speed Insights read and update this doc with numbers.
+After action items 1, 2, 4 land in production, take a fresh Lighthouse + Speed Insights read and update this doc with real numbers.
 
 ---
 

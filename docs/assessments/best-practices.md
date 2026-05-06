@@ -85,10 +85,10 @@ For each conventional best practice, mark it ✅ (followed), ⚠️ (partial / m
 
 ## Required action items (ranked)
 
-1. **Fix the missing `revalidateTag` calls** for `militaryAirports` and `aeroportAirports` in `MUTATIONS.insertAirports`. Currently France crawls update the DB but the cached page reads stale for hours.
-2. **Replace the header logo `<img>`** (or wherever it's loaded) with `next/image` and the WebP variant in `public/`. One-line change with a measurable Core Web Vitals impact.
-3. **Wire up Vercel Speed Insights** so we have real Core Web Vitals data instead of guesses (see `performance.md`).
-4. **Fix the ESLint config** so `pnpm lint` works in CI. Smallest path: rename `.eslintrc.mjs` → `eslint.config.mjs` and either install `typescript-eslint` (the umbrella package) or rewrite the config to use only `@typescript-eslint/parser` + `@typescript-eslint/eslint-plugin` directly.
+1. ✅ **Fixed.** `MUTATIONS.insertAirports` now revalidates all seven cache tags including `militaryAirports` and `aeroportAirports`.
+2. ✅ **Fixed.** `src/components/header.tsx` now uses `next/image` with `priority`.
+3. ✅ **Done.** `<SpeedInsights />` is wired into `src/app/[locale]/layout.tsx`. Field data will start populating after the next production deploy.
+4. ⏸ **Deferred.** ESLint config is still half-broken — out of scope for this batch; needs a focused PR.
 5. **(Lower priority)** Drop `output: "standalone"` from `next.config.mjs` once the Docker setup is formally retired. Harmless to leave.
 
 ---

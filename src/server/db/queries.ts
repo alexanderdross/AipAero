@@ -105,6 +105,8 @@ export const MUTATIONS = {
     revalidateTag("vfrAirports");
     revalidateTag("ifrAirports");
     revalidateTag("heliports");
+    revalidateTag("militaryAirports");
+    revalidateTag("aeroportAirports");
     revalidateTag("airport");
     revalidateTag("airports");
     return result;

@@ -113,8 +113,8 @@ Recommendation: add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-C
 
 **Action items, ranked:**
 
-1. Tighten `searchAirports` country validation from `max(2)` to `length(2)`.
-2. Add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-Content-Type-Options`, and a baseline CSP.
+1. ✅ **Fixed.** `searchAirports` country validation tightened to `z.string().length(2)`.
+2. ⚠️ **Partial.** `next.config.mjs` now sends `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and a `Permissions-Policy` denying camera/microphone/geolocation/interest-cohort. **CSP is intentionally not set yet** — getting it right with inline JSON-LD, AdSense, and Axiom needs deliberate nonce/origin work; track separately.
 3. Bump `cheerio` when a release ships with the patched `undici`.
 4. Document a `CRON_SECRET` rotation runbook in `CLAUDE.md`.
 5. (Optional) Add Upstash Ratelimit on `/api/airports` once the threat model warrants.
