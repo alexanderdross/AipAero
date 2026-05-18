@@ -17,7 +17,7 @@ export default async function Footer() {
               <ExternalLink
                 href={t(`${key}.href`)}
                 hrefTitle={t(`${key}.hrefTitle`)}
-                className="mx-2 text-base text-drossblue hover:underline"
+                className="text-drossblue mx-2 text-base hover:underline"
               >
                 {t(`${key}.title`)}
               </ExternalLink>
@@ -33,7 +33,7 @@ export default async function Footer() {
               <ExternalLink
                 href={t(`${key}.href`)}
                 hrefTitle={t(`${key}.hrefTitle`)}
-                className="mx-2 text-base text-drossblue hover:underline"
+                className="text-drossblue mx-2 text-base hover:underline"
               >
                 {t(`${key}.title`)}
               </ExternalLink>
@@ -43,12 +43,12 @@ export default async function Footer() {
         </div>
 
         {/* Bottom */}
-        <p className="mt-2 text-center text-base text-drossgray-dark">
+        <p className="text-drossgray-dark mt-2 text-center text-base">
           &copy; {new Date().getFullYear()} made with ♥ by
           <ExternalLink
             href={t("madeBy.href")}
             hrefTitle={t("madeBy.hrefTitle")}
-            className="mx-2 text-base italic text-drossblue hover:underline"
+            className="text-drossblue mx-2 text-base italic hover:underline"
           >
             {t("madeBy.title")}
           </ExternalLink>

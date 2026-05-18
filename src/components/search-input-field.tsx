@@ -88,7 +88,7 @@ export function SearchInputField({
               <li key={index}>
                 <ExternalLink
                   href={`${airport.url}`}
-                  className="flex content-center justify-center gap-x-2 bg-drossblue py-2 hover:bg-drossblue-light"
+                  className="bg-drossblue hover:bg-drossblue-light flex content-center justify-center gap-x-2 py-2"
                   hrefTitle={`${airport.title}`} //hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
                 >
                   <span>
