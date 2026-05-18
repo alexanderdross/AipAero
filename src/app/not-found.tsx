@@ -3,7 +3,7 @@ export default function NotFound() {
     <html className="h-full" lang="en">
       <body
         className={
-          "flex h-full flex-col items-center justify-center bg-drossgray"
+          "bg-drossgray flex h-full flex-col items-center justify-center"
         }
       >
         <p>404 Not Found</p>

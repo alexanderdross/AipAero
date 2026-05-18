@@ -250,7 +250,7 @@ export default async function IndexPage({
               <li>
                 <ExternalLink
                   href={`${data.url}`}
-                  className="flex content-center justify-center gap-x-2 bg-drossblue py-2 hover:bg-drossblue-light"
+                  className="bg-drossblue hover:bg-drossblue-light flex content-center justify-center gap-x-2 py-2"
                   hrefTitle={t("resultTitle", { airport: data.title })}
                 >
                   <span>{data.title}</span>

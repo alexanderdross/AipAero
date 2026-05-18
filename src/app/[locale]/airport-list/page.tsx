@@ -214,7 +214,7 @@ async function AirportLists({ locale }: { locale: string }) {
                             query: airport.slug,
                           }}
                           itemProp="url"
-                          className="justify-left flex gap-x-2 py-2 text-drossblue hover:underline"
+                          className="justify-left text-drossblue flex gap-x-2 py-2 hover:underline"
                           title={t(`${key}.linkTitle`, {
                             airport: airport.title,
                           })}

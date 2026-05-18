@@ -42,7 +42,7 @@ export default async function LoadingList() {
               {[...Array(25).keys()].map((_, index) => (
                 <li key={index} className="flex items-center gap-x-4">
                   <span>{index + 1}.</span>
-                  <div className="justify-left flex gap-x-2 py-2 text-drossblue hover:underline">
+                  <div className="justify-left text-drossblue flex gap-x-2 py-2 hover:underline">
                     <LinkIcon
                       className="h-5 w-5 flex-shrink-0"
                       aria-hidden="true"
