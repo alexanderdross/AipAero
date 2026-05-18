@@ -5,7 +5,7 @@ export function LoadingSub() {
   return (
     <>
       <div className="mx-auto max-w-7xl px-4 pt-[40px] sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center pb-4 pt-2">
+        <div className="flex flex-col items-center pt-2 pb-4">
           <Skeleton className="h-6 w-3/4 lg:h-8" />
           <Skeleton className="mt-2 block h-6 w-[200px] md:hidden" />
           <Skeleton className="mt-3 h-4 w-full sm:mt-2 lg:h-6" />

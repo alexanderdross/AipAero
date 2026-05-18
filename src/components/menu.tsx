@@ -26,7 +26,7 @@ export function Menu() {
               title={t(`${item.key}.hrefTitle`)}
               key={item.key}
               className={cn(
-                "text-lg text-foreground/80 transition-colors hover:underline",
+                "text-foreground/80 text-lg transition-colors hover:underline",
                 pathname === item.href && "underline",
               )}
               href={item.href}
