@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import LinkHeader from "http-link-header";
 import { localeLangMapping, routing } from "./i18n/routing";

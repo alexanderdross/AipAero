@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { getPathname, Pathnames } from "~/i18n/routing";
+import { getPathname, type Pathnames } from "~/i18n/routing";
 import { orgUrl } from "~/lib/utils";
 
 export async function SchemaSitenav({ locale }: { locale: string }) {
@@ -59,10 +59,7 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
         alternateName: p("breadcrumb.name"),
         description: p("breadcrumb.description"),
         url: trailingSlash(
-          new URL(
-            getPathname({ href: slugs[i] as Pathnames, locale }),
-            orgUrl,
-          ).toString(),
+          new URL(getPathname({ href: slugs[i]!, locale }), orgUrl).toString(),
         ),
       })),
     ],

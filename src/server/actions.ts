@@ -9,7 +9,7 @@ const schema = z.object({
   type: z.enum(["vfr", "ifr", "heliport"]),
 });
 
-export async function searchAirports(prevState: any, formData: FormData) {
+export async function searchAirports(_prevState: unknown, formData: FormData) {
   const validatedFields = schema.safeParse({
     search: formData.get("search"),
     country: formData.get("country"),
