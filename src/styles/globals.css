@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
 @layer base {
   :root {
     --background: 180, 7%, 95%; /* Dross Gray */
