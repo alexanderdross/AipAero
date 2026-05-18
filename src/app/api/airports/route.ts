@@ -4,7 +4,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { env } from "~/env";
 import { MUTATIONS } from "~/server/db/queries";
-import { airportApiInsertSchema, InsertAirport } from "~/server/db/schema";
+import { airportApiInsertSchema, type InsertAirport } from "~/server/db/schema";
 
 export async function POST(req: NextRequest) {
   log.info("POST /api/airports called");

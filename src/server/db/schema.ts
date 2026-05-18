@@ -3,7 +3,7 @@
 
 import {
   type InferInsertModel,
-  InferSelectModel,
+  type InferSelectModel,
   sql,
   type SQL,
 } from "drizzle-orm";

@@ -19,7 +19,7 @@ import { routing } from "~/i18n/routing";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 
 export async function generateMetadata(
-  { params }: { params: Promise<{}> },
+  _props: { params: Promise<Record<string, never>> },
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const parentMetadata = await parent;

@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 import { notFound } from "next/navigation";
 import {
   getPathname,
-  Locale,
+  type Locale,
   localeLangMapping,
-  Pathnames,
+  type Pathnames,
   routing,
 } from "~/i18n/routing";
 import { i18nPathMapping, orgUrl } from "~/lib/utils";
