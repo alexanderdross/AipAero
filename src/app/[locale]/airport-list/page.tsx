@@ -48,7 +48,7 @@ export async function generateMetadata(
           : Object.assign(
               {},
               ...locales.map((l) => ({
-                [localeLangMapping[l] as string]: new URL(
+                [localeLangMapping[l]!]: new URL(
                   getPathname({ href: "/airport-list", locale: l }),
                   orgUrl,
                 ).toString(),
@@ -150,7 +150,7 @@ export default async function IndexPage(
 
 async function AirportLists({ locale }: { locale: string }) {
   const t = await getTranslations("AirportsPage");
-  const country = locale.split("-")[0] as string;
+  const country = locale.split("-")[0]!;
 
   const [
     vfrAirports,
@@ -186,7 +186,8 @@ async function AirportLists({ locale }: { locale: string }) {
         ]
           .filter((x) => x.length > 0)
           .map((airports, index) => {
-            const airportType = airports[0]?.type as Airport["type"];
+            // Safe: outer `.filter((x) => x.length > 0)` guarantees airports[0] exists.
+            const airportType = airports[0]!.type;
             const key = i18nKeyMapping[airportType];
             return (
               <div
