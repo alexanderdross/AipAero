@@ -75,5 +75,23 @@
   "ct3aMetadata": {
     "initVersion": "7.38.1"
   },
-  "packageManager": "pnpm@10.8.1"
+  "packageManager": "pnpm@10.8.1",
+  "pnpm": {
+    "overrides": {
+      "esbuild@<=0.24.2": ">=0.25.0",
+      "minimatch@<3.1.3": ">=3.1.3",
+      "minimatch@>=9.0.0 <9.0.6": ">=9.0.6",
+      "minimatch@>=9.0.0 <9.0.7": ">=9.0.7",
+      "minimatch@<3.1.4": ">=3.1.4",
+      "ajv@<6.14.0": ">=6.14.0",
+      "flatted@<3.4.0": ">=3.4.0",
+      "flatted@<=3.4.1": ">=3.4.2",
+      "brace-expansion@<1.1.13": ">=1.1.13",
+      "brace-expansion@>=2.0.0 <2.0.3": ">=2.0.3",
+      "picomatch@<2.3.2": ">=2.3.2",
+      "picomatch@>=4.0.0 <4.0.4": ">=4.0.4",
+      "yaml@>=2.0.0 <2.8.3": ">=2.8.3",
+      "postcss@<8.5.10": ">=8.5.10"
+    }
+  }
 }
