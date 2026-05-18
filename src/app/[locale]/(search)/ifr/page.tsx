@@ -19,7 +19,7 @@ import {
 } from "~/i18n/routing";
 import { orgUrl, rootBreadcrumb } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
-import { Airport } from "~/server/db/schema";
+import { type Airport } from "~/server/db/schema";
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -35,7 +35,7 @@ export async function generateMetadata(
     searchParams,
   }: {
     params: Promise<{ locale: string }>;
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
   },
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
@@ -52,10 +52,10 @@ export async function generateMetadata(
   const locales = [...new Set([nativeLocale, englishLocale])];
 
   let data: Airport | undefined;
-  const country = localeCountryMapping[locale] as string;
+  const country = localeCountryMapping[locale]!;
   const p = Object.keys(await searchParams);
   if (p.at(0) !== undefined) {
-    data = await QUERIES.airport(p.at(0) as string, country, "ifr");
+    data = await QUERIES.airport(p.at(0)!, country, "ifr");
     if (!data) {
       return notFound();
     }
@@ -77,7 +77,7 @@ export async function generateMetadata(
           : Object.assign(
               {},
               ...locales.map((l) => ({
-                [localeLangMapping[l] as string]:
+                [localeLangMapping[l]!]:
                   new URL(
                     getPathname({ href: "/ifr", locale: l }),
                     orgUrl,
@@ -113,7 +113,7 @@ export default async function IndexPage({
   searchParams,
 }: Readonly<{
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }>) {
   const { locale } = await params;
   // Enable static rendering
@@ -123,9 +123,9 @@ export default async function IndexPage({
   const t = await getTranslations("IfrPage");
 
   let data: Airport | undefined;
-  const country = localeCountryMapping[locale] as string;
+  const country = localeCountryMapping[locale]!;
   if (p.at(0) !== undefined) {
-    data = await QUERIES.airport(p.at(0) as string, country, "ifr");
+    data = await QUERIES.airport(p.at(0)!, country, "ifr");
     if (!data) {
       return notFound();
     }

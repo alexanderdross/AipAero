@@ -48,7 +48,7 @@ export async function generateMetadata(
           : Object.assign(
               {},
               ...locales.map((l) => ({
-                [localeLangMapping[l] as string]: new URL(
+                [localeLangMapping[l]!]: new URL(
                   getPathname({ href: "/", locale: l }),
                   orgUrl,
                 ).toString(),

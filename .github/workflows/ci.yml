@@ -47,12 +47,9 @@ jobs:
       - name: Format check
         run: pnpm format:check
 
-      # `pnpm lint` is intentionally NOT run here yet. The repo's ESLint
-      # config (`.eslintrc.mjs`) is half-migrated to flat config but
-      # imports the `typescript-eslint` package, which isn't installed —
-      # `next lint` falls through to its interactive setup prompt.
-      # Fix that separately, then add a `pnpm lint` step here.
-      #
+      - name: Lint
+        run: pnpm lint
+
       # `pnpm build` is intentionally NOT run here — it pre-renders the
       # sitemap, which hits MySQL, and we don't have a DB in CI. Vercel
       # builds every PR via the GitHub integration and posts a status

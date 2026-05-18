@@ -2,7 +2,7 @@
 
 import { and, eq, asc, like } from "drizzle-orm";
 import { db } from "~/server/db";
-import { InsertAirport, Airport, airports } from "./schema";
+import { type InsertAirport, type Airport, airports } from "./schema";
 import { unstable_cacheLife as cacheLife } from "next/cache";
 import { unstable_cacheTag as cacheTag } from "next/cache";
 import { revalidateTag } from "next/cache";

@@ -1,8 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { ReactNode, useTransition } from "react";
-import { Locale, usePathname, useRouter } from "~/i18n/routing";
+import { type ReactNode, useTransition } from "react";
+import { type Locale, usePathname, useRouter } from "~/i18n/routing";
 import {
   Select,
   SelectContent,
