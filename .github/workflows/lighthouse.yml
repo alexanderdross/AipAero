@@ -3,7 +3,15 @@ name: Lighthouse
 # Runs Lighthouse against the Vercel preview deploy for each PR and
 # posts the scores as a sticky PR comment. Report-only for now (no score
 # budgets); once we have a stable baseline we can tighten this into a
-# gating check by adding assertions to a .lighthouserc.json.
+# gating check by adding assertions to .lighthouserc.cjs.
+#
+# Requires (one-time setup):
+#   1. Vercel project → Settings → Deployment Protection →
+#      "Protection Bypass for Automation" enabled. Copy the secret.
+#   2. GitHub repo → Settings → Secrets and variables → Actions →
+#      add a repository secret named VERCEL_AUTOMATION_BYPASS_SECRET
+#      with that value.
+# Without the secret the preview returns 403 and this job will skip.
 
 on:
   pull_request:
@@ -23,10 +31,22 @@ jobs:
     name: Lighthouse (Vercel preview)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # Secrets cannot be referenced directly in `if:` conditions, so
+      # we surface a boolean env var that step-level `if:` can check.
+      HAS_BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET != '' }}
     steps:
       - uses: actions/checkout@v6
 
+      - name: Skip if bypass secret is not configured
+        if: env.HAS_BYPASS != 'true'
+        run: |
+          echo "::warning::VERCEL_AUTOMATION_BYPASS_SECRET is not set — skipping Lighthouse."
+          echo "See .github/workflows/lighthouse.yml for setup instructions."
+          exit 0
+
       - name: Wait for Vercel preview deployment
+        if: env.HAS_BYPASS == 'true'
         # Polls the GitHub deployment statuses API until Vercel posts a
         # success status, then exposes the preview URL as an output.
         uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
@@ -37,8 +57,11 @@ jobs:
           check_interval: 15
 
       - name: Run Lighthouse
+        if: env.HAS_BYPASS == 'true'
         uses: treosh/lighthouse-ci-action@v12
         id: lhci
+        env:
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         with:
           # A handful of representative URLs across locales and page types.
           # Keep this list small — each URL adds ~30s and the action runs
@@ -48,6 +71,7 @@ jobs:
             ${{ steps.vercel.outputs.url }}/uk/vfr
             ${{ steps.vercel.outputs.url }}/de
             ${{ steps.vercel.outputs.url }}/de/ifr
+          configPath: ./.lighthouserc.cjs
           uploadArtifacts: true
           temporaryPublicStorage: true
 
