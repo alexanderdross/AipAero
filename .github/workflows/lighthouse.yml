@@ -1,0 +1,91 @@
+name: Lighthouse
+
+# Runs Lighthouse against the Vercel preview deploy for each PR and
+# posts the scores as a sticky PR comment. Report-only for now (no score
+# budgets); once we have a stable baseline we can tighten this into a
+# gating check by adding assertions to a .lighthouserc.json.
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: lighthouse-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: read
+
+jobs:
+  lighthouse:
+    name: Lighthouse (Vercel preview)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Wait for Vercel preview deployment
+        # Polls the GitHub deployment statuses API until Vercel posts a
+        # success status, then exposes the preview URL as an output.
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
+        id: vercel
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 600
+          check_interval: 15
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        id: lhci
+        with:
+          # A handful of representative URLs across locales and page types.
+          # Keep this list small — each URL adds ~30s and the action runs
+          # three Lighthouse passes per URL to median out variance.
+          urls: |
+            ${{ steps.vercel.outputs.url }}/uk
+            ${{ steps.vercel.outputs.url }}/uk/vfr
+            ${{ steps.vercel.outputs.url }}/de
+            ${{ steps.vercel.outputs.url }}/de/ifr
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Format Lighthouse results
+        id: format
+        if: always() && steps.lhci.outputs.manifest
+        env:
+          MANIFEST: ${{ steps.lhci.outputs.manifest }}
+          LINKS: ${{ steps.lhci.outputs.links }}
+        run: |
+          node - <<'NODE' >> "$GITHUB_OUTPUT"
+          const manifest = JSON.parse(process.env.MANIFEST);
+          const links = JSON.parse(process.env.LINKS);
+          const fmt = (n) => Math.round(n * 100);
+          const rows = manifest
+            .filter((r) => r.isRepresentativeRun)
+            .map((r) => {
+              const s = r.summary;
+              const report = links[r.url] ?? "";
+              const url = new URL(r.url).pathname || "/";
+              return `| \`${url}\` | ${fmt(s.performance)} | ${fmt(s.accessibility)} | ${fmt(s["best-practices"])} | ${fmt(s.seo)} | [report](${report}) |`;
+            })
+            .join("\n");
+          const body = [
+            "## Lighthouse results",
+            "",
+            "| URL | Perf | A11y | Best Practices | SEO | Report |",
+            "| --- | ---: | ---: | ---: | ---: | --- |",
+            rows,
+            "",
+            "_Report-only — scores are not gating merges yet._",
+          ].join("\n");
+          console.log(`body<<EOF\n${body}\nEOF`);
+          NODE
+
+      - name: Post results as PR comment
+        if: always() && steps.format.outputs.body
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: lighthouse
+          message: ${{ steps.format.outputs.body }}
