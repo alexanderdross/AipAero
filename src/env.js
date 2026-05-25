@@ -8,7 +8,7 @@ export const env = createEnv({
    */
   server: {
     DATABASE_HOST: z.string().min(1),
-    DATABASE_PORT: z.number({ coerce: true }),
+    DATABASE_PORT: z.coerce.number(),
     DATABASE_USER: z.string().min(1),
     DATABASE_PASSWORD: z.string().min(1),
     DATABASE_NAME: z.string().min(1),

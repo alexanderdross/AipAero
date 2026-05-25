@@ -49,9 +49,9 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       // Return validation errors
-      log.error("Validation error", error.errors);
+      log.error("Validation error", error.issues);
       return NextResponse.json(
-        { message: "Validation error", errors: error.errors },
+        { message: "Validation error", errors: error.issues },
         { status: 400 },
       );
     }
