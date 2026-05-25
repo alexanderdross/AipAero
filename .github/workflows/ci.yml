@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, dev]
   push:
-    branches: [main]
+    branches: [main, dev]
 
 # Don't waste runners re-running superseded PR pushes.
 concurrency:
@@ -49,6 +49,14 @@ jobs:
 
       - name: Lint
         run: pnpm lint
+
+      - name: i18n key parity
+        run: node scripts/check-i18n.mjs
+
+      - name: Audit dependencies (high+)
+        # Fails on high or critical advisories. Complements Dependabot
+        # security updates by gating PRs that touch the lockfile.
+        run: pnpm audit --audit-level=high --prod
 
       # `pnpm build` is intentionally NOT run here — it pre-renders the
       # sitemap, which hits MySQL, and we don't have a DB in CI. Vercel

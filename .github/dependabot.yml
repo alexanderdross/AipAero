@@ -7,6 +7,13 @@ updates:
     open-pull-requests-limit: 5
     cooldown:
       default-days: 14
+    ignore:
+      # @types/node major version must track the Node runtime, which is
+      # pinned to Node 22 on Vercel. Bumping to @types/node@23+ would
+      # type-check Node 23+ APIs that don't exist at runtime. Remove this
+      # entry when the Node runtime is upgraded.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
       # Group related ecosystem bumps so the CI gate runs once instead of N
       # times in parallel; reviewers also see them together. Majors get
