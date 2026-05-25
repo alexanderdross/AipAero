@@ -12,13 +12,15 @@ const globalForDb = globalThis as unknown as {
   conn: Pool | undefined;
 };
 
-const conn = globalForDb.conn ?? createPool({
-  host: env.DATABASE_HOST,
-  port: env.DATABASE_PORT,
-  user: env.DATABASE_USER,
-  password: env.DATABASE_PASSWORD,
-  database: env.DATABASE_NAME
-});
+const conn =
+  globalForDb.conn ??
+  createPool({
+    host: env.DATABASE_HOST,
+    port: env.DATABASE_PORT,
+    user: env.DATABASE_USER,
+    password: env.DATABASE_PASSWORD,
+    database: env.DATABASE_NAME,
+  });
 if (env.NODE_ENV !== "production") globalForDb.conn = conn;
 
 export const db = drizzle(conn, { schema, mode: "default" });

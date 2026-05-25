@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { LinkProps } from "next/link";
+import { type LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
 import { Link as IntLink } from "~/i18n/routing";
 
@@ -43,7 +43,7 @@ export function MobileNav() {
       <DrawerTrigger asChild>
         <Button
           variant="ghost"
-          className="-ml-2 mr-2 h-8 w-8 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
+          className="mr-2 -ml-2 h-8 w-8 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

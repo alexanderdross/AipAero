@@ -3,17 +3,16 @@ import Link from "next/link";
 interface Props {
   title: string;
   description: string;
-  buttons?: { href: string; hrefTitle: string, title?: string }[];
+  buttons?: { href: string; hrefTitle: string; title?: string }[];
 }
 
-export function Box({
-  title,
-  description,
-  buttons,
-}: Props) {
+export function Box({ title, description, buttons }: Props) {
   return (
-    <div className="bg-white py-8 px-6 border border-[#ccc]">
-      <div className="flex flex-col justify-between h-full break-words hyphens-auto" lang="de">
+    <div className="border border-[#ccc] bg-white px-6 py-8">
+      <div
+        className="flex h-full flex-col justify-between break-words hyphens-auto"
+        lang="de"
+      >
         <div>
           <h2 className="text-center text-2xl font-normal">{title}</h2>
           <p className="text-center">{description}</p>
@@ -23,7 +22,7 @@ export function Box({
             key={b.hrefTitle}
             href={b.href}
             title={b.hrefTitle}
-            className="text-white bg-drossblue py-2 px-4 hover:underline w-full text-center mt-2 break-words hyphens-auto"
+            className="bg-drossblue mt-2 w-full px-4 py-2 text-center break-words hyphens-auto text-white hover:underline"
             target="_self"
             rel="noopener"
             scroll={true}
@@ -33,5 +32,5 @@ export function Box({
         ))}
       </div>
     </div>
-  ); 
+  );
 }

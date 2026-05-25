@@ -11,21 +11,23 @@ export function SchemaAirport({
   icaoCode,
   alternateName,
   description,
-  url
+  url,
 }: Props) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Airport",
-    "name": name,
-    "icaoCode": icaoCode,
-    "url": url,
-    "alternateName": alternateName,
-    "description": description
+    name: name,
+    icaoCode: icaoCode,
+    url: url,
+    alternateName: alternateName,
+    description: description,
   };
-  return <script
-    type="application/ld+json"
-    dangerouslySetInnerHTML={{
-      __html: JSON.stringify(schema)
-    }}
-  />;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema),
+      }}
+    />
+  );
 }

@@ -6,16 +6,21 @@ interface Props {
   description: string;
 }
 
-export function Title({ 
-  className,
-  title, 
-  description 
-}: Props) {
+export function Title({ className, title, description }: Props) {
   return (
-    <div className={cn('max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[40px]', className)}>
-      <div className="text-center pb-4">
-          <h1 className="m-0 text-2xl md:text-3xl lg:text-4xl break-words hyphens-auto">{title}</h1>
-          <p className="mt-2 text-md md:text-md break-words hyphens-auto">{description}</p>
+    <div
+      className={cn(
+        "mx-auto max-w-7xl px-4 pt-[40px] sm:px-6 lg:px-8",
+        className,
+      )}
+    >
+      <div className="pb-4 text-center">
+        <h1 className="m-0 text-2xl break-words hyphens-auto md:text-3xl lg:text-4xl">
+          {title}
+        </h1>
+        <p className="text-md md:text-md mt-2 break-words hyphens-auto">
+          {description}
+        </p>
       </div>
     </div>
   );

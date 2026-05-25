@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Don't waste runners re-running superseded PR pushes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  website:
+    name: Website (Next.js)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Belt-and-suspenders: env validation is only invoked at runtime/build,
+      # but setting this avoids surprises if a lint/typecheck plugin loads
+      # next.config.mjs.
+      SKIP_ENV_VALIDATION: "1"
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.8.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Format check
+        run: pnpm format:check
+
+      - name: Lint
+        run: pnpm lint
+
+      # `pnpm build` is intentionally NOT run here — it pre-renders the
+      # sitemap, which hits MySQL, and we don't have a DB in CI. Vercel
+      # builds every PR via the GitHub integration and posts a status
+      # check; require that check in branch protection to gate merges
+      # on a successful build.
+
+  crawlers:
+    name: Crawlers (Python)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: crawlers
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: latest
+          enable-cache: true
+          cache-dependency-glob: crawlers/uv.lock
+
+      - name: Setup Python
+        run: uv python install 3.12
+
+      - name: Verify uv.lock matches pyproject.toml
+        run: uv lock --check
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Compile-check all Python sources
+        run: uv run python -m compileall -q crawlers main.py output_handler.py settings.py
+
+      - name: Import smoke test for HTTP-based crawlers
+        run: |
+          uv run python - <<'PY'
+          from crawlers.at import AT
+          from crawlers.de import DE
+          from crawlers.fr import FR
+          from crawlers.nl import NL
+          from crawlers.uk import UK
+
+          for cls in (AT, DE, FR, NL, UK):
+              inst = cls()
+              assert inst.country == cls.__name__, (cls, inst.country)
+              inst.close()
+          print("HTTP crawler import smoke test OK")
+          PY
+
+      - name: Unit tests
+        run: uv run pytest tests/

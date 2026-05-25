@@ -4,9 +4,7 @@ import logging
 import re
 import shutil
 from pathlib import Path
-from typing import Literal
 
-from pydantic import BaseModel, Field
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -17,15 +15,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
 
+# Re-exported so existing `from crawlers.crawler_base import Airport` keeps working.
+from crawlers.models import Airport
 
-class Airport(BaseModel):
-    country: str
-    icao: str | None
-    title: str
-    url: str
-    airport_type: Literal["vfr", "ifr", "heliport", "mil", "aeroport"] = Field(
-        alias="type"
-    )
+__all__ = ["Airport", "CrawlerBase"]
 
 
 class CrawlerBase:

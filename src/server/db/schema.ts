@@ -3,9 +3,9 @@
 
 import {
   type InferInsertModel,
-  InferSelectModel,
+  type InferSelectModel,
   sql,
-  type SQL
+  type SQL,
 } from "drizzle-orm";
 import {
   type AnyMySqlColumn,
@@ -15,7 +15,7 @@ import {
   mysqlTableCreator,
   varchar,
 } from "drizzle-orm/mysql-core";
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema } from "drizzle-zod";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -32,7 +32,13 @@ export const airports = createTable(
     icao: varchar("icao", { length: 4 }),
     title: varchar("title", { length: 256 }).notNull(),
     url: varchar("url", { length: 512 }).notNull(),
-    type: mysqlEnum('type', ['vfr', 'ifr', 'heliport', 'mil', 'aeroport']).notNull(),
+    type: mysqlEnum("type", [
+      "vfr",
+      "ifr",
+      "heliport",
+      "mil",
+      "aeroport",
+    ]).notNull(),
     country: varchar("country", { length: 2 }).notNull(),
     slug: varchar("slug", { length: 256 }).notNull(),
   },
@@ -42,7 +48,7 @@ export const airports = createTable(
     typeIndex: index("type_idx").on(airport.type),
     countryIndex: index("country_idx").on(airport.country),
     slugIndex: index("slug_idx").on(airport.slug),
-  })
+  }),
 );
 
 // See https://orm.drizzle.team/docs/guides/unique-case-insensitive-email#mysql
@@ -52,9 +58,14 @@ export function lower(input: AnyMySqlColumn): SQL {
 
 // Helper type
 export type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>;
-export type InsertAirport = RequiredFields<Omit<InferInsertModel<typeof airports>, "id">, "slug">;
+export type InsertAirport = RequiredFields<
+  Omit<InferInsertModel<typeof airports>, "id">,
+  "slug"
+>;
 export type Airport = InferSelectModel<typeof airports>;
-export const airportApiInsertSchema = createInsertSchema(airports).omit({
-  id: true,
-  slug: true,
-}).array();
+export const airportApiInsertSchema = createInsertSchema(airports)
+  .omit({
+    id: true,
+    slug: true,
+  })
+  .array();
