@@ -65,7 +65,7 @@
     "eslint": "^9.39.1",
     "eslint-config-next": "^15.5.7",
     "eslint-plugin-drizzle": "^0.2.3",
-    "globals": "^15",
+    "globals": "^17",
     "postcss": "^8.5.10",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
