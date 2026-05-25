@@ -109,7 +109,7 @@ jobs:
 
       - name: Post results as PR comment
         if: always() && steps.format.outputs.body
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: lighthouse
           message: ${{ steps.format.outputs.body }}
