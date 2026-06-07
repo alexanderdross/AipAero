@@ -36,7 +36,7 @@ jobs:
       # we surface a boolean env var that step-level `if:` can check.
       HAS_BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET != '' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
       - name: Skip if bypass secret is not configured
         if: env.HAS_BYPASS != 'true'
