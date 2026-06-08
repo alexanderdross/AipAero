@@ -25,7 +25,7 @@ jobs:
       # next.config.mjs.
       SKIP_ENV_VALIDATION: "1"
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
@@ -72,7 +72,7 @@ jobs:
       run:
         working-directory: crawlers
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.2
 
       - name: Setup uv
         uses: astral-sh/setup-uv@v8.1.0
