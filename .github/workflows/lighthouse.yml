@@ -49,7 +49,7 @@ jobs:
         if: env.HAS_BYPASS == 'true'
         # Polls the GitHub deployment statuses API until Vercel posts a
         # success status, then exposes the preview URL as an output.
-        uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.3
         id: vercel
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
