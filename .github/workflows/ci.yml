@@ -45,6 +45,9 @@ jobs:
       - name: i18n key parity
         run: node scripts/check-i18n.mjs
 
+      - name: Unit tests
+        run: pnpm test
+
       - name: Audit dependencies (high+)
         # Fails on high or critical advisories. Complements Dependabot
         # security updates by gating PRs that touch the lockfile.
