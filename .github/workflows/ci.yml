@@ -27,16 +27,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6.0.2
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: 10.8.1
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 22
-          cache: pnpm
+      - name: Isolate pnpm store
+        run: echo "npm_config_store_dir=${{ runner.temp }}/pnpm-store" >> "$GITHUB_ENV"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
