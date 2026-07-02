@@ -8,7 +8,7 @@ dependencies = [
     "bs4>=0.0.2",
     "httpx>=0.27.0",
     "pydantic>=2.13.4",
-    "pydantic-settings>=2.14.1",
+    "pydantic-settings>=2.14.2",
     # Selenium + webdriver-manager are kept while AT/DE/FR/UK still use them.
     # Drop both once the migration to httpx + BeautifulSoup is complete.
     "selenium>=4.44.0",
