@@ -29,7 +29,7 @@ permissions:
 jobs:
   lighthouse:
     name: Lighthouse (Vercel preview)
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     timeout-minutes: 15
     env:
       # Secrets cannot be referenced directly in `if:` conditions, so
