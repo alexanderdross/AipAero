@@ -11,6 +11,9 @@ module.exports = {
   ci: {
     collect: {
       settings: {
+        // The self-hosted runner executes as root in a container with a small
+        // /dev/shm, so Chrome needs --no-sandbox and --disable-dev-shm-usage.
+        chromeFlags: "--no-sandbox --disable-dev-shm-usage --headless=new",
         extraHeaders: JSON.stringify({
           "x-vercel-protection-bypass": bypass,
           "x-vercel-set-bypass-cookie": "samesitenone",

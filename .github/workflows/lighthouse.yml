@@ -56,12 +56,24 @@ jobs:
           max_timeout: 600
           check_interval: 15
 
+      - name: Install Chrome for Lighthouse
+        if: env.HAS_BYPASS == 'true'
+        # The self-hosted runner (ubuntu-noble) ships no browser and Ubuntu's
+        # `chromium` is snap-only, so install Chrome from the official .deb.
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends wget ca-certificates
+          wget -q -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          apt-get install -y --no-install-recommends /tmp/chrome.deb
+          rm /tmp/chrome.deb
+
       - name: Run Lighthouse
         if: env.HAS_BYPASS == 'true'
         uses: treosh/lighthouse-ci-action@v12
         id: lhci
         env:
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          CHROME_PATH: /usr/bin/google-chrome-stable
         with:
           # A handful of representative URLs across locales and page types.
           # Keep this list small — each URL adds ~30s and the action runs
