@@ -7,7 +7,6 @@ import { BreadCrumbs } from "~/components/breadcrumbs";
 import { NextIntlClientProvider } from "next-intl";
 import pick from "lodash/pick";
 import { Suspense } from "react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -41,7 +40,6 @@ export default async function LocaleLayout(
           </Suspense>
         </NextIntlClientProvider>
         <Footer />
-        <SpeedInsights />
       </body>
     </html>
   );

@@ -1,4 +1,3 @@
-import { log } from "next-axiom";
 import slug from "slug";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -7,7 +6,7 @@ import { MUTATIONS } from "~/server/db/queries";
 import { airportApiInsertSchema, type InsertAirport } from "~/server/db/schema";
 
 export async function POST(req: NextRequest) {
-  log.info("POST /api/airports called");
+  console.info("POST /api/airports called");
 
   // Check if the request is authorized
   if (req.headers.get("Authorization") !== `Bearer ${env.CRON_SECRET}`) {
@@ -15,7 +14,7 @@ export async function POST(req: NextRequest) {
       req.headers.get("x-forwarded-for") ||
       req.headers.get("x-real-ip") ||
       "unknown";
-    log.info(`Unauthorized request from IP ${ip}`);
+    console.info(`Unauthorized request from IP ${ip}`);
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -33,7 +32,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (enrichedAirports.length === 0) {
-      log.info("No airports to insert");
+      console.info("No airports to insert");
       return NextResponse.json(
         { message: "No airports to insert" },
         { status: 200 },
@@ -49,7 +48,7 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       // Return validation errors
-      log.error("Validation error", error.issues);
+      console.error("Validation error", error.issues);
       return NextResponse.json(
         { message: "Validation error", errors: error.issues },
         { status: 400 },
@@ -57,9 +56,9 @@ export async function POST(req: NextRequest) {
     }
     // Handle unexpected errors
     if (error instanceof Error) {
-      log.error(error.message);
+      console.error(error.message);
     } else {
-      log.error("An unknown error occurred");
+      console.error("An unknown error occurred");
     }
     return NextResponse.json(
       { message: "Something went wrong" },

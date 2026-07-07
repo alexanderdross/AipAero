@@ -10,7 +10,7 @@ import LoadingList from "./loading-list";
 import { QUERIES } from "~/server/db/queries";
 import { i18nPathMapping, orgUrl, rootBreadcrumb } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
-import getConfig from "next/config";
+import { modifiedDate as buildDate } from "~/lib/build-info";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 
@@ -117,10 +117,7 @@ export default async function IndexPage(
     ],
   };
 
-  const { publicRuntimeConfig } = getConfig() as {
-    publicRuntimeConfig: { modifiedDate: string };
-  };
-  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+  const modifiedDate = new Date(buildDate);
 
   return (
     <>

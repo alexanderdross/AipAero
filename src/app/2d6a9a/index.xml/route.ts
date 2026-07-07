@@ -1,13 +1,10 @@
 import { NextResponse } from "next/server";
-import getConfig from "next/config";
 import { orgUrl } from "~/lib/utils";
 import { routing } from "~/i18n/routing";
+import { modifiedDate as buildDate } from "~/lib/build-info";
 
 export async function GET() {
-  const { publicRuntimeConfig } = getConfig() as {
-    publicRuntimeConfig: { modifiedDate: string };
-  };
-  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+  const modifiedDate = new Date(buildDate);
   const formattedDate =
     modifiedDate.toISOString().split("T").at(0) ??
     new Date().toISOString().split("T").at(0) ??

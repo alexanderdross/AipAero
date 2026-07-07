@@ -1,5 +1,4 @@
 import createNextIntlPlugin from 'next-intl/plugin';
-import { withAxiomNextConfig } from 'next-axiom';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 
 const withNextIntl = createNextIntlPlugin();
@@ -9,19 +8,18 @@ const withAnalyzer = withBundleAnalyzer({
 
 // Content Security Policy — sent in Report-Only mode for now so violations
 // are reported to the browser console / report-uri but the page still
-// works. Watch for violations from AdSense / Axiom / inline JSON-LD over
-// the next deploy cycle, then flip the header name to plain
-// `Content-Security-Policy` to enforce.
+// works. Watch for violations from AdSense over the next deploy cycle, then
+// flip the header name to plain `Content-Security-Policy` to enforce.
 //
 // 'unsafe-inline' on script-src is needed for the inline <script
 // type="application/ld+json"> blocks until those are migrated to nonces.
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googletagmanager.com https://*.axiom.co",
+  "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://*.googlesyndication.com https://*.google.com",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.axiom.co https://vitals.vercel-insights.com https://pagead2.googlesyndication.com",
+  "connect-src 'self' https://pagead2.googlesyndication.com",
   "frame-src https://googleads.g.doubleclick.net https://*.googlesyndication.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
@@ -45,13 +43,11 @@ const securityHeaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",
   trailingSlash: true,
-  publicRuntimeConfig: {
-    modifiedDate: new Date().toISOString(),
-  },
-  experimental: {
-    useCache: true,
+  // The Cloudflare Workers runtime does not run the default Next.js image
+  // optimizer (sharp). The few assets we serve are already sized, so skip it.
+  images: {
+    unoptimized: true,
   },
   async headers() {
     return [
@@ -71,4 +67,9 @@ const nextConfig = {
   },
 };
 
-export default withAnalyzer(withAxiomNextConfig(withNextIntl(nextConfig)));
+export default withAnalyzer(withNextIntl(nextConfig));
+
+// Enable getCloudflareContext() (D1 binding access) during `next dev`.
+// No-op outside the Cloudflare dev flow.
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
+initOpenNextCloudflareForDev();

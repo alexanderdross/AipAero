@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from "lucide-react";
 import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import getConfig from "next/config";
+import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { notFound } from "next/navigation";
 import { AboutCountryBox } from "~/components/about-country-box";
@@ -198,10 +198,7 @@ export default async function IndexPage({
     });
   }
 
-  const { publicRuntimeConfig } = getConfig() as {
-    publicRuntimeConfig: { modifiedDate: string };
-  };
-  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+  const modifiedDate = new Date(buildDate);
 
   return (
     <>

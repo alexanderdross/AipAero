@@ -38,32 +38,48 @@ flowchart TD
 
 ## Used Libraries
 
-- [Next.js](https://nextjs.org) (App Router, React 19)
-- [Drizzle](https://orm.drizzle.team) ORM with MySQL
+- [Next.js](https://nextjs.org) (App Router, React 19) on [Cloudflare Workers](https://workers.cloudflare.com/) via [OpenNext](https://opennext.js.org/cloudflare)
+- [Drizzle](https://orm.drizzle.team) ORM with [Cloudflare D1](https://developers.cloudflare.com/d1/) (SQLite)
 - [Tailwind CSS](https://tailwindcss.com)
 - [next-intl](https://next-intl-docs.vercel.app/) for i18n
-- [next-axiom](https://github.com/axiomhq/next-axiom) for logging
 
 ## Local Development
 
 ```bash
 pnpm install
-cp .env.example .env   # fill in DATABASE_*, CRON_SECRET, ADSENSE_ID, AXIOM tokens
-./start-database.sh    # optional: spins up a local MySQL via Docker
-pnpm dev               # starts Next.js with Turbopack
+cp .env.example .env        # fill in CRON_SECRET, ADSENSE_ID
+cp .dev.vars.example .dev.vars   # secrets/vars for `pnpm preview` (Workers)
+pnpm dev                    # Next.js dev server with Turbopack
 ```
 
-Useful scripts: `pnpm check` (lint + typecheck), `pnpm db:push`, `pnpm db:studio`, `pnpm format:write`.
+Run the app on the Workers runtime locally (miniflare + local D1/KV):
+
+```bash
+wrangler d1 migrations apply DB --local   # create the schema in the local D1
+pnpm preview                              # build with OpenNext + serve the Worker
+```
+
+Useful scripts: `pnpm check` (lint + typecheck), `pnpm db:generate`, `pnpm db:studio`, `pnpm format:write`, `pnpm cf-build`, `pnpm deploy`.
 
 ## Deployment
 
-### Vercel (current)
+### Cloudflare Workers (current)
 
-Deployments happen automatically via the Vercel GitHub integration on pushes to the production branch. Required environment variables are managed through the Vercel project settings and must mirror `.env.example` (`DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `CRON_SECRET`, `ADSENSE_ID`, `NEXT_PUBLIC_AXIOM_DATASET`, `NEXT_PUBLIC_AXIOM_TOKEN`).
+The website runs on Cloudflare Workers via the OpenNext adapter (`wrangler.jsonc` + `open-next.config.ts`).
 
-The MySQL database is reachable from Vercel's serverless functions over the public network — make sure the database host whitelists Vercel's egress and that connections use TLS.
+One-time setup:
 
-See the official [Vercel deployment guide for T3](https://create.t3.gg/en/deployment/vercel) for details.
+```bash
+wrangler d1 create aip-aero                 # app DB       -> binding DB
+wrangler d1 create aip-aero-tag-cache       # tag cache    -> NEXT_TAG_CACHE_D1
+wrangler kv namespace create NEXT_INC_CACHE_KV   # incr cache -> NEXT_INC_CACHE_KV
+# paste the returned IDs into wrangler.jsonc (they ship as REPLACE_WITH_* placeholders)
+wrangler secret put CRON_SECRET
+wrangler secret put ADSENSE_ID
+wrangler d1 migrations apply DB --remote     # apply the schema to production D1
+```
+
+Then deploy with `pnpm deploy`. The crawlers repopulate the data by POSTing to `/api/airports`.
 
 ### Docker (legacy)
 

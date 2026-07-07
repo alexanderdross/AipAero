@@ -14,7 +14,7 @@ import {
   rootTitle,
 } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
-import getConfig from "next/config";
+import { modifiedDate as buildDate } from "~/lib/build-info";
 import { routing } from "~/i18n/routing";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 
@@ -106,10 +106,7 @@ export default async function RootPage() {
     },
   ].sort((a, b) => a.name.localeCompare(b.name));
 
-  const { publicRuntimeConfig } = getConfig() as {
-    publicRuntimeConfig: { modifiedDate: string };
-  };
-  const modifiedDate = new Date(publicRuntimeConfig.modifiedDate);
+  const modifiedDate = new Date(buildDate);
 
   return (
     <html className="h-full" lang="en">

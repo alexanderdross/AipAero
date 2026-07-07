@@ -1,61 +1,66 @@
 "server-only";
 
 import { and, eq, asc, like } from "drizzle-orm";
-import { db } from "~/server/db";
+import { unstable_cache, revalidateTag } from "next/cache";
+import { getDb, type DB } from "~/server/db";
 import { type InsertAirport, type Airport, airports } from "./schema";
-import { unstable_cacheLife as cacheLife } from "next/cache";
-import { unstable_cacheTag as cacheTag } from "next/cache";
-import { revalidateTag } from "next/cache";
-import { log } from "next-axiom";
 
-// Network errors that mean "MySQL host is unreachable from this environment"
-// — e.g. Vercel's build sandbox trying to reach a private/Docker-bridge IP.
-// We treat these as soft failures during reads so static generation can finish
-// with empty results; the page will be revalidated once the DB is reachable.
-// Schema errors, bad SQL, permission denials, etc. are NOT swallowed.
-const NETWORK_ERROR_CODES = new Set([
-  "EHOSTUNREACH",
-  "ECONNREFUSED",
-  "ETIMEDOUT",
-  "ENETUNREACH",
-  "ENOTFOUND",
-]);
+// Cache lifetime for the read queries (seconds). Matches the previous
+// `cacheLife("hours")` used with the `"use cache"` directive, which the
+// Cloudflare/OpenNext adapter does not yet support — so we use the classic
+// `unstable_cache` API, which OpenNext supports and which keeps `revalidateTag`
+// invalidation working unchanged.
+const REVALIDATE_SECONDS = 60 * 60;
 
-function isNetworkError(err: unknown): boolean {
-  if (typeof err !== "object" || err === null) return false;
-  const code = (err as { code?: unknown }).code;
-  if (typeof code === "string" && NETWORK_ERROR_CODES.has(code)) return true;
-  const cause = (err as { cause?: unknown }).cause;
-  return cause !== undefined && isNetworkError(cause);
-}
+// During `next build` the OpenNext adapter exposes a *local* (miniflare) D1
+// binding that has no data (and, in CI, no schema). We must not fail the build
+// on it — static pages/sitemaps prerender with empty results and revalidate at
+// runtime (and whenever the crawler POST triggers `revalidateTag`). At runtime
+// on a real Worker the DB is migrated and populated, so we let errors surface.
+const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
 
-async function safeRead<T>(
+// Wrap a read in `unstable_cache` with the given tags.
+function cachedRead<T>(
   label: string,
-  fn: () => Promise<T>,
+  keyParts: string[],
+  tags: string[],
+  run: (db: DB) => Promise<T>,
   fallback: T,
 ): Promise<T> {
-  try {
-    return await fn();
-  } catch (err) {
-    if (isNetworkError(err)) {
-      log.warn(
-        `DB unreachable during ${label}; returning empty result so the build/cache can proceed`,
-        { error: err instanceof Error ? err.message : String(err) },
-      );
-      return fallback;
-    }
-    throw err;
-  }
+  return unstable_cache(
+    async () => {
+      const db = await getDb();
+      if (!db) {
+        console.warn(
+          `DB unavailable during ${label}; returning empty result so the build/cache can proceed`,
+        );
+        return fallback;
+      }
+      try {
+        return await run(db);
+      } catch (err) {
+        if (IS_BUILD) {
+          console.warn(
+            `DB read '${label}' failed during build; returning empty result (revalidated at runtime)`,
+            err instanceof Error ? err.message : String(err),
+          );
+          return fallback;
+        }
+        throw err;
+      }
+    },
+    keyParts,
+    { tags, revalidate: REVALIDATE_SECONDS },
+  )();
 }
 
 export const QUERIES = {
-  vfrAirports: async function (country: string) {
-    "use cache";
-    cacheLife("hours");
-    cacheTag("vfrAirports", country);
-    return await safeRead(
+  vfrAirports: function (country: string) {
+    return cachedRead(
       "vfrAirports",
-      () =>
+      ["vfrAirports", country],
+      ["vfrAirports", country],
+      (db) =>
         db.query.airports.findMany({
           where: and(eq(airports.country, country), eq(airports.type, "vfr")),
           orderBy: [asc(airports.title)],
@@ -63,13 +68,12 @@ export const QUERIES = {
       [] as Airport[],
     );
   },
-  ifrAirports: async function (country: string) {
-    "use cache";
-    cacheLife("hours");
-    cacheTag("ifrAirports", country);
-    return await safeRead(
+  ifrAirports: function (country: string) {
+    return cachedRead(
       "ifrAirports",
-      () =>
+      ["ifrAirports", country],
+      ["ifrAirports", country],
+      (db) =>
         db.query.airports.findMany({
           where: and(eq(airports.country, country), eq(airports.type, "ifr")),
           orderBy: [asc(airports.title)],
@@ -77,13 +81,12 @@ export const QUERIES = {
       [] as Airport[],
     );
   },
-  heliports: async function (country: string) {
-    "use cache";
-    cacheLife("hours");
-    cacheTag("heliports", country);
-    return await safeRead(
+  heliports: function (country: string) {
+    return cachedRead(
       "heliports",
-      () =>
+      ["heliports", country],
+      ["heliports", country],
+      (db) =>
         db.query.airports.findMany({
           where: and(
             eq(airports.country, country),
@@ -94,13 +97,12 @@ export const QUERIES = {
       [] as Airport[],
     );
   },
-  militaryAirports: async function (country: string) {
-    "use cache";
-    cacheLife("hours");
-    cacheTag("militaryAirports", country);
-    return await safeRead(
+  militaryAirports: function (country: string) {
+    return cachedRead(
       "militaryAirports",
-      () =>
+      ["militaryAirports", country],
+      ["militaryAirports", country],
+      (db) =>
         db.query.airports.findMany({
           where: and(eq(airports.country, country), eq(airports.type, "mil")),
           orderBy: [asc(airports.title)],
@@ -108,13 +110,12 @@ export const QUERIES = {
       [] as Airport[],
     );
   },
-  aeroportAirports: async function (country: string) {
-    "use cache";
-    cacheLife("hours");
-    cacheTag("aeroportAirports", country);
-    return await safeRead(
+  aeroportAirports: function (country: string) {
+    return cachedRead(
       "aeroportAirports",
-      () =>
+      ["aeroportAirports", country],
+      ["aeroportAirports", country],
+      (db) =>
         db.query.airports.findMany({
           where: and(
             eq(airports.country, country),
@@ -125,17 +126,12 @@ export const QUERIES = {
       [] as Airport[],
     );
   },
-  airport: async function (
-    slug: string,
-    country: string,
-    type: Airport["type"],
-  ) {
-    "use cache";
-    cacheLife("hours");
-    cacheTag("airport", slug, country, type);
-    return await safeRead<Airport | undefined>(
+  airport: function (slug: string, country: string, type: Airport["type"]) {
+    return cachedRead<Airport | undefined>(
       "airport",
-      () =>
+      ["airport", slug, country, type],
+      ["airport", slug, country, type],
+      (db) =>
         db.query.airports.findFirst({
           where: and(
             eq(airports.slug, slug),
@@ -146,17 +142,12 @@ export const QUERIES = {
       undefined,
     );
   },
-  airports: async function (
-    search: string,
-    country: string,
-    type: Airport["type"],
-  ) {
-    "use cache";
-    cacheLife("hours");
-    cacheTag("airports", search, country, type);
-    return await safeRead(
+  airports: function (search: string, country: string, type: Airport["type"]) {
+    return cachedRead(
       "airports",
-      () =>
+      ["airports", search, country, type],
+      ["airports", search, country, type],
+      (db) =>
         db.query.airports.findMany({
           limit: 5,
           where: and(
@@ -171,20 +162,46 @@ export const QUERIES = {
   },
 };
 
+// D1 batches every bound parameter of every statement together, so keep each
+// INSERT well under SQLite's variable limit. Each airport row binds ~6 columns;
+// 50 rows ≈ 300 params, comfortably within limits.
+const INSERT_CHUNK_SIZE = 50;
+
+function chunk<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) {
+    out.push(items.slice(i, i + size));
+  }
+  return out;
+}
+
 export const MUTATIONS = {
   insertAirports: async function (input: InsertAirport[]) {
     if (!input[0]) {
-      log.warn("No airports to insert");
+      console.warn("No airports to insert");
       return;
     }
+    const db = await getDb();
+    if (!db) {
+      throw new Error("D1 database binding is unavailable");
+    }
     const country = input[0].country;
-    // Atomic delete-then-insert. Without a transaction a process kill or
-    // network blip between the two statements leaves the country with zero
-    // airports until the next crawl.
-    const result = await db.transaction(async (tx) => {
-      await tx.delete(airports).where(eq(airports.country, country)).execute();
-      return await tx.insert(airports).values(input).execute();
-    });
+
+    // Atomic delete-then-insert via D1's batch (D1 has no interactive
+    // transactions). Without atomicity a crash between the delete and the
+    // insert would leave the country with zero airports until the next crawl.
+    const deleteStmt = db.delete(airports).where(eq(airports.country, country));
+    const insertStmts = chunk(input, INSERT_CHUNK_SIZE).map((rows) =>
+      db.insert(airports).values(rows),
+    );
+    const statements = [deleteStmt, ...insertStmts];
+    const result = await db.batch(
+      statements as [
+        (typeof statements)[number],
+        ...(typeof statements)[number][],
+      ],
+    );
+
     // Invalidate the cache tags
     revalidateTag("vfrAirports");
     revalidateTag("ifrAirports");

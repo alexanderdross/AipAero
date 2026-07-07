@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
-import getConfig from "next/config";
 import { env } from "~/env";
 import { orgUrl } from "~/lib/utils";
+import { modifiedDate } from "~/lib/build-info";
 
 import "~/styles/globals.css";
-
-const { publicRuntimeConfig } = getConfig() as {
-  publicRuntimeConfig: { modifiedDate: string };
-};
 
 export const metadata: Metadata = {
   metadataBase: orgUrl,
@@ -39,9 +35,9 @@ export const metadata: Metadata = {
   },
   other: {
     "google-adsense-account": `ca-pub-${env.ADSENSE_ID}`,
-    "article:modified_time": publicRuntimeConfig.modifiedDate,
-    "article:published_time": publicRuntimeConfig.modifiedDate,
-    "og:updated_time": publicRuntimeConfig.modifiedDate,
+    "article:modified_time": modifiedDate,
+    "article:published_time": modifiedDate,
+    "og:updated_time": modifiedDate,
   },
 };
 

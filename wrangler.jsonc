@@ -1,0 +1,45 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aip-aero",
+  "main": ".open-next/worker.js",
+  // nodejs_compat + a compat date >= 2024-09-23 is required for the Node APIs
+  // OpenNext and the D1/Drizzle driver rely on.
+  "compatibility_date": "2024-12-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "NODE_ENV": "production"
+  },
+  // CRON_SECRET is a secret, set it with: wrangler secret put CRON_SECRET
+  // (and mirror it in .dev.vars for local `pnpm preview`).
+  "d1_databases": [
+    {
+      // Application database. Create with: wrangler d1 create aip-aero
+      "binding": "DB",
+      "database_name": "aip-aero",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "drizzle"
+    },
+    {
+      // OpenNext tag cache (backs revalidateTag). Create with:
+      // wrangler d1 create aip-aero-tag-cache
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "aip-aero-tag-cache",
+      "database_id": "REPLACE_WITH_TAG_CACHE_D1_ID"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      // OpenNext incremental cache. Create with:
+      // wrangler kv namespace create NEXT_INC_CACHE_KV
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
+    }
+  ]
+}

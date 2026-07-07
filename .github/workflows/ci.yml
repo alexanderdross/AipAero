@@ -62,11 +62,13 @@ jobs:
         # security updates by gating PRs that touch the lockfile.
         run: pnpm audit --audit-level=high --prod
 
-      # `pnpm build` is intentionally NOT run here — it pre-renders the
-      # sitemap, which hits MySQL, and we don't have a DB in CI. Vercel
-      # builds every PR via the GitHub integration and posts a status
-      # check; require that check in branch protection to gate merges
-      # on a successful build.
+      # The website deploys to Cloudflare Workers via the OpenNext adapter.
+      # The build no longer needs a database: DB reads go through the `DB`
+      # D1 binding, which is absent at build time, so `getDb()` returns null
+      # and the sitemap/pages prerender with empty results and revalidate at
+      # runtime. That makes it safe to gate PRs on the Worker build here.
+      - name: Build (OpenNext / Cloudflare Workers)
+        run: pnpm cf-build
 
   crawlers:
     name: Crawlers (Python)

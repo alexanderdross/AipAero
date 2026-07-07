@@ -17,6 +17,9 @@ export default tseslint.config(
   {
     ignores: [
       ".next/**",
+      ".open-next/**",
+      ".wrangler/**",
+      "drizzle/**",
       "node_modules/**",
       "next-env.d.ts",
       "src/server/db/migrations/**",
