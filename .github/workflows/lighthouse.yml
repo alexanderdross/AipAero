@@ -1,21 +1,22 @@
 name: Lighthouse
 
-# Runs Lighthouse against the Vercel preview deploy for each PR and
-# posts the scores as a sticky PR comment. Report-only for now (no score
-# budgets); once we have a stable baseline we can tighten this into a
-# gating check by adding assertions to .lighthouserc.cjs.
+# Runs Lighthouse against a deployed preview and posts the scores as a job
+# summary. Report-only (no score budgets); once we have a stable baseline we
+# can tighten this into a gating check by adding assertions to
+# .lighthouserc.cjs.
 #
-# Requires (one-time setup):
-#   1. Vercel project → Settings → Deployment Protection →
-#      "Protection Bypass for Automation" enabled. Copy the secret.
-#   2. GitHub repo → Settings → Secrets and variables → Actions →
-#      add a repository secret named VERCEL_AUTOMATION_BYPASS_SECRET
-#      with that value.
-# Without the secret the preview returns 403 and this job will skip.
+# The website deploys to Cloudflare Workers via the OpenNext adapter, which
+# does not post a per-PR GitHub deployment status (the old flow polled Vercel's
+# status). Run this manually against a preview/production Worker URL, e.g. the
+# `pnpm preview` tunnel, a `workers.dev` deploy, or aip.aero once cut over.
 
 on:
-  pull_request:
-    branches: [main, dev]
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Base URL of the deployed site to audit (no trailing slash), e.g. https://aip-aero.<subdomain>.workers.dev"
+        required: true
+        type: string
 
 concurrency:
   group: lighthouse-${{ github.workflow }}-${{ github.ref }}
@@ -23,41 +24,16 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
-  statuses: read
 
 jobs:
   lighthouse:
-    name: Lighthouse (Vercel preview)
+    name: Lighthouse (Workers preview)
     runs-on: self-hosted
     timeout-minutes: 15
-    env:
-      # Secrets cannot be referenced directly in `if:` conditions, so
-      # we surface a boolean env var that step-level `if:` can check.
-      HAS_BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET != '' }}
     steps:
       - uses: actions/checkout@v7.0.0
 
-      - name: Skip if bypass secret is not configured
-        if: env.HAS_BYPASS != 'true'
-        run: |
-          echo "::warning::VERCEL_AUTOMATION_BYPASS_SECRET is not set — skipping Lighthouse."
-          echo "See .github/workflows/lighthouse.yml for setup instructions."
-          exit 0
-
-      - name: Wait for Vercel preview deployment
-        if: env.HAS_BYPASS == 'true'
-        # Polls the GitHub deployment statuses API until Vercel posts a
-        # success status, then exposes the preview URL as an output.
-        uses: patrickedqvist/wait-for-vercel-preview@v1.3.3
-        id: vercel
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          max_timeout: 600
-          check_interval: 15
-
       - name: Install Chrome for Lighthouse
-        if: env.HAS_BYPASS == 'true'
         # The self-hosted runner (ubuntu-noble) ships no browser and Ubuntu's
         # `chromium` is snap-only, so install Chrome from the official .deb.
         run: |
@@ -68,21 +44,19 @@ jobs:
           rm /tmp/chrome.deb
 
       - name: Run Lighthouse
-        if: env.HAS_BYPASS == 'true'
         uses: treosh/lighthouse-ci-action@v12
         id: lhci
         env:
-          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
           CHROME_PATH: /usr/bin/google-chrome-stable
         with:
           # A handful of representative URLs across locales and page types.
           # Keep this list small — each URL adds ~30s and the action runs
           # three Lighthouse passes per URL to median out variance.
           urls: |
-            ${{ steps.vercel.outputs.url }}/uk
-            ${{ steps.vercel.outputs.url }}/uk/vfr
-            ${{ steps.vercel.outputs.url }}/de
-            ${{ steps.vercel.outputs.url }}/de/ifr
+            ${{ inputs.base_url }}/uk
+            ${{ inputs.base_url }}/uk/vfr
+            ${{ inputs.base_url }}/de
+            ${{ inputs.base_url }}/de/ifr
           configPath: ./.lighthouserc.cjs
           uploadArtifacts: true
           temporaryPublicStorage: true
@@ -94,7 +68,7 @@ jobs:
           MANIFEST: ${{ steps.lhci.outputs.manifest }}
           LINKS: ${{ steps.lhci.outputs.links }}
         run: |
-          node - <<'NODE' >> "$GITHUB_OUTPUT"
+          node - <<'NODE' >> "$GITHUB_STEP_SUMMARY"
           const manifest = JSON.parse(process.env.MANIFEST);
           const links = JSON.parse(process.env.LINKS);
           const fmt = (n) => Math.round(n * 100);
@@ -116,12 +90,5 @@ jobs:
             "",
             "_Report-only — scores are not gating merges yet._",
           ].join("\n");
-          console.log(`body<<EOF\n${body}\nEOF`);
+          console.log(body);
           NODE
-
-      - name: Post results as PR comment
-        if: always() && steps.format.outputs.body
-        uses: marocchino/sticky-pull-request-comment@v3
-        with:
-          header: lighthouse
-          message: ${{ steps.format.outputs.body }}

@@ -1,0 +1,5 @@
+# Local secrets/vars for `pnpm preview` (Wrangler reads `.dev.vars`).
+# Copy to `.dev.vars` (gitignored) and fill in. Mirrors the Worker secrets set
+# in production with `wrangler secret put`.
+CRON_SECRET=""
+ADSENSE_ID=""

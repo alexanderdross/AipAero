@@ -1,20 +1,13 @@
 // Example model schema from the Drizzle docs
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
+import { type InferInsertModel, type InferSelectModel } from "drizzle-orm";
 import {
-  type InferInsertModel,
-  type InferSelectModel,
-  sql,
-  type SQL,
-} from "drizzle-orm";
-import {
-  type AnyMySqlColumn,
-  bigint,
   index,
-  mysqlEnum,
-  mysqlTableCreator,
-  varchar,
-} from "drizzle-orm/mysql-core";
+  integer,
+  sqliteTableCreator,
+  text,
+} from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 
 /**
@@ -23,24 +16,20 @@ import { createInsertSchema } from "drizzle-zod";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = mysqlTableCreator((name) => `aip_aero_v4_${name}`);
+export const createTable = sqliteTableCreator((name) => `aip_aero_v4_${name}`);
 
 export const airports = createTable(
   "airports",
   {
-    id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-    icao: varchar("icao", { length: 4 }),
-    title: varchar("title", { length: 256 }).notNull(),
-    url: varchar("url", { length: 512 }).notNull(),
-    type: mysqlEnum("type", [
-      "vfr",
-      "ifr",
-      "heliport",
-      "mil",
-      "aeroport",
-    ]).notNull(),
-    country: varchar("country", { length: 2 }).notNull(),
-    slug: varchar("slug", { length: 256 }).notNull(),
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    icao: text("icao"),
+    title: text("title").notNull(),
+    url: text("url").notNull(),
+    type: text("type", {
+      enum: ["vfr", "ifr", "heliport", "mil", "aeroport"],
+    }).notNull(),
+    country: text("country").notNull(),
+    slug: text("slug").notNull(),
   },
   (airport) => ({
     icaoIndex: index("icao_idx").on(airport.icao),
@@ -50,11 +39,6 @@ export const airports = createTable(
     slugIndex: index("slug_idx").on(airport.slug),
   }),
 );
-
-// See https://orm.drizzle.team/docs/guides/unique-case-insensitive-email#mysql
-export function lower(input: AnyMySqlColumn): SQL {
-  return sql`lower(${input})`;
-}
 
 // Helper type
 export type RequiredFields<T, K extends keyof T> = T & Required<Pick<T, K>>;
