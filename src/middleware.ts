@@ -1,4 +1,4 @@
-import { type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import LinkHeader from "http-link-header";
 import { localeLangMapping, routing } from "./i18n/routing";
@@ -6,6 +6,15 @@ import { localeLangMapping, routing } from "./i18n/routing";
 const handleI18nRouting = createMiddleware(routing);
 
 export default function middleware(request: NextRequest) {
+  // Redirect the www host to the canonical apex domain (301). Both hostnames
+  // are bound to this Worker as custom domains (see wrangler.jsonc).
+  const host = request.headers.get("host");
+  if (host === "www.aip.aero") {
+    const url = new URL(request.url);
+    url.host = "aip.aero";
+    return NextResponse.redirect(url, 301);
+  }
+
   const { pathname } = request.nextUrl;
 
   // Matches '/', as well as all paths that start with a locale like '/en'

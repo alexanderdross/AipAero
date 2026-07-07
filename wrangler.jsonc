@@ -1,45 +1,62 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "aip-aero",
-  "main": ".open-next/worker.js",
-  // nodejs_compat + a compat date >= 2024-09-23 is required for the Node APIs
-  // OpenNext and the D1/Drizzle driver rely on.
-  "compatibility_date": "2024-12-30",
-  "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": ".open-next/assets"
-  },
-  "observability": {
-    "enabled": true
-  },
-  "vars": {
-    "NODE_ENV": "production"
-  },
-  // CRON_SECRET is a secret, set it with: wrangler secret put CRON_SECRET
-  // (and mirror it in .dev.vars for local `pnpm preview`).
-  "d1_databases": [
-    {
-      // Application database. Create with: wrangler d1 create aip-aero
-      "binding": "DB",
-      "database_name": "aip-aero",
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
-      "migrations_dir": "drizzle"
-    },
-    {
-      // OpenNext tag cache (backs revalidateTag). Create with:
-      // wrangler d1 create aip-aero-tag-cache
-      "binding": "NEXT_TAG_CACHE_D1",
-      "database_name": "aip-aero-tag-cache",
-      "database_id": "REPLACE_WITH_TAG_CACHE_D1_ID"
-    }
-  ],
-  "kv_namespaces": [
-    {
-      // OpenNext incremental cache. Create with:
-      // wrangler kv namespace create NEXT_INC_CACHE_KV
-      "binding": "NEXT_INC_CACHE_KV",
-      "id": "REPLACE_WITH_KV_NAMESPACE_ID"
-    }
-  ]
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "aip-aero",
+	"main": ".open-next/worker.js",
+	// nodejs_compat + a compat date >= 2024-09-23 is required for the Node APIs
+	// OpenNext and the D1/Drizzle driver rely on.
+	"compatibility_date": "2024-12-30",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".open-next/assets"
+	},
+	"observability": {
+		"enabled": true
+	},
+	// Serve on the Cloudflare-managed apex domain instead of *.workers.dev.
+	// custom_domain: true makes Wrangler create the DNS record + route binding.
+	"workers_dev": false,
+	// www is bound too; middleware.ts 301-redirects it to the apex domain.
+	"routes": [
+		{
+			"pattern": "aip.aero",
+			"custom_domain": true
+		},
+		{
+			"pattern": "www.aip.aero",
+			"custom_domain": true
+		}
+	],
+	"vars": {
+		"NODE_ENV": "production"
+	},
+	// CRON_SECRET is a secret, set it with: wrangler secret put CRON_SECRET
+	// (and mirror it in .dev.vars for local `pnpm preview`).
+	"d1_databases": [
+		{
+			// Application database. Create with: wrangler d1 create aip-aero
+			"binding": "DB",
+			"database_name": "aip-aero",
+			"database_id": "2600ff55-5ffb-442e-9d85-acf5b99dd8ad",
+			"migrations_dir": "drizzle"
+		},
+		{
+			// OpenNext tag cache (backs revalidateTag). Create with:
+			// wrangler d1 create aip-aero-tag-cache
+			"binding": "NEXT_TAG_CACHE_D1",
+			"database_name": "aip-aero-tag-cache",
+			"database_id": "d6ac9a00-1c6c-449f-8fae-dd03c336b84a"
+		}
+	],
+	"kv_namespaces": [
+		{
+			// OpenNext incremental cache. Create with:
+			// wrangler kv namespace create NEXT_INC_CACHE_KV
+			"binding": "NEXT_INC_CACHE_KV",
+			"id": "e03eebcada284bed843b43ad946186d8",
+			"remote": true
+		}
+	]
 }
