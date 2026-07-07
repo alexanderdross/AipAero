@@ -46,6 +46,10 @@ function cachedRead<T>(
           );
           return fallback;
         }
+        console.error(
+          `DB read '${label}' failed at runtime:`,
+          err instanceof Error ? (err.stack ?? err.message) : String(err),
+        );
         throw err;
       }
     },
