@@ -55,8 +55,7 @@
 			// OpenNext incremental cache. Create with:
 			// wrangler kv namespace create NEXT_INC_CACHE_KV
 			"binding": "NEXT_INC_CACHE_KV",
-			"id": "e03eebcada284bed843b43ad946186d8",
-			"remote": true
+			"id": "e03eebcada284bed843b43ad946186d8"
 		}
 	]
 }
