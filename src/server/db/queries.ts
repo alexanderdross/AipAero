@@ -162,10 +162,14 @@ export const QUERIES = {
   },
 };
 
-// D1 batches every bound parameter of every statement together, so keep each
-// INSERT well under SQLite's variable limit. Each airport row binds ~6 columns;
-// 50 rows ≈ 300 params, comfortably within limits.
-const INSERT_CHUNK_SIZE = 50;
+// Cloudflare D1 caps bound parameters at 100 per query — far below SQLite's own
+// limit. Each airport row binds 6 columns (icao, title, url, type, country,
+// slug), so cap each INSERT at floor(100 / 6) = 16 rows (96 params) to stay
+// under the D1 limit. Exceeding it fails the whole batch with
+// "D1_ERROR: too many SQL variables".
+const D1_MAX_BOUND_PARAMS = 100;
+const INSERT_COLUMNS = 6;
+const INSERT_CHUNK_SIZE = Math.floor(D1_MAX_BOUND_PARAMS / INSERT_COLUMNS);
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = [];
