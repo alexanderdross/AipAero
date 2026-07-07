@@ -4,7 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { AboutCountryBox } from "~/components/about-country-box";
 import { Title } from "~/components/title";
-import { getPathname, Link, localeLangMapping, routing } from "~/i18n/routing";
+import Link from "next/link";
+import { getPathname, localeLangMapping, routing } from "~/i18n/routing";
 import { type Airport } from "~/server/db/schema";
 import LoadingList from "./loading-list";
 import { QUERIES } from "~/server/db/queries";
@@ -197,6 +198,17 @@ async function AirportLists({ locale }: { locale: string }) {
                 <p className="pb-2 text-center">{t(`${key}.description`)}</p>
                 <ol>
                   {airports.map((airport, index) => {
+                    // Resolve the locale-prefixed detail URL server-side via
+                    // getPathname (e.g. "/at/vfr") + the slug as a bare query
+                    // key (".../vfr?LOWG"). We use next/link here rather than
+                    // next-intl's <Link>, which is a client component and needs
+                    // a NextIntlClientProvider ancestor (v4 behaviour) that this
+                    // server-rendered list does not have — same pattern as box.tsx.
+                    const href =
+                      getPathname({
+                        href: i18nPathMapping[airportType],
+                        locale,
+                      }) + `?${airport.slug}`;
                     return (
                       <li
                         key={index}
@@ -206,10 +218,7 @@ async function AirportLists({ locale }: { locale: string }) {
                       >
                         <span>{index + 1}.</span>
                         <Link
-                          href={{
-                            pathname: i18nPathMapping[airportType],
-                            query: airport.slug,
-                          }}
+                          href={href}
                           itemProp="url"
                           className="justify-left text-drossblue flex gap-x-2 py-2 hover:underline"
                           title={t(`${key}.linkTitle`, {

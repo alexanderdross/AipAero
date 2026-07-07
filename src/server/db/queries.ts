@@ -46,6 +46,10 @@ function cachedRead<T>(
           );
           return fallback;
         }
+        console.error(
+          `DB read '${label}' failed at runtime:`,
+          err instanceof Error ? (err.stack ?? err.message) : String(err),
+        );
         throw err;
       }
     },
@@ -56,6 +60,10 @@ function cachedRead<T>(
 
 export const QUERIES = {
   vfrAirports: function (country: string) {
+    // Country codes are stored uppercase (the crawler upper()s them). D1/SQLite
+    // compares strings case-sensitively (unlike the old MySQL ci collation), so
+    // normalize the locale-derived country (e.g. "at") before querying.
+    country = country.toUpperCase();
     return cachedRead(
       "vfrAirports",
       ["vfrAirports", country],
@@ -69,6 +77,7 @@ export const QUERIES = {
     );
   },
   ifrAirports: function (country: string) {
+    country = country.toUpperCase();
     return cachedRead(
       "ifrAirports",
       ["ifrAirports", country],
@@ -82,6 +91,7 @@ export const QUERIES = {
     );
   },
   heliports: function (country: string) {
+    country = country.toUpperCase();
     return cachedRead(
       "heliports",
       ["heliports", country],
@@ -98,6 +108,7 @@ export const QUERIES = {
     );
   },
   militaryAirports: function (country: string) {
+    country = country.toUpperCase();
     return cachedRead(
       "militaryAirports",
       ["militaryAirports", country],
@@ -111,6 +122,7 @@ export const QUERIES = {
     );
   },
   aeroportAirports: function (country: string) {
+    country = country.toUpperCase();
     return cachedRead(
       "aeroportAirports",
       ["aeroportAirports", country],
@@ -127,6 +139,7 @@ export const QUERIES = {
     );
   },
   airport: function (slug: string, country: string, type: Airport["type"]) {
+    country = country.toUpperCase();
     return cachedRead<Airport | undefined>(
       "airport",
       ["airport", slug, country, type],
@@ -143,6 +156,7 @@ export const QUERIES = {
     );
   },
   airports: function (search: string, country: string, type: Airport["type"]) {
+    country = country.toUpperCase();
     return cachedRead(
       "airports",
       ["airports", search, country, type],
