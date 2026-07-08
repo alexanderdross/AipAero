@@ -133,20 +133,25 @@ class DE(HttpCrawlerBase):
             match = _ICAO_TRAILING.search(title)
             icao = match.group(1) if match else None
 
-            # Prefer the amendment-stable permalink read from the leaf page;
-            # fall back to the (edition-specific) link href if that fetch
-            # fails or the page carries no permalink.
+            # On the pages/ index the folder-link href is already the
+            # amendment-stable permalink (…/pages/CNNNNN.html), so we use it
+            # directly — no per-leaf fetch. Only if a page ever links out to
+            # an edition-specific URL (…/<AIRAC>/chapter/<hash>.html) do we
+            # fetch that leaf and read its `myPermalink`.
             leaf_url = urljoin(url, href)
-            stable_url = leaf_url
-            try:
-                leaf_html = self.fetch(leaf_url)
-                stable_url = (
-                    self._permalink_from_html(leaf_html, VFR_BASE) or leaf_url
-                )
-            except Exception as e:
-                self.logger.warning(
-                    f"VFR permalink fetch failed for {leaf_url}: {e}"
-                )
+            if "/pages/" in leaf_url:
+                stable_url = leaf_url
+            else:
+                stable_url = leaf_url
+                try:
+                    leaf_html = self.fetch(leaf_url)
+                    stable_url = (
+                        self._permalink_from_html(leaf_html, VFR_BASE) or leaf_url
+                    )
+                except Exception as e:
+                    self.logger.warning(
+                        f"VFR permalink fetch failed for {leaf_url}: {e}"
+                    )
 
             airports.append(
                 Airport(

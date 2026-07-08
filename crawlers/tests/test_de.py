@@ -39,6 +39,18 @@ def _patch_pages(de: DE, pages: dict[str, str]) -> None:
     de.fetch = lambda url, **kwargs: pages[url]  # type: ignore[method-assign]
 
 
+def _patch_pages_spy(de: DE, pages: dict[str, str]) -> list[str]:
+    """Like `_patch_pages`, but records every fetched URL for assertions."""
+    fetched: list[str] = []
+
+    def fake(url, **kwargs):
+        fetched.append(url)
+        return pages[url]
+
+    de.fetch = fake  # type: ignore[method-assign]
+    return fetched
+
+
 def _folder(href: str, span_text: str) -> str:
     return f"<a class='folder-link' href='{href}'><span>{span_text}</span></a>"
 
@@ -72,27 +84,47 @@ def test_folder_link_hrefs_in_order_skipping_missing(de: DE):
 # ----- VFR group parsing ------------------------------------------------------
 
 
-def test_vfr_group_stores_permalink_from_leaf(de: DE):
-    group_url = "https://aip.dfs.de/BasicVFR/pages/grpE.html"
-    pages = {
-        group_url: _folder("C019CA.html", "STUTTGART EDDS")
-        + _folder("C012AB.html", "FRANKFURT EDDF"),
-        "https://aip.dfs.de/BasicVFR/pages/C019CA.html": _permalink("pages/C019CA.html"),
-        "https://aip.dfs.de/BasicVFR/pages/C012AB.html": _permalink("pages/C012AB.html"),
-    }
-    _patch_pages(de, pages)
+def test_vfr_group_uses_pages_href_as_permalink(de: DE):
+    # Real DFS shape: the folder-link hrefs on a pages/ group index are
+    # already the amendment-stable permalinks (Aachen-Merzbrueck EDKA ->
+    # pages/C0194C.html). urljoin against the group URL yields them directly.
+    group_url = "https://aip.dfs.de/BasicVFR/pages/C00059.html"  # group "A"
+    html = _folder("C0194C.html", "Aachen-Merzbrueck EDKA") + _folder(
+        "C0194D.html", "Aalen-Heidenheim/Elchingen EDPA"
+    )
+    _patch_pages(de, {group_url: html})
     airports: list = []
     de._extract_vfr_group(group_url, "vfr", airports)
     assert [(a.icao, a.title, a.airport_type, a.url) for a in airports] == [
-        ("EDDS", "STUTTGART EDDS", "vfr", "https://aip.dfs.de/BasicVFR/pages/C019CA.html"),
-        ("EDDF", "FRANKFURT EDDF", "vfr", "https://aip.dfs.de/BasicVFR/pages/C012AB.html"),
+        (
+            "EDKA",
+            "Aachen-Merzbrueck EDKA",
+            "vfr",
+            "https://aip.dfs.de/BasicVFR/pages/C0194C.html",
+        ),
+        (
+            "EDPA",
+            "Aalen-Heidenheim/Elchingen EDPA",
+            "vfr",
+            "https://aip.dfs.de/BasicVFR/pages/C0194D.html",
+        ),
     ]
 
 
-def test_vfr_permalink_resolves_against_fork_root_not_leaf(de: DE):
-    # The physical leaf lives under an edition folder, but myPermalink is
-    # relative to the BasicVFR root — it must resolve there, not under the
-    # edition path.
+def test_vfr_pages_href_needs_no_leaf_fetch(de: DE):
+    # A pages/ href is already a permalink, so no per-airfield fetch happens.
+    group_url = "https://aip.dfs.de/BasicVFR/pages/C00059.html"
+    fetched = _patch_pages_spy(
+        de, {group_url: _folder("C0194C.html", "Aachen-Merzbrueck EDKA")}
+    )
+    de._extract_vfr_group(group_url, "vfr", [])
+    assert fetched == [group_url]  # only the group index, no leaf fetches
+
+
+def test_vfr_edition_href_resolves_permalink_via_leaf(de: DE):
+    # Defensive path: if a group ever links out to an edition-specific URL,
+    # fetch that leaf and read its myPermalink, resolved against the fork
+    # root (not the edition path).
     group_url = "https://aip.dfs.de/BasicVFR/2026JUN25/chapter/group.html"
     leaf_url = "https://aip.dfs.de/BasicVFR/2026JUN25/chapter/edny.html"
     pages = {
@@ -105,45 +137,38 @@ def test_vfr_permalink_resolves_against_fork_root_not_leaf(de: DE):
     assert airports[0].url == "https://aip.dfs.de/BasicVFR/pages/C019CA.html"
 
 
-def test_vfr_group_falls_back_to_href_when_permalink_fetch_fails(de: DE):
-    group_url = "https://aip.dfs.de/BasicVFR/pages/grpX.html"
-    # Leaf page is not in the map -> KeyError on fetch -> fallback to href.
-    _patch_pages(de, {group_url: _folder("EDNY.html", "FRIEDRICHSHAFEN EDNY")})
+def test_vfr_edition_href_falls_back_when_leaf_fetch_fails(de: DE):
+    group_url = "https://aip.dfs.de/BasicVFR/2026JUN25/chapter/group.html"
+    # Edition-specific href, leaf not in the map -> fetch fails -> fall back
+    # to the href URL rather than dropping the airfield.
+    _patch_pages(de, {group_url: _folder("edny.html", "FRIEDRICHSHAFEN EDNY")})
     airports: list = []
     de._extract_vfr_group(group_url, "vfr", airports)
-    assert airports[0].url == "https://aip.dfs.de/BasicVFR/pages/EDNY.html"
+    assert airports[0].url == "https://aip.dfs.de/BasicVFR/2026JUN25/chapter/edny.html"
 
 
 def test_vfr_group_title_without_icao_yields_none(de: DE):
-    group_url = "https://aip.dfs.de/BasicVFR/pages/hel.html"
-    pages = {
-        group_url: _folder("x.html", "Some Heliport"),
-        "https://aip.dfs.de/BasicVFR/pages/x.html": _permalink("pages/C0AAAA.html"),
-    }
-    _patch_pages(de, pages)
+    group_url = "https://aip.dfs.de/BasicVFR/pages/C00067.html"
+    _patch_pages(de, {group_url: _folder("C0AAAA.html", "Some Heliport")})
     airports: list = []
     de._extract_vfr_group(group_url, "heliport", airports)
     assert len(airports) == 1
     assert airports[0].icao is None
     assert airports[0].airport_type == "heliport"
+    assert airports[0].url == "https://aip.dfs.de/BasicVFR/pages/C0AAAA.html"
 
 
 def test_vfr_group_skips_links_without_href_or_title(de: DE):
-    group_url = "https://aip.dfs.de/BasicVFR/pages/grpX.html"
+    group_url = "https://aip.dfs.de/BasicVFR/pages/C00059.html"
     html = (
         "<a class='folder-link'><span>no href</span></a>"
         "<a class='folder-link' href='empty.html'><span></span></a>"
-        + _folder("EDNY.html", "FRIEDRICHSHAFEN EDNY")
+        + _folder("C0194C.html", "Aachen-Merzbrueck EDKA")
     )
-    pages = {
-        group_url: html,
-        "https://aip.dfs.de/BasicVFR/pages/empty.html": "",
-        "https://aip.dfs.de/BasicVFR/pages/EDNY.html": _permalink("pages/C019CA.html"),
-    }
-    _patch_pages(de, pages)
+    _patch_pages(de, {group_url: html})
     airports: list = []
     de._extract_vfr_group(group_url, "vfr", airports)
-    assert [a.icao for a in airports] == ["EDNY"]
+    assert [a.icao for a in airports] == ["EDKA"]
 
 
 def test_vfr_group_fetch_failure_is_swallowed(de: DE):
@@ -217,12 +242,11 @@ def test_process_vfr_skips_headers_and_maps_types(de: DE):
     pages = {
         VFR_AERODROMES_URL: ad_index,
         VFR_HELIPORTS_URL: hel_index,
+        # Group pages link to airfields by their pages/ permalink id, so no
+        # per-leaf fetch is needed.
         base + "grpE.html": _folder("EDDS.html", "STUTTGART EDDS"),
         base + "grpL.html": _folder("EDDL.html", "DUESSELDORF EDDL"),
         base + "grpH.html": _folder("EDXH.html", "HELGOLAND EDXH"),
-        base + "EDDS.html": _permalink("pages/EDDS.html"),
-        base + "EDDL.html": _permalink("pages/EDDL.html"),
-        base + "EDXH.html": _permalink("pages/EDXH.html"),
     }
     _patch_pages(de, pages)
 
@@ -232,6 +256,12 @@ def test_process_vfr_skips_headers_and_maps_types(de: DE):
     by_icao = {a.icao: a.airport_type for a in airports}
     # Header links were skipped: only real airfields remain.
     assert by_icao == {"EDDS": "vfr", "EDDL": "vfr", "EDXH": "heliport"}
+    # Stored URLs are the amendment-stable pages/ permalinks.
+    assert {a.url for a in airports} == {
+        base + "EDDS.html",
+        base + "EDDL.html",
+        base + "EDXH.html",
+    }
 
 
 def test_process_ifr_dedups_and_maps_types(de: DE):
