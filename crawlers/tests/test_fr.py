@@ -169,5 +169,7 @@ def test_crawl_raises_when_no_section_parses(fr: FR, monkeypatch):
         "follow_frame_chain",
         lambda edition_url, frames: (edition_url, "<html><body></body></html>"),
     )
+    # Don't let the error path litter error_logs/ during tests.
+    monkeypatch.setattr(fr, "save_response", lambda *a, **k: None)
     with pytest.raises(ValueError, match="No FR sections"):
         fr.crawl()
