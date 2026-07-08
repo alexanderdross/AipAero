@@ -19,15 +19,19 @@ export default async function LocaleLayout(
   }>,
 ) {
   const { locale } = await props.params;
-  const messages = await getMessages();
 
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
   }
 
-  // Enable static rendering
+  // Enable static rendering. This MUST run before any getMessages()/
+  // getTranslations() call — otherwise next-intl falls back to reading
+  // headers(), which opts the whole route into dynamic rendering and stops
+  // the page (and its generateMetadata output) from being prerendered.
   setRequestLocale(locale);
+
+  const messages = await getMessages();
 
   return (
     <html className="h-full" lang={localeLangMapping[locale]}>

@@ -14,7 +14,9 @@ export const metadata: Metadata = {
     admins: "1378231674",
   },
   twitter: {
+    card: "summary_large_image",
     site: "@alexanderdross",
+    creator: "@alexanderdross",
   },
   openGraph: {
     type: "website",

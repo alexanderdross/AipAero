@@ -301,6 +301,19 @@ All five active country crawlers (AT, DE, FR, NL, UK) are off Selenium. The lega
 - Static generation with `dynamicParams = false` and `generateStaticParams()`
 - Airport detail pages use search params: `/vfr?EDNY` (slug as query key, no value)
 
+### Airport detail URLs (`?ICAO`) are an intentional SEO strategy — do NOT convert to path segments
+
+Airport detail pages are addressed by a **query-param key** — `/de/vfr/?EDMJ`, `/de/ifr/?EDDF`, etc. (the airport `slug`, usually the ICAO code, as a valueless query key). **This is deliberate and must stay.** These per-airport pages are the highest-value SEO pages on the site, and the `?ICAO` scheme is the chosen strategy. Do not "fix" them into path segments (`/de/vfr/EDMJ/`) — that would break the strategy and every already-indexed URL.
+
+Consequences to preserve:
+
+- **They must remain in the multilingual XML sitemap.** `src/app/2d6a9a/sitemap.ts` already enumerates every airport (via the `/airport-list` branch) and emits `${localizedPath}?${slug}` with `alternates.languages` for each country's native + English locale. Keep airport entries in the sitemap whenever the airport list or sitemap logic changes.
+- Because they read `searchParams`, the search routes (`/vfr`, `/ifr`, `/heliports`, `/military`, `/aeroports`) are **dynamic** (not prerendered). Their `generateMetadata` sets per-airport `title` / `description` (and `SchemaAirport` JSON-LD) when a `?slug` is present, and the base-page metadata otherwise. Keep that server-side so crawlers get unique metadata per airport.
+
+### Metadata / prerender gotcha: `setRequestLocale()` MUST precede `getMessages()`/`getTranslations()`
+
+In `src/app/[locale]/layout.tsx` (and every statically-rendered locale page), call `setRequestLocale(locale)` **before** any `getMessages()` / `getTranslations()` call. If a translation is read first, next-intl falls back to `headers()`, which opts the whole route into **dynamic rendering**. On Cloudflare Workers (OpenNext), metadata reliably lands in the served `<head>` only for **prerendered/cached** HTML — so a wrongly-dynamic locale page renders without its meta description / Open Graph tags, which is exactly what Lighthouse's "Document does not have a meta description" flags. Country landing + `airport-list` pages are meant to be static; keep the `setRequestLocale` ordering correct so they stay prerendered.
+
 ## Styling
 
 - **Tailwind CSS v3** with custom theme
@@ -387,7 +400,8 @@ When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEuroc
 - The `type` field in the airports table uses specific enum values: `vfr`, `ifr`, `heliport`, `mil`, `aeroport`
 - France uses `aeroport` and `mil` types instead of `vfr`/`ifr`/`heliport`
 - The sitemap path `/2d6a9a/` is intentionally obfuscated
-- Airport detail URLs use search param keys without values: `/vfr?ICAO-CODE` not `/vfr?code=ICAO-CODE`
+- Airport detail URLs use search param keys without values: `/vfr?ICAO-CODE` not `/vfr?code=ICAO-CODE`. This `?ICAO` scheme is an **intentional SEO strategy** — never convert it to path segments, and keep these URLs in the multilingual sitemap (see SEO section).
+- Locale pages lose their meta description / OG tags if `setRequestLocale(locale)` runs *after* `getMessages()`/`getTranslations()` — it forces dynamic rendering and OpenNext/Workers then serves the page without prerendered `<head>` metadata (see SEO section).
 - Locale `uk` means United Kingdom (not Ukrainian) - it's the default locale
 - The `slug` field is auto-generated: uses ICAO code if available, otherwise slugified title
 - The `searchAirports` server action only supports types `vfr`, `ifr`, `heliport` (not `mil` or `aeroport`)
