@@ -1,6 +1,6 @@
 "server-only";
 
-import { and, eq, asc, like } from "drizzle-orm";
+import { and, eq, asc, like, or } from "drizzle-orm";
 import { unstable_cache, revalidateTag } from "next/cache";
 import { getDb, type DB } from "~/server/db";
 import { type InsertAirport, type Airport, airports } from "./schema";
@@ -181,7 +181,14 @@ export const QUERIES = {
       where: and(
         eq(airports.country, country),
         eq(airports.type, type),
-        like(airports.title, `%${search}%`),
+        // Match the query against the title OR the ICAO column. Titles usually
+        // embed the ICAO (e.g. "Wien-Schwechat LOWW"), but matching `icao`
+        // directly makes ICAO search robust even when it isn't in the title.
+        // Both columns are indexed; the LIMIT 5 keeps it cheap.
+        or(
+          like(airports.title, `%${search}%`),
+          like(airports.icao, `%${search}%`),
+        ),
       ),
       orderBy: [asc(airports.title)],
     });

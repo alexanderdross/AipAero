@@ -205,7 +205,7 @@
     }
   },
   "Error": {
-    "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
-    "title": "Etwas ist schief gelaufen!"
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
   }
 }

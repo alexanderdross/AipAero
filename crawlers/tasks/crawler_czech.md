@@ -70,7 +70,7 @@ The ICAO Code is the 4 letter sign on the airports, e.g. `LKTB` in `LKTB BRNO/Tu
 The URL we want is the URL for the airport charts. To have to see it, you have to expand a airport (with the '+' sign). Then you have to find the `href` / URL of the section that contains the word "Charts Related" in the title, e.g. `AD 2.24 LKTB CHARTS RELATED TO THE AERODROME`
 
 ### country
-As already mentioned, the country code (two letter) **for belgium and luxembourg is "CZ"**.
+As already mentioned, the country code (two letter) **for Czech is "CZ"**.
 
 ## Verification
 Please send me the print statement from the output handler, so that I can check if everything is correct.
