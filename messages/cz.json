@@ -153,7 +153,11 @@
     "clouds": "Oblačnost",
     "temperature": "Teplota",
     "qnh": "QNH",
-    "source": "Zdroj"
+    "source": "Zdroj",
+    "elevation": "Nadmořská výška",
+    "sunrise": "Východ slunce",
+    "sunset": "Západ slunce",
+    "civilTwilight": "Občanský soumrak"
   },
   "Common": {
     "lastUpdated": "Naposledy aktualizováno",

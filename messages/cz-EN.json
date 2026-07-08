@@ -153,7 +153,11 @@
     "clouds": "Clouds",
     "temperature": "Temperature",
     "qnh": "QNH",
-    "source": "Source"
+    "source": "Source",
+    "elevation": "Elevation",
+    "sunrise": "Sunrise",
+    "sunset": "Sunset",
+    "civilTwilight": "Civil twilight"
   },
   "Common": {
     "lastUpdated": "Last updated",

@@ -188,7 +188,11 @@
     "clouds": "Zachmurzenie",
     "temperature": "Temperatura",
     "qnh": "QNH",
-    "source": "Źródło"
+    "source": "Źródło",
+    "elevation": "Wysokość",
+    "sunrise": "Wschód słońca",
+    "sunset": "Zachód słońca",
+    "civilTwilight": "Zmierzch cywilny"
   },
   "Common": {
     "lastUpdated": "Ostatnia aktualizacja",

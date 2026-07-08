@@ -188,7 +188,11 @@
     "clouds": "Moln",
     "temperature": "Temperatur",
     "qnh": "QNH",
-    "source": "Källa"
+    "source": "Källa",
+    "elevation": "Höjd",
+    "sunrise": "Soluppgång",
+    "sunset": "Solnedgång",
+    "civilTwilight": "Borgerlig skymning"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",

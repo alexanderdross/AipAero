@@ -188,7 +188,11 @@
     "clouds": "Skyer",
     "temperature": "Temperatur",
     "qnh": "QNH",
-    "source": "Kilde"
+    "source": "Kilde",
+    "elevation": "Høyde",
+    "sunrise": "Soloppgang",
+    "sunset": "Solnedgang",
+    "civilTwilight": "Borgerlig tussmørke"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",

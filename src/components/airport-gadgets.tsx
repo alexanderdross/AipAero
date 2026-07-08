@@ -2,13 +2,15 @@ import { MapPinIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { AirportWeather } from "~/components/airport-weather";
 import { ExternalLink } from "~/components/external-link";
+import { getAirportWeather } from "~/lib/weather";
 import type { Airport } from "~/server/db/schema";
 
 /**
  * Extra gadgets shown on an airport detail page, below the chart link. The
- * weather gadget is fully server-rendered (see `AirportWeather`). The Google
- * Maps link is a plain outbound link (no server data needed) - it resolves the
- * field from its ICAO/name query, so it works without stored coordinates.
+ * weather + field-info gadget is fully server-rendered (see `AirportWeather`);
+ * the Google Maps link is a plain outbound link (no server data needed). The
+ * NOAA weather is fetched once here and passed down, so the map link can reuse
+ * the station coordinates when available (a precise pin instead of a name query).
  *
  * `mt-24` clears the absolutely-positioned chart link that floats below the
  * search input on the detail view.
@@ -16,16 +18,18 @@ import type { Airport } from "~/server/db/schema";
 export async function AirportGadgets({ airport }: { airport: Airport }) {
   const locale = await getLocale();
   const t = await getTranslations("Common");
+  const { metar, taf } = await getAirportWeather(airport.icao);
 
-  const mapQuery = encodeURIComponent(
-    `${airport.icao ?? airport.title} airport`,
-  );
-  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+  const query =
+    metar?.lat != null && metar?.lon != null
+      ? `${metar.lat},${metar.lon}`
+      : `${airport.icao ?? airport.title} airport`;
+  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
   return (
     <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4">
-        <AirportWeather icao={airport.icao} locale={locale} />
+        <AirportWeather metar={metar} taf={taf} locale={locale} />
         <p className="text-center">
           <ExternalLink
             href={mapUrl}
