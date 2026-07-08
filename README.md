@@ -7,7 +7,7 @@ This repo contains the code for [https://aip.aero](https://aip.aero). It is a [T
 The project is split across two hosts by design — they are independent deploy targets that communicate only over HTTP:
 
 - **Website (`src/`) → [Cloudflare Workers](https://workers.cloudflare.com/)** via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare) (`@opennextjs/cloudflare`). Config lives in `wrangler.jsonc` + `open-next.config.ts`. The Worker serves both `aip.aero` (canonical) and `www.aip.aero` (301-redirected to the apex in `src/middleware.ts`); `workers.dev` is disabled.
-- **Database → [Cloudflare D1](https://developers.cloudflare.com/d1/)** (SQLite), reached through the `DB` binding — there is no connection string. Two more Cloudflare resources back OpenNext caching: a KV namespace (`NEXT_INC_CACHE_KV`, incremental/data cache) and a D1 database (`NEXT_TAG_CACHE_D1`, backs `revalidateTag`).
+- **Database → [Cloudflare D1](https://developers.cloudflare.com/d1/)** (SQLite), reached through the `DB` binding — there is no connection string. Two more Cloudflare resources back OpenNext caching: an [R2](https://developers.cloudflare.com/r2/) bucket (`NEXT_INC_CACHE_R2_BUCKET` → bucket `aip-aero-inc-cache`, incremental/data cache) and a D1 database (`NEXT_TAG_CACHE_D1`, backs `revalidateTag`). R2 replaced the former `NEXT_INC_CACHE_KV` namespace, whose free-tier ~1k-writes/day cap was exhausted by wholesale cache invalidation on every crawl.
 - **Crawlers (`crawlers/`) → [netcup](https://www.netcup.eu/) root server.** The Python scrapers stay on the existing netcup VM under systemd (`aip-crawler.service` + `aip-crawler.timer`). Serverless is the wrong runtime for scheduled, long-running scraping, so the crawlers are **not** deployed to Workers. They reach the website over HTTP and post results to `https://aip.aero/api/airports` (authenticated with `CRON_SECRET`).
 
 Treat all Next.js code as serverless on the Workers runtime: no persistent filesystem, no long-running handlers, no Chromium/Selenium, no raw Node TCP.
@@ -23,7 +23,7 @@ flowchart TD
         Website["Website"]
         InsertAction["Server Action: Insert Airports"]
         ReadAction["Server Action: Read Airports"]
-        Cache["Cache (KV + D1 tag cache)"]
+        Cache["Cache (R2 incr. + D1 tag cache)"]
         IsHit{"Cache hit?"}
   end
  subgraph subGraph1["netcup root server (systemd timer)"]
@@ -55,7 +55,7 @@ cp .dev.vars.example .dev.vars   # secrets/vars for `pnpm preview` (Workers)
 pnpm dev                         # Next.js dev server with Turbopack
 ```
 
-Run the app on the Workers runtime locally (miniflare + local D1/KV):
+Run the app on the Workers runtime locally (miniflare + local D1/R2):
 
 ```bash
 wrangler d1 migrations apply DB --local   # create the schema in the local D1
@@ -70,12 +70,12 @@ Useful scripts: `pnpm check` (lint + typecheck), `pnpm db:generate`, `pnpm db:st
 
 The website runs on Cloudflare Workers via the OpenNext adapter (`wrangler.jsonc` + `open-next.config.ts`).
 
-**One-time resource setup.** Create the resources and paste the returned IDs into `wrangler.jsonc` (they ship as `REPLACE_WITH_*` placeholders in the `DB` / `NEXT_TAG_CACHE_D1` / `NEXT_INC_CACHE_KV` bindings — put each real ID into the *matching* binding, not a new one the wizard offers to append):
+**One-time resource setup.** Create the resources and paste the returned D1 IDs into `wrangler.jsonc` (they ship as `REPLACE_WITH_*` placeholders in the `DB` / `NEXT_TAG_CACHE_D1` bindings — put each real ID into the *matching* binding, not a new one the wizard offers to append). The R2 bucket is referenced by name, so no ID to paste. R2 must be enabled on the account first:
 
 ```bash
 wrangler d1 create aip-aero                      # app DB     -> binding DB
 wrangler d1 create aip-aero-tag-cache            # tag cache  -> NEXT_TAG_CACHE_D1
-wrangler kv namespace create NEXT_INC_CACHE_KV   # incr cache -> NEXT_INC_CACHE_KV
+wrangler r2 bucket create aip-aero-inc-cache     # incr cache -> NEXT_INC_CACHE_R2_BUCKET
 wrangler secret put CRON_SECRET                  # Bearer token for /api/airports
 wrangler secret put ADSENSE_ID
 wrangler d1 migrations apply DB --remote          # apply the schema to production D1
