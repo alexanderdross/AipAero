@@ -11,6 +11,10 @@ COUNTRY = "PL"
 # is scanned for the current VFR volume; see the live-crawl test for the
 # resolved link diagnostics.
 ROOT_URL = "https://www.ais.pansa.pl/en/publications/eaip/"
+# Known historic direct entry points, tried when the hub yields no link.
+_FALLBACK_ENTRY_URLS = [
+    "https://www.ais.pansa.pl/aip/aip.html",
+]
 
 
 class PL(HttpEurocontrolBase):
@@ -65,16 +69,42 @@ class PL(HttpEurocontrolBase):
                     return _urljoin(base_url, href)
             return None
 
+        # Exclude the hub's own aliases (/publikacje/eaip/, /publications/eaip/)
+        # - round 2 resolved to the Polish alias of the same hub page.
+        links = [
+            (text, href)
+            for text, href in links
+            if not _re.search(r"/(publikacje|publications)/eaip/?$", href)
+        ]
+
+        def pick(pattern: str) -> str | None:  # rebind over filtered links
+            rx = _re.compile(pattern, _re.I)
+            for text, href in links:
+                if rx.search(text) or rx.search(href):
+                    return _urljoin(base_url, href)
+            return None
+
         entry = (
             pick(r"e?aip[^a-z]*vfr|vfr[^a-z]*e?aip")
-            or pick(r"e?-?aip.*\.html|\.html.*e?-?aip")
-            or pick(r"eaip")
+            or pick(r"airac")
+            or pick(r"/aip/.*\.html")
+            or pick(r"e?-?aip.*\.html")
         )
         if entry:
             self.logger.info(f"PL eAIP entry resolved: {entry}")
             return entry
-        self.logger.warning("PL: no eAIP link found on hub; using hub as entry")
-        self.log_candidate_links(html, base_url)
+
+        self.logger.warning(
+            "PL: no eAIP volume link found on hub; trying known fallbacks"
+        )
+        self.log_candidate_links(html, base_url, limit=60, contains=r"aip|airac")
+        for candidate in _FALLBACK_ENTRY_URLS:
+            try:
+                self.fetch(candidate)
+                self.logger.info(f"PL fallback entry reachable: {candidate}")
+                return candidate
+            except Exception:
+                continue
         return base_url
 
     def crawl(self) -> list[Airport]:

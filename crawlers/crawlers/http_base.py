@@ -79,7 +79,11 @@ class HttpCrawlerBase:
         self.client.headers.update(BROWSER_HEADERS)
 
     def log_candidate_links(
-        self, html: str, base_url: str, limit: int = 30
+        self,
+        html: str,
+        base_url: str,
+        limit: int = 30,
+        contains: str | None = None,
     ) -> None:
         """Log the page's links so a failed live run shows what IS there.
 
@@ -90,9 +94,13 @@ class HttpCrawlerBase:
         """
         try:
             soup = self.soup(html)
+            rx = re.compile(contains, re.I) if contains else None
             links = [
                 f"{(a.get_text(strip=True) or '')[:60]!r} -> {a['href'][:120]}"
                 for a in soup.find_all("a", href=True)
+                if rx is None
+                or rx.search(a["href"])
+                or rx.search(a.get_text(" ", strip=True) or "")
             ]
             self.logger.warning(
                 f"{self.country}: {len(links)} links on {base_url}; "
@@ -110,7 +118,18 @@ class HttpCrawlerBase:
             self.logger.warning(f"link diagnostics failed: {e}")
 
     def fetch(self, url: str, *, encoding: str | None = None) -> str:
-        """Fetch a URL and return the decoded body.
+        """Fetch a URL and return the decoded body (see fetch_response)."""
+        response = self.fetch_response(url)
+        if encoding is not None:
+            response.encoding = encoding
+        return response.text
+
+    def fetch_response(self, url: str) -> httpx.Response:
+        """Fetch a URL and return the httpx Response (redirects followed).
+
+        Callers that need the FINAL post-redirect URL (e.g. to resolve
+        relative links on a redirected landing page) use this and read
+        ``str(response.url)``; `fetch()` wraps it for body-only callers.
 
         Retries up to ``max_retries`` times on connection errors and on
         retryable 5xx / 429 responses, with exponential backoff. Other 4xx
@@ -152,9 +171,7 @@ class HttpCrawlerBase:
 
             # 2xx success or non-retryable 4xx/3xx — bail out of the loop.
             response.raise_for_status()
-            if encoding is not None:
-                response.encoding = encoding
-            return response.text
+            return response
 
         # Exhausted all retries.
         assert last_exc is not None
@@ -168,8 +185,13 @@ class HttpCrawlerBase:
         soup = self.soup(html)
         frame = soup.find(["frame", "iframe"], attrs={"name": frame_name})
         if frame is None:
+            available = [
+                f.get("name") or f.get("src", "?")
+                for f in soup.find_all(["frame", "iframe"])
+            ]
             raise ValueError(
-                f"Frame '{frame_name}' not found in {base_url}"
+                f"Frame '{frame_name}' not found in {base_url}. "
+                f"Available frames: {available}"
             )
         src = frame.get("src")
         if not src:

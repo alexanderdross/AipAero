@@ -82,7 +82,9 @@ class DK(HttpCrawlerBase):
             )
             # Diagnostic for the live-crawl test: show what links DO exist
             # (an empty list means the site is a JS-rendered app).
-            self.log_candidate_links(html, base_url, limit=40)
+            self.log_candidate_links(
+                html, base_url, limit=40, contains=r"aip|vfg|vfr|dokument|doc"
+            )
             return None
         try:
             return url, self.fetch(url)

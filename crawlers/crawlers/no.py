@@ -128,6 +128,25 @@ class NO(HttpEurocontrolBase):
         # ROOT_URL is presumably already the frameset — use it as-is.
         return base_url
 
+    def _extract_first(
+        self,
+        nav_html: str,
+        nav_url: str,
+        id_candidates: list[str],
+        category: str,
+    ) -> list[Airport]:
+        """Extract a menu section, trying each candidate id in turn."""
+        last_error: Exception | None = None
+        for menu_id in id_candidates:
+            try:
+                return self.extract_airports_from_html(
+                    nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
+                )
+            except ValueError as e:
+                last_error = e
+        assert last_error is not None
+        raise last_error
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -135,28 +154,50 @@ class NO(HttpEurocontrolBase):
         last_html: str | None = None
 
         try:
-            # 1. Resolve the currently effective edition (if ROOT_URL is an index).
-            index_html = self.fetch(ROOT_URL)
-            last_url, last_html = ROOT_URL, index_html
+            # 1. Resolve the currently effective edition. Avinor redirects
+            #    /no/AIP/ -> /no/AIP/View/Index/<n>/history-no-NO.html, and the
+            #    edition links on that page are RELATIVE - so they must be
+            #    resolved against the FINAL post-redirect URL, not ROOT_URL
+            #    (verified in the live-crawl test round 2).
+            index_resp = self.fetch_response(ROOT_URL)
+            index_url = str(index_resp.url)
+            index_html = index_resp.text
+            last_url, last_html = index_url, index_html
 
-            edition_url = self._resolve_edition_url(ROOT_URL, index_html)
+            edition_url = self._resolve_edition_url(index_url, index_html)
 
-            # 2. Walk the frame chain to the navigation HTML.
-            nav_url, nav_html = self.follow_frame_chain(
-                edition_url, ["eAISNavigationBase", "eAISNavigation"]
-            )
+            # Prefer the English edition when the link points at the
+            #  Norwegian one - the eAIP publishes both side by side.
+            en_edition_url = edition_url.replace("index-no-NO", "index-en-GB")
+
+            # 2. Walk the frame chain to the navigation HTML (English
+            #    edition first, Norwegian as fallback).
+            try:
+                nav_url, nav_html = self.follow_frame_chain(
+                    en_edition_url, ["eAISNavigationBase", "eAISNavigation"]
+                )
+            except Exception:
+                nav_url, nav_html = self.follow_frame_chain(
+                    edition_url, ["eAISNavigationBase", "eAISNavigation"]
+                )
             last_url, last_html = nav_url, nav_html
 
-            # 3. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 → heliport).
-            #    NOTE: section id suffixes are UNVERIFIED — see class docstring.
+            # 3. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 →
+            #    heliport), trying the en-GB and no-NO menu id variants.
             airports.extend(
-                self.extract_airports_from_html(
-                    nav_html, nav_url, "AD 2en-GBdetails", "vfr"
+                self._extract_first(
+                    nav_html,
+                    nav_url,
+                    ["AD 2en-GBdetails", "AD 2no-NOdetails", "AD-2details"],
+                    "vfr",
                 )
             )
             airports.extend(
-                self.extract_airports_from_html(
-                    nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+                self._extract_first(
+                    nav_html,
+                    nav_url,
+                    ["AD 3en-GBdetails", "AD 3no-NOdetails", "AD-3details"],
+                    "heliport",
                 )
             )
         except Exception as e:

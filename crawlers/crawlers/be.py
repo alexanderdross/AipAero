@@ -103,6 +103,11 @@ class BE(HttpEurocontrolBase):
         last_html: str | None = None
 
         try:
+            # Prefetch the index so a frame-chain failure still leaves the
+            # page in `last_html` for the diagnostics/artifact below.
+            index_html = self.fetch(ROOT_URL)
+            last_url, last_html = ROOT_URL, index_html
+
             # Walk the frame chain from the edition index to the nav HTML.
             nav_url, nav_html = self.follow_frame_chain(
                 ROOT_URL, ["eAISNavigationBase", "eAISNavigation"]
@@ -116,6 +121,8 @@ class BE(HttpEurocontrolBase):
                 )
         except Exception as e:
             self.logger.error(f"BE crawl failed: {e}")
+            if last_html is not None:
+                self.log_candidate_links(last_html, last_url, limit=40)
             if last_html is not None:
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
