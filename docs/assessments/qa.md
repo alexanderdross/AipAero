@@ -10,8 +10,8 @@ This QA assessment is a roll-up: it doesn't introduce new findings of its own. I
 
 | Area | Verdict | Detail |
 | --- | --- | --- |
-| **Unit tests** | ✅ Now in place for the crawlers (29 tests, gated in CI). Website still uncovered, justified. | [`unit-tests.md`](./unit-tests.md) |
-| **Regression** | ✅ CI gates typecheck + format + crawler unit tests + Vercel preview build. Lint and visual regression are gaps. | [`regression.md`](./regression.md) |
+| **Unit tests** | ✅ Now in place for the crawlers (91 tests, gated in CI). Website only lightly covered (Vitest pure-helper tests), justified. | [`unit-tests.md`](./unit-tests.md) |
+| **Regression** | ✅ CI gates typecheck + format + crawler unit tests + the OpenNext `pnpm cf-build` (no DB needed). Visual regression is a gap. | [`regression.md`](./regression.md) |
 | **Performance** | ⚠️ Static analysis only — no live numbers yet. Three actionable bugs/gaps found. | [`performance.md`](./performance.md) |
 | **Best practices** | ⚠️ Most App Router conventions followed correctly. Five concrete gaps, one is a real bug (missing `revalidateTag` calls). | [`best-practices.md`](./best-practices.md) |
 | **Security** | ⚠️ Strong on auth + validation + SQL. Twenty-five transitive npm advisories (all dev-side or one-step-removed). One small input-validation tweak needed. | [`security.md`](./security.md) |
@@ -21,9 +21,9 @@ This QA assessment is a roll-up: it doesn't introduce new findings of its own. I
 
 ### 1. The system is well-architected for its size
 
-Single-author T3 stack project. Caching is right (cache-tag invalidation on writes, `"use cache"` on reads), separation of concerns is clean (server/`actions.ts` for `"use server"`, server/db/`queries.ts` for DB, env validation centralised), i18n correctly uses the modern `defineRouting` + `createNavigation` API. The crawlers were the worst offender (Selenium for everything) and have been migrated to httpx for 4/5 countries.
+Single-author T3 stack project. Caching is right (per-country cache-tag invalidation on writes, `unstable_cache` on reads), separation of concerns is clean (server/`actions.ts` for `"use server"`, server/db/`queries.ts` for DB, env validation centralised), i18n correctly uses the modern `defineRouting` + `createNavigation` API. The crawlers were the worst offender (Selenium for everything) and have now been migrated to httpx for all five countries.
 
-The split-host architecture (Vercel for web, netcup for crawlers) is correct — repeatedly re-evaluated, repeatedly the right answer.
+The split-host architecture (Cloudflare Workers for web, netcup for crawlers) is correct — repeatedly re-evaluated, repeatedly the right answer.
 
 ### 2. The two real bugs found
 
@@ -31,50 +31,46 @@ Both surfaced in the best-practices audit, both small fixes:
 
 | Bug | Where | Impact |
 | --- | --- | --- |
-| Missing `revalidateTag` calls for `militaryAirports` and `aeroportAirports` | `src/server/db/queries.ts:MUTATIONS.insertAirports` | France pages serve stale data for `cacheLife("hours")` after each crawl. |
+| Missing `revalidateTag` calls for `militaryAirports` and `aeroportAirports` | `src/server/db/queries.ts:MUTATIONS.insertAirports` | France pages serve stale data until the 24h cache revalidate window after each crawl. |
 | `country` validation accepts empty string and 1-char inputs | `src/server/actions.ts:schema` | Currently `z.string().max(2)` — should be `z.string().length(2)` or an enum from `routing.locales`. Allows malformed search requests through. |
 
 Both are <5-line fixes.
 
 ### 3. Three "missed Vercel features" that would help
 
-- `next/image` is unused — the header logo is loaded raw, so we don't get WebP negotiation, lazy loading, or auto-srcset.
-- Vercel Speed Insights is not wired up — we have no Core Web Vitals data on the live site.
+- `next/image`: **resolved for the header** — `src/components/header.tsx` now renders `<Image priority>`. (The Workers runtime has the image optimizer off, so this is about sizing / `priority` / layout stability; any remaining raw assets in `public/` are the next targets.)
+- Core Web Vitals: **collected via Cloudflare Web Analytics** — the edge RUM beacon is allowlisted in the `next.config.mjs` CSP, so there's no `@vercel/speed-insights` / `<SpeedInsights />`. Read CWV in the Cloudflare dashboard.
 - `@next/bundle-analyzer` is not in devDependencies — no easy way to spot accidentally-shipped server deps in the client bundle.
 
-### 4. The ESLint situation
+### 4. The ESLint situation — resolved
 
-`.eslintrc.mjs` is half-migrated: it's named for the legacy ESLint config but contains flat-config code, AND it imports the `typescript-eslint` package which isn't installed. Result: `next lint` falls into an interactive setup prompt and CI deliberately skips it. This is the single biggest gap in the regression gate — it means TS-aware lint rules (`no-misused-promises`, `consistent-type-imports`, drizzle's `enforce-update-with-where`) aren't catching anything on PRs.
+The ESLint config has been migrated to flat config: `eslint.config.mjs` is in place, `pnpm lint` runs `eslint .` cleanly, and the `Website (Next.js)` CI job now runs `pnpm lint` as a gating step. TS-aware lint rules (`no-misused-promises`, `consistent-type-imports`, drizzle's `enforce-update-with-where`) now gate PRs. This was previously the single biggest gap in the regression gate; it is now closed.
 
-Fix is small (rename to `eslint.config.mjs`, install `typescript-eslint` or rewrite the config to use only the installed packages directly), but it's its own change.
+### 5. The DE crawler Selenium debt — resolved
 
-### 5. The DE crawler is the last Selenium debt
+DE has been ported from the legacy `CrawlerBase` to `HttpCrawlerBase`: it now enters DFS BasicVFR/BasicIFR at static `.../pages/CNNNNN.html` section URLs and stores each airport's amendment-stable `myPermalink` (so saved links survive the monthly AIRAC edition rename). As a result:
 
-DE still inherits from the legacy `CrawlerBase`. Once it ports to `HttpCrawlerBase`:
+- The CI import smoke test now includes DE, eliminating Chromium-on-CI as a constraint.
+- DE now has unit tests (`crawlers/tests/test_de.py`).
 
-- `crawlers/crawlers/crawler_base.py` and `eurocontrol_base.py` can be deleted.
-- `selenium` and `webdriver-manager` come out of `pyproject.toml` (and `selenium` 4.32 → 4.43 upgrade pressure goes away).
-- The CI smoke test can include DE, fully eliminating Chromium-on-CI as a constraint.
-- Three CVE-adjacent transitive deps (`trio`, `wsproto`, etc.) drop out.
-
-This is queued for the netcup access loop — the four already-ported crawlers need a real run there before we add DE on top.
+The remaining cleanup is bounded: `crawlers/crawlers/crawler_base.py` and `eurocontrol_base.py` (Selenium) survive only because the experimental, non-scheduled crawlers (`belgium`, `car_sam_nam`, `pac_n`, `pac_p`, `run`) still import them — no active crawler does. Once those are ported or pruned, the legacy bases plus `selenium` / `webdriver-manager` (and their `trio` / `wsproto` transitive deps) can come out in one cleanup commit.
 
 ## Consolidated action list, ranked
 
 | # | Status | Action | Source |
 | - | :---: | --- | --- |
-| 1 | ✅ done | Add `revalidateTag("militaryAirports")` and `revalidateTag("aeroportAirports")` in `MUTATIONS.insertAirports` | best-practices, performance |
+| 1 | ✅ done | Ensure `MUTATIONS.insertAirports` invalidates all of a country's page types (now a single per-country `revalidateTag("country:<CC>")`, which covers `militaryAirports` / `aeroportAirports`) | best-practices, performance |
 | 2 | ✅ done | Tighten `searchAirports` country validation: `z.string().max(2)` → `z.string().length(2)` | security |
 | 3 | ✅ done | Migrate header logo to `next/image` | performance, best-practices |
-| 4 | ✅ done | Enable Vercel Speed Insights in `[locale]/layout.tsx` | performance |
-| 5 | ⏸ deferred | Fix the ESLint config so `pnpm lint` works, then add it to CI | best-practices, regression |
+| 4 | ✅ done (via Cloudflare Web Analytics) | Core Web Vitals are collected by the Cloudflare edge RUM beacon (CSP-allowlisted), not app code — no `@vercel/speed-insights` / `<SpeedInsights />` | performance |
+| 5 | ✅ done | ESLint migrated to flat config (`eslint.config.mjs`); `pnpm lint` now runs as a gating step in CI | best-practices, regression |
 | 6 | ⚠️ partial | Audit `src/components/schemas/*.tsx` for unnecessary `"use client"` (only `schema-product` was free; `schema-webpage` and `schema-website` use `usePathname()` and need a refactor to convert) | performance |
 | 7 | ⚠️ partial | Add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`. CSP intentionally deferred — needs careful nonce/origin work to not break inline JSON-LD, AdSense, and Axiom. | security |
 | 8 | ⏸ pending | Run UAT once against production | uat |
 | 9 | ✅ done (DE) ⚠️ partial (cleanup) | DE ported to `HttpCrawlerBase` and added to the CI smoke test. Legacy `crawler_base.py` / `eurocontrol_base.py` plus `selenium` / `webdriver-manager` remain only because the experimental `belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run` crawlers still depend on them — none are wired into the active scheduler. | cross-cutting |
 | 10 | ✅ done | Wire `@next/bundle-analyzer` as a `pnpm analyze` script | performance |
 
-Items 1–4, 6 (partial), 7 (partial), and 10 landed together; see commit history.
+Items 1–5, 6 (partial), 7 (partial), 9, and 10 landed together; see commit history.
 
 ## What the CI gate currently catches (from `regression.md`)
 
@@ -84,13 +80,13 @@ Repeated here for the elevator pitch:
 - Prettier drift.
 - pnpm + uv lockfile drift.
 - Python syntax errors.
-- Crawler base-class import shape (AT/FR/NL/UK).
+- Crawler base-class import shape (AT/DE/FR/NL/UK).
 - HTML parser behaviour for the eAIP menu (TAD_HP suffix, charts-related preference, last-link fallback, em-dash stripping).
 - AT table parser behaviour.
 - HTTP base lifecycle (close idempotency).
-- Build success at deploy (Vercel preview).
+- Build success in CI (OpenNext `pnpm cf-build`, no DB).
 
-What it does **not** catch: ESLint rules, runtime middleware behaviour, end-to-end flows, DE crawler, visual regressions, bundle-size budget, web vitals. Each is documented in `regression.md` with cost/value tradeoffs.
+What it does **not** catch: runtime middleware behaviour, end-to-end flows, visual regressions, bundle-size budget, web vitals. Each is documented in `regression.md` with cost/value tradeoffs.
 
 ## Sign-off
 

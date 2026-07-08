@@ -34,10 +34,10 @@ Direct deps as of latest lock:
 | `bs4` | 0.0.2 / `beautifulsoup4` 4.13.4 | 4.14.3 | minor; bump on next routine refresh |
 | `pydantic` | 2.11.4 | 2.13.4 | none |
 | `pydantic-settings` | 2.9.1 | 2.14.0 | none |
-| `selenium` | 4.32.0 | 4.43.0 | will be removed once DE ports off it |
+| `selenium` | 4.32.0 | 4.43.0 | now only used by the experimental crawlers; will be removed once they port off it |
 | `webdriver-manager` | 4.0.2 | current | will be removed with selenium |
 
-No published CVEs in the active set. The `selenium` + `webdriver-manager` chain is slated for deletion once `de.py` ports to `HttpCrawlerBase`; deferring upgrade churn there is intentional.
+No published CVEs in the active set. `de.py` has already ported to `HttpCrawlerBase`, so no active crawler imports Selenium. The `selenium` + `webdriver-manager` chain is slated for deletion once the experimental crawlers (`belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run`) port off `CrawlerBase` or are pruned; deferring upgrade churn there is intentional.
 
 ## Code review
 
@@ -45,11 +45,11 @@ No published CVEs in the active set. The `selenium` + `webdriver-manager` chain 
 
 | Control | Verdict | Notes |
 | --- | --- | --- |
-| **Auth** | ✅ Bearer-token check on first line; non-matching requests 401 with the source IP logged. | `req.headers.get("Authorization") !== \`Bearer ${env.CRON_SECRET}\``. Constant-time string compare is unnecessary here because the secret length isn't a side channel for an attacker — the IP-rate-limit threat model is "Vercel + sane CRON_SECRET length", not "string-comparison timing oracle". |
+| **Auth** | ✅ Bearer-token check on first line; non-matching requests 401 with the source IP logged. | `req.headers.get("Authorization") !== \`Bearer ${env.CRON_SECRET}\``. Constant-time string compare is unnecessary here because the secret length isn't a side channel for an attacker — the IP-rate-limit threat model is "Cloudflare + sane CRON_SECRET length", not "string-comparison timing oracle". |
 | **Body validation** | ✅ Zod `airportApiInsertSchema.parse(...)` from `drizzle-zod`. ZodError is caught and returned as 400 with field-level messages. | The schema is derived from the DB schema, so any mismatch between crawler payload and DB column is caught at the API boundary. |
 | **Mass assignment** | ✅ Zod's `parse` strips unknown fields; the `enrichedAirports.map` only spreads validated fields. | The `slug` field is server-derived from `icao` or `slug(title)` — clients can't supply it. |
 | **SQL injection** | ✅ All queries via Drizzle's typed builders (`eq`, `and`, `like`). No `sql\`\`` template, no `db.execute(\`…\`)`. | The bulk delete uses `eq(airports.country, input[0].country)` — the country value passes through Zod's enum/schema first. |
-| **Rate limiting** | ⚠️ None at the application layer. Vercel's edge-network DDoS protection covers the bulk attack model. | If a `CRON_SECRET` ever leaks, an attacker could DoS by spamming valid POSTs. Consider Upstash Ratelimit or Vercel's WAF if that risk grows. |
+| **Rate limiting** | ⚠️ None at the application layer. Cloudflare's edge-network DDoS protection covers the bulk attack model. | If a `CRON_SECRET` ever leaks, an attacker could DoS by spamming valid POSTs. Consider Cloudflare's WAF / rate limiting if that risk grows. |
 | **Replay protection** | ⚠️ None. A captured `Authorization` header is reusable indefinitely. | Mitigated only by `CRON_SECRET` rotation. Acceptable for a crawler-only endpoint with infrequent calls and no monetary effect, but a rotation policy is worth adding. |
 | **Logging** | ✅ `next-axiom` logs all calls + unauthorised IPs. | Don't log the full request body (the current code doesn't — good). |
 
@@ -71,7 +71,7 @@ All reads are typed-builder calls with parameterised values:
 where: and(eq(airports.country, country), eq(airports.type, "vfr")),
 ```
 
-The `airports` query uses `like(airports.title, \`%${search}%\`)` — Drizzle still parameterises this; the `%` wildcards are concatenated into the **value**, not the SQL string, so injection isn't possible. (Verified: `mysql2`'s `?` placeholder treats the entire bound value as a literal.) The `searchAirports` validation already caps `search` length at 50 chars, so the LIKE-pattern explosion class of perf attacks is bounded.
+The `airports` query uses `like(airports.title, \`%${search}%\`)` — Drizzle still parameterises this; the `%` wildcards are concatenated into the **value**, not the SQL string, so injection isn't possible. (Verified: D1/SQLite bound parameters treat the entire bound value as a literal.) The `searchAirports` validation already caps `search` length at 50 chars, so the LIKE-pattern explosion class of perf attacks is bounded.
 
 ### `dangerouslySetInnerHTML` audit
 
@@ -81,7 +81,7 @@ The `airports` query uses `like(airports.title, \`%${search}%\`)` — Drizzle st
 
 - `process.env.*` is referenced **only** in `src/env.js` (the t3-env validator). The rest of the code imports from `~/env`. ✅
 - `.env` is gitignored (`/.env`, `/.env*.local`); only `.env.example` is committed and contains no secrets.
-- `CRON_SECRET` is the single shared secret between Vercel and the netcup crawler host. Rotate by updating both ends and re-deploying the website.
+- `CRON_SECRET` is the single shared secret between the Cloudflare Worker and the netcup crawler host. Rotate by updating both ends (`wrangler secret put CRON_SECRET` on the Worker) and re-deploying the website.
 - `ADSENSE_ID` and the Axiom tokens are not security-sensitive in the breach sense (public IDs / write-only tokens) but should still rotate together with any compromise.
 
 ### Crawlers — outbound risk
@@ -90,14 +90,16 @@ The crawlers are an HTTP client with hardcoded, country-specific entry URLs. The
 
 ## Browser-facing security headers
 
-Not currently set explicitly. Vercel defaults are reasonable but worth tightening:
+**Resolved** — this was an open finding at assessment time; `next.config.mjs` now sends an explicit `headers()` set on every route:
 
-- `Content-Security-Policy` — not set. Recommend a strict policy that allows `'self'`, the AdSense origin, and Axiom. The `dangerouslySetInnerHTML` JSON-LD blocks need `'unsafe-inline'` for `<script type="application/ld+json">` or a CSP `script-src` allowance via nonces.
-- `Strict-Transport-Security` — Vercel sets this by default for custom domains.
-- `X-Frame-Options: DENY` / `frame-ancestors 'none'` — not set; aip.aero shouldn't be embeddable.
-- `Referrer-Policy: strict-origin-when-cross-origin` — Vercel default.
+- `X-Frame-Options: DENY` (plus `frame-ancestors 'none'` in the CSP) — aip.aero is not embeddable.
+- `X-Content-Type-Options: nosniff`.
+- `Referrer-Policy: strict-origin-when-cross-origin`.
+- `Permissions-Policy` — denies camera / microphone / geolocation / interest-cohort.
+- `Content-Security-Policy` — sent in **Report-Only** mode for now (allows `'self'`, the AdSense / Google origins, and the Cloudflare Web Analytics beacon; `'unsafe-inline'` on `script-src` covers the inline `<script type="application/ld+json">` JSON-LD blocks until they move to nonces). Promote to an enforcing `Content-Security-Policy` once the report stream is clean.
+- `Strict-Transport-Security` — configurable at the Cloudflare edge (not on by default).
 
-Recommendation: add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-Content-Type-Options: nosniff`, and a baseline CSP. Out of scope for this assessment, in scope for a follow-up.
+The one remaining step is promoting the CSP from Report-Only to enforcing.
 
 ## Summary
 
@@ -109,12 +111,12 @@ Recommendation: add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-C
 | XSS | None — `dangerouslySetInnerHTML` only wraps server-built JSON-LD. |
 | Secrets | Centralised via t3-env, gitignored, single rotation key. |
 | Dependencies | 25 transitive npm advisories, all dev-side or one-step-removed; nothing first-degree. |
-| Headers | Lax defaults; tightening recommended. |
+| Headers | Explicit headers set (X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, CSP in Report-Only); promote CSP to enforcing. |
 
 **Action items, ranked:**
 
 1. ✅ **Fixed.** `searchAirports` country validation tightened to `z.string().length(2)`.
-2. ⚠️ **Partial.** `next.config.mjs` now sends `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and a `Permissions-Policy` denying camera/microphone/geolocation/interest-cohort. **CSP is intentionally not set yet** — getting it right with inline JSON-LD, AdSense, and Axiom needs deliberate nonce/origin work; track separately.
+2. ⚠️ **Partial.** `next.config.mjs` now sends `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and a `Permissions-Policy` denying camera/microphone/geolocation/interest-cohort. **A CSP is now sent in Report-Only mode** (allowing `'self'`, AdSense/Google, and the Cloudflare Web Analytics beacon; `'unsafe-inline'` for the JSON-LD blocks); the remaining work is promoting it to an enforcing `Content-Security-Policy` once the report stream is clean.
 3. Bump `cheerio` when a release ships with the patched `undici`.
 4. Document a `CRON_SECRET` rotation runbook in `CLAUDE.md`.
 5. (Optional) Add Upstash Ratelimit on `/api/airports` once the threat model warrants.
