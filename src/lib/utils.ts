@@ -76,10 +76,10 @@ export const liveCountries: string[] = [
   "nl",
   "uk",
   // Verified via the live-crawl test (PR #122): crawler delivers data.
+  "be",
   "cz",
   "no",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source:
-  // "be",
   // "dk",
   // "gr",
   // "pl",

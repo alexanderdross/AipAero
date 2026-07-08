@@ -114,14 +114,14 @@ export default async function RootPage() {
     // verified against their live AIP sources, so their pages are empty.
     // Un-comment a country here (and in `liveCountries` in ~/lib/utils)
     // once its crawler feeds data. See CLAUDE.md (Supported Countries).
-    //{
-    //  tld: "be",
-    //  lang: "en",
-    //  name: "Belgium & Luxembourg",
-    //  flag: "🇧🇪",
-    //  nativeLang: "English",
-    //  isSingleLocale: true,
-    //},
+    {
+      tld: "be",
+      lang: "en",
+      name: "Belgium & Luxembourg",
+      flag: "🇧🇪",
+      nativeLang: "English",
+      isSingleLocale: true,
+    },
     {
       tld: "cz",
       lang: "cs",

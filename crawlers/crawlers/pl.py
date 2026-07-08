@@ -1,3 +1,6 @@
+import re
+from urllib.parse import urljoin
+
 from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
@@ -15,6 +18,28 @@ ROOT_URL = "https://www.ais.pansa.pl/en/publications/eaip/"
 _FALLBACK_ENTRY_URLS = [
     "https://www.ais.pansa.pl/aip/aip.html",
 ]
+
+# Redirect / hop patterns used to hunt the frameset from the resolved entry
+# page. Round 7 resolved the entry to
+# https://docs.pansa.pl/ais/eaipvfr/default_offline_2026-06-11.html (HTTP 200)
+# which is NOT itself a frameset ("Available frames: []"), so the frameset
+# must be one or two hops further (meta refresh, JS redirect, an index*.html
+# or dated-AIRAC link, or a classic index file next to the entry page).
+_META_REFRESH_URL_RE = re.compile(r"url=([^;]+)", re.I)
+_JS_LOCATION_RE = re.compile(
+    r"""location(?:\.href)?\s*=\s*['"]([^'"]+)['"]""", re.I
+)
+_INDEX_HREF_RE = re.compile(
+    r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I
+)
+_DATED_HREF_RE = re.compile(r"\d{4}[-_]\d{2}[-_]\d{2}.*\.html?$", re.I)
+# Classic eurocontrol index files that may sit next to the entry page.
+_SIBLING_PROBES = (
+    "index.html",
+    "html/index-en-GB.html",
+    "html/index-pl-PL.html",
+    "html/index.html",
+)
 
 
 class PL(HttpEurocontrolBase):
@@ -158,6 +183,84 @@ class PL(HttpEurocontrolBase):
                 continue
         return base_url
 
+    def _has_frames(self, html: str) -> bool:
+        soup = self.soup(html)
+        return any(
+            f.get("name") or f.get("src")
+            for f in soup.find_all(["frame", "iframe"])
+        )
+
+    def _frameset_candidates(
+        self, base_url: str, html: str, seen: set[str]
+    ) -> list[str]:
+        """Ordered next-hop candidates towards the frameset, best first."""
+        soup = self.soup(html)
+        candidates: list[str] = []
+
+        def add(raw: str) -> None:
+            cand = urljoin(base_url, raw.replace("\\", "/"))
+            if cand not in seen and cand not in candidates:
+                candidates.append(cand)
+
+        # 1. Explicit redirects (meta refresh, JS location).
+        meta = soup.find(
+            "meta", attrs={"http-equiv": re.compile("refresh", re.I)}
+        )
+        if meta and meta.get("content"):
+            m = _META_REFRESH_URL_RE.search(meta["content"])
+            if m:
+                add(m.group(1).strip().strip("'\""))
+        m = _JS_LOCATION_RE.search(html)
+        if m:
+            add(m.group(1))
+
+        # 2. index*.html links, then dated AIRAC-edition links.
+        for rx in (_INDEX_HREF_RE, _DATED_HREF_RE):
+            for a in soup.find_all("a", href=True):
+                href = a["href"].split("#")[0].split("?")[0]
+                if rx.search(href.replace("\\", "/")):
+                    add(a["href"])
+
+        # 3. Classic index files that may sit next to the entry page.
+        for suffix in _SIBLING_PROBES:
+            add(suffix)
+
+        return candidates[:8]
+
+    def _find_frameset(
+        self, url: str, html: str, hops: int = 3
+    ) -> tuple[str, str]:
+        """Follow redirects / index links until a page with frames appears.
+
+        The docs.pansa.pl entry page (default_offline_<date>.html) is not a
+        frameset itself (verified live, round 7), so hunt up to `hops` levels
+        deep. Candidates on each level are tried for frames directly; the
+        first fetchable one becomes the next level's base if none has frames.
+        """
+        seen: set[str] = {url}
+        cur_url, cur_html = url, html
+        for _ in range(hops):
+            if self._has_frames(cur_html):
+                return cur_url, cur_html
+            next_hop: tuple[str, str] | None = None
+            for cand in self._frameset_candidates(cur_url, cur_html, seen):
+                seen.add(cand)
+                try:
+                    cand_html = self.fetch(cand)
+                except Exception:
+                    continue
+                if self._has_frames(cand_html):
+                    self.logger.info(f"PL frameset found: {cand}")
+                    return cand, cand_html
+                if next_hop is None:
+                    next_hop = (cand, cand_html)
+            if next_hop is None:
+                break
+            self.logger.info(f"PL: no frameset yet; descending via {next_hop[0]}")
+            cur_url, cur_html = next_hop
+        self.logger.warning(f"PL: no frameset found within {hops} hops of {url}")
+        return cur_url, cur_html
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -172,23 +275,47 @@ class PL(HttpEurocontrolBase):
             last_url, last_html = ROOT_URL, hub_html
             entry_url = self._resolve_entry_url(ROOT_URL, hub_html)
 
-            # 2. Walk the frame chain to the navigation HTML.
-            nav_url, nav_html = self.follow_frame_chain(
-                entry_url, ["eAISNavigationBase", "eAISNavigation"]
+            # 2. Prefetch the entry page (following redirects) so failure
+            #    diagnostics show THIS page, not the hub (round-7 gap), then
+            #    hunt for the actual frameset from it.
+            entry_resp = self.fetch_response(entry_url)
+            entry_url, entry_html = str(entry_resp.url), entry_resp.text
+            last_url, last_html = entry_url, entry_html
+
+            frameset_url, frameset_html = self._find_frameset(
+                entry_url, entry_html
             )
+            last_url, last_html = frameset_url, frameset_html
+
+            # 3. Walk the frame chain to the navigation HTML. Some builds skip
+            #    the eAISNavigationBase wrapper (the index IS the top frameset,
+            #    as on the BE eAIP) - fall back to the single hop.
+            try:
+                nav_url, nav_html = self.follow_frame_chain(
+                    frameset_url, ["eAISNavigationBase", "eAISNavigation"]
+                )
+            except Exception:
+                nav_url, nav_html = self.follow_frame_chain(
+                    frameset_url, ["eAISNavigation"]
+                )
             last_url, last_html = nav_url, nav_html
 
-            # 3. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 → heliport).
+            # 4. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 →
+            #    heliport). Heliports are optional - a missing/empty AD 3
+            #    section must not fail the whole crawl (cf. SE).
             airports.extend(
                 self.extract_airports_from_html(
                     nav_html, nav_url, "AD 2en-GBdetails", "vfr"
                 )
             )
-            airports.extend(
-                self.extract_airports_from_html(
-                    nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+            try:
+                airports.extend(
+                    self.extract_airports_from_html(
+                        nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+                    )
                 )
-            )
+            except ValueError as e:
+                self.logger.warning(f"PL: skipping heliports - {e}")
         except Exception as e:
             self.logger.error(f"PL crawl failed: {e}")
             if last_html is not None:

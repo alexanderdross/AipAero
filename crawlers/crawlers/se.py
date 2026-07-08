@@ -215,11 +215,16 @@ class SE(HttpEurocontrolBase):
                     nav_html, nav_url, "AD 2en-GBdetails", "vfr"
                 )
             )
-            airports.extend(
-                self.extract_airports_from_html(
-                    nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+            # Sweden's AD 3 section exists but carries no chart pairs
+            # (verified live) - heliports are optional here.
+            try:
+                airports.extend(
+                    self.extract_airports_from_html(
+                        nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+                    )
                 )
-            )
+            except ValueError as e:
+                self.logger.warning(f"SE: skipping heliports - {e}")
         except Exception as e:
             self.logger.error(f"SE crawl failed: {e}")
             if last_html is not None:
