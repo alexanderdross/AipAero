@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Norway (English)",
+      "hrefTitle": "AIP Norway"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Norway"
+    },
+    "/heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Helicopter Aerodromes Norway"
+    },
+    "/airport-list": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Norway"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Norway",
+      "hrefTitle": "AIP Norway"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Norway"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Helicopter Aerodromes Norway"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Norway"
+    }
+  },
+  "AirportsPage": {
+    "title": "List of Airfields in Norway",
+    "metaTitle": "🛩️ List of Airfields in Norway",
+    "description": "Overview of all airfields/ airports in Norway",
+    "metaDescription": "Overview of all airfields/ airports in Norway🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Norway",
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Helicopter Aerodromes in Norway",
+      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airfields/ Airports Norway",
+      "alternateName": "List of Airfields in Norway",
+      "description": "Overview of all airfields/ airports in Norway"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Helicopter Aerodromes in Norway",
+    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Norway",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+    "metaDescription": "Browse AIP VFR Helicopter Aerodromes Norway and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Helicopter Aerodromes Norway",
+      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Norway",
+      "description": "Browse AIP VFR Helicopter Aerodromes Norway and download airport approach charts for free"
+    }
+  },
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts Norway",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Norway",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+    "metaDescription": "Browse AIP VFR Norway and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Norway",
+      "alternateName": "Index of AIP VFR and visual approach charts Norway",
+      "description": "Browse AIP VFR Norway and download airport approach charts for free"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, no {🇳🇴 Norsk} en {🇬🇧 English} other {Unknown}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Norway",
+    "alternateName": "AIP Norway",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Norway",
+    "inLanguage": "en",
+    "url": "https://aip.aero/no/en/"
+  },
+  "CountryPage": {
+    "title": "AIP and approach charts of Norway",
+    "metaTitle": "🛩️ AIP and approach charts of Norway",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Norway",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Norway🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Norway",
+      "description": "Browse AIP VFR Norway and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/no/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Norway"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Browse AIP VFR Helicopter Aerodromes Norway and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/no/en/heliports/",
+      "buttonHrefTitle": "AIP VFR Helicopter Aerodromes Norway"
+    },
+    "breadcrumb": {
+      "name": "AIP Norway",
+      "alternateName": "AIP and approach charts of Norway",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Norway"
+    }
+  },
+  "About": {
+    "title": "What is this website for?",
+    "description": "The <aip>Norwegian Aeronautical Information Publication AIP</aip> is available as a free version from Avinor. This site aims to make it easier to find airfields, as the basic version does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
+    "aipUrl": "https://www.ippc.no/",
+    "aipTitle": "AIP Norway"
+  },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Norway on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Norway",
+    "buttonHrefTitle": "View aircraft in Norway on Trade:Aero - buy and sell aircraft"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
+  }
+}

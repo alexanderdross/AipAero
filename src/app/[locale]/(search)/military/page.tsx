@@ -16,8 +16,9 @@ import {
   getPathname,
   localeCountryMapping,
   localeLangMapping,
+  routing,
 } from "~/i18n/routing";
-import { orgUrl, rootBreadcrumb } from "~/lib/utils";
+import { countryHasType, orgUrl, rootBreadcrumb } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 import { type Airport } from "~/server/db/schema";
 
@@ -26,7 +27,9 @@ export const dynamicParams = false;
 
 // Only available for Germany
 export function generateStaticParams() {
-  return [{ locale: "fr-EN" }, { locale: "fr" }];
+  return routing.locales
+    .filter((locale) => countryHasType(localeCountryMapping[locale]!, "mil"))
+    .map((locale) => ({ locale }));
 }
 
 export async function generateMetadata(

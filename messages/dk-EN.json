@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Denmark (English)",
+      "hrefTitle": "AIP Denmark"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Denmark"
+    },
+    "/heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Helicopter Aerodromes Denmark"
+    },
+    "/airport-list": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Denmark"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Denmark",
+      "hrefTitle": "AIP Denmark"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Denmark"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Helicopter Aerodromes Denmark"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Denmark"
+    }
+  },
+  "AirportsPage": {
+    "title": "List of Airfields in Denmark",
+    "metaTitle": "🛩️ List of Airfields in Denmark",
+    "description": "Overview of all airfields/ airports in Denmark",
+    "metaDescription": "Overview of all airfields/ airports in Denmark🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Denmark",
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Helicopter Aerodromes in Denmark",
+      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airfields/ Airports Denmark",
+      "alternateName": "List of Airfields in Denmark",
+      "description": "Overview of all airfields/ airports in Denmark"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Helicopter Aerodromes in Denmark",
+    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Denmark",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+    "metaDescription": "Browse AIP VFR Helicopter Aerodromes Denmark and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Helicopter Aerodromes Denmark",
+      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Denmark",
+      "description": "Browse AIP VFR Helicopter Aerodromes Denmark and download airport approach charts for free"
+    }
+  },
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts Denmark",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Denmark",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+    "metaDescription": "Browse AIP VFR Denmark and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Denmark",
+      "alternateName": "Index of AIP VFR and visual approach charts Denmark",
+      "description": "Browse AIP VFR Denmark and download airport approach charts for free"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, da {🇩🇰 Dansk} en {🇬🇧 English} other {Unknown}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Denmark",
+    "alternateName": "AIP Denmark",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Denmark",
+    "inLanguage": "en",
+    "url": "https://aip.aero/dk/en/"
+  },
+  "CountryPage": {
+    "title": "AIP and approach charts of Denmark",
+    "metaTitle": "🛩️ AIP and approach charts of Denmark",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Denmark",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Denmark🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Denmark",
+      "description": "Browse AIP VFR Denmark and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/dk/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Denmark"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Browse AIP VFR Helicopter Aerodromes Denmark and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/dk/en/heliports/",
+      "buttonHrefTitle": "AIP VFR Helicopter Aerodromes Denmark"
+    },
+    "breadcrumb": {
+      "name": "AIP Denmark",
+      "alternateName": "AIP and approach charts of Denmark",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Denmark"
+    }
+  },
+  "About": {
+    "title": "What is this website for?",
+    "description": "The official <aip>Danish Aeronautical Information Publication AIP</aip> is published by Naviair. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
+    "aipUrl": "https://aim.naviair.dk/",
+    "aipTitle": "AIP Denmark"
+  },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Denmark on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Denmark",
+    "buttonHrefTitle": "View aircraft in Denmark on Trade:Aero - buy and sell aircraft"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
+  }
+}

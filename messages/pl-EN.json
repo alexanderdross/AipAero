@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Poland (English)",
+      "hrefTitle": "AIP Poland"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Poland"
+    },
+    "/heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Poland"
+    },
+    "/airport-list": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airports/ Airfields in Poland"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Poland",
+      "hrefTitle": "AIP Poland"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Poland"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Poland"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airports/ Airfields in Poland"
+    }
+  },
+  "AirportsPage": {
+    "title": "List of Airfields in Poland",
+    "metaTitle": "🛩️ List of Airfields in Poland",
+    "description": "Overview of all airfields/ airports/ heliports in Poland",
+    "metaDescription": "Overview of all airfields/ airports/ heliports in Poland🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Poland",
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Helicopter Aerodromes in Poland",
+      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airports/ Airfields in Poland",
+      "alternateName": "List of Airfields in Poland",
+      "description": "Overview of all airfields/ airports/ heliports in Poland"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Helicopter Aerodromes in Poland",
+    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Poland",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+    "metaDescription": "Browse AIP VFR Helicopter Aerodromes of Poland and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Heliports Poland",
+      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Poland",
+      "description": "Browse AIP VFR Helicopter Aerodromes of Poland and download airport approach charts for free"
+    }
+  },
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts of Poland",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts of Poland",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+    "metaDescription": "Browse AIP VFR of Poland and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Poland",
+      "alternateName": "Index of AIP VFR and visual approach charts of Poland",
+      "description": "Browse AIP VFR of Poland and download airport approach charts for free"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, pl {🇵🇱 Polish} en {🇬🇧 English} other {Unknown}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Poland",
+    "alternateName": "AIP Poland",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Poland",
+    "inLanguage": "en",
+    "url": "https://aip.aero/pl/en/"
+  },
+  "CountryPage": {
+    "title": "AIP and approach charts of Poland",
+    "metaTitle": "🛩️ AIP and approach charts of Poland",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Poland",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Poland🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Poland",
+      "description": "Browse AIP VFR of Poland and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/pl/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Poland"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes Poland",
+      "description": "Browse AIP VFR Helicopter Aerodromes of Poland and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/pl/en/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports Poland"
+    },
+    "breadcrumb": {
+      "name": "AIP Poland",
+      "alternateName": "AIP and approach charts of Poland",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Poland"
+    }
+  },
+  "About": {
+    "title": "About this website",
+    "description": "The <aip>AIP of Poland</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by the Polish Air Navigation Services Agency (PANSA) does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
+    "aipUrl": "https://www.ais.pansa.pl/",
+    "aipTitle": "AIP of Poland"
+  },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Poland on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Poland",
+    "buttonHrefTitle": "View aircraft in Poland on Trade:Aero - buy and sell aircraft"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
+  }
+}

@@ -5,9 +5,16 @@ from time import perf_counter
 from pydantic import ValidationError
 
 from crawlers.at import AT
+from crawlers.be import BE
+from crawlers.cz import CZ
 from crawlers.de import DE
+from crawlers.dk import DK
 from crawlers.fr import FR
+from crawlers.gr import GR
 from crawlers.nl import NL
+from crawlers.no import NO
+from crawlers.pl import PL
+from crawlers.se import SE
 from crawlers.uk import UK
 from output_handler import OutputHandler
 from settings import Settings
@@ -23,6 +30,13 @@ COUNTRY_CRAWLERS = {
     "FR": FR,
     "NL": NL,
     "UK": UK,
+    "BE": BE,
+    "CZ": CZ,
+    "DK": DK,
+    "GR": GR,
+    "NO": NO,
+    "PL": PL,
+    "SE": SE,
 }
 
 

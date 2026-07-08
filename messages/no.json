@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Norge (Norsk)",
+      "hrefTitle": "AIP Norge"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Luftfartshåndbok AIP VFR Norge"
+    },
+    "/heliports": {
+      "title": "Helikopterplasser",
+      "hrefTitle": "AIP VFR Helikopterplasser Norge"
+    },
+    "/airport-list": {
+      "title": "Flyplassliste",
+      "hrefTitle": "Liste over flyplasser i Norge"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Norge",
+      "hrefTitle": "AIP Norge"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Luftfartshåndbok AIP VFR Norge"
+    },
+    "heliports": {
+      "title": "Helikopterplasser",
+      "hrefTitle": "AIP VFR Helikopterplasser Norge"
+    },
+    "airports": {
+      "title": "Flyplassliste",
+      "hrefTitle": "Liste over flyplasser i Norge"
+    }
+  },
+  "AirportsPage": {
+    "title": "Liste over flyplasser i Norge",
+    "metaTitle": "🛩️ Liste over flyplasser i Norge",
+    "description": "Oversikt over alle flyplasser i Norge",
+    "metaDescription": "Oversikt over alle flyplasser i Norge🗺️",
+    "vfrCard": {
+      "title": "VFR-flyplasser",
+      "description": "VFR-flyplasser i Norge",
+      "linkTitle": "Se og last ned AIP VFR-kart og innflygingskart for {airport} her."
+    },
+    "heliportCard": {
+      "title": "Helikopterplasser",
+      "description": "Helikopterplasser i Norge",
+      "linkTitle": "Se og last ned AIP VFR-kart for helikopterplasser og innflygingskart for {airport} her."
+    },
+    "breadcrumb": {
+      "name": "Liste over flyplasser i Norge",
+      "alternateName": "Liste over flyplasser i Norge",
+      "description": "Oversikt over alle flyplasser i Norge"
+    }
+  },
+  "HeliportPage": {
+    "title": "Søkefelt for innflygingskart AIP VFR HEL AD helikopterplasser i Norge",
+    "metaTitle": "🛩️ Søkefelt for innflygingskart AIP VFR HEL AD helikopterplasser i Norge",
+    "description": "Skriv inn navnet eller ICAO-koden til flyplassen for å få tilgang til Avinors VFR-innflygingskart for helikopterplasser.",
+    "metaDescription": "AIP VFR Norge HEL AD Søk i helikopterplasser og last ned innflygingskart🗺️",
+    "searchTitle": "Skriv inn flyplass eller ICAO-kode for å gå til VFR AIP for helikopterplasser",
+    "searchPlaceholder": "Skriv inn flyplass eller ICAO-kode for å gå til VFR AIP for helikopterplasser",
+    "resultTitle": "AIP VFR helikopterplass-kart for {airport}",
+    "resultDescription": "Se og last ned AIP VFR helikopterplass-kart og innflygingskart for {airport} her.",
+    "breadcrumb": {
+      "name": "AIP VFR Helikopterplasser Norge",
+      "alternateName": "Søkefelt for innflygingskart AIP VFR HEL AD helikopterplasser i Norge",
+      "description": "AIP VFR Norge HEL AD Søk i helikopterplasser og last ned innflygingskart"
+    }
+  },
+  "VfrPage": {
+    "title": "Søkefelt for innflygingskart AIP VFR Norge",
+    "metaTitle": "🛩️ Søkefelt for innflygingskart AIP VFR Norge",
+    "description": "Skriv inn navnet eller ICAO-koden til flyplassen for å få tilgang til Avinors VFR-innflygingskart.",
+    "metaDescription": "AIP VFR Norge AD Søk i flyplasser og last ned innflygingskart🗺️",
+    "searchTitle": "Skriv inn flyplass eller ICAO-kode for å gå til VFR AIP",
+    "searchPlaceholder": "Skriv inn flyplass eller ICAO-kode for å gå til VFR AIP",
+    "resultTitle": "AIP VFR-kart for {airport}",
+    "resultDescription": "Se og last ned AIP VFR-kart og innflygingskart for {airport} her.",
+    "breadcrumb": {
+      "name": "Luftfartshåndbok AIP VFR Norge",
+      "alternateName": "Søkefelt for innflygingskart AIP VFR Norge",
+      "description": "AIP VFR Norge AD Søk i flyplasser og last ned innflygingskart"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Endre språk",
+    "locale": "{locale, select, no {🇳🇴 Norsk} en {🇬🇧 English} other {Ukjent}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Innflygingskart og luftfartshåndbok AIP for Norge",
+    "alternateName": "AIP Norge",
+    "description": "Her kan du laste ned alle AIP (Aeronautical Information Publication) luftfartshåndbøker og innflygingskart for Norge",
+    "inLanguage": "nb",
+    "url": "https://aip.aero/no/"
+  },
+  "CountryPage": {
+    "title": "Innflygingskart og luftfartshåndbok AIP for Norge",
+    "metaTitle": "🛩️ Innflygingskart og luftfartshåndbok AIP for Norge",
+    "description": "Her kan du laste ned alle AIP (Aeronautical Information Publication) luftfartshåndbøker og innflygingskart for Norge",
+    "metaDescription": "Her kan du laste ned alle AIP (Aeronautical Information Publication) luftfartshåndbøker og innflygingskart for Norge🗺️",
+    "vfrCard": {
+      "title": "Luftfartshåndbok AIP VFR Norge",
+      "description": "AIP VFR Norge AD Søk i flyplasser og last ned innflygingskart",
+      "buttonTitle": "Luftfartshåndbok AIP VFR",
+      "buttonHref": "/no/vfr/",
+      "buttonHrefTitle": "Luftfartshåndbok AIP VFR Norge"
+    },
+    "heliportCard": {
+      "title": "Helikopterplasser Norge",
+      "description": "AIP VFR Norge HEL AD Søk i helikopterplasser og last ned innflygingskart",
+      "buttonTitle": "AIP VFR Helikopterplasser",
+      "buttonHref": "/no/heliports/",
+      "buttonHrefTitle": "AIP VFR Helikopterplasser Norge"
+    },
+    "breadcrumb": {
+      "name": "AIP Norge",
+      "alternateName": "Innflygingskart og luftfartshåndbok AIP for Norge",
+      "description": "Her kan du laste ned alle AIP (Aeronautical Information Publication) luftfartshåndbøker og innflygingskart for Norge"
+    }
+  },
+  "About": {
+    "title": "Hvorfor denne nettsiden?",
+    "description": "Den <aip>norske luftfartshåndboken AIP</aip> er tilgjengelig som en gratis versjon fra Avinor. Denne nettsiden har som mål å gjøre det enklere å finne flyplasser, ettersom grunnversjonen ikke har et søkefelt. Vi tar ikke ansvar for riktigheten eller aktualiteten til AIP (Aeronautical Information Publication), da den ikke driftes av oss. Vi lenker kun til de tilhørende innflygingskartene.",
+    "aipUrl": "https://www.ippc.no/",
+    "aipTitle": "Luftfartshåndbok AIP Norge"
+  },
+  "TradeAero": {
+    "title": "Kjøpe eller selge et fly?",
+    "description": "Oppdag fly i Norge på Trade:Aero - markedsplassen for kjøp og salg av fly.",
+    "buttonTitle": "Se fly i Norge",
+    "buttonHrefTitle": "Se fly i Norge på Trade:Aero - kjøp og selg fly"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Hjem",
+      "hrefTitle": "Hjem - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Kolofon",
+      "hrefTitle": "Kolofon",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Personvern",
+      "hrefTitle": "Personvernerklæring",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Nettsiden til Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Det oppstod dessverre et problem.</p><p>Du kan prøve å <retry>laste denne siden på nytt</retry>.</p>",
+    "title": "Noe gikk galt!"
+  }
+}

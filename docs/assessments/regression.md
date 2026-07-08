@@ -4,20 +4,20 @@
 
 "Regression test" is most meaningful when there's a prior test suite to regress against. This repo had **none** until this assessment landed. So this document is half-strategy ("what gates regressions going forward") and half-snapshot ("what's currently green, locked").
 
-## Current regression surface — what is gated on every PR
+## Current regression surface - what is gated on every PR
 
 The CI workflow at `.github/workflows/ci.yml` is the regression baseline. Every PR to `main` and every push to `main` runs:
 
-### Website (Next.js) — 30-40s
+### Website (Next.js) - 30-40s
 
 | Step | Catches |
 | --- | --- |
 | `pnpm install --frozen-lockfile` | Dep drift (lockfile out of sync with `package.json`). |
 | `pnpm typecheck` (`tsc --noEmit`) | Type regressions across all Next.js routes, server actions, Drizzle types, next-intl APIs. |
 | `pnpm format:check` | Prettier drift. |
-| `pnpm cf-build` (OpenNext / Cloudflare Workers) | Build-time regressions (missing env vars, broken sitemap pre-render, prerendering errors). Needs no DB — build-time D1 reads fail-soft to empty and revalidate at runtime. |
+| `pnpm cf-build` (OpenNext / Cloudflare Workers) | Build-time regressions (missing env vars, broken sitemap pre-render, prerendering errors). Needs no DB - build-time D1 reads fail-soft to empty and revalidate at runtime. |
 
-### Crawlers (Python) — 10-15s
+### Crawlers (Python) - 10-15s
 
 | Step | Catches |
 | --- | --- |
@@ -29,9 +29,9 @@ The CI workflow at `.github/workflows/ci.yml` is the regression baseline. Every 
 
 ### Build gate (now in-CI, no separate external service)
 
-- **OpenNext Worker build (`pnpm cf-build`)** — runs inside the `Website (Next.js)` job (see the step table above). It catches the build-time regressions the old Vercel preview build used to, but needs **no** database: DB reads go through the `DB` D1 binding, which is absent at build time, so pages/sitemaps prerender with empty results and revalidate at runtime.
+- **OpenNext Worker build (`pnpm cf-build`)** - runs inside the `Website (Next.js)` job (see the step table above). It catches the build-time regressions the old Vercel preview build used to, but needs **no** database: DB reads go through the `DB` D1 binding, which is absent at build time, so pages/sitemaps prerender with empty results and revalidate at runtime.
 
-The branch ruleset on `main` requires both checks (`Website (Next.js)`, `Crawlers (Python)`) to pass before merge. (The former Vercel preview-build check is retired — the website now deploys to Cloudflare Workers, and the build gate lives in the GH Actions CI job.)
+The branch ruleset on `main` requires both checks (`Website (Next.js)`, `Crawlers (Python)`) to pass before merge. (The former Vercel preview-build check is retired - the website now deploys to Cloudflare Workers, and the build gate lives in the GH Actions CI job.)
 
 ## What's locked vs not locked
 
@@ -50,15 +50,15 @@ The branch ruleset on `main` requires both checks (`Website (Next.js)`, `Crawler
 
 ### Not locked (silent regression risk)
 
-- ❌ ESLint rules — `next lint` doesn't currently run because of the broken config. Means TypeScript-aware lint rules (consistent imports, no-misused-promises, drizzle/enforce-update-with-where) aren't gating.
-- ❌ Anything visual — no screenshot/visual regression tests.
-- ❌ Runtime middleware behaviour — typecheck doesn't cover the next-intl middleware actually rewriting paths correctly.
-- ❌ End-to-end flows — no Playwright / Cypress.
-- ✅ (resolved) DE crawler — now ported off Selenium to `HttpCrawlerBase` and included in the smoke test + unit tests; it no longer imports Chromium at module load, so it is locked like the other four.
-- ❌ Production crawler runs against live AIP sites — only post-deploy on netcup.
-- ❌ Database schema drift — D1 migrations are applied on demand (`wrangler d1 migrations apply`), not in CI.
-- ❌ Bundle size budget — no enforcement.
-- ✅ (collected) Web Vitals — Cloudflare Web Analytics gathers Core Web Vitals via an edge RUM beacon (read in the Cloudflare dashboard). Not a CI gate, but the field data exists.
+- ❌ ESLint rules - `next lint` doesn't currently run because of the broken config. Means TypeScript-aware lint rules (consistent imports, no-misused-promises, drizzle/enforce-update-with-where) aren't gating.
+- ❌ Anything visual - no screenshot/visual regression tests.
+- ❌ Runtime middleware behaviour - typecheck doesn't cover the next-intl middleware actually rewriting paths correctly.
+- ❌ End-to-end flows - no Playwright / Cypress.
+- ✅ (resolved) DE crawler - now ported off Selenium to `HttpCrawlerBase` and included in the smoke test + unit tests; it no longer imports Chromium at module load, so it is locked like the other four.
+- ❌ Production crawler runs against live AIP sites - only post-deploy on netcup.
+- ❌ Database schema drift - D1 migrations are applied on demand (`wrangler d1 migrations apply`), not in CI.
+- ❌ Bundle size budget - no enforcement.
+- ✅ (collected) Web Vitals - Cloudflare Web Analytics gathers Core Web Vitals via an edge RUM beacon (read in the Cloudflare dashboard). Not a CI gate, but the field data exists.
 
 ## Suggested gradual hardening
 
@@ -91,7 +91,7 @@ A Vitest + RTL snapshot of `airport-list/page.tsx` rendering with mocked Drizzle
 
 ### 4. Visual regression (high, low value)
 
-`@playwright/test` with `toHaveScreenshot()` per locale + page. Useful but expensive — defer until there's a UI regression history that justifies the maintenance cost.
+`@playwright/test` with `toHaveScreenshot()` per locale + page. Useful but expensive - defer until there's a UI regression history that justifies the maintenance cost.
 
 ### 5. Crawler integration smoke (medium, medium value)
 
@@ -101,12 +101,12 @@ Once a month, run each `crawl()` against the live site (from the netcup host, no
 
 CI step that spins up a local D1 (miniflare) and runs `wrangler d1 migrations apply DB --local` to confirm the migrations apply cleanly. Currently the only place we discover migration breakage is the Cloudflare deploy (the CD workflow applies D1 migrations before deploying).
 
-## Process — how to handle a regression when it does land in production
+## Process - how to handle a regression when it does land in production
 
 1. **Identify** via Axiom logs (`next-axiom`), Cloudflare Workers logs (`wrangler tail`), or `journalctl -u aip-crawler` on netcup.
-2. **Reproduce** locally — fixtures preferred. The new pytest suite shows the pattern: synthetic HTML → parse → assert. Add a failing test before fixing.
-3. **Fix + lock** — write the test first if it can be expressed as a unit test, then fix code, ensure the test passes.
-4. **Land** — PR with the test included. CI now blocks anyone re-introducing the bug.
+2. **Reproduce** locally - fixtures preferred. The new pytest suite shows the pattern: synthetic HTML → parse → assert. Add a failing test before fixing.
+3. **Fix + lock** - write the test first if it can be expressed as a unit test, then fix code, ensure the test passes.
+4. **Land** - PR with the test included. CI now blocks anyone re-introducing the bug.
 
 ## Repeatable verification
 

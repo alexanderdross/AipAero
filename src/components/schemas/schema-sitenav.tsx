@@ -1,46 +1,55 @@
 import { getTranslations } from "next-intl/server";
-import { getPathname, type Pathnames } from "~/i18n/routing";
-import { orgUrl } from "~/lib/utils";
+import {
+  getPathname,
+  localeCountryMapping,
+  type Pathnames,
+} from "~/i18n/routing";
+import { countryTypeAvailability, orgUrl } from "~/lib/utils";
+import type { Airport } from "~/server/db/schema";
+
+// Per available type: the message namespace holding its breadcrumb copy and
+// the localized route it links to.
+const TYPE_META: Record<Airport["type"], { ns: string; slug: Pathnames }> = {
+  vfr: { ns: "VfrPage", slug: "/vfr" },
+  ifr: { ns: "IfrPage", slug: "/ifr" },
+  heliport: { ns: "HeliportPage", slug: "/heliports" },
+  aeroport: { ns: "AeroportPage", slug: "/aeroports" },
+  mil: { ns: "MilitaryPage", slug: "/military" },
+};
 
 export async function SchemaSitenav({ locale }: { locale: string }) {
   function trailingSlash(url: string) {
     return url.endsWith("/") ? url : url + "/";
   }
 
-  const siteKeys = locale.startsWith("de")
-    ? ([
-        "CountryPage",
-        "VfrPage",
-        "IfrPage",
-        "HeliportPage",
-        "AirportsPage",
-      ] as const)
-    : locale.startsWith("fr")
-      ? ([
-          "CountryPage",
-          "AeroportPage",
-          "MilitaryPage",
-          "AirportsPage",
-        ] as const)
-      : (["CountryPage", "VfrPage", "HeliportPage", "AirportsPage"] as const);
+  // Data-driven from the country's available types, so every country (and any
+  // future one) contributes the right SiteNavigation nodes automatically.
+  const country = localeCountryMapping[locale]!;
+  const types = countryTypeAvailability[country] ?? [];
+  const siteKeys = [
+    "CountryPage",
+    ...types.map((t) => TYPE_META[t].ns),
+    "AirportsPage",
+  ];
+  const slugs = [
+    "/",
+    ...types.map((t) => TYPE_META[t].slug),
+    "/airport-list",
+  ] as Pathnames[];
+
   const siteTranslations = await Promise.all(
     siteKeys.map((x) => getTranslations(x)),
   );
-  const slugs = locale.startsWith("de")
-    ? (["/", "/vfr", "/ifr", "/heliports", "/airport-list"] as Pathnames[])
-    : locale.startsWith("fr")
-      ? (["/", "/aeroports", "/military", "/airport-list"] as Pathnames[])
-      : (["/", "/vfr", "/heliports", "/airport-list"] as Pathnames[]);
   const siteNavSchema = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@context": "https://schema.org",
         "@type": "SiteNavigationElement",
-        name: "AIP approach charts of Austria, France, Germany, Netherlands and United Kingdom",
+        name: "AIP approach charts for VFR, IFR & Heliports across Europe",
         alternateName: "AIP:Aero",
         description:
-          "AIP approach charts VFR, IFR & Heliports of Austria, France, Germany, Netherlands and United Kingdom",
+          "AIP approach charts VFR, IFR & Heliports for European countries",
         url: orgUrl.toString(),
       },
       {

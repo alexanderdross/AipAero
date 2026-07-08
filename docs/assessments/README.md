@@ -42,7 +42,7 @@ The CI workflow at `.github/workflows/ci.yml` runs the same steps on every PR an
 
 Two of the seven assessments are inherently human/runtime work and cannot be "executed" from this repo:
 
-- **UAT** ([`uat.md`](./uat.md)) is a checklist — it depends on a person walking through the live site.
+- **UAT** ([`uat.md`](./uat.md)) is a checklist - it depends on a person walking through the live site.
 - **Performance** ([`performance.md`](./performance.md)) is half static-analysis findings, half a runbook for Lighthouse / Cloudflare Web Analytics / `next/bundle-analyzer`. We don't host a load-testing harness.
 
 The other five (QA, unit tests, regression strategy, best-practices audit, security) are anchored in real, runnable output.

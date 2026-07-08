@@ -7,8 +7,18 @@ import {
   type Pathnames,
   routing,
 } from "~/i18n/routing";
-import { i18nPathMapping, orgUrl } from "~/lib/utils";
+import { countryHasType, i18nPathMapping, orgUrl } from "~/lib/utils";
+import type { Airport } from "~/server/db/schema";
 import { QUERIES } from "~/server/db/queries";
+
+// Which search-page path maps to which airport type (for availability gating).
+const TYPE_BY_PATH: Record<string, Airport["type"]> = {
+  "/vfr": "vfr",
+  "/ifr": "ifr",
+  "/heliports": "heliport",
+  "/military": "mil",
+  "/aeroports": "aeroport",
+};
 
 export async function generateSitemaps() {
   const tlds = routing.locales.filter((x) => x.length === 2);
@@ -37,15 +47,10 @@ export default async function sitemap({
 type Href = Parameters<typeof getPathname>[0]["href"];
 
 async function getEntries(pathname: Href, country: Locale) {
-  // Only show IFR page for Germany
-  if (pathname === "/ifr" && country !== "de" && country !== "de-EN") {
-    return [];
-  }
-  // Don't show vfr or ifr or heliport page for France
-  if (
-    (country === "fr" || country === "fr-EN") &&
-    (pathname === "/vfr" || pathname === "/ifr" || pathname === "/heliports")
-  ) {
+  // Gate search-page entries by the country's available types (single source
+  // of truth: countryTypeAvailability). "/" and "/airport-list" always emit.
+  const type = TYPE_BY_PATH[pathname as string];
+  if (type && !countryHasType(country, type)) {
     return [];
   }
   // Alternate languages are the current country and its optional English version

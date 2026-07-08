@@ -8,7 +8,7 @@ import { type InsertAirport, type Airport, airports } from "./schema";
 // Cache lifetime for the read queries (seconds). The AIP data only changes when
 // the crawler POSTs new data, which invalidates the affected country on-demand
 // via `revalidateTag` (see MUTATIONS below). So the time-based revalidate only
-// needs to be a safety net, not a freshness mechanism — a short window (the old
+// needs to be a safety net, not a freshness mechanism - a short window (the old
 // 1h) just rewrites unchanged entries to the cache hourly for nothing. 24h keeps
 // writes low while still bounding staleness if an on-demand invalidation is ever
 // missed.
@@ -16,13 +16,13 @@ const REVALIDATE_SECONDS = 60 * 60 * 24;
 
 // Per-country cache tag. Every read for a country carries this tag so a crawler
 // POST (always scoped to one country) can invalidate exactly that country's
-// entries with a single `revalidateTag` — instead of globally busting all ~1k
+// entries with a single `revalidateTag` - instead of globally busting all ~1k
 // airport entries across every country on each run.
 const countryTag = (country: string) => `country:${country.toUpperCase()}`;
 
 // During `next build` the OpenNext adapter exposes a *local* (miniflare) D1
 // binding that has no data (and, in CI, no schema). We must not fail the build
-// on it — static pages/sitemaps prerender with empty results and revalidate at
+// on it - static pages/sitemaps prerender with empty results and revalidate at
 // runtime (and whenever the crawler POST triggers `revalidateTag`). At runtime
 // on a real Worker the DB is migrated and populated, so we let errors surface.
 const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
@@ -172,7 +172,7 @@ export const QUERIES = {
     // Intentionally NOT cached. This backs the as-you-type search box, which
     // fires one query per keystroke. Caching per unique search string created a
     // fresh incremental-cache entry per prefix ("f", "fr", "fri", …) with almost
-    // no reuse — a major source of needless cache writes. The query is a cheap,
+    // no reuse - a major source of needless cache writes. The query is a cheap,
     // title-indexed D1 read (LIMIT 5), so hit D1 directly instead.
     const db = await getDb();
     if (!db) return [] as Airport[];
@@ -195,7 +195,7 @@ export const QUERIES = {
   },
 };
 
-// Cloudflare D1 caps bound parameters at 100 per query — far below SQLite's own
+// Cloudflare D1 caps bound parameters at 100 per query - far below SQLite's own
 // limit. Each airport row binds 6 columns (icao, title, url, type, country,
 // slug), so cap each INSERT at floor(100 / 6) = 16 rows (96 params) to stay
 // under the D1 limit. Exceeding it fails the whole batch with
@@ -241,7 +241,7 @@ export const MUTATIONS = {
 
     // Invalidate only this country's cached reads. Every read is tagged with
     // `country:<CC>` (see `countryTag`), and a crawler POST always carries a
-    // single country's data — so one tag busts exactly the affected lists +
+    // single country's data - so one tag busts exactly the affected lists +
     // airport-detail entries, leaving the other countries' caches warm. (The
     // previous code revalidated 7 global tags, invalidating all ~1k entries
     // across every country on every run.)

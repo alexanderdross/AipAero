@@ -24,6 +24,14 @@ const countryPages: TestPage[] = [
   { path: "/nl/en/", lang: "en", label: "country nl-EN" },
   { path: "/at/", lang: "de", label: "country at" },
   { path: "/at/en/", lang: "en", label: "country at-EN" },
+  { path: "/be/", lang: "en", label: "country be" },
+  { path: "/cz/", lang: "cs", label: "country cz" },
+  { path: "/cz/en/", lang: "en", label: "country cz-EN" },
+  { path: "/dk/", lang: "da", label: "country dk" },
+  { path: "/gr/", lang: "el", label: "country gr" },
+  { path: "/no/", lang: "nb", label: "country no" },
+  { path: "/pl/", lang: "pl", label: "country pl" },
+  { path: "/se/", lang: "sv", label: "country se" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -37,6 +45,13 @@ const airportListPages: TestPage[] = [
   { path: "/nl/en/airport-list-netherlands/", lang: "en", label: "list nl-EN" },
   { path: "/at/flughafen-liste-oesterreich/", lang: "de", label: "list at" },
   { path: "/at/en/airport-list-austria/", lang: "en", label: "list at-EN" },
+  { path: "/be/airport-list-belgium/", lang: "en", label: "list be" },
+  { path: "/cz/letiste-cesko/", lang: "cs", label: "list cz" },
+  { path: "/dk/flyvepladser-danmark/", lang: "da", label: "list dk" },
+  { path: "/gr/aerolimenes-ellada/", lang: "el", label: "list gr" },
+  { path: "/no/flyplasser-norge/", lang: "nb", label: "list no" },
+  { path: "/pl/lotniska-polska/", lang: "pl", label: "list pl" },
+  { path: "/se/flygplatser-sverige/", lang: "sv", label: "list se" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -59,6 +74,19 @@ const searchPages: TestPage[] = [
   { path: "/fr/en/military/", lang: "en", label: "military fr-EN" },
   { path: "/fr/aeroports/", lang: "fr", label: "aeroports fr" },
   { path: "/fr/en/aeroports/", lang: "en", label: "aeroports fr-EN" },
+  // Belgium/Luxembourg (vfr, ifr, heliports, military)
+  { path: "/be/vfr/", lang: "en", label: "vfr be" },
+  { path: "/be/ifr/", lang: "en", label: "ifr be" },
+  { path: "/be/heliports/", lang: "en", label: "heliports be" },
+  { path: "/be/military/", lang: "en", label: "military be" },
+  // Czechia (ifr only)
+  { path: "/cz/ifr/", lang: "cs", label: "ifr cz" },
+  // vfr + heliports countries (sample)
+  { path: "/dk/vfr/", lang: "da", label: "vfr dk" },
+  { path: "/gr/heliports/", lang: "el", label: "heliports gr" },
+  { path: "/no/vfr/", lang: "nb", label: "vfr no" },
+  { path: "/pl/vfr/", lang: "pl", label: "vfr pl" },
+  { path: "/se/vfr/", lang: "sv", label: "vfr se" },
 ];
 
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */

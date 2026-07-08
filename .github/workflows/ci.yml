@@ -103,12 +103,19 @@ jobs:
         run: |
           uv run python - <<'PY'
           from crawlers.at import AT
+          from crawlers.be import BE
+          from crawlers.cz import CZ
           from crawlers.de import DE
+          from crawlers.dk import DK
           from crawlers.fr import FR
+          from crawlers.gr import GR
           from crawlers.nl import NL
+          from crawlers.no import NO
+          from crawlers.pl import PL
+          from crawlers.se import SE
           from crawlers.uk import UK
 
-          for cls in (AT, DE, FR, NL, UK):
+          for cls in (AT, BE, CZ, DE, DK, FR, GR, NL, NO, PL, SE, UK):
               inst = cls()
               assert inst.country == cls.__name__, (cls, inst.country)
               inst.close()

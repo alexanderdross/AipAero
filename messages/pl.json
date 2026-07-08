@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "Indeks AIP",
+      "hrefTitle": "Indeks AIP"
+    },
+    "/": {
+      "title": "Polska (polski)",
+      "hrefTitle": "AIP Polska"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Zbiór Informacji Lotniczych VFR Polska"
+    },
+    "/heliports": {
+      "title": "Heliporty",
+      "hrefTitle": "AIP VFR Heliporty Polska"
+    },
+    "/airport-list": {
+      "title": "Lista lotnisk",
+      "hrefTitle": "Lista lotnisk w Polsce"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Polska",
+      "hrefTitle": "AIP Polska"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Zbiór Informacji Lotniczych VFR Polska"
+    },
+    "heliports": {
+      "title": "Heliporty",
+      "hrefTitle": "AIP VFR Heliporty Polska"
+    },
+    "airports": {
+      "title": "Lista lotnisk",
+      "hrefTitle": "Lista lotnisk w Polsce"
+    }
+  },
+  "AirportsPage": {
+    "title": "Lista lotnisk w Polsce",
+    "metaTitle": "🛩️ Lista lotnisk w Polsce",
+    "description": "Wszystkie lotniska w Polsce w jednym miejscu",
+    "metaDescription": "Wszystkie lotniska w Polsce w jednym miejscu🗺️",
+    "vfrCard": {
+      "title": "Lotniska VFR",
+      "description": "Lotniska VFR w Polsce",
+      "linkTitle": "Kliknij poniższy link, aby uzyskać dostęp do AIP VFR i mapy podejścia dla {airport}"
+    },
+    "heliportCard": {
+      "title": "Heliporty",
+      "description": "Heliporty w Polsce",
+      "linkTitle": "Kliknij poniższy link, aby uzyskać dostęp do map heliportów AIP VFR i mapy podejścia dla {airport}"
+    },
+    "breadcrumb": {
+      "name": "Lista lotnisk w Polsce",
+      "alternateName": "Lista lotnisk w Polsce",
+      "description": "Wszystkie lotniska w Polsce w jednym miejscu"
+    }
+  },
+  "HeliportPage": {
+    "title": "Wyszukiwarka map podejścia AIP VFR HEL AD heliportów w Polsce",
+    "metaTitle": "🛩️ Wyszukiwarka map podejścia AIP VFR HEL AD heliportów w Polsce",
+    "description": "Wprowadź nazwę lotniska lub kod ICAO, aby uzyskać dostęp do map podejścia VFR dla heliportów Polskiej Agencji Żeglugi Powietrznej (PAŻP).",
+    "metaDescription": "AIP VFR Polska HEL AD Wyszukaj heliporty i pobierz mapy podejścia🗺️",
+    "searchTitle": "Wprowadź nazwę lotniska lub kod ICAO, aby przejść do heliportów AIP VFR",
+    "searchPlaceholder": "Wprowadź nazwę lotniska lub kod ICAO, aby przejść do heliportów AIP VFR",
+    "resultTitle": "Mapy heliportów AIP VFR dla {airport}",
+    "resultDescription": "Kliknij poniższy link, aby uzyskać dostęp do map heliportów AIP VFR i mapy podejścia dla {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Heliporty Polska",
+      "alternateName": "Wyszukiwarka map podejścia AIP VFR HEL AD heliportów w Polsce",
+      "description": "AIP VFR Polska HEL AD Wyszukaj heliporty i pobierz mapy podejścia"
+    }
+  },
+  "VfrPage": {
+    "title": "Wyszukiwarka map podejścia AIP VFR Polska",
+    "metaTitle": "🛩️ Wyszukiwarka map podejścia AIP VFR Polska",
+    "description": "Wprowadź nazwę lotniska lub kod ICAO, aby uzyskać dostęp do map podejścia VFR.",
+    "metaDescription": "AIP VFR Polska AD Wyszukaj lotniska i pobierz mapy podejścia🗺️",
+    "searchTitle": "Wprowadź nazwę lotniska lub kod ICAO, aby przejść do AIP VFR",
+    "searchPlaceholder": "Wprowadź nazwę lotniska lub kod ICAO, aby przejść do AIP VFR",
+    "resultTitle": "Mapy AIP VFR dla {airport}",
+    "resultDescription": "Kliknij poniższy link, aby uzyskać dostęp do AIP VFR i mapy podejścia dla {airport}",
+    "breadcrumb": {
+      "name": "Zbiór Informacji Lotniczych VFR Polska",
+      "alternateName": "Wyszukiwarka map podejścia AIP VFR Polska",
+      "description": "AIP VFR Polska AD Wyszukaj lotniska i pobierz mapy podejścia"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Zmień język",
+    "locale": "{locale, select, pl {🇵🇱 polski} en {🇬🇧 English} other {Nieznany}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Mapy podejścia i zbiór informacji lotniczych AIP dla Polski",
+    "alternateName": "AIP Polska",
+    "description": "Tutaj możesz pobrać wszystkie zbiory informacji lotniczych AIP (Aeronautical Information Publication) oraz mapy podejścia dla Polski",
+    "inLanguage": "pl",
+    "url": "https://aip.aero/pl/"
+  },
+  "CountryPage": {
+    "title": "Mapy podejścia i zbiór informacji lotniczych AIP dla Polski",
+    "metaTitle": "🛩️ Mapy podejścia i zbiór informacji lotniczych AIP dla Polski",
+    "description": "Tutaj możesz pobrać wszystkie zbiory informacji lotniczych AIP (Aeronautical Information Publication) oraz mapy podejścia dla Polski",
+    "metaDescription": "Tutaj możesz pobrać wszystkie zbiory informacji lotniczych AIP (Aeronautical Information Publication) oraz mapy podejścia dla Polski🗺️",
+    "vfrCard": {
+      "title": "Zbiór Informacji Lotniczych AIP VFR Polska",
+      "description": "AIP VFR Polska AD Wyszukaj lotniska i pobierz mapy podejścia",
+      "buttonTitle": "Zbiór Informacji Lotniczych AIP VFR",
+      "buttonHref": "/pl/vfr/",
+      "buttonHrefTitle": "Zbiór Informacji Lotniczych VFR Polska"
+    },
+    "heliportCard": {
+      "title": "Heliporty Polska",
+      "description": "AIP VFR Polska HEL AD Wyszukaj heliporty i pobierz mapy podejścia",
+      "buttonTitle": "AIP VFR Heliporty",
+      "buttonHref": "/pl/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliporty Polska"
+    },
+    "breadcrumb": {
+      "name": "AIP Polska",
+      "alternateName": "Mapy podejścia i zbiór informacji lotniczych AIP dla Polski",
+      "description": "Tutaj możesz pobrać wszystkie zbiory informacji lotniczych AIP (Aeronautical Information Publication) oraz mapy podejścia dla Polski"
+    }
+  },
+  "About": {
+    "title": "Dlaczego ta strona?",
+    "description": "<aip>AIP Polski</aip> jest dostępny w bezpłatnej wersji. Celem tej strony jest uproszczenie wyszukiwania lotnisk, ponieważ podstawowa wersja udostępniana przez Polską Agencję Żeglugi Powietrznej (PAŻP) nie zawiera wyszukiwarki. Nie ponosimy odpowiedzialności za poprawność i dokładność zbiorów AIP (Aeronautical Information Publication), ponieważ nie są one przez nas prowadzone. Udostępniamy jedynie wygodne linki do odpowiednich map podejścia.",
+    "aipUrl": "https://www.ais.pansa.pl/",
+    "aipTitle": "AIP of Poland"
+  },
+  "TradeAero": {
+    "title": "Kupujesz lub sprzedajesz samolot?",
+    "description": "Przeglądaj samoloty na sprzedaż w Polsce na Trade:Aero - platformie do kupna i sprzedaży statków powietrznych.",
+    "buttonTitle": "Zobacz samoloty w Polsce",
+    "buttonHrefTitle": "Zobacz samoloty w Polsce na Trade:Aero - kupno i sprzedaż statków powietrznych"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Strona główna",
+      "hrefTitle": "Strona główna - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Nota prawna",
+      "hrefTitle": "Nota prawna",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Prywatność",
+      "hrefTitle": "Polityka prywatności",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Strona internetowa Alexandra Drossa",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Niestety wystąpił błąd.</p><p>Możesz spróbować <retry>ponownie załadować tę stronę</retry>.</p>",
+    "title": "Coś poszło nie tak!"
+  }
+}

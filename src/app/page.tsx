@@ -104,6 +104,56 @@ export default async function RootPage() {
       flag: "🇦🇹",
       nativeLang: "German",
     },
+    {
+      tld: "be",
+      lang: "en",
+      name: "Belgium & Luxembourg",
+      flag: "🇧🇪",
+      nativeLang: "English",
+      isSingleLocale: true,
+    },
+    {
+      tld: "cz",
+      lang: "cs",
+      name: "Czechia",
+      flag: "🇨🇿",
+      nativeLang: "Czech",
+    },
+    {
+      tld: "dk",
+      lang: "da",
+      name: "Denmark",
+      flag: "🇩🇰",
+      nativeLang: "Danish",
+    },
+    {
+      tld: "gr",
+      lang: "el",
+      name: "Greece",
+      flag: "🇬🇷",
+      nativeLang: "Greek",
+    },
+    {
+      tld: "no",
+      lang: "no",
+      name: "Norway",
+      flag: "🇳🇴",
+      nativeLang: "Norwegian",
+    },
+    {
+      tld: "pl",
+      lang: "pl",
+      name: "Poland",
+      flag: "🇵🇱",
+      nativeLang: "Polish",
+    },
+    {
+      tld: "se",
+      lang: "sv",
+      name: "Sweden",
+      flag: "🇸🇪",
+      nativeLang: "Swedish",
+    },
   ].sort((a, b) => a.name.localeCompare(b.name));
 
   const modifiedDate = new Date(buildDate);

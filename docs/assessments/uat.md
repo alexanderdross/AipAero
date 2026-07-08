@@ -18,21 +18,21 @@ Before running UAT, confirm these aren't currently in flight:
 
 - [ ] No PR is mid-merge to `main`.
 - [ ] The most recent Cloudflare Workers production deploy is from `main` and green.
-- [ ] netcup `aip-crawler.timer` is `active (waiting)` — `systemctl status aip-crawler.timer`.
+- [ ] netcup `aip-crawler.timer` is `active (waiting)` - `systemctl status aip-crawler.timer`.
 - [ ] You can reach `https://aip.aero/` from a clean browser session.
 
-## A — Website golden paths (per locale)
+## A - Website golden paths (per locale)
 
 The site has 9 locales: `at`, `at-EN`, `de`, `de-EN`, `fr`, `fr-EN`, `nl`, `nl-EN`, `uk`. UAT all 9, but you can batch by language family.
 
 For each locale, walk through:
 
-1. **Country landing card grid** — `/<locale>` should load < 2 seconds and show the correct page-availability icons (e.g. no `/ifr` card for non-DE).
-2. **Locale switcher** — clicking a different locale on the same page lands you on the canonical equivalent (e.g. `/de/vfr` → `/uk/vfr`, not `/de/vfr` → `/uk/`).
-3. **Airport list** — the localised pathname loads (`/at/flughafen-liste-oesterreich`, `/fr/liste-des-aeroports-francais`, etc.) and shows airports for the country.
-4. **Search-page entry** — VFR / IFR / heliports / military / aeroports as applicable per [the page-availability matrix](../../CLAUDE.md#country-specific-page-availability).
-5. **Search box** — typing a partial airport name returns results within ~1s.
-6. **Airport detail link** — clicking through opens the official AIP/chart URL in a new tab. Verify the link is the correct AIP source, not an old crawl.
+1. **Country landing card grid** - `/<locale>` should load < 2 seconds and show the correct page-availability icons (e.g. no `/ifr` card for non-DE).
+2. **Locale switcher** - clicking a different locale on the same page lands you on the canonical equivalent (e.g. `/de/vfr` → `/uk/vfr`, not `/de/vfr` → `/uk/`).
+3. **Airport list** - the localised pathname loads (`/at/flughafen-liste-oesterreich`, `/fr/liste-des-aeroports-francais`, etc.) and shows airports for the country.
+4. **Search-page entry** - VFR / IFR / heliports / military / aeroports as applicable per [the page-availability matrix](../../CLAUDE.md#country-specific-page-availability).
+5. **Search box** - typing a partial airport name returns results within ~1s.
+6. **Airport detail link** - clicking through opens the official AIP/chart URL in a new tab. Verify the link is the correct AIP source, not an old crawl.
 
 For at least **one** locale per language (say `de`, `fr`, `nl`, `uk`):
 
@@ -45,7 +45,7 @@ For at least **one** locale per language (say `de`, `fr`, `nl`, `uk`):
 - [ ] Empty / nonsense search returns 0 results gracefully (no crash).
 - [ ] Clicking an airport opens the source AIP URL.
 
-## B — Country-page availability matrix
+## B - Country-page availability matrix
 
 Confirm each country shows only its applicable pages (per `CLAUDE.md`):
 
@@ -62,15 +62,15 @@ Verify by:
 - Loading the country landing page (`/de`, `/fr`, etc.) and counting the cards.
 - Attempting to navigate directly to a non-applicable page (`/fr/vfr/`) and confirming you land on the global 404 (`not-found.tsx`), not a 500 or a blank list.
 
-## C — SEO / structured-data sanity
+## C - SEO / structured-data sanity
 
 - [ ] View page source on `/uk/airport-list-uk` and verify a `<script type="application/ld+json">` block with `@type: "BreadcrumbList"` and one with `@type: "Product"`.
-- [ ] `<link rel="alternate" hreflang="...">` tags are present and use BCP-47 language codes (`en-GB`, `de-DE`, …) — not the next-intl internal locale codes (`uk`, `de-EN`).
+- [ ] `<link rel="alternate" hreflang="...">` tags are present and use BCP-47 language codes (`en-GB`, `de-DE`, …) - not the next-intl internal locale codes (`uk`, `de-EN`).
 - [ ] `<link rel="canonical">` matches the loaded URL exactly (including trailing slash).
 - [ ] Visiting `https://aip.aero/2d6a9a/sitemap.xml` returns a sitemap index XML with one `<sitemap>` per country.
 - [ ] One per-country sitemap (e.g. `/2d6a9a/sitemap/de.xml`) returns a valid `<urlset>` with all DE pages.
 
-## D — Crawler ingestion path
+## D - Crawler ingestion path
 
 On the netcup host, observe one timer cycle:
 
@@ -83,16 +83,16 @@ Expect:
 
 - [ ] Timer fires on schedule.
 - [ ] For each country (AT, DE, FR, NL, UK), a "Starting crawler: XX" log line.
-- [ ] Each finishes in seconds — all five crawlers are now on the HTTP path.
+- [ ] Each finishes in seconds - all five crawlers are now on the HTTP path.
 - [ ] "Successfully wrote output for XX" appears once per country at the API call.
 - [ ] No `error_logs/` files or leftover browser screenshots written for any of AT/DE/FR/NL/UK (all on the HTTP path).
 
-## E — Backend ingest endpoint
+## E - Backend ingest endpoint
 
 Two short curls from anywhere:
 
 ```bash
-# 1. Authorised — valid empty payload (no airports, returns 200).
+# 1. Authorised - valid empty payload (no airports, returns 200).
 curl -i -X POST https://aip.aero/api/airports \
   -H "Authorization: Bearer $CRON_SECRET" \
   -H "Content-Type: application/json" \
@@ -118,7 +118,7 @@ curl -i -X POST https://aip.aero/api/airports \
 - [ ] Wrong secret → 401 with the standard error body, and a log line in Axiom showing the IP.
 - [ ] Invalid body → 400 with Zod's field-level errors (no 500 leakage).
 
-## F — Performance / responsiveness (subjective)
+## F - Performance / responsiveness (subjective)
 
 Pull these out of Cloudflare Web Analytics (Core Web Vitals; see [`performance.md`](./performance.md)). For a quick manual pass:
 
@@ -127,7 +127,7 @@ Pull these out of Cloudflare Web Analytics (Core Web Vitals; see [`performance.m
 - [ ] No layout shift when the locale switcher hydrates.
 - [ ] First-load JS doesn't visibly stutter on a mid-range mobile.
 
-## G — Accessibility quick-pass
+## G - Accessibility quick-pass
 
 Not a full WCAG audit, but a sanity check:
 
@@ -141,13 +141,13 @@ Not a full WCAG audit, but a sanity check:
 
 | Area | Pass | Notes |
 | --- | --- | --- |
-| A — Locale golden paths |  |  |
-| B — Country page-availability |  |  |
-| C — SEO / structured data |  |  |
-| D — Crawler ingestion |  |  |
-| E — Backend ingest |  |  |
-| F — Performance feel |  |  |
-| G — Accessibility quick-pass |  |  |
+| A - Locale golden paths |  |  |
+| B - Country page-availability |  |  |
+| C - SEO / structured data |  |  |
+| D - Crawler ingestion |  |  |
+| E - Backend ingest |  |  |
+| F - Performance feel |  |  |
+| G - Accessibility quick-pass |  |  |
 
 If any area fails, file an issue with:
 

@@ -7,7 +7,7 @@ const schema = z.object({
   search: z.string().min(1).max(50),
   country: z.string().length(2),
   // Include "mil" and "aeroport" so the live search works on the French
-  // /military and /aeroports pages — those pass their page type through the
+  // /military and /aeroports pages - those pass their page type through the
   // hidden form field, and the old ["vfr","ifr","heliport"] enum rejected them,
   // making French search always return zero results.
   type: z.enum(["vfr", "ifr", "heliport", "mil", "aeroport"]),

@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Ελλάδα (Ελληνικά)",
+      "hrefTitle": "AIP Ελλάδα"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Αεροναυτικό Εγχειρίδιο AIP VFR Ελλάδα"
+    },
+    "/heliports": {
+      "title": "Ελικοδρόμια",
+      "hrefTitle": "AIP VFR Ελικοδρόμια Ελλάδα"
+    },
+    "/airport-list": {
+      "title": "Λίστα Αεροδρομίων",
+      "hrefTitle": "Λίστα αεροδρομίων Ελλάδας"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Ελλάδα",
+      "hrefTitle": "AIP Ελλάδα"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Αεροναυτικό Εγχειρίδιο AIP VFR Ελλάδα"
+    },
+    "heliports": {
+      "title": "Ελικοδρόμια",
+      "hrefTitle": "AIP VFR Ελικοδρόμια Ελλάδα"
+    },
+    "airports": {
+      "title": "Λίστα Αεροδρομίων",
+      "hrefTitle": "Λίστα αεροδρομίων Ελλάδας"
+    }
+  },
+  "AirportsPage": {
+    "title": "Λίστα αεροδρομίων στην Ελλάδα",
+    "metaTitle": "🛩️ Λίστα αεροδρομίων στην Ελλάδα",
+    "description": "Όλα τα αεροδρόμια/αερολιμένες της Ελλάδας με μια ματιά",
+    "metaDescription": "Όλα τα αεροδρόμια/αερολιμένες της Ελλάδας με μια ματιά🗺️",
+    "vfrCard": {
+      "title": "Αεροδρόμια VFR",
+      "description": "Αεροδρόμια/αερολιμένες VFR στην Ελλάδα",
+      "linkTitle": "Δείτε και κατεβάστε εδώ τους χάρτες AIP VFR και προσέγγισης για το {airport}."
+    },
+    "heliportCard": {
+      "title": "Ελικοδρόμια",
+      "description": "Ελικοδρόμια στην Ελλάδα",
+      "linkTitle": "Δείτε και κατεβάστε εδώ τους χάρτες AIP VFR ελικοδρομίων και προσέγγισης για το {airport}."
+    },
+    "breadcrumb": {
+      "name": "Λίστα αεροδρομίων Ελλάδας",
+      "alternateName": "Λίστα αεροδρομίων στην Ελλάδα",
+      "description": "Όλα τα αεροδρόμια/αερολιμένες της Ελλάδας με μια ματιά"
+    }
+  },
+  "HeliportPage": {
+    "title": "Μάσκα αναζήτησης για χάρτες προσέγγισης AIP VFR HEL AD ελικοδρομίων στην Ελλάδα",
+    "metaTitle": "🛩️ Μάσκα αναζήτησης για χάρτες προσέγγισης AIP VFR HEL AD ελικοδρομίων στην Ελλάδα",
+    "description": "Εισαγάγετε το όνομα ή τον κωδικό ICAO του αεροδρομίου για να αποκτήσετε πρόσβαση στους χάρτες προσέγγισης VFR για ελικοδρόμια που παρέχονται από την Υπηρεσία Αεροναυτικών Πληροφοριών της Ελλάδας",
+    "metaDescription": "Αναζητήστε ελικοδρόμια AIP VFR Ελλάδα HEL AD και κατεβάστε χάρτες προσέγγισης🗺️",
+    "searchTitle": "Εισαγάγετε το όνομα ή τον κωδικό ICAO του αεροδρομίου για να μεταβείτε στο AIP VFR για ελικοδρόμια",
+    "searchPlaceholder": "Εισαγάγετε το όνομα ή τον κωδικό ICAO του αεροδρομίου για να μεταβείτε στο AIP VFR για ελικοδρόμια",
+    "resultTitle": "Χάρτες AIP VFR ελικοδρομίων του {airport}",
+    "resultDescription": "Δείτε και κατεβάστε εδώ τους χάρτες AIP VFR ελικοδρομίων και προσέγγισης για το {airport}.",
+    "breadcrumb": {
+      "name": "AIP VFR Ελικοδρόμια Ελλάδα",
+      "alternateName": "Μάσκα αναζήτησης για χάρτες προσέγγισης AIP VFR HEL AD ελικοδρομίων στην Ελλάδα",
+      "description": "Αναζητήστε ελικοδρόμια AIP VFR Ελλάδα HEL AD και κατεβάστε χάρτες προσέγγισης"
+    }
+  },
+  "VfrPage": {
+    "title": "Μάσκα αναζήτησης για χάρτες προσέγγισης AIP VFR Ελλάδα",
+    "metaTitle": "🛩️ Μάσκα αναζήτησης για χάρτες προσέγγισης AIP VFR Ελλάδα",
+    "description": "Εισαγάγετε το όνομα ή τον κωδικό ICAO του αεροδρομίου για να αποκτήσετε πρόσβαση στους χάρτες προσέγγισης VFR που παρέχονται από την Υπηρεσία Αεροναυτικών Πληροφοριών της Ελλάδας.",
+    "metaDescription": "Αναζητήστε αεροδρόμια AIP VFR Ελλάδα AD και κατεβάστε χάρτες προσέγγισης🗺️",
+    "searchTitle": "Εισαγάγετε το όνομα ή τον κωδικό ICAO του αεροδρομίου για να μεταβείτε στο AIP VFR",
+    "searchPlaceholder": "Εισαγάγετε το όνομα ή τον κωδικό ICAO του αεροδρομίου για να μεταβείτε στο AIP VFR",
+    "resultTitle": "Χάρτες AIP VFR του {airport}",
+    "resultDescription": "Δείτε και κατεβάστε εδώ τους χάρτες AIP VFR και προσέγγισης για το {airport}.",
+    "breadcrumb": {
+      "name": "Αεροναυτικό Εγχειρίδιο AIP VFR Ελλάδα",
+      "alternateName": "Μάσκα αναζήτησης για χάρτες προσέγγισης AIP VFR Ελλάδα",
+      "description": "Αναζητήστε αεροδρόμια AIP VFR Ελλάδα AD και κατεβάστε χάρτες προσέγγισης"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Αλλαγή γλώσσας",
+    "locale": "{locale, select, el {🇬🇷 Ελληνικά} en {🇬🇧 English} other {Άγνωστο}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Χάρτες προσέγγισης & Αεροναυτικό Εγχειρίδιο AIP για την Ελλάδα",
+    "alternateName": "AIP Ελλάδα",
+    "description": "Εδώ μπορείτε να κατεβάσετε όλα τα Αεροναυτικά Εγχειρίδια AIP (Aeronautical Information Publication) και τους χάρτες προσέγγισης για την Ελλάδα",
+    "inLanguage": "el",
+    "url": "https://aip.aero/gr/"
+  },
+  "CountryPage": {
+    "title": "Χάρτες προσέγγισης & Αεροναυτικό Εγχειρίδιο AIP για την Ελλάδα",
+    "metaTitle": "🛩️ Χάρτες προσέγγισης & Αεροναυτικό Εγχειρίδιο AIP για την Ελλάδα",
+    "description": "Εδώ μπορείτε να κατεβάσετε όλα τα Αεροναυτικά Εγχειρίδια AIP (Aeronautical Information Publication) και τους χάρτες προσέγγισης για την Ελλάδα",
+    "metaDescription": "Εδώ μπορείτε να κατεβάσετε όλα τα Αεροναυτικά Εγχειρίδια AIP (Aeronautical Information Publication) και τους χάρτες προσέγγισης για την Ελλάδα🗺️",
+    "vfrCard": {
+      "title": "Αεροναυτικό Εγχειρίδιο AIP VFR Ελλάδα",
+      "description": "Αναζητήστε αεροδρόμια AIP VFR Ελλάδα AD και κατεβάστε χάρτες προσέγγισης",
+      "buttonTitle": "Αεροναυτικό Εγχειρίδιο AIP VFR",
+      "buttonHref": "/gr/vfr/",
+      "buttonHrefTitle": "Αεροναυτικό Εγχειρίδιο AIP VFR Ελλάδα"
+    },
+    "heliportCard": {
+      "title": "Ελικοδρόμια Ελλάδας",
+      "description": "Αναζητήστε ελικοδρόμια AIP VFR Ελλάδα HEL AD και κατεβάστε χάρτες προσέγγισης",
+      "buttonTitle": "AIP VFR Ελικοδρόμια",
+      "buttonHref": "/gr/heliports/",
+      "buttonHrefTitle": "AIP VFR Ελικοδρόμια Ελλάδα"
+    },
+    "breadcrumb": {
+      "name": "AIP Ελλάδα",
+      "alternateName": "Χάρτες προσέγγισης & Αεροναυτικό Εγχειρίδιο AIP για την Ελλάδα",
+      "description": "Εδώ μπορείτε να κατεβάσετε όλα τα Αεροναυτικά Εγχειρίδια AIP (Aeronautical Information Publication) και τους χάρτες προσέγγισης για την Ελλάδα"
+    }
+  },
+  "About": {
+    "title": "Γιατί αυτή η ιστοσελίδα;",
+    "description": "Το <aip>Αεροναυτικό Εγχειρίδιο AIP της Ελλάδας</aip> διατίθεται ως δωρεάν έκδοση. Αυτή η ιστοσελίδα έχει σκοπό να διευκολύνει την αναζήτηση αεροδρομίων, καθώς η επίσημη έκδοση δεν διαθέτει μάσκα αναζήτησης. Δεν αναλαμβάνουμε καμία ευθύνη για την ορθότητα ή την επικαιρότητα των AIP (Aeronautical Information Publication), καθώς δεν λειτουργούν από εμάς. Παρέχουμε μόνο βολικούς συνδέσμους προς τους αντίστοιχους χάρτες προσέγγισης.",
+    "aipUrl": "https://aisgr.hasp.gov.gr/",
+    "aipTitle": "Αεροναυτικό Εγχειρίδιο AIP της Ελλάδας"
+  },
+  "TradeAero": {
+    "title": "Αγοράζετε ή πουλάτε αεροσκάφος;",
+    "description": "Ανακαλύψτε αεροσκάφη στην Ελλάδα στο Trade:Aero - την αγορά για την αγοραπωλησία αεροσκαφών.",
+    "buttonTitle": "Δείτε αεροσκάφη στην Ελλάδα",
+    "buttonHrefTitle": "Δείτε αεροσκάφη στην Ελλάδα στο Trade:Aero - αγοράστε και πουλήστε αεροσκάφη"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Αρχική",
+      "hrefTitle": "Αρχική - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Στοιχεία εκδότη",
+      "hrefTitle": "Στοιχεία εκδότη",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Επικοινωνία",
+      "hrefTitle": "Επικοινωνία",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Απόρρητο",
+      "hrefTitle": "Πολιτική απορρήτου",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Ιστοσελίδα του Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Δυστυχώς παρουσιάστηκε ένα πρόβλημα.</p><p>Μπορείτε να δοκιμάσετε να <retry>φορτώσετε ξανά αυτή τη σελίδα</retry>.</p>",
+    "title": "Κάτι πήγε στραβά!"
+  }
+}

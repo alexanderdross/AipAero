@@ -1,0 +1,147 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Czechia (English)",
+      "hrefTitle": "AIP Czechia"
+    },
+    "/ifr": {
+      "title": "IFR",
+      "hrefTitle": "AIP IFR Czechia"
+    },
+    "/airport-list": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Czechia"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Czechia",
+      "hrefTitle": "AIP Czechia"
+    },
+    "ifr": {
+      "title": "AIP IFR",
+      "hrefTitle": "AIP IFR Czechia"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Czechia"
+    }
+  },
+  "AirportsPage": {
+    "title": "List of Airfields in Czechia",
+    "metaTitle": "🛩️ List of Airfields in Czechia",
+    "description": "Overview of all airfields/ airports in Czechia",
+    "metaDescription": "Overview of all airfields/ airports in Czechia🗺️",
+    "ifrCard": {
+      "title": "IFR Airports",
+      "description": "IFR airfields/ airports in Czechia",
+      "linkTitle": "Click on the link below to access AIP IFR and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airfields/ Airports Czechia",
+      "alternateName": "List of Airfields in Czechia",
+      "description": "Overview of all airfields/ airports in Czechia"
+    }
+  },
+  "IfrPage": {
+    "title": "Index of AIP IFR and approach charts Czechia",
+    "metaTitle": "🛩️ Index of AIP IFR and approach charts Czechia",
+    "description": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
+    "metaDescription": "Browse AIP IFR Czechia and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP IFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP IFR",
+    "resultTitle": "AIP IFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP IFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP IFR Czechia",
+      "alternateName": "Index of AIP IFR and approach charts Czechia",
+      "description": "Browse AIP IFR Czechia and download airport approach charts for free"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, cs {🇨🇿 Čeština} en {🇬🇧 English} other {Unknown}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Czechia",
+    "alternateName": "AIP Czechia",
+    "description": "Search Index of aeronautical information publication (AIP) IFR aerodromes in Czechia",
+    "inLanguage": "en",
+    "url": "https://aip.aero/cz/en/"
+  },
+  "CountryPage": {
+    "title": "AIP and approach charts of Czechia",
+    "metaTitle": "🛩️ AIP and approach charts of Czechia",
+    "description": "Search Index of aeronautical information publication (AIP) IFR aerodromes in Czechia",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) IFR aerodromes in Czechia🗺️",
+    "ifrCard": {
+      "title": "AIP IFR Czechia",
+      "description": "Browse AIP IFR Czechia and download airport approach charts for free",
+      "buttonTitle": "AIP IFR approach charts",
+      "buttonHref": "/cz/en/ifr/",
+      "buttonHrefTitle": "AIP IFR Czechia"
+    },
+    "breadcrumb": {
+      "name": "AIP Czechia",
+      "alternateName": "AIP and approach charts of Czechia",
+      "description": "Search Index of aeronautical information publication (AIP) IFR aerodromes in Czechia"
+    }
+  },
+  "About": {
+    "title": "What is this website for?",
+    "description": "The free <aip>Czech Aeronautical Information Publication AIP</aip> is available from Air Navigation Services of the Czech Republic (ANS CR), but without a search function. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
+    "aipUrl": "https://aim.rlp.cz/eaip/html/index-en-GB.html",
+    "aipTitle": "AIP Czechia"
+  },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Czechia on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Czechia",
+    "buttonHrefTitle": "View aircraft in Czechia on Trade:Aero - buy and sell aircraft"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
+  }
+}

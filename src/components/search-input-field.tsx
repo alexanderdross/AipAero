@@ -53,7 +53,7 @@ export function SearchInputField({
 
   // Submit the query only after the user pauses typing, so we fire one server
   // action per settled keystroke burst instead of one per character. The
-  // `useDebounce` helper above was defined but previously unused — this wires
+  // `useDebounce` helper above was defined but previously unused - this wires
   // it up. `hasTypedRef` skips the initial prefilled value (airport-detail
   // pages seed the box with the ICAO) so we don't auto-submit and redirect on
   // mount; the empty-string guard avoids a no-op submit on clear.

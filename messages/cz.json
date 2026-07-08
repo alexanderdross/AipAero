@@ -1,0 +1,147 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Česko (Čeština)",
+      "hrefTitle": "AIP Česko"
+    },
+    "/ifr": {
+      "title": "IFR",
+      "hrefTitle": "Letecká informační příručka AIP IFR Česko"
+    },
+    "/airport-list": {
+      "title": "Seznam letišť",
+      "hrefTitle": "Seznam letišť v Česku"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Česko",
+      "hrefTitle": "AIP Česko"
+    },
+    "ifr": {
+      "title": "AIP IFR",
+      "hrefTitle": "Letecká informační příručka AIP IFR Česko"
+    },
+    "airports": {
+      "title": "Seznam letišť",
+      "hrefTitle": "Seznam letišť v Česku"
+    }
+  },
+  "AirportsPage": {
+    "title": "Seznam letišť v Česku",
+    "metaTitle": "🛩️ Seznam letišť v Česku",
+    "description": "Přehled všech letišť v Česku",
+    "metaDescription": "Přehled všech letišť v Česku🗺️",
+    "ifrCard": {
+      "title": "IFR letiště",
+      "description": "IFR letiště v Česku",
+      "linkTitle": "Zde si prohlédněte a stáhněte AIP IFR mapy a přibližovací mapu pro {airport}."
+    },
+    "breadcrumb": {
+      "name": "Seznam letišť v Česku",
+      "alternateName": "Seznam letišť v Česku",
+      "description": "Přehled všech letišť v Česku"
+    }
+  },
+  "IfrPage": {
+    "title": "Vyhledávání přibližovacích map AIP IFR Česko",
+    "metaTitle": "🛩️ Vyhledávání přibližovacích map AIP IFR Česko",
+    "description": "Zadejte název nebo ICAO kód letiště pro přístup k přibližovacím mapám AIP IFR.",
+    "metaDescription": "Prohledávejte AIP IFR Česko a stahujte přibližovací mapy letišť🗺️",
+    "searchTitle": "Zadejte název letiště nebo jeho ICAO kód pro přístup k AIP IFR",
+    "searchPlaceholder": "Zadejte název letiště nebo jeho ICAO kód pro přístup k AIP IFR",
+    "resultTitle": "AIP IFR mapy letiště {airport}",
+    "resultDescription": "Zde si prohlédněte a stáhněte AIP IFR mapy a přibližovací mapu pro {airport}.",
+    "breadcrumb": {
+      "name": "Letecká informační příručka AIP IFR Česko",
+      "alternateName": "Vyhledávání přibližovacích map AIP IFR Česko",
+      "description": "Prohledávejte AIP IFR Česko a stahujte přibližovací mapy letišť"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Změnit jazyk",
+    "locale": "{locale, select, cs {🇨🇿 Čeština} en {🇬🇧 English} other {Neznámý}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Přibližovací mapy a letecká informační příručka AIP pro Česko",
+    "alternateName": "AIP Česko",
+    "description": "Zde najdete ke stažení všechny letecké informační příručky AIP (Aeronautical Information Publication) a přibližovací mapy pro Česko",
+    "inLanguage": "cs",
+    "url": "https://aip.aero/cz/"
+  },
+  "CountryPage": {
+    "title": "Přibližovací mapy a letecká informační příručka AIP pro Česko",
+    "metaTitle": "🛩️ Přibližovací mapy a letecká informační příručka AIP pro Česko",
+    "description": "Zde najdete ke stažení všechny letecké informační příručky AIP (Aeronautical Information Publication) a přibližovací mapy pro Česko",
+    "metaDescription": "Zde najdete ke stažení všechny letecké informační příručky AIP (Aeronautical Information Publication) a přibližovací mapy pro Česko🗺️",
+    "ifrCard": {
+      "title": "Letecká informační příručka AIP IFR",
+      "description": "Prohledávejte AIP IFR Česko a stahujte přibližovací mapy letišť",
+      "buttonTitle": "Letecká informační příručka AIP IFR",
+      "buttonHref": "/cz/ifr/",
+      "buttonHrefTitle": "Letecká informační příručka AIP IFR Česko"
+    },
+    "breadcrumb": {
+      "name": "AIP Česko",
+      "alternateName": "Přibližovací mapy a letecká informační příručka AIP pro Česko",
+      "description": "Zde najdete ke stažení všechny letecké informační příručky AIP (Aeronautical Information Publication) a přibližovací mapy pro Česko"
+    }
+  },
+  "About": {
+    "title": "K čemu tato webová stránka?",
+    "description": "Bezplatná <aip>letecká informační příručka AIP Česko</aip> je k dispozici od Řízení letového provozu ČR (ŘLP), avšak bez vyhledávací funkce. Naše stránka usnadňuje vyhledávání letišť, nepřebírá však žádnou odpovědnost za správnost nebo aktuálnost AIP (Aeronautical Information Publication), protože ji neprovozujeme. Pouze odkazujeme na příslušné přibližovací mapy.",
+    "aipUrl": "https://aim.rlp.cz/eaip/html/index-en-GB.html",
+    "aipTitle": "Letecká informační příručka AIP Česko"
+  },
+  "TradeAero": {
+    "title": "Koupit nebo prodat letadlo?",
+    "description": "Objevte letadla v Česku na Trade:Aero - tržišti pro nákup a prodej letadel.",
+    "buttonTitle": "Zobrazit letadla v Česku",
+    "buttonHrefTitle": "Zobrazit letadla v Česku na Trade:Aero - nákup a prodej letadel"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Domů",
+      "hrefTitle": "Domů - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Tiráž",
+      "hrefTitle": "Tiráž",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Ochrana osobních údajů",
+      "hrefTitle": "Zásady ochrany osobních údajů",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Webové stránky Alexandra Drosse",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Bohužel došlo k chybě.</p><p>Můžete zkusit <retry>tuto stránku znovu načíst</retry>.</p>",
+    "title": "Něco se pokazilo!"
+  }
+}

@@ -26,7 +26,7 @@ export default async function LocaleLayout(
   }
 
   // Enable static rendering. This MUST run before any getMessages()/
-  // getTranslations() call — otherwise next-intl falls back to reading
+  // getTranslations() call - otherwise next-intl falls back to reading
   // headers(), which opts the whole route into dynamic rendering and stops
   // the page (and its generateMetadata output) from being prerendered.
   setRequestLocale(locale);
