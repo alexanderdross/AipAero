@@ -43,8 +43,18 @@ class HttpEurocontrolBase(HttpCrawlerBase):
                 menu_div = el
                 break
         if menu_div is None:
+            # Diagnostic: list the ids that DO exist so a failed live run
+            # tells us the real section id without needing the saved HTML.
+            candidates = sorted(
+                {
+                    el["id"]
+                    for el in soup.find_all(attrs={"id": True})
+                    if "details" in el["id"].lower()
+                }
+            )[:40]
             raise ValueError(
-                f"Menu div ending with {id_in_menu!r} not found in {base_url}"
+                f"Menu div ending with {id_in_menu!r} not found in {base_url}. "
+                f"Available *details ids: {candidates}"
             )
 
         # Direct child <div>s only — same as the original `> div` selector.

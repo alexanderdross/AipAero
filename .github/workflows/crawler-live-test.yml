@@ -20,6 +20,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
+      - "crawlers/crawlers/**"
 
 concurrency:
   group: crawler-live-test-${{ github.ref }}

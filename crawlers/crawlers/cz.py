@@ -8,7 +8,7 @@ ROOT_URL = "https://aim.rlp.cz/eaip/html/index-en-GB.html"
 # locale-suffixed ids ("AD 2en-GBdetails"); others use the hyphenated short
 # form ("AD-2details"). Try both so a menu-format tweak on the source's side
 # doesn't silently empty the list.
-_AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details"]
+_AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 
 
 class CZ(HttpEurocontrolBase):

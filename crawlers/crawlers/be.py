@@ -66,6 +66,10 @@ class BE(HttpEurocontrolBase):
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
+        # The source sits behind a WAF that 403s non-browser user
+        # agents (verified in the live-crawl test run) - send a plain
+        # browser fingerprint instead of the polite crawler UA.
+        self.use_browser_headers()
 
     def _extract_section(
         self,

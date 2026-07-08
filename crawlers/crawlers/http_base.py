@@ -18,6 +18,23 @@ DEFAULT_USER_AGENT = (
     "aip-aero-crawler/1.0 (+https://aip.aero)"
 )
 
+# Some national AIS providers front their eAIP with a WAF that 403s anything
+# not looking like a real browser (skeyes/BE, HASP/GR). Crawlers for those
+# sources call `use_browser_headers()` to send a plain browser fingerprint.
+BROWSER_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+)
+BROWSER_HEADERS = {
+    "User-Agent": BROWSER_USER_AGENT,
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/avif,image/webp,*/*;q=0.8"
+    ),
+    "Accept-Language": "en-GB,en;q=0.9",
+    "Upgrade-Insecure-Requests": "1",
+}
+
 # Retry on transient errors only. 4xx (except 429) are caller bugs and
 # shouldn't be retried; 5xx and connection-level failures are.
 _RETRYABLE_STATUSES = frozenset({429, 500, 502, 503, 504})
@@ -56,6 +73,41 @@ class HttpCrawlerBase:
             self.client.close()
         except Exception:
             pass
+
+    def use_browser_headers(self) -> None:
+        """Switch the client to a browser-like fingerprint (WAF'd sources)."""
+        self.client.headers.update(BROWSER_HEADERS)
+
+    def log_candidate_links(
+        self, html: str, base_url: str, limit: int = 30
+    ) -> None:
+        """Log the page's links so a failed live run shows what IS there.
+
+        Diagnostic aid for the crawler-live-test workflow: when navigation
+        fails (unknown page layout, changed structure), the job log then
+        carries the real hrefs/texts needed to fix the parser - no need to
+        download the saved-response artifact.
+        """
+        try:
+            soup = self.soup(html)
+            links = [
+                f"{(a.get_text(strip=True) or '')[:60]!r} -> {a['href'][:120]}"
+                for a in soup.find_all("a", href=True)
+            ]
+            self.logger.warning(
+                f"{self.country}: {len(links)} links on {base_url}; "
+                f"first {min(limit, len(links))}:"
+            )
+            for line in links[:limit]:
+                self.logger.warning(f"  {line}")
+            if not links:
+                self.logger.warning(
+                    f"{self.country}: page has NO links - likely a "
+                    "JS-rendered app; body starts: "
+                    f"{html[:300]!r}"
+                )
+        except Exception as e:
+            self.logger.warning(f"link diagnostics failed: {e}")
 
     def fetch(self, url: str, *, encoding: str | None = None) -> str:
         """Fetch a URL and return the decoded body.

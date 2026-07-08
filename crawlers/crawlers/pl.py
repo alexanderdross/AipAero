@@ -6,7 +6,11 @@ COUNTRY = "PL"
 # Agency) AIS eAIP. The public entry point is https://www.ais.pansa.pl/; the
 # eAIP itself is a EUROCONTROL-style static frameset. The exact index path
 # below is a BEST-EFFORT guess and MUST be verified against the live site.
-ROOT_URL = "https://www.ais.pansa.pl/aip/EP-eAIP/html/index-en-GB.html"
+# PANSA publishes the eAIP behind a hub page that links the current
+# editions (separate IFR / VFR / MIL volumes since AIRAC 04/25). The hub
+# is scanned for the current VFR volume; see the live-crawl test for the
+# resolved link diagnostics.
+ROOT_URL = "https://www.ais.pansa.pl/en/publications/eaip/"
 
 
 class PL(HttpEurocontrolBase):
@@ -38,6 +42,41 @@ class PL(HttpEurocontrolBase):
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
+    def _resolve_entry_url(self, base_url: str, html: str) -> str:
+        """Pick the current eAIP volume link off the PANSA hub page.
+
+        Preference order: a link whose text/href mentions VFR + AIP, then any
+        eAIP/AIP html link, then the hub itself (in case the hub already IS
+        the frameset).
+        """
+        import re as _re
+        from urllib.parse import urljoin as _urljoin
+
+        soup = self.soup(html)
+        links = [
+            (a.get_text(" ", strip=True) or "", a["href"])
+            for a in soup.find_all("a", href=True)
+        ]
+
+        def pick(pattern: str) -> str | None:
+            rx = _re.compile(pattern, _re.I)
+            for text, href in links:
+                if rx.search(text) or rx.search(href):
+                    return _urljoin(base_url, href)
+            return None
+
+        entry = (
+            pick(r"e?aip[^a-z]*vfr|vfr[^a-z]*e?aip")
+            or pick(r"e?-?aip.*\.html|\.html.*e?-?aip")
+            or pick(r"eaip")
+        )
+        if entry:
+            self.logger.info(f"PL eAIP entry resolved: {entry}")
+            return entry
+        self.logger.warning("PL: no eAIP link found on hub; using hub as entry")
+        self.log_candidate_links(html, base_url)
+        return base_url
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -45,15 +84,20 @@ class PL(HttpEurocontrolBase):
         last_html: str | None = None
 
         try:
-            # 1. Walk the frame chain to the navigation HTML.
-            #    (If PANSA lists dated editions on ROOT_URL, resolve the current
-            #    edition first — see nl.py's _resolve_edition_url — before this.)
+            # 1. Resolve the current eAIP volume link from the hub page. Prefer
+            #    the VFR volume (PL exposes vfr + heliport); fall back to any
+            #    eAIP/AIP html link, then to the hub itself.
+            hub_html = self.fetch(ROOT_URL)
+            last_url, last_html = ROOT_URL, hub_html
+            entry_url = self._resolve_entry_url(ROOT_URL, hub_html)
+
+            # 2. Walk the frame chain to the navigation HTML.
             nav_url, nav_html = self.follow_frame_chain(
-                ROOT_URL, ["eAISNavigationBase", "eAISNavigation"]
+                entry_url, ["eAISNavigationBase", "eAISNavigation"]
             )
             last_url, last_html = nav_url, nav_html
 
-            # 2. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 → heliport).
+            # 3. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 → heliport).
             airports.extend(
                 self.extract_airports_from_html(
                     nav_html, nav_url, "AD 2en-GBdetails", "vfr"
@@ -67,6 +111,7 @@ class PL(HttpEurocontrolBase):
         except Exception as e:
             self.logger.error(f"PL crawl failed: {e}")
             if last_html is not None:
+                self.log_candidate_links(last_html, last_url)
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:

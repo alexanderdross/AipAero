@@ -80,6 +80,9 @@ class DK(HttpCrawlerBase):
             self.logger.warning(
                 f"DK: no nav link matching {needles!r} under {base_url}"
             )
+            # Diagnostic for the live-crawl test: show what links DO exist
+            # (an empty list means the site is a JS-rendered app).
+            self.log_candidate_links(html, base_url, limit=40)
             return None
         try:
             return url, self.fetch(url)

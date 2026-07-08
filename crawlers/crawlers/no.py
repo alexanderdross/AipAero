@@ -9,12 +9,18 @@ COUNTRY = "NO"
 # Avinor / IPPC eAIP entry point. BEST-EFFORT — see the class docstring:
 # this URL is unverified and almost certainly needs adjusting once the live
 # structure of the Avinor eAIP is inspected.
-ROOT_URL = "https://www.ippc.no/norway_aip/current/AIP/html/index-en-GB.html"
+# Avinor's AIM portal lists the AIRAC editions; each edition links to
+# .../View/Index/<n>/<YYYY-MM-DD>-AIRAC/html/index-en-GB.html (verified via
+# the live-crawl test + public edition URLs). The landing page is scanned
+# for the latest effective AIRAC edition.
+ROOT_URL = "https://aim-prod.avinor.no/no/AIP/"
 
 # Same edition-resolution helpers as the NL crawler, in case IPPC exposes a
 # default/index page listing dated AIRAC editions instead of linking straight
 # to a frameset.
 _EDITION_DATE_RE = re.compile(r"(\d{4})_(\d{2})_(\d{2})[\\/]index[^\\/]*\.html", re.I)
+# Avinor-style dated edition path: .../2026-01-22-AIRAC/...
+_AIRAC_DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})-AIRAC", re.I)
 _EDITION_HREF_RE = re.compile(r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I)
 _META_REFRESH_URL_RE = re.compile(r"url=([^;]+)", re.I)
 _JS_LOCATION_RE = re.compile(r"""location(?:\.href)?\s*=\s*['"]([^'"]+)['"]""", re.I)
@@ -75,7 +81,9 @@ class NO(HttpEurocontrolBase):
 
         dated: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
-            m = _EDITION_DATE_RE.search(a["href"])
+            m = _EDITION_DATE_RE.search(a["href"]) or _AIRAC_DATE_RE.search(
+                a["href"]
+            )
             if not m:
                 continue
             year, month, day = (int(g) for g in m.groups())
@@ -154,6 +162,7 @@ class NO(HttpEurocontrolBase):
         except Exception as e:
             self.logger.error(f"NO crawl failed: {e}")
             if last_html is not None:
+                self.log_candidate_links(last_html, last_url)
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:

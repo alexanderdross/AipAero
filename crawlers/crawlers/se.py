@@ -156,6 +156,7 @@ class SE(HttpEurocontrolBase):
         except Exception as e:
             self.logger.error(f"SE crawl failed: {e}")
             if last_html is not None:
+                self.log_candidate_links(last_html, last_url)
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:
