@@ -27,9 +27,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.0
 
+      # Node 22 zuerst einrichten, damit der pnpm-Self-Installer nicht unter
+      # dem alten System-Node (18.x) des self-hosted Runners läuft.
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
       - name: Install pnpm
         uses: pnpm/action-setup@v6
-      - name: Setup Node.js
+      - name: Setup Node.js (pnpm cache)
         uses: actions/setup-node@v6
         with:
           node-version: 22
