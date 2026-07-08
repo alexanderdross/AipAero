@@ -49,8 +49,13 @@ jobs:
       - name: Apply D1 migrations (remote)
         run: pnpm exec wrangler d1 migrations apply DB --remote
 
-      # Baut den OpenNext-Worker und deployt ihn (opennextjs-cloudflare
-      # build && deploy). Muss `pnpm run deploy` sein — `pnpm deploy` ist ein
-      # reserviertes pnpm-Builtin (pnpm-workspace.yaml vorhanden).
-      - name: Build & Deploy
-        run: pnpm run deploy
+      # Baut den OpenNext-Worker (setzt NEXT_PUBLIC_BUILD_DATE).
+      - name: Build (OpenNext / Cloudflare Workers)
+        run: pnpm run cf-build
+
+      # Deployt via wrangler direkt statt `opennextjs-cloudflare deploy`, um die
+      # Populate-Cache-Phase zu überspringen: die schreibt den Incremental-Cache
+      # per KV-Bulk-Put und läuft auf dem Free-Plan ins tägliche KV-Schreiblimit
+      # (code 10048). Der ISR-Cache wärmt sich stattdessen zur Laufzeit.
+      - name: Deploy (wrangler)
+        run: pnpm exec wrangler deploy
