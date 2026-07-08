@@ -190,7 +190,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
     ├── tsconfig.json              # Strict mode, path alias ~/
     ├── drizzle.config.ts          # SQLite dialect (d1-http driver), aip_aero_v4_* table filter
     ├── components.json            # shadcn/ui config (new-york, lucide)
-    ├── .eslintrc.mjs              # TypeScript ESLint + Drizzle rules (broken — see CI notes)
+    ├── eslint.config.mjs          # Flat-config TypeScript ESLint + Drizzle rules (`pnpm lint`, gated in CI)
     ├── prettier.config.js         # Prettier + Tailwind plugin
     ├── Dockerfile                 # Multi-stage build (deps, build, runner) — legacy
     └── docker-compose.yml         # Single service, port 8080:3000 — legacy
