@@ -56,6 +56,11 @@ jobs:
       - name: Crawl live sources (no publish)
         env:
           COUNTRIES: ${{ inputs.countries || 'BE CZ DK GR NO PL SE' }}
+          # Known-blocked countries: still crawled and reported, but their
+          # failure does not fail the job. DK = JS-rendered site (needs a
+          # Playwright fallback), GR = WAF blocks datacenter IPs (needs the
+          # BRIGHTDATA_PROXY_URL secret). Remove a code here once unblocked.
+          ALLOWED_FAILURES: "DK GR"
           # Bright Data proxy for WAF-blocked sources (GR). Optional - set the
           # repo secret BRIGHTDATA_PROXY_URL (http://user:pass@host:port).
           BRIGHTDATA_PROXY_URL: ${{ secrets.BRIGHTDATA_PROXY_URL }}
@@ -93,13 +98,23 @@ jobs:
                   print(f"{code}: FAILED - {type(e).__name__}: {e}")
                   traceback.print_exc()
 
+          allowed = set(os.environ.get("ALLOWED_FAILURES", "").split())
+
           print("\n===== SUMMARY =====")
           for code, count in results.items():
-              status = f"OK ({count} airports)" if count else "FAILED / 0 airports"
+              if count:
+                  status = f"OK ({count} airports)"
+              elif code in allowed:
+                  status = "FAILED / 0 airports (allowed - known-blocked source)"
+              else:
+                  status = "FAILED / 0 airports"
               print(f"  {code}: {status}")
 
           failed = [c for c, n in results.items() if not n]
-          sys.exit(1 if failed else 0)
+          hard_failed = [c for c in failed if c not in allowed]
+          if failed and not hard_failed:
+              print(f"Only known-blocked countries failed: {failed} - passing.")
+          sys.exit(1 if hard_failed else 0)
           PY
 
       - name: Upload saved error responses

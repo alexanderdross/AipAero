@@ -293,12 +293,18 @@ class PL(HttpEurocontrolBase):
         """Extract one airport per "AD 4 <ICAO>" chapter (cf. CZ/BE)."""
         soup = self.soup(nav_html)
         airports: list[Airport] = []
+        seen: set[str] = set()
 
         for details in soup.find_all("div", attrs={"id": _AIRPORT_SECTION_RE}):
             match = _AIRPORT_SECTION_RE.search(details["id"])
             if not match:  # pragma: no cover - find_all already matched
                 continue
             icao = match.group(1)
+            # The menu carries each chapter twice (Polish and English
+            # subtree, verified round 9: every ICAO was emitted twice).
+            if icao in seen:
+                continue
+            seen.add(icao)
 
             # Title lives in the sibling div right before the details div.
             title = icao
@@ -338,6 +344,71 @@ class PL(HttpEurocontrolBase):
         if not airports:
             raise ValueError(f"No per-airport AD 4 sections found in {nav_url}")
         return airports
+
+    def _enrich_titles(
+        self, airports: list[Airport], nav_html: str, nav_url: str
+    ) -> None:
+        """Fill in airfield names from the "AD 1" index page.
+
+        The AD 4 menu anchors carry only "AD 4 <ICAO>" (no airfield name,
+        verified round 9), but the menu links an index page ("AD 1 INDEX TO
+        AERODROMES AND AIRFIELDS PUBLISHED IN AIP VFR" -> AD 1-en-GB.html)
+        that maps ICAO codes to names. Best-effort: on any failure the
+        ICAO-only titles are kept.
+        """
+        soup = self.soup(nav_html)
+        ad1_url = None
+        for a in soup.find_all("a", href=True):
+            if re.search(r"AD 1-en-GB\.html", a["href"]):
+                ad1_url = urljoin(nav_url, a["href"].split("#")[0])
+                break
+        if ad1_url is None:
+            self.logger.warning("PL: no AD 1 index link; keeping ICAO titles")
+            return
+
+        index_html = self.fetch(ad1_url)
+        names: dict[str, str] = {}
+        for tr in self.soup(index_html).find_all("tr"):
+            cells = [
+                c.get_text(" ", strip=True)
+                for c in tr.find_all(["td", "th"])
+            ]
+            icaos = [c for c in cells if re.fullmatch(r"EP[A-Z]{2}", c)]
+            if len(icaos) != 1:
+                continue
+            icao = icaos[0]
+            for cell in cells:
+                if cell == icao:
+                    continue
+                # First cell that looks like a name (has letters, is not a
+                # page/date reference, keeps a sane length).
+                cleaned = " ".join(
+                    t for t in cell.split() if ";" not in t
+                ).strip()
+                if (
+                    re.search(r"[A-Za-zÀ-žŁłŚśŻżŹźĆćŃńÓó]{3}", cleaned)
+                    and not re.fullmatch(r"[\d\s./-]+", cleaned)
+                    and len(cleaned) <= 60
+                ):
+                    names.setdefault(icao, cleaned)
+                    break
+
+        if not names:
+            self.logger.warning(
+                f"PL: no ICAO/name rows parsed from {ad1_url}; "
+                "keeping ICAO titles"
+            )
+            return
+
+        enriched = 0
+        for airport in airports:
+            name = names.get(airport.icao or "")
+            if name:
+                airport.title = f"{name} {airport.icao}"
+                enriched += 1
+        self.logger.info(
+            f"PL: enriched {enriched}/{len(airports)} titles from AD 1 index"
+        )
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
@@ -386,6 +457,14 @@ class PL(HttpEurocontrolBase):
                 airports.extend(
                     self._extract_airport_sections(nav_html, nav_url)
                 )
+                # Best-effort: replace the ICAO-only titles with real
+                # airfield names from the AD 1 index page.
+                try:
+                    self._enrich_titles(airports, nav_html, nav_url)
+                except Exception as e:
+                    self.logger.warning(
+                        f"PL: title enrichment failed ({e}); keeping ICAO titles"
+                    )
             except ValueError as e:
                 self.logger.warning(f"PL: AD 4 extraction failed ({e}); "
                                     "trying the generic AD 2/AD 3 layout")
