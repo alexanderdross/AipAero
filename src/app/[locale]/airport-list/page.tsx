@@ -3,6 +3,7 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { AboutCountryBox } from "~/components/about-country-box";
+import { LastUpdated } from "~/components/last-updated";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { Title } from "~/components/title";
 import Link from "next/link";
@@ -124,6 +125,7 @@ export default async function IndexPage(
   return (
     <>
       <Title title={t("title")} description={t("description")} />
+      <LastUpdated />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

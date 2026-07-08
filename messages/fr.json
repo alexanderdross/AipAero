@@ -178,5 +178,20 @@
   "Error": {
     "description": "<p>Un problème est survenu.</p><p>Vous pouvez essayer de <retry>recharger cette page</retry>.</p>",
     "title": "Quelque chose s'est mal passé !"
+  },
+  "Weather": {
+    "title": "Météo",
+    "observed": "Observé",
+    "forecast": "Prévision",
+    "wind": "Vent",
+    "visibility": "Visibilité",
+    "clouds": "Nuages",
+    "temperature": "Température",
+    "qnh": "QNH",
+    "source": "Source"
+  },
+  "Common": {
+    "lastUpdated": "Dernière mise à jour",
+    "viewOnMap": "Voir sur Google Maps"
   }
 }

@@ -213,5 +213,20 @@
   "Error": {
     "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
     "title": "Etwas ist schief gelaufen!"
+  },
+  "Weather": {
+    "title": "Wetter",
+    "observed": "Beobachtet",
+    "forecast": "Vorhersage",
+    "wind": "Wind",
+    "visibility": "Sicht",
+    "clouds": "Wolken",
+    "temperature": "Temperatur",
+    "qnh": "QNH",
+    "source": "Quelle"
+  },
+  "Common": {
+    "lastUpdated": "Stand",
+    "viewOnMap": "Auf Google Maps ansehen"
   }
 }

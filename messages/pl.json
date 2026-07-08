@@ -178,5 +178,20 @@
   "Error": {
     "description": "<p>Niestety wystąpił błąd.</p><p>Możesz spróbować <retry>ponownie załadować tę stronę</retry>.</p>",
     "title": "Coś poszło nie tak!"
+  },
+  "Weather": {
+    "title": "Pogoda",
+    "observed": "Zaobserwowano",
+    "forecast": "Prognoza",
+    "wind": "Wiatr",
+    "visibility": "Widzialność",
+    "clouds": "Zachmurzenie",
+    "temperature": "Temperatura",
+    "qnh": "QNH",
+    "source": "Źródło"
+  },
+  "Common": {
+    "lastUpdated": "Ostatnia aktualizacja",
+    "viewOnMap": "Zobacz w Mapach Google"
   }
 }

@@ -178,5 +178,20 @@
   "Error": {
     "description": "<p>Det oppstod dessverre et problem.</p><p>Du kan prøve å <retry>laste denne siden på nytt</retry>.</p>",
     "title": "Noe gikk galt!"
+  },
+  "Weather": {
+    "title": "Vær",
+    "observed": "Observert",
+    "forecast": "Varsel",
+    "wind": "Vind",
+    "visibility": "Sikt",
+    "clouds": "Skyer",
+    "temperature": "Temperatur",
+    "qnh": "QNH",
+    "source": "Kilde"
+  },
+  "Common": {
+    "lastUpdated": "Sist oppdatert",
+    "viewOnMap": "Se på Google Maps"
   }
 }
