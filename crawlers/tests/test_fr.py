@@ -96,6 +96,54 @@ def test_missing_edition_link_raises(fr: FR):
         )
 
 
+# ----- eAIP FRANCE link discovery ---------------------------------------------
+
+
+def _soup(fr: FR, html: str):
+    return fr.soup(html)
+
+
+def test_finds_eaip_france_in_header_dropdown(fr: FR):
+    html = (
+        "<nav><ul class='dropdown'>"
+        "<li><a href='eAIP_France.php'>eAIP FRANCE</a></li>"
+        "<li><a href='eAIP_CarSamNam.php'>eAIP CAR SAM NAM</a></li>"
+        "<li><a href='eAIP_PacN.php'>eAIP PAC N</a></li>"
+        "</ul></nav>"
+    )
+    link = fr._find_eaip_france_link(_soup(fr, html))
+    assert link is not None
+    assert link["href"] == "eAIP_France.php"
+
+
+def test_finds_eaip_france_in_legacy_div(fr: FR):
+    html = (
+        "<div id='block-plandesite'><h2>AIP</h2>"
+        "<a href='eAIP_France.php'>eAIP FRANCE</a></div>"
+    )
+    link = fr._find_eaip_france_link(_soup(fr, html))
+    assert link is not None
+    assert link["href"] == "eAIP_France.php"
+
+
+def test_does_not_pick_sibling_regions(fr: FR):
+    # Only the non-France regions are present — must return None, never a
+    # near-miss like "eAIP CAR SAM NAM".
+    html = (
+        "<a href='eAIP_CarSamNam.php'>eAIP CAR SAM NAM</a>"
+        "<a href='eAIP_PacN.php'>eAIP PAC N</a>"
+        "<a href='eAIP_Run.php'>eAIP RUN</a>"
+    )
+    assert fr._find_eaip_france_link(_soup(fr, html)) is None
+
+
+def test_matches_eaip_france_with_extra_whitespace(fr: FR):
+    html = "<a href='eAIP_France.php'>  eAIP\n  FRANCE  </a>"
+    link = fr._find_eaip_france_link(_soup(fr, html))
+    assert link is not None
+    assert link["href"] == "eAIP_France.php"
+
+
 # ----- per-section resilience (end-to-end with a mocked chain) ----------------
 
 

@@ -50,6 +50,26 @@ class FR(HttpEurocontrolBase):
         super().__init__(COUNTRY)
 
     @staticmethod
+    def _find_eaip_france_link(soup):
+        """Locate the "eAIP FRANCE" link wherever SIA puts it.
+
+        It now lives in the site's global "AIP" header-nav dropdown; older
+        layouts nested it in a `<div id="…plandesite…"><h2>AIP</h2>`. Match on
+        the link text alone so either layout works — and require an *exact*
+        "eAIP FRANCE" so we never pick up its dropdown siblings ("eAIP CAR SAM
+        NAM", "eAIP PAC N/P", "eAIP RUN"), which are regions we don't crawl.
+        """
+        for a in soup.find_all("a", href=True):
+            if a.get_text(strip=True).casefold() == "eaip france":
+                return a
+        # Looser fallback (e.g. extra whitespace / nested markup in the label).
+        for a in soup.find_all("a", href=True):
+            text = " ".join(a.get_text().split())
+            if text.casefold() == "eaip france":
+                return a
+        return None
+
+    @staticmethod
     def _extract_date(text: str) -> datetime.date | None:
         for pattern in _DATE_PATTERNS:
             m = pattern.search(text)
@@ -122,19 +142,7 @@ class FR(HttpEurocontrolBase):
             last_url, last_html = ROOT_URL, plandesite_html
 
             soup = self.soup(plandesite_html)
-            eaip_pre_link = None
-            for div in soup.find_all(
-                "div", id=lambda i: bool(i) and "plandesite" in i
-            ):
-                h2 = div.find("h2")
-                if not h2 or h2.get_text(strip=True) != "AIP":
-                    continue
-                for a in div.find_all("a", href=True):
-                    if "eAIP FRANCE" in a.get_text():
-                        eaip_pre_link = a
-                        break
-                if eaip_pre_link is not None:
-                    break
+            eaip_pre_link = self._find_eaip_france_link(soup)
             if eaip_pre_link is None:
                 raise ValueError(f"'eAIP FRANCE' link not found in {ROOT_URL}")
 
