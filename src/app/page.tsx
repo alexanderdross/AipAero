@@ -135,119 +135,121 @@ export default async function RootPage() {
       <body className={"bg-drossgray font-sans"}>
         <Header />
 
-        <Title title={rootTitle} description={rootDescription} />
+        <main>
+          <Title title={rootTitle} description={rootDescription} />
 
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [rootBreadcrumb],
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@graph": [
-                {
-                  "@context": "https://schema.org",
-                  "@type": "SiteNavigationElement",
-                  name: rootTitle,
-                  alternateName: "AIP:Aero",
-                  description: rootDescription,
-                  inLanguage: "en",
-                  url: orgUrl.toString(),
-                },
-                ...localeElements.map((x) => ({
-                  "@context": "https://schema.org",
-                  "@type": "SiteNavigationElement",
-                  name: x.name,
-                  alternateName: x.alternateName,
-                  description: x.description,
-                  inLanguage: x.inLanguage,
-                  url: x.url,
-                })),
-              ],
-            }),
-          }}
-        />
-        <SchemaProduct
-          name={rootTitle}
-          alternateName="AIP:Aero"
-          description={rootDescription}
-          publishedDate={modifiedDate}
-          currentUrl={orgUrl.toString()}
-        />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [rootBreadcrumb],
+              }),
+            }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@graph": [
+                  {
+                    "@context": "https://schema.org",
+                    "@type": "SiteNavigationElement",
+                    name: rootTitle,
+                    alternateName: "AIP:Aero",
+                    description: rootDescription,
+                    inLanguage: "en",
+                    url: orgUrl.toString(),
+                  },
+                  ...localeElements.map((x) => ({
+                    "@context": "https://schema.org",
+                    "@type": "SiteNavigationElement",
+                    name: x.name,
+                    alternateName: x.alternateName,
+                    description: x.description,
+                    inLanguage: x.inLanguage,
+                    url: x.url,
+                  })),
+                ],
+              }),
+            }}
+          />
+          <SchemaProduct
+            name={rootTitle}
+            alternateName="AIP:Aero"
+            description={rootDescription}
+            publishedDate={modifiedDate}
+            currentUrl={orgUrl.toString()}
+          />
 
-        {/* Country Boxes */}
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div
-            className={"grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"}
-          >
-            {countries.map((e) => (
-              <Box
-                key={e.name}
-                title={`AIP ${e.name} ${e.flag}`}
-                description={`Browse AIP of ${e.name} and download airport approach charts`}
-                buttons={
-                  e.isSingleLocale
-                    ? [
-                        {
-                          title: `AIP ${e.name} in ${e.nativeLang}`,
-                          hrefTitle: `AIP ${e.name} in ${e.nativeLang}`,
-                          href: `/${e.tld}/`,
-                        },
-                      ]
-                    : [
-                        {
-                          title: `AIP ${e.name} in English`,
-                          hrefTitle: `AIP ${e.name} in English`,
-                          href: `/${e.tld}/en/`,
-                        },
-                        {
-                          title: `AIP ${e.name} in ${e.nativeLang}`,
-                          hrefTitle: `AIP ${e.name} in ${e.nativeLang}`,
-                          href: `/${e.tld}/`,
-                        },
-                      ]
-                }
-              />
-            ))}
+          {/* Country Boxes */}
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div
+              className={"grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"}
+            >
+              {countries.map((e) => (
+                <Box
+                  key={e.name}
+                  title={`AIP ${e.name} ${e.flag}`}
+                  description={`Browse AIP of ${e.name} and download airport approach charts`}
+                  buttons={
+                    e.isSingleLocale
+                      ? [
+                          {
+                            title: `AIP ${e.name} in ${e.nativeLang}`,
+                            hrefTitle: `AIP ${e.name} in ${e.nativeLang}`,
+                            href: `/${e.tld}/`,
+                          },
+                        ]
+                      : [
+                          {
+                            title: `AIP ${e.name} in English`,
+                            hrefTitle: `AIP ${e.name} in English`,
+                            href: `/${e.tld}/en/`,
+                          },
+                          {
+                            title: `AIP ${e.name} in ${e.nativeLang}`,
+                            hrefTitle: `AIP ${e.name} in ${e.nativeLang}`,
+                            href: `/${e.tld}/`,
+                          },
+                        ]
+                  }
+                />
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* About Box */}
-        <AboutBox title="About this website" isH3={true}>
-          This website aims to simplify the search for approach charts and
-          Aeronautical Information Publication (AIP) for aerodromes, airports,
-          and airfields in{" "}
-          {countries.map((e, idx) => (
-            <Fragment key={e.name}>
-              <Link
-                className="text-drossblue hover:underline"
-                href={`/${e.tld}/`}
-                title={`Aeronautical Information Publication (AIP) of ${e.name}`}
-                target="_self"
-                rel="noopener"
-              >
-                {e.name}
-              </Link>
-              {idx <= countries.length - 2
-                ? idx === countries.length - 2
-                  ? " and "
-                  : ", "
-                : ""}
-            </Fragment>
-          ))}
-          . We are not liable for the correctness and accuracy of AIPs
-          (Aeronautical Information Publication), as these are not operated by
-          us. We merely provide convenient links to corresponding approach
-          charts.
-        </AboutBox>
+          {/* About Box */}
+          <AboutBox title="About this website" isH3={true}>
+            This website aims to simplify the search for approach charts and
+            Aeronautical Information Publication (AIP) for aerodromes, airports,
+            and airfields in{" "}
+            {countries.map((e, idx) => (
+              <Fragment key={e.name}>
+                <Link
+                  className="text-drossblue hover:underline"
+                  href={`/${e.tld}/`}
+                  title={`Aeronautical Information Publication (AIP) of ${e.name}`}
+                  target="_self"
+                  rel="noopener"
+                >
+                  {e.name}
+                </Link>
+                {idx <= countries.length - 2
+                  ? idx === countries.length - 2
+                    ? " and "
+                    : ", "
+                  : ""}
+              </Fragment>
+            ))}
+            . We are not liable for the correctness and accuracy of AIPs
+            (Aeronautical Information Publication), as these are not operated by
+            us. We merely provide convenient links to corresponding approach
+            charts.
+          </AboutBox>
+        </main>
 
         <Footer />
       </body>

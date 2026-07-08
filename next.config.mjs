@@ -13,19 +13,27 @@ const withAnalyzer = withBundleAnalyzer({
 //
 // 'unsafe-inline' on script-src is needed for the inline <script
 // type="application/ld+json"> blocks until those are migrated to nonces.
+//
+// Cloudflare Web Analytics: the beacon is loaded from
+// static.cloudflareinsights.com and posts RUM data back to
+// cloudflareinsights.com, so both origins are allowlisted on script-src /
+// connect-src respectively.
+//
+// `upgrade-insecure-requests` is intentionally omitted: it is ignored in a
+// Report-Only policy (and Chrome logs that as a console error). Re-add it
+// when this policy is promoted to an enforcing `Content-Security-Policy`.
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://pagead2.googlesyndication.com https://*.googletagmanager.com",
+  "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://*.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://*.googlesyndication.com https://*.google.com",
   "font-src 'self' data:",
-  "connect-src 'self' https://pagead2.googlesyndication.com",
+  "connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com",
   "frame-src https://googleads.g.doubleclick.net https://*.googlesyndication.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
   "object-src 'none'",
-  "upgrade-insecure-requests",
 ].join('; ');
 
 const securityHeaders = [

@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { ExternalLink } from "~/components/external-link";
 import { getTranslations } from "next-intl/server";
+import { env } from "~/env";
 
 export default async function Footer() {
   const t = await getTranslations("Footer");
@@ -55,8 +56,14 @@ export default async function Footer() {
         </p>
       </footer>
 
-      {/* Cloudflare Web Analytics */}
-      {/*env.NODE_ENV === "production" && <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2670b414c17d439c81ec294732f48bf8"}'></script>*/}
+      {/* Cloudflare Web Analytics (manual injection) */}
+      {env.NODE_ENV === "production" && (
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "2670b414c17d439c81ec294732f48bf8"}'
+        ></script>
+      )}
     </>
   );
 }
