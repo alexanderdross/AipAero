@@ -98,6 +98,9 @@ class GR(HttpEurocontrolBase):
             if _INDEX_HREF_RE.search(href.split("?")[0].split("#")[0]):
                 return urljoin(current_url, href)
 
+        # Diagnostics for the live-crawl log: what IS on the page we could
+        # not resolve (also flags a link-less JS-rendered app).
+        self.log_candidate_links(current_html, current_url, limit=60)
         raise ValueError(f"Could not resolve eAIP index from {base_url}")
 
     def crawl(self) -> list[Airport]:
@@ -133,6 +136,7 @@ class GR(HttpEurocontrolBase):
         except Exception as e:
             self.logger.error(f"GR crawl failed: {e}")
             if last_html is not None:
+                self.log_candidate_links(last_html, last_url, limit=60)
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:
