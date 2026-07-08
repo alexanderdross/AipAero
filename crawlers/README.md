@@ -119,11 +119,12 @@ class XX(HttpEurocontrolBase):
 
 ## Running & re-triggering a crawl
 
-Local run (all five active countries):
+Local run:
 
 ```bash
 uv sync
-uv run main.py            # crawls AT, DE, FR, NL, UK and POSTs each country to the API
+uv run main.py            # crawls all active countries (AT, DE, FR, NL, UK)
+uv run main.py NL UK      # crawls only the given countries (codes are case-insensitive)
 ```
 
 On the netcup host the crawl is a systemd one-shot driven by a timer. To re-trigger on demand (e.g. after a source publishes a new AIRAC edition):
@@ -134,7 +135,7 @@ journalctl -u aip-crawler.service -f            # follow the run
 systemctl list-timers aip-crawler.timer         # when the next scheduled run is
 ```
 
-**Re-triggering a single country (e.g. NL and UK):** `main.py` runs the whole active list `[AT(), DE(), FR(), NL(), UK()]` — there is currently **no per-country selector**, so a manual re-trigger re-crawls all five. That is safe: each country POST is independent (it replaces only that country's rows via a D1 batch and busts only its `country:<CC>` cache tag), so a full run simply refreshes everything. `OutputHandler` refuses to publish a country whose airport count dropped > 50 % from the last successful run; override with `CRAWLER_FORCE_PUBLISH=1`.
+**Re-triggering a single country (e.g. NL and UK):** pass the country codes to `main.py` — `uv run main.py NL UK` crawls only those two (an unknown code aborts the run rather than silently crawling a subset). Each country POST is independent: it replaces only that country's rows via a D1 batch and busts only its `country:<CC>` cache tag, so re-crawling a subset never touches the others. `OutputHandler` refuses to publish a country whose airport count dropped > 50 % from the last successful run; override with `CRAWLER_FORCE_PUBLISH=1`. On the netcup host the systemd unit runs the full set; to re-crawl a subset there, run the command directly (e.g. `cd /path/to/crawlers && uv run main.py NL UK`).
 
 Logs go to stdout and to `crawlers.log`. On failures, the crawlers persist the last response body to `error_logs/` via `save_response()` so the failure can be reproduced offline against the same bytes the parser saw.
 

@@ -36,7 +36,7 @@ Both surfaced in the best-practices audit, both small fixes:
 
 Both are <5-line fixes.
 
-### 3. Three "missed Vercel features" that would help
+### 3. Three frontend / performance tooling items (mostly resolved)
 
 - `next/image`: **resolved for the header** — `src/components/header.tsx` now renders `<Image priority>`. (The Workers runtime has the image optimizer off, so this is about sizing / `priority` / layout stability; any remaining raw assets in `public/` are the next targets.)
 - Core Web Vitals: **collected via Cloudflare Web Analytics** — the edge RUM beacon is allowlisted in the `next.config.mjs` CSP, so there's no `@vercel/speed-insights` / `<SpeedInsights />`. Read CWV in the Cloudflare dashboard.
