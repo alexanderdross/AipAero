@@ -39,6 +39,21 @@ BROWSER_HEADERS = {
 # shouldn't be retried; 5xx and connection-level failures are.
 _RETRYABLE_STATUSES = frozenset({429, 500, 502, 503, 504})
 
+# The crawlers parse HTML navigation pages only - images, PDFs, fonts,
+# scripts etc. are never needed. This guard keeps any future caller from
+# fetching them by accident, which matters especially when traffic is
+# routed through a metered proxy (Bright Data bills per GB).
+_BINARY_URL_RE = re.compile(
+    r"\.(png|jpe?g|gif|webp|avif|svg|ico|bmp|tiff?|pdf|zip|gz|7z|rar"
+    r"|css|js|mjs|woff2?|ttf|otf|eot|mp4|webm|mp3|ogg)([?#]|$)",
+    re.I,
+)
+_BINARY_CONTENT_TYPE_RE = re.compile(
+    r"^(image/|font/|video/|audio/"
+    r"|application/(pdf|zip|gzip|x-7z-compressed|octet-stream|font-\w+))",
+    re.I,
+)
+
 
 class HttpCrawlerBase:
     """Base for crawlers that talk to AIP sites over plain HTTP.
@@ -87,6 +102,11 @@ class HttpCrawlerBase:
         environment - never hardcode credentials. TLS verification is
         disabled because unblocker-style proxies re-encrypt with their own
         CA; the crawled data is public AIP HTML, so integrity risk is nil.
+
+        Proxy traffic stays minimal by construction: there is no browser,
+        so nothing is ever fetched beyond the explicitly requested
+        navigation pages, and ``fetch_response`` additionally refuses
+        image/binary URLs and content types (metered proxies bill per GB).
         """
         headers = dict(self.client.headers)
         self.client.close()
@@ -159,7 +179,18 @@ class HttpCrawlerBase:
         retryable 5xx / 429 responses, with exponential backoff. Other 4xx
         responses propagate immediately — those are typically caller bugs,
         not transient.
+
+        HTML only: URLs with an image/binary extension are refused before
+        any request is made, and responses with an image/binary
+        Content-Type are rejected after the fact - the crawlers never need
+        anything but navigation HTML, and this keeps metered proxy traffic
+        (Bright Data) down to those small text documents.
         """
+        if _BINARY_URL_RE.search(url):
+            raise ValueError(
+                f"Refusing to fetch non-HTML resource {url} - the crawler "
+                "fetches HTML navigation pages only"
+            )
         self.logger.debug(f"GET {url}")
         delay = self.retry_initial_delay
         last_exc: Exception | None = None
@@ -195,6 +226,13 @@ class HttpCrawlerBase:
 
             # 2xx success or non-retryable 4xx/3xx — bail out of the loop.
             response.raise_for_status()
+            content_type = response.headers.get("content-type", "")
+            if _BINARY_CONTENT_TYPE_RE.match(content_type.strip()):
+                raise ValueError(
+                    f"{url} returned non-HTML content type "
+                    f"{content_type!r} - the crawler fetches HTML "
+                    "navigation pages only"
+                )
             return response
 
         # Exhausted all retries.

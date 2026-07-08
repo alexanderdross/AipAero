@@ -226,3 +226,46 @@ def test_follow_frame_chain_walks_two_levels():
         assert "AD-2details" in html
     finally:
         c.close()
+
+
+# ----- HTML-only guard (no images/binaries, esp. via metered proxies) ---------
+
+
+def test_fetch_refuses_image_urls_before_any_request(crawler: _Concrete):
+    # No MockTransport wired up: if the guard let the request through,
+    # this would attempt (and fail on) a real connection instead of
+    # raising the guard's ValueError.
+    for url in (
+        "https://eaip.test/chart.png",
+        "https://eaip.test/logo.JPG?v=2",
+        "https://eaip.test/doc.pdf#page=3",
+        "https://eaip.test/app.js",
+        "https://eaip.test/style.css",
+    ):
+        with pytest.raises(ValueError, match="HTML navigation pages only"):
+            crawler.fetch_response(url)
+
+
+def test_fetch_allows_html_urls(crawler: _Concrete):
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            200, text="<html/>", headers={"content-type": "text/html"}
+        )
+
+    crawler.client = httpx.Client(
+        transport=httpx.MockTransport(handler), timeout=2.0
+    )
+    assert crawler.fetch("https://eaip.test/index-en-GB.html") == "<html/>"
+
+
+def test_fetch_rejects_binary_content_type(crawler: _Concrete):
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            200, content=b"\x89PNG", headers={"content-type": "image/png"}
+        )
+
+    crawler.client = httpx.Client(
+        transport=httpx.MockTransport(handler), timeout=2.0
+    )
+    with pytest.raises(ValueError, match="non-HTML content type"):
+        crawler.fetch_response("https://eaip.test/sneaky-image")
