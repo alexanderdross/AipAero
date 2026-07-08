@@ -150,13 +150,13 @@ export default async function RootPage() {
       flag: "🇳🇴",
       nativeLang: "Norwegian",
     },
-    //{
-    //  tld: "pl",
-    //  lang: "pl",
-    //  name: "Poland",
-    //  flag: "🇵🇱",
-    //  nativeLang: "Polish",
-    //},
+    {
+      tld: "pl",
+      lang: "pl",
+      name: "Poland",
+      flag: "🇵🇱",
+      nativeLang: "Polish",
+    },
     {
       tld: "se",
       lang: "sv",

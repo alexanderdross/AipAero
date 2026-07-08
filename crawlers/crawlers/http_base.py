@@ -108,6 +108,15 @@ class HttpCrawlerBase:
         navigation pages, and ``fetch_response`` additionally refuses
         image/binary URLs and content types (metered proxies bill per GB).
         """
+        # Tolerate copy-paste artefacts in the env value: surrounding
+        # whitespace/quotes and a missing scheme (httpx requires one;
+        # Bright Data's dashboard shows the credentials without it).
+        proxy_url = proxy_url.strip().strip("'\"")
+        if "://" not in proxy_url:
+            self.logger.warning(
+                f"{self.country}: proxy URL has no scheme; assuming http://"
+            )
+            proxy_url = f"http://{proxy_url}"
         headers = dict(self.client.headers)
         self.client.close()
         self.client = httpx.Client(

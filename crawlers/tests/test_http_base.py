@@ -269,3 +269,21 @@ def test_fetch_rejects_binary_content_type(crawler: _Concrete):
     )
     with pytest.raises(ValueError, match="non-HTML content type"):
         crawler.fetch_response("https://eaip.test/sneaky-image")
+
+
+def test_use_proxy_tolerates_missing_scheme_and_quotes():
+    c = _Concrete("xx")
+    try:
+        # Bright Data's dashboard shows credentials without a scheme, and
+        # copy-paste often adds quotes - both must not blow up httpx.
+        c.use_proxy(' "user:pass@proxy.test:33335" ')
+    finally:
+        c.close()
+
+
+def test_use_proxy_keeps_explicit_scheme():
+    c = _Concrete("xx")
+    try:
+        c.use_proxy("http://user:pass@proxy.test:33335")
+    finally:
+        c.close()
