@@ -129,6 +129,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.0
 
+      # Set up Node 22 before pnpm/action-setup — its self-installer runs under
+      # the active Node, and the runner's default (Node 18) crashes it.
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
       - name: Install pnpm
         uses: pnpm/action-setup@v6
       - name: Setup Node.js (pnpm cache)
@@ -169,6 +175,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.0
 
+      # Set up Node 22 before pnpm/action-setup — its self-installer runs under
+      # the active Node, and the runner's default (Node 18) crashes it.
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
       - name: Install pnpm
         uses: pnpm/action-setup@v6
       - name: Setup Node.js (pnpm cache)
