@@ -79,6 +79,17 @@ The Trade:Aero links are **followed** — `rel="noopener"` (not `nofollow`/`nore
 All other outbound links keep the default `noopener noreferrer nofollow`. UTM params add analytics
 attribution.
 
+### SEO & accessibility
+
+- **`title` + `aria-label`** on every link (both set to `hrefTitle` by `ExternalLink`); the trailing
+  external-link icon is `aria-hidden`.
+- **Descriptive, country-specific anchor text** (e.g. "View aircraft in Germany") — good for SEO and
+  screen-reader users, never "click here".
+- **WCAG 2.5.3 Label in Name**: the CTA's `buttonHrefTitle` (its accessible name) **begins with the
+  visible `buttonTitle`**, then adds context — so the accessible name contains the visible label
+  (e.g. visible "View aircraft in Germany" → aria-label "View aircraft in Germany on Trade:Aero — buy and
+  sell aircraft"). Keep this prefix relationship when editing the `TradeAero` copy for new locales.
+
 ## Launch-plan synergy — which countries to add next
 
 When choosing the next AIP:Aero countries (from the `crawlers/tasks/` backlog and the EUROCONTROL AIS
