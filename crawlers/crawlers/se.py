@@ -136,6 +136,41 @@ class SE(HttpEurocontrolBase):
                 return _urljoin(base_url, a["href"])
         return None
 
+    def _resolve_classic_index(self, edition_url: str) -> tuple[str, str]:
+        """Find a classic (frameset) index near the index-v2 viewer page.
+
+        The viewer itself carries no server-side menu, but IDS-generated
+        packages usually still ship the classic files alongside it.
+        """
+        from urllib.parse import urljoin as _urljoin
+
+        candidates = [
+            edition_url,  # maybe index-v2 IS a frameset after all
+            _urljoin(edition_url, "index.html"),
+            _urljoin(edition_url, "html/index-en-GB.html"),
+            _urljoin(edition_url, "html/index-sv-SE.html"),
+            _urljoin(edition_url, "html/index.html"),
+        ]
+        last_html = ""
+        for candidate in candidates:
+            try:
+                html = self.fetch(candidate)
+            except Exception:
+                continue
+            last_html = html
+            soup = self.soup(html)
+            frames = soup.find_all(["frame", "iframe"])
+            if any(f.get("name") or f.get("src") for f in frames):
+                self.logger.info(f"SE classic index: {candidate}")
+                return candidate, html
+        # Nothing frameset-like found - log the viewer body head so the next
+        # run reveals how it loads its menu (JSON config, iframe src, ...).
+        self.logger.warning(
+            f"SE: no classic index near {edition_url}; "
+            f"viewer body head: {last_html[:600]!r}"
+        )
+        return edition_url, last_html
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -161,9 +196,10 @@ class SE(HttpEurocontrolBase):
 
             edition_url = self._resolve_edition_url(index_url, index_html)
 
-            # Prefetch the edition page so a frame failure logs ITS links /
-            # body (index-v2.html is a new LFV viewer - structure unknown).
-            edition_html = self.fetch(edition_url)
+            # index-v2.html is LFV's new JS viewer (single nameless frame,
+            # no server-side menu). Probe classic eurocontrol paths inside
+            # the same edition folder first; fall back to the viewer page.
+            edition_url, edition_html = self._resolve_classic_index(edition_url)
             last_url, last_html = edition_url, edition_html
 
             # 2. Walk the frame chain to the navigation HTML.

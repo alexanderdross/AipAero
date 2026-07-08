@@ -1,3 +1,7 @@
+import re
+
+from bs4 import Tag
+
 from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
@@ -7,99 +11,109 @@ ROOT_URL = (
     "index-en-GB.html"
 )
 
-# skeyes splits Part 3 AERODROMES (AD) into several category sub-sections
-# rather than a single "AD 2" / "AD 3" menu node. Per the task spec
-# (crawlers/tasks/crawler_belgium_luxembourg.md) the categories map to our
-# airport types as follows:
-#
-#   AD 2 PUBLIC AERODROMES    -> ifr
-#   AD 2 MILITARY AERODROMES  -> mil
-#   AD 2 PRIVATE AERODROMES   -> vfr
-#   AD 2 ULM AERODROMES       -> vfr
-#   AD 2 PERSONAL AERODROMES  -> vfr
-#   AD 3 MILITARY HELIPORTS   -> heliport
-#   AD 3 HOSPITAL HELIPORTS   -> heliport
-#   AD 3 PRIVATE HELIPORTS    -> heliport
-#   AD 3 PERSONAL HELIPORTS   -> heliport
-#
-# Each tuple is (list-of-candidate menu-div id suffixes, airport type). The
-# base extractor matches any element whose id *ends with* one of the
-# suffixes; we try each candidate in turn. The exact id strings used by the
-# skeyes IDS-generated eAIP could not be verified against the live source
-# from this environment (AIP hosts are unreachable here), so the suffixes
-# below are best-effort — modelled on the eurocontrol "AD 2en-GBdetails"
-# convention plus the category label. TODO: verify/adjust these suffixes
-# against the live skeyes navigation HTML.
-_SECTIONS: list[tuple[list[str], str]] = [
-    (["AD 2 PUBLIC AERODROMESen-GBdetails", "AD 2 PUBLIC AERODROMESdetails"], "ifr"),
-    (["AD 2 MILITARY AERODROMESen-GBdetails", "AD 2 MILITARY AERODROMESdetails"], "mil"),
-    (["AD 2 PRIVATE AERODROMESen-GBdetails", "AD 2 PRIVATE AERODROMESdetails"], "vfr"),
-    (["AD 2 ULM AERODROMESen-GBdetails", "AD 2 ULM AERODROMESdetails"], "vfr"),
-    (["AD 2 PERSONAL AERODROMESen-GBdetails", "AD 2 PERSONAL AERODROMESdetails"], "vfr"),
-    (["AD 3 MILITARY HELIPORTSen-GBdetails", "AD 3 MILITARY HELIPORTSdetails"], "heliport"),
-    (["AD 3 HOSPITAL HELIPORTSen-GBdetails", "AD 3 HOSPITAL HELIPORTSdetails"], "heliport"),
-    (["AD 3 PRIVATE HELIPORTSen-GBdetails", "AD 3 PRIVATE HELIPORTSdetails"], "heliport"),
-    (["AD 3 PERSONAL HELIPORTSen-GBdetails", "AD 3 PERSONAL HELIPORTSdetails"], "heliport"),
+# Like the CZ eAIP, the skeyes menu has NO aggregate category sections:
+# every aerodrome/heliport is its own chapter with an id like
+# "AD-2.EBAWdetails" / "AD-3.<ICAO>details" (verified via the live-crawl
+# test diagnostics: 40+ per-airport ids; none of the "AD 2 PUBLIC
+# AERODROMES"-style category ids from the task spec exist as menu nodes).
+_AIRPORT_SECTION_RE = re.compile(r"AD-([23])\.([A-Z]{4})details$")
+# Title anchors look like "AD 2.EBAW ANTWERPEN / Deurne" - strip the prefix.
+_TITLE_PREFIX_RE = re.compile(r"^AD\s*[23]\.[A-Z]{4}\s*", re.I)
+
+# Task-spec category -> type mapping (crawler_belgium_luxembourg.md). The
+# category is not part of the per-airport id, so it is resolved from the
+# nearest PRECEDING category heading in the menu (document order).
+_CATEGORY_TYPES: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r"PUBLIC\s+AERODROMES", re.I), "ifr"),
+    (re.compile(r"MILITARY\s+AERODROMES", re.I), "mil"),
+    (re.compile(r"(PRIVATE|ULM|PERSONAL)\s+AERODROMES", re.I), "vfr"),
+    (re.compile(r"HELIPORTS", re.I), "heliport"),
 ]
+_CATEGORY_ANY_RE = re.compile(
+    r"(PUBLIC|MILITARY|PRIVATE|ULM|PERSONAL)\s+AERODROMES|"
+    r"(MILITARY|HOSPITAL|PRIVATE|PERSONAL)\s+HELIPORTS",
+    re.I,
+)
 
 
 class BE(HttpEurocontrolBase):
     """Belgium & Luxembourg AIP crawler.
 
-    skeyes serves the standard eurocontrol frameset eAIP. `index-en-GB.html`
-    is the edition entry point itself (no separate landing page listing dated
-    AIRAC editions), so we walk the frame chain straight from ROOT_URL to the
-    navigation HTML and parse each aerodrome/heliport category — no JS/browser
-    needed.
-
-        index-en-GB.html
-            └─ frameset
-                └─ frame name=eAISNavigationBase
-                    └─ frame name=eAISNavigation  ← the menu we parse
-
-    The AD category → airport type mapping (PUBLIC→ifr, MILITARY aerodromes→
-    mil, PRIVATE/ULM/PERSONAL→vfr, all heliport categories→heliport) follows
-    crawlers/tasks/crawler_belgium_luxembourg.md. The per-section menu-div id
-    suffixes in `_SECTIONS` are best-effort and need live verification against
-    the skeyes eAIP (see the module comment).
+    skeyes serves the standard eurocontrol frameset eAIP; `index-en-GB.html`
+    IS the top frameset (frames eAISCommands / eAISNavigation / eAISContent,
+    verified via the live-crawl diagnostics), so a single hop reaches the
+    menu. Each aerodrome/heliport is its own chapter ("AD-2.<ICAO>details" /
+    "AD-3.<ICAO>details"); the spec's category -> type mapping is applied by
+    looking at the nearest preceding category heading, with an AD-part based
+    fallback (AD-2 -> vfr, AD-3 -> heliport).
     """
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
-        # The source sits behind a WAF that 403s non-browser user
-        # agents (verified in the live-crawl test run) - send a plain
-        # browser fingerprint instead of the polite crawler UA.
+        # The source 403s the polite crawler UA (verified live) - send a
+        # plain browser fingerprint.
         self.use_browser_headers()
 
-    def _extract_section(
-        self,
-        nav_html: str,
-        nav_url: str,
-        id_candidates: list[str],
-        category: str,
-    ) -> list[Airport]:
-        """Extract one category, trying each candidate id suffix in turn.
+    def _category_for(self, details: Tag, ad_part: str) -> str:
+        """Resolve the airport type from the nearest preceding category label."""
+        label = details.find_previous(string=_CATEGORY_ANY_RE)
+        if label:
+            text = str(label)
+            for rx, airport_type in _CATEGORY_TYPES:
+                if rx.search(text):
+                    return airport_type
+        # No category heading found - fall back by AD part.
+        return "heliport" if ad_part == "3" else "vfr"
 
-        Belgium's eAIP has many small, optional category sub-sections; a
-        missing one (empty for this cycle, or an unmatched id suffix) is
-        logged and skipped rather than failing the whole crawl.
-        """
-        last_error: ValueError | None = None
-        for menu_id in id_candidates:
-            try:
-                return self.extract_airports_from_html(
-                    nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
-                )
-            except ValueError as e:
-                last_error = e
+    def _extract_airport_sections(
+        self, nav_html: str, nav_url: str
+    ) -> list[Airport]:
+        soup = self.soup(nav_html)
+        airports: list[Airport] = []
+
+        for details in soup.find_all("div", attrs={"id": _AIRPORT_SECTION_RE}):
+            match = _AIRPORT_SECTION_RE.search(details["id"])
+            if not match:  # pragma: no cover - find_all already matched
                 continue
-        if last_error is not None:
-            # The error message lists the ids that DO exist in the menu.
-            self.logger.warning(f"BE section miss detail: {last_error}")
-        self.logger.warning(
-            f"No {category!r} section matched any of {id_candidates!r} — skipping"
-        )
-        return []
+            ad_part, icao = match.group(1), match.group(2)
+
+            # Title lives in the sibling div right before the details div.
+            title = icao
+            title_div = details.find_previous_sibling("div")
+            if isinstance(title_div, Tag):
+                anchors = title_div.find_all("a")
+                if anchors:
+                    raw = anchors[-1].get_text(" ", strip=True)
+                    raw = re.sub(r"\s+", " ", raw).strip()
+                    # Drop hidden annotation tokens (contain ";"), the
+                    # chapter prefix, and a duplicated leading ICAO.
+                    raw = " ".join(t for t in raw.split() if ";" not in t)
+                    rest = _TITLE_PREFIX_RE.sub("", raw).strip()
+                    tokens = rest.split()
+                    if tokens and tokens[0] == icao:
+                        tokens = tokens[1:]
+                    rest = " ".join(tokens).strip()
+                    if rest:
+                        title = f"{rest} {icao}"
+
+            charts_url = self._find_charts_url(details, nav_url)
+            if charts_url is None:
+                self.logger.warning(f"BE: no charts link for {icao}; skipping")
+                continue
+
+            airports.append(
+                Airport(
+                    country=self.country,
+                    icao=icao,
+                    title=title,
+                    url=charts_url,
+                    type=self._category_for(details, ad_part),
+                )
+            )
+
+        if not airports:
+            raise ValueError(f"No per-airport AD sections found in {nav_url}")
+        return airports
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
@@ -113,29 +127,17 @@ class BE(HttpEurocontrolBase):
             index_html = self.fetch(ROOT_URL)
             last_url, last_html = ROOT_URL, index_html
 
-            # Walk the frame chain from the edition index to the nav HTML.
-            # skeyes' index IS already the top frameset - its frames are
-            # eAISCommands / eAISNavigation / eAISContent (verified via the
-            # live-crawl diagnostics), so there is no NavigationBase hop.
+            # index-en-GB.html IS the top frameset - one hop to the menu.
             nav_url, nav_html = self.follow_frame_chain(
                 ROOT_URL, ["eAISNavigation"]
             )
             last_url, last_html = nav_url, nav_html
 
-            # Extract each AD category with its mapped airport type.
-            for id_candidates, category in _SECTIONS:
-                airports.extend(
-                    self._extract_section(nav_html, nav_url, id_candidates, category)
-                )
-            if not airports:
-                raise ValueError(
-                    f"BE: no category section matched anything in {nav_url}"
-                )
+            airports.extend(self._extract_airport_sections(nav_html, nav_url))
         except Exception as e:
             self.logger.error(f"BE crawl failed: {e}")
             if last_html is not None:
                 self.log_candidate_links(last_html, last_url, limit=40)
-            if last_html is not None:
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:

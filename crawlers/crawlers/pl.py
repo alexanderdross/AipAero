@@ -118,6 +118,33 @@ class PL(HttpEurocontrolBase):
         except Exception as e:
             self.logger.warning(f"PL: alias-page scan failed: {e}")
 
+        # Third level: the "AIP Poland" product page is the only remaining
+        # candidate that could carry the volume links.
+        for page_url in (
+            "https://www.ais.pansa.pl/en/publications/aip-poland/",
+            "https://www.ais.pansa.pl/publikacje/aip-polska/",
+        ):
+            try:
+                page_html = self.fetch(page_url)
+                page_soup = self.soup(page_html)
+                links = [
+                    (a.get_text(" ", strip=True) or "", a["href"])
+                    for a in page_soup.find_all("a", href=True)
+                ]
+                entry = (
+                    pick(r"e?aip[^a-z]*vfr|vfr[^a-z]*e?aip")
+                    or pick(r"/aip/.*\.html")
+                    or pick(r"e?-?aip.*\.html")
+                )
+                if entry:
+                    self.logger.info(f"PL eAIP entry (via {page_url}): {entry}")
+                    return entry
+                self.log_candidate_links(
+                    page_html, page_url, limit=60, contains=r"aip|airac|html|pdf"
+                )
+            except Exception as e:
+                self.logger.warning(f"PL: scan of {page_url} failed: {e}")
+
         self.logger.warning(
             "PL: no eAIP volume link found on hub; trying known fallbacks"
         )
