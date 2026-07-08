@@ -46,6 +46,10 @@ flowchart TD
 - [Tailwind CSS](https://tailwindcss.com)
 - [next-intl](https://next-intl-docs.vercel.app/) for i18n
 
+## Airport detail gadgets
+
+Airport detail pages carry a few server-rendered add-ons (see `docs/pilot-wishlist.md` and the "Website gadgets & cross-links" section of `CLAUDE.md`): a decoded **METAR/TAF** weather card fetched server-side from the free NOAA / Aviation Weather Center API (cached, fail-soft, no API key), a **Google Maps** link to the field, a locale + country aware **Trade:Aero** cross-link, and a "last updated" stamp on the charts index. The site also ships a PWA manifest (`/manifest.webmanifest`).
+
 ## Local Development
 
 ```bash
