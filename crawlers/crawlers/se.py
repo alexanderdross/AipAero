@@ -118,9 +118,23 @@ class SE(HttpEurocontrolBase):
         if m:
             return urljoin(base_url, m.group(1))
 
-        raise ValueError(
-            f"Could not resolve current-edition link/redirect in {base_url}"
+        # No edition list found - the page may already be the frameset.
+        self.logger.info(
+            f"SE: no edition link in {base_url}; treating it as the frameset"
         )
+        return base_url
+
+    def _find_eaip_entry(self, base_url: str, html: str) -> str | None:
+        """Find the /content/eaip/... entry link on the AROWeb portal page."""
+        import re as _re
+        from urllib.parse import urljoin as _urljoin
+
+        rx = _re.compile(r"content/eaip/.*\.html", _re.I)
+        soup = self.soup(html)
+        for a in soup.find_all("a", href=True):
+            if rx.search(a["href"]):
+                return _urljoin(base_url, a["href"])
+        return None
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
@@ -130,10 +144,22 @@ class SE(HttpEurocontrolBase):
 
         try:
             # 1. Resolve the currently effective edition (by AIRAC date).
-            index_html = self.fetch(ROOT_URL)
-            last_url, last_html = ROOT_URL, index_html
+            index_resp = self.fetch_response(ROOT_URL)
+            index_url = str(index_resp.url)
+            index_html = index_resp.text
+            last_url, last_html = index_url, index_html
 
-            edition_url = self._resolve_edition_url(ROOT_URL, index_html)
+            # AROWeb links the actual eAIP at /content/eaip/... (link text
+            # "EAIP", verified via live-crawl diagnostics) - hop there before
+            # resolving the edition.
+            eaip_url = self._find_eaip_entry(index_url, index_html)
+            if eaip_url:
+                self.logger.info(f"SE eAIP entry: {eaip_url}")
+                index_html = self.fetch(eaip_url)
+                index_url = eaip_url
+                last_url, last_html = index_url, index_html
+
+            edition_url = self._resolve_edition_url(index_url, index_html)
 
             # 2. Walk the frame chain to the navigation HTML.
             nav_url, nav_html = self.follow_frame_chain(

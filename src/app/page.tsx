@@ -122,13 +122,13 @@ export default async function RootPage() {
     //  nativeLang: "English",
     //  isSingleLocale: true,
     //},
-    //{
-    //  tld: "cz",
-    //  lang: "cs",
-    //  name: "Czechia",
-    //  flag: "🇨🇿",
-    //  nativeLang: "Czech",
-    //},
+    {
+      tld: "cz",
+      lang: "cs",
+      name: "Czechia",
+      flag: "🇨🇿",
+      nativeLang: "Czech",
+    },
     //{
     //  tld: "dk",
     //  lang: "da",
@@ -143,13 +143,13 @@ export default async function RootPage() {
     //  flag: "🇬🇷",
     //  nativeLang: "Greek",
     //},
-    //{
-    //  tld: "no",
-    //  lang: "no",
-    //  name: "Norway",
-    //  flag: "🇳🇴",
-    //  nativeLang: "Norwegian",
-    //},
+    {
+      tld: "no",
+      lang: "no",
+      name: "Norway",
+      flag: "🇳🇴",
+      nativeLang: "Norwegian",
+    },
     //{
     //  tld: "pl",
     //  lang: "pl",

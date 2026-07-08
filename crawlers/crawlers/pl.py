@@ -86,7 +86,6 @@ class PL(HttpEurocontrolBase):
 
         entry = (
             pick(r"e?aip[^a-z]*vfr|vfr[^a-z]*e?aip")
-            or pick(r"airac")
             or pick(r"/aip/.*\.html")
             or pick(r"e?-?aip.*\.html")
         )
@@ -141,7 +140,9 @@ class PL(HttpEurocontrolBase):
         except Exception as e:
             self.logger.error(f"PL crawl failed: {e}")
             if last_html is not None:
-                self.log_candidate_links(last_html, last_url)
+                self.log_candidate_links(
+                    last_html, last_url, limit=60, contains=r"aip|airac"
+                )
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:

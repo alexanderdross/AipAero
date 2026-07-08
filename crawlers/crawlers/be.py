@@ -109,8 +109,11 @@ class BE(HttpEurocontrolBase):
             last_url, last_html = ROOT_URL, index_html
 
             # Walk the frame chain from the edition index to the nav HTML.
+            # skeyes' index IS already the top frameset - its frames are
+            # eAISCommands / eAISNavigation / eAISContent (verified via the
+            # live-crawl diagnostics), so there is no NavigationBase hop.
             nav_url, nav_html = self.follow_frame_chain(
-                ROOT_URL, ["eAISNavigationBase", "eAISNavigation"]
+                ROOT_URL, ["eAISNavigation"]
             )
             last_url, last_html = nav_url, nav_html
 

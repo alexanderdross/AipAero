@@ -58,7 +58,14 @@ class CZ(HttpEurocontrolBase):
                 if anchors:
                     raw = anchors[-1].get_text(" ", strip=True)
                     raw = re.sub(r"\s+", " ", raw).strip()
+                    # Drop hidden annotation tokens (contain ";") and the
+                    # chapter prefix, then de-duplicate a leading ICAO.
+                    raw = " ".join(t for t in raw.split() if ";" not in t)
                     rest = _TITLE_PREFIX_RE.sub("", raw).strip()
+                    tokens = rest.split()
+                    if tokens and tokens[0] == icao:
+                        tokens = tokens[1:]
+                    rest = " ".join(tokens).strip()
                     if rest:
                         title = f"{rest} {icao}"
 
