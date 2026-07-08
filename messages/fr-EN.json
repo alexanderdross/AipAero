@@ -132,6 +132,12 @@
     "aipUrl": "https://www.sia.aviation-civile.gouv.fr/plandesite",
     "aipTitle": "Aeronautical Information Publication AIP France"
   },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in France on Trade:Aero — the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in France",
+    "buttonHrefTitle": "View aircraft in France on Trade:Aero — buy and sell aircraft"
+  },
   "Footer": {
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",

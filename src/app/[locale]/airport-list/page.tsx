@@ -3,6 +3,7 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { AboutCountryBox } from "~/components/about-country-box";
+import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { Title } from "~/components/title";
 import Link from "next/link";
 import { getPathname, localeLangMapping, routing } from "~/i18n/routing";
@@ -140,6 +141,8 @@ export default async function IndexPage(
       <Suspense fallback={<LoadingList />}>
         <AirportLists locale={locale} />
       </Suspense>
+      {/* Trade:Aero cross-sell (locale + country aware) */}
+      <TradeAeroCta />
       {/* About AIP Box */}
       <AboutCountryBox isH3={false} />
     </>

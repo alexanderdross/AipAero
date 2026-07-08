@@ -132,6 +132,12 @@
     "aipUrl": "https://eaip.austrocontrol.at",
     "aipTitle": "AIP Austria"
   },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Austria on Trade:Aero — the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Austria",
+    "buttonHrefTitle": "View aircraft in Austria on Trade:Aero — buy and sell aircraft"
+  },
   "Footer": {
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",
