@@ -37,10 +37,10 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
       {
         "@context": "https://schema.org",
         "@type": "SiteNavigationElement",
-        name: "AIP approach charts of Austria, Germany, Netherlands and United Kingdom",
+        name: "AIP approach charts of Austria, France, Germany, Netherlands and United Kingdom",
         alternateName: "AIP:Aero",
         description:
-          "AIP approach charts VFR, IFR & Heliports of Austria, Germany, Netherlands and United Kingdom",
+          "AIP approach charts VFR, IFR & Heliports of Austria, France, Germany, Netherlands and United Kingdom",
         url: orgUrl.toString(),
       },
       {

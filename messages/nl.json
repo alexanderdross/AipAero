@@ -170,7 +170,7 @@
     }
   },
   "Error": {
-    "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
-    "title": "Etwas ist schief gelaufen!"
+    "description": "<p>Er is helaas een probleem opgetreden.</p><p>Je kunt proberen <retry>deze pagina opnieuw te laden</retry>.</p>",
+    "title": "Er is iets misgegaan!"
   }
 }

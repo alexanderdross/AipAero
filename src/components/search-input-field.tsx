@@ -1,7 +1,7 @@
 "use client";
 
 import { ExternalLinkIcon } from "lucide-react";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { Input } from "~/components/ui/input";
 import { searchAirports } from "~/server/actions";
 import { ExternalLink } from "./external-link";
@@ -41,12 +41,26 @@ export function SearchInputField({
     initialState,
   );
   const [search, setSearch] = useState(value ?? "");
+  const debouncedSearch = useDebounce(search, 250);
+  const formRef = useRef<HTMLFormElement>(null);
+  const hasTypedRef = useRef(false);
   const router = useRouter();
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    hasTypedRef.current = true;
     setSearch(e.currentTarget.value);
-    e.currentTarget.form?.requestSubmit();
   }
+
+  // Submit the query only after the user pauses typing, so we fire one server
+  // action per settled keystroke burst instead of one per character. The
+  // `useDebounce` helper above was defined but previously unused — this wires
+  // it up. `hasTypedRef` skips the initial prefilled value (airport-detail
+  // pages seed the box with the ICAO) so we don't auto-submit and redirect on
+  // mount; the empty-string guard avoids a no-op submit on clear.
+  useEffect(() => {
+    if (!hasTypedRef.current || debouncedSearch.length === 0) return;
+    formRef.current?.requestSubmit();
+  }, [debouncedSearch]);
 
   useEffect(() => {
     // If single result, redirect to the airport page
@@ -59,7 +73,7 @@ export function SearchInputField({
 
   return (
     <>
-      <form action={formAction}>
+      <form action={formAction} ref={formRef}>
         <label htmlFor="search" className="sr-only">
           Search
         </label>

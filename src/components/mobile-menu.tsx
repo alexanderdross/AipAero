@@ -25,6 +25,8 @@ export function MobileNav() {
     { href: "/ifr" as const, key: "ifr" },
     { href: "/heliports" as const, key: "heliports" },
     { href: "/airport-list" as const, key: "airports" },
+    { href: "/aeroports" as const, key: "aeroports" },
+    { href: "/military" as const, key: "military" },
   ];
 
   const [open, setOpen] = React.useState(false);
