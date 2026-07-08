@@ -188,7 +188,14 @@
     "clouds": "Bewolking",
     "temperature": "Temperatuur",
     "qnh": "QNH",
-    "source": "Bron"
+    "source": "Bron",
+    "elevation": "Hoogte",
+    "sunrise": "Zonsopgang",
+    "sunset": "Zonsondergang",
+    "civilTwilight": "Burgerlijke schemering",
+    "facts": "Vliegveldgegevens",
+    "runways": "Banen",
+    "frequencies": "Frequenties"
   },
   "Common": {
     "lastUpdated": "Laatst bijgewerkt",

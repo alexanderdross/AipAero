@@ -38,11 +38,16 @@ export default async function LocaleLayout(
       <body className={"bg-drossgray font-sans"}>
         <Header withLangSwitcher />
         <main>{props.children}</main>
-        <NextIntlClientProvider messages={pick(messages, "BreadCrumbs")}>
-          <Suspense fallback={null}>
-            <BreadCrumbs />
-          </Suspense>
-        </NextIntlClientProvider>
+        {/* Reserve the breadcrumb bar's height so it never shifts the footer
+            when it renders (it reads searchParams, so it resolves after the
+            Suspense boundary). Fixes the ~0.11 CLS Lighthouse flagged. */}
+        <div className="min-h-[5.5rem]">
+          <NextIntlClientProvider messages={pick(messages, "BreadCrumbs")}>
+            <Suspense fallback={null}>
+              <BreadCrumbs />
+            </Suspense>
+          </NextIntlClientProvider>
+        </div>
         <Footer />
       </body>
     </html>

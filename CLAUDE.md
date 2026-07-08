@@ -331,6 +331,19 @@ In `src/app/[locale]/layout.tsx` (and every statically-rendered locale page), ca
 
 Since Next.js 15.2, metadata is **streamed** by default: on **dynamically rendered** routes it is emitted at the end of the stream (inside `<body>`) and only hoisted into `<head>` by client-side React - *unless* the request's user agent matches Next's built-in `htmlLimitedBots` list (Googlebot is deliberately **not** on it, since Google renders JS). The search / airport-detail routes (`/vfr`, `/ifr`, `/heliports`, `/military`, `/aeroports`) read `searchParams` for the `?ICAO` scheme, so they are dynamic - meaning their `<meta name="description">`, OG and Twitter tags stream into `<body>`, and Lighthouse / crawlers that read the raw `<head>` see no description. `next.config.mjs` sets **`htmlLimitedBots: /.*/`** (match every UA) to disable streaming metadata and emit it blocking in `<head>` for all requests. Verified with `pnpm start` by diffing the byte offset of `<meta name="description">` against `</head>` across Googlebot / plain-Chrome / Chrome-Lighthouse user agents. Trade-off: a small TTFB increase on dynamic pages (metadata resolves before the first byte) - acceptable for these SEO pages, and static pages are unaffected.
 
+## Website gadgets & cross-links
+
+Beyond the core search-and-link flow, the airport detail pages and the charts index carry a few add-ons. **Info gadgets are server-rendered (SSR) by design**; the only exceptions are plain outbound links (airport website, Google Maps), which need no server data.
+
+- **Weather (METAR/TAF)** - `src/components/airport-weather.tsx` + `src/lib/weather.ts`. Decoded METAR/TAF fetched **server-side** from the NOAA / Aviation Weather Center API (`aviationweather.gov`, free, no key), cached ~10 min via the OpenNext incremental cache, 5s timeout, fully **fail-soft** (no reporting station -> renders nothing, the common case for small VFR fields). Shows raw METAR/TAF, a decoded summary (wind/visibility/clouds/temp/QNH), the VFR/MVFR/IFR/LIFR flight-category badge and the observation time.
+- **Airport gadgets wrapper** - `src/components/airport-gadgets.tsx`, rendered on all five detail pages (`vfr`/`ifr`/`heliports`/`military`/`aeroports`) below the chart link; composes the weather card + a **Google Maps** link (resolves the field by ICAO/name query, no stored coordinates needed). `mt-24` clears the absolutely-positioned chart link.
+- **Last updated** - `src/components/last-updated.tsx`, a localized build-stamp date on the charts index (`airport-list`).
+- **Trade:Aero cross-link** - `src/lib/trade-aero.ts` + `src/components/trade-aero-cta.tsx`. Locale + country aware deep links to the sister marketplace (`https://trade.aero`), derived entirely from the locale config so new countries roll out automatically; localized CTA on the country landing + airport-list pages, plus a locale-aware footer link. Followed (`rel="noopener"`) with UTM attribution. See `docs/trade-aero-crosslink-concept.md`.
+- **Aerodrome facts** - `src/components/airport-facts.tsx` + `src/lib/airport-facts.ts`. Embedded runways / frequencies / elevation per ICAO, **merged** from two sources: the **OurAirports** base (public domain / CC0, imported into the D1 `airport_facts` table by `crawlers/import_ourairports.py` -> `POST /api/airport-facts`) and **OpenAIP** at request time when the `OPENAIP_API_KEY` secret is set (`src/lib/openaip.ts`, cached, fail-soft; OpenAIP takes precedence per field group). All server-rendered; renders nothing until the importer has run / a key is set.
+- **PWA** - `src/app/manifest.ts` emits `/manifest.webmanifest` so the site is installable (e.g. on an EFB tablet).
+
+New i18n namespaces backing these - `Weather`, `Common` (`viewOnMap`, `lastUpdated`) and `TradeAero` - exist in **every** locale file; the i18n parity check (`scripts/check-i18n.mjs`) forces a newly added country to ship them too. Product/roadmap notes live in `docs/pilot-wishlist.md`.
+
 ## Styling
 
 - **Tailwind CSS v3** with custom theme
@@ -349,6 +362,7 @@ Since Next.js 15.2, metadata is **streamed** by default: on **dynamically render
 |-------------------|---------------------------------|
 | CRON_SECRET       | Bearer token for API auth (Worker secret) |
 | ADSENSE_ID        | Google AdSense publisher ID     |
+| OPENAIP_API_KEY (optional) | OpenAIP core API key for the embedded aerodrome-facts card (`x-openaip-api-key`); unset = OurAirports-only |
 
 The database is a Cloudflare **D1 binding** (`DB` in `wrangler.jsonc`), not env vars. OpenNext caching uses the `NEXT_INC_CACHE_R2_BUCKET` (R2) and `NEXT_TAG_CACHE_D1` (D1) bindings. `NODE_ENV` is set as a plain `var`.
 

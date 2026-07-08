@@ -1,13 +1,16 @@
 import { getTranslations } from "next-intl/server";
 import { localeLangMapping } from "~/i18n/routing";
-import { getAirportWeather, type CloudLayer } from "~/lib/weather";
+import { getSunTimes } from "~/lib/sun-times";
+import { type CloudLayer, type Metar, type Taf } from "~/lib/weather";
 
 // Flight-category badge colour (VFR/MVFR/IFR/LIFR is the standard NOAA scheme).
+// Shades are chosen dark enough that white text clears WCAG AA contrast (>= 4.5:1)
+// - the 600-weight greens/blues/reds do not, and Lighthouse flags them.
 const FLT_CAT_COLOR: Record<string, string> = {
-  VFR: "bg-green-600",
-  MVFR: "bg-blue-600",
-  IFR: "bg-red-600",
-  LIFR: "bg-fuchsia-700",
+  VFR: "bg-green-800",
+  MVFR: "bg-blue-700",
+  IFR: "bg-red-700",
+  LIFR: "bg-fuchsia-800",
 };
 
 function formatClouds(clouds: CloudLayer[]): string | null {
@@ -19,24 +22,34 @@ function formatClouds(clouds: CloudLayer[]): string | null {
 }
 
 /**
- * Server-rendered METAR/TAF gadget for an airport detail page. Renders nothing
- * when the field has no reporting station (the common case for small VFR
- * fields), so it never clutters the page. All data is fetched + cached on the
- * server (see `~/lib/weather`); the raw METAR/TAF are shown verbatim (pilots
- * read them directly) alongside a decoded summary and the flight-category badge.
+ * Server-rendered METAR/TAF + field-info gadget. Receives the already-fetched
+ * (and cached) weather from `AirportGadgets` and renders nothing when the field
+ * has no reporting station. The raw METAR/TAF are shown verbatim (pilots read
+ * them directly) alongside a decoded summary, the flight-category badge, and -
+ * when the station reports coordinates - the field elevation and today's
+ * sunrise / sunset / civil-twilight times (VFR night), computed locally with no
+ * extra API call.
  */
 export async function AirportWeather({
-  icao,
+  metar,
+  taf,
   locale,
 }: {
-  icao: string | null;
+  metar: Metar | null;
+  taf: Taf | null;
   locale: string;
 }) {
-  const { metar, taf } = await getAirportWeather(icao);
   if (!metar && !taf) return null;
 
   const t = await getTranslations("Weather");
   const lang = localeLangMapping[locale] ?? "en";
+  const timeFmt = new Intl.DateTimeFormat(lang, {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+    hourCycle: "h23",
+  });
+  const hm = (d: Date | null) => (d ? `${timeFmt.format(d)} UTC` : null);
 
   const observed =
     metar?.obsTime != null
@@ -66,6 +79,21 @@ export async function AirportWeather({
   if (clouds) rows.push([t("clouds"), clouds]);
   if (temp) rows.push([t("temperature"), temp]);
   if (metar?.altim != null) rows.push([t("qnh"), `${metar.altim} hPa`]);
+  if (metar?.elev != null) {
+    const m = Math.round(metar.elev);
+    rows.push([t("elevation"), `${m} m (${Math.round(m / 0.3048)} ft)`]);
+  }
+  if (metar?.lat != null && metar?.lon != null) {
+    const sun = getSunTimes(new Date(), metar.lat, metar.lon);
+    if (sun.sunrise) rows.push([t("sunrise"), hm(sun.sunrise)!]);
+    if (sun.sunset) rows.push([t("sunset"), hm(sun.sunset)!]);
+    if (sun.civilDawn && sun.civilDusk) {
+      rows.push([
+        t("civilTwilight"),
+        `${timeFmt.format(sun.civilDawn)} - ${hm(sun.civilDusk)}`,
+      ]);
+    }
+  }
 
   return (
     <section className="border border-[#ccc] bg-white p-4">

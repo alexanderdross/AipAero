@@ -17,18 +17,18 @@ Serverless platforms (Cloudflare Workers, Vercel, Lambda, etc.) are explicitly *
 ## Stack
 
 - Python ≥ 3.12, managed with [uv](https://github.com/astral-sh/uv)
-- HTTP: `httpx` + `BeautifulSoup` for static pages — the only path in use; all five active crawlers (AT, DE, FR, NL, UK) are on it
+- HTTP: `httpx` + `BeautifulSoup` for static pages - the only path in use; all twelve active crawlers (AT, DE, FR, NL, UK, BE/LU, CZ, DK, GR, NO, PL, SE) are on it
 - Browser fallback: a single Playwright (Python) path for sites that genuinely require JS rendering — only when there's no static URL to follow
 - Pydantic for the `Airport` model (`crawlers/crawlers/models.py`) and settings
 
-> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`. None of the active sites need a JS engine — they serve static HTML, sometimes inside legacy framesets. **All five active crawlers (AT, DE, FR, NL, UK) are now off Selenium** and run on httpx. The legacy `crawler_base.py` / `eurocontrol_base.py` (Selenium) modules remain only for the experimental, non-scheduled crawlers (belgium, car_sam_nam, pac_n, pac_p, run); once those are ported or pruned, `selenium` + `webdriver-manager` can be removed. New crawlers must not introduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
+> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`. None of the active sites need a JS engine — they serve static HTML, sometimes inside legacy framesets. **All twelve active crawlers are now off Selenium** and run on httpx. The legacy `crawler_base.py` / `eurocontrol_base.py` (Selenium) modules remain only for the experimental, non-scheduled crawlers (belgium, car_sam_nam, pac_n, pac_p, run); once those are ported or pruned, `selenium` + `webdriver-manager` can be removed. New crawlers must not introduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
 
 ## Base classes
 
 | Module                    | Class                  | Use when                                                 |
 | ------------------------- | ---------------------- | -------------------------------------------------------- |
 | `http_base.py`            | `HttpCrawlerBase`      | The source serves static HTML over HTTP (default choice). |
-| `http_eurocontrol_base.py`| `HttpEurocontrolBase`  | The source is a eurocontrol-style eAIP frameset (used by NL, UK, FR). |
+| `http_eurocontrol_base.py`| `HttpEurocontrolBase`  | The source is a eurocontrol-style eAIP frameset (used by most eAIP crawlers: NL, UK, FR, BE, CZ, GR, NO, PL, SE). |
 | `crawler_base.py`         | `CrawlerBase`          | *Legacy, Selenium.* No active crawler uses it; kept only for the experimental (unscheduled) crawlers. |
 | `eurocontrol_base.py`     | `EurocontrolBase`      | *Legacy, Selenium.* Orphaned, slated for deletion.       |
 
@@ -36,24 +36,26 @@ Serverless platforms (Cloudflare Workers, Vercel, Lambda, etc.) are explicitly *
 
 ## Country Status
 
-Active (in `crawlers/`):
+Active (in `crawlers/`) - 12 countries:
 
-- [x] Austria (https://eaip.austrocontrol.at) — `HttpCrawlerBase`
-- [x] Germany (https://aip.dfs.de/) — `HttpCrawlerBase` (DFS BasicVFR/BasicIFR; enters at static `pages/CNNNNN.html` section URLs and stores each airport's amendment-stable `myPermalink`)
-- [x] France (https://www.sia.aviation-civile.gouv.fr/plandesite) — `HttpEurocontrolBase`
-- [x] Netherlands (https://eaip.lvnl.nl/) — `HttpEurocontrolBase`
-- [x] United Kingdom (https://nats-uk.ead-it.com/) — `HttpEurocontrolBase`
+- [x] Austria (https://eaip.austrocontrol.at) - `HttpCrawlerBase`
+- [x] Germany (https://aip.dfs.de/) - `HttpCrawlerBase` (DFS BasicVFR/BasicIFR; enters at static `pages/CNNNNN.html` section URLs and stores each airport's amendment-stable `myPermalink`)
+- [x] France (https://www.sia.aviation-civile.gouv.fr/plandesite) - `HttpEurocontrolBase`
+- [x] Netherlands (https://eaip.lvnl.nl/) - `HttpEurocontrolBase`
+- [x] United Kingdom (https://nats-uk.ead-it.com/) - `HttpEurocontrolBase`
+- [x] Belgium + Luxembourg (https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/index-en-GB.html) - `HttpEurocontrolBase`
+- [x] Czech Republic (https://aim.rlp.cz/eaip/html/index-en-GB.html) - `HttpEurocontrolBase`
+- [x] Denmark (https://aim.naviair.dk/) - `HttpCrawlerBase` (custom Naviair navigation)
+- [x] Greece (https://aisgr.hasp.gov.gr/) - `HttpEurocontrolBase`
+- [x] Norway (https://avinor.no/en/ais/aipnorway/) - `HttpEurocontrolBase`
+- [x] Poland (https://www.ais.pansa.pl/en/publications/aip-poland/) - `HttpEurocontrolBase`
+- [x] Sweden (https://aro.lfv.se/content/eaip/default_offline.html) - `HttpEurocontrolBase`
 
 Open (see `tasks/` for per-country research notes):
 
-1. [ ] Denmark (https://aim.naviair.dk/)
-2. [ ] Norway (https://avinor.no/en/ais/aipnorway/)
-3. [ ] Sweden (https://aro.lfv.se/content/eaip/default_offline.html)
-4. [ ] Poland (https://www.ais.pansa.pl/en/publications/aip-poland/)
-5. [ ] Czech Republic (https://aim.rlp.cz/eaip/html/index-cz-CZ.html)
-6. [ ] Croatia (https://www.crocontrol.hr/UserDocsImages/AIS%20produkti/eAIP/start.html)
-7. [ ] Greece (https://aisgr.hasp.gov.gr/)
-8. [ ] Belgium + Luxembourg (https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/index-en-GB.html)
+1. [ ] Croatia (https://www.crocontrol.hr/UserDocsImages/AIS%20produkti/eAIP/start.html)
+
+Further candidates (no task spec yet): Switzerland, Italy, Spain.
 
 ## What to extract
 
@@ -123,7 +125,7 @@ Local run:
 
 ```bash
 uv sync
-uv run main.py            # crawls all active countries (AT, DE, FR, NL, UK)
+uv run main.py            # crawls all active countries (AT, DE, FR, NL, UK, BE/LU, CZ, DK, GR, NO, PL, SE)
 uv run main.py NL UK      # crawls only the given countries (codes are case-insensitive)
 ```
 

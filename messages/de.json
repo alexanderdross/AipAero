@@ -223,7 +223,14 @@
     "clouds": "Wolken",
     "temperature": "Temperatur",
     "qnh": "QNH",
-    "source": "Quelle"
+    "source": "Quelle",
+    "elevation": "Höhe",
+    "sunrise": "Sonnenaufgang",
+    "sunset": "Sonnenuntergang",
+    "civilTwilight": "Bürgerliche Dämmerung",
+    "facts": "Flugplatzdaten",
+    "runways": "Pisten",
+    "frequencies": "Frequenzen"
   },
   "Common": {
     "lastUpdated": "Stand",

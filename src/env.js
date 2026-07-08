@@ -17,6 +17,11 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
     ADSENSE_ID: z.string().min(1),
+    // Optional: OpenAIP core API key (header `x-openaip-api-key`). When unset,
+    // the embedded aerodrome-facts card falls back to the OurAirports data in
+    // D1 (or renders nothing). Create one at https://www.openaip.net (profile ->
+    // API Key) and set it with `wrangler secret put OPENAIP_API_KEY`.
+    OPENAIP_API_KEY: z.string().optional(),
   },
 
   /**
@@ -36,6 +41,7 @@ export const env = createEnv({
     CRON_SECRET: process.env.CRON_SECRET,
     NODE_ENV: process.env.NODE_ENV,
     ADSENSE_ID: process.env.ADSENSE_ID,
+    OPENAIP_API_KEY: process.env.OPENAIP_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

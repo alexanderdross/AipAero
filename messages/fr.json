@@ -188,7 +188,14 @@
     "clouds": "Nuages",
     "temperature": "Température",
     "qnh": "QNH",
-    "source": "Source"
+    "source": "Source",
+    "elevation": "Altitude",
+    "sunrise": "Lever du soleil",
+    "sunset": "Coucher du soleil",
+    "civilTwilight": "Crépuscule civil",
+    "facts": "Données aérodrome",
+    "runways": "Pistes",
+    "frequencies": "Fréquences"
   },
   "Common": {
     "lastUpdated": "Dernière mise à jour",

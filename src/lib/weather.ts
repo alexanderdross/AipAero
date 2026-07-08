@@ -10,7 +10,10 @@ import "server-only";
 
 const API = "https://aviationweather.gov/api/data";
 const REVALIDATE = 600; // 10 minutes
-const TIMEOUT_MS = 5000;
+// Keep this tight: the fetch is awaited during SSR (the page is buffered, not
+// streamed, because of `htmlLimitedBots`), so a slow upstream directly delays
+// TTFB on a cache miss. Fail soft to no-weather rather than hold the response.
+const TIMEOUT_MS = 3000;
 
 export interface CloudLayer {
   cover: string;
@@ -29,6 +32,9 @@ export interface Metar {
   dewp: number | null; // °C
   altim: number | null; // QNH, hPa
   clouds: CloudLayer[];
+  lat: number | null; // station latitude (deg)
+  lon: number | null; // station longitude (deg)
+  elev: number | null; // station elevation (metres)
 }
 
 export interface Taf {
@@ -89,6 +95,9 @@ export async function getAirportWeather(
           dewp: num(m.dewp),
           altim: num(m.altim) === null ? null : Math.round(m.altim as number),
           clouds: Array.isArray(m.clouds) ? (m.clouds as CloudLayer[]) : [],
+          lat: num(m.lat),
+          lon: num(m.lon),
+          elev: num(m.elev),
         }
       : null;
 

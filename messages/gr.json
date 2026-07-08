@@ -188,7 +188,14 @@
     "clouds": "Νέφωση",
     "temperature": "Θερμοκρασία",
     "qnh": "QNH",
-    "source": "Πηγή"
+    "source": "Πηγή",
+    "elevation": "Υψόμετρο",
+    "sunrise": "Ανατολή ηλίου",
+    "sunset": "Δύση ηλίου",
+    "civilTwilight": "Αστικό λυκόφως",
+    "facts": "Δεδομένα αεροδρομίου",
+    "runways": "Διάδρομοι",
+    "frequencies": "Συχνότητες"
   },
   "Common": {
     "lastUpdated": "Τελευταία ενημέρωση",

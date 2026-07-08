@@ -188,7 +188,14 @@
     "clouds": "Moln",
     "temperature": "Temperatur",
     "qnh": "QNH",
-    "source": "Källa"
+    "source": "Källa",
+    "elevation": "Höjd",
+    "sunrise": "Soluppgång",
+    "sunset": "Solnedgång",
+    "civilTwilight": "Borgerlig skymning",
+    "facts": "Flygplatsdata",
+    "runways": "Banor",
+    "frequencies": "Frekvenser"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",

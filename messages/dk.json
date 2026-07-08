@@ -188,7 +188,14 @@
     "clouds": "Skyer",
     "temperature": "Temperatur",
     "qnh": "QNH",
-    "source": "Kilde"
+    "source": "Kilde",
+    "elevation": "Højde",
+    "sunrise": "Solopgang",
+    "sunset": "Solnedgang",
+    "civilTwilight": "Borgerlig tusmørke",
+    "facts": "Flyvepladsdata",
+    "runways": "Baner",
+    "frequencies": "Frekvenser"
   },
   "Common": {
     "lastUpdated": "Senest opdateret",
