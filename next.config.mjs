@@ -52,6 +52,16 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
+  // Emit metadata blocking in <head> for every request instead of streaming
+  // it. Since Next 15.2 metadata is streamed for non-bot user agents, so on
+  // dynamically rendered routes (the search / airport-detail pages, which read
+  // searchParams for the ?ICAO SEO scheme) the <meta name="description">, OG
+  // and Twitter tags land in <body> and are only hoisted to <head> by client
+  // JS. Crawlers and Lighthouse then see no description in <head>. Matching all
+  // user agents with `htmlLimitedBots` forces blocking, in-<head> metadata for
+  // everyone. The cost is a small TTFB increase on dynamic pages (generateMetadata
+  // resolves before the first byte) — the right trade for these SEO pages.
+  htmlLimitedBots: /.*/,
   // The Cloudflare Workers runtime does not run the default Next.js image
   // optimizer (sharp). The few assets we serve are already sized, so skip it.
   images: {
