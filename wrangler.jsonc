@@ -50,12 +50,15 @@
 			"database_id": "d6ac9a00-1c6c-449f-8fae-dd03c336b84a"
 		}
 	],
-	"kv_namespaces": [
+	"r2_buckets": [
 		{
-			// OpenNext incremental cache. Create with:
-			// wrangler kv namespace create NEXT_INC_CACHE_KV
-			"binding": "NEXT_INC_CACHE_KV",
-			"id": "e03eebcada284bed843b43ad946186d8"
+			// OpenNext incremental cache (ISR + unstable_cache data cache).
+			// R2 replaces the old NEXT_INC_CACHE_KV namespace: KV's free-tier
+			// write cap is 1k/day, which a full cache-invalidation + re-crawl
+			// blows through; R2 allows ~1M Class-A writes/month.
+			// Create with: wrangler r2 bucket create aip-aero-inc-cache
+			"binding": "NEXT_INC_CACHE_R2_BUCKET",
+			"bucket_name": "aip-aero-inc-cache"
 		}
 	]
 }

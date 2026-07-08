@@ -53,15 +53,10 @@ jobs:
       - name: Build (OpenNext / Cloudflare Workers)
         run: pnpm run cf-build
 
-      # Deployt via wrangler direkt statt `opennextjs-cloudflare deploy`, um die
-      # Populate-Cache-Phase zu überspringen: die schreibt den Incremental-Cache
-      # per KV-Bulk-Put und läuft auf dem Free-Plan ins tägliche KV-Schreiblimit
-      # (code 10048). Der ISR-Cache wärmt sich stattdessen zur Laufzeit.
-      #
-      # OPEN_NEXT_DEPLOY=true verhindert, dass `wrangler deploy` das OpenNext-
-      # Projekt erkennt und zurück an `opennextjs-cloudflare deploy` (inkl.
-      # KV-Population) delegiert. Damit ist es ein reiner Worker+Assets-Deploy.
-      - name: Deploy (wrangler)
-        env:
-          OPEN_NEXT_DEPLOY: "true"
-        run: pnpm exec wrangler deploy
+      # Deployt den Worker und befüllt den Incremental-Cache vor. Der Cache liegt
+      # jetzt auf R2 (statt KV), dessen Write-Kontingent um Größenordnungen höher
+      # ist — die Populate-Phase (~36 Class-A-Writes) ist damit unkritisch, daher
+      # nutzen wir wieder den regulären OpenNext-Deploy (kein OPEN_NEXT_DEPLOY-
+      # Workaround mehr nötig).
+      - name: Deploy (OpenNext → Cloudflare)
+        run: pnpm exec opennextjs-cloudflare deploy

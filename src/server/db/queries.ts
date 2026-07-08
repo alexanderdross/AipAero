@@ -5,12 +5,20 @@ import { unstable_cache, revalidateTag } from "next/cache";
 import { getDb, type DB } from "~/server/db";
 import { type InsertAirport, type Airport, airports } from "./schema";
 
-// Cache lifetime for the read queries (seconds). Matches the previous
-// `cacheLife("hours")` used with the `"use cache"` directive, which the
-// Cloudflare/OpenNext adapter does not yet support — so we use the classic
-// `unstable_cache` API, which OpenNext supports and which keeps `revalidateTag`
-// invalidation working unchanged.
-const REVALIDATE_SECONDS = 60 * 60;
+// Cache lifetime for the read queries (seconds). The AIP data only changes when
+// the crawler POSTs new data, which invalidates the affected country on-demand
+// via `revalidateTag` (see MUTATIONS below). So the time-based revalidate only
+// needs to be a safety net, not a freshness mechanism — a short window (the old
+// 1h) just rewrites unchanged entries to the cache hourly for nothing. 24h keeps
+// writes low while still bounding staleness if an on-demand invalidation is ever
+// missed.
+const REVALIDATE_SECONDS = 60 * 60 * 24;
+
+// Per-country cache tag. Every read for a country carries this tag so a crawler
+// POST (always scoped to one country) can invalidate exactly that country's
+// entries with a single `revalidateTag` — instead of globally busting all ~1k
+// airport entries across every country on each run.
+const countryTag = (country: string) => `country:${country.toUpperCase()}`;
 
 // During `next build` the OpenNext adapter exposes a *local* (miniflare) D1
 // binding that has no data (and, in CI, no schema). We must not fail the build
@@ -67,7 +75,7 @@ export const QUERIES = {
     return cachedRead(
       "vfrAirports",
       ["vfrAirports", country],
-      ["vfrAirports", country],
+      ["vfrAirports", countryTag(country)],
       (db) =>
         db.query.airports.findMany({
           where: and(eq(airports.country, country), eq(airports.type, "vfr")),
@@ -81,7 +89,7 @@ export const QUERIES = {
     return cachedRead(
       "ifrAirports",
       ["ifrAirports", country],
-      ["ifrAirports", country],
+      ["ifrAirports", countryTag(country)],
       (db) =>
         db.query.airports.findMany({
           where: and(eq(airports.country, country), eq(airports.type, "ifr")),
@@ -95,7 +103,7 @@ export const QUERIES = {
     return cachedRead(
       "heliports",
       ["heliports", country],
-      ["heliports", country],
+      ["heliports", countryTag(country)],
       (db) =>
         db.query.airports.findMany({
           where: and(
@@ -112,7 +120,7 @@ export const QUERIES = {
     return cachedRead(
       "militaryAirports",
       ["militaryAirports", country],
-      ["militaryAirports", country],
+      ["militaryAirports", countryTag(country)],
       (db) =>
         db.query.airports.findMany({
           where: and(eq(airports.country, country), eq(airports.type, "mil")),
@@ -126,7 +134,7 @@ export const QUERIES = {
     return cachedRead(
       "aeroportAirports",
       ["aeroportAirports", country],
-      ["aeroportAirports", country],
+      ["aeroportAirports", countryTag(country)],
       (db) =>
         db.query.airports.findMany({
           where: and(
@@ -143,7 +151,7 @@ export const QUERIES = {
     return cachedRead<Airport | undefined>(
       "airport",
       ["airport", slug, country, type],
-      ["airport", slug, country, type],
+      ["airport", countryTag(country)],
       (db) =>
         db.query.airports.findFirst({
           where: and(
@@ -155,24 +163,28 @@ export const QUERIES = {
       undefined,
     );
   },
-  airports: function (search: string, country: string, type: Airport["type"]) {
+  airports: async function (
+    search: string,
+    country: string,
+    type: Airport["type"],
+  ) {
     country = country.toUpperCase();
-    return cachedRead(
-      "airports",
-      ["airports", search, country, type],
-      ["airports", search, country, type],
-      (db) =>
-        db.query.airports.findMany({
-          limit: 5,
-          where: and(
-            eq(airports.country, country),
-            eq(airports.type, type),
-            like(airports.title, `%${search}%`),
-          ),
-          orderBy: [asc(airports.title)],
-        }),
-      [] as Airport[],
-    );
+    // Intentionally NOT cached. This backs the as-you-type search box, which
+    // fires one query per keystroke. Caching per unique search string created a
+    // fresh incremental-cache entry per prefix ("f", "fr", "fri", …) with almost
+    // no reuse — a major source of needless cache writes. The query is a cheap,
+    // title-indexed D1 read (LIMIT 5), so hit D1 directly instead.
+    const db = await getDb();
+    if (!db) return [] as Airport[];
+    return db.query.airports.findMany({
+      limit: 5,
+      where: and(
+        eq(airports.country, country),
+        eq(airports.type, type),
+        like(airports.title, `%${search}%`),
+      ),
+      orderBy: [asc(airports.title)],
+    });
   },
 };
 
@@ -220,14 +232,13 @@ export const MUTATIONS = {
       ],
     );
 
-    // Invalidate the cache tags
-    revalidateTag("vfrAirports");
-    revalidateTag("ifrAirports");
-    revalidateTag("heliports");
-    revalidateTag("militaryAirports");
-    revalidateTag("aeroportAirports");
-    revalidateTag("airport");
-    revalidateTag("airports");
+    // Invalidate only this country's cached reads. Every read is tagged with
+    // `country:<CC>` (see `countryTag`), and a crawler POST always carries a
+    // single country's data — so one tag busts exactly the affected lists +
+    // airport-detail entries, leaving the other countries' caches warm. (The
+    // previous code revalidated 7 global tags, invalidating all ~1k entries
+    // across every country on every run.)
+    revalidateTag(countryTag(country));
     return result;
   },
 };
