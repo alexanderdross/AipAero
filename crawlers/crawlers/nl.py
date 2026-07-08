@@ -1,3 +1,4 @@
+import datetime
 import re
 from urllib.parse import urljoin
 
@@ -7,12 +8,19 @@ from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 COUNTRY = "NL"
 ROOT_URL = "https://eaip.lvnl.nl/web/eaip/default.html"
 
-# The effective-edition entry document. IDS eAIPs name it either the bare
-# `index.html` or a locale-suffixed variant (`index-en-GB.html`,
-# `index-nl-NL.html`) — LVNL suffixes everything with `-en-GB`, so the bare
-# match used previously never fired. Match both, anchored to the href tail.
+# LVNL's default.html lists the currently effective edition, the next
+# issue(s) and archived ones, each linking to a dated edition folder:
+#   `AIRAC AMDT 06-2026_2026_06_11\index.html`
+# Note (a) the embedded effective date `YYYY_MM_DD` right before the index
+# file, and (b) the Windows-style backslash separator (plus spaces). We pick
+# the edition by date — the latest whose effective date is on or before today,
+# like the UK crawler — and normalise the backslash to "/": browsers do that
+# implicitly, httpx does not, so a raw backslash would be percent-encoded into
+# a 404 URL.
+_EDITION_DATE_RE = re.compile(r"(\d{4})_(\d{2})_(\d{2})[\\/]index[^\\/]*\.html", re.I)
+# Fallbacks for an older single-edition layout that links or redirects to a
+# bare / locale-suffixed index instead of dated editions.
 _EDITION_HREF_RE = re.compile(r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I)
-# Fallbacks for a default.html that redirects instead of linking.
 _META_REFRESH_URL_RE = re.compile(r"url=([^;]+)", re.I)
 _JS_LOCATION_RE = re.compile(r"""location(?:\.href)?\s*=\s*['"]([^'"]+)['"]""", re.I)
 
@@ -20,13 +28,16 @@ _JS_LOCATION_RE = re.compile(r"""location(?:\.href)?\s*=\s*['"]([^'"]+)['"]""", 
 class NL(HttpEurocontrolBase):
     """Netherlands AIP crawler.
 
-    LVNL's eAIP is a static eurocontrol-style frameset:
+    LVNL's eAIP is a static eurocontrol-style frameset. `default.html` lists
+    several dated AIRAC editions (currently effective + next + archived);
+    each links to `AIRAC AMDT NN-YYYY_YYYY_MM_DD\\index.html`:
 
         default.html
-            └─ <a href="…/index.html">  (current effective edition)
-                └─ frameset
-                    └─ frame name=eAISNavigationBase
-                        └─ frame name=eAISNavigation  ← the menu we parse
+            └─ pick edition by effective date (latest on/before today)
+                └─ <edition>/index.html
+                    └─ frameset
+                        └─ frame name=eAISNavigationBase
+                            └─ frame name=eAISNavigation  ← the menu we parse
 
     No JS execution is needed — every step resolves to a plain HTML doc.
     """
@@ -34,24 +45,59 @@ class NL(HttpEurocontrolBase):
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
-    def _resolve_edition_url(self, base_url: str, html: str) -> str:
+    def _resolve_edition_url(
+        self,
+        base_url: str,
+        html: str,
+        today: datetime.date | None = None,
+    ) -> str:
         """Find the current effective edition entry point in default.html.
 
-        Tries, in order:
-          1. an `<a>` whose href tail looks like an eAIP edition index
-             (`index.html` or a locale-suffixed `index-en-GB.html`);
-          2. a `<meta http-equiv="refresh" content="…;url=…">` redirect;
-          3. a `location = "…"` / `location.href = "…"` JS redirect.
+        Primary path: read the effective date embedded in each dated edition
+        link and return the latest edition already in effect on ``today``
+        (falling back to the earliest listed edition if — unexpectedly —
+        every edition is still in the future). Windows-style backslash
+        separators are normalised to "/" so httpx builds a valid URL.
 
-        Selenium used to follow (2)/(3) transparently; httpx does not, so we
-        recover the target from the markup instead.
+        Fallbacks, for an older single-edition layout: the first bare /
+        locale-suffixed `index*.html` link, then a `<meta refresh>` redirect,
+        then a `location = "…"` JS redirect (which Selenium used to follow
+        transparently but httpx does not).
         """
+        today = today or datetime.date.today()
         soup = self.soup(html)
 
+        dated: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
-            href_tail = a["href"].split("?")[0].split("#")[0]
-            if _EDITION_HREF_RE.search(href_tail):
-                return urljoin(base_url, a["href"])
+            m = _EDITION_DATE_RE.search(a["href"])
+            if not m:
+                continue
+            year, month, day = (int(g) for g in m.groups())
+            try:
+                effective = datetime.date(year, month, day)
+            except ValueError:
+                continue
+            href = a["href"].replace("\\", "/")
+            dated.append((effective, urljoin(base_url, href)))
+
+        if dated:
+            in_effect = [c for c in dated if c[0] <= today]
+            effective_date, edition_url = (
+                max(in_effect, key=lambda c: c[0])
+                if in_effect
+                else min(dated, key=lambda c: c[0])
+            )
+            self.logger.info(
+                f"Current AIRAC edition (effective {effective_date.isoformat()}): "
+                f"{edition_url}"
+            )
+            return edition_url
+
+        # --- fallbacks: single-edition / redirect layouts --------------------
+        for a in soup.find_all("a", href=True):
+            href = a["href"].replace("\\", "/")
+            if _EDITION_HREF_RE.search(href.split("?")[0].split("#")[0]):
+                return urljoin(base_url, href)
 
         meta = soup.find(
             "meta", attrs={"http-equiv": re.compile("refresh", re.I)}
@@ -76,12 +122,11 @@ class NL(HttpEurocontrolBase):
         last_html: str | None = None
 
         try:
-            # 1. Resolve the link to the current effective edition.
+            # 1. Resolve the currently effective edition (by AIRAC date).
             default_html = self.fetch(ROOT_URL)
             last_url, last_html = ROOT_URL, default_html
 
             edition_url = self._resolve_edition_url(ROOT_URL, default_html)
-            self.logger.info(f"Current edition: {edition_url}")
 
             # 2. Walk the frame chain to the navigation HTML.
             nav_url, nav_html = self.follow_frame_chain(
