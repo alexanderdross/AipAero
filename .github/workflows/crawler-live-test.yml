@@ -1,0 +1,108 @@
+name: Crawler live test
+
+# Runs the requested country crawlers against their LIVE AIP sources on the
+# self-hosted runner and prints what they parse - WITHOUT publishing anything
+# (no API key involved; the OutputHandler is never invoked). Used to validate
+# a new or changed crawler before enabling its country on the website
+# (`liveCountries` in src/lib/utils.ts).
+#
+# Trigger manually (Actions -> Crawler live test -> Run workflow), or it runs
+# automatically on a PR that touches this file - which doubles as the way to
+# kick off a validation run from a PR.
+
+on:
+  workflow_dispatch:
+    inputs:
+      countries:
+        description: "Space-separated country codes to test-crawl (default: the 7 new ones)"
+        required: false
+        default: "BE CZ DK GR NO PL SE"
+  pull_request:
+    paths:
+      - ".github/workflows/crawler-live-test.yml"
+
+concurrency:
+  group: crawler-live-test-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  live-test:
+    name: Live crawl (no publish)
+    runs-on: self-hosted
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: crawlers
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          version: latest
+          enable-cache: true
+          cache-dependency-glob: crawlers/uv.lock
+
+      - name: Setup Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Crawl live sources (no publish)
+        env:
+          COUNTRIES: ${{ inputs.countries || 'BE CZ DK GR NO PL SE' }}
+        run: |
+          uv run python - <<'PY'
+          import logging
+          import os
+          import sys
+          import traceback
+
+          logging.basicConfig(
+              level=logging.INFO, format="%(levelname)s %(name)s: %(message)s"
+          )
+
+          from main import COUNTRY_CRAWLERS
+
+          codes = os.environ["COUNTRIES"].split()
+          unknown = [c for c in codes if c.upper() not in COUNTRY_CRAWLERS]
+          if unknown:
+              sys.exit(f"Unknown country code(s): {unknown}")
+
+          results: dict[str, int | None] = {}
+          for code in codes:
+              code = code.upper()
+              print(f"\n===== {code} =====", flush=True)
+              try:
+                  airports = COUNTRY_CRAWLERS[code]().crawl()
+                  results[code] = len(airports)
+                  for a in airports[:5]:
+                      print(f"   {a.icao} | {a.title} -> {a.url[:100]}")
+                  if len(airports) > 5:
+                      print(f"   ... and {len(airports) - 5} more")
+              except Exception as e:
+                  results[code] = None
+                  print(f"{code}: FAILED - {type(e).__name__}: {e}")
+                  traceback.print_exc()
+
+          print("\n===== SUMMARY =====")
+          for code, count in results.items():
+              status = f"OK ({count} airports)" if count else "FAILED / 0 airports"
+              print(f"  {code}: {status}")
+
+          failed = [c for c, n in results.items() if not n]
+          sys.exit(1 if failed else 0)
+          PY
+
+      - name: Upload saved error responses
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: crawl-error-responses
+          path: crawlers/error_logs/
+          if-no-files-found: ignore
+          retention-days: 7
