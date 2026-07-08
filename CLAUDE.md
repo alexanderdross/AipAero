@@ -14,7 +14,7 @@
 The system runs on **two hosts** by design — do not try to consolidate them:
 
 - **Website (`src/`) → [Cloudflare Workers](https://workers.cloudflare.com/)** via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare) (`@opennextjs/cloudflare`). Config lives in `wrangler.jsonc` + `open-next.config.ts`. Build/deploy with `pnpm cf-build` / `pnpm deploy`; local preview with `pnpm preview`. Treat all Next.js code as serverless on the Workers runtime: no persistent filesystem, no long-running handlers, no Chromium/Selenium, no raw Node TCP. New env vars must be added to `.env.example`, validated in `src/env.js`, mirrored in `.dev.vars` for local preview, and set on the Worker (`wrangler secret put` for secrets, `vars` in `wrangler.jsonc` for plain vars).
-- **Database → [Cloudflare D1](https://developers.cloudflare.com/d1/)** (SQLite), reached via the `DB` binding (see `src/server/db/index.ts`). There is no connection string — access is through `getCloudflareContext().env.DB`. Two more Cloudflare resources back OpenNext caching: a KV namespace (`NEXT_INC_CACHE_KV`, incremental/data cache) and a D1 database (`NEXT_TAG_CACHE_D1`, backs `revalidateTag`).
+- **Database → [Cloudflare D1](https://developers.cloudflare.com/d1/)** (SQLite), reached via the `DB` binding (see `src/server/db/index.ts`). There is no connection string — access is through `getCloudflareContext().env.DB`. Two more Cloudflare resources back OpenNext caching: an R2 bucket (`NEXT_INC_CACHE_R2_BUCKET` → bucket `aip-aero-inc-cache`, incremental/data cache) and a D1 database (`NEXT_TAG_CACHE_D1`, backs `revalidateTag`). R2 replaced the former `NEXT_INC_CACHE_KV` namespace, whose free-tier 1k-writes/day cap was exhausted by wholesale cache invalidation on every crawl.
 - **Crawlers (`crawlers/`) → [netcup](https://www.netcup.eu/) root server.** The Python scrapers continue to run on the existing netcup VM under systemd (`aip-crawler.service` + `aip-crawler.timer`). They are **not** deployed to Workers — serverless is the wrong model for scheduled, long-running scraping. They reach the website by HTTP, posting to `https://aip.aero/api/airports` with `CRON_SECRET`. This contract is unchanged by the Cloudflare migration.
 - **Legacy:** the website previously ran on netcup via Docker (`Dockerfile` + `docker-compose.yml`) and on [Vercel](https://vercel.com) via the GitHub integration. Both are retired for serving the website; the Docker files are kept for local container testing only. `output: "standalone"` was removed from `next.config.mjs` (the OpenNext adapter produces the Worker bundle instead).
 
@@ -79,7 +79,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 2. Crawlers POST airport data to `/api/airports` (authenticated via `CRON_SECRET` Bearer token).
 3. The API validates with Zod, enriches with slugs, then atomically deletes existing country data and inserts new data via a D1 `batch` (D1 has no interactive transactions).
 4. Cache is invalidated via `revalidateTag()` on insert.
-5. Website pages query the DB through `unstable_cache`-wrapped functions in `queries.ts` (1h revalidate + per-country tags). The Next `"use cache"` directive is **not** used — the OpenNext Cloudflare adapter does not support it yet.
+5. Website pages query the DB through `unstable_cache`-wrapped functions in `queries.ts` (24h revalidate + per-country `country:<CC>` tags). The search query (`QUERIES.airports`) is deliberately **not** cached (one call per keystroke = unbounded cache entries). The Next `"use cache"` directive is **not** used — the OpenNext Cloudflare adapter does not support it yet.
 
 ## Directory Structure
 
@@ -285,10 +285,10 @@ All five active country crawlers (AT, DE, FR, NL, UK) are off Selenium. The lega
 ## Caching Strategy
 
 - Reads are wrapped in Next's `unstable_cache` (in `src/server/db/queries.ts`). The newer `"use cache"` directive is **not** used — the OpenNext Cloudflare adapter doesn't support it yet.
-- Cache lifetime: `revalidate: 3600` (1h)
-- Cache tags per query type: `vfrAirports`, `ifrAirports`, `heliports`, `militaryAirports`, `aeroportAirports`, `airport`, `airports`
-- Invalidated on data insert via `revalidateTag()`
-- On Workers this is backed by OpenNext's incremental cache (KV, `NEXT_INC_CACHE_KV`) and tag cache (D1, `NEXT_TAG_CACHE_D1`), configured in `open-next.config.ts`.
+- Cache lifetime: `revalidate: 86400` (24h). Freshness on real changes comes from on-demand `revalidateTag`, not the timer — so the timer is only a safety net and stays long to avoid needless rewrites.
+- Each read carries a per-country tag `country:<CC>` (plus a type tag like `vfrAirports`). The as-you-type search (`QUERIES.airports`) is uncached.
+- Invalidated on data insert via a single `revalidateTag(\`country:<CC>\`)` — a crawler POST (always one country) busts only that country's entries, not all ~1k across every country.
+- On Workers this is backed by OpenNext's incremental cache (R2, `NEXT_INC_CACHE_R2_BUCKET`) and tag cache (D1, `NEXT_TAG_CACHE_D1`), configured in `open-next.config.ts`.
 - During `next build` the OpenNext adapter exposes a local (empty) D1 binding; DB reads that fail at build return empty and revalidate at runtime (`IS_BUILD` guard in `queries.ts`), so the build needs no database.
 
 ## SEO
@@ -320,7 +320,7 @@ All five active country crawlers (AT, DE, FR, NL, UK) are off Selenium. The lega
 | CRON_SECRET       | Bearer token for API auth (Worker secret) |
 | ADSENSE_ID        | Google AdSense publisher ID     |
 
-The database is a Cloudflare **D1 binding** (`DB` in `wrangler.jsonc`), not env vars. OpenNext caching uses the `NEXT_INC_CACHE_KV` (KV) and `NEXT_TAG_CACHE_D1` (D1) bindings. `NODE_ENV` is set as a plain `var`.
+The database is a Cloudflare **D1 binding** (`DB` in `wrangler.jsonc`), not env vars. OpenNext caching uses the `NEXT_INC_CACHE_R2_BUCKET` (R2) and `NEXT_TAG_CACHE_D1` (D1) bindings. `NODE_ENV` is set as a plain `var`.
 
 ### Client-side
 None currently. (`NEXT_PUBLIC_BUILD_DATE` is optionally stamped at build time — see `src/lib/build-info.ts` — but read directly, not via `src/env.js`.)
@@ -353,7 +353,8 @@ When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEuroc
 
 ### Cloudflare Workers (current)
 - Deploy with `pnpm deploy` (runs `opennextjs-cloudflare build` then `deploy`). Local end-to-end preview with `pnpm preview` (miniflare + local D1/KV).
-- One-time resource setup: `wrangler d1 create aip-aero`, `wrangler d1 create aip-aero-tag-cache`, `wrangler kv namespace create NEXT_INC_CACHE_KV`, then paste the returned IDs into `wrangler.jsonc` (they ship as `REPLACE_WITH_*` placeholders). Set the secret with `wrangler secret put CRON_SECRET` (and `ADSENSE_ID`).
+- One-time resource setup: `wrangler d1 create aip-aero`, `wrangler d1 create aip-aero-tag-cache`, `wrangler r2 bucket create aip-aero-inc-cache` (R2 must be enabled on the account first), then paste the returned D1 IDs into `wrangler.jsonc`. Set the secret with `wrangler secret put CRON_SECRET` (and `ADSENSE_ID`).
+- **CD:** `.github/workflows/cd.yml` (self-hosted) deploys on push to `main`: applies D1 migrations then `opennextjs-cloudflare deploy`. Auth via `CLOUDFLARE_API_TOKEN` (needs edit on Workers Scripts, R2 Storage, D1, and Workers Routes) and `CLOUDFLARE_ACCOUNT_ID` repo secrets.
 - Apply DB schema: `wrangler d1 migrations apply DB --local` (preview) / `--remote` (prod).
 - The GH Actions CI runs the OpenNext build (`pnpm cf-build`) — no DB needed. Cutover is preview-first: validate on a `workers.dev`/preview URL (site + crawler POST), then repoint `aip.aero` DNS.
 
