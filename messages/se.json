@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Sverige (Svenska)",
+      "hrefTitle": "AIP Sverige"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Luftfartspublikation AIP VFR Sverige"
+    },
+    "/heliports": {
+      "title": "Helikopterflygplatser",
+      "hrefTitle": "AIP VFR Helikopterflygplatser Sverige"
+    },
+    "/airport-list": {
+      "title": "Flygplatslista",
+      "hrefTitle": "Lista över flygplatser i Sverige"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Sverige",
+      "hrefTitle": "AIP Sverige"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Luftfartspublikation AIP VFR Sverige"
+    },
+    "heliports": {
+      "title": "Helikopterflygplatser",
+      "hrefTitle": "AIP VFR Helikopterflygplatser Sverige"
+    },
+    "airports": {
+      "title": "Flygplatslista",
+      "hrefTitle": "Lista över flygplatser i Sverige"
+    }
+  },
+  "AirportsPage": {
+    "title": "Lista över flygplatser i Sverige",
+    "metaTitle": "🛩️ Lista över flygplatser i Sverige",
+    "description": "Alla flygplatser i Sverige i överblick",
+    "metaDescription": "Alla flygplatser i Sverige i överblick🗺️",
+    "vfrCard": {
+      "title": "VFR-flygplatser",
+      "description": "VFR-flygplatser i Sverige",
+      "linkTitle": "Se och ladda ner AIP VFR-kartor och inflygningskarta för {airport} här."
+    },
+    "heliportCard": {
+      "title": "Helikopterflygplatser",
+      "description": "Helikopterflygplatser i Sverige",
+      "linkTitle": "Se och ladda ner AIP VFR-kartor och inflygningskartor för helikopterflygplatsen {airport} här."
+    },
+    "breadcrumb": {
+      "name": "Lista över flygplatser i Sverige",
+      "alternateName": "Lista över flygplatser i Sverige",
+      "description": "Alla flygplatser i Sverige i överblick"
+    }
+  },
+  "HeliportPage": {
+    "title": "Sökmask för inflygningskartor AIP VFR HEL AD helikopterflygplatser i Sverige",
+    "metaTitle": "🛩️ Sökmask för inflygningskartor AIP VFR HEL AD helikopterflygplatser i Sverige",
+    "description": "Ange flygplatsens namn eller ICAO-kod för att komma åt VFR-inflygningskartorna för helikopterflygplatser som tillhandahålls av LFV.",
+    "metaDescription": "Sök AIP VFR Sverige HEL AD helikopterflygplatser och ladda ner inflygningskartor🗺️",
+    "searchTitle": "Ange flygplatsens namn eller ICAO-kod för att komma till VFR AIP för helikopterflygplatser",
+    "searchPlaceholder": "Ange flygplatsens namn eller ICAO-kod för att komma till VFR AIP för helikopterflygplatser",
+    "resultTitle": "AIP VFR helikopterkartor för {airport}",
+    "resultDescription": "Se och ladda ner AIP VFR helikopterkartor och inflygningskartor för {airport} här.",
+    "breadcrumb": {
+      "name": "AIP VFR Helikopterflygplatser Sverige",
+      "alternateName": "Sökmask för inflygningskartor AIP VFR HEL AD helikopterflygplatser i Sverige",
+      "description": "Sök AIP VFR Sverige HEL AD helikopterflygplatser och ladda ner inflygningskartor"
+    }
+  },
+  "VfrPage": {
+    "title": "Sökmask för inflygningskartor AIP VFR Sverige",
+    "metaTitle": "🛩️ Sökmask för inflygningskartor AIP VFR Sverige",
+    "description": "Ange flygplatsens namn eller ICAO-kod för att komma åt VFR-inflygningskartorna som tillhandahålls av LFV.",
+    "metaDescription": "Sök AIP VFR Sverige AD flygplatser och ladda ner inflygningskartor🗺️",
+    "searchTitle": "Ange flygplatsens namn eller ICAO-kod för att komma till VFR AIP",
+    "searchPlaceholder": "Ange flygplatsens namn eller ICAO-kod för att komma till VFR AIP",
+    "resultTitle": "AIP VFR-kartor för {airport}",
+    "resultDescription": "Se och ladda ner AIP VFR-kartor och inflygningskarta för {airport} här.",
+    "breadcrumb": {
+      "name": "Luftfartspublikation AIP VFR Sverige",
+      "alternateName": "Sökmask för inflygningskartor AIP VFR Sverige",
+      "description": "Sök AIP VFR Sverige AD flygplatser och ladda ner inflygningskartor"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Byt språk",
+    "locale": "{locale, select, sv {🇸🇪 Svenska} en {🇬🇧 English} other {Okänt}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Inflygningskartor & luftfartspublikation AIP för Sverige",
+    "alternateName": "AIP Sverige",
+    "description": "Här kan du ladda ner alla AIP (Aeronautical Information Publication) luftfartspublikationer och inflygningskartor för Sverige",
+    "inLanguage": "sv",
+    "url": "https://aip.aero/se/"
+  },
+  "CountryPage": {
+    "title": "Inflygningskartor & luftfartspublikation AIP för Sverige",
+    "metaTitle": "🛩️ Inflygningskartor & luftfartspublikation AIP för Sverige",
+    "description": "Här kan du ladda ner alla AIP (Aeronautical Information Publication) luftfartspublikationer och inflygningskartor för Sverige",
+    "metaDescription": "Här kan du ladda ner alla AIP (Aeronautical Information Publication) luftfartspublikationer och inflygningskartor för Sverige🗺️",
+    "vfrCard": {
+      "title": "Luftfartspublikation AIP VFR",
+      "description": "Sök AIP VFR Sverige AD flygplatser och ladda ner inflygningskartor",
+      "buttonTitle": "Luftfartspublikation AIP VFR",
+      "buttonHref": "/se/vfr/",
+      "buttonHrefTitle": "Luftfartspublikation AIP VFR Sverige"
+    },
+    "heliportCard": {
+      "title": "Helikopterflygplatser",
+      "description": "Sök AIP VFR Sverige HEL AD helikopterflygplatser och ladda ner inflygningskartor",
+      "buttonTitle": "AIP VFR Helikopterflygplatser",
+      "buttonHref": "/se/heliports/",
+      "buttonHrefTitle": "AIP VFR Helikopterflygplatser Sverige"
+    },
+    "breadcrumb": {
+      "name": "AIP Sverige",
+      "alternateName": "Inflygningskartor & luftfartspublikation AIP för Sverige",
+      "description": "Här kan du ladda ner alla AIP (Aeronautical Information Publication) luftfartspublikationer och inflygningskartor för Sverige"
+    }
+  },
+  "About": {
+    "title": "Vad är den här webbplatsen till för?",
+    "description": "Den <aip>svenska luftfartspublikationen AIP</aip> finns tillgänglig som en gratisversion. Den här webbplatsen syftar till att förenkla sökandet efter flygplatser, eftersom LFV:s version saknar en sökfunktion. Vi tar inget ansvar för riktigheten eller aktualiteten hos AIP (Aeronautical Information Publication), eftersom den inte drivs av oss. Vi tillhandahåller endast praktiska länkar till respektive inflygningskartor.",
+    "aipUrl": "https://aro.lfv.se/",
+    "aipTitle": "AIP Sverige"
+  },
+  "TradeAero": {
+    "title": "Köpa eller sälja ett flygplan?",
+    "description": "Upptäck flygplan i Sverige på Trade:Aero - marknadsplatsen för att köpa och sälja flygplan.",
+    "buttonTitle": "Visa flygplan i Sverige",
+    "buttonHrefTitle": "Visa flygplan i Sverige på Trade:Aero - köp och sälj flygplan"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Hem",
+      "hrefTitle": "Hem - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Juridisk information",
+      "hrefTitle": "Juridisk information",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Integritetspolicy",
+      "hrefTitle": "Integritetspolicy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Webbplats av Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Ett problem har tyvärr uppstått.</p><p>Du kan försöka <retry>ladda om den här sidan</retry>.</p>",
+    "title": "Något gick fel!"
+  }
+}

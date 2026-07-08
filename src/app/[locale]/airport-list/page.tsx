@@ -206,7 +206,7 @@ async function AirportLists({ locale }: { locale: string }) {
                     // key (".../vfr?LOWG"). We use next/link here rather than
                     // next-intl's <Link>, which is a client component and needs
                     // a NextIntlClientProvider ancestor (v4 behaviour) that this
-                    // server-rendered list does not have — same pattern as box.tsx.
+                    // server-rendered list does not have - same pattern as box.tsx.
                     const href =
                       getPathname({
                         href: i18nPathMapping[airportType],

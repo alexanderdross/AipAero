@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Sweden (English)",
+      "hrefTitle": "AIP Sweden"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Sweden"
+    },
+    "/heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Sweden"
+    },
+    "/airport-list": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Sweden"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Sweden",
+      "hrefTitle": "AIP Sweden"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Sweden"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Sweden"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Sweden"
+    }
+  },
+  "AirportsPage": {
+    "title": "List of Airfields in Sweden",
+    "metaTitle": "🛩️ List of Airfields in Sweden",
+    "description": "Overview of all airfields/ airports in Sweden",
+    "metaDescription": "Overview of all airfields/ airports in Sweden🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Sweden",
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Helicopter Aerodromes in Sweden",
+      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airfields/ Airports Sweden",
+      "alternateName": "List of Airfields in Sweden",
+      "description": "Overview of all airfields/ airports in Sweden"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Helicopter Aerodromes in Sweden",
+    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Sweden",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes provided by LFV.",
+    "metaDescription": "Browse AIP VFR Helicopter Aerodromes Sweden and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Helicopter Aerodromes Sweden",
+      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Sweden",
+      "description": "Browse AIP VFR Helicopter Aerodromes Sweden and download airport approach charts for free"
+    }
+  },
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts Sweden",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Sweden",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by LFV.",
+    "metaDescription": "Browse AIP VFR Sweden and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Sweden",
+      "alternateName": "Index of AIP VFR and visual approach charts Sweden",
+      "description": "Browse AIP VFR Sweden and download airport approach charts for free"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, sv {🇸🇪 Svenska} en {🇬🇧 English} other {Unknown}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Sweden",
+    "alternateName": "AIP Sweden",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Sweden",
+    "inLanguage": "en",
+    "url": "https://aip.aero/se/en/"
+  },
+  "CountryPage": {
+    "title": "AIP and approach charts of Sweden",
+    "metaTitle": "🛩️ AIP and approach charts of Sweden",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Sweden",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Sweden🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Sweden",
+      "description": "Browse AIP VFR Sweden and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/se/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Sweden"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Browse AIP VFR Helicopter Aerodromes Sweden and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/se/en/heliports/",
+      "buttonHrefTitle": "AIP VFR Helicopter Aerodromes Sweden"
+    },
+    "breadcrumb": {
+      "name": "AIP Sweden",
+      "alternateName": "AIP and approach charts of Sweden",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Sweden"
+    }
+  },
+  "About": {
+    "title": "What is this website for?",
+    "description": "The <aip>Swedish Aeronautical Information Publication AIP</aip> is available as a free version. This website aims to simplify the search for airfields, as the version from LFV does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only provide convenient links to the respective approach charts.",
+    "aipUrl": "https://aro.lfv.se/",
+    "aipTitle": "AIP Sweden"
+  },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Sweden on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Sweden",
+    "buttonHrefTitle": "View aircraft in Sweden on Trade:Aero - buy and sell aircraft"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
+  }
+}

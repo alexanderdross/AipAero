@@ -16,18 +16,18 @@ def _close(crawlers) -> None:
         c.close()
 
 
-def test_default_selects_all_five():
+def test_default_selects_all_registered():
     crawlers = main.select_crawlers()
     try:
-        assert sorted(c.country for c in crawlers) == ["AT", "DE", "FR", "NL", "UK"]
+        assert sorted(c.country for c in crawlers) == sorted(main.COUNTRY_CRAWLERS)
     finally:
         _close(crawlers)
 
 
-def test_none_selects_all_five():
+def test_none_selects_all_registered():
     crawlers = main.select_crawlers(None)
     try:
-        assert sorted(c.country for c in crawlers) == ["AT", "DE", "FR", "NL", "UK"]
+        assert sorted(c.country for c in crawlers) == sorted(main.COUNTRY_CRAWLERS)
     finally:
         _close(crawlers)
 

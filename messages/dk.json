@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Danmark (Dansk)",
+      "hrefTitle": "AIP Danmark"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Luftfartsinformationspublikation AIP VFR Danmark"
+    },
+    "/heliports": {
+      "title": "Helikopterpladser",
+      "hrefTitle": "AIP VFR Helikopterpladser Danmark"
+    },
+    "/airport-list": {
+      "title": "Flyvepladsliste",
+      "hrefTitle": "Liste over flyvepladser i Danmark"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Danmark",
+      "hrefTitle": "AIP Danmark"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Luftfartsinformationspublikation AIP VFR Danmark"
+    },
+    "heliports": {
+      "title": "Helikopterpladser",
+      "hrefTitle": "AIP VFR Helikopterpladser Danmark"
+    },
+    "airports": {
+      "title": "Flyvepladsliste",
+      "hrefTitle": "Liste over flyvepladser i Danmark"
+    }
+  },
+  "AirportsPage": {
+    "title": "Liste over flyvepladser i Danmark",
+    "metaTitle": "🛩️ Liste over flyvepladser i Danmark",
+    "description": "Oversigt over alle flyvepladser/ lufthavne i Danmark",
+    "metaDescription": "Oversigt over alle flyvepladser/ lufthavne i Danmark🗺️",
+    "vfrCard": {
+      "title": "VFR-flyvepladser",
+      "description": "VFR-flyvepladser/ lufthavne i Danmark",
+      "linkTitle": "Se og download AIP VFR-kort og indflyvningskort for {airport} her."
+    },
+    "heliportCard": {
+      "title": "Helikopterpladser",
+      "description": "Helikopterpladser i Danmark",
+      "linkTitle": "Se og download AIP VFR-helikopterpladskort og indflyvningskort for {airport} her."
+    },
+    "breadcrumb": {
+      "name": "Liste over flyvepladser i Danmark",
+      "alternateName": "Liste over flyvepladser i Danmark",
+      "description": "Oversigt over alle flyvepladser/ lufthavne i Danmark"
+    }
+  },
+  "HeliportPage": {
+    "title": "Søgemaske for indflyvningskort AIP VFR helikopterpladser i Danmark",
+    "metaTitle": "🛩️ Søgemaske for indflyvningskort AIP VFR helikopterpladser i Danmark",
+    "description": "Indtast lufthavnens navn eller ICAO-kode for at få adgang til VFR-indflyvningskortene for helikopterpladser.",
+    "metaDescription": "Gennemsøg AIP VFR helikopterpladser i Danmark og download indflyvningskort🗺️",
+    "searchTitle": "Indtast lufthavnens navn eller ICAO-kode for at komme til AIP VFR for helikopterpladser",
+    "searchPlaceholder": "Indtast lufthavnens navn eller ICAO-kode for at komme til AIP VFR for helikopterpladser",
+    "resultTitle": "AIP VFR-helikopterpladskort for {airport}",
+    "resultDescription": "Se og download AIP VFR-helikopterpladskort og indflyvningskort for {airport} her.",
+    "breadcrumb": {
+      "name": "AIP VFR Helikopterpladser Danmark",
+      "alternateName": "Søgemaske for indflyvningskort AIP VFR helikopterpladser i Danmark",
+      "description": "Gennemsøg AIP VFR helikopterpladser i Danmark og download indflyvningskort"
+    }
+  },
+  "VfrPage": {
+    "title": "Søgemaske for indflyvningskort AIP VFR Danmark",
+    "metaTitle": "🛩️ Søgemaske for indflyvningskort AIP VFR Danmark",
+    "description": "Indtast lufthavnens navn eller ICAO-kode for at få adgang til VFR-indflyvningskortene.",
+    "metaDescription": "Gennemsøg AIP VFR Danmark AD-flyvepladser og download indflyvningskort🗺️",
+    "searchTitle": "Indtast lufthavnens navn eller ICAO-kode for at komme til AIP VFR",
+    "searchPlaceholder": "Indtast lufthavnens navn eller ICAO-kode for at komme til AIP VFR",
+    "resultTitle": "AIP VFR-kort for {airport}",
+    "resultDescription": "Se og download AIP VFR-kort og indflyvningskort for {airport} her.",
+    "breadcrumb": {
+      "name": "Luftfartsinformationspublikation AIP VFR Danmark",
+      "alternateName": "Søgemaske for indflyvningskort AIP VFR Danmark",
+      "description": "Gennemsøg AIP VFR Danmark AD-flyvepladser og download indflyvningskort"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Skift sprog",
+    "locale": "{locale, select, da {🇩🇰 Dansk} en {🇬🇧 English} other {Ukendt}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Indflyvningskort & luftfartsinformationspublikation AIP for Danmark",
+    "alternateName": "AIP Danmark",
+    "description": "Her finder du alle AIP (Aeronautical Information Publication) luftfartsinformationspublikationer og indflyvningskort for Danmark til download",
+    "inLanguage": "da",
+    "url": "https://aip.aero/dk/"
+  },
+  "CountryPage": {
+    "title": "Indflyvningskort & luftfartsinformationspublikation AIP for Danmark",
+    "metaTitle": "🛩️ Indflyvningskort & luftfartsinformationspublikation AIP for Danmark",
+    "description": "Her finder du alle AIP (Aeronautical Information Publication) luftfartsinformationspublikationer og indflyvningskort for Danmark til download",
+    "metaDescription": "Her finder du alle AIP (Aeronautical Information Publication) luftfartsinformationspublikationer og indflyvningskort for Danmark til download🗺️",
+    "vfrCard": {
+      "title": "Luftfartsinformationspublikation AIP VFR",
+      "description": "Gennemsøg AIP VFR Danmark AD-flyvepladser og download indflyvningskort",
+      "buttonTitle": "Luftfartsinformationspublikation AIP VFR",
+      "buttonHref": "/dk/vfr/",
+      "buttonHrefTitle": "Luftfartsinformationspublikation AIP VFR Danmark"
+    },
+    "heliportCard": {
+      "title": "Helikopterpladser",
+      "description": "Gennemsøg AIP VFR helikopterpladser i Danmark og download indflyvningskort",
+      "buttonTitle": "AIP VFR Helikopterpladser",
+      "buttonHref": "/dk/heliports/",
+      "buttonHrefTitle": "AIP VFR Helikopterpladser Danmark"
+    },
+    "breadcrumb": {
+      "name": "AIP Danmark",
+      "alternateName": "Indflyvningskort & luftfartsinformationspublikation AIP for Danmark",
+      "description": "Her finder du alle AIP (Aeronautical Information Publication) luftfartsinformationspublikationer og indflyvningskort for Danmark til download"
+    }
+  },
+  "About": {
+    "title": "Hvad er formålet med denne hjemmeside?",
+    "description": "Den officielle <aip>Luftfartsinformationspublikation AIP Danmark</aip> udgives af Naviair. Vores side gør det lettere at finde flyvepladser, men vi påtager os intet ansvar for AIP'ens (Aeronautical Information Publication) rigtighed eller aktualitet, da den ikke drives af os. Vi linker udelukkende til de respektive indflyvningskort.",
+    "aipUrl": "https://aim.naviair.dk/",
+    "aipTitle": "Luftfartsinformationspublikation AIP Danmark"
+  },
+  "TradeAero": {
+    "title": "Købe eller sælge et fly?",
+    "description": "Find fly til salg i Danmark på Trade:Aero - markedspladsen for køb og salg af fly.",
+    "buttonTitle": "Se fly i Danmark",
+    "buttonHrefTitle": "Se fly i Danmark på Trade:Aero - køb og sælg fly"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Hjem",
+      "hrefTitle": "Hjem - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Kolofon",
+      "hrefTitle": "Kolofon",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privatlivspolitik",
+      "hrefTitle": "Privatlivspolitik",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Hjemmeside af Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Der opstod desværre en fejl.</p><p>Du kan prøve at <retry>genindlæse denne side</retry>.</p>",
+    "title": "Der gik noget galt!"
+  }
+}

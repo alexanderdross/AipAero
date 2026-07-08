@@ -34,3 +34,32 @@ export const i18nPathMapping: Record<
   mil: "/military",
   aeroport: "/aeroports",
 };
+
+// Which airport types (and therefore which search pages / country cards /
+// sitemap entries) each country exposes. Keyed by the two-letter country code
+// (`localeCountryMapping[locale]`). This is the single source of truth for
+// per-country page availability - the search pages' `generateStaticParams`,
+// the country landing cards, the menus and the sitemap all derive from it, so
+// adding a country is a one-line change here plus its translations + crawler.
+export const countryTypeAvailability: Record<string, Airport["type"][]> = {
+  at: ["vfr", "heliport"],
+  de: ["vfr", "ifr", "heliport"],
+  fr: ["aeroport", "mil"],
+  nl: ["vfr", "heliport"],
+  uk: ["vfr", "heliport"],
+  be: ["vfr", "ifr", "heliport", "mil"],
+  cz: ["ifr"],
+  dk: ["vfr", "heliport"],
+  gr: ["vfr", "heliport"],
+  no: ["vfr", "heliport"],
+  pl: ["vfr", "heliport"],
+  se: ["vfr", "heliport"],
+};
+
+/** True if `country` (two-letter code) exposes the given search page type. */
+export function countryHasType(
+  country: string,
+  type: Airport["type"],
+): boolean {
+  return countryTypeAvailability[country]?.includes(type) ?? false;
+}

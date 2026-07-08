@@ -10,7 +10,7 @@ import { localeCountryMapping, localeLangMapping } from "~/i18n/routing";
  * The URL is derived entirely from AIP:Aero's own locale config
  * (`localeLangMapping` / `localeCountryMapping` in `src/i18n/routing.ts`), so
  * **adding a country/locale to AIP:Aero automatically produces its Trade:Aero
- * cross-link — no per-country wiring here.** Two graceful fallbacks keep a new
+ * cross-link - no per-country wiring here.** Two graceful fallbacks keep a new
  * locale working out of the box:
  *   1. Unknown language → the English listing (`/aircraft/`), still correctly
  *      country-filtered. Add the language below once its localized slug is known.

@@ -1,0 +1,182 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Greece (English)",
+      "hrefTitle": "AIP Greece"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Greece"
+    },
+    "/heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Greece"
+    },
+    "/airport-list": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airports Greece"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Greece",
+      "hrefTitle": "AIP Greece"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Greece"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Greece"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airports Greece"
+    }
+  },
+  "AirportsPage": {
+    "title": "List of Airfields in Greece",
+    "metaTitle": "🛩️ List of Airfields in Greece",
+    "description": "Overview of all airfields/ airports in Greece",
+    "metaDescription": "Overview of all airfields/ airports in Greece🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Greece",
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Heliports",
+      "description": "Heliports in Greece",
+      "linkTitle": "Click on the link below to access AIP VFR Heliports and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airports Greece",
+      "alternateName": "List of Airfields in Greece",
+      "description": "Overview of all airfields/ airports in Greece"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Heliports in Greece",
+    "metaTitle": "🛩️ AIP VFR Charts for Heliports in Greece",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Heliports provided by the Aeronautical Information Service of Greece.",
+    "metaDescription": "Browse AIP VFR Heliports Greece and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for heliports",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for heliports",
+    "resultTitle": "AIP VFR Heliport Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Heliports and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Heliports Greece",
+      "alternateName": "AIP VFR Charts for Heliports in Greece",
+      "description": "Browse AIP VFR Heliports Greece and download airport approach charts for free"
+    }
+  },
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts Greece",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Greece",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by the Aeronautical Information Service of Greece.",
+    "metaDescription": "Browse AIP VFR Greece and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Greece",
+      "alternateName": "Index of AIP VFR and visual approach charts Greece",
+      "description": "Browse AIP VFR Greece and download airport approach charts for free"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, el {🇬🇷 Ελληνικά} en {🇬🇧 English} other {Unknown}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Greece",
+    "alternateName": "AIP Greece",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and heliports in Greece",
+    "inLanguage": "en",
+    "url": "https://aip.aero/gr/en/"
+  },
+  "CountryPage": {
+    "title": "AIP and approach charts of Greece",
+    "metaTitle": "🛩️ AIP and approach charts of Greece",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and heliports in Greece",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and heliports in Greece🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Greece",
+      "description": "Browse AIP VFR Greece and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/gr/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Greece"
+    },
+    "heliportCard": {
+      "title": "Heliports Greece",
+      "description": "Browse AIP VFR Heliports Greece and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Heliports",
+      "buttonHref": "/gr/en/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports Greece"
+    },
+    "breadcrumb": {
+      "name": "AIP Greece",
+      "alternateName": "AIP and approach charts of Greece",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and heliports in Greece"
+    }
+  },
+  "About": {
+    "title": "What is this website for?",
+    "description": "The <aip>Aeronautical Information Publication AIP of Greece</aip> is available as a free version. This website aims to make it easier to search for airfields, as the official version does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only provide convenient links to the respective approach charts.",
+    "aipUrl": "https://aisgr.hasp.gov.gr/",
+    "aipTitle": "Aeronautical Information Publication AIP of Greece"
+  },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Greece on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Greece",
+    "buttonHrefTitle": "View aircraft in Greece on Trade:Aero - buy and sell aircraft"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
+  }
+}

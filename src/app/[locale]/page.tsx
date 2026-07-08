@@ -84,12 +84,17 @@ export default async function CountryPage(
 
   const t = await getTranslations("CountryPage");
 
-  // Only Germany has IFR Card
-  const keys = locale.startsWith("de")
-    ? (["vfrCard", "ifrCard", "heliportCard"] as const)
-    : locale.startsWith("fr")
-      ? (["aeroportCard", "militaryCard"] as const)
-      : (["vfrCard", "heliportCard"] as const);
+  // Cards are data-driven: show whichever type cards this locale's messages
+  // define. Each country's CountryPage only carries the cards for the types it
+  // exposes (see countryTypeAvailability), so t.has() gates them automatically.
+  const allCardKeys = [
+    "vfrCard",
+    "ifrCard",
+    "heliportCard",
+    "aeroportCard",
+    "militaryCard",
+  ] as const;
+  const keys = allCardKeys.filter((k) => t.has(`${k}.title`));
 
   const currentUrl =
     new URL(getPathname({ href: "/", locale }), orgUrl).toString() + "/";

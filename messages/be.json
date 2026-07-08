@@ -1,0 +1,252 @@
+{
+  "BreadCrumbs": {
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Belgium & Luxembourg",
+      "hrefTitle": "AIP Belgium & Luxembourg"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Belgium & Luxembourg"
+    },
+    "/ifr": {
+      "title": "IFR",
+      "hrefTitle": "AIP IFR Belgium & Luxembourg"
+    },
+    "/heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Belgium & Luxembourg"
+    },
+    "/military": {
+      "title": "Military",
+      "hrefTitle": "AIP Military Belgium & Luxembourg"
+    },
+    "/airport-list": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airports/ Airfields in Belgium & Luxembourg"
+    }
+  },
+  "Menu": {
+    "home": {
+      "title": "AIP Belgium",
+      "hrefTitle": "AIP Belgium & Luxembourg"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Belgium & Luxembourg"
+    },
+    "ifr": {
+      "title": "AIP IFR",
+      "hrefTitle": "AIP IFR Belgium & Luxembourg"
+    },
+    "heliports": {
+      "title": "Heliports",
+      "hrefTitle": "AIP VFR Heliports Belgium & Luxembourg"
+    },
+    "military": {
+      "title": "Military",
+      "hrefTitle": "AIP Military Belgium & Luxembourg"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airports/ Airfields in Belgium & Luxembourg"
+    }
+  },
+  "AirportsPage": {
+    "title": "List of Airfields in Belgium & Luxembourg",
+    "metaTitle": "🛩️ List of Airfields in Belgium & Luxembourg",
+    "description": "Overview of all airfields/ airports/ heliports in Belgium & Luxembourg",
+    "metaDescription": "Overview of all airfields/ airports/ heliports in Belgium & Luxembourg🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Belgium & Luxembourg",
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
+    },
+    "ifrCard": {
+      "title": "IFR Airports",
+      "description": "IFR airfields/ airports in Belgium & Luxembourg",
+      "linkTitle": "Click on the link below to access AIP IFR and approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Helicopter Aerodromes in Belgium & Luxembourg",
+      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "militaryCard": {
+      "title": "Military Aerodromes",
+      "description": "Military airfields/ aerodromes in Belgium & Luxembourg",
+      "linkTitle": "Click on the link below to access AIP Military and approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airports/ Airfields in Belgium & Luxembourg",
+      "alternateName": "List of Airfields in Belgium & Luxembourg",
+      "description": "Overview of all airfields/ airports/ heliports in Belgium & Luxembourg"
+    }
+  },
+  "IfrPage": {
+    "title": "Index of AIP IFR and approach charts Belgium & Luxembourg",
+    "metaTitle": "🛩️ Index of AIP IFR and approach charts Belgium & Luxembourg",
+    "description": "Enter airport name or ICAO code to access the AIP IFR approach charts provided by skeyes.",
+    "metaDescription": "Browse AIP IFR aerodromes of Belgium & Luxembourg and download approach charts for free🗺️",
+    "searchTitle": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
+    "searchPlaceholder": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
+    "resultTitle": "AIP IFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP IFR and approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP IFR Belgium & Luxembourg",
+      "alternateName": "Index of AIP IFR and approach charts Belgium & Luxembourg",
+      "description": "Browse AIP IFR of Belgium & Luxembourg and download airport approach charts for free"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Helicopter Aerodromes in Belgium & Luxembourg",
+    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Belgium & Luxembourg",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+    "metaDescription": "Browse AIP VFR Helicopter Aerodromes of Belgium & Luxembourg and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Heliports Belgium & Luxembourg",
+      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Belgium & Luxembourg",
+      "description": "Browse AIP VFR Helicopter Aerodromes of Belgium & Luxembourg and download airport approach charts for free"
+    }
+  },
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts Belgium & Luxembourg",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Belgium & Luxembourg",
+    "description": "Search Index of aeronautical information publication (AIP) VFR aerodromes in Belgium & Luxembourg",
+    "metaDescription": "Browse the AIP VFR aerodrome index for Belgium & Luxembourg and download visual approach charts🗺️",
+    "searchTitle": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+    "searchPlaceholder": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Belgium & Luxembourg",
+      "alternateName": "Index of AIP VFR and visual approach charts Belgium & Luxembourg",
+      "description": "Browse AIP VFR of Belgium & Luxembourg and download airport approach charts for free"
+    }
+  },
+  "MilitaryPage": {
+    "title": "Index of AIP Military and approach charts Belgium & Luxembourg",
+    "metaTitle": "🛩️ Index of AIP Military and approach charts Belgium & Luxembourg",
+    "description": "Enter airport name or ICAO code to access the AIP Military approach charts provided by skeyes.",
+    "metaDescription": "Browse AIP Military aerodromes of Belgium & Luxembourg and download approach charts for free🗺️",
+    "searchTitle": "Enter airport name or ICAO code to access the AIP Military approach charts.",
+    "searchPlaceholder": "Enter airport name or ICAO code to access the AIP Military approach charts.",
+    "resultTitle": "AIP Military Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP Military and approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP Military Belgium & Luxembourg",
+      "alternateName": "Index of AIP Military and approach charts Belgium & Luxembourg",
+      "description": "Browse AIP Military aerodromes of Belgium & Luxembourg and download approach charts for free"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, en {🇧🇪 English} other {Unknown}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Belgium & Luxembourg",
+    "alternateName": "AIP Belgium & Luxembourg",
+    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR, heliport and military aerodromes in Belgium & Luxembourg",
+    "inLanguage": "en",
+    "url": "https://aip.aero/be/"
+  },
+  "CountryPage": {
+    "title": "AIP and approach charts of Belgium & Luxembourg",
+    "metaTitle": "🛩️ AIP and approach charts of Belgium & Luxembourg",
+    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR, heliport and military aerodromes in Belgium & Luxembourg",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR, heliport and military aerodromes in Belgium & Luxembourg🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Belgium",
+      "description": "Browse AIP VFR of Belgium & Luxembourg and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/be/vfr/",
+      "buttonHrefTitle": "AIP VFR Belgium & Luxembourg"
+    },
+    "ifrCard": {
+      "title": "AIP IFR Belgium",
+      "description": "Browse AIP IFR of Belgium & Luxembourg and download airport approach charts for free",
+      "buttonTitle": "AIP IFR approach charts",
+      "buttonHref": "/be/ifr/",
+      "buttonHrefTitle": "AIP IFR Belgium & Luxembourg"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes Belgium",
+      "description": "Browse AIP VFR Helicopter Aerodromes of Belgium & Luxembourg and download airport approach charts for free",
+      "buttonTitle": "AIP VFR Helicopter Aerodromes",
+      "buttonHref": "/be/heliports/",
+      "buttonHrefTitle": "AIP VFR Heliports Belgium & Luxembourg"
+    },
+    "militaryCard": {
+      "title": "Military Aerodromes Belgium",
+      "description": "Browse AIP Military aerodromes of Belgium & Luxembourg and download approach charts for free",
+      "buttonTitle": "AIP Military approach charts",
+      "buttonHref": "/be/military/",
+      "buttonHrefTitle": "AIP Military Belgium & Luxembourg"
+    },
+    "breadcrumb": {
+      "name": "AIP Belgium & Luxembourg",
+      "alternateName": "AIP and approach charts of Belgium & Luxembourg",
+      "description": "Search Index of aeronautical information publication (AIP) VFR, IFR, heliport and military aerodromes in Belgium & Luxembourg"
+    }
+  },
+  "About": {
+    "title": "About this website",
+    "description": "The <aip>AIP of Belgium & Luxembourg</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by skeyes does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
+    "aipUrl": "https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/index-en-GB.html",
+    "aipTitle": "AIP of Belgium & Luxembourg"
+  },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Belgium & Luxembourg on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Belgium & Luxembourg",
+    "buttonHrefTitle": "View aircraft in Belgium & Luxembourg on Trade:Aero - buy and sell aircraft"
+  },
+  "Footer": {
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    }
+  },
+  "Error": {
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
+  }
+}
