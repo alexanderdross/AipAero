@@ -64,6 +64,7 @@ export function SearchInputField({
           Search
         </label>
         <Input
+          id="search"
           name="search"
           className="bg-white text-center"
           type="text"

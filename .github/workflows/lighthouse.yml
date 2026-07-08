@@ -1,9 +1,9 @@
 name: Lighthouse
 
-# Runs Lighthouse against a deployed preview and posts the scores as a job
-# summary. Report-only (no score budgets); once we have a stable baseline we
-# can tighten this into a gating check by adding assertions to
-# .lighthouserc.cjs.
+# Runs Lighthouse against a deployed preview/production Worker URL and posts
+# the scores as a job summary. Budgets live in .lighthouserc.cjs (SEO + a11y
+# gate, best-practices + performance warn) and apply here too. PRs are gated
+# separately by the `lighthouse` job in ci.yml against a local `pnpm start`.
 #
 # The website deploys to Cloudflare Workers via the OpenNext adapter, which
 # does not post a per-PR GitHub deployment status (the old flow polled Vercel's
@@ -88,7 +88,7 @@ jobs:
             "| --- | ---: | ---: | ---: | ---: | --- |",
             rows,
             "",
-            "_Report-only — scores are not gating merges yet._",
+            "_Budgets in .lighthouserc.cjs: SEO + accessibility gate, best-practices + performance warn._",
           ].join("\n");
           console.log(body);
           NODE

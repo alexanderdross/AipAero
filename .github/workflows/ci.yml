@@ -117,3 +117,102 @@ jobs:
 
       - name: Unit tests
         run: uv run pytest tests/
+
+  e2e:
+    name: E2E & rendered output (Playwright)
+    runs-on: self-hosted
+    timeout-minutes: 15
+    env:
+      # The build fail-softs DB reads (no D1 binding), so no secrets are
+      # needed to compile; the test server injects fake ones at runtime.
+      SKIP_ENV_VALIDATION: "1"
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+      - name: Setup Node.js (pnpm cache)
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      # `next start` needs a production build; the Playwright webServer boots
+      # `pnpm start` against it. These rendered-output tests reproduce the
+      # streaming-metadata / <head> placement behaviour that unit tests can't.
+      - name: Build
+        run: pnpm build
+
+      - name: Run Playwright tests (SEO / a11y / flows / sitemap)
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse budgets (local)
+    runs-on: self-hosted
+    timeout-minutes: 15
+    env:
+      SKIP_ENV_VALIDATION: "1"
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+      - name: Setup Node.js (pnpm cache)
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chrome for Lighthouse
+        # The self-hosted runner (ubuntu-noble) ships no browser and Ubuntu's
+        # `chromium` is snap-only, so install Chrome from the official .deb.
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends wget ca-certificates
+          wget -q -O /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          apt-get install -y --no-install-recommends /tmp/chrome.deb
+          rm /tmp/chrome.deb
+
+      - name: Build
+        run: pnpm build
+
+      - name: Start production server
+        run: |
+          SKIP_ENV_VALIDATION=1 NODE_ENV=production CRON_SECRET=test-secret \
+            ADSENSE_ID=0000000000000000 nohup pnpm start >/tmp/next-start.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -sf -o /dev/null http://localhost:3000/uk/ && exit 0
+            sleep 1
+          done
+          echo "server did not start"; cat /tmp/next-start.log; exit 1
+
+      - name: Run Lighthouse (budgets in .lighthouserc.cjs)
+        uses: treosh/lighthouse-ci-action@v12
+        env:
+          CHROME_PATH: /usr/bin/google-chrome-stable
+        with:
+          urls: |
+            http://localhost:3000/uk/
+            http://localhost:3000/de/
+            http://localhost:3000/de/vfr/
+            http://localhost:3000/de/flughafen-liste-deutschland/
+          configPath: ./.lighthouserc.cjs
+          uploadArtifacts: true
+          temporaryPublicStorage: true

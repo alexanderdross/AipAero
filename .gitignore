@@ -57,3 +57,7 @@ crawlers/last_run_counts.json
 __pycache__/
 *.py[cod]
 .pytest_cache/
+# playwright e2e
+/test-results/
+/playwright-report/
+/playwright/.cache/
