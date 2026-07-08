@@ -57,5 +57,11 @@ jobs:
       # Populate-Cache-Phase zu überspringen: die schreibt den Incremental-Cache
       # per KV-Bulk-Put und läuft auf dem Free-Plan ins tägliche KV-Schreiblimit
       # (code 10048). Der ISR-Cache wärmt sich stattdessen zur Laufzeit.
+      #
+      # OPEN_NEXT_DEPLOY=true verhindert, dass `wrangler deploy` das OpenNext-
+      # Projekt erkennt und zurück an `opennextjs-cloudflare deploy` (inkl.
+      # KV-Population) delegiert. Damit ist es ein reiner Worker+Assets-Deploy.
       - name: Deploy (wrangler)
+        env:
+          OPEN_NEXT_DEPLOY: "true"
         run: pnpm exec wrangler deploy
