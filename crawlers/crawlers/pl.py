@@ -1,18 +1,19 @@
 import re
 from urllib.parse import urljoin
 
+from bs4 import Tag
+
 from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "PL"
 # PANSA (Polska Agencja Żeglugi Powietrznej / Polish Air Navigation Services
 # Agency) AIS eAIP. The public entry point is https://www.ais.pansa.pl/; the
-# eAIP itself is a EUROCONTROL-style static frameset. The exact index path
-# below is a BEST-EFFORT guess and MUST be verified against the live site.
-# PANSA publishes the eAIP behind a hub page that links the current
-# editions (separate IFR / VFR / MIL volumes since AIRAC 04/25). The hub
-# is scanned for the current VFR volume; see the live-crawl test for the
-# resolved link diagnostics.
+# eAIP itself is a EUROCONTROL-style static frameset hosted on
+# docs.pansa.pl. The hub chain is verified live (round 7/8): EN hub ->
+# "AIP Poland" product page -> https://docs.pansa.pl/ais/eaipvfr/
+# default_offline_<date>.html -> dated AIRAC folder -> classic index.html
+# frameset -> eAIP/menu.html.
 ROOT_URL = "https://www.ais.pansa.pl/en/publications/eaip/"
 # Known historic direct entry points, tried when the hub yields no link.
 _FALLBACK_ENTRY_URLS = [
@@ -39,6 +40,21 @@ _SIBLING_PROBES = (
     "html/index-en-GB.html",
     "html/index-pl-PL.html",
     "html/index.html",
+)
+
+# The PL AIP VFR menu has NO aggregate "AD 2"/"AD 3" section: each airfield is
+# its own "AD 4 <ICAO>" chapter (verified via the round-8 live-crawl
+# diagnostics: ids like "AD 4 EPBAen-GBdetails" plus numbered subsections
+# "AD 4 EPBA 1en-GBdetails" ... - the en-GB/pl-PL variants both exist, we key
+# on en-GB only to avoid duplicates).
+_AIRPORT_SECTION_RE = re.compile(r"AD 4 ([A-Z]{4})en-GBdetails$")
+# Title anchors look like "AD 4 EPBA BIELSKO-BIAŁA ..." - strip the prefix.
+_TITLE_PREFIX_RE = re.compile(r"^AD\s*4\s*[A-Z]{4}\s*", re.I)
+# The charts subsection link, English first ("... CHARTS ..."), then Polish
+# ("MAPY ...").
+_CHARTS_TEXT_RES = (
+    re.compile(r"CHARTS?", re.I),
+    re.compile(r"MAPY", re.I),
 )
 
 
@@ -261,6 +277,68 @@ class PL(HttpEurocontrolBase):
         self.logger.warning(f"PL: no frameset found within {hops} hops of {url}")
         return cur_url, cur_html
 
+    def _charts_link(self, details: Tag, base_url: str) -> str | None:
+        """Pick the charts subsection link inside an AD 4 chapter."""
+        for rx in _CHARTS_TEXT_RES:
+            for a in details.find_all("a", href=True):
+                text = a.get_text(" ", strip=True)
+                title_attr = a.get("title") or ""
+                if rx.search(text) or rx.search(title_attr):
+                    return urljoin(base_url, a["href"])
+        return self._find_charts_url(details, base_url)
+
+    def _extract_airport_sections(
+        self, nav_html: str, nav_url: str
+    ) -> list[Airport]:
+        """Extract one airport per "AD 4 <ICAO>" chapter (cf. CZ/BE)."""
+        soup = self.soup(nav_html)
+        airports: list[Airport] = []
+
+        for details in soup.find_all("div", attrs={"id": _AIRPORT_SECTION_RE}):
+            match = _AIRPORT_SECTION_RE.search(details["id"])
+            if not match:  # pragma: no cover - find_all already matched
+                continue
+            icao = match.group(1)
+
+            # Title lives in the sibling div right before the details div.
+            title = icao
+            title_div = details.find_previous_sibling("div")
+            if isinstance(title_div, Tag):
+                anchors = title_div.find_all("a")
+                if anchors:
+                    raw = anchors[-1].get_text(" ", strip=True)
+                    raw = re.sub(r"\s+", " ", raw).strip()
+                    # Drop hidden annotation tokens (contain ";"), the
+                    # chapter prefix, and a duplicated leading ICAO.
+                    raw = " ".join(t for t in raw.split() if ";" not in t)
+                    rest = _TITLE_PREFIX_RE.sub("", raw).strip()
+                    tokens = rest.split()
+                    if tokens and tokens[0] == icao:
+                        tokens = tokens[1:]
+                    rest = " ".join(tokens).strip()
+                    if rest:
+                        title = f"{rest} {icao}"
+
+            charts_url = self._charts_link(details, nav_url)
+            if charts_url is None:
+                self.logger.warning(f"PL: no charts link for {icao}; skipping")
+                continue
+
+            airports.append(
+                Airport(
+                    country=self.country,
+                    icao=icao,
+                    title=title,
+                    url=charts_url,
+                    # The AIP VFR AD 4 chapters list VFR airfields.
+                    type="vfr",
+                )
+            )
+
+        if not airports:
+            raise ValueError(f"No per-airport AD 4 sections found in {nav_url}")
+        return airports
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -300,22 +378,30 @@ class PL(HttpEurocontrolBase):
                 )
             last_url, last_html = nav_url, nav_html
 
-            # 4. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 →
-            #    heliport). Heliports are optional - a missing/empty AD 3
-            #    section must not fail the whole crawl (cf. SE).
-            airports.extend(
-                self.extract_airports_from_html(
-                    nav_html, nav_url, "AD 2en-GBdetails", "vfr"
-                )
-            )
+            # 4. One "AD 4 <ICAO>" chapter per airfield (round-8 diagnostics;
+            #    the PL AIP VFR has no aggregate AD 2/AD 3 sections). Fall
+            #    back to the generic AD 2/AD 3 layout just in case a future
+            #    edition switches to the standard structure.
             try:
                 airports.extend(
-                    self.extract_airports_from_html(
-                        nav_html, nav_url, "AD 3en-GBdetails", "heliport"
-                    )
+                    self._extract_airport_sections(nav_html, nav_url)
                 )
             except ValueError as e:
-                self.logger.warning(f"PL: skipping heliports - {e}")
+                self.logger.warning(f"PL: AD 4 extraction failed ({e}); "
+                                    "trying the generic AD 2/AD 3 layout")
+                airports.extend(
+                    self.extract_airports_from_html(
+                        nav_html, nav_url, "AD 2en-GBdetails", "vfr"
+                    )
+                )
+                try:
+                    airports.extend(
+                        self.extract_airports_from_html(
+                            nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+                        )
+                    )
+                except ValueError as e2:
+                    self.logger.warning(f"PL: skipping heliports - {e2}")
         except Exception as e:
             self.logger.error(f"PL crawl failed: {e}")
             if last_html is not None:

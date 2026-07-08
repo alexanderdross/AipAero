@@ -6,10 +6,9 @@ from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "SE"
-# BEST-EFFORT / UNVERIFIED: LFV's ARO eAIP portal. There is no task spec for
-# Sweden, so both this entry point and the frame/section ids below are a
-# plausible guess modelled on the EUROCONTROL-style eAIP other Nordic states
-# publish. Validate against the live site before scheduling this crawler.
+# LFV's ARO eAIP portal. Chain verified live (round 7/8, 48 airports):
+# AROWeb portal -> "EAIP" link (/content/eaip/default_offline.html) ->
+# dated AIRAC edition -> classic index.html frameset -> eAIP/menu.html.
 ROOT_URL = "https://aro.lfv.se/Editorial/View/IAIP?folderId=19"
 
 # LFV, like LVNL/NATS, is expected to expose dated AIRAC editions whose links
@@ -22,14 +21,20 @@ _EDITION_DATE_RE = re.compile(r"(\d{4})_(\d{2})_(\d{2})[\\/]index[^\\/]*\.html",
 _EDITION_HREF_RE = re.compile(r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I)
 _META_REFRESH_URL_RE = re.compile(r"url=([^;]+)", re.I)
 _JS_LOCATION_RE = re.compile(r"""location(?:\.href)?\s*=\s*['"]([^'"]+)['"]""", re.I)
+# The SE menu's per-airport title anchors carry the charts-subsection label
+# ("<NAME> 9 Visuellflygkartor / Visual flight charts", verified live in
+# round 8) - strip that noise from the emitted titles.
+_TITLE_NOISE_RE = re.compile(
+    r"\s*\d+\s*Visuellflygkartor\s*/\s*Visual flight charts\s*", re.I
+)
 
 
 class SE(HttpEurocontrolBase):
-    """Sweden AIP crawler — BEST-EFFORT, UNVERIFIED (no task spec).
+    """Sweden AIP crawler (no task spec; VERIFIED live in round 8: 48
+    airports with visual-flight-chart URLs).
 
-    There is no crawler task spec for Sweden. This module is written on the
-    assumption that LFV's ARO eAIP is a static EUROCONTROL-style frameset,
-    modelled on the Netherlands (``nl.py``) crawler:
+    LFV's ARO eAIP is a static EUROCONTROL-style frameset, crawled the
+    same way as the Netherlands (``nl.py``):
 
         ROOT_URL
             └─ pick edition by effective date (latest on/before today)
@@ -225,6 +230,14 @@ class SE(HttpEurocontrolBase):
                 )
             except ValueError as e:
                 self.logger.warning(f"SE: skipping heliports - {e}")
+
+            # Strip the charts-subsection label the menu anchors embed in
+            # the title text ("... 9 Visuellflygkartor / Visual flight
+            # charts ...").
+            for airport in airports:
+                airport.title = re.sub(
+                    r"\s+", " ", _TITLE_NOISE_RE.sub(" ", airport.title)
+                ).strip()
         except Exception as e:
             self.logger.error(f"SE crawl failed: {e}")
             if last_html is not None:

@@ -79,9 +79,9 @@ export const liveCountries: string[] = [
   "be",
   "cz",
   "no",
+  "se",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source:
   // "dk",
   // "gr",
   // "pl",
-  // "se",
 ];

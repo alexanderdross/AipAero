@@ -157,13 +157,13 @@ export default async function RootPage() {
     //  flag: "🇵🇱",
     //  nativeLang: "Polish",
     //},
-    //{
-    //  tld: "se",
-    //  lang: "sv",
-    //  name: "Sweden",
-    //  flag: "🇸🇪",
-    //  nativeLang: "Swedish",
-    //},
+    {
+      tld: "se",
+      lang: "sv",
+      name: "Sweden",
+      flag: "🇸🇪",
+      nativeLang: "Swedish",
+    },
   ].sort((a, b) => a.name.localeCompare(b.name));
 
   const modifiedDate = new Date(buildDate);
