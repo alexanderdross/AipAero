@@ -50,20 +50,23 @@ Always run `pnpm check` before declaring a code change complete.
 
 ## CI
 
-GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request to `main` and on every push to `main`. Two parallel jobs:
+GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request to `main` and on every push to `main`. Four parallel jobs:
 
 | Job | Steps |
 | --- | --- |
 | **Website (Next.js)** | `pnpm install --frozen-lockfile` → `typecheck` → `format:check` → `lint` → i18n parity → `test` (vitest) → `audit` (high+) → `cf-build` (OpenNext Worker build) |
 | **Crawlers (Python)** | `uv lock --check` → `uv sync --frozen` → `python -m compileall` → import smoke test for AT/DE/FR/NL/UK → `pytest` |
+| **E2E & rendered output (Playwright)** | `pnpm build` → `pnpm test:e2e` (Playwright, Chromium) against a `next start` server: rendered-output **SEO** contract (meta description in `<head>` & unique, canonical/OG/Twitter, `<main>`, `<html lang>`), **axe** accessibility, user **flows** (search, locale switch, 404), and **sitemap** structure. |
+| **Lighthouse budgets (local)** | `pnpm build` → start `pnpm start` → `treosh/lighthouse-ci-action` against localhost URLs with budgets from `.lighthouserc.cjs` (SEO + a11y gate, best-practices + performance warn). |
 
 Notes:
 
 - **The OpenNext build is now gated in CI** (`pnpm cf-build`). It no longer needs a database: DB reads go through the `DB` D1 binding, which at build time is a local empty D1, so reads fail-soft to empty results and revalidate at runtime. Vercel no longer builds PRs.
-- **`lighthouse.yml`** was retargeted from the Vercel preview to a manual `workflow_dispatch` run against any deployed URL (`base_url` input) — e.g. a `workers.dev` preview or `aip.aero`.
+- **E2E tests run against `next start`** (production Node build), which is the only local server that reproduces production streaming-metadata `<head>` placement — the exact behaviour the `htmlLimitedBots` fix guards. The tests are black-box (`e2e/`), the page matrix in `e2e/pages.ts` mirrors `src/i18n/routing.ts`, and the DB is absent (reads fail-soft) so airport-row-dependent happy paths (`?ICAO` detail, sitemap airport entries) are left to the deployed Lighthouse run. Locally, point Playwright at a pre-installed Chromium with `PW_EXECUTABLE_PATH=/opt/pw-browsers/chromium pnpm test:e2e`.
+- **`lighthouse.yml`** stays a manual `workflow_dispatch` run against any deployed URL (`base_url` input) — e.g. a `workers.dev` preview or `aip.aero`; it shares the `.lighthouserc.cjs` budgets. PR-time Lighthouse gating is the `lighthouse` job in `ci.yml` against a local server.
 - **DE crawler is part of the import smoke test.** The legacy `crawler_base.py` / `eurocontrol_base.py` files remain in the tree only for the experimental belgium / car_sam_nam / pac_n / pac_p / run crawlers (none currently in production); they can be removed once those are either ported or pruned.
 
-To gate merges on these checks, enable branch protection on `main` in repo settings → *Branches* → *Branch protection rules* (or *Rules → Rulesets*), and mark `Website (Next.js)` and `Crawlers (Python)` as required status checks.
+To gate merges on these checks, enable branch protection on `main` in repo settings → *Branches* → *Branch protection rules* (or *Rules → Rulesets*), and mark `Website (Next.js)`, `Crawlers (Python)`, `E2E & rendered output (Playwright)` and `Lighthouse budgets (local)` as required status checks.
 
 ## Architecture
 
