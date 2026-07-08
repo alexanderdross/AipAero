@@ -20,8 +20,7 @@ logger = logging.getLogger()
 
 def main():
     logger.info("Starting crawling process")
-    # crawlers = [AT(), DE(), FR(), NL(), UK()]
-    crawlers = [NL()]
+    crawlers = [AT(), DE(), FR(), NL(), UK()]
     output_handler = OutputHandler(settings)
     for crawler in crawlers:
         logger.info(f"Starting crawler: {crawler.country}")
