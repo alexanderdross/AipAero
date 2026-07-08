@@ -18,6 +18,16 @@ _BROWSE_RE = re.compile(r"browse", re.I)
 _AIP_ENTRY_RE = re.compile(r"\bAIP\b.*GREECE|Aeronautical Information Publication", re.I)
 _INDEX_HREF_RE = re.compile(r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I)
 
+# The HASP intro page carries NO server-side <a> links (verified live via the
+# proxied run) - its navigation is JS. The targets still appear as quoted
+# strings in the raw markup/scripts (onclick, window.open, location=, frame
+# src), so scan the raw HTML for URL-ish strings as diagnostics.
+_RAW_URL_RE = re.compile(
+    r"""["']([^"'<>\s]{2,160}?\.(?:html?|php|aspx?)(?:[?#][^"']{0,80})?)["']"""
+    r"""|["'](https?://[^"'<>\s]{4,160})["']""",
+    re.I,
+)
+
 
 class GR(HttpEurocontrolBase):
     """Greece AIP crawler (Hellenic AIS — https://aisgr.hasp.gov.gr/).
@@ -101,7 +111,27 @@ class GR(HttpEurocontrolBase):
         # Diagnostics for the live-crawl log: what IS on the page we could
         # not resolve (also flags a link-less JS-rendered app).
         self.log_candidate_links(current_html, current_url, limit=60)
+        self._log_raw_url_candidates(current_html)
         raise ValueError(f"Could not resolve eAIP index from {base_url}")
+
+    def _log_raw_url_candidates(self, html: str) -> None:
+        """Log URL-ish strings from the RAW HTML (incl. inline JS/onclick).
+
+        Complements ``log_candidate_links`` (which only sees ``<a href>``):
+        the HASP intro page navigates via JS, so the real targets only show
+        up as quoted strings in scripts/attributes.
+        """
+        hits: list[str] = []
+        for m in _RAW_URL_RE.finditer(html):
+            candidate = next(g for g in m.groups() if g)
+            if candidate not in hits:
+                hits.append(candidate)
+        self.logger.warning(
+            f"GR: {len(hits)} raw URL candidates in the page source; "
+            f"first {min(40, len(hits))}:"
+        )
+        for candidate in hits[:40]:
+            self.logger.warning(f"  {candidate}")
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
