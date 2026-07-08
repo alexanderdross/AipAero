@@ -1,20 +1,26 @@
 """Germany AIP crawler.
 
 DFS publishes two parallel sites: BasicVFR (https://aip.dfs.de/BasicVFR/)
-and BasicIFR (https://aip.dfs.de/BasicIFR/). Each is a folder-link tree:
+and BasicIFR (https://aip.dfs.de/BasicIFR/). Both expose stable, static,
+case-sensitive page URLs of the form `…/pages/CNNNNN.html`. We enter each
+fork directly at its section index page instead of matching English link
+text ("AD Aerodromes", "AD 2 Aerodromes", …) on the landing page, which
+broke whenever DFS retitled or relocated a link.
 
-    BasicVFR/  →  AD Aerodromes        → letter-grouped pages → leaf pages
-                  HEL AD Helicopter…   → letter-grouped pages → leaf pages
-    BasicIFR/  →  AD Aerodromes        → AD 2 / AD 3 indexes → leaf pages
-
-Some early-stage redirects on the DFS site have been server-side, others
-HTML meta-refresh — we follow either kind via `fetch_with_meta_refresh`.
+    BasicVFR/pages/C0004A.html  →  AD aerodromes      → letter-grouped pages → leaf pages
+    BasicVFR/pages/C00067.html  →  HEL AD heliports   → letter-grouped pages → leaf pages
+    BasicIFR/pages/C000C0.html  →  AD 2 aerodromes    → leaf pages
+    BasicIFR/pages/C01C60.html  →  AD 3 heliports     → leaf pages
 
 Title and ICAO extraction differs per fork:
   - VFR leaves embed the title (with trailing 4-letter ICAO) in a span
     inside the `<a class="folder-link">`.
   - IFR leaves carry the city in `div.headlineText.left > span` and the
     ICAO in `a.document-link > span.document-name`.
+
+The type mapping (VFR aerodromes → vfr, VFR heliports → heliport, IFR
+aerodromes → ifr, IFR heliports → heliport) mirrors the published list at
+https://aip.aero/de/flughafen-liste-deutschland/ and must not change.
 """
 
 from __future__ import annotations
@@ -23,17 +29,20 @@ import re
 from typing import Literal
 from urllib.parse import urljoin
 
-from bs4 import Tag
-
 from crawlers.http_base import Airport, HttpCrawlerBase
 
 COUNTRY = "DE"
-ROOT_VFR_URL = "https://aip.dfs.de/BasicVFR/"
-ROOT_IFR_URL = "https://aip.dfs.de/BasicIFR/"
+
+# Static section index pages (case-sensitive; DFS serves capital "Basic").
+# VFR:
+VFR_AERODROMES_URL = "https://aip.dfs.de/BasicVFR/pages/C0004A.html"
+VFR_HELIPORTS_URL = "https://aip.dfs.de/BasicVFR/pages/C00067.html"
+# IFR:
+IFR_AERODROMES_URL = "https://aip.dfs.de/BasicIFR/pages/C000C0.html"  # AD 2
+IFR_HELIPORTS_URL = "https://aip.dfs.de/BasicIFR/pages/C01C60.html"  # AD 3
 
 _ICAO_TRAILING = re.compile(r"([A-Z]{4})$")
 _ICAO_ANYWHERE = re.compile(r"([A-Z]{4})")
-_META_REFRESH_URL = re.compile(r"url=([^;]+)", re.IGNORECASE)
 
 
 class DE(HttpCrawlerBase):
@@ -41,48 +50,6 @@ class DE(HttpCrawlerBase):
         super().__init__(COUNTRY)
 
     # ----- helpers ------------------------------------------------------------
-
-    def fetch_with_meta_refresh(
-        self, url: str, *, max_hops: int = 5
-    ) -> tuple[str, str]:
-        """Fetch `url`, then follow any `<meta http-equiv="refresh">` chain.
-
-        httpx already follows HTTP 30x redirects automatically; this covers
-        the legacy meta-refresh path that some DFS landing pages use.
-        Returns ``(final_url, final_html)``.
-        """
-        for _ in range(max_hops):
-            html = self.fetch(url)
-            soup = self.soup(html)
-            meta = soup.find(
-                "meta",
-                attrs={
-                    "http-equiv": lambda v: bool(v) and v.lower() == "refresh"
-                },
-            )
-            if not isinstance(meta, Tag):
-                return url, html
-            content = meta.get("content", "") or ""
-            match = _META_REFRESH_URL.search(content)
-            if not match:
-                return url, html
-            next_url = urljoin(url, match.group(1).strip().strip("'\""))
-            if next_url == url:
-                return url, html  # avoid loops
-            self.logger.info(f"meta-refresh: {url} -> {next_url}")
-            url = next_url
-        return url, html
-
-    def find_link_by_text(
-        self, html: str, base_url: str, text_substring: str
-    ) -> str:
-        """Return absolute URL of the first `<a>` whose text contains the substring."""
-        for a in self.soup(html).find_all("a", href=True):
-            if text_substring in a.get_text():
-                return urljoin(base_url, a["href"])
-        raise ValueError(
-            f"Link containing {text_substring!r} not found in {base_url}"
-        )
 
     def folder_link_hrefs(self, html: str) -> list[str]:
         """All hrefs from `<a class="folder-link">` elements, in document order."""
@@ -95,18 +62,13 @@ class DE(HttpCrawlerBase):
     # ----- VFR ----------------------------------------------------------------
 
     def _process_vfr(self, airports: list[Airport]) -> None:
-        root_url, root_html = self.fetch_with_meta_refresh(ROOT_VFR_URL)
-        ad_url = self.find_link_by_text(root_html, root_url, "AD Aerodromes")
-        ad_html = self.fetch(ad_url)
-        heli_url = self.find_link_by_text(
-            root_html, root_url, "HEL AD Helicopter Aerodromes"
-        )
-        heli_html = self.fetch(heli_url)
+        ad_html = self.fetch(VFR_AERODROMES_URL)
+        heli_html = self.fetch(VFR_HELIPORTS_URL)
 
-        # The first 3 folder-links on the aerodromes page are AD 0 Content,
-        # AD 1 General Remarks, and AD 2 list of Aerodromes — not airfields.
+        # The first 3 folder-links on the aerodromes index are AD 0 Content,
+        # AD 1 General Remarks, and the AD 2 list header — not airfields.
         aerodrome_links = self.folder_link_hrefs(ad_html)[3:]
-        # The first heliport link is the HEL AD 3 list, also not an airfield.
+        # The first heliport link is the HEL AD 3 list header, also not a field.
         heliport_links = self.folder_link_hrefs(heli_html)[1:]
         self.logger.info(
             f"VFR: {len(aerodrome_links)} aerodrome groups, "
@@ -114,9 +76,13 @@ class DE(HttpCrawlerBase):
         )
 
         for href in aerodrome_links:
-            self._extract_vfr_group(urljoin(ad_url, href), "vfr", airports)
+            self._extract_vfr_group(
+                urljoin(VFR_AERODROMES_URL, href), "vfr", airports
+            )
         for href in heliport_links:
-            self._extract_vfr_group(urljoin(heli_url, href), "heliport", airports)
+            self._extract_vfr_group(
+                urljoin(VFR_HELIPORTS_URL, href), "heliport", airports
+            )
 
     def _extract_vfr_group(
         self,
@@ -156,13 +122,8 @@ class DE(HttpCrawlerBase):
     # ----- IFR ----------------------------------------------------------------
 
     def _process_ifr(self, airports: list[Airport]) -> None:
-        root_url, root_html = self.fetch_with_meta_refresh(ROOT_IFR_URL)
-        ad_url = self.find_link_by_text(root_html, root_url, "AD Aerodromes")
-        ad_html = self.fetch(ad_url)
-        ad2_url = self.find_link_by_text(ad_html, ad_url, "AD 2 Aerodromes")
-        ad3_url = self.find_link_by_text(ad_html, ad_url, "AD 3 Heliports")
-        ad2_html = self.fetch(ad2_url)
-        ad3_html = self.fetch(ad3_url)
+        ad2_html = self.fetch(IFR_AERODROMES_URL)
+        ad3_html = self.fetch(IFR_HELIPORTS_URL)
 
         # dict.fromkeys preserves order while deduplicating (the original
         # code used set() which doesn't preserve insertion order).
@@ -173,9 +134,13 @@ class DE(HttpCrawlerBase):
         )
 
         for href in ad2_links:
-            self._extract_ifr_leaf(urljoin(ad2_url, href), "ifr", airports)
+            self._extract_ifr_leaf(
+                urljoin(IFR_AERODROMES_URL, href), "ifr", airports
+            )
         for href in ad3_links:
-            self._extract_ifr_leaf(urljoin(ad3_url, href), "heliport", airports)
+            self._extract_ifr_leaf(
+                urljoin(IFR_HELIPORTS_URL, href), "heliport", airports
+            )
 
     def _extract_ifr_leaf(
         self,
@@ -216,9 +181,7 @@ class DE(HttpCrawlerBase):
         airports: list[Airport] = []
         try:
             self._process_vfr(airports)
-            self.logger.info(
-                f"VFR done: {len(airports)} airports so far."
-            )
+            self.logger.info(f"VFR done: {len(airports)} airports so far.")
             ifr_start = len(airports)
             self._process_ifr(airports)
             self.logger.info(
