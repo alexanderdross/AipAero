@@ -43,8 +43,18 @@ class HttpEurocontrolBase(HttpCrawlerBase):
                 menu_div = el
                 break
         if menu_div is None:
+            # Diagnostic: list the ids that DO exist so a failed live run
+            # tells us the real section id without needing the saved HTML.
+            candidates = sorted(
+                {
+                    el["id"]
+                    for el in soup.find_all(attrs={"id": True})
+                    if "details" in el["id"].lower()
+                }
+            )[:40]
             raise ValueError(
-                f"Menu div ending with {id_in_menu!r} not found in {base_url}"
+                f"Menu div ending with {id_in_menu!r} not found in {base_url}. "
+                f"Available *details ids: {candidates}"
             )
 
         # Direct child <div>s only — same as the original `> div` selector.
@@ -84,8 +94,13 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         raw_title = anchors[-1].get_text(separator=" ", strip=True)
         raw_title = raw_title.replace("—", "")
         raw_title = re.sub(r"\s+", " ", raw_title).strip()
-        # UK eAIP appends `TAD_HP;TXT_NAME;NNNN` to some titles.
-        raw_title = raw_title.split("TAD_HP")[0].strip()
+        # eAIP menus embed hidden annotation tokens in the anchor text -
+        # `TAD_HP;TXT_NAME;NNNN` (UK), `TCITY;CUSTOM_ATT7;175` (NO),
+        # `TAD_HP;Annotation:113806.cze;2685` (CZ). No legitimate title
+        # contains a semicolon, so drop every token that does.
+        raw_title = " ".join(
+            t for t in raw_title.split() if ";" not in t
+        ).strip()
         if not raw_title:
             return None
 

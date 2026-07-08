@@ -63,3 +63,25 @@ export function countryHasType(
 ): boolean {
   return countryTypeAvailability[country]?.includes(type) ?? false;
 }
+
+// Countries whose crawler is verified and feeding airport data. Only these are
+// promoted on the start page and listed in the sitemap index; the others stay
+// fully wired (routes, translations, crawlers) but hidden, so launching one is
+// just un-commenting its line here and its card in `src/app/page.tsx` once its
+// crawler has been validated against the live AIP source.
+export const liveCountries: string[] = [
+  "at",
+  "de",
+  "fr",
+  "nl",
+  "uk",
+  // Verified via the live-crawl test (PR #122): crawler delivers data.
+  "be",
+  "cz",
+  "no",
+  "pl",
+  "se",
+  // TEMPORARILY HIDDEN - crawler not yet verified against the live source:
+  // "dk",
+  // "gr",
+];

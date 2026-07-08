@@ -18,9 +18,41 @@ DEFAULT_USER_AGENT = (
     "aip-aero-crawler/1.0 (+https://aip.aero)"
 )
 
+# Some national AIS providers front their eAIP with a WAF that 403s anything
+# not looking like a real browser (skeyes/BE, HASP/GR). Crawlers for those
+# sources call `use_browser_headers()` to send a plain browser fingerprint.
+BROWSER_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+)
+BROWSER_HEADERS = {
+    "User-Agent": BROWSER_USER_AGENT,
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/avif,image/webp,*/*;q=0.8"
+    ),
+    "Accept-Language": "en-GB,en;q=0.9",
+    "Upgrade-Insecure-Requests": "1",
+}
+
 # Retry on transient errors only. 4xx (except 429) are caller bugs and
 # shouldn't be retried; 5xx and connection-level failures are.
 _RETRYABLE_STATUSES = frozenset({429, 500, 502, 503, 504})
+
+# The crawlers parse HTML navigation pages only - images, PDFs, fonts,
+# scripts etc. are never needed. This guard keeps any future caller from
+# fetching them by accident, which matters especially when traffic is
+# routed through a metered proxy (Bright Data bills per GB).
+_BINARY_URL_RE = re.compile(
+    r"\.(png|jpe?g|gif|webp|avif|svg|ico|bmp|tiff?|pdf|zip|gz|7z|rar"
+    r"|css|js|mjs|woff2?|ttf|otf|eot|mp4|webm|mp3|ogg)([?#]|$)",
+    re.I,
+)
+_BINARY_CONTENT_TYPE_RE = re.compile(
+    r"^(image/|font/|video/|audio/"
+    r"|application/(pdf|zip|gzip|x-7z-compressed|octet-stream|font-\w+))",
+    re.I,
+)
 
 
 class HttpCrawlerBase:
@@ -57,14 +89,117 @@ class HttpCrawlerBase:
         except Exception:
             pass
 
+    def use_browser_headers(self) -> None:
+        """Switch the client to a browser-like fingerprint (WAF'd sources)."""
+        self.client.headers.update(BROWSER_HEADERS)
+
+    def use_proxy(self, proxy_url: str) -> None:
+        """Route this crawler's traffic through an HTTP(S) proxy.
+
+        Used for sources whose WAF blocks datacenter IPs outright (GR). The
+        proxy URL (e.g. a Bright Data zone,
+        ``http://user:pass@brd.superproxy.io:22225``) comes from the
+        environment - never hardcode credentials. TLS verification is
+        disabled because unblocker-style proxies re-encrypt with their own
+        CA; the crawled data is public AIP HTML, so integrity risk is nil.
+
+        Proxy traffic stays minimal by construction: there is no browser,
+        so nothing is ever fetched beyond the explicitly requested
+        navigation pages, and ``fetch_response`` additionally refuses
+        image/binary URLs and content types (metered proxies bill per GB).
+        """
+        # Tolerate copy-paste artefacts in the env value: surrounding
+        # whitespace/quotes and a missing scheme (httpx requires one;
+        # Bright Data's dashboard shows the credentials without it).
+        proxy_url = proxy_url.strip().strip("'\"")
+        if "://" not in proxy_url:
+            self.logger.warning(
+                f"{self.country}: proxy URL has no scheme; assuming http://"
+            )
+            proxy_url = f"http://{proxy_url}"
+        headers = dict(self.client.headers)
+        self.client.close()
+        self.client = httpx.Client(
+            follow_redirects=True,
+            timeout=self.timeout,
+            headers=headers,
+            http2=False,
+            proxy=proxy_url,
+            verify=False,
+        )
+        # Log without credentials.
+        safe = proxy_url.split("@")[-1]
+        self.logger.info(f"{self.country}: routing via proxy {safe}")
+
+    def log_candidate_links(
+        self,
+        html: str,
+        base_url: str,
+        limit: int = 30,
+        contains: str | None = None,
+    ) -> None:
+        """Log the page's links so a failed live run shows what IS there.
+
+        Diagnostic aid for the crawler-live-test workflow: when navigation
+        fails (unknown page layout, changed structure), the job log then
+        carries the real hrefs/texts needed to fix the parser - no need to
+        download the saved-response artifact.
+        """
+        try:
+            soup = self.soup(html)
+            rx = re.compile(contains, re.I) if contains else None
+            links = [
+                f"{(a.get_text(strip=True) or '')[:60]!r} -> {a['href'][:120]}"
+                for a in soup.find_all("a", href=True)
+                if rx is None
+                or rx.search(a["href"])
+                or rx.search(a.get_text(" ", strip=True) or "")
+            ]
+            self.logger.warning(
+                f"{self.country}: {len(links)} links on {base_url}; "
+                f"first {min(limit, len(links))}:"
+            )
+            for line in links[:limit]:
+                self.logger.warning(f"  {line}")
+            if not links:
+                self.logger.warning(
+                    f"{self.country}: page has NO links - likely a "
+                    "JS-rendered app; body starts: "
+                    f"{html[:300]!r}"
+                )
+        except Exception as e:
+            self.logger.warning(f"link diagnostics failed: {e}")
+
     def fetch(self, url: str, *, encoding: str | None = None) -> str:
-        """Fetch a URL and return the decoded body.
+        """Fetch a URL and return the decoded body (see fetch_response)."""
+        response = self.fetch_response(url)
+        if encoding is not None:
+            response.encoding = encoding
+        return response.text
+
+    def fetch_response(self, url: str) -> httpx.Response:
+        """Fetch a URL and return the httpx Response (redirects followed).
+
+        Callers that need the FINAL post-redirect URL (e.g. to resolve
+        relative links on a redirected landing page) use this and read
+        ``str(response.url)``; `fetch()` wraps it for body-only callers.
 
         Retries up to ``max_retries`` times on connection errors and on
         retryable 5xx / 429 responses, with exponential backoff. Other 4xx
         responses propagate immediately — those are typically caller bugs,
         not transient.
+
+        HTML only: URLs with an image/binary extension are refused before
+        any request is made, and responses with an image/binary
+        Content-Type are rejected after the fact - the crawlers never need
+        anything but navigation HTML, and this keeps metered proxy traffic
+        (Bright Data) down to those small text documents.
         """
+        if _BINARY_URL_RE.search(url):
+            raise ValueError(
+                f"Refusing to fetch non-HTML resource {url} - the crawler "
+                "fetches HTML navigation pages only"
+            )
         self.logger.debug(f"GET {url}")
         delay = self.retry_initial_delay
         last_exc: Exception | None = None
@@ -100,9 +235,14 @@ class HttpCrawlerBase:
 
             # 2xx success or non-retryable 4xx/3xx — bail out of the loop.
             response.raise_for_status()
-            if encoding is not None:
-                response.encoding = encoding
-            return response.text
+            content_type = response.headers.get("content-type", "")
+            if _BINARY_CONTENT_TYPE_RE.match(content_type.strip()):
+                raise ValueError(
+                    f"{url} returned non-HTML content type "
+                    f"{content_type!r} - the crawler fetches HTML "
+                    "navigation pages only"
+                )
+            return response
 
         # Exhausted all retries.
         assert last_exc is not None
@@ -116,8 +256,13 @@ class HttpCrawlerBase:
         soup = self.soup(html)
         frame = soup.find(["frame", "iframe"], attrs={"name": frame_name})
         if frame is None:
+            available = [
+                f.get("name") or f.get("src", "?")
+                for f in soup.find_all(["frame", "iframe"])
+            ]
             raise ValueError(
-                f"Frame '{frame_name}' not found in {base_url}"
+                f"Frame '{frame_name}' not found in {base_url}. "
+                f"Available frames: {available}"
             )
         src = frame.get("src")
         if not src:

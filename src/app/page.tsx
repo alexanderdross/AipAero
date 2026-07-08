@@ -8,6 +8,7 @@ import Footer from "~/components/footer";
 import { Title } from "~/components/title";
 import { Header } from "~/components/header";
 import {
+  liveCountries,
   orgUrl,
   rootBreadcrumb,
   rootDescription,
@@ -54,8 +55,13 @@ export async function generateMetadata(
 export default async function RootPage() {
   setRequestLocale("uk");
 
+  // Only live countries appear in the SiteNavigation JSON-LD (hidden countries
+  // must not be advertised to crawlers while their pages are empty).
+  const liveLocales = routing.locales.filter((x) =>
+    liveCountries.includes(x.replace("-EN", "")),
+  );
   const localeTranslations = await Promise.all(
-    routing.locales.map((x) =>
+    liveLocales.map((x) =>
       getTranslations({ locale: x, namespace: "CountrySiteNavElement" }),
     ),
   );
@@ -104,6 +110,10 @@ export default async function RootPage() {
       flag: "🇦🇹",
       nativeLang: "German",
     },
+    // TEMPORARILY HIDDEN - crawlers for these countries are not yet
+    // verified against their live AIP sources, so their pages are empty.
+    // Un-comment a country here (and in `liveCountries` in ~/lib/utils)
+    // once its crawler feeds data. See CLAUDE.md (Supported Countries).
     {
       tld: "be",
       lang: "en",
@@ -119,20 +129,20 @@ export default async function RootPage() {
       flag: "🇨🇿",
       nativeLang: "Czech",
     },
-    {
-      tld: "dk",
-      lang: "da",
-      name: "Denmark",
-      flag: "🇩🇰",
-      nativeLang: "Danish",
-    },
-    {
-      tld: "gr",
-      lang: "el",
-      name: "Greece",
-      flag: "🇬🇷",
-      nativeLang: "Greek",
-    },
+    //{
+    //  tld: "dk",
+    //  lang: "da",
+    //  name: "Denmark",
+    //  flag: "🇩🇰",
+    //  nativeLang: "Danish",
+    //},
+    //{
+    //  tld: "gr",
+    //  lang: "el",
+    //  name: "Greece",
+    //  flag: "🇬🇷",
+    //  nativeLang: "Greek",
+    //},
     {
       tld: "no",
       lang: "no",

@@ -9,12 +9,18 @@ COUNTRY = "NO"
 # Avinor / IPPC eAIP entry point. BEST-EFFORT — see the class docstring:
 # this URL is unverified and almost certainly needs adjusting once the live
 # structure of the Avinor eAIP is inspected.
-ROOT_URL = "https://www.ippc.no/norway_aip/current/AIP/html/index-en-GB.html"
+# Avinor's AIM portal lists the AIRAC editions; each edition links to
+# .../View/Index/<n>/<YYYY-MM-DD>-AIRAC/html/index-en-GB.html (verified via
+# the live-crawl test + public edition URLs). The landing page is scanned
+# for the latest effective AIRAC edition.
+ROOT_URL = "https://aim-prod.avinor.no/no/AIP/"
 
 # Same edition-resolution helpers as the NL crawler, in case IPPC exposes a
 # default/index page listing dated AIRAC editions instead of linking straight
 # to a frameset.
 _EDITION_DATE_RE = re.compile(r"(\d{4})_(\d{2})_(\d{2})[\\/]index[^\\/]*\.html", re.I)
+# Avinor-style dated edition path: .../2026-01-22-AIRAC/...
+_AIRAC_DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})-AIRAC", re.I)
 _EDITION_HREF_RE = re.compile(r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I)
 _META_REFRESH_URL_RE = re.compile(r"url=([^;]+)", re.I)
 _JS_LOCATION_RE = re.compile(r"""location(?:\.href)?\s*=\s*['"]([^'"]+)['"]""", re.I)
@@ -75,7 +81,9 @@ class NO(HttpEurocontrolBase):
 
         dated: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
-            m = _EDITION_DATE_RE.search(a["href"])
+            m = _EDITION_DATE_RE.search(a["href"]) or _AIRAC_DATE_RE.search(
+                a["href"]
+            )
             if not m:
                 continue
             year, month, day = (int(g) for g in m.groups())
@@ -120,6 +128,25 @@ class NO(HttpEurocontrolBase):
         # ROOT_URL is presumably already the frameset — use it as-is.
         return base_url
 
+    def _extract_first(
+        self,
+        nav_html: str,
+        nav_url: str,
+        id_candidates: list[str],
+        category: str,
+    ) -> list[Airport]:
+        """Extract a menu section, trying each candidate id in turn."""
+        last_error: Exception | None = None
+        for menu_id in id_candidates:
+            try:
+                return self.extract_airports_from_html(
+                    nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
+                )
+            except ValueError as e:
+                last_error = e
+        assert last_error is not None
+        raise last_error
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -127,33 +154,56 @@ class NO(HttpEurocontrolBase):
         last_html: str | None = None
 
         try:
-            # 1. Resolve the currently effective edition (if ROOT_URL is an index).
-            index_html = self.fetch(ROOT_URL)
-            last_url, last_html = ROOT_URL, index_html
+            # 1. Resolve the currently effective edition. Avinor redirects
+            #    /no/AIP/ -> /no/AIP/View/Index/<n>/history-no-NO.html, and the
+            #    edition links on that page are RELATIVE - so they must be
+            #    resolved against the FINAL post-redirect URL, not ROOT_URL
+            #    (verified in the live-crawl test round 2).
+            index_resp = self.fetch_response(ROOT_URL)
+            index_url = str(index_resp.url)
+            index_html = index_resp.text
+            last_url, last_html = index_url, index_html
 
-            edition_url = self._resolve_edition_url(ROOT_URL, index_html)
+            edition_url = self._resolve_edition_url(index_url, index_html)
 
-            # 2. Walk the frame chain to the navigation HTML.
-            nav_url, nav_html = self.follow_frame_chain(
-                edition_url, ["eAISNavigationBase", "eAISNavigation"]
-            )
+            # Prefer the English edition when the link points at the
+            #  Norwegian one - the eAIP publishes both side by side.
+            en_edition_url = edition_url.replace("index-no-NO", "index-en-GB")
+
+            # 2. Walk the frame chain to the navigation HTML (English
+            #    edition first, Norwegian as fallback).
+            try:
+                nav_url, nav_html = self.follow_frame_chain(
+                    en_edition_url, ["eAISNavigationBase", "eAISNavigation"]
+                )
+            except Exception:
+                nav_url, nav_html = self.follow_frame_chain(
+                    edition_url, ["eAISNavigationBase", "eAISNavigation"]
+                )
             last_url, last_html = nav_url, nav_html
 
-            # 3. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 → heliport).
-            #    NOTE: section id suffixes are UNVERIFIED — see class docstring.
+            # 3. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 →
+            #    heliport), trying the en-GB and no-NO menu id variants.
             airports.extend(
-                self.extract_airports_from_html(
-                    nav_html, nav_url, "AD 2en-GBdetails", "vfr"
+                self._extract_first(
+                    nav_html,
+                    nav_url,
+                    ["AD 2en-GBdetails", "AD 2no-NOdetails", "AD-2details"],
+                    "vfr",
                 )
             )
             airports.extend(
-                self.extract_airports_from_html(
-                    nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+                self._extract_first(
+                    nav_html,
+                    nav_url,
+                    ["AD 3en-GBdetails", "AD 3no-NOdetails", "AD-3details"],
+                    "heliport",
                 )
             )
         except Exception as e:
             self.logger.error(f"NO crawl failed: {e}")
             if last_html is not None:
+                self.log_candidate_links(last_html, last_url)
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:

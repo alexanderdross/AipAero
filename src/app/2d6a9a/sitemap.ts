@@ -7,7 +7,12 @@ import {
   type Pathnames,
   routing,
 } from "~/i18n/routing";
-import { countryHasType, i18nPathMapping, orgUrl } from "~/lib/utils";
+import {
+  countryHasType,
+  i18nPathMapping,
+  liveCountries,
+  orgUrl,
+} from "~/lib/utils";
 import type { Airport } from "~/server/db/schema";
 import { QUERIES } from "~/server/db/queries";
 
@@ -21,7 +26,11 @@ const TYPE_BY_PATH: Record<string, Airport["type"]> = {
 };
 
 export async function generateSitemaps() {
-  const tlds = routing.locales.filter((x) => x.length === 2);
+  // Only countries with a verified, data-feeding crawler get a sitemap
+  // (liveCountries); hidden countries would only expose empty pages.
+  const tlds = routing.locales.filter(
+    (x) => x.length === 2 && liveCountries.includes(x),
+  );
   return tlds.map((tld) => ({
     id: tld,
   }));
@@ -32,8 +41,10 @@ export default async function sitemap({
 }: {
   id: string;
 }): Promise<MetadataRoute.Sitemap> {
-  // Check for valid tld
-  const tlds = routing.locales.filter((x) => x.length === 2);
+  // Check for valid, live tld (hidden countries 404 their sitemap too)
+  const tlds = routing.locales.filter(
+    (x) => x.length === 2 && liveCountries.includes(x),
+  );
   if (!tlds.includes(id as Locale)) {
     return notFound();
   }

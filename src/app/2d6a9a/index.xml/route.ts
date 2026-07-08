@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { orgUrl } from "~/lib/utils";
+import { liveCountries, orgUrl } from "~/lib/utils";
 import { routing } from "~/i18n/routing";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 
@@ -13,9 +13,10 @@ export async function GET() {
   let xml = '<?xml version="1.0" encoding="UTF-8"?>';
   xml += '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-  // Map sortet messages to sitemap locations
+  // Map sorted messages to sitemap locations (live countries only; hidden
+  // countries have no sitemap until their crawler is verified)
   xml += routing.locales
-    .filter((x) => x.length === 2)
+    .filter((x) => x.length === 2 && liveCountries.includes(x))
     .map((country) => {
       const sitemapUrl = new URL(
         `/2d6a9a/sitemap/${country}.xml`,

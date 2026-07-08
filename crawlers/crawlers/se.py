@@ -6,10 +6,9 @@ from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "SE"
-# BEST-EFFORT / UNVERIFIED: LFV's ARO eAIP portal. There is no task spec for
-# Sweden, so both this entry point and the frame/section ids below are a
-# plausible guess modelled on the EUROCONTROL-style eAIP other Nordic states
-# publish. Validate against the live site before scheduling this crawler.
+# LFV's ARO eAIP portal. Chain verified live (round 7/8, 48 airports):
+# AROWeb portal -> "EAIP" link (/content/eaip/default_offline.html) ->
+# dated AIRAC edition -> classic index.html frameset -> eAIP/menu.html.
 ROOT_URL = "https://aro.lfv.se/Editorial/View/IAIP?folderId=19"
 
 # LFV, like LVNL/NATS, is expected to expose dated AIRAC editions whose links
@@ -22,14 +21,20 @@ _EDITION_DATE_RE = re.compile(r"(\d{4})_(\d{2})_(\d{2})[\\/]index[^\\/]*\.html",
 _EDITION_HREF_RE = re.compile(r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I)
 _META_REFRESH_URL_RE = re.compile(r"url=([^;]+)", re.I)
 _JS_LOCATION_RE = re.compile(r"""location(?:\.href)?\s*=\s*['"]([^'"]+)['"]""", re.I)
+# The SE menu's per-airport title anchors carry the charts-subsection label
+# ("<NAME> 9 Visuellflygkartor / Visual flight charts", verified live in
+# round 8) - strip that noise from the emitted titles.
+_TITLE_NOISE_RE = re.compile(
+    r"\s*\d+\s*Visuellflygkartor\s*/\s*Visual flight charts\s*", re.I
+)
 
 
 class SE(HttpEurocontrolBase):
-    """Sweden AIP crawler — BEST-EFFORT, UNVERIFIED (no task spec).
+    """Sweden AIP crawler (no task spec; VERIFIED live in round 8: 48
+    airports with visual-flight-chart URLs).
 
-    There is no crawler task spec for Sweden. This module is written on the
-    assumption that LFV's ARO eAIP is a static EUROCONTROL-style frameset,
-    modelled on the Netherlands (``nl.py``) crawler:
+    LFV's ARO eAIP is a static EUROCONTROL-style frameset, crawled the
+    same way as the Netherlands (``nl.py``):
 
         ROOT_URL
             └─ pick edition by effective date (latest on/before today)
@@ -118,9 +123,58 @@ class SE(HttpEurocontrolBase):
         if m:
             return urljoin(base_url, m.group(1))
 
-        raise ValueError(
-            f"Could not resolve current-edition link/redirect in {base_url}"
+        # No edition list found - the page may already be the frameset.
+        self.logger.info(
+            f"SE: no edition link in {base_url}; treating it as the frameset"
         )
+        return base_url
+
+    def _find_eaip_entry(self, base_url: str, html: str) -> str | None:
+        """Find the /content/eaip/... entry link on the AROWeb portal page."""
+        import re as _re
+        from urllib.parse import urljoin as _urljoin
+
+        rx = _re.compile(r"content/eaip/.*\.html", _re.I)
+        soup = self.soup(html)
+        for a in soup.find_all("a", href=True):
+            if rx.search(a["href"]):
+                return _urljoin(base_url, a["href"])
+        return None
+
+    def _resolve_classic_index(self, edition_url: str) -> tuple[str, str]:
+        """Find a classic (frameset) index near the index-v2 viewer page.
+
+        The viewer itself carries no server-side menu, but IDS-generated
+        packages usually still ship the classic files alongside it.
+        """
+        from urllib.parse import urljoin as _urljoin
+
+        candidates = [
+            edition_url,  # maybe index-v2 IS a frameset after all
+            _urljoin(edition_url, "index.html"),
+            _urljoin(edition_url, "html/index-en-GB.html"),
+            _urljoin(edition_url, "html/index-sv-SE.html"),
+            _urljoin(edition_url, "html/index.html"),
+        ]
+        last_html = ""
+        for candidate in candidates:
+            try:
+                html = self.fetch(candidate)
+            except Exception:
+                continue
+            last_html = html
+            soup = self.soup(html)
+            frames = soup.find_all(["frame", "iframe"])
+            if any(f.get("name") or f.get("src") for f in frames):
+                self.logger.info(f"SE classic index: {candidate}")
+                return candidate, html
+        # Nothing frameset-like found - log the viewer body head so the next
+        # run reveals how it loads its menu (JSON config, iframe src, ...).
+        self.logger.warning(
+            f"SE: no classic index near {edition_url}; "
+            f"viewer body head: {last_html[:600]!r}"
+        )
+        return edition_url, last_html
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
@@ -130,10 +184,28 @@ class SE(HttpEurocontrolBase):
 
         try:
             # 1. Resolve the currently effective edition (by AIRAC date).
-            index_html = self.fetch(ROOT_URL)
-            last_url, last_html = ROOT_URL, index_html
+            index_resp = self.fetch_response(ROOT_URL)
+            index_url = str(index_resp.url)
+            index_html = index_resp.text
+            last_url, last_html = index_url, index_html
 
-            edition_url = self._resolve_edition_url(ROOT_URL, index_html)
+            # AROWeb links the actual eAIP at /content/eaip/... (link text
+            # "EAIP", verified via live-crawl diagnostics) - hop there before
+            # resolving the edition.
+            eaip_url = self._find_eaip_entry(index_url, index_html)
+            if eaip_url:
+                self.logger.info(f"SE eAIP entry: {eaip_url}")
+                index_html = self.fetch(eaip_url)
+                index_url = eaip_url
+                last_url, last_html = index_url, index_html
+
+            edition_url = self._resolve_edition_url(index_url, index_html)
+
+            # index-v2.html is LFV's new JS viewer (single nameless frame,
+            # no server-side menu). Probe classic eurocontrol paths inside
+            # the same edition folder first; fall back to the viewer page.
+            edition_url, edition_html = self._resolve_classic_index(edition_url)
+            last_url, last_html = edition_url, edition_html
 
             # 2. Walk the frame chain to the navigation HTML.
             nav_url, nav_html = self.follow_frame_chain(
@@ -148,14 +220,28 @@ class SE(HttpEurocontrolBase):
                     nav_html, nav_url, "AD 2en-GBdetails", "vfr"
                 )
             )
-            airports.extend(
-                self.extract_airports_from_html(
-                    nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+            # Sweden's AD 3 section exists but carries no chart pairs
+            # (verified live) - heliports are optional here.
+            try:
+                airports.extend(
+                    self.extract_airports_from_html(
+                        nav_html, nav_url, "AD 3en-GBdetails", "heliport"
+                    )
                 )
-            )
+            except ValueError as e:
+                self.logger.warning(f"SE: skipping heliports - {e}")
+
+            # Strip the charts-subsection label the menu anchors embed in
+            # the title text ("... 9 Visuellflygkartor / Visual flight
+            # charts ...").
+            for airport in airports:
+                airport.title = re.sub(
+                    r"\s+", " ", _TITLE_NOISE_RE.sub(" ", airport.title)
+                ).strip()
         except Exception as e:
             self.logger.error(f"SE crawl failed: {e}")
             if last_html is not None:
+                self.log_candidate_links(last_html, last_url, limit=40)
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:
