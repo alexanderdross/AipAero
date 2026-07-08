@@ -8,7 +8,7 @@ User Acceptance Testing is, by definition, a human-driven evaluation against bus
 
 | Surface | Depth |
 | --- | --- |
-| Website (Vercel) | Every locale × every country-applicable page; search; airport detail. |
+| Website (Cloudflare Workers) | Every locale × every country-applicable page; search; airport detail. |
 | Crawlers (netcup) | One scheduled cycle observed end-to-end via systemd. |
 | Backend ingest | One real POST verified, plus a forged POST verified to be 401. |
 
@@ -17,7 +17,7 @@ User Acceptance Testing is, by definition, a human-driven evaluation against bus
 Before running UAT, confirm these aren't currently in flight:
 
 - [ ] No PR is mid-merge to `main`.
-- [ ] Vercel's most recent production deploy is from `main` and green.
+- [ ] The most recent Cloudflare Workers production deploy is from `main` and green.
 - [ ] netcup `aip-crawler.timer` is `active (waiting)` — `systemctl status aip-crawler.timer`.
 - [ ] You can reach `https://aip.aero/` from a clean browser session.
 
@@ -83,9 +83,9 @@ Expect:
 
 - [ ] Timer fires on schedule.
 - [ ] For each country (AT, DE, FR, NL, UK), a "Starting crawler: XX" log line.
-- [ ] Each finishes in seconds (HTTP path) or minutes (DE on Selenium).
+- [ ] Each finishes in seconds — all five crawlers are now on the HTTP path.
 - [ ] "Successfully wrote output for XX" appears once per country at the API call.
-- [ ] No `error_logs/` files written (HTTP crawlers) / no screenshots in `error_logs/` for AT/FR/NL/UK.
+- [ ] No `error_logs/` files or leftover browser screenshots written for any of AT/DE/FR/NL/UK (all on the HTTP path).
 
 ## E — Backend ingest endpoint
 
@@ -120,7 +120,7 @@ curl -i -X POST https://aip.aero/api/airports \
 
 ## F — Performance / responsiveness (subjective)
 
-Pull these out of Vercel Speed Insights once enabled (see [`performance.md`](./performance.md)). Until then, manual:
+Pull these out of Cloudflare Web Analytics (Core Web Vitals; see [`performance.md`](./performance.md)). For a quick manual pass:
 
 - [ ] LCP on `/uk/airport-list-uk` feels < 2.5 seconds on a typical broadband connection.
 - [ ] Search input response feels instant (< 200 ms from keystroke to result).

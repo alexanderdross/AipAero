@@ -5,7 +5,7 @@
 I don't have access to the live site from this sandbox and the repo has no perf harness. This document is therefore:
 
 - **Static analysis** of code patterns that are known performance levers (Vercel/Next.js conventions, caching strategy, bundle composition, image handling).
-- A **runbook** for the user / CI pipeline to gather real numbers (Lighthouse, Web Vitals, bundle analyser) once enabled on Vercel.
+- A **runbook** for the user / CI pipeline to gather real numbers (Lighthouse, Web Vitals, bundle analyser) once enabled against the live site.
 
 Treat findings here as "things to fix that will help" and verify each with measurements *after* applying.
 
@@ -13,26 +13,19 @@ Treat findings here as "things to fix that will help" and verify each with measu
 
 ### Caching strategy — strong but with two missing invalidations
 
-The website is read-heavy and cache-friendly: every page is statically generated with `dynamicParams = false`, and DB reads go through `"use cache"` server functions tagged per-country. This is exactly the right pattern for Vercel's serverless runtime — most page renders never hit MySQL.
+The website is read-heavy and cache-friendly: every page is statically generated with `dynamicParams = false`, and DB reads go through `unstable_cache` server functions tagged per-country. This is exactly the right pattern for the Cloudflare Workers runtime — most page renders never hit Cloudflare D1.
 
-**Bug:** `MUTATIONS.insertAirports` (`src/server/db/queries.ts`) calls `revalidateTag` for 5 of the 7 read tags, missing `militaryAirports` and `aeroportAirports`. France pages serve stale data for `cacheLife("hours")` after each crawl. Fix by adding two more `revalidateTag` calls. (Also captured in [`best-practices.md`](./best-practices.md).)
+**Bug:** `MUTATIONS.insertAirports` (`src/server/db/queries.ts`) calls `revalidateTag` for 5 of the 7 read tags, missing `militaryAirports` and `aeroportAirports`. France pages serve stale data until the 24h revalidate window after each crawl. Fix by adding two more `revalidateTag` calls. (Also captured in [`best-practices.md`](./best-practices.md).)
 
 ### Static prerendering — covers all hot paths
 
-15 occurrences of `generateStaticParams` / `dynamicParams = false` across the locale-prefixed pages. With nine locales × five page types, that's a small, finite static surface that prerenders at build time. Vercel serves these from CDN with no compute cost per request.
+15 occurrences of `generateStaticParams` / `dynamicParams = false` across the locale-prefixed pages. With nine locales × five page types, that's a small, finite static surface that prerenders at build time. Cloudflare serves these from its edge/CDN with no compute cost per request.
 
 The exception is the per-airport detail page, addressed via search-param key (`/vfr?EDNY`) rather than path segments — same prerendered shell + client-side resolution. Good for caching; the only DB hit per detail view is the cached `airport` query.
 
-### Image optimisation — gap
+### Image optimisation — largely resolved
 
-`next/image` is **not used anywhere**. The `public/` directory has `logo.webp`, `aip-logo-446x319.jpg`, `aip-logo-450x450.jpg` — likely loaded via raw `<img>` or as a CSS background. Without `next/image` you lose:
-
-- Automatic WebP/AVIF negotiation (we already have a webp).
-- `loading="lazy"` defaults.
-- Auto `srcset` based on viewport.
-- Build-time size warnings for oversized assets.
-
-Single highest-leverage fix in this assessment.
+**Resolved for the header logo:** `src/components/header.tsx` now imports `Image` from `next/image` and renders it with `priority` (an LCP candidate). Note that the Cloudflare Workers runtime does not run the Next.js image optimizer (`next.config.mjs` sets `images.unoptimized: true`), so `next/image` here mainly buys the correct dimensions, `priority`/lazy defaults, and layout stability rather than server-side WebP/AVIF negotiation. Any remaining raw `<img>` / CSS-background assets in `public/` (`logo.webp`, `aip-logo-446x319.jpg`, `aip-logo-450x450.jpg`) are the natural next targets, but the highest-leverage image on the page (the logo) is done.
 
 ### Client bundle composition
 
@@ -75,22 +68,13 @@ The middleware matcher already excludes `api`, `_next/static`, `_next/image`, `f
 
 ## Runbook — measuring the live site
 
-Once on Vercel, gather real numbers:
+Once deployed, gather real numbers:
 
-### 1. Vercel Speed Insights
+### 1. Cloudflare Web Analytics
 
-Free on all plans. Enable in the Vercel dashboard → project settings → Speed Insights → Enable. Add the React snippet to `src/app/[locale]/layout.tsx`:
+Already in use — no app-code snippet required. The RUM beacon is injected at the Cloudflare edge (its origins are allowlisted in the `next.config.mjs` CSP: `static.cloudflareinsights.com` on `script-src`, `cloudflareinsights.com` on `connect-src`), so there is **no** `@vercel/speed-insights` dependency and no `<SpeedInsights />` in `src/`.
 
-```tsx
-import { SpeedInsights } from "@vercel/speed-insights/next";
-// ...
-<body>
-  {children}
-  <SpeedInsights />
-</body>
-```
-
-This reports field-data Core Web Vitals (LCP, FID/INP, CLS) for real visitors, broken down by country and route. Over ~1 week of traffic you'll have a per-locale CWV baseline.
+This reports field-data Core Web Vitals (LCP, INP, CLS) for real visitors. Read them in the Cloudflare dashboard → Web Analytics. Over ~1 week of traffic you'll have a CWV baseline.
 
 ### 2. Lighthouse on representative pages
 
@@ -125,7 +109,7 @@ Then `ANALYZE=true pnpm build` produces an HTML treemap. Look for:
 
 ### 4. Database query timings
 
-Drizzle Studio (`pnpm db:studio`) plus a `console.time` around the cached query functions in dev. The cache-hit path is microseconds; cache-miss should be < 50 ms against a healthy MySQL.
+Drizzle Studio (`pnpm db:studio`) plus a `console.time` around the cached query functions in dev. The cache-hit path is microseconds; cache-miss should be < 50 ms against a healthy D1.
 
 ### 5. Crawler timing baseline
 
@@ -137,20 +121,20 @@ In production logs (`journalctl -u aip-crawler`):
 | NL | (record) | (record) |
 | UK | (record) | (record) |
 | FR | (record) | (record) |
-| DE | (record) | (still Selenium) |
+| DE | (record) | (record) |
 
 Expectation: post-port runs are 5-20× faster, depending on page count, since they remove Chromium boot + JS execution + per-frame waits.
 
 ## Recommended action items, ranked by ROI
 
-1. ✅ **Done.** `MUTATIONS.insertAirports` now includes `revalidateTag("militaryAirports")` and `revalidateTag("aeroportAirports")`.
+1. ✅ **Done.** `MUTATIONS.insertAirports` now invalidates the affected country with a single per-country `revalidateTag("country:<CC>")`, which busts every one of that country's cached reads — including `militaryAirports` and `aeroportAirports`.
 2. ✅ **Done.** Header logo migrated to `next/image` with `priority` (LCP candidate).
 3. ⚠️ **Partial.** `schema-product` is now a server component. `schema-webpage` and `schema-website` use `usePathname()` and need a refactor (pathname plumbed via prop) to convert — not done in this pass.
-4. ✅ **Done.** `<SpeedInsights />` wired into `src/app/[locale]/layout.tsx`. After the next production deploy, Web Vitals start populating in Vercel's dashboard.
+4. ✅ **Done (via Cloudflare Web Analytics).** Web Vitals are already collected — the RUM beacon is injected at the Cloudflare edge (allowlisted in the CSP), not via app code. There is no `@vercel/speed-insights` / `<SpeedInsights />`; read CWV in the Cloudflare dashboard.
 5. **Verify `cheerio` isn't shipped to clients** (appears unused in `src/`). If confirmed unused, drop it from `package.json`.
 6. ✅ **Done.** `@next/bundle-analyzer` wired up; run `pnpm analyze` to produce the treemap.
 
-After action items 1, 2, 4 land in production, take a fresh Lighthouse + Speed Insights read and update this doc with real numbers.
+After action items 1 and 2 land in production, take a fresh Lighthouse read plus the Cloudflare Web Analytics CWV data and update this doc with real numbers.
 
 ---
 

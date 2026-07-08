@@ -8,15 +8,15 @@ Snapshot assessments of the AIP:Aero website, crawlers, and backend. Each docume
 | 2 | UAT assessment | [`uat.md`](./uat.md) | Manual checklist (must be executed by a human; runbook included). |
 | 3 | Unit tests | [`unit-tests.md`](./unit-tests.md) | Real pytest suite at `crawlers/tests/`, gated in CI. |
 | 4 | Regression test | [`regression.md`](./regression.md) | Strategy + the existing CI gate as the regression baseline. |
-| 5 | Performance assessment | [`performance.md`](./performance.md) | Static code analysis + a runbook for Lighthouse / Web Vitals via Vercel. |
-| 6 | Vercel / Next.js best practices | [`best-practices.md`](./best-practices.md) | Audit of the codebase against documented Vercel + App Router conventions. |
+| 5 | Performance assessment | [`performance.md`](./performance.md) | Static code analysis + a runbook for Lighthouse / Web Vitals against the live site. |
+| 6 | Cloudflare Workers / Next.js best practices | [`best-practices.md`](./best-practices.md) | Audit of the codebase against documented Cloudflare Workers + App Router conventions. |
 | 7 | Security assessment | [`security.md`](./security.md) | Real `pnpm audit` + `uv` dep tree output; manual code review of auth, validation, and SQL. |
 
 ## Scope
 
-- **Website:** Next.js 15 App Router code under `src/`. Hosted on Vercel.
+- **Website:** Next.js 15 App Router code under `src/`. Hosted on Cloudflare Workers (via the OpenNext adapter).
 - **Crawlers:** Python (`uv`) under `crawlers/`. Run on netcup root server under systemd.
-- **Backend:** the `/api/airports` ingest endpoint, the `searchAirports` server action, the Drizzle MySQL schema/queries, and the cache invalidation glue.
+- **Backend:** the `/api/airports` ingest endpoint, the `searchAirports` server action, the Drizzle Cloudflare D1 (SQLite) schema/queries, and the cache invalidation glue.
 
 ## How to re-run
 
@@ -43,7 +43,7 @@ The CI workflow at `.github/workflows/ci.yml` runs the same steps on every PR an
 Two of the seven assessments are inherently human/runtime work and cannot be "executed" from this repo:
 
 - **UAT** ([`uat.md`](./uat.md)) is a checklist — it depends on a person walking through the live site.
-- **Performance** ([`performance.md`](./performance.md)) is half static-analysis findings, half a runbook for Lighthouse / Vercel Speed Insights / `next/bundle-analyzer`. We don't host a load-testing harness.
+- **Performance** ([`performance.md`](./performance.md)) is half static-analysis findings, half a runbook for Lighthouse / Cloudflare Web Analytics / `next/bundle-analyzer`. We don't host a load-testing harness.
 
 The other five (QA, unit tests, regression strategy, best-practices audit, security) are anchored in real, runnable output.
 

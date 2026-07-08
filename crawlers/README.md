@@ -10,18 +10,18 @@ These crawlers run on the **netcup root server** (not on Vercel) under systemd:
 - `aip-crawler.timer`   — schedules the service
 - `notify-failure@.service` — failure notification hook
 
-The website itself is hosted on Vercel; the crawlers reach it over HTTPS at `https://aip.aero/api/airports`, authenticating with the shared `CRON_SECRET`. During local development, point them at `http://localhost:3000` instead.
+The website itself runs on Cloudflare Workers (via the OpenNext adapter); the crawlers reach it over HTTPS at `https://aip.aero/api/airports`, authenticating with the shared `CRON_SECRET`. During local development, point them at `http://localhost:3000` instead.
 
-Serverless platforms (Vercel, Lambda, etc.) are explicitly **not** a target: scheduled, long-running, browser-driven scraping doesn't fit that runtime model.
+Serverless platforms (Cloudflare Workers, Vercel, Lambda, etc.) are explicitly **not** a target for the crawlers themselves: scheduled, long-running scraping doesn't fit that runtime model.
 
 ## Stack
 
 - Python ≥ 3.12, managed with [uv](https://github.com/astral-sh/uv)
-- HTTP: `httpx` + `BeautifulSoup` for static pages — preferred and used by AT, NL, UK, FR
+- HTTP: `httpx` + `BeautifulSoup` for static pages — the only path in use; all five active crawlers (AT, DE, FR, NL, UK) are on it
 - Browser fallback: a single Playwright (Python) path for sites that genuinely require JS rendering — only when there's no static URL to follow
 - Pydantic for the `Airport` model (`crawlers/crawlers/models.py`) and settings
 
-> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`. None of the active sites need a JS engine — they serve static HTML, sometimes inside legacy framesets. AT, NL, UK, and FR have been ported off Selenium; DE is the last holdout and will follow once we've verified the new HTTP path on the netcup host. New crawlers must not introduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
+> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`. None of the active sites need a JS engine — they serve static HTML, sometimes inside legacy framesets. **All five active crawlers (AT, DE, FR, NL, UK) are now off Selenium** and run on httpx. The legacy `crawler_base.py` / `eurocontrol_base.py` (Selenium) modules remain only for the experimental, non-scheduled crawlers (belgium, car_sam_nam, pac_n, pac_p, run); once those are ported or pruned, `selenium` + `webdriver-manager` can be removed. New crawlers must not introduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
 
 ## Base classes
 
@@ -29,7 +29,7 @@ Serverless platforms (Vercel, Lambda, etc.) are explicitly **not** a target: sch
 | ------------------------- | ---------------------- | -------------------------------------------------------- |
 | `http_base.py`            | `HttpCrawlerBase`      | The source serves static HTML over HTTP (default choice). |
 | `http_eurocontrol_base.py`| `HttpEurocontrolBase`  | The source is a eurocontrol-style eAIP frameset (used by NL, UK, FR). |
-| `crawler_base.py`         | `CrawlerBase`          | *Legacy, Selenium.* Only DE still inherits from it.      |
+| `crawler_base.py`         | `CrawlerBase`          | *Legacy, Selenium.* No active crawler uses it; kept only for the experimental (unscheduled) crawlers. |
 | `eurocontrol_base.py`     | `EurocontrolBase`      | *Legacy, Selenium.* Orphaned, slated for deletion.       |
 
 `HttpCrawlerBase` provides `fetch(url, encoding=…)`, `soup(html)`, `get_frame_src(html, base_url, name)`, `follow_frame_chain(start_url, [name1, name2, …])`, `clean_text(text)`, and `save_response(url, body, prefix)` for dumping the last response to `error_logs/` on failure. `HttpEurocontrolBase` adds `extract_airports_from_html(html, base_url, id_in_menu, category)`, which parses the standard eAIP nav menu (paired title/details `<div>`s) and prefers `<a title*='charts related'>` for the airport's chart URL.
@@ -39,7 +39,7 @@ Serverless platforms (Vercel, Lambda, etc.) are explicitly **not** a target: sch
 Active (in `crawlers/`):
 
 - [x] Austria (https://eaip.austrocontrol.at) — `HttpCrawlerBase`
-- [x] Germany (https://aip.dfs.de/) — *Selenium (legacy)*, port pending
+- [x] Germany (https://aip.dfs.de/) — `HttpCrawlerBase` (DFS BasicVFR/BasicIFR; enters at static `pages/CNNNNN.html` section URLs and stores each airport's amendment-stable `myPermalink`)
 - [x] France (https://www.sia.aviation-civile.gouv.fr/plandesite) — `HttpEurocontrolBase`
 - [x] Netherlands (https://eaip.lvnl.nl/) — `HttpEurocontrolBase`
 - [x] United Kingdom (https://nats-uk.ead-it.com/) — `HttpEurocontrolBase`
@@ -117,25 +117,46 @@ class XX(HttpEurocontrolBase):
             self.close()
 ```
 
-## Running
+## Running & re-triggering a crawl
+
+Local run:
 
 ```bash
 uv sync
-uv run main.py
+uv run main.py            # crawls all active countries (AT, DE, FR, NL, UK)
+uv run main.py NL UK      # crawls only the given countries (codes are case-insensitive)
 ```
 
-Logs go to stdout and to `crawlers.log`. On failures, the HTTP-based crawlers persist the last response body to `error_logs/` via `save_response()` so the failure can be reproduced offline against the same bytes the parser saw. The remaining Selenium crawler (DE) writes a screenshot + page source instead.
+On the netcup host the crawl is a systemd one-shot driven by a timer. To re-trigger on demand (e.g. after a source publishes a new AIRAC edition):
+
+```bash
+sudo systemctl start aip-crawler.service        # run uv run main.py now
+journalctl -u aip-crawler.service -f            # follow the run
+systemctl list-timers aip-crawler.timer         # when the next scheduled run is
+```
+
+**Re-triggering a single country (e.g. NL and UK):** pass the country codes to `main.py` — `uv run main.py NL UK` crawls only those two (an unknown code aborts the run rather than silently crawling a subset). Each country POST is independent: it replaces only that country's rows via a D1 batch and busts only its `country:<CC>` cache tag, so re-crawling a subset never touches the others. `OutputHandler` refuses to publish a country whose airport count dropped > 50 % from the last successful run; override with `CRAWLER_FORCE_PUBLISH=1`. On the netcup host the systemd unit runs the full set; to re-crawl a subset there, run the command directly (e.g. `cd /path/to/crawlers && uv run main.py NL UK`).
+
+Logs go to stdout and to `crawlers.log`. On failures, the crawlers persist the last response body to `error_logs/` via `save_response()` so the failure can be reproduced offline against the same bytes the parser saw.
+
+## Adding a new country
+
+1. Copy `tasks/_TEMPLATE.md` to `tasks/crawler_<country>.md` and fill in the source URL, the AD-section → type mapping, and the title/ICAO/URL extraction notes.
+2. Implement `crawlers/crawlers/<cc>.py` inheriting `HttpCrawlerBase` (or `HttpEurocontrolBase` for eurocontrol eAIPs) — see the “Crawler interface” section below and the existing AT/DE/FR/NL/UK crawlers.
+3. Register the class in `main.py`'s active list.
+4. Add `crawlers/tests/test_<cc>.py` and include the country in the CI import smoke test.
+5. Prefer a **static permalink** for each airport's chart URL when the source offers one, so links survive AIRAC amendments (see `de.py`).
 
 ## Architecture
 
 ```mermaid
 flowchart TD
- subgraph subGraph0["Next.js Application (Vercel, https://aip.aero)"]
+ subgraph subGraph0["Next.js Application (Cloudflare Workers, https://aip.aero)"]
         API["API Endpoint /api/airports"]
         Website["Website"]
         InsertAction["Server Action: Insert Airports"]
         ReadAction["Server Action: Read Airports"]
-        Cache["Cache"]
+        Cache["Cache (R2 incr. + D1 tag cache)"]
         IsHit{"Cache hit?"}
   end
  subgraph subGraph1["netcup root server (systemd timer)"]
@@ -143,10 +164,10 @@ flowchart TD
   end
     Crawlers -- POST data + CRON_SECRET --> API
     API -- calls --> InsertAction
-    InsertAction -- inserts airports --> MySQL[("MySQL Database")]
-    InsertAction -- clears --> Cache
+    InsertAction -- inserts airports (D1 batch) --> D1[("Cloudflare D1")]
+    InsertAction -- "revalidateTag(country:CC)" --> Cache
     Website -- uses --> ReadAction
     ReadAction -- queries airports --> Cache
     Cache --> IsHit
-    IsHit -- No --> MySQL
+    IsHit -- No --> D1
 ```

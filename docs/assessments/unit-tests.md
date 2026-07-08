@@ -2,7 +2,7 @@
 
 ## Status
 
-✅ **Implemented for the crawler subsystem.** 29 tests, all passing, gated in CI.
+✅ **Implemented for the crawler subsystem.** 91 tests, all passing, gated in CI.
 
 ❌ **Not implemented for the website.** Justified below.
 
@@ -12,9 +12,13 @@ The pytest suite lives at `crawlers/tests/` and exercises the pure-function-shap
 
 | File | Target | Tests |
 | --- | --- | --- |
-| `tests/test_http_base.py` | `HttpCrawlerBase` (fetch, frame chain, text helpers, lifecycle) | 11 |
-| `tests/test_http_eurocontrol_base.py` | `extract_airports_from_html` — eAIP nav menu parsing for NL/UK/FR | 9 |
-| `tests/test_at.py` | `AT.extract_airports` — Austrocontrol's table format | 9 |
+| `tests/test_http_base.py` | `HttpCrawlerBase` (fetch, frame chain, text helpers, lifecycle) | 16 |
+| `tests/test_http_eurocontrol_base.py` | `extract_airports_from_html` — eAIP nav menu parsing for NL/UK/FR | 12 |
+| `tests/test_at.py` | `AT.extract_airports` — Austrocontrol's table format | 18 |
+| `tests/test_de.py` | `DE` — DFS BasicVFR/BasicIFR folder-link tree parsing + `myPermalink` resolution | 14 |
+| `tests/test_fr.py` | `FR` — SIA eAIP edition selection + menu-section resilience | 14 |
+| `tests/test_nl.py` | `NL` — LVNL AIRAC edition resolver | 11 |
+| `tests/test_uk.py` | `UK` — NATS AIRAC edition selector | 6 |
 
 Network is mocked with `httpx.MockTransport`; HTML is synthetic and mirrors the real shapes (frameset chains, eAIP menu pairs, `TAD_HP;TXT_NAME;NNNN` UK suffix, Austrocontrol section-header rows). No real outbound requests are made, so the suite runs in ~1.5s and is safe to run anywhere.
 
@@ -42,7 +46,7 @@ CI runs `uv run pytest tests/` on every PR and push to `main` (see `.github/work
 Three reasons, in priority order:
 
 1. **The risky logic is in the crawlers**, not the website. The website's "logic" is mostly Next.js routing + Drizzle queries + i18n message rendering — there's no business logic deeper than `eq(airports.country, X)` to test in isolation. Type-checking and end-to-end runtime in production catch the realistic failure modes.
-2. **No test runner is currently set up.** Adding Vitest / Jest + RTL is non-trivial for an App Router project (server components, async server actions, `'use cache'` directives). It's worth doing before the next significant feature — not as a blanket "add tests" sweep.
+2. **Deep component/RTL coverage is still non-trivial.** Adding broad Vitest / Jest + RTL coverage is non-trivial for an App Router project (server components, async server actions, `unstable_cache`-wrapped reads). It's worth doing before the next significant feature — not as a blanket "add tests" sweep.
 3. **The four existing client components** (`menu`, `mobile-menu`, `breadcrumbs`, `search-input-field`, `locale-switcher-select`) are all thin wrappers over Radix primitives. Testing Radix is FAANG's job, not ours.
 
 When unit tests are eventually added to the website, the natural starting points (in order of return-on-effort) are:
@@ -54,7 +58,7 @@ When unit tests are eventually added to the website, the natural starting points
 
 ## What this suite does not cover
 
-- **DE crawler** — still on Selenium, not testable in CI without Chromium. Add tests once it's ported off `CrawlerBase`.
+- **DE crawler** — ✅ now covered. DE was ported off Selenium/`CrawlerBase` to `HttpCrawlerBase`, so it runs in CI; its tests are `tests/test_de.py` in the table above. (It was previously excluded as untestable without Chromium.)
 - **End-to-end crawler runs** — these are integration tests against live AIP sites, which are slow, flaky from datacenter IPs, and out of scope for unit tests. The `output_handler.py` POST happens inside `main.py`; that's the natural end-to-end seam to mock if integration testing becomes valuable later.
 - **Real network** — by design. Adding network-based tests would be flaky and slow; if a parser breaks because the upstream HTML changed, the real netcup cron run will fail loud and `error_logs/` will have the response body for diagnosis.
 
