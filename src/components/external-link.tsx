@@ -12,7 +12,7 @@ export function ExternalLink({ children, href, hrefTitle, className }: Props) {
       title={hrefTitle}
       aria-label={hrefTitle}
       target="_blank"
-      rel="noopener, noreferrer, noindex, nofollow"
+      rel="noopener noreferrer nofollow"
       className={className}
     >
       {children}

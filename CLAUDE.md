@@ -56,7 +56,7 @@ GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request to `main`
 | --- | --- |
 | **Website (Next.js)** | `pnpm install --frozen-lockfile` → `typecheck` → `format:check` → `lint` → i18n parity → `test` (vitest) → `audit` (high+) → `cf-build` (OpenNext Worker build) |
 | **Crawlers (Python)** | `uv lock --check` → `uv sync --frozen` → `python -m compileall` → import smoke test for AT/DE/FR/NL/UK → `pytest` |
-| **E2E & rendered output (Playwright)** | `pnpm build` → `pnpm test:e2e` (Playwright, Chromium) against a `next start` server: rendered-output **SEO** contract (meta description in `<head>` & unique, canonical/OG/Twitter, `<main>`, `<html lang>`), **axe** accessibility, user **flows** (search, locale switch, 404), and **sitemap** structure. |
+| **E2E & rendered output (Playwright)** | `pnpm build` → `pnpm test:e2e` (Playwright, Chromium) against a `next start` server: rendered-output **SEO** contract (meta description in `<head>` & unique, canonical/OG/Twitter, `<main>`, `<html lang>`), **axe** accessibility, **JSON-LD** structured-data validity, user **flows** (search, locale switch, 404), and **sitemap** structure. |
 | **Lighthouse budgets (local)** | `pnpm build` → start `pnpm start` → `treosh/lighthouse-ci-action` against localhost URLs with budgets from `.lighthouserc.cjs` (SEO + a11y gate, best-practices + performance warn). |
 
 Notes:
