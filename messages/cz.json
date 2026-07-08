@@ -143,5 +143,20 @@
   "Error": {
     "description": "<p>Bohužel došlo k chybě.</p><p>Můžete zkusit <retry>tuto stránku znovu načíst</retry>.</p>",
     "title": "Něco se pokazilo!"
+  },
+  "Weather": {
+    "title": "Počasí",
+    "observed": "Naměřeno",
+    "forecast": "Předpověď",
+    "wind": "Vítr",
+    "visibility": "Dohlednost",
+    "clouds": "Oblačnost",
+    "temperature": "Teplota",
+    "qnh": "QNH",
+    "source": "Zdroj"
+  },
+  "Common": {
+    "lastUpdated": "Naposledy aktualizováno",
+    "viewOnMap": "Zobrazit na Mapách Google"
   }
 }

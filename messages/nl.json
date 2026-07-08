@@ -178,5 +178,20 @@
   "Error": {
     "description": "<p>Er is helaas een probleem opgetreden.</p><p>Je kunt proberen <retry>deze pagina opnieuw te laden</retry>.</p>",
     "title": "Er is iets misgegaan!"
+  },
+  "Weather": {
+    "title": "Weer",
+    "observed": "Waargenomen",
+    "forecast": "Verwachting",
+    "wind": "Wind",
+    "visibility": "Zicht",
+    "clouds": "Bewolking",
+    "temperature": "Temperatuur",
+    "qnh": "QNH",
+    "source": "Bron"
+  },
+  "Common": {
+    "lastUpdated": "Laatst bijgewerkt",
+    "viewOnMap": "Bekijk op Google Maps"
   }
 }

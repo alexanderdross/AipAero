@@ -178,5 +178,20 @@
   "Error": {
     "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
     "title": "Something went wrong!"
+  },
+  "Weather": {
+    "title": "Weather",
+    "observed": "Observed",
+    "forecast": "Forecast",
+    "wind": "Wind",
+    "visibility": "Visibility",
+    "clouds": "Clouds",
+    "temperature": "Temperature",
+    "qnh": "QNH",
+    "source": "Source"
+  },
+  "Common": {
+    "lastUpdated": "Last updated",
+    "viewOnMap": "View on Google Maps"
   }
 }

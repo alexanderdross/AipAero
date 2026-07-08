@@ -178,5 +178,20 @@
   "Error": {
     "description": "<p>Ett problem har tyvärr uppstått.</p><p>Du kan försöka <retry>ladda om den här sidan</retry>.</p>",
     "title": "Något gick fel!"
+  },
+  "Weather": {
+    "title": "Väder",
+    "observed": "Observerad",
+    "forecast": "Prognos",
+    "wind": "Vind",
+    "visibility": "Sikt",
+    "clouds": "Moln",
+    "temperature": "Temperatur",
+    "qnh": "QNH",
+    "source": "Källa"
+  },
+  "Common": {
+    "lastUpdated": "Senast uppdaterad",
+    "viewOnMap": "Visa på Google Maps"
   }
 }

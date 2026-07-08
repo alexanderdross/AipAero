@@ -178,5 +178,20 @@
   "Error": {
     "description": "<p>Der opstod desværre en fejl.</p><p>Du kan prøve at <retry>genindlæse denne side</retry>.</p>",
     "title": "Der gik noget galt!"
+  },
+  "Weather": {
+    "title": "Vejr",
+    "observed": "Observeret",
+    "forecast": "Prognose",
+    "wind": "Vind",
+    "visibility": "Sigtbarhed",
+    "clouds": "Skyer",
+    "temperature": "Temperatur",
+    "qnh": "QNH",
+    "source": "Kilde"
+  },
+  "Common": {
+    "lastUpdated": "Senest opdateret",
+    "viewOnMap": "Se på Google Maps"
   }
 }

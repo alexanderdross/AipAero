@@ -5,6 +5,7 @@ import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { notFound } from "next/navigation";
 import { AboutCountryBox } from "~/components/about-country-box";
+import { AirportGadgets } from "~/components/airport-gadgets";
 import { ExternalLink } from "~/components/external-link";
 import { SchemaAirport } from "~/components/schemas/schema-airport";
 import { SchemaProduct } from "~/components/schemas/schema-product";
@@ -262,6 +263,8 @@ export default async function IndexPage({
           </ol>
         </div>
       </div>
+
+      {data && <AirportGadgets airport={data} />}
 
       {/* About AIP Box */}
       <AboutCountryBox isH3={false} />
