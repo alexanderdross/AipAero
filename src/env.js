@@ -40,8 +40,18 @@ export const env = createEnv({
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
    * useful for Docker builds.
+   *
+   * Build-time validation is also skipped in CI build containers (`CI` is set by GitHub
+   * Actions AND by Cloudflare's Workers Builds image; `WORKERS_CI` is Workers Builds
+   * specific). Build machines never have the Worker's runtime secrets (CRON_SECRET,
+   * ADSENSE_ID) - those are validated at runtime on the Worker, where they exist. Without
+   * this, the Workers Builds Git integration fails during `next build` page-data collection
+   * regardless of which package.json script the dashboard invokes.
    */
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  skipValidation:
+    !!process.env.SKIP_ENV_VALIDATION ||
+    !!process.env.CI ||
+    !!process.env.WORKERS_CI,
   /**
    * Makes it so that empty strings are treated as undefined. `SOME_VAR: z.string()` and
    * `SOME_VAR=''` will throw an error.
