@@ -33,7 +33,7 @@ export default async function LocaleLayout(
     <html className="h-full" lang={localeLangMapping[locale]}>
       <body className={"bg-drossgray font-sans"}>
         <Header withLangSwitcher />
-        {props.children}
+        <main>{props.children}</main>
         <NextIntlClientProvider messages={pick(messages, "BreadCrumbs")}>
           <Suspense fallback={null}>
             <BreadCrumbs />
