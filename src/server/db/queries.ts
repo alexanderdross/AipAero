@@ -193,6 +193,21 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
+  airportsGlobal: async function (search: string) {
+    // Cross-country as-you-type search (title OR ICAO), spanning every country
+    // and type. Not cached, same rationale as `airports` above. LIMIT 8 keeps
+    // it cheap; both matched columns are indexed.
+    const db = await getDb();
+    if (!db) return [] as Airport[];
+    return db.query.airports.findMany({
+      limit: 8,
+      where: or(
+        like(airports.title, `%${search}%`),
+        like(airports.icao, `%${search}%`),
+      ),
+      orderBy: [asc(airports.title)],
+    });
+  },
 };
 
 // Cloudflare D1 caps bound parameters at 100 per query - far below SQLite's own

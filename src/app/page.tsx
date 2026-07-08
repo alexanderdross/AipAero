@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { AboutBox } from "~/components/about-box";
 import { Box } from "~/components/box";
+import { GlobalSearchInputField } from "~/components/global-search-input-field";
 import Footer from "~/components/footer";
 import { Title } from "~/components/title";
 import { Header } from "~/components/header";
@@ -233,6 +234,9 @@ export default async function RootPage() {
             publishedDate={modifiedDate}
             currentUrl={orgUrl.toString()}
           />
+
+          {/* Global cross-country search */}
+          <GlobalSearchInputField placeholder="Search any airport across Europe by name or ICAO code" />
 
           {/* Country Boxes */}
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

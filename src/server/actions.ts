@@ -36,3 +36,22 @@ export async function searchAirports(_prevState: unknown, formData: FormData) {
     airports: airports,
   };
 }
+
+const globalSchema = z.object({
+  search: z.string().min(1).max(50),
+});
+
+// Cross-country search: matches an airport by title or ICAO across ALL countries
+// and types (the per-country `searchAirports` is scoped to one country + type).
+// Backs the global search box on the root page.
+export async function searchAirportsGlobal(
+  _prevState: unknown,
+  formData: FormData,
+) {
+  const validated = globalSchema.safeParse({ search: formData.get("search") });
+  if (!validated.success) {
+    return { airports: [] };
+  }
+  const airports = await QUERIES.airportsGlobal(validated.data.search);
+  return { airports };
+}
