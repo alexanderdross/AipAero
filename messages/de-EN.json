@@ -167,6 +167,12 @@
     "aipUrl": "https://aip.dfs.de/basicAIP/",
     "aipTitle": "AIP Germany"
   },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Germany on Trade:Aero — the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in Germany",
+    "buttonHrefTitle": "Trade:Aero — aircraft for sale in Germany"
+  },
   "Footer": {
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",

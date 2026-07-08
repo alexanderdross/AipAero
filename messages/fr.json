@@ -132,6 +132,12 @@
     "aipUrl": "https://www.sia.aviation-civile.gouv.fr/plandesite",
     "aipTitle": "Manuel d'aviation AIP France"
   },
+  "TradeAero": {
+    "title": "Acheter ou vendre un avion ?",
+    "description": "Découvrez des avions à vendre en France sur Trade:Aero — la place de marché pour acheter et vendre des avions.",
+    "buttonTitle": "Voir les avions en France",
+    "buttonHrefTitle": "Trade:Aero — avions à vendre en France"
+  },
   "Footer": {
     "stratux": {
       "title": "📡 Stratux - Système anti-collision",

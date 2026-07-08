@@ -4,6 +4,7 @@ import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { AboutCountryBox } from "~/components/about-country-box";
 import { Box } from "~/components/box";
+import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import { Title } from "~/components/title";
@@ -152,6 +153,9 @@ export default async function CountryPage(
           ))}
         </div>
       </div>
+
+      {/* Trade:Aero cross-sell (locale + country aware) */}
+      <TradeAeroCta />
 
       {/* About AIP Box */}
       <AboutCountryBox isH3={true} />

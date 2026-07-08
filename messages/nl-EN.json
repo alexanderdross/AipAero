@@ -132,6 +132,12 @@
     "aipUrl": "https://www.lvnl.nl/diensten/aip",
     "aipTitle": "AIP of the Netherlands"
   },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in the Netherlands on Trade:Aero — the marketplace for buying and selling aircraft.",
+    "buttonTitle": "View aircraft in the Netherlands",
+    "buttonHrefTitle": "Trade:Aero — aircraft for sale in the Netherlands"
+  },
   "Footer": {
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",
