@@ -95,6 +95,48 @@ def test_uses_last_anchor_text_when_multiple_anchors_in_title(parser: _Concrete)
     assert airport.icao == "EHAA"
 
 
+# ----- ICAO validation --------------------------------------------------------
+
+
+def test_title_without_icao_keeps_full_name_and_null_icao(parser: _Concrete):
+    # A leading token that isn't a 4-letter ICAO code (here a named field
+    # with no location indicator) must not be turned into a bogus "code".
+    html = _menu(
+        """
+        <div><a href='ad/x.html'>SEGELFLUGGELANDE SPITZERBERG</a></div>
+        <div><div><a href='charts/x.pdf'>c</a></div></div>
+        """
+    )
+    [airport] = parser.extract_airports_from_html(html, _BASE_URL, "AD-2details", "vfr")
+    assert airport.icao is None
+    assert airport.title == "SEGELFLUGGELANDE SPITZERBERG"
+
+
+def test_four_letter_icao_is_uppercased_and_split(parser: _Concrete):
+    html = _menu(
+        """
+        <div><a href='ad/ehle.html'>ehle LELYSTAD</a></div>
+        <div><div><a href='charts/ehle.pdf'>c</a></div></div>
+        """
+    )
+    [airport] = parser.extract_airports_from_html(html, _BASE_URL, "AD-2details", "vfr")
+    assert airport.icao == "EHLE"
+    assert airport.title == "LELYSTAD EHLE"
+
+
+def test_non_four_letter_leading_token_is_not_an_icao(parser: _Concrete):
+    # Five letters, digits, etc. are not ICAO location indicators.
+    html = _menu(
+        """
+        <div><a href='ad/x.html'>HELIPAD CITY HOSPITAL</a></div>
+        <div><div><a href='charts/x.pdf'>c</a></div></div>
+        """
+    )
+    [airport] = parser.extract_airports_from_html(html, _BASE_URL, "AD-2details", "vfr")
+    assert airport.icao is None
+    assert airport.title == "HELIPAD CITY HOSPITAL"
+
+
 # ----- multiple sections / categories -----------------------------------------
 
 

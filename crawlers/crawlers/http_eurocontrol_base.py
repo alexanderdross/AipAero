@@ -90,17 +90,26 @@ class HttpEurocontrolBase(HttpCrawlerBase):
             return None
 
         parts = raw_title.split(" ")
-        icao = parts[0].upper()
-        title_rest = " ".join(parts[1:]).strip()
+        icao_candidate = parts[0].upper()
+        if re.fullmatch(r"[A-Z]{4}", icao_candidate):
+            icao: str | None = icao_candidate
+            title_rest = " ".join(parts[1:]).strip()
+        else:
+            # No ICAO location indicator (some small aerodromes / heliports
+            # are listed by name only). Keep the whole label as the title
+            # rather than emitting a bogus, non-ICAO "code".
+            icao = None
+            title_rest = raw_title
 
         charts_url = self._find_charts_url(details_div, base_url)
         if charts_url is None:
             return None
 
+        title = f"{title_rest} {icao}".strip() if icao else title_rest
         return Airport(
             country=self.country,
             icao=icao,
-            title=f"{title_rest} {icao}".strip(),
+            title=title,
             url=charts_url,
             type=category,
         )

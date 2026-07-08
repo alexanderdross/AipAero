@@ -1,3 +1,5 @@
+import datetime
+import re
 from typing import Literal, Optional
 from urllib.parse import urljoin
 
@@ -7,6 +9,14 @@ from crawlers.http_base import Airport, HttpCrawlerBase
 
 COUNTRY = "AT"
 ROOT_URL = "https://eaip.austrocontrol.at"
+
+# The root page tabulates the current edition plus a few upcoming ones. Each
+# edition links to `./lo/YYMMDD/index.htm`, where YYMMDD is the AIRAC
+# effective date; the effective row is flagged `<tr class="current">`, the
+# others `<tr class="future">`. We only ever treat `…/YYMMDD/index.htm`
+# hrefs as editions, so the "Additional products and services" links on the
+# same page can never be mistaken for one.
+_EDITION_HREF_RE = re.compile(r"(\d{2})(\d{2})(\d{2})/index", re.I)
 
 
 class AT(HttpCrawlerBase):
@@ -26,8 +36,90 @@ class AT(HttpCrawlerBase):
 
     @staticmethod
     def find_link_by_text(soup: BeautifulSoup, text: str) -> Optional[str]:
-        link = soup.find("a", string=lambda t: bool(t) and text in t)
-        return link.get("href") if link else None
+        """Return the href of the first link whose visible text contains ``text``.
+
+        Matches on the anchor's full ``get_text()`` (not its direct
+        ``.string``), so links wrapping nested markup — e.g.
+        ``<a><b>Part III - AD</b></a>`` — still match, and normalises runs of
+        whitespace on both sides so a stray double space in the markup can't
+        defeat the lookup.
+        """
+        needle = " ".join(text.split())
+        for a in soup.find_all("a", href=True):
+            haystack = " ".join(a.get_text().split())
+            if needle in haystack:
+                return a.get("href")
+        return None
+
+    def _find_current_edition_url(
+        self,
+        base_url: str,
+        html: str,
+        today: datetime.date | None = None,
+    ) -> str:
+        """Resolve the currently effective edition entry point on the root page.
+
+        Selection order, most robust first:
+          1. the edition link inside the ``<tr class="current">`` row — the
+             site's own semantic marker for the effective cycle;
+          2. the link whose text reads "…current version" / "aktuelle
+             Ausgabe" (older / label-driven layouts);
+          3. the latest edition whose date (the ``YYMMDD`` in the href) is on
+             or before ``today``, falling back to the earliest listed edition
+             if — unexpectedly — every edition is still in the future.
+        """
+        today = today or datetime.date.today()
+        soup = self.soup(html)
+
+        def edition_href(scope) -> str | None:
+            for a in scope.find_all("a", href=True):
+                if _EDITION_HREF_RE.search(a["href"]):
+                    return a["href"]
+            return None
+
+        # 1. Semantic marker: the row flagged as the current cycle.
+        for tr in soup.find_all("tr", class_="current"):
+            href = edition_href(tr)
+            if href:
+                self.logger.info(f"Current AT edition (class='current'): {href}")
+                return urljoin(base_url, href)
+
+        # 2. Label text on the edition link itself.
+        for a in soup.find_all("a", href=True):
+            if not _EDITION_HREF_RE.search(a["href"]):
+                continue
+            text = " ".join(a.get_text().split()).casefold()
+            if "current version" in text or "aktuelle ausgabe" in text:
+                self.logger.info(f"Current AT edition (label): {a['href']}")
+                return urljoin(base_url, a["href"])
+
+        # 3. Date embedded in the edition href (YYMMDD).
+        dated: list[tuple[datetime.date, str]] = []
+        for a in soup.find_all("a", href=True):
+            m = _EDITION_HREF_RE.search(a["href"])
+            if not m:
+                continue
+            yy, mm, dd = (int(g) for g in m.groups())
+            try:
+                effective = datetime.date(2000 + yy, mm, dd)
+            except ValueError:
+                continue
+            dated.append((effective, urljoin(base_url, a["href"])))
+
+        if dated:
+            in_effect = [c for c in dated if c[0] <= today]
+            effective_date, url = (
+                max(in_effect, key=lambda c: c[0])
+                if in_effect
+                else min(dated, key=lambda c: c[0])
+            )
+            self.logger.info(
+                f"Current AT edition (effective {effective_date.isoformat()}): "
+                f"{url}"
+            )
+            return url
+
+        raise ValueError(f"No current-edition link found in {base_url}")
 
     def extract_airports(
         self, url: str, airport_type: Literal["vfr", "ifr", "heliport"]
@@ -70,19 +162,11 @@ class AT(HttpCrawlerBase):
         last_url = ROOT_URL
         last_html: str | None = None
         try:
-            # 1. Root → "aktuelle Ausgabe / current version".
+            # 1. Root → currently effective edition (class='current' / date).
             root_html = self.fetch_iso(ROOT_URL)
             last_url, last_html = ROOT_URL, root_html
 
-            href = self.find_link_by_text(
-                self.soup(root_html), "aktuelle Ausgabe / current version"
-            )
-            if not href:
-                raise ValueError(
-                    f"'aktuelle Ausgabe / current version' link not found in "
-                    f"{ROOT_URL}"
-                )
-            main_aip_url = urljoin(ROOT_URL, href)
+            main_aip_url = self._find_current_edition_url(ROOT_URL, root_html)
 
             # 2. Current version → "Part III - AD".
             main_html = self.fetch_iso(main_aip_url)
