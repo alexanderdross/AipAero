@@ -192,7 +192,10 @@
     "elevation": "Høyde",
     "sunrise": "Soloppgang",
     "sunset": "Solnedgang",
-    "civilTwilight": "Borgerlig tussmørke"
+    "civilTwilight": "Borgerlig tussmørke",
+    "facts": "Flyplassdata",
+    "runways": "Rullebaner",
+    "frequencies": "Frekvenser"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",

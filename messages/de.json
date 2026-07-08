@@ -227,7 +227,10 @@
     "elevation": "Höhe",
     "sunrise": "Sonnenaufgang",
     "sunset": "Sonnenuntergang",
-    "civilTwilight": "Bürgerliche Dämmerung"
+    "civilTwilight": "Bürgerliche Dämmerung",
+    "facts": "Flugplatzdaten",
+    "runways": "Pisten",
+    "frequencies": "Frequenzen"
   },
   "Common": {
     "lastUpdated": "Stand",

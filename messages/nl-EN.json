@@ -192,7 +192,10 @@
     "elevation": "Elevation",
     "sunrise": "Sunrise",
     "sunset": "Sunset",
-    "civilTwilight": "Civil twilight"
+    "civilTwilight": "Civil twilight",
+    "facts": "Aerodrome data",
+    "runways": "Runways",
+    "frequencies": "Frequencies"
   },
   "Common": {
     "lastUpdated": "Last updated",

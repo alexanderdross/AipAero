@@ -157,7 +157,10 @@
     "elevation": "Nadmořská výška",
     "sunrise": "Východ slunce",
     "sunset": "Západ slunce",
-    "civilTwilight": "Občanský soumrak"
+    "civilTwilight": "Občanský soumrak",
+    "facts": "Údaje o letišti",
+    "runways": "Dráhy",
+    "frequencies": "Frekvence"
   },
   "Common": {
     "lastUpdated": "Naposledy aktualizováno",

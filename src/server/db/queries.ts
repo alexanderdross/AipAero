@@ -1,9 +1,16 @@
 "server-only";
 
-import { and, eq, asc, like, or } from "drizzle-orm";
+import { and, eq, asc, like, or, sql } from "drizzle-orm";
 import { unstable_cache, revalidateTag } from "next/cache";
 import { getDb, type DB } from "~/server/db";
-import { type InsertAirport, type Airport, airports } from "./schema";
+import {
+  type InsertAirport,
+  type Airport,
+  type AirportFactsRow,
+  type InsertAirportFacts,
+  airports,
+  airportFacts,
+} from "./schema";
 
 // Cache lifetime for the read queries (seconds). The AIP data only changes when
 // the crawler POSTs new data, which invalidates the affected country on-demand
@@ -208,6 +215,23 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
+  airportFacts: function (icao: string) {
+    // Embedded aerodrome facts by ICAO (OurAirports base, imported into D1).
+    // Cached with a single global tag - the importer refreshes all rows at once.
+    return cachedRead<AirportFactsRow | undefined>(
+      "airportFacts",
+      ["airportFacts", icao],
+      ["airportFacts"],
+      (db) =>
+        db
+          .select()
+          .from(airportFacts)
+          .where(eq(airportFacts.icao, icao))
+          .limit(1)
+          .then((rows) => rows[0]),
+      undefined,
+    );
+  },
 };
 
 // Cloudflare D1 caps bound parameters at 100 per query - far below SQLite's own
@@ -261,6 +285,38 @@ export const MUTATIONS = {
     // previous code revalidated 7 global tags, invalidating all ~1k entries
     // across every country on every run.)
     revalidateTag(countryTag(country));
+    return result;
+  },
+  upsertAirportFacts: async function (input: InsertAirportFacts[]) {
+    if (!input[0]) return;
+    const db = await getDb();
+    if (!db) {
+      throw new Error("D1 database binding is unavailable");
+    }
+    // Per-row upsert keyed on ICAO (each row binds 8 params, well under the D1
+    // limit). Uses `excluded.*` so re-imports overwrite in place instead of
+    // wiping the table between paginated importer batches.
+    const stmts = input.map((row) =>
+      db
+        .insert(airportFacts)
+        .values(row)
+        .onConflictDoUpdate({
+          target: airportFacts.icao,
+          set: {
+            lat: sql`excluded.lat`,
+            lon: sql`excluded.lon`,
+            elevationFt: sql`excluded.elevation_ft`,
+            runways: sql`excluded.runways`,
+            frequencies: sql`excluded.frequencies`,
+            source: sql`excluded.source`,
+            updatedAt: sql`excluded.updated_at`,
+          },
+        }),
+    );
+    const result = await db.batch(
+      stmts as [(typeof stmts)[number], ...(typeof stmts)[number][]],
+    );
+    revalidateTag("airportFacts");
     return result;
   },
 };

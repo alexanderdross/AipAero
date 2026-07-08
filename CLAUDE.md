@@ -339,6 +339,7 @@ Beyond the core search-and-link flow, the airport detail pages and the charts in
 - **Airport gadgets wrapper** - `src/components/airport-gadgets.tsx`, rendered on all five detail pages (`vfr`/`ifr`/`heliports`/`military`/`aeroports`) below the chart link; composes the weather card + a **Google Maps** link (resolves the field by ICAO/name query, no stored coordinates needed). `mt-24` clears the absolutely-positioned chart link.
 - **Last updated** - `src/components/last-updated.tsx`, a localized build-stamp date on the charts index (`airport-list`).
 - **Trade:Aero cross-link** - `src/lib/trade-aero.ts` + `src/components/trade-aero-cta.tsx`. Locale + country aware deep links to the sister marketplace (`https://trade.aero`), derived entirely from the locale config so new countries roll out automatically; localized CTA on the country landing + airport-list pages, plus a locale-aware footer link. Followed (`rel="noopener"`) with UTM attribution. See `docs/trade-aero-crosslink-concept.md`.
+- **Aerodrome facts** - `src/components/airport-facts.tsx` + `src/lib/airport-facts.ts`. Embedded runways / frequencies / elevation per ICAO, **merged** from two sources: the **OurAirports** base (public domain / CC0, imported into the D1 `airport_facts` table by `crawlers/import_ourairports.py` -> `POST /api/airport-facts`) and **OpenAIP** at request time when the `OPENAIP_API_KEY` secret is set (`src/lib/openaip.ts`, cached, fail-soft; OpenAIP takes precedence per field group). All server-rendered; renders nothing until the importer has run / a key is set.
 - **PWA** - `src/app/manifest.ts` emits `/manifest.webmanifest` so the site is installable (e.g. on an EFB tablet).
 
 New i18n namespaces backing these - `Weather`, `Common` (`viewOnMap`, `lastUpdated`) and `TradeAero` - exist in **every** locale file; the i18n parity check (`scripts/check-i18n.mjs`) forces a newly added country to ship them too. Product/roadmap notes live in `docs/pilot-wishlist.md`.
@@ -361,6 +362,7 @@ New i18n namespaces backing these - `Weather`, `Common` (`viewOnMap`, `lastUpdat
 |-------------------|---------------------------------|
 | CRON_SECRET       | Bearer token for API auth (Worker secret) |
 | ADSENSE_ID        | Google AdSense publisher ID     |
+| OPENAIP_API_KEY (optional) | OpenAIP core API key for the embedded aerodrome-facts card (`x-openaip-api-key`); unset = OurAirports-only |
 
 The database is a Cloudflare **D1 binding** (`DB` in `wrangler.jsonc`), not env vars. OpenNext caching uses the `NEXT_INC_CACHE_R2_BUCKET` (R2) and `NEXT_TAG_CACHE_D1` (D1) bindings. `NODE_ENV` is set as a plain `var`.
 

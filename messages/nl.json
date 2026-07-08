@@ -192,7 +192,10 @@
     "elevation": "Hoogte",
     "sunrise": "Zonsopgang",
     "sunset": "Zonsondergang",
-    "civilTwilight": "Burgerlijke schemering"
+    "civilTwilight": "Burgerlijke schemering",
+    "facts": "Vliegveldgegevens",
+    "runways": "Banen",
+    "frequencies": "Frequenties"
   },
   "Common": {
     "lastUpdated": "Laatst bijgewerkt",

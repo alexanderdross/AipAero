@@ -26,9 +26,9 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
 
 ## A. Wishlist - what I want when I look up a field
 
-- **Aerodrome facts card**: field elevation, runway(s), circuit direction, **frequencies**
-  (TWR / INFO / ATIS / AFIS / APP), **fuel** (AVGAS / JET-A1), PPR flag + how to request it, opening
-  hours. _(Needs a data source - see roadmap D.2 / OpenAIP.)_
+- **Aerodrome facts card**: elevation, runways and **frequencies** - **shipped** (§C), embedded
+  server-side from OurAirports (CC0) + OpenAIP. Still wished for: circuit direction, **fuel**
+  (AVGAS / JET-A1), PPR flag + how to request it, opening hours.
 - **Customs / Airport-of-Entry** flag + national border-crossing form links (UK **GAR**, etc.).
 - **Weather**: decoded **METAR / TAF** - **shipped** (§C). Sunrise / sunset + civil twilight (VFR night)
   for stations that report coordinates - **next** (§D.3).
@@ -79,6 +79,12 @@ automatically; a localized CTA on the country landing + airport-list pages; SEO/
 - **Google Maps link** to the field (`src/components/airport-gadgets.tsx`) - a plain outbound link
   resolving the field by ICAO/name query (no stored coordinates needed).
 - **"Last updated"** indicator on the charts index (`src/components/last-updated.tsx`).
+- **Aerodrome facts** (`src/components/airport-facts.tsx`, `src/lib/airport-facts.ts`): embedded
+  runways / frequencies / elevation per ICAO, merged from the **OurAirports** base (CC0, imported into
+  D1 by `crawlers/import_ourairports.py`) and **OpenAIP** when `OPENAIP_API_KEY` is set
+  (`src/lib/openaip.ts`, fail-soft). Content is embedded, not linked out. Renders nothing until the
+  importer has run / a key is set.
+- **Cross-country search** on the root page (`src/components/global-search-input-field.tsx`).
 
 ---
 

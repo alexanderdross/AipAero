@@ -1,5 +1,6 @@
 import { MapPinIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
+import { AirportFacts } from "~/components/airport-facts";
 import { AirportWeather } from "~/components/airport-weather";
 import { ExternalLink } from "~/components/external-link";
 import { getAirportWeather } from "~/lib/weather";
@@ -30,6 +31,7 @@ export async function AirportGadgets({ airport }: { airport: Airport }) {
     <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4">
         <AirportWeather metar={metar} taf={taf} locale={locale} />
+        <AirportFacts icao={airport.icao} />
         <p className="text-center">
           <ExternalLink
             href={mapUrl}

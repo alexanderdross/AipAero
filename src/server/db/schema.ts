@@ -5,6 +5,7 @@ import { type InferInsertModel, type InferSelectModel } from "drizzle-orm";
 import {
   index,
   integer,
+  real,
   sqliteTableCreator,
   text,
 } from "drizzle-orm/sqlite-core";
@@ -53,3 +54,41 @@ export const airportApiInsertSchema = createInsertSchema(airports)
     slug: true,
   })
   .array();
+
+/**
+ * Embedded aerodrome facts (runways / frequencies / coordinates / elevation),
+ * keyed by ICAO. Populated out-of-band by the OurAirports importer (public
+ * domain / CC0 data - `crawlers/import_ourairports.py`), optionally enriched at
+ * request time from OpenAIP when `OPENAIP_API_KEY` is set. Kept in its own table
+ * so the crawler-fed `airports` table (identity + chart link only) stays
+ * untouched. `runways`/`frequencies` are JSON-encoded arrays (see the typed
+ * shapes below).
+ */
+export const airportFacts = createTable("airport_facts", {
+  icao: text("icao").primaryKey(),
+  lat: real("lat"),
+  lon: real("lon"),
+  elevationFt: integer("elevation_ft"),
+  runways: text("runways"), // JSON: RunwayFact[]
+  frequencies: text("frequencies"), // JSON: FrequencyFact[]
+  source: text("source").notNull(), // provenance, e.g. "ourairports"
+  updatedAt: integer("updated_at"), // unix seconds
+});
+
+export interface RunwayFact {
+  ident: string; // e.g. "06/24"
+  lengthFt: number | null;
+  widthFt: number | null;
+  surface: string | null; // free text (e.g. "ASP", "Asphalt", "GRASS")
+}
+
+export interface FrequencyFact {
+  type: string; // free text (e.g. "TWR", "INFO", "ATIS")
+  description: string | null;
+  mhz: string; // e.g. "120.075"
+}
+
+export type AirportFactsRow = InferSelectModel<typeof airportFacts>;
+export type InsertAirportFacts = InferInsertModel<typeof airportFacts>;
+export const airportFactsApiInsertSchema =
+  createInsertSchema(airportFacts).array();
