@@ -12,9 +12,18 @@ broke whenever DFS retitled or relocated a link.
     BasicIFR/pages/C000C0.html  →  AD 2 aerodromes    → leaf pages
     BasicIFR/pages/C01C60.html  →  AD 3 heliports     → leaf pages
 
+Each leaf page is served under a physical, edition-specific URL that is
+renamed every AIRAC cycle (…/2026JUN25/chapter/<hash>.html). It also embeds
+an amendment-stable permalink:
+
+    <script>const myPermalink = "pages/CNNNNN.html";</script>
+
+We store that permalink (resolved against the fork root) so saved links
+survive the monthly edition rename.
+
 Title and ICAO extraction differs per fork:
   - VFR leaves embed the title (with trailing 4-letter ICAO) in a span
-    inside the `<a class="folder-link">`.
+    inside the `<a class="folder-link">` on the letter-group page.
   - IFR leaves carry the city in `div.headlineText.left > span` and the
     ICAO in `a.document-link > span.document-name`.
 
@@ -33,16 +42,21 @@ from crawlers.http_base import Airport, HttpCrawlerBase
 
 COUNTRY = "DE"
 
-# Static section index pages (case-sensitive; DFS serves capital "Basic").
-# VFR:
-VFR_AERODROMES_URL = "https://aip.dfs.de/BasicVFR/pages/C0004A.html"
-VFR_HELIPORTS_URL = "https://aip.dfs.de/BasicVFR/pages/C00067.html"
-# IFR:
-IFR_AERODROMES_URL = "https://aip.dfs.de/BasicIFR/pages/C000C0.html"  # AD 2
-IFR_HELIPORTS_URL = "https://aip.dfs.de/BasicIFR/pages/C01C60.html"  # AD 3
+# Fork roots (case-sensitive; DFS serves capital "Basic"). The static
+# permalinks (`pages/CNNNNN.html`) are relative to these.
+VFR_BASE = "https://aip.dfs.de/BasicVFR/"
+IFR_BASE = "https://aip.dfs.de/BasicIFR/"
+
+# Static section index pages (stable entry points):
+VFR_AERODROMES_URL = VFR_BASE + "pages/C0004A.html"
+VFR_HELIPORTS_URL = VFR_BASE + "pages/C00067.html"
+IFR_AERODROMES_URL = IFR_BASE + "pages/C000C0.html"  # AD 2
+IFR_HELIPORTS_URL = IFR_BASE + "pages/C01C60.html"  # AD 3
 
 _ICAO_TRAILING = re.compile(r"([A-Z]{4})$")
 _ICAO_ANYWHERE = re.compile(r"([A-Z]{4})")
+# `const myPermalink = "pages/CNNNNN.html";` in each leaf page's <head>.
+_PERMALINK_RE = re.compile(r"""myPermalink\s*=\s*['"]([^'"]+)['"]""")
 
 
 class DE(HttpCrawlerBase):
@@ -58,6 +72,15 @@ class DE(HttpCrawlerBase):
             for a in self.soup(html).find_all("a", class_="folder-link")
             if a.get("href")
         ]
+
+    def _permalink_from_html(self, html: str, base_url: str) -> str | None:
+        """Return the absolute static permalink from a leaf page's HTML.
+
+        Reads `const myPermalink = "pages/CNNNNN.html"` and resolves it
+        against ``base_url`` (the fork root). Returns None if absent.
+        """
+        m = _PERMALINK_RE.search(html)
+        return urljoin(base_url, m.group(1)) if m else None
 
     # ----- VFR ----------------------------------------------------------------
 
@@ -109,12 +132,28 @@ class DE(HttpCrawlerBase):
                 continue
             match = _ICAO_TRAILING.search(title)
             icao = match.group(1) if match else None
+
+            # Prefer the amendment-stable permalink read from the leaf page;
+            # fall back to the (edition-specific) link href if that fetch
+            # fails or the page carries no permalink.
+            leaf_url = urljoin(url, href)
+            stable_url = leaf_url
+            try:
+                leaf_html = self.fetch(leaf_url)
+                stable_url = (
+                    self._permalink_from_html(leaf_html, VFR_BASE) or leaf_url
+                )
+            except Exception as e:
+                self.logger.warning(
+                    f"VFR permalink fetch failed for {leaf_url}: {e}"
+                )
+
             airports.append(
                 Airport(
                     country=COUNTRY,
                     icao=icao,
                     title=title,
-                    url=urljoin(url, href),
+                    url=stable_url,
                     type=category,
                 )
             )
@@ -164,12 +203,14 @@ class DE(HttpCrawlerBase):
                 icao = match.group(1)
         if not (city or icao):
             return
+        # The leaf HTML is already in hand — read its stable permalink for free.
+        stable_url = self._permalink_from_html(html, IFR_BASE) or url
         airports.append(
             Airport(
                 country=COUNTRY,
                 icao=icao or None,
                 title=f"{city} {icao}".strip(),
-                url=url,
+                url=stable_url,
                 type=category,
             )
         )
