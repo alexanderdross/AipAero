@@ -1,0 +1,50 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Deploys nicht überlappen lassen; ein laufendes Deploy nicht abbrechen.
+concurrency:
+  group: cd-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy (Cloudflare Workers)
+    runs-on: self-hosted
+    timeout-minutes: 15
+    env:
+      SKIP_ENV_VALIDATION: "1"
+      # Wrangler/OpenNext authentifizieren sich nicht-interaktiv über diese
+      # beiden Variablen (kein `wrangler login` im CI).
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Schema-Änderungen auf die Remote-D1 anwenden, bevor der neue
+      # Worker-Code live geht (additive Migrationen zuerst).
+      - name: Apply D1 migrations (remote)
+        run: pnpm exec wrangler d1 migrations apply DB --remote
+
+      # Baut den OpenNext-Worker und deployt ihn (opennextjs-cloudflare
+      # build && deploy). Muss `pnpm run deploy` sein — `pnpm deploy` ist ein
+      # reserviertes pnpm-Builtin (pnpm-workspace.yaml vorhanden).
+      - name: Build & Deploy
+        run: pnpm run deploy
