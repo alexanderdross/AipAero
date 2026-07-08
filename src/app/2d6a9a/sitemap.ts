@@ -16,6 +16,12 @@ import {
 import type { Airport } from "~/server/db/schema";
 import { QUERIES } from "~/server/db/queries";
 
+// ISR safety net (see airport-list/page.tsx): deploys seed the build's empty
+// prerender; hourly revalidation bounds how long the sitemaps miss the
+// airport entries if the post-deploy revalidate call and crawler POSTs are
+// unavailable.
+export const revalidate = 3600;
+
 // Which search-page path maps to which airport type (for availability gating).
 const TYPE_BY_PATH: Record<string, Airport["type"]> = {
   "/vfr": "vfr",

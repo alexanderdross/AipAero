@@ -20,6 +20,12 @@ import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/meta
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
 
+// ISR safety net: a deploy seeds the incremental cache with the build's EMPTY
+// prerender (the build has no DB). The post-deploy /api/revalidate call and
+// the crawler POSTs refresh on demand; this hourly revalidate bounds staleness
+// even if both are unavailable. The page stays static/prerendered.
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }

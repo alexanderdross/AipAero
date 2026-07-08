@@ -34,6 +34,20 @@ const countryTag = (country: string) => `country:${country.toUpperCase()}`;
 // on a real Worker the DB is migrated and populated, so we let errors surface.
 const IS_BUILD = process.env.NEXT_PHASE === "phase-production-build";
 
+// Build-time cache entries are (necessarily) EMPTY - the build has no DB. Every
+// deploy seeds them into the incremental cache (R2), where a 24h TTL would keep
+// serving empty airport lists until the next crawler POST happens to bust the
+// country tag. Stamp build-written entries with a 1h TTL instead: instant
+// freshness after a deploy comes from the CD workflow's POST /api/revalidate;
+// this TTL only bounds staleness if that call is unavailable. Do not go much
+// lower - a page's ISR interval becomes the MINIMUM of its route revalidate
+// and every cache TTL used during the build render, so a tiny value here would
+// make all prerendered pages rewrite (R2 writes) that often, forever.
+// (We must keep going THROUGH unstable_cache during the build - bypassing it
+// would strip the country tags off the prerendered pages and break the
+// on-demand revalidateTag flow.)
+const BUILD_SEED_REVALIDATE_SECONDS = 60 * 60;
+
 // Wrap a read in `unstable_cache` with the given tags.
 function cachedRead<T>(
   label: string,
@@ -69,7 +83,10 @@ function cachedRead<T>(
       }
     },
     keyParts,
-    { tags, revalidate: REVALIDATE_SECONDS },
+    {
+      tags,
+      revalidate: IS_BUILD ? BUILD_SEED_REVALIDATE_SECONDS : REVALIDATE_SECONDS,
+    },
   )();
 }
 
@@ -318,5 +335,18 @@ export const MUTATIONS = {
     );
     revalidateTag("airportFacts");
     return result;
+  },
+
+  // Bust every given country's cached reads (and, via the tag cache, the
+  // prerendered pages carrying those tags). Used by POST /api/revalidate -
+  // the CD workflow calls it once after each deploy, because a deploy seeds
+  // the incremental cache with the build's EMPTY prerenders (the build has
+  // no DB) which would otherwise be served until the next crawler POST.
+  revalidateCountries: function (countries: string[]): string[] {
+    const tags = countries.map((c) => countryTag(c));
+    for (const tag of tags) {
+      revalidateTag(tag);
+    }
+    return tags;
   },
 };
