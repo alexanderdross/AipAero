@@ -1,3 +1,4 @@
+import os
 import re
 from urllib.parse import urljoin
 
@@ -53,6 +54,16 @@ class GR(HttpEurocontrolBase):
         # agents (verified in the live-crawl test run) - send a plain
         # browser fingerprint instead of the polite crawler UA.
         self.use_browser_headers()
+        # HASP's WAF also blocks datacenter IPs outright (403 even with
+        # browser headers). Route through the Bright Data proxy when
+        # configured; without it this crawler cannot reach the source.
+        proxy_url = os.environ.get("BRIGHTDATA_PROXY_URL", "").strip()
+        if proxy_url:
+            self.use_proxy(proxy_url)
+        else:
+            self.logger.warning(
+                "GR: BRIGHTDATA_PROXY_URL not set - the HASP WAF will 403"
+            )
 
     def _find_link(self, html: str, base_url: str, pattern: re.Pattern) -> str | None:
         """Return the first absolute href whose link text matches ``pattern``."""

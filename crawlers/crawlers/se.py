@@ -161,6 +161,11 @@ class SE(HttpEurocontrolBase):
 
             edition_url = self._resolve_edition_url(index_url, index_html)
 
+            # Prefetch the edition page so a frame failure logs ITS links /
+            # body (index-v2.html is a new LFV viewer - structure unknown).
+            edition_html = self.fetch(edition_url)
+            last_url, last_html = edition_url, edition_html
+
             # 2. Walk the frame chain to the navigation HTML.
             nav_url, nav_html = self.follow_frame_chain(
                 edition_url, ["eAISNavigationBase", "eAISNavigation"]
@@ -182,9 +187,7 @@ class SE(HttpEurocontrolBase):
         except Exception as e:
             self.logger.error(f"SE crawl failed: {e}")
             if last_html is not None:
-                self.log_candidate_links(
-                    last_html, last_url, limit=60, contains=r"aip|airac|iaip"
-                )
+                self.log_candidate_links(last_html, last_url, limit=40)
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:

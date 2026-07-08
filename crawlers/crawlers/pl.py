@@ -93,6 +93,31 @@ class PL(HttpEurocontrolBase):
             self.logger.info(f"PL eAIP entry resolved: {entry}")
             return entry
 
+        # The EN hub only aliases the Polish page - the actual volume links
+        # live there. Scan it as a second level before giving up.
+        try:
+            pl_url = "https://www.ais.pansa.pl/publikacje/eaip/"
+            pl_html = self.fetch(pl_url)
+            pl_soup = self.soup(pl_html)
+            links = [
+                (a.get_text(" ", strip=True) or "", a["href"])
+                for a in pl_soup.find_all("a", href=True)
+                if not _re.search(r"/(publikacje|publications)/eaip/?$", a["href"])
+            ]
+            entry = (
+                pick(r"e?aip[^a-z]*vfr|vfr[^a-z]*e?aip")
+                or pick(r"/aip/.*\.html")
+                or pick(r"e?-?aip.*\.html")
+                or pick(r"airac.*\.html|\.html.*airac")
+            )
+            if entry:
+                self.logger.info(f"PL eAIP entry (via PL page): {entry}")
+                return entry
+            self.logger.warning("PL: Polish alias page has no volume link either")
+            self.log_candidate_links(pl_html, pl_url, limit=60, contains=r"aip|airac|html")
+        except Exception as e:
+            self.logger.warning(f"PL: alias-page scan failed: {e}")
+
         self.logger.warning(
             "PL: no eAIP volume link found on hub; trying known fallbacks"
         )

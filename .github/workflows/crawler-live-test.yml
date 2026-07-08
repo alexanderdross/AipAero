@@ -56,6 +56,9 @@ jobs:
       - name: Crawl live sources (no publish)
         env:
           COUNTRIES: ${{ inputs.countries || 'BE CZ DK GR NO PL SE' }}
+          # Bright Data proxy for WAF-blocked sources (GR). Optional - set the
+          # repo secret BRIGHTDATA_PROXY_URL (http://user:pass@host:port).
+          BRIGHTDATA_PROXY_URL: ${{ secrets.BRIGHTDATA_PROXY_URL }}
         run: |
           uv run python - <<'PY'
           import logging

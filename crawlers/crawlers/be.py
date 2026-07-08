@@ -84,13 +84,18 @@ class BE(HttpEurocontrolBase):
         missing one (empty for this cycle, or an unmatched id suffix) is
         logged and skipped rather than failing the whole crawl.
         """
+        last_error: ValueError | None = None
         for menu_id in id_candidates:
             try:
                 return self.extract_airports_from_html(
                     nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
                 )
-            except ValueError:
+            except ValueError as e:
+                last_error = e
                 continue
+        if last_error is not None:
+            # The error message lists the ids that DO exist in the menu.
+            self.logger.warning(f"BE section miss detail: {last_error}")
         self.logger.warning(
             f"No {category!r} section matched any of {id_candidates!r} — skipping"
         )
@@ -121,6 +126,10 @@ class BE(HttpEurocontrolBase):
             for id_candidates, category in _SECTIONS:
                 airports.extend(
                     self._extract_section(nav_html, nav_url, id_candidates, category)
+                )
+            if not airports:
+                raise ValueError(
+                    f"BE: no category section matched anything in {nav_url}"
                 )
         except Exception as e:
             self.logger.error(f"BE crawl failed: {e}")

@@ -78,6 +78,30 @@ class HttpCrawlerBase:
         """Switch the client to a browser-like fingerprint (WAF'd sources)."""
         self.client.headers.update(BROWSER_HEADERS)
 
+    def use_proxy(self, proxy_url: str) -> None:
+        """Route this crawler's traffic through an HTTP(S) proxy.
+
+        Used for sources whose WAF blocks datacenter IPs outright (GR). The
+        proxy URL (e.g. a Bright Data zone,
+        ``http://user:pass@brd.superproxy.io:22225``) comes from the
+        environment - never hardcode credentials. TLS verification is
+        disabled because unblocker-style proxies re-encrypt with their own
+        CA; the crawled data is public AIP HTML, so integrity risk is nil.
+        """
+        headers = dict(self.client.headers)
+        self.client.close()
+        self.client = httpx.Client(
+            follow_redirects=True,
+            timeout=self.timeout,
+            headers=headers,
+            http2=False,
+            proxy=proxy_url,
+            verify=False,
+        )
+        # Log without credentials.
+        safe = proxy_url.split("@")[-1]
+        self.logger.info(f"{self.country}: routing via proxy {safe}")
+
     def log_candidate_links(
         self,
         html: str,
