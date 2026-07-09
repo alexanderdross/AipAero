@@ -57,6 +57,14 @@ _ICAO_TRAILING = re.compile(r"([A-Z]{4})$")
 _ICAO_ANYWHERE = re.compile(r"([A-Z]{4})")
 # `const myPermalink = "pages/CNNNNN.html";` in each leaf page's <head>.
 _PERMALINK_RE = re.compile(r"""myPermalink\s*=\s*['"]([^'"]+)['"]""")
+# DFS now serves the static `pages/CNNNNN.html` entry pages as tiny
+# `<meta http-equiv="Refresh" content="0; url=../<AIRAC>/chapter/<hash>.html">`
+# stubs (0 anchors) instead of the content inline. httpx does not follow a
+# meta refresh, so we extract and follow it ourselves.
+_META_REFRESH_RE = re.compile(
+    r"""http-equiv=["']?refresh["']?[^>]*content=["']?[^;]*;\s*url=([^"'>\s]+)""",
+    re.I,
+)
 
 
 class DE(HttpCrawlerBase):
@@ -84,36 +92,26 @@ class DE(HttpCrawlerBase):
 
     # ----- VFR ----------------------------------------------------------------
 
-    def _diagnose_page(self, url: str, html: str) -> None:
-        """Log anchor structure of an index page (breakage diagnostics).
+    def _fetch(self, url: str, _depth: int = 0) -> tuple[str, str]:
+        """Fetch ``url``, transparently following `<meta refresh>` stubs.
 
-        Fires when a section index yields no `folder-link` anchors, so we can
-        see whether DFS renamed the class, moved the codes, or served an error.
+        Returns ``(effective_url, html)`` - the effective URL is the final
+        target after any redirects, so callers resolve the page's relative
+        links against it (a stub at `pages/CNNNNN.html` refreshes to a
+        `<AIRAC>/chapter/<hash>.html` in a different directory). Bounded depth
+        guards against a refresh loop.
         """
-        soup = self.soup(html)
-        anchors = soup.find_all("a")
-        classes: dict[str, int] = {}
-        for a in anchors:
-            for c in a.get("class") or ["<no-class>"]:
-                classes[c] = classes.get(c, 0) + 1
-        self.logger.warning(
-            f"DE diag {url}: {len(html)} bytes, {len(anchors)} anchors, "
-            f"anchor classes={classes}"
-        )
-        for a in anchors[:15]:
-            href = a.get("href")
-            if href:
-                label = " ".join(a.get_text().split())[:50]
-                self.logger.warning(f"  a.{a.get('class')} {href} | {label!r}")
-        # Small shell page: dump the raw markup so we can see a redirect / JS.
-        self.logger.warning(f"DE diag raw[:2000]: {html[:2000]!r}")
-        self.save_response(url, html, prefix="de_diag")
+        html = self.fetch(url)
+        m = _META_REFRESH_RE.search(html)
+        if m and _depth < 4:
+            target = urljoin(url, m.group(1).replace("\\", "/"))
+            self.logger.info(f"DE: following meta refresh {url} -> {target}")
+            return self._fetch(target, _depth + 1)
+        return url, html
 
     def _process_vfr(self, airports: list[Airport]) -> None:
-        ad_html = self.fetch(VFR_AERODROMES_URL)
-        heli_html = self.fetch(VFR_HELIPORTS_URL)
-        if not self.soup(ad_html).find_all("a", class_="folder-link"):
-            self._diagnose_page(VFR_AERODROMES_URL, ad_html)
+        ad_url, ad_html = self._fetch(VFR_AERODROMES_URL)
+        heli_url, heli_html = self._fetch(VFR_HELIPORTS_URL)
 
         # The first 3 folder-links on the aerodromes index are AD 0 Content,
         # AD 1 General Remarks, and the AD 2 list header — not airfields.
@@ -126,12 +124,10 @@ class DE(HttpCrawlerBase):
         )
 
         for href in aerodrome_links:
-            self._extract_vfr_group(
-                urljoin(VFR_AERODROMES_URL, href), "vfr", airports
-            )
+            self._extract_vfr_group(urljoin(ad_url, href), "vfr", airports)
         for href in heliport_links:
             self._extract_vfr_group(
-                urljoin(VFR_HELIPORTS_URL, href), "heliport", airports
+                urljoin(heli_url, href), "heliport", airports
             )
 
     def _extract_vfr_group(
@@ -141,7 +137,7 @@ class DE(HttpCrawlerBase):
         airports: list[Airport],
     ) -> None:
         try:
-            html = self.fetch(url)
+            base_url, html = self._fetch(url)
         except Exception as e:
             self.logger.warning(f"Skipping VFR group {url}: {e}")
             return
@@ -160,18 +156,18 @@ class DE(HttpCrawlerBase):
             match = _ICAO_TRAILING.search(title)
             icao = match.group(1) if match else None
 
-            # On the pages/ index the folder-link href is already the
-            # amendment-stable permalink (…/pages/CNNNNN.html), so we use it
-            # directly — no per-leaf fetch. Only if a page ever links out to
-            # an edition-specific URL (…/<AIRAC>/chapter/<hash>.html) do we
-            # fetch that leaf and read its `myPermalink`.
-            leaf_url = urljoin(url, href)
+            # If the folder-link href is already an amendment-stable permalink
+            # (…/pages/CNNNNN.html), use it directly. Otherwise it is an
+            # edition-specific URL (…/<AIRAC>/chapter/<hash>.html); fetch that
+            # leaf (following its meta refresh) and read its `myPermalink` so
+            # the stored link survives the next AIRAC amendment.
+            leaf_url = urljoin(base_url, href)
             if "/pages/" in leaf_url:
                 stable_url = leaf_url
             else:
                 stable_url = leaf_url
                 try:
-                    leaf_html = self.fetch(leaf_url)
+                    _, leaf_html = self._fetch(leaf_url)
                     stable_url = (
                         self._permalink_from_html(leaf_html, VFR_BASE) or leaf_url
                     )
@@ -193,8 +189,8 @@ class DE(HttpCrawlerBase):
     # ----- IFR ----------------------------------------------------------------
 
     def _process_ifr(self, airports: list[Airport]) -> None:
-        ad2_html = self.fetch(IFR_AERODROMES_URL)
-        ad3_html = self.fetch(IFR_HELIPORTS_URL)
+        ad2_url, ad2_html = self._fetch(IFR_AERODROMES_URL)
+        ad3_url, ad3_html = self._fetch(IFR_HELIPORTS_URL)
 
         # dict.fromkeys preserves order while deduplicating (the original
         # code used set() which doesn't preserve insertion order).
@@ -205,12 +201,10 @@ class DE(HttpCrawlerBase):
         )
 
         for href in ad2_links:
-            self._extract_ifr_leaf(
-                urljoin(IFR_AERODROMES_URL, href), "ifr", airports
-            )
+            self._extract_ifr_leaf(urljoin(ad2_url, href), "ifr", airports)
         for href in ad3_links:
             self._extract_ifr_leaf(
-                urljoin(IFR_HELIPORTS_URL, href), "heliport", airports
+                urljoin(ad3_url, href), "heliport", airports
             )
 
     def _extract_ifr_leaf(
@@ -220,7 +214,7 @@ class DE(HttpCrawlerBase):
         airports: list[Airport],
     ) -> None:
         try:
-            html = self.fetch(url)
+            _, html = self._fetch(url)
         except Exception as e:
             self.logger.warning(f"Skipping IFR leaf {url}: {e}")
             return

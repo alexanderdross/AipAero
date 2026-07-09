@@ -107,21 +107,17 @@ class FR(HttpEurocontrolBase):
             candidates.append((self._extract_date(href), urljoin(base_url, href)))
 
         if not candidates:
-            # Diagnostic: SIA changed the object-document structure. Dump the
-            # navigable references so we can see the new edition-entry pattern.
-            self.logger.warning(
-                f"FR: no {_INDEX_HREF} link in {base_url}; dumping references:"
-            )
-            for tag in soup.find_all(["a", "frame", "iframe", "object"])[:50]:
-                ref = tag.get("href") or tag.get("src") or tag.get("data")
-                if ref:
-                    label = " ".join(tag.get_text().split())[:60]
-                    self.logger.warning(
-                        f"  <{tag.name}> {ref} | {label!r}"
-                    )
-            # No navigable references at all: dump the raw markup so we can see
-            # a redirect / JS shell (home.html is now a small stub).
-            self.logger.warning(f"FR home.html raw[:2000]: {html[:2000]!r}")
+            # SIA's front page (`…/eAIP_<DATE>/FRANCE/home.html`) is now a
+            # JS-driven page (`home.js` + `<body onLoad="init(...)">`) and no
+            # longer lists the edition index statically. But home.html already
+            # sits inside the effective edition directory, so the eAIP entry is
+            # its sibling `index-fr-FR.html`.
+            if base_url.rstrip("/").endswith("home.html"):
+                edition_url = urljoin(base_url, _INDEX_HREF)
+                self.logger.info(
+                    f"FR: home.html lists no edition; using sibling {edition_url}"
+                )
+                return edition_url
             raise ValueError(
                 f"Current-edition link ({_INDEX_HREF}) not found in {base_url}"
             )
