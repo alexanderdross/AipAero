@@ -197,7 +197,10 @@
     "runways": "Baner",
     "frequencies": "Frekvenser",
     "decode": "Vis afkodet",
-    "openingHours": "Åbningstider"
+    "openingHours": "Åbningstider",
+    "fuel": "Brændstof",
+    "ppr": "PPR",
+    "pprRequired": "Forudgående tilladelse påkrævet"
   },
   "Common": {
     "lastUpdated": "Senest opdateret",

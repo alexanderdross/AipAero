@@ -19,6 +19,8 @@ export interface NormalizedFacts {
   elevationFt: number | null;
   municipality: string | null; // town/city (OurAirports)
   homeLink: string | null; // official airport website (OurAirports)
+  ppr: boolean | null; // prior permission required (OpenAIP, best-effort)
+  fuel: string[]; // available fuel types (OpenAIP, best-effort)
   openingHours: string | null; // hours of operation (OpenAIP, best-effort)
   runways: RunwayFact[];
   frequencies: FrequencyFact[];
@@ -42,6 +44,8 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     elevationFt: row.elevationFt ?? null,
     municipality: row.municipality ?? null,
     homeLink: row.homeLink ?? null,
+    ppr: null, // OpenAIP-only
+    fuel: [], // OpenAIP-only
     openingHours: null, // OurAirports has no hours; filled by OpenAIP if set
     runways: parseJsonArray<RunwayFact>(row.runways),
     frequencies: parseJsonArray<FrequencyFact>(row.frequencies),
@@ -89,6 +93,8 @@ export async function getAirportFacts(
     elevationFt: openaip.elevationFt ?? base.elevationFt,
     municipality: base.municipality ?? openaip.municipality,
     homeLink: base.homeLink ?? openaip.homeLink,
+    ppr: openaip.ppr ?? base.ppr,
+    fuel: openaip.fuel.length ? openaip.fuel : base.fuel,
     openingHours: openaip.openingHours ?? base.openingHours,
     runways: openaip.runways.length ? openaip.runways : base.runways,
     frequencies: openaip.frequencies.length

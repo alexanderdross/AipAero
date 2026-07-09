@@ -162,7 +162,10 @@
     "runways": "Dráhy",
     "frequencies": "Frekvence",
     "decode": "Zobrazit dekódované",
-    "openingHours": "Otevírací doba"
+    "openingHours": "Otevírací doba",
+    "fuel": "Palivo",
+    "ppr": "PPR",
+    "pprRequired": "Vyžaduje předchozí povolení"
   },
   "Common": {
     "lastUpdated": "Naposledy aktualizováno",

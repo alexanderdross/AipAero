@@ -90,6 +90,46 @@ function parseOpeningHours(raw: unknown): string | null {
   return null;
 }
 
+// Fuel type codes -> readable labels. OpenAIP returns fuel as string enums; we
+// only humanize strings and SKIP anything non-string (a numeric enum we cannot
+// map with certainty), because a wrong fuel label is safety-relevant.
+const FUEL_LABEL: Record<string, string> = {
+  JET_A1: "Jet A-1",
+  JET_A: "Jet A",
+  JET_B: "Jet B",
+  AVGAS_100LL: "AVGAS 100LL",
+  AVGAS_100_130: "AVGAS 100/130",
+  AVGAS_91_96UL: "AVGAS 91/96UL",
+  MOGAS: "MOGAS",
+  MO_GAS: "MOGAS",
+  DIESEL: "Diesel",
+  TS1: "TS-1",
+  JP5: "JP-5",
+  JP8: "JP-8",
+  SAF: "SAF",
+};
+
+function parseFuel(item: Record<string, unknown>): string[] {
+  const services = item.services as Record<string, unknown> | undefined;
+  const raw = services?.fuelTypes ?? item.fuelTypes;
+  if (!Array.isArray(raw)) return [];
+  const out: string[] = [];
+  for (const v of raw) {
+    if (typeof v !== "string") continue; // numeric enum: skip rather than mislabel
+    const code = v.toUpperCase();
+    out.push(FUEL_LABEL[code] ?? code.replace(/_/g, " "));
+  }
+  return out;
+}
+
+// PPR: OpenAIP encodes it as a boolean or a small enum (0 = no, >= 1 = required
+// / conditional). null when absent/unrecognized.
+function parsePpr(v: unknown): boolean | null {
+  if (typeof v === "boolean") return v;
+  if (typeof v === "number") return v >= 1;
+  return null;
+}
+
 function parseFrequencies(raw: unknown): FrequencyFact[] {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -132,6 +172,8 @@ export async function getOpenAipFacts(
       elevationFt: elev ? toFeet(num(elev.value), elev.unit) : null,
       municipality: null, // town comes from OurAirports
       homeLink: null,
+      ppr: parsePpr(item.ppr),
+      fuel: parseFuel(item),
       openingHours: parseOpeningHours(item.hoursOfOperation),
       runways: parseRunways(item.runways),
       frequencies: parseFrequencies(item.frequencies),

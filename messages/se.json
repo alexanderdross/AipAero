@@ -197,7 +197,10 @@
     "runways": "Banor",
     "frequencies": "Frekvenser",
     "decode": "Visa avkodat",
-    "openingHours": "Öppettider"
+    "openingHours": "Öppettider",
+    "fuel": "Bränsle",
+    "ppr": "PPR",
+    "pprRequired": "Föregående tillstånd krävs"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",

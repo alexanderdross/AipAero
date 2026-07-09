@@ -197,7 +197,10 @@
     "runways": "Rullebaner",
     "frequencies": "Frekvenser",
     "decode": "Vis dekodet",
-    "openingHours": "Åpningstider"
+    "openingHours": "Åpningstider",
+    "fuel": "Drivstoff",
+    "ppr": "PPR",
+    "pprRequired": "Forhåndstillatelse kreves"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",

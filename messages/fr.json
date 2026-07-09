@@ -197,7 +197,10 @@
     "runways": "Pistes",
     "frequencies": "Fréquences",
     "decode": "Afficher le décodage",
-    "openingHours": "Heures d'ouverture"
+    "openingHours": "Heures d'ouverture",
+    "fuel": "Carburant",
+    "ppr": "PPR",
+    "pprRequired": "Autorisation préalable requise"
   },
   "Common": {
     "lastUpdated": "Dernière mise à jour",
