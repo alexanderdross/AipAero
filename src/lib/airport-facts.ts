@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getAwcAirport } from "~/lib/awc-airport";
 import { getOpenAipFacts } from "~/lib/openaip";
 import { QUERIES } from "~/server/db/queries";
 import type {
@@ -8,10 +9,16 @@ import type {
   RunwayFact,
 } from "~/server/db/schema";
 
-// Source-agnostic aerodrome facts rendered by `AirportFacts`. Merged from the
-// OurAirports base (imported into D1, public domain) and, when a key is set, the
-// richer OpenAIP API - so the site embeds the data rather than linking out. The
-// postal address (street/phone) is layered on separately from OpenStreetMap
+// Source-agnostic aerodrome facts rendered by `AirportFacts`, merged from three
+// sources (see `getAirportFacts` for the precedence):
+//   1. OpenAIP     - richest; the only source of fuel / PPR / opening hours /
+//                    circuit direction. Needs `OPENAIP_API_KEY`.
+//   2. OurAirports - public-domain base (D1, via the importer); the only source
+//                    of town + official website.
+//   3. AWC (NOAA)  - the free, no-key, no-importer "airport" endpoint; a reliable
+//                    always-on fallback for coordinates / elevation / runways /
+//                    frequencies, so the card works out of the box.
+// The postal address (street/phone) is layered on separately from OpenStreetMap
 // (see `~/lib/geocode`), keyed by coordinates, in the gadgets wrapper.
 export interface NormalizedFacts {
   lat: number | null;
@@ -63,10 +70,23 @@ const isEmpty = (f: NormalizedFacts) =>
   f.runways.length === 0 &&
   f.frequencies.length === 0;
 
+const firstArray = <T>(...arrays: (T[] | undefined)[]): T[] => {
+  for (const a of arrays) if (a && a.length) return a;
+  return [];
+};
+
 /**
- * Merged aerodrome facts for an ICAO. OpenAIP (when configured) takes precedence
- * per field group; OurAirports (from D1) fills the gaps. Returns null when
- * neither source has anything, so the card renders nothing.
+ * Merged aerodrome facts for an ICAO from three sources. Precedence per field:
+ *
+ * - Shared physical facts (coordinates, elevation, runways, frequencies) take the
+ *   first non-empty of **OpenAIP -> OurAirports -> AWC (NOAA)**. OpenAIP first
+ *   because it is the richest and its runway objects carry the circuit direction;
+ *   OurAirports next (curated public domain); **AWC last but always-on** - free,
+ *   no key, no importer - so the card / crosswind / map work out of the box.
+ * - Unique fields go to their only source: fuel / PPR / opening hours -> OpenAIP;
+ *   town / website -> OurAirports.
+ *
+ * Returns null when no source has anything, so the card renders nothing.
  */
 export async function getAirportFacts(
   icao: string | null | undefined,
@@ -74,33 +94,33 @@ export async function getAirportFacts(
   if (!icao || !/^[A-Z]{4}$/.test(icao.toUpperCase())) return null;
   const code = icao.toUpperCase();
 
-  const [row, openaip] = await Promise.all([
+  const [row, openaip, awc] = await Promise.all([
     QUERIES.airportFacts(code),
     getOpenAipFacts(code),
+    getAwcAirport(code),
   ]);
   const base = row ? rowToFacts(row) : null;
+  if (!openaip && !base && !awc) return null;
 
-  if (!openaip && !base) return null;
-  if (!openaip) return base && !isEmpty(base) ? base : null;
-  if (!base) return !isEmpty(openaip) ? openaip : null;
-
-  // Merge: prefer OpenAIP per field group, fall back to OurAirports.
-  // Address (municipality/homeLink) only comes from OurAirports; opening hours
-  // only from OpenAIP - so each simply takes whichever source has it.
   const merged: NormalizedFacts = {
-    lat: openaip.lat ?? base.lat,
-    lon: openaip.lon ?? base.lon,
-    elevationFt: openaip.elevationFt ?? base.elevationFt,
-    municipality: base.municipality ?? openaip.municipality,
-    homeLink: base.homeLink ?? openaip.homeLink,
-    ppr: openaip.ppr ?? base.ppr,
-    fuel: openaip.fuel.length ? openaip.fuel : base.fuel,
-    openingHours: openaip.openingHours ?? base.openingHours,
-    runways: openaip.runways.length ? openaip.runways : base.runways,
-    frequencies: openaip.frequencies.length
-      ? openaip.frequencies
-      : base.frequencies,
-    source: [openaip.source, base.source].join("+"),
+    lat: openaip?.lat ?? base?.lat ?? awc?.lat ?? null,
+    lon: openaip?.lon ?? base?.lon ?? awc?.lon ?? null,
+    elevationFt:
+      openaip?.elevationFt ?? base?.elevationFt ?? awc?.elevationFt ?? null,
+    municipality: base?.municipality ?? null, // OurAirports only
+    homeLink: base?.homeLink ?? null, // OurAirports only
+    ppr: openaip?.ppr ?? null, // OpenAIP only
+    fuel: openaip?.fuel.length ? openaip.fuel : [], // OpenAIP only
+    openingHours: openaip?.openingHours ?? null, // OpenAIP only
+    runways: firstArray(openaip?.runways, base?.runways, awc?.runways),
+    frequencies: firstArray(
+      openaip?.frequencies,
+      base?.frequencies,
+      awc?.frequencies,
+    ),
+    source: [openaip?.source, base?.source, awc?.source]
+      .filter(Boolean)
+      .join("+"),
   };
   return isEmpty(merged) ? null : merged;
 }
