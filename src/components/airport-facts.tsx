@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { localeLangMapping } from "~/i18n/routing";
+import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import type { NormalizedFacts } from "~/lib/airport-facts";
 import { getSunTimes } from "~/lib/sun-times";
 import type { Metar } from "~/lib/weather";
@@ -47,12 +48,22 @@ export async function AirportFacts({
   });
   const hm = (d: Date | null) => (d ? `${timeFmt.format(d)} UTC` : null);
 
+  const runways = facts?.runways ?? [];
+  const frequencies = facts?.frequencies ?? [];
+
+  // Distinct runway surfaces, for a quick-glance "surface" row (the per-runway
+  // detail still shows in the runways line below).
+  const surfaces = [...new Set(runways.map((r) => r.surface).filter(Boolean))];
+  const aType = aerodromeTypeLabel(facts?.aerodromeType, lang);
+
   const rows: Array<[string, string]> = [];
+  if (aType) rows.push([t("aerodromeType"), aType]);
   if (elevFt != null)
     rows.push([
       t("elevation"),
       `${elevFt} ft (${Math.round(elevFt * FT_PER_M)} m)`,
     ]);
+  if (surfaces.length) rows.push([t("surface"), surfaces.join(", ")]);
   if (facts?.fuel.length) rows.push([t("fuel"), facts.fuel.join(", ")]);
   if (facts?.ppr === true) rows.push([t("ppr"), t("pprRequired")]);
   if (openingHours) rows.push([t("openingHours"), openingHours]);
@@ -67,8 +78,6 @@ export async function AirportFacts({
       ]);
   }
 
-  const runways = facts?.runways ?? [];
-  const frequencies = facts?.frequencies ?? [];
   // Circuit (traffic-pattern) direction per runway, when OpenAIP provided an
   // unambiguous value (see `~/lib/openaip`); rendered as "(Platzrunde links)".
   const circuit = (r: (typeof runways)[number]): string | null => {

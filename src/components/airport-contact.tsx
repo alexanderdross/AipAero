@@ -1,6 +1,6 @@
 import { GlobeIcon, MapPinIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import { ExternalLink } from "~/components/external-link";
 import type { NormalizedFacts } from "~/lib/airport-facts";
 import type { GeoResult } from "~/lib/geocode";
@@ -44,10 +44,27 @@ export async function AirportContact({
     lat != null && lon != null ? `${lat.toFixed(5)}, ${lon.toFixed(5)}` : null;
   const website = facts?.homeLink ?? geo?.website ?? null;
 
-  const rows: Array<[string, string]> = [];
+  const rows: Array<[string, ReactNode]> = [];
   if (address) rows.push([t("address"), address]);
   if (coords) rows.push([t("coordinates"), coords]);
-  if (geo?.phone) rows.push([t("phone"), geo.phone]);
+  if (geo?.phone)
+    rows.push([
+      t("phone"),
+      <a
+        key="phone"
+        href={`tel:${geo.phone.replace(/[^\d+]/g, "")}`}
+        title={`${t("phone")}: ${geo.phone}`}
+        className="text-drossblue hover:underline"
+      >
+        {geo.phone}
+      </a>,
+    ]);
+  // On-field amenities from OpenAIP (null = unknown -> omit; we never assert
+  // "no" from missing data, only when the facilities list exists but omits it).
+  if (facts?.restaurant != null)
+    rows.push([t("restaurant"), facts.restaurant ? t("yes") : t("no")]);
+  if (facts?.customs != null)
+    rows.push([t("customs"), facts.customs ? t("yes") : t("no")]);
 
   return (
     <section className="border border-[#ccc] bg-white p-4">

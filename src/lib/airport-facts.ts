@@ -26,9 +26,12 @@ export interface NormalizedFacts {
   elevationFt: number | null;
   municipality: string | null; // town/city (OurAirports)
   homeLink: string | null; // official airport website (OurAirports)
-  ppr: boolean | null; // prior permission required (OpenAIP, best-effort)
-  fuel: string[]; // available fuel types (OpenAIP, best-effort)
-  openingHours: string | null; // hours of operation (OpenAIP, best-effort)
+  ppr: boolean | null; // prior permission required (OpenAIP)
+  fuel: string[]; // available fuel types (OpenAIP)
+  openingHours: string | null; // hours of operation (OpenAIP)
+  restaurant: boolean | null; // on-field restaurant (OpenAIP passengerFacilities)
+  customs: boolean | null; // customs / airport of entry (OpenAIP passengerFacilities)
+  aerodromeType: number | null; // OpenAIP airport `type` enum (label resolved in UI)
   runways: RunwayFact[];
   frequencies: FrequencyFact[];
   source: string; // provenance, e.g. "openaip" or "ourairports"
@@ -54,6 +57,9 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     ppr: null, // OpenAIP-only
     fuel: [], // OpenAIP-only
     openingHours: null, // OurAirports has no hours; filled by OpenAIP if set
+    restaurant: null, // OpenAIP-only
+    customs: null, // OpenAIP-only
+    aerodromeType: null, // OpenAIP-only
     runways: parseJsonArray<RunwayFact>(row.runways),
     frequencies: parseJsonArray<FrequencyFact>(row.frequencies),
     source: row.source,
@@ -112,6 +118,9 @@ export async function getAirportFacts(
     ppr: openaip?.ppr ?? null, // OpenAIP only
     fuel: openaip?.fuel.length ? openaip.fuel : [], // OpenAIP only
     openingHours: openaip?.openingHours ?? null, // OpenAIP only
+    restaurant: openaip?.restaurant ?? null, // OpenAIP only
+    customs: openaip?.customs ?? null, // OpenAIP only
+    aerodromeType: openaip?.aerodromeType ?? null, // OpenAIP only
     runways: firstArray(openaip?.runways, base?.runways, awc?.runways),
     frequencies: firstArray(
       openaip?.frequencies,

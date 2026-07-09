@@ -210,7 +210,10 @@
     "tailwind": "Medvind",
     "crosswind": "Sidevind",
     "fromLeft": "fra venstre",
-    "fromRight": "fra højre"
+    "fromRight": "fra højre",
+    "landingDirection": "Sandsynlig landingsretning",
+    "aerodromeType": "Flyvepladstype",
+    "surface": "Belægning"
   },
   "Common": {
     "lastUpdated": "Senest opdateret",
@@ -222,7 +225,11 @@
     "phone": "Telefon",
     "map": "Kort",
     "locate": "Find min placering",
-    "nearby": "Flyvepladser i nærheden"
+    "nearby": "Flyvepladser i nærheden",
+    "restaurant": "Restaurant",
+    "customs": "Told",
+    "yes": "Ja",
+    "no": "Nej"
   },
   "Chart": {
     "title": "Indflyvningskort",

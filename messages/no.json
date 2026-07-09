@@ -210,7 +210,10 @@
     "tailwind": "Medvind",
     "crosswind": "Sidevind",
     "fromLeft": "fra venstre",
-    "fromRight": "fra høyre"
+    "fromRight": "fra høyre",
+    "landingDirection": "Sannsynlig landingsretning",
+    "aerodromeType": "Flyplasstype",
+    "surface": "Dekke"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",
@@ -222,7 +225,11 @@
     "phone": "Telefon",
     "map": "Kart",
     "locate": "Finn min posisjon",
-    "nearby": "Flyplasser i nærheten"
+    "nearby": "Flyplasser i nærheten",
+    "restaurant": "Restaurant",
+    "customs": "Toll",
+    "yes": "Ja",
+    "no": "Nei"
   },
   "Chart": {
     "title": "Innflygingskart",

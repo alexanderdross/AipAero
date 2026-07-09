@@ -245,7 +245,10 @@
     "tailwind": "Rückenwind",
     "crosswind": "Seitenwind",
     "fromLeft": "von links",
-    "fromRight": "von rechts"
+    "fromRight": "von rechts",
+    "landingDirection": "Voraussichtliche Landerichtung",
+    "aerodromeType": "Platzart",
+    "surface": "Belag"
   },
   "Common": {
     "lastUpdated": "Stand",
@@ -257,7 +260,11 @@
     "phone": "Telefon",
     "map": "Karte",
     "locate": "Meinen Standort finden",
-    "nearby": "Flugplätze in der Nähe"
+    "nearby": "Flugplätze in der Nähe",
+    "restaurant": "Restaurant",
+    "customs": "Zoll",
+    "yes": "Ja",
+    "no": "Nein"
   },
   "Chart": {
     "title": "Anflugkarte",
