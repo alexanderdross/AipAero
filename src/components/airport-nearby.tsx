@@ -7,7 +7,7 @@ import { i18nPathMapping } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 
 const MAX_KM = 100;
-const MAX_ITEMS = 8;
+const MAX_ITEMS = 4;
 
 /**
  * Server-rendered "nearby airfields" box: the closest chart-linked fields of the
