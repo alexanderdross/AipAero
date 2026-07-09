@@ -91,6 +91,7 @@ export default async function IndexPage(
   // Enable static rendering
   setRequestLocale(locale);
   const t = await getTranslations("AirportsPage");
+  const crawledAt = await QUERIES.crawlUpdatedAt(locale.split("-")[0]!);
 
   const tCountry = await getTranslations("CountryPage");
   const currentUrl = new URL(
@@ -132,7 +133,7 @@ export default async function IndexPage(
   return (
     <>
       <Title title={t("title")} description={t("description")} />
-      <LastUpdated />
+      <LastUpdated timestamp={crawledAt} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
