@@ -1,28 +1,32 @@
 # Runbook: Backfilling airport data (facts, location, map, nearby, weather)
 
-Small airfields (e.g. **EDFY Elz**) currently show only the Google Maps link:
-no address, no coordinates, no runways/frequencies, no map marker, no
-nearest-airport weather. **All of these are gated on the field having
-coordinates**, and coordinates come from one of two data sources that must be
-switched on. This runbook does that, step by step.
-
-Once a field has coordinates, everything downstream lights up automatically:
+Most facts on a detail page are gated on the field having **coordinates**:
 postal address (OpenStreetMap), the map marker + "nearby airfields", and the
-nearest-station weather fallback.
+nearest-station weather fallback all key off them. As of the AWC/NOAA source
+(below), small airfields like **EDFY Elz** already get coordinates / elevation /
+runways / frequencies **out of the box, with no setup at all** - so the facts
+card, the crosswind box and the per-field weather work on a bare deploy. This
+runbook adds the two *optional* sources on top: OurAirports (bulk, powers the
+airport-list map + town/website) and OpenAIP (fuel / PPR / hours / circuit).
 
 ---
 
-## The two data sources
+## The three data sources
 
 | Source | Coverage | Cost / effort | Licence |
 | --- | --- | --- | --- |
+| **AWC / NOAA** (`airport` endpoint, per-ICAO at request time) | any ICAO with an entry (coords, elevation, runways, frequencies) | **none - always on, no key, no importer** | US Gov public domain |
 | **OurAirports importer** (bulk → D1 `airport_facts`) | ~all airfields of the 12 countries, cached | run `import_ourairports.py` once + weekly | CC0 (public domain) |
 | **OpenAIP** (per-ICAO, at request time) | any looked-up ICAO | set `OPENAIP_API_KEY` secret | CC BY-NC-SA (**non-commercial**) |
 
-The website already **combines** both: `getAirportFacts(icao)` reads the D1
-`airport_facts` row (OurAirports) and, when a key is set, enriches it from
-OpenAIP. Recommendation: **run the OurAirports importer as the free baseline**;
-add an OpenAIP key later only if you want the extra fields and have cleared the
+The website already **combines** all three: `getAirportFacts(icao)` merges them
+per field - shared physical facts (coordinates / elevation / runways /
+frequencies) take the first non-empty of **OpenAIP → OurAirports → AWC**, while
+unique fields go to their only source (fuel / PPR / hours → OpenAIP; town /
+website → OurAirports). AWC is the always-on floor, so nothing below is required
+for a working card - it only *adds* coverage. Recommendation: **run the
+OurAirports importer** to light up the airport-list map + town/website; add an
+OpenAIP key later only if you want the extra fields and have cleared the
 non-commercial licence (no AdSense).
 
 ---
@@ -106,9 +110,10 @@ host-systemd:
 
 ## B. OpenAIP key (optional enrichment)
 
-Adds per-ICAO enrichment at request time (coordinates for fields not in
-OurAirports, plus fuel / PPR / opening hours where OpenAIP has them). Fully
-fail-soft: no key = OurAirports-only.
+Adds the richest per-ICAO enrichment at request time - and the **only** source
+of fuel / PPR / opening hours / circuit direction. Fully fail-soft: no key falls
+back to OurAirports + AWC (which still cover coordinates / elevation / runways /
+frequencies).
 
 ### B.1 - Create the key
 

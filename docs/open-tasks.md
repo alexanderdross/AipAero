@@ -22,9 +22,17 @@ offen - der CD-Step wird mangels Secret in 0 Sekunden übersprungen.
 Ein Rundum-Update des Crawler-Hosts. Es schaltet drei Dinge frei, die im Code
 schon live sind, aber Daten aus einem Host-Lauf brauchen:
 **(a)** gefüllte Listen für BE/CZ/NO/PL/SE, **(b)** die **Karte + "Flugplätze
-in meiner Nähe"** und die Aerodrome-Facts-Karten (brauchen Koordinaten aus
-dem OurAirports-Import), **(c)** den **echten per-Country-Crawl-Zeitstempel**
-("Stand: …" auf der Flughafen-Liste, statt Build-Datum-Fallback).
+in meiner Nähe"** auf der Flughafen-Liste (die Bulk-Karte joint `airport_facts`,
+braucht also die Koordinaten aus dem OurAirports-Import), **(c)** den **echten
+per-Country-Crawl-Zeitstempel** ("Stand: …" auf der Flughafen-Liste, statt
+Build-Datum-Fallback).
+
+**Nicht mehr blockierend:** Die **Aerodrome-Facts-Karte + Seitenwind-Box auf den
+Detailseiten** funktionieren jetzt auch ohne diesen Import - sie ziehen
+Koordinaten / Höhe / Pisten / Frequenzen zur Laufzeit aus der kostenlosen
+AWC/NOAA-"airport"-API (`src/lib/awc-airport.ts`, kein Key nötig). Der Import
+bleibt trotzdem sinnvoll: er liefert Ort + offizielle Website und speist die
+Bulk-Karte.
 
 ### Schritt 2.1 - Code + Abhängigkeiten aktualisieren
 
@@ -139,7 +147,7 @@ kein technischer Schaden)
 
 Ursprünglich zurückgestellte Anfrage ("erst weitere Länder"). **Wichtig:**
 Erst Abgleich gegen den aktuellen Stand - parallel wurden bereits umgesetzt:
-Aerodrome-Facts (OurAirports + OpenAIP), globale Cross-Country-Suche,
+Aerodrome-Facts (OpenAIP + OurAirports + AWC/NOAA), globale Cross-Country-Suche,
 METAR/TAF-Decode-Tab, Wetter-Gadgets, Sitelinks Search Box. Ablauf: Liste
 lesen → erledigte Punkte markieren → Priorisierung einholen → umsetzen.
 
