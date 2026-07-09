@@ -133,13 +133,15 @@ For local `pnpm preview`, also add it to `.dev.vars`:
 OPENAIP_API_KEY=your-key-here
 ```
 
-### B.3 - Verify + validate the enums
+### B.3 - Verify
 
-Open a detail page and confirm the extra fields appear. Then **validate the
-best-effort enum mappings against a real response** - `src/lib/openaip.ts` maps
-fuel-type codes and PPR conservatively (it skips unrecognized numeric enums
-rather than mislabel, since wrong fuel data is safety-relevant). If fuel or PPR
-look off, capture one response and adjust `FUEL_LABEL` / `parsePpr`.
+Open a detail page and confirm the extra fields (fuel, opening hours, PPR,
+circuit direction) appear. The parser (`src/lib/openaip-parse.ts`) maps field
+names and enums from the authoritative public v1 schema
+(`api.core.openaip.net/api/schemas/response/airport/airport-schema.json`) and is
+unit-tested; codes outside the documented enums are skipped rather than
+mislabelled (wrong fuel / circuit data is safety-relevant). If OpenAIP ever
+revises the schema, refresh the enum maps in `openaip-parse.ts` and its test.
 
 > Licence reminder: OpenAIP is **CC BY-NC-SA (non-commercial)**. Clear this
 > before running ads on the site.
