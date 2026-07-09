@@ -10,6 +10,7 @@ import "server-only";
 // A descriptive User-Agent is required by the Nominatim usage policy.
 
 const API = "https://nominatim.openstreetmap.org/reverse";
+const SEARCH_API = "https://nominatim.openstreetmap.org/search";
 const REVALIDATE = 60 * 60 * 24 * 30; // 30 days - a field does not move
 const TIMEOUT_MS = 2500;
 const USER_AGENT = "AIP:Aero/1.0 (+https://aip.aero)";
@@ -26,6 +27,48 @@ export interface GeoResult {
 
 const str = (v: unknown): string | null =>
   typeof v === "string" && v.trim() ? v.trim() : null;
+
+// Our DB country codes are ISO 3166-1 alpha-2 already, except UK (ISO is "gb").
+const ISO_COUNTRY: Record<string, string> = { UK: "gb" };
+const toIsoCountry = (c: string | null | undefined): string | null =>
+  c ? (ISO_COUNTRY[c.toUpperCase()] ?? c.toLowerCase()) : null;
+
+/**
+ * Forward-geocode a place name to coordinates via Nominatim's search endpoint.
+ * Used only for fields with NO ICAO code (e.g. hospital / private helipads),
+ * where OurAirports / OpenAIP / AWC - all ICAO-keyed - carry nothing, so the
+ * weather / nearby / sun-time gadgets would otherwise stay empty. Approximate
+ * by nature; optionally constrained to the field's country. Cached hard,
+ * fail-soft (null on any error), same usage-policy headers as reverseGeocode.
+ */
+export async function forwardGeocode(
+  name: string,
+  country?: string | null,
+): Promise<{ lat: number; lon: number } | null> {
+  const q = name.trim();
+  if (!q) return null;
+  try {
+    const cc = toIsoCountry(country);
+    const url =
+      `${SEARCH_API}?q=${encodeURIComponent(q)}&format=jsonv2&limit=1` +
+      (cc ? `&countrycodes=${cc}` : "");
+    const res = await fetch(url, {
+      headers: { "User-Agent": USER_AGENT },
+      next: { revalidate: REVALIDATE },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+    if (!res.ok) return null;
+    const json = (await res.json()) as Array<{ lat?: string; lon?: string }>;
+    const first = json[0];
+    if (!first?.lat || !first?.lon) return null;
+    const lat = Number(first.lat);
+    const lon = Number(first.lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+    return { lat, lon };
+  } catch {
+    return null;
+  }
+}
 
 export async function reverseGeocode(
   lat: number,

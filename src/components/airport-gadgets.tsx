@@ -10,7 +10,7 @@ import { SchemaAirport } from "~/components/schemas/schema-airport";
 import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
-import { reverseGeocode } from "~/lib/geocode";
+import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { isPdfUrl } from "~/lib/utils";
 import type { Airport } from "~/server/db/schema";
 
@@ -49,8 +49,20 @@ export async function AirportGadgets({
     getAirportFacts(airport.icao),
   ]);
 
-  const lat = facts?.lat ?? null;
-  const lon = facts?.lon ?? null;
+  let lat = facts?.lat ?? null;
+  let lon = facts?.lon ?? null;
+
+  // ICAO-less fields (hospital / private helipads) have no ICAO-keyed facts
+  // source, so no coordinates - which would leave the weather, nearby and
+  // sun-time gadgets empty. Fall back to geocoding the field name so those
+  // coordinate-driven boxes still work (approximate; fail-soft).
+  if (lat == null || lon == null) {
+    const geocoded = await forwardGeocode(airport.title, airport.country);
+    if (geocoded) {
+      lat = geocoded.lat;
+      lon = geocoded.lon;
+    }
+  }
 
   // The postal address is persisted in D1 once the importer has backfilled it;
   // only geocode live (Nominatim) as a fallback for ICAOs that have none stored.
@@ -150,6 +162,8 @@ export async function AirportGadgets({
             facts={facts}
             locale={locale}
             openingHours={openingHours}
+            lat={lat}
+            lon={lon}
           />
         </div>
         {/* Ephemeral weather + wind: lazy-loaded client-side. The Weather i18n

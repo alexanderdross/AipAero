@@ -41,12 +41,14 @@ export function AirportWeatherWind({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!icao) {
+    // Need either an ICAO (own station) or coordinates (nearest station).
+    if (!icao && (lat == null || lon == null)) {
       setLoading(false);
       return;
     }
     let active = true;
-    const params = new URLSearchParams({ icao });
+    const params = new URLSearchParams();
+    if (icao) params.set("icao", icao);
     if (lat != null) params.set("lat", String(lat));
     if (lon != null) params.set("lon", String(lon));
 

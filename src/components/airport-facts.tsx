@@ -19,17 +19,23 @@ export async function AirportFacts({
   facts,
   locale,
   openingHours,
+  lat: latFallback = null,
+  lon: lonFallback = null,
 }: {
   facts: NormalizedFacts | null;
   locale: string;
   openingHours: string | null;
+  // Coordinate fallback (e.g. geocoded from the name for ICAO-less fields) so
+  // the sun-time rows can render even without a facts row.
+  lat?: number | null;
+  lon?: number | null;
 }) {
   const t = await getTranslations("Weather");
   const lang = localeLangMapping[locale] ?? "en";
 
   const elevFt = facts?.elevationFt ?? null;
-  const lat = facts?.lat ?? null;
-  const lon = facts?.lon ?? null;
+  const lat = facts?.lat ?? latFallback;
+  const lon = facts?.lon ?? lonFallback;
 
   const timeFmt = new Intl.DateTimeFormat(lang, {
     hour: "2-digit",
