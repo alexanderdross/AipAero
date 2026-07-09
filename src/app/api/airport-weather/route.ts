@@ -22,10 +22,19 @@ export async function GET(request: Request) {
   const lonRaw = url.searchParams.get("lon");
 
   const empty = { metar: null, taf: null, nearest: null };
-  if (!ICAO_RE.test(icao)) return NextResponse.json(empty);
+  const icaoValid = ICAO_RE.test(icao);
+  const lat = latRaw != null ? Number(latRaw) : NaN;
+  const lon = lonRaw != null ? Number(lonRaw) : NaN;
+  const hasCoords = Number.isFinite(lat) && Number.isFinite(lon);
+  // ICAO-less fields (hospital / private helipads) pass coordinates only; serve
+  // them the nearest reporting station.
+  if (!icaoValid && !hasCoords) return NextResponse.json(empty);
 
   try {
-    const { metar, taf } = await getAirportWeather(icao);
+    const own = icaoValid
+      ? await getAirportWeather(icao)
+      : { metar: null, taf: null };
+    const { metar, taf } = own;
 
     // Fall back to the nearest reporting station when the field has none of its
     // own (needs coordinates, passed from the server-rendered facts).
@@ -35,16 +44,12 @@ export async function GET(request: Request) {
     } | null = null;
     let outMetar = metar;
     let outTaf = taf;
-    if (!metar && !taf && latRaw != null && lonRaw != null) {
-      const lat = Number(latRaw);
-      const lon = Number(lonRaw);
-      if (Number.isFinite(lat) && Number.isFinite(lon)) {
-        const near = await getNearestWeather(lat, lon);
-        if (near) {
-          outMetar = near.metar;
-          outTaf = near.taf;
-          nearest = { station: near.station, distanceKm: near.distanceKm };
-        }
+    if (!metar && !taf && hasCoords) {
+      const near = await getNearestWeather(lat, lon);
+      if (near) {
+        outMetar = near.metar;
+        outTaf = near.taf;
+        nearest = { station: near.station, distanceKm: near.distanceKm };
       }
     }
 

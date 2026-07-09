@@ -83,6 +83,47 @@ class FR(HttpEurocontrolBase):
                 continue
         return None
 
+    def _probe_eaip_index(self, home_url: str) -> str | None:
+        """Find the eAIP frameset when home.html no longer lists it.
+
+        Dumps `home.js` (diagnostic) and probes the standard eAIP index
+        filenames relative to home.html and to the edition root, returning the
+        first URL that resolves to a real eurocontrol frameset.
+        """
+        # home.js drives the front page; dump it so the entry can be traced if
+        # the probes below miss. fetch() refuses `.js`, so use the raw client.
+        for src in ("../home.js", "home.js"):
+            try:
+                r = self.client.get(urljoin(home_url, src))
+                if r.status_code == 200 and r.text.strip():
+                    self.logger.warning(f"FR {src}[:2000]: {r.text[:2000]!r}")
+                    break
+            except Exception as e:  # noqa: BLE001
+                self.logger.warning(f"FR {src} fetch failed: {e}")
+
+        for name in (
+            _INDEX_HREF,  # index-fr-FR.html (same dir as home.html)
+            "index-en-GB.html",
+            "index.html",
+            "../" + _INDEX_HREF,  # edition root
+            "../index-en-GB.html",
+        ):
+            cand = urljoin(home_url, name)
+            try:
+                html = self.fetch(cand)
+            except Exception as e:  # noqa: BLE001
+                self.logger.warning(f"FR index candidate {name!r}: {e}")
+                continue
+            is_frameset = "eAISNavigation" in html or "frameset" in html.lower()
+            self.logger.warning(
+                f"FR index candidate {name!r}: OK {len(html)}b "
+                f"frameset={is_frameset}"
+            )
+            if is_frameset:
+                self.logger.info(f"FR: using eAIP index {cand}")
+                return cand
+        return None
+
     def _resolve_current_edition_url(
         self,
         base_url: str,
@@ -109,15 +150,14 @@ class FR(HttpEurocontrolBase):
         if not candidates:
             # SIA's front page (`…/eAIP_<DATE>/FRANCE/home.html`) is now a
             # JS-driven page (`home.js` + `<body onLoad="init(...)">`) and no
-            # longer lists the edition index statically. But home.html already
-            # sits inside the effective edition directory, so the eAIP entry is
-            # its sibling `index-fr-FR.html`.
+            # longer lists the edition index statically. Locate the real eAIP
+            # frameset by probing the known eAIP index filenames (relative to
+            # home.html and to the edition root) and returning the first that
+            # resolves to an actual frameset.
             if base_url.rstrip("/").endswith("home.html"):
-                edition_url = urljoin(base_url, _INDEX_HREF)
-                self.logger.info(
-                    f"FR: home.html lists no edition; using sibling {edition_url}"
-                )
-                return edition_url
+                found = self._probe_eaip_index(base_url)
+                if found:
+                    return found
             raise ValueError(
                 f"Current-edition link ({_INDEX_HREF}) not found in {base_url}"
             )
