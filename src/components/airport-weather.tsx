@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { Fragment } from "react";
 import { localeLangMapping } from "~/i18n/routing";
 import { decodeReport } from "~/lib/metar-decode";
 import { type CloudLayer, type Metar, type Taf } from "~/lib/weather";
@@ -85,16 +86,17 @@ export async function AirportWeather({
         <summary className="text-drossblue cursor-pointer text-center hover:underline">
           {t("decode")}
         </summary>
-        <ul className="mt-2 flex flex-col gap-y-1">
+        {/* Centered block with left-aligned content: a two-column grid sized to
+            its content (w-fit) and centered (mx-auto). The token column is
+            aligned so every decoded description starts at the same x. */}
+        <dl className="mx-auto mt-2 grid w-fit grid-cols-[auto_auto] gap-x-3 gap-y-1 text-left">
           {lines.map((line, i) => (
-            <li key={i} className="flex flex-wrap gap-x-2">
-              <code className="text-drossgray-dark shrink-0 font-mono">
-                {line.token}
-              </code>
-              {line.text && <span>{line.text}</span>}
-            </li>
+            <Fragment key={i}>
+              <dt className="text-drossgray-dark font-mono">{line.token}</dt>
+              <dd>{line.text}</dd>
+            </Fragment>
           ))}
-        </ul>
+        </dl>
       </details>
     ) : null;
 

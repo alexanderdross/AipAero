@@ -203,6 +203,9 @@
     "lastUpdated": "Ostatnia aktualizacja",
     "viewOnMap": "Zobacz w Mapach Google",
     "location": "Lokalizacja",
-    "website": "Strona internetowa"
+    "website": "Strona internetowa",
+    "address": "Adres",
+    "coordinates": "Współrzędne",
+    "phone": "Telefon"
   }
 }

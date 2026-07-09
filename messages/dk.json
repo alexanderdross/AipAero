@@ -203,6 +203,9 @@
     "lastUpdated": "Senest opdateret",
     "viewOnMap": "Se på Google Maps",
     "location": "Placering",
-    "website": "Websted"
+    "website": "Websted",
+    "address": "Adresse",
+    "coordinates": "Koordinater",
+    "phone": "Telefon"
   }
 }

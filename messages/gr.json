@@ -203,6 +203,9 @@
     "lastUpdated": "Τελευταία ενημέρωση",
     "viewOnMap": "Προβολή σε Χάρτες Google",
     "location": "Τοποθεσία",
-    "website": "Ιστότοπος"
+    "website": "Ιστότοπος",
+    "address": "Διεύθυνση",
+    "coordinates": "Συντεταγμένες",
+    "phone": "Τηλέφωνο"
   }
 }

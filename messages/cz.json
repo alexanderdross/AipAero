@@ -168,6 +168,9 @@
     "lastUpdated": "Naposledy aktualizováno",
     "viewOnMap": "Zobrazit na Mapách Google",
     "location": "Poloha",
-    "website": "Webová stránka"
+    "website": "Webová stránka",
+    "address": "Adresa",
+    "coordinates": "Souřadnice",
+    "phone": "Telefon"
   }
 }

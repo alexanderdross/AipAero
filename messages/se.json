@@ -203,6 +203,9 @@
     "lastUpdated": "Senast uppdaterad",
     "viewOnMap": "Visa på Google Maps",
     "location": "Plats",
-    "website": "Webbplats"
+    "website": "Webbplats",
+    "address": "Adress",
+    "coordinates": "Koordinater",
+    "phone": "Telefon"
   }
 }

@@ -2,47 +2,71 @@ import { GlobeIcon, MapPinIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { ExternalLink } from "~/components/external-link";
 import type { NormalizedFacts } from "~/lib/airport-facts";
+import type { GeoResult } from "~/lib/geocode";
 import type { Airport } from "~/server/db/schema";
 
 /**
- * Server-rendered contact / location box: the town the field serves, its official
- * website (both from OurAirports when the importer has run) and a Google Maps
- * link. The map link is the only outbound gadget that needs no server data - it
- * resolves the field by exact coordinates when we have them, else by ICAO/name.
- * The box always renders at least the map link, so a pilot can always jump to the
- * location.
+ * Server-rendered contact / location box: postal address (street/postcode/town)
+ * and contact phone from OpenStreetMap, coordinates, the official website, and a
+ * Google Maps link. The map link is the only outbound gadget that needs no server
+ * data - it resolves the field by exact coordinates when we have them, else by
+ * ICAO/name. The box always renders at least the map link.
  */
 export async function AirportContact({
   airport,
   facts,
+  geo,
+  lat,
+  lon,
 }: {
   airport: Airport;
   facts: NormalizedFacts | null;
+  geo: GeoResult | null;
+  lat: number | null;
+  lon: number | null;
 }) {
   const t = await getTranslations("Common");
 
   const query =
-    facts?.lat != null && facts?.lon != null
-      ? `${facts.lat},${facts.lon}`
+    lat != null && lon != null
+      ? `${lat},${lon}`
       : `${airport.icao ?? airport.title} airport`;
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+
+  const street = geo
+    ? [geo.road, geo.houseNumber].filter(Boolean).join(" ")
+    : "";
+  const city = facts?.municipality ?? geo?.city ?? null;
+  const cityLine = [geo?.postcode, city].filter(Boolean).join(" ");
+  const address = [street, cityLine].filter(Boolean).join(", ");
+  const coords =
+    lat != null && lon != null ? `${lat.toFixed(5)}, ${lon.toFixed(5)}` : null;
+  const website = facts?.homeLink ?? geo?.website ?? null;
+
+  const rows: Array<[string, string]> = [];
+  if (address) rows.push([t("address"), address]);
+  if (coords) rows.push([t("coordinates"), coords]);
+  if (geo?.phone) rows.push([t("phone"), geo.phone]);
 
   return (
     <section className="border border-[#ccc] bg-white p-4">
       <h2 className="text-center text-xl font-normal">{t("location")}</h2>
 
-      {facts?.municipality && (
-        <p className="mt-3 text-center text-sm">
-          <span className="text-drossgray-dark">{airport.title}</span>
-          {", "}
-          <span className="font-medium">{facts.municipality}</span>
-        </p>
+      {rows.length > 0 && (
+        <dl className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
+          {rows.map(([label, value]) => (
+            <div key={label} className="flex gap-x-1">
+              <dt className="text-drossgray-dark">{label}:</dt>
+              <dd className="font-medium">{value}</dd>
+            </div>
+          ))}
+        </dl>
       )}
 
       <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
-        {facts?.homeLink && (
+        {website && (
           <ExternalLink
-            href={facts.homeLink}
+            href={website}
             hrefTitle={t("website")}
             className="text-drossblue inline-flex items-center gap-x-1 hover:underline"
           >

@@ -130,7 +130,7 @@ export async function getOpenAipFacts(
       lat: Array.isArray(coords) ? num(coords[1]) : null,
       lon: Array.isArray(coords) ? num(coords[0]) : null,
       elevationFt: elev ? toFeet(num(elev.value), elev.unit) : null,
-      municipality: null, // OpenAIP has no reliable town field; OurAirports fills it
+      municipality: null, // town comes from OurAirports
       homeLink: null,
       openingHours: parseOpeningHours(item.hoursOfOperation),
       runways: parseRunways(item.runways),

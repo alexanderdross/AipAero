@@ -203,6 +203,9 @@
     "lastUpdated": "Laatst bijgewerkt",
     "viewOnMap": "Bekijk op Google Maps",
     "location": "Locatie",
-    "website": "Website"
+    "website": "Website",
+    "address": "Adres",
+    "coordinates": "Coördinaten",
+    "phone": "Telefoon"
   }
 }

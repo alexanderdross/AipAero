@@ -203,6 +203,9 @@
     "lastUpdated": "Dernière mise à jour",
     "viewOnMap": "Voir sur Google Maps",
     "location": "Localisation",
-    "website": "Site web"
+    "website": "Site web",
+    "address": "Adresse",
+    "coordinates": "Coordonnées",
+    "phone": "Téléphone"
   }
 }
