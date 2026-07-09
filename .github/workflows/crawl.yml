@@ -1,0 +1,102 @@
+name: Crawl (publish)
+
+# Runs the production country crawlers on the self-hosted runner and PUBLISHES
+# the results to https://aip.aero/api/airports (Bearer CRON_SECRET). This
+# replaces the old systemd timer on the netcup host: Actions checks out the
+# repo fresh each run (no code drift), reuses the runner that already runs the
+# live-test, and gives run logs + a manual trigger. The weekly OurAirports
+# facts import is a separate workflow (facts-import.yml).
+#
+# Trigger: nightly on schedule, or manually (Actions -> Crawl (publish) -> Run
+# workflow), optionally for a subset of countries.
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # daily 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      countries:
+        description: "Space-separated country codes to crawl (empty = all 12)"
+        required: false
+        default: ""
+      force_publish:
+        description: "Publish even if a country's count dropped > 50% (parser-bug guard override)"
+        type: boolean
+        default: false
+
+# Never let two publish runs overlap (they delete+insert per country in D1).
+concurrency:
+  group: crawl-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  crawl:
+    name: Crawl live sources + publish
+    runs-on: self-hosted
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: crawlers
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          version: latest
+          enable-cache: true
+          cache-dependency-glob: crawlers/uv.lock
+
+      - name: Setup Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      # Headless Chromium for the DK JS-rendering fallback. Best-effort: a
+      # failure must not abort the whole crawl (DK then fails soft to 0).
+      - name: Install Playwright Chromium
+        continue-on-error: true
+        run: uv run playwright install chromium --with-deps
+
+      # Carry the per-country "last successful count" across runs so the
+      # OutputHandler's > 50% drop guard (parser-bug protection) survives the
+      # ephemeral, fresh-checkout runner. Rolling key: always restores the
+      # latest crawler-counts-* entry and saves a new one post-job.
+      - name: Restore last-run counts (drop guard)
+        uses: actions/cache@v4
+        with:
+          path: crawlers/last_run_counts.json
+          key: crawler-counts-${{ github.run_id }}
+          restore-keys: |
+            crawler-counts-
+
+      - name: Crawl + publish
+        env:
+          # Settings() (pydantic-settings) reads these case-insensitively.
+          API_ENDPOINT: https://aip.aero/api/airports
+          API_KEY: ${{ secrets.CRON_SECRET }}
+          LOG_LEVEL: INFO
+          LOG_FILE: crawl.log
+          # Bright Data zones for blocked sources (optional). UNLOCKER solves
+          # the GR captcha; PROXY is the plain IP-block proxy.
+          BRIGHTDATA_UNLOCKER_URL: ${{ secrets.BRIGHTDATA_UNLOCKER_URL }}
+          BRIGHTDATA_PROXY_URL: ${{ secrets.BRIGHTDATA_PROXY_URL }}
+          # Passed via env (not string-interpolated into the run line) so a
+          # dispatch input can never inject shell. Empty on schedule = all.
+          COUNTRIES: ${{ inputs.countries }}
+          CRAWLER_FORCE_PUBLISH: ${{ inputs.force_publish && '1' || '' }}
+        # Unquoted $COUNTRIES so it word-splits into per-country args.
+        run: uv run main.py $COUNTRIES
+
+      - name: Upload crawl log
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: crawl-log
+          path: crawlers/crawl.log
+          if-no-files-found: ignore
+          retention-days: 7

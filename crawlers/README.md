@@ -4,15 +4,15 @@ Python web scrapers that extract aerodrome / heliport / military airfield listin
 
 ## Hosting
 
-These crawlers run on the **netcup root server** (not on Vercel) under systemd:
+The crawlers run as **GitHub Actions workflows on the self-hosted runner** (the runner lives on the Coolify/netcup box and also runs the crawler live-test). This replaced the old systemd timer on a bare-metal netcup host: Actions checks out the repo fresh each run (no code drift), gives run logs + a manual trigger, and needs no crawler Dockerfile or baked-in browser.
 
-- `aip-crawler.service` — one-shot service that runs `uv run main.py`
-- `aip-crawler.timer`   — schedules the service
-- `notify-failure@.service` — failure notification hook
+- **`.github/workflows/crawl.yml`** — *Crawl (publish)*. Runs `uv run main.py` daily (03:00 UTC) and POSTs to `https://aip.aero/api/airports` (Bearer `CRON_SECRET`). Manually triggerable, optionally for a subset of countries. Installs headless Chromium per run for the DK Playwright fallback. Persists `last_run_counts.json` via `actions/cache` so the OutputHandler's > 50 % drop guard survives the ephemeral runner.
+- **`.github/workflows/facts-import.yml`** — *Airport facts import*. Runs `import_ourairports.py` weekly (Sun 03:30 UTC) → POSTs OurAirports facts to `/api/airport-facts`. Idempotent.
+- **`.github/workflows/crawler-live-test.yml`** — dry-run validation (no publish) for new/changed crawlers.
 
-The website itself runs on Cloudflare Workers (via the OpenNext adapter); the crawlers reach it over HTTPS at `https://aip.aero/api/airports`, authenticating with the shared `CRON_SECRET`. During local development, point them at `http://localhost:3000` instead.
+Secrets used (repo → Settings → Secrets and variables → Actions): `CRON_SECRET` (required), `BRIGHTDATA_UNLOCKER_URL` (GR captcha), `BRIGHTDATA_PROXY_URL` (optional). During local development, run `main.py` directly and point `API_ENDPOINT` at `http://localhost:3000/api/airports`.
 
-Serverless platforms (Cloudflare Workers, Vercel, Lambda, etc.) are explicitly **not** a target for the crawlers themselves: scheduled, long-running scraping doesn't fit that runtime model.
+The website itself runs on Cloudflare Workers (via the OpenNext adapter). Serverless platforms (Cloudflare Workers, Vercel, Lambda, etc.) are explicitly **not** a target for running the crawlers: scheduled, browser-capable scraping doesn't fit that runtime model - hence the self-hosted runner.
 
 ## Stack
 
@@ -129,15 +129,9 @@ uv run main.py            # crawls all active countries (AT, DE, FR, NL, UK, BE/
 uv run main.py NL UK      # crawls only the given countries (codes are case-insensitive)
 ```
 
-On the netcup host the crawl is a systemd one-shot driven by a timer. To re-trigger on demand (e.g. after a source publishes a new AIRAC edition):
+In production the crawl runs via the **Crawl (publish)** Actions workflow (daily + manual). To re-trigger on demand (e.g. after a source publishes a new AIRAC edition): GitHub → **Actions → Crawl (publish) → Run workflow**, optionally passing a space-separated `countries` input for a subset, and `force_publish` to override the drop guard.
 
-```bash
-sudo systemctl start aip-crawler.service        # run uv run main.py now
-journalctl -u aip-crawler.service -f            # follow the run
-systemctl list-timers aip-crawler.timer         # when the next scheduled run is
-```
-
-**Re-triggering a single country (e.g. NL and UK):** pass the country codes to `main.py` — `uv run main.py NL UK` crawls only those two (an unknown code aborts the run rather than silently crawling a subset). Each country POST is independent: it replaces only that country's rows via a D1 batch and busts only its `country:<CC>` cache tag, so re-crawling a subset never touches the others. `OutputHandler` refuses to publish a country whose airport count dropped > 50 % from the last successful run; override with `CRAWLER_FORCE_PUBLISH=1`. On the netcup host the systemd unit runs the full set; to re-crawl a subset there, run the command directly (e.g. `cd /path/to/crawlers && uv run main.py NL UK`).
+**Re-triggering a single country (e.g. NL and UK):** pass the country codes — via the workflow's `countries` input, or locally `uv run main.py NL UK` (codes are case-insensitive; an unknown code aborts the run rather than silently crawling a subset). Each country POST is independent: it replaces only that country's rows via a D1 batch and busts only its `country:<CC>` cache tag, so re-crawling a subset never touches the others. `OutputHandler` refuses to publish a country whose airport count dropped > 50 % from the last successful run; override with `CRAWLER_FORCE_PUBLISH=1` (the workflow's `force_publish` input sets this).
 
 Logs go to stdout and to `crawlers.log`. On failures, the crawlers persist the last response body to `error_logs/` via `save_response()` so the failure can be reproduced offline against the same bytes the parser saw.
 
@@ -159,24 +153,12 @@ countries, and POSTs normalized per-ICAO rows to `POST /api/airport-facts` (same
 at request time when `OPENAIP_API_KEY` is set. This is **not** a country crawler
 and is not run by `main.py`.
 
-Run once (reuses the crawlers' `.env` for `API_ENDPOINT` + `API_KEY`):
+In production this runs weekly via the **Airport facts import** Actions workflow (`.github/workflows/facts-import.yml`, Sun 03:30 UTC) and is manually triggerable (Actions → *Airport facts import* → *Run workflow*). Run it once manually to populate the facts the first time. Locally / explicitly:
 
 ```bash
-uv run python import_ourairports.py
-# or explicitly:
-# API_BASE=https://aip.aero API_KEY=<CRON_SECRET> uv run python import_ourairports.py
+API_BASE=https://aip.aero API_KEY=<CRON_SECRET> uv run python import_ourairports.py
+# reuses the crawlers' .env for API_ENDPOINT/API_KEY if present
 ```
-
-Schedule it weekly on netcup with the provided units (facts change rarely):
-
-```bash
-sudo cp aip-facts-import.service aip-facts-import.timer /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now aip-facts-import.timer   # weekly, Sun 03:30
-sudo systemctl start aip-facts-import.service        # optional: run it now
-```
-
-The service reuses `notify-failure@.service` for ntfy alerts, like the crawler.
 
 ## Architecture
 
@@ -190,7 +172,7 @@ flowchart TD
         Cache["Cache (R2 incr. + D1 tag cache)"]
         IsHit{"Cache hit?"}
   end
- subgraph subGraph1["netcup root server (systemd timer)"]
+ subgraph subGraph1["Self-hosted GitHub Actions runner (scheduled workflow)"]
         Crawlers["Airport Crawlers (Python, this subproject)"]
   end
     Crawlers -- POST data + CRON_SECRET --> API

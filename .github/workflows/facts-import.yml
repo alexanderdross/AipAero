@@ -1,0 +1,52 @@
+name: Airport facts import (OurAirports)
+
+# Imports the OurAirports open dataset (CC0) into the D1 `airport_facts` table
+# via POST https://aip.aero/api/airport-facts (Bearer CRON_SECRET). These rows
+# provide coordinates (-> the "airports near me" map), elevation, runways and
+# frequencies; the website merges them with OpenAIP at request time. Facts
+# change rarely, so this runs weekly. Idempotent (upsert), safe to re-run.
+#
+# Trigger: weekly on schedule, or manually (Actions -> Airport facts import ->
+# Run workflow). Not a country crawler - it is not in main.py.
+
+on:
+  schedule:
+    - cron: "30 3 * * 0" # weekly, Sunday 03:30 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: facts-import
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  import:
+    name: Import OurAirports facts
+    runs-on: self-hosted
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: crawlers
+    steps:
+      - uses: actions/checkout@v7.0.0
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          version: latest
+          enable-cache: true
+          cache-dependency-glob: crawlers/uv.lock
+
+      - name: Setup Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Import OurAirports facts -> D1
+        env:
+          API_BASE: https://aip.aero
+          API_KEY: ${{ secrets.CRON_SECRET }}
+        run: uv run python import_ourairports.py
