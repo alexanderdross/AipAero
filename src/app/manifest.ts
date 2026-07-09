@@ -15,16 +15,14 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#ffffff",
     // drossblue - the primary brand color (see tailwind.config.ts).
     theme_color: "#2d6a9a",
+    // A single square icon. `logo.webp` (the 421x65 wordmark) was dropped: it is
+    // not square, so browsers reject it as an app icon ("Resource size is not
+    // correct"). The 450x450 JPG is a valid installable icon.
     icons: [
       {
         src: "/aip-logo-450x450.jpg",
         sizes: "450x450",
         type: "image/jpeg",
-      },
-      {
-        src: "/logo.webp",
-        sizes: "any",
-        type: "image/webp",
       },
     ],
   };
