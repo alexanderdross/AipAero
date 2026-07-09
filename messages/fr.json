@@ -225,6 +225,7 @@
     "phone": "Téléphone",
     "map": "Carte",
     "locate": "Trouver ma position",
+    "locateError": "Impossible de déterminer votre position",
     "nearby": "Aérodromes à proximité",
     "restaurant": "Restaurant",
     "customs": "Douane",

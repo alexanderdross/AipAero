@@ -207,6 +207,7 @@ async function AirportLists({ locale }: { locale: string }) {
         <AirportMap
           markers={markers}
           locateLabel={tCommon("locate")}
+          locateErrorLabel={tCommon("locateError")}
           mapLabel={tCommon("map")}
         />
       )}
