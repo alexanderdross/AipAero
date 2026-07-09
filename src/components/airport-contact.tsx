@@ -31,15 +31,15 @@ export async function AirportContact({
     <section className="border border-[#ccc] bg-white p-4">
       <h2 className="text-center text-xl font-normal">{t("location")}</h2>
 
-      {/* Two-column grid: place / website / map link sit side by side on >= sm,
-          stack to one column on mobile. */}
-      <div className="mx-auto mt-3 grid max-w-2xl grid-cols-1 items-center gap-x-10 gap-y-2 text-sm sm:grid-cols-2">
-        {facts?.municipality && (
-          <p className="flex justify-between gap-x-3">
-            <span className="text-drossgray-dark">{t("location")}</span>
-            <span className="text-right font-medium">{facts.municipality}</span>
-          </p>
-        )}
+      {facts?.municipality && (
+        <p className="mt-3 text-center text-sm">
+          <span className="text-drossgray-dark">{airport.title}</span>
+          {", "}
+          <span className="font-medium">{facts.municipality}</span>
+        </p>
+      )}
+
+      <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
         {facts?.homeLink && (
           <ExternalLink
             href={facts.homeLink}
