@@ -53,10 +53,11 @@ Active (in `crawlers/`) - 12 countries:
 
 Known issues (current AIRAC cycle, 2026-07; see `docs/open-tasks.md`):
 
-- **DE / FR** - source entry pages moved this cycle (DFS BasicVFR/BasicIFR
-  markup change; SIA no longer exposes `index-fr-FR.html`), so both currently
-  parse 0. Fix in progress. Existing DB rows are untouched (they error before
-  publishing), so the website keeps serving the last good lists.
+- **DE / FR** - FIXED. Both source entry points moved this cycle: DFS now serves
+  the `pages/CNNNNN.html` entries as `<meta refresh>` stubs (de.py follows them),
+  and SIA's `home.html` is JS-driven with the eAIP index under an
+  `AIRAC-YYYY-MM-DD/html/` subfolder (fr.py derives it from `home.js`). Verified
+  live (DE 792, FR 143).
 - **GR** - the Bright Data Web Unlocker returns `502 Access denied` for
   `aisgr.hasp.gov.gr`; needs a Bright-Data-side fix before the selectors can be
   validated.

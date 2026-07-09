@@ -47,21 +47,25 @@ persistiert `last_run_counts.json` über `actions/cache`).
   Leaflet-Karte mit "locate me"-Button (erscheint nur nach dem Facts-Import).
 - **Zeitstempel:** dieselbe Seite, "Stand: …" zeigt das Crawl-Datum.
 
-## 2a. DE + FR reparieren (AIRAC-Zyklus-Regression) 🔴 (Claude - in Arbeit)
+## ✅ 2a. DE + FR reparieren (AIRAC-Zyklus-Regression) - GEFIXT (Claude)
 
-Beide Kernländer-Crawler brechen seit dem aktuellen AIRAC-Zyklus: die Quellen
-haben ihre Einstiegs-URLs/Markup verschoben.
+Beide Kernländer-Crawler waren durch AIRAC-Zyklus-Änderungen der Quellen kaputt;
+beide sind jetzt gefixt und per Live-Test verifiziert.
 
-- **FR:** Navigation läuft korrekt bis `…/eAIP_09_JUL_2026/FRANCE/home.html`
-  (HTTP 200), aber der `<object>` zeigt jetzt direkt auf eine **konkrete
-  Edition** statt auf den Multi-Editions-Index mit `index-fr-FR.html`.
-- **DE:** beide DFS-Forks (BasicVFR/BasicIFR) laden (200), liefern aber 0
-  `folder-link`-Elemente - DFS hat vermutlich Klasse/Struktur der
-  Einstiegsseiten geändert.
+- **DE (792 Airports):** DFS liefert die statischen `pages/CNNNNN.html`-
+  Einstiegsseiten jetzt als winzige `<meta http-equiv="Refresh">`-Weiterleitungen
+  auf die editionsspezifische `…/<AIRAC>/chapter/<hash>.html`. httpx folgt Meta-
+  Refreshes nicht → 0 Anchors. Fix: `_fetch()` folgt dem Meta-Refresh und gibt
+  die effektive URL zurück; die `myPermalink`-Logik speichert weiter stabile
+  `pages/CNNNNN.html`-Permalinks.
+- **FR (143 Airports):** SIAs `…/FRANCE/home.html` ist JS-getrieben; `home.js`
+  baut den eAIP-Index als `AIRAC-<year>-<month>-<day>/html/index-fr-FR.html`
+  (unter einem AIRAC-datierten Unterordner, nicht als flaches Geschwister). Fix:
+  die `init()`-Datumsargumente parsen und diesen Pfad konstruieren.
 
-**Ablauf:** Diagnose-Logging in `fr.py`/`de.py` (temporärer Commit) → Live-Test
-auf dem Branch → echte Struktur auslesen → Selektoren fixen → verifizieren.
-Läuft. Kein Owner-Schritt.
+**Publish:** DE+FR wurden nach dem Fix per Crawl (publish) auf dem Branch in die
+Produktion geschrieben. Der Fix muss noch nach `main` gemergt werden, damit der
+**nächtliche** Crawl ihn nutzt (offener PR).
 
 ## 3. DK live verifizieren + freischalten 🟡 (Claude)
 
