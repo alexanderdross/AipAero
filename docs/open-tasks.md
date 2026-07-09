@@ -1,136 +1,106 @@
 # AIP:Aero - Offene Aufgaben (Stand: 09.07.2026)
 
-Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional
+Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional · ✅ erledigt
 
-## 1. `CRON_SECRET` als GitHub-Actions-Secret anlegen 🔴 (Owner, 5 Min.)
+## ✅ 1. `CRON_SECRET` als GitHub-Actions-Secret anlegen (Owner) - ERLEDIGT
 
-Sorgt für die **sofortige** Befüllung aller Flughafenlisten nach jedem Deploy
-(ohne Secret: bis zu 1h Verzögerung via ISR-Sicherheitsnetz). Stand jetzt
-offen - der CD-Step wird mangels Secret in 0 Sekunden übersprungen.
+Als Repo-Actions-Secret gesetzt. Sorgt für die sofortige Befüllung aller
+Flughafenlisten nach jedem Deploy (Post-Deploy-Revalidate) und authentifiziert
+die Crawl-/Facts-Workflows gegen `/api/airports` bzw. `/api/airport-facts`.
 
-1. Wert des Worker-Secrets `CRON_SECRET` bereithalten (identisch mit dem
-   `API_KEY` der Crawler auf dem netcup-Host).
-2. GitHub → `alexanderdross/AipAero` → **Settings → Secrets and variables →
-   Actions → New repository secret**.
-3. Name: `CRON_SECRET` (exakt), Value: der Secret-Wert → **Add secret**.
-4. **Verifizieren:** Nächster Push auf `main` → CD-Workflow-Log → Step
-   *"Revalidate all countries"* zeigt `{"revalidated": ["country:AT", ...]}`
-   mit HTTP 200 (statt sofort zu überspringen).
+## ✅ 2. Crawls über GitHub Actions laufen lassen (Owner) - ERLEDIGT (mit Nacharbeiten)
 
-## 2. Crawls über GitHub Actions laufen lassen 🔴 (Owner, ~5 Min.)
+Beide Workflows sind angelegt, die Secrets (`CRON_SECRET`,
+`BRIGHTDATA_UNLOCKER_URL`, `BRIGHTDATA_PROXY_URL`) gesetzt, und **beide einmal
+manuell ausgelöst** (Airport facts import + Crawl (publish) #1). Die Crawler
+laufen als **GitHub-Actions-Workflows auf dem self-hosted Runner** (kein
+systemd/bare-metal mehr): kein Code-Drift, Run-Logs + manueller Trigger.
 
-Die Crawler laufen **nicht** mehr per systemd auf einem bare-metal netcup,
-sondern als **GitHub-Actions-Workflows auf dem self-hosted Runner** (der auf
-der Coolify/netcup-Box ohnehin schon läuft und auch den Live-Test ausführt).
-Vorteil: kein Code-Drift (frischer Checkout je Lauf), Run-Logs + manueller
-Trigger, kein Crawler-Dockerfile / kein `playwright install`-ins-Image nötig.
+| Workflow | Datei | Zeitplan |
+| --- | --- | --- |
+| **Crawl (publish)** | `.github/workflows/crawl.yml` | täglich 03:00 UTC + manuell |
+| **Airport facts import** | `.github/workflows/facts-import.yml` | wöchentlich So 03:30 UTC + manuell |
 
-Der erste Lauf schaltet drei Dinge frei, die im Code schon live sind, aber
-Daten aus einem Lauf brauchen: **(a)** gefüllte Listen für BE/CZ/NO/PL/SE,
-**(b)** die **Karte + "Flugplätze in meiner Nähe"** auf der Flughafen-Liste
-(die Bulk-Karte joint `airport_facts`, braucht also die Koordinaten aus dem
-OurAirports-Import), **(c)** den **echten per-Country-Crawl-Zeitstempel**
-("Stand: …" auf der Flughafen-Liste, statt Build-Datum-Fallback).
+### Ergebnis des ersten Publish-Laufs: 8 von 12 Ländern live
 
-**Nicht mehr blockierend:** Die **Aerodrome-Facts-Karte + Seitenwind-Box auf den
-Detailseiten** funktionieren jetzt auch ohne diesen Import - sie ziehen
-Koordinaten / Höhe / Pisten / Frequenzen zur Laufzeit aus der kostenlosen
-AWC/NOAA-"airport"-API (`src/lib/awc-airport.ts`, kein Key nötig). Der Import
-bleibt trotzdem sinnvoll: er liefert Ort + offizielle Website und speist die
-Bulk-Karte.
+**Publiziert (201 Created):** AT (72), NL (24), UK (122), BE (167), CZ (11),
+NO (55), PL (69), SE (48). Der `>50%`-Drop-Schutz bleibt erhalten (`crawl.yml`
+persistiert `last_run_counts.json` über `actions/cache`).
 
-Zwei Workflows (im Repo bereits angelegt):
+**Vier mit Problemen** - siehe Tasks 2a / 3 / 4:
 
-| Workflow | Datei | Zeitplan | Zweck |
-| --- | --- | --- | --- |
-| **Crawl (publish)** | `.github/workflows/crawl.yml` | täglich 03:00 UTC | Crawlt alle Länder, POSTet an `/api/airports` → füllt Listen + schreibt `crawl_meta` (echter Zeitstempel) |
-| **Airport facts import** | `.github/workflows/facts-import.yml` | wöchentlich So 03:30 UTC | OurAirports-Import → `airport_facts` (Koordinaten → **Karte**, Elevation/Pisten/Frequenzen) |
+| Land | Problem |
+| --- | --- |
+| **DE** | Crawler parst 0 (DFS hat die Einstiegsseiten/Markup geändert) - Task 2a |
+| **FR** | Editions-Einstieg geändert (kein `index-fr-FR.html` mehr) - Task 2a |
+| **GR** | Web Unlocker liefert `502 Access denied` - Task 4 |
+| **DK** | Naviair-Seite hat die VFG-Navigation geändert - Task 3 |
 
-Beide sind auch **manuell** triggerbar (Actions → Workflow wählen → *Run
-workflow*); `crawl.yml` akzeptiert optional einzelne Länder-Codes.
+> **Kein Datenverlust:** DE/FR brachen **vor** dem POST ab, es wurde nichts
+> gelöscht. Die Website zeigt für DE/FR weiter die bestehenden Listen; sie
+> werden nur nicht aktualisiert, bis der Fix greift.
 
-### Schritt 2.1 - GitHub-Actions-Secrets prüfen/setzen
+### Verifizieren im Browser (nach dem nächsten Deploy)
 
-Beide Workflows brauchen `CRON_SECRET` (identisch zum Worker-Secret). GR
-zusätzlich `BRIGHTDATA_UNLOCKER_URL`. Unter **Settings → Secrets and variables
-→ Actions**:
+- **Listen:** https://aip.aero/pl/ und https://aip.aero/se/ zeigen gefüllte Listen.
+- **Karte:** https://aip.aero/de/flughafen-liste-deutschland/ zeigt die
+  Leaflet-Karte mit "locate me"-Button (erscheint nur nach dem Facts-Import).
+- **Zeitstempel:** dieselbe Seite, "Stand: …" zeigt das Crawl-Datum.
 
-- `CRON_SECRET` (Pflicht - auch für den Post-Deploy-Revalidate, Task 1)
-- `BRIGHTDATA_UNLOCKER_URL` (für GR, siehe Task 4; ohne sie bleibt GR blockiert,
-  alle anderen Länder laufen normal)
-- `BRIGHTDATA_PROXY_URL` (optional/Fallback)
+## 2a. DE + FR reparieren (AIRAC-Zyklus-Regression) 🔴 (Claude - in Arbeit)
 
-### Schritt 2.2 - Runner online + einmalig manuell auslösen
+Beide Kernländer-Crawler brechen seit dem aktuellen AIRAC-Zyklus: die Quellen
+haben ihre Einstiegs-URLs/Markup verschoben.
 
-1. Sicherstellen, dass der self-hosted Runner **online** ist (Settings →
-   Actions → Runners; idealerweise **non-ephemeral**, sonst arbeitet er die
-   Queue nur langsam ab - siehe Task 7).
-2. **Airport facts import** einmal manuell starten (Actions → *Airport facts
-   import* → *Run workflow*) → füllt `airport_facts` (Karte + Facts-Karten).
-3. **Crawl (publish)** einmal manuell starten → füllt Listen + Zeitstempel,
-   statt bis 03:00 UTC zu warten.
+- **FR:** Navigation läuft korrekt bis `…/eAIP_09_JUL_2026/FRANCE/home.html`
+  (HTTP 200), aber der `<object>` zeigt jetzt direkt auf eine **konkrete
+  Edition** statt auf den Multi-Editions-Index mit `index-fr-FR.html`.
+- **DE:** beide DFS-Forks (BasicVFR/BasicIFR) laden (200), liefern aber 0
+  `folder-link`-Elemente - DFS hat vermutlich Klasse/Struktur der
+  Einstiegsseiten geändert.
 
-### Schritt 2.3 - Verifizieren im Browser
+**Ablauf:** Diagnose-Logging in `fr.py`/`de.py` (temporärer Commit) → Live-Test
+auf dem Branch → echte Struktur auslesen → Selektoren fixen → verifizieren.
+Läuft. Kein Owner-Schritt.
 
-- **Listen:** https://aip.aero/pl/ und https://aip.aero/se/ zeigen gefüllte
-  Listen.
-- **Karte:** https://aip.aero/de/flughafen-liste-deutschland/ zeigt oberhalb
-  der Listen die Leaflet-Karte mit "locate me"-Button (erscheint nur nach dem
-  Facts-Import).
-- **Zeitstempel:** dieselbe Seite, die **"Stand: …"**-Zeile zeigt jetzt das
-  Crawl-Datum statt des Build-Datums.
-- **Facts-Karte:** eine Detailseite wie https://aip.aero/de/vfr/?EDNY zeigt die
-  Aerodrome-Daten-Box (Elevation/Pisten/Frequenzen).
+## 3. DK live verifizieren + freischalten 🟡 (Claude)
 
-> Der `>50%`-Drop-Schutz (Parser-Bug-Absicherung) bleibt erhalten: `crawl.yml`
-> persistiert `last_run_counts.json` über `actions/cache` zwischen den Läufen.
+**Erledigt (im Code):** `PlaywrightCrawlerBase` (headless-Chromium, lazy import,
+fail-soft), `dk.py` darauf portiert; Live-Test + `crawl.yml` installieren
+Chromium pro Lauf automatisch. DK steht noch in `ALLOWED_FAILURES`.
 
-## 3. DK live verifizieren + freischalten 🟡 (Code fertig - Owner-Schritt offen)
-
-**Erledigt (im Code):** `PlaywrightCrawlerBase` (headless-Chromium-Render,
-lazy import, fail-soft) gebaut, `dk.py` darauf portiert (rendert die JS-App
-statt sie zu fetchen), `playwright`-Dependency + `uv.lock`. Sowohl der
-Live-Test als auch `crawl.yml` installieren Chromium pro Lauf automatisch -
-**kein Host-Schritt nötig**. DK steht noch in `ALLOWED_FAILURES`.
-
-**Offen:**
-1. **Claude:** Live-Crawl-Test für DK auswerten. Die genaue gerenderte
-   DOM-Struktur von aim.naviair.dk ist noch unverifiziert - je nach Ergebnis
-   die Menü-Navigation nachziehen (dieselbe Diagnose-Schleife wie bei den
-   anderen Ländern).
-2. **Claude:** Bei plausibler Airport-Zahl DK in `liveCountries`
-   (`src/lib/utils.ts`) + Startseiten-Karte (`src/app/page.tsx`) freischalten
-   und aus `ALLOWED_FAILURES` entfernen.
+**Befund aus dem ersten Lauf:** Playwright rendert die Seite korrekt, aber der
+erwartete "VFR Flight Guide"-Navigationslink fehlt (aim.naviair.dk hat die
+Struktur geändert - aktuell nur ein "Ændringer"-Link sichtbar). Selektoren
+gegen die neue DOM nachziehen, dann DK in `liveCountries` (`src/lib/utils.ts`)
++ Startseiten-Karte (`src/app/page.tsx`) freischalten.
 
 → Ergebnis: **11 von 12 Ländern live**
 
-## 4. GR über Bright Data Web Unlocker 🟡 (Code fertig - Owner-Schritt offen)
+## 4. GR: Web Unlocker liefert 502 🟡 (Owner-Blick nötig)
 
-GR (aisgr.hasp.gov.gr) ist **serverseitig reCAPTCHA-geschützt** (verifiziert:
-`main.php` leitet ohne Captcha-Session zum Gate zurück) - Playwright hilft
-dort nicht, nur ein Unlocker-Dienst. Kosten bei nightly Crawls: Cent-Bereich
-(wenige Requests pro Nacht).
+GR (aisgr.hasp.gov.gr) ist serverseitig reCAPTCHA-geschützt - nur ein
+Unlocker-Dienst kommt durch.
 
-**Erledigt (im Code):** `gr.py` liest jetzt `BRIGHTDATA_UNLOCKER_URL`
-bevorzugt (Fallback: `BRIGHTDATA_PROXY_URL`); Live-Test reicht die Variable
-durch.
+**✅ Erledigt (Owner):** Web-Unlocker-Zone `aipaero_web_unlocker_gr` angelegt
+(CAPTCHA Solver an), Access-URL als Actions-Secret `BRIGHTDATA_UNLOCKER_URL`
+gesetzt. **✅ Erledigt (Code):** `gr.py` liest die Variable bevorzugt.
 
-**Offen:**
-1. **Owner:** Im Bright-Data-Dashboard eine **Web Unlocker**-Zone anlegen
-   (eigenes Produkt, nicht die bestehende Proxy-Zone).
-2. **Owner:** Access-Parameter als GitHub-Actions-Secret
-   `BRIGHTDATA_UNLOCKER_URL` anlegen (Format `http://user:pass@host:port`,
-   `http://`-Schema optional). Der `crawl.yml`-Workflow reicht es automatisch
-   an den GR-Crawler durch - kein Host-Schritt nötig.
-3. **Claude:** Live-Test für GR auswerten, ggf. die AD-Section-Selektoren
-   gegen die (dann sichtbare) echte Navigation nachziehen, GR freischalten.
+**Problem:** Der Unlocker selbst liefert `502 Access denied` für
+`aisgr.hasp.gov.gr` (2 Retries, dann Abbruch) - das kommt **nicht** von
+unseren Selektoren, sondern der Web Unlocker erreicht die Zielseite nicht.
+
+**Offen (Owner):** Im Bright-Data-Dashboard prüfen, warum die Domain 502 gibt
+(ggf. Domain in der Zone freischalten / Premium-Domains testweise aktivieren /
+Bright-Data-Support fragen, ob `hasp.gov.gr` unterstützt wird). Sobald der
+Unlocker durchkommt, wertet **Claude** den Live-Test aus und zieht die
+AD-Section-Selektoren gegen die dann sichtbare Navigation nach.
 
 → Ergebnis: **12 von 12 Ländern live** (Alternative: GR bleibt ausgeblendet,
 kein technischer Schaden)
 
-## 5. `docs/pilot-wishlist.md` abarbeiten 🟢 (Claude - nach 3./4.)
+## 5. `docs/pilot-wishlist.md` abarbeiten 🟢 (Claude - nach 2a/3/4)
 
-Ursprünglich zurückgestellte Anfrage ("erst weitere Länder"). **Wichtig:**
 Erst Abgleich gegen den aktuellen Stand - parallel wurden bereits umgesetzt:
 Aerodrome-Facts (OpenAIP + OurAirports + AWC/NOAA), globale Cross-Country-Suche,
 METAR/TAF-Decode-Tab, Wetter-Gadgets, Sitelinks Search Box. Ablauf: Liste
@@ -138,6 +108,9 @@ lesen → erledigte Punkte markieren → Priorisierung einholen → umsetzen.
 
 ## 6. Optionale Aufräumarbeiten 🟢 (niedrige Priorität)
 
+- **Runner non-ephemeral machen:** der self-hosted Runner arbeitet die Queue
+  aktuell nur langsam ab (jeder Job wartet, weil ephemeral + einzeln). Für
+  schnellere manuelle Läufe non-ephemeral konfigurieren.
 - **Legacy-Selenium entfernen:** experimentelle Crawler (`belgium.py`,
   `car_sam_nam.py`, `pac_n.py`, `pac_p.py`, `run.py`) löschen oder portieren,
   dann `crawler_base.py` + `eurocontrol_base.py` + die Dependencies
@@ -147,8 +120,17 @@ lesen → erledigte Punkte markieren → Priorisierung einholen → umsetzen.
   (Playwright)`, `Lighthouse budgets (local)`) als Required Status Checks für
   `main` markieren.
 
+## Zuletzt behobene Website-Bugs (auf dem Branch, noch nicht auf `main`)
+
+- **"Flugplätze in der Nähe"**: auf 4 Einträge begrenzt und als zentrierter
+  Blocksatz-Block gerendert (`airport-nearby.tsx`).
+- **"Find my location"-Button** (Karte): Der `Permissions-Policy`-Header
+  schickte `geolocation=()` und deaktivierte die Geolocation-API seitenweit -
+  auf `geolocation=(self)` korrigiert (`next.config.mjs`); Handler mit
+  Error-Callback + lokalisierter Fehlermeldung gehärtet. **Greift erst nach
+  dem nächsten Deploy.**
+
 ---
 
-**Reihenfolge-Empfehlung:** 1 + 2 zuerst (macht den 10-Länder-Rollout
-komplett und selbstheilend), dann 3 (DK) starten und parallel 4 (GR-Zone)
-anlegen, danach 5.
+**Reihenfolge-Empfehlung:** 2a (DE/FR-Fix, läuft) zuerst - das sind Kernländer.
+Parallel 4 (GR-502 im Bright-Data-Dashboard prüfen). Danach 3 (DK), dann 5.

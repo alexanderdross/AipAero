@@ -51,6 +51,18 @@ Active (in `crawlers/`) - 12 countries:
 - [x] Poland (https://www.ais.pansa.pl/en/publications/aip-poland/) - `HttpEurocontrolBase`
 - [x] Sweden (https://aro.lfv.se/content/eaip/default_offline.html) - `HttpEurocontrolBase`
 
+Known issues (current AIRAC cycle, 2026-07; see `docs/open-tasks.md`):
+
+- **DE / FR** - source entry pages moved this cycle (DFS BasicVFR/BasicIFR
+  markup change; SIA no longer exposes `index-fr-FR.html`), so both currently
+  parse 0. Fix in progress. Existing DB rows are untouched (they error before
+  publishing), so the website keeps serving the last good lists.
+- **GR** - the Bright Data Web Unlocker returns `502 Access denied` for
+  `aisgr.hasp.gov.gr`; needs a Bright-Data-side fix before the selectors can be
+  validated.
+- **DK** - still in `ALLOWED_FAILURES`: Playwright renders the page but the
+  Naviair navigation changed (no "VFR Flight Guide" link), so it parses 0.
+
 Open (see `tasks/` for per-country research notes):
 
 1. [ ] Croatia (https://www.crocontrol.hr/UserDocsImages/AIS%20produkti/eAIP/start.html)
