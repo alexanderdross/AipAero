@@ -214,5 +214,10 @@
     "map": "Kaart",
     "locate": "Mijn locatie vinden",
     "nearby": "Vliegvelden in de buurt"
+  },
+  "Chart": {
+    "title": "Naderingskaart",
+    "openPdf": "Kaart-PDF openen",
+    "preview": "Voorbeeld tonen"
   }
 }

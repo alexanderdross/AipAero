@@ -249,5 +249,10 @@
     "map": "Karte",
     "locate": "Meinen Standort finden",
     "nearby": "Flugplätze in der Nähe"
+  },
+  "Chart": {
+    "title": "Anflugkarte",
+    "openPdf": "Chart-PDF öffnen",
+    "preview": "Vorschau anzeigen"
   }
 }

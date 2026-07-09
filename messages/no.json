@@ -214,5 +214,10 @@
     "map": "Kart",
     "locate": "Finn min posisjon",
     "nearby": "Flyplasser i nærheten"
+  },
+  "Chart": {
+    "title": "Innflygingskart",
+    "openPdf": "Åpne kart-PDF",
+    "preview": "Vis forhåndsvisning"
   }
 }

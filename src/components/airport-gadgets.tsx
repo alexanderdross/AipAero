@@ -1,4 +1,5 @@
 import { getLocale } from "next-intl/server";
+import { AirportChart } from "~/components/airport-chart";
 import { AirportContact } from "~/components/airport-contact";
 import { AirportFacts } from "~/components/airport-facts";
 import { AirportNearby } from "~/components/airport-nearby";
@@ -6,6 +7,7 @@ import { AirportWeather } from "~/components/airport-weather";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { reverseGeocode } from "~/lib/geocode";
 import { getAirportWeather, getNearestWeather } from "~/lib/weather";
+import { isPdfUrl } from "~/lib/utils";
 import type { Airport } from "~/server/db/schema";
 
 /**
@@ -53,6 +55,7 @@ export async function AirportGadgets({ airport }: { airport: Airport }) {
   return (
     <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4">
+        {isPdfUrl(airport.url) && <AirportChart url={airport.url} />}
         {/* Location + aerodrome-data boxes side by side on >= md (each half
             width, stretched to equal height), stacking on mobile. Weather spans
             the full width below, as it carries the wide raw METAR/TAF blocks. */}

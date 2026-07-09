@@ -214,5 +214,10 @@
     "map": "Carte",
     "locate": "Trouver ma position",
     "nearby": "Aérodromes à proximité"
+  },
+  "Chart": {
+    "title": "Carte d'approche",
+    "openPdf": "Ouvrir le PDF de la carte",
+    "preview": "Afficher l'aperçu"
   }
 }

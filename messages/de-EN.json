@@ -249,5 +249,10 @@
     "map": "Map",
     "locate": "Find my location",
     "nearby": "Nearby airfields"
+  },
+  "Chart": {
+    "title": "Approach chart",
+    "openPdf": "Open chart PDF",
+    "preview": "Show preview"
   }
 }

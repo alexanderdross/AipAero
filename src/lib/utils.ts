@@ -7,6 +7,16 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/** True when the URL points directly at a PDF (path ends in `.pdf`). */
+export function isPdfUrl(url: string | null | undefined): boolean {
+  if (!url) return false;
+  try {
+    return new URL(url).pathname.toLowerCase().endsWith(".pdf");
+  } catch {
+    return /\.pdf(?:[?#]|$)/i.test(url);
+  }
+}
+
 export const orgUrl = new URL("https://aip.aero/");
 export const orgLogoUrl = new URL("/aip-logo-446x319.jpg", orgUrl);
 export const orgLogoSquareUrl = new URL("/aip-logo-450x450.jpg", orgUrl);
