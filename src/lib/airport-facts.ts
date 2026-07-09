@@ -9,29 +9,29 @@ import type {
   RunwayFact,
 } from "~/server/db/schema";
 
-// Source-agnostic aerodrome facts rendered by `AirportFacts`, merged from three
-// sources (see `getAirportFacts` for the precedence):
-//   1. OpenAIP     - richest; the only source of fuel / PPR / opening hours /
-//                    circuit direction. Needs `OPENAIP_API_KEY`.
-//   2. OurAirports - public-domain base (D1, via the importer); the only source
-//                    of town + official website.
-//   3. AWC (NOAA)  - the free, no-key, no-importer "airport" endpoint; a reliable
-//                    always-on fallback for coordinates / elevation / runways /
-//                    frequencies, so the card works out of the box.
-// The postal address (street/phone) is layered on separately from OpenStreetMap
-// (see `~/lib/geocode`), keyed by coordinates, in the gadgets wrapper.
+// Source-agnostic aerodrome facts rendered by `AirportFacts`. Precedence (see
+// `getAirportFacts`): the **D1 row is primary** - the importer persists the full
+// enrichment (OpenAIP + OpenStreetMap) into `airport_facts`, so the detail page
+// reads values from the database instead of fetching them live per request. The
+// live sources are FALLBACKS for ICAOs not yet backfilled:
+//   - OpenAIP  (`OPENAIP_API_KEY`): fuel / PPR / opening hours / type / etc.
+//   - AWC/NOAA (no key): coordinates / elevation / runways / frequencies.
+//   - Nominatim (in the gadgets wrapper): postal address, when D1 has none.
 export interface NormalizedFacts {
   lat: number | null;
   lon: number | null;
   elevationFt: number | null;
-  municipality: string | null; // town/city (OurAirports)
-  homeLink: string | null; // official airport website (OurAirports)
-  ppr: boolean | null; // prior permission required (OpenAIP)
-  fuel: string[]; // available fuel types (OpenAIP)
-  openingHours: string | null; // hours of operation (OpenAIP)
-  restaurant: boolean | null; // on-field restaurant (OpenAIP passengerFacilities)
-  customs: boolean | null; // customs / airport of entry (OpenAIP passengerFacilities)
+  municipality: string | null; // town/city
+  homeLink: string | null; // official airport website
+  ppr: boolean | null; // prior permission required
+  fuel: string[]; // available fuel types
+  openingHours: string | null; // hours of operation
+  restaurant: boolean | null; // on-field restaurant
+  customs: boolean | null; // customs / airport of entry
   aerodromeType: number | null; // OpenAIP airport `type` enum (label resolved in UI)
+  street: string | null; // street + house number (persisted OSM address)
+  postcode: string | null; // postal code (persisted OSM address)
+  phone: string | null; // contact phone (persisted OSM address)
   runways: RunwayFact[];
   frequencies: FrequencyFact[];
   source: string; // provenance, e.g. "openaip" or "ourairports"
@@ -47,6 +47,8 @@ function parseJsonArray<T>(raw: string | null): T[] {
   }
 }
 
+// The persisted D1 row -> NormalizedFacts. Once the importer has backfilled a
+// field, this is what the page renders (no live fetch).
 function rowToFacts(row: AirportFactsRow): NormalizedFacts {
   return {
     lat: row.lat ?? null,
@@ -54,12 +56,15 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     elevationFt: row.elevationFt ?? null,
     municipality: row.municipality ?? null,
     homeLink: row.homeLink ?? null,
-    ppr: null, // OpenAIP-only
-    fuel: [], // OpenAIP-only
-    openingHours: null, // OurAirports has no hours; filled by OpenAIP if set
-    restaurant: null, // OpenAIP-only
-    customs: null, // OpenAIP-only
-    aerodromeType: null, // OpenAIP-only
+    ppr: row.ppr ?? null,
+    fuel: parseJsonArray<string>(row.fuel),
+    openingHours: row.openingHours ?? null,
+    restaurant: row.restaurant ?? null,
+    customs: row.customs ?? null,
+    aerodromeType: row.aerodromeType ?? null,
+    street: row.street ?? null,
+    postcode: row.postcode ?? null,
+    phone: row.phone ?? null,
     runways: parseJsonArray<RunwayFact>(row.runways),
     frequencies: parseJsonArray<FrequencyFact>(row.frequencies),
     source: row.source,
@@ -82,17 +87,11 @@ const firstArray = <T>(...arrays: (T[] | undefined)[]): T[] => {
 };
 
 /**
- * Merged aerodrome facts for an ICAO from three sources. Precedence per field:
- *
- * - Shared physical facts (coordinates, elevation, runways, frequencies) take the
- *   first non-empty of **OpenAIP -> OurAirports -> AWC (NOAA)**. OpenAIP first
- *   because it is the richest and its runway objects carry the circuit direction;
- *   OurAirports next (curated public domain); **AWC last but always-on** - free,
- *   no key, no importer - so the card / crosswind / map work out of the box.
- * - Unique fields go to their only source: fuel / PPR / opening hours -> OpenAIP;
- *   town / website -> OurAirports.
- *
- * Returns null when no source has anything, so the card renders nothing.
+ * Merged aerodrome facts for an ICAO. The **persisted D1 row wins** for every
+ * field (that is the point - values come from the database, populated by the
+ * importer); the live OpenAIP and AWC fetches only fill fields the row is missing
+ * (an ICAO not yet backfilled, or a field the importer had no value for). `??`
+ * preserves a stored `false` (e.g. PPR = no). Returns null when nothing is known.
  */
 export async function getAirportFacts(
   icao: string | null | undefined,
@@ -109,25 +108,28 @@ export async function getAirportFacts(
   if (!openaip && !base && !awc) return null;
 
   const merged: NormalizedFacts = {
-    lat: openaip?.lat ?? base?.lat ?? awc?.lat ?? null,
-    lon: openaip?.lon ?? base?.lon ?? awc?.lon ?? null,
+    lat: base?.lat ?? openaip?.lat ?? awc?.lat ?? null,
+    lon: base?.lon ?? openaip?.lon ?? awc?.lon ?? null,
     elevationFt:
-      openaip?.elevationFt ?? base?.elevationFt ?? awc?.elevationFt ?? null,
-    municipality: base?.municipality ?? null, // OurAirports only
-    homeLink: base?.homeLink ?? null, // OurAirports only
-    ppr: openaip?.ppr ?? null, // OpenAIP only
-    fuel: openaip?.fuel.length ? openaip.fuel : [], // OpenAIP only
-    openingHours: openaip?.openingHours ?? null, // OpenAIP only
-    restaurant: openaip?.restaurant ?? null, // OpenAIP only
-    customs: openaip?.customs ?? null, // OpenAIP only
-    aerodromeType: openaip?.aerodromeType ?? null, // OpenAIP only
-    runways: firstArray(openaip?.runways, base?.runways, awc?.runways),
+      base?.elevationFt ?? openaip?.elevationFt ?? awc?.elevationFt ?? null,
+    municipality: base?.municipality ?? null,
+    homeLink: base?.homeLink ?? null,
+    ppr: base?.ppr ?? openaip?.ppr ?? null,
+    fuel: base?.fuel.length ? base.fuel : (openaip?.fuel ?? []),
+    openingHours: base?.openingHours ?? openaip?.openingHours ?? null,
+    restaurant: base?.restaurant ?? openaip?.restaurant ?? null,
+    customs: base?.customs ?? openaip?.customs ?? null,
+    aerodromeType: base?.aerodromeType ?? openaip?.aerodromeType ?? null,
+    street: base?.street ?? null,
+    postcode: base?.postcode ?? null,
+    phone: base?.phone ?? null,
+    runways: firstArray(base?.runways, openaip?.runways, awc?.runways),
     frequencies: firstArray(
-      openaip?.frequencies,
       base?.frequencies,
+      openaip?.frequencies,
       awc?.frequencies,
     ),
-    source: [openaip?.source, base?.source, awc?.source]
+    source: [base?.source, openaip?.source, awc?.source]
       .filter(Boolean)
       .join("+"),
   };

@@ -34,11 +34,14 @@ export async function AirportContact({
       : `${airport.icao ?? airport.title} airport`;
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
-  const street = geo
-    ? [geo.road, geo.houseNumber].filter(Boolean).join(" ")
-    : "";
+  // Persisted D1 address (from the importer) first, live geocode as fallback.
+  const street =
+    facts?.street ??
+    (geo ? [geo.road, geo.houseNumber].filter(Boolean).join(" ") : "");
+  const postcode = facts?.postcode ?? geo?.postcode ?? null;
   const city = facts?.municipality ?? geo?.city ?? null;
-  const cityLine = [geo?.postcode, city].filter(Boolean).join(" ");
+  const phone = facts?.phone ?? geo?.phone ?? null;
+  const cityLine = [postcode, city].filter(Boolean).join(" ");
   const address = [street, cityLine].filter(Boolean).join(", ");
   const coords =
     lat != null && lon != null ? `${lat.toFixed(5)}, ${lon.toFixed(5)}` : null;
@@ -47,16 +50,16 @@ export async function AirportContact({
   const rows: Array<[string, ReactNode]> = [];
   if (address) rows.push([t("address"), address]);
   if (coords) rows.push([t("coordinates"), coords]);
-  if (geo?.phone)
+  if (phone)
     rows.push([
       t("phone"),
       <a
         key="phone"
-        href={`tel:${geo.phone.replace(/[^\d+]/g, "")}`}
-        title={`${t("phone")}: ${geo.phone}`}
+        href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+        title={`${t("phone")}: ${phone}`}
         className="text-drossblue hover:underline"
       >
-        {geo.phone}
+        {phone}
       </a>,
     ]);
   // On-field amenities from OpenAIP (null = unknown -> omit; we never assert

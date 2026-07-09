@@ -72,6 +72,31 @@ the same value the crawlers use as `API_KEY`):
 API_BASE=https://aip.aero API_KEY="<CRON_SECRET>" uv run python import_ourairports.py
 ```
 
+**Apply the DB migration first.** The facts table gained columns for the
+persisted address + OpenAIP enrichment (street / postcode / phone / fuel /
+opening_hours / ppr / aerodrome_type / restaurant / customs). Apply pending
+migrations to the remote D1 before (re)running the importer:
+
+```bash
+wrangler d1 migrations apply DB --remote
+```
+
+### A.2b - Persist the postal address into D1 (optional, `GEOCODE=1`)
+
+By default the website reverse-geocodes the address **live** (OpenStreetMap /
+Nominatim) on the first request per field, then caches it 30 days. To store it in
+D1 instead - so it is a fast DB read and always in the SSR HTML + Airport JSON-LD
+- run the importer with `GEOCODE=1`. It reverse-geocodes every field (street /
+postcode / phone) at **max 1 request/second** (Nominatim policy), so a full run
+takes ~30-60 min:
+
+```bash
+API_BASE=https://aip.aero API_KEY="<CRON_SECRET>" GEOCODE=1 uv run python import_ourairports.py
+```
+
+Without `GEOCODE=1` the address columns stay null and the live geocode fallback
+fills them at request time (unchanged behaviour).
+
 ### A.3 - Verify
 
 Open a small field that had no data before, e.g.:

@@ -380,9 +380,9 @@ export const MUTATIONS = {
     if (!db) {
       throw new Error("D1 database binding is unavailable");
     }
-    // Per-row upsert keyed on ICAO (each row binds 8 params, well under the D1
-    // limit). Uses `excluded.*` so re-imports overwrite in place instead of
-    // wiping the table between paginated importer batches.
+    // Per-row upsert keyed on ICAO (each row binds ~19 params, well under the
+    // D1 100-param limit). Uses `excluded.*` so re-imports overwrite in place
+    // instead of wiping the table between paginated importer batches.
     const stmts = input.map((row) =>
       db
         .insert(airportFacts)
@@ -393,8 +393,19 @@ export const MUTATIONS = {
             lat: sql`excluded.lat`,
             lon: sql`excluded.lon`,
             elevationFt: sql`excluded.elevation_ft`,
+            municipality: sql`excluded.municipality`,
+            homeLink: sql`excluded.home_link`,
             runways: sql`excluded.runways`,
             frequencies: sql`excluded.frequencies`,
+            street: sql`excluded.street`,
+            postcode: sql`excluded.postcode`,
+            phone: sql`excluded.phone`,
+            fuel: sql`excluded.fuel`,
+            openingHours: sql`excluded.opening_hours`,
+            ppr: sql`excluded.ppr`,
+            aerodromeType: sql`excluded.aerodrome_type`,
+            restaurant: sql`excluded.restaurant`,
+            customs: sql`excluded.customs`,
             source: sql`excluded.source`,
             updatedAt: sql`excluded.updated_at`,
           },
