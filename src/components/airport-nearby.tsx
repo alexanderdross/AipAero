@@ -52,7 +52,7 @@ export async function AirportNearby({
   return (
     <section className="border border-[#ccc] bg-white p-4">
       <h2 className="text-center text-xl font-normal">{t("nearby")}</h2>
-      <ul className="mt-3 flex flex-col gap-y-1 text-sm">
+      <ul className="mx-auto mt-3 flex w-fit flex-col gap-y-1 text-sm">
         {nearby.map((a) => {
           const href =
             getPathname({ href: i18nPathMapping[a.type], locale }) +

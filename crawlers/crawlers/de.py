@@ -84,9 +84,34 @@ class DE(HttpCrawlerBase):
 
     # ----- VFR ----------------------------------------------------------------
 
+    def _diagnose_page(self, url: str, html: str) -> None:
+        """Log anchor structure of an index page (breakage diagnostics).
+
+        Fires when a section index yields no `folder-link` anchors, so we can
+        see whether DFS renamed the class, moved the codes, or served an error.
+        """
+        soup = self.soup(html)
+        anchors = soup.find_all("a")
+        classes: dict[str, int] = {}
+        for a in anchors:
+            for c in a.get("class") or ["<no-class>"]:
+                classes[c] = classes.get(c, 0) + 1
+        self.logger.warning(
+            f"DE diag {url}: {len(html)} bytes, {len(anchors)} anchors, "
+            f"anchor classes={classes}"
+        )
+        for a in anchors[:15]:
+            href = a.get("href")
+            if href:
+                label = " ".join(a.get_text().split())[:50]
+                self.logger.warning(f"  a.{a.get('class')} {href} | {label!r}")
+        self.save_response(url, html, prefix="de_diag")
+
     def _process_vfr(self, airports: list[Airport]) -> None:
         ad_html = self.fetch(VFR_AERODROMES_URL)
         heli_html = self.fetch(VFR_HELIPORTS_URL)
+        if not self.soup(ad_html).find_all("a", class_="folder-link"):
+            self._diagnose_page(VFR_AERODROMES_URL, ad_html)
 
         # The first 3 folder-links on the aerodromes index are AD 0 Content,
         # AD 1 General Remarks, and the AD 2 list header — not airfields.
