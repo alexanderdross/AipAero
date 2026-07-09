@@ -179,5 +179,10 @@
     "map": "Mapa",
     "locate": "Najít mou polohu",
     "nearby": "Letiště v okolí"
+  },
+  "Chart": {
+    "title": "Přibližovací mapa",
+    "openPdf": "Otevřít PDF mapy",
+    "preview": "Zobrazit náhled"
   }
 }

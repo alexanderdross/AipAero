@@ -214,5 +214,10 @@
     "map": "Mapa",
     "locate": "Znajdź moją lokalizację",
     "nearby": "Lotniska w pobliżu"
+  },
+  "Chart": {
+    "title": "Mapa podejścia",
+    "openPdf": "Otwórz PDF mapy",
+    "preview": "Pokaż podgląd"
   }
 }
