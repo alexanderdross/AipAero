@@ -17,15 +17,20 @@ offen - der CD-Step wird mangels Secret in 0 Sekunden übersprungen.
    *"Revalidate all countries"* zeigt `{"revalidated": ["country:AT", ...]}`
    mit HTTP 200 (statt sofort zu überspringen).
 
-## 2. netcup-Crawler-Host einrichten 🔴 (Owner, ~15 Min.)
+## 2. Crawls über GitHub Actions laufen lassen 🔴 (Owner, ~5 Min.)
 
-Ein Rundum-Update des Crawler-Hosts. Es schaltet drei Dinge frei, die im Code
-schon live sind, aber Daten aus einem Host-Lauf brauchen:
-**(a)** gefüllte Listen für BE/CZ/NO/PL/SE, **(b)** die **Karte + "Flugplätze
-in meiner Nähe"** auf der Flughafen-Liste (die Bulk-Karte joint `airport_facts`,
-braucht also die Koordinaten aus dem OurAirports-Import), **(c)** den **echten
-per-Country-Crawl-Zeitstempel** ("Stand: …" auf der Flughafen-Liste, statt
-Build-Datum-Fallback).
+Die Crawler laufen **nicht** mehr per systemd auf einem bare-metal netcup,
+sondern als **GitHub-Actions-Workflows auf dem self-hosted Runner** (der auf
+der Coolify/netcup-Box ohnehin schon läuft und auch den Live-Test ausführt).
+Vorteil: kein Code-Drift (frischer Checkout je Lauf), Run-Logs + manueller
+Trigger, kein Crawler-Dockerfile / kein `playwright install`-ins-Image nötig.
+
+Der erste Lauf schaltet drei Dinge frei, die im Code schon live sind, aber
+Daten aus einem Lauf brauchen: **(a)** gefüllte Listen für BE/CZ/NO/PL/SE,
+**(b)** die **Karte + "Flugplätze in meiner Nähe"** auf der Flughafen-Liste
+(die Bulk-Karte joint `airport_facts`, braucht also die Koordinaten aus dem
+OurAirports-Import), **(c)** den **echten per-Country-Crawl-Zeitstempel**
+("Stand: …" auf der Flughafen-Liste, statt Build-Datum-Fallback).
 
 **Nicht mehr blockierend:** Die **Aerodrome-Facts-Karte + Seitenwind-Box auf den
 Detailseiten** funktionieren jetzt auch ohne diesen Import - sie ziehen
@@ -34,87 +39,66 @@ AWC/NOAA-"airport"-API (`src/lib/awc-airport.ts`, kein Key nötig). Der Import
 bleibt trotzdem sinnvoll: er liefert Ort + offizielle Website und speist die
 Bulk-Karte.
 
-### Schritt 2.1 - Code + Abhängigkeiten aktualisieren
+Zwei Workflows (im Repo bereits angelegt):
 
-```bash
-# per SSH auf dem netcup-Server, im Repo-Verzeichnis:
-git pull origin main
-cd crawlers
-uv sync --frozen
+| Workflow | Datei | Zeitplan | Zweck |
+| --- | --- | --- | --- |
+| **Crawl (publish)** | `.github/workflows/crawl.yml` | täglich 03:00 UTC | Crawlt alle Länder, POSTet an `/api/airports` → füllt Listen + schreibt `crawl_meta` (echter Zeitstempel) |
+| **Airport facts import** | `.github/workflows/facts-import.yml` | wöchentlich So 03:30 UTC | OurAirports-Import → `airport_facts` (Koordinaten → **Karte**, Elevation/Pisten/Frequenzen) |
 
-# Headless-Chromium fuer den DK-Crawler (JS-Rendering-Fallback) - einmalig:
-uv run playwright install chromium --with-deps
-```
+Beide sind auch **manuell** triggerbar (Actions → Workflow wählen → *Run
+workflow*); `crawl.yml` akzeptiert optional einzelne Länder-Codes.
 
-### Schritt 2.2 - Bright-Data-Zonen als Env-Vars hinterlegen (fuer GR)
+### Schritt 2.1 - GitHub-Actions-Secrets prüfen/setzen
 
-```bash
-sudo systemctl edit aip-crawler.service
-# im Editor einfuegen (Werte aus dem Bright-Data-Dashboard):
-#   [Service]
-#   Environment="BRIGHTDATA_UNLOCKER_URL=<Web-Unlocker-Zone-URL>"
-#   Environment="BRIGHTDATA_PROXY_URL=<Plain-Proxy-URL>"   # optional/Fallback
-sudo systemctl daemon-reload
-```
+Beide Workflows brauchen `CRON_SECRET` (identisch zum Worker-Secret). GR
+zusätzlich `BRIGHTDATA_UNLOCKER_URL`. Unter **Settings → Secrets and variables
+→ Actions**:
 
-`BRIGHTDATA_UNLOCKER_URL` loest das GR-Captcha (siehe Task 4); ohne sie bleibt
-GR blockiert, alle anderen Laender laufen aber normal.
+- `CRON_SECRET` (Pflicht - auch für den Post-Deploy-Revalidate, Task 1)
+- `BRIGHTDATA_UNLOCKER_URL` (für GR, siehe Task 4; ohne sie bleibt GR blockiert,
+  alle anderen Länder laufen normal)
+- `BRIGHTDATA_PROXY_URL` (optional/Fallback)
 
-### Schritt 2.3 - OurAirports-Import einmalig ausführen (Karte + Facts)
+### Schritt 2.2 - Runner online + einmalig manuell auslösen
 
-Befuellt die `airport_facts`-Tabelle mit Koordinaten/Pisten/Frequenzen. **Erst
-danach erscheinen die Karte und die Aerodrome-Facts-Karten.** Der Importer
-deckt automatisch alle Laender ab und braucht `API_BASE` + `API_KEY` (identisch
-zum Crawler-`CRON_SECRET`):
+1. Sicherstellen, dass der self-hosted Runner **online** ist (Settings →
+   Actions → Runners; idealerweise **non-ephemeral**, sonst arbeitet er die
+   Queue nur langsam ab - siehe Task 7).
+2. **Airport facts import** einmal manuell starten (Actions → *Airport facts
+   import* → *Run workflow*) → füllt `airport_facts` (Karte + Facts-Karten).
+3. **Crawl (publish)** einmal manuell starten → füllt Listen + Zeitstempel,
+   statt bis 03:00 UTC zu warten.
 
-```bash
-# im crawlers-Verzeichnis, mit denselben API-Zugangsdaten wie der Crawler:
-API_BASE="https://aip.aero" API_KEY="<CRON_SECRET>" \
-  uv run python import_ourairports.py
-# Erwartung: "Built N airport-facts rows; posting to https://aip.aero/api/airport-facts" -> 200/201
-```
-
-(Nur einmalig noetig; danach bei Bedarf wiederholen, wenn OurAirports neue
-Daten hat. Ein systemd-Timer dafuer ist optional.)
-
-### Schritt 2.4 - Regulären Crawl anstoßen (Listen + Zeitstempel)
-
-```bash
-sudo systemctl start aip-crawler.service
-journalctl -u aip-crawler.service -f
-```
-
-**Erwartung im Log:** pro Land `Found N airports` (BE 167, CZ 11, NO 55,
-PL 69, SE 48) und `POST /api/airports` → 201. Jeder POST schreibt zugleich die
-`crawl_meta`-Tabelle → der **Crawl-Zeitstempel** wird ab jetzt echt.
-
-### Schritt 2.5 - Verifizieren im Browser
+### Schritt 2.3 - Verifizieren im Browser
 
 - **Listen:** https://aip.aero/pl/ und https://aip.aero/se/ zeigen gefüllte
   Listen.
 - **Karte:** https://aip.aero/de/flughafen-liste-deutschland/ zeigt oberhalb
-  der Listen die Leaflet-Karte mit "locate me"-Button (erscheint nur, wenn
-  Schritt 2.3 lief und Koordinaten vorhanden sind).
-- **Zeitstempel:** dieselbe Seite, die **"Stand: …"**-Zeile unter dem Titel
-  zeigt jetzt das Crawl-Datum (nach Schritt 2.4), nicht mehr das Build-Datum.
+  der Listen die Leaflet-Karte mit "locate me"-Button (erscheint nur nach dem
+  Facts-Import).
+- **Zeitstempel:** dieselbe Seite, die **"Stand: …"**-Zeile zeigt jetzt das
+  Crawl-Datum statt des Build-Datums.
 - **Facts-Karte:** eine Detailseite wie https://aip.aero/de/vfr/?EDNY zeigt die
   Aerodrome-Daten-Box (Elevation/Pisten/Frequenzen).
+
+> Der `>50%`-Drop-Schutz (Parser-Bug-Absicherung) bleibt erhalten: `crawl.yml`
+> persistiert `last_run_counts.json` über `actions/cache` zwischen den Läufen.
 
 ## 3. DK live verifizieren + freischalten 🟡 (Code fertig - Owner-Schritt offen)
 
 **Erledigt (im Code):** `PlaywrightCrawlerBase` (headless-Chromium-Render,
 lazy import, fail-soft) gebaut, `dk.py` darauf portiert (rendert die JS-App
-statt sie zu fetchen), `playwright`-Dependency + `uv.lock`, der Live-Test
-installiert Chromium automatisch. DK steht noch in `ALLOWED_FAILURES`.
+statt sie zu fetchen), `playwright`-Dependency + `uv.lock`. Sowohl der
+Live-Test als auch `crawl.yml` installieren Chromium pro Lauf automatisch -
+**kein Host-Schritt nötig**. DK steht noch in `ALLOWED_FAILURES`.
 
 **Offen:**
-1. **Owner (netcup-Host):** Chromium installieren - erledigt durch Schritt 2.1
-   (`uv run playwright install chromium --with-deps`).
-2. **Claude:** Live-Crawl-Test für DK auswerten. Die genaue gerenderte
+1. **Claude:** Live-Crawl-Test für DK auswerten. Die genaue gerenderte
    DOM-Struktur von aim.naviair.dk ist noch unverifiziert - je nach Ergebnis
    die Menü-Navigation nachziehen (dieselbe Diagnose-Schleife wie bei den
    anderen Ländern).
-3. **Claude:** Bei plausibler Airport-Zahl DK in `liveCountries`
+2. **Claude:** Bei plausibler Airport-Zahl DK in `liveCountries`
    (`src/lib/utils.ts`) + Startseiten-Karte (`src/app/page.tsx`) freischalten
    und aus `ALLOWED_FAILURES` entfernen.
 
@@ -134,9 +118,10 @@ durch.
 **Offen:**
 1. **Owner:** Im Bright-Data-Dashboard eine **Web Unlocker**-Zone anlegen
    (eigenes Produkt, nicht die bestehende Proxy-Zone).
-2. **Owner:** Access-Parameter als GitHub-Secret `BRIGHTDATA_UNLOCKER_URL`
-   anlegen (Format `http://user:pass@host:port`, `http://`-Schema optional) +
-   später als Env-Var auf dem netcup-Host.
+2. **Owner:** Access-Parameter als GitHub-Actions-Secret
+   `BRIGHTDATA_UNLOCKER_URL` anlegen (Format `http://user:pass@host:port`,
+   `http://`-Schema optional). Der `crawl.yml`-Workflow reicht es automatisch
+   an den GR-Crawler durch - kein Host-Schritt nötig.
 3. **Claude:** Live-Test für GR auswerten, ggf. die AD-Section-Selektoren
    gegen die (dann sichtbare) echte Navigation nachziehen, GR freischalten.
 
