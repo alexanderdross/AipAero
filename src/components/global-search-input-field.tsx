@@ -31,6 +31,16 @@ function detailHref(a: Airport): string {
   return `/${a.country.toLowerCase()}/${TYPE_PATH[a.type]}/?${a.slug}`;
 }
 
+// Short label shown on each result so the same field appearing under several
+// categories (e.g. Friedrichshafen as VFR, IFR and Heliport) is distinguishable.
+const TYPE_LABEL: Record<Airport["type"], string> = {
+  vfr: "VFR",
+  ifr: "IFR",
+  heliport: "Heliport",
+  mil: "Military",
+  aeroport: "Aéroport",
+};
+
 const initialState: { airports: Airport[] } = { airports: [] };
 
 export function GlobalSearchInputField({
@@ -80,10 +90,13 @@ export function GlobalSearchInputField({
             <li key={i}>
               <a
                 href={detailHref(airport)}
-                title={airport.title}
+                title={`${airport.title} - ${TYPE_LABEL[airport.type]}`}
                 className="bg-drossblue hover:bg-drossblue-light mt-1 flex items-center justify-center gap-x-2 py-2 text-white"
               >
                 <span>{airport.title}</span>
+                <span className="rounded bg-white/25 px-1.5 py-0.5 text-xs font-medium">
+                  {TYPE_LABEL[airport.type]}
+                </span>
                 <span className="text-xs uppercase opacity-80">
                   {airport.country}
                 </span>

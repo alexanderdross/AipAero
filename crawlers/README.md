@@ -149,6 +149,35 @@ Logs go to stdout and to `crawlers.log`. On failures, the crawlers persist the l
 4. Add `crawlers/tests/test_<cc>.py` and include the country in the CI import smoke test.
 5. Prefer a **static permalink** for each airport's chart URL when the source offers one, so links survive AIRAC amendments (see `de.py`).
 
+## Aerodrome facts importer (OurAirports)
+
+Besides the country crawlers, `import_ourairports.py` populates the website's
+embedded aerodrome-facts card (runways / frequencies / coordinates / elevation).
+It downloads the public-domain OurAirports CSVs, filters them to the 12 covered
+countries, and POSTs normalized per-ICAO rows to `POST /api/airport-facts` (same
+`CRON_SECRET` Bearer auth as the crawlers). The website merges these with OpenAIP
+at request time when `OPENAIP_API_KEY` is set. This is **not** a country crawler
+and is not run by `main.py`.
+
+Run once (reuses the crawlers' `.env` for `API_ENDPOINT` + `API_KEY`):
+
+```bash
+uv run python import_ourairports.py
+# or explicitly:
+# API_BASE=https://aip.aero API_KEY=<CRON_SECRET> uv run python import_ourairports.py
+```
+
+Schedule it weekly on netcup with the provided units (facts change rarely):
+
+```bash
+sudo cp aip-facts-import.service aip-facts-import.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now aip-facts-import.timer   # weekly, Sun 03:30
+sudo systemctl start aip-facts-import.service        # optional: run it now
+```
+
+The service reuses `notify-failure@.service` for ntfy alerts, like the crawler.
+
 ## Architecture
 
 ```mermaid

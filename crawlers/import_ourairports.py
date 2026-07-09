@@ -22,6 +22,7 @@ import json
 import os
 import time
 from collections import defaultdict
+from urllib.parse import urlparse
 
 import httpx
 
@@ -126,8 +127,20 @@ def build_facts() -> list[dict[str, object]]:
     return facts
 
 
+def _api_base() -> str:
+    """Website origin. Prefer API_BASE; otherwise reuse the crawlers' API_ENDPOINT
+    (e.g. https://aip.aero/api/airports) by stripping its path."""
+    base = os.environ.get("API_BASE")
+    if not base:
+        endpoint = os.environ.get("API_ENDPOINT")
+        if endpoint:
+            u = urlparse(endpoint)
+            base = f"{u.scheme}://{u.netloc}"
+    return (base or "https://aip.aero").rstrip("/")
+
+
 def main() -> None:
-    api_base = os.environ.get("API_BASE", "https://aip.aero").rstrip("/")
+    api_base = _api_base()
     api_key = os.environ.get("API_KEY") or os.environ.get("CRON_SECRET")
     if not api_key:
         raise SystemExit("Set API_KEY (or CRON_SECRET) to the website's CRON_SECRET.")
