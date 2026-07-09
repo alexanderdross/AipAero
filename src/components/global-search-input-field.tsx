@@ -47,15 +47,19 @@ export function GlobalSearchInputField({
   const formRef = useRef<HTMLFormElement>(null);
   const hasTypedRef = useRef(false);
 
-  // Execute a search handed over via the Sitelinks-Search-Box URL
-  // (https://aip.aero/?q=<term>, see the WebSite SearchAction JSON-LD on the
-  // root page). Read window.location on mount instead of useSearchParams so
-  // the statically prerendered root page needs no Suspense/CSR bailout.
+  // Execute a search handed over via the Sitelinks-Search-Box URL (see the
+  // WebSite SearchAction JSON-LD on the root page). The site's SEO scheme
+  // uses a VALUELESS query key - https://aip.aero/?EDNY, exactly like the
+  // ?ICAO airport-detail URLs - so pick the first key without a value;
+  // params WITH values (utm_*, fbclid, ...) are skipped by construction.
+  // Read window.location on mount instead of useSearchParams so the
+  // statically prerendered root page needs no Suspense/CSR bailout.
   useEffect(() => {
-    const q = new URLSearchParams(window.location.search).get("q");
-    if (q) {
+    const params = new URLSearchParams(window.location.search);
+    const term = Array.from(params.entries()).find(([, v]) => v === "")?.[0];
+    if (term) {
       hasTypedRef.current = true;
-      setSearch(q.slice(0, 50));
+      setSearch(term.slice(0, 50));
     }
   }, []);
 

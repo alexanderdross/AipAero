@@ -201,7 +201,9 @@ export default async function RootPage() {
 
           {/* Sitelinks Search Box: Google may render a search box under the
               site's search result. The target URL must execute the search -
-              /?q=<term> is picked up by GlobalSearchInputField on mount. */}
+              the VALUELESS query key (https://aip.aero/?EDNY, the site's SEO
+              scheme, same as the ?ICAO airport-detail URLs) is picked up by
+              GlobalSearchInputField on mount. */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -216,8 +218,8 @@ export default async function RootPage() {
                   "@type": "SearchAction",
                   target: {
                     "@type": "EntryPoint",
-                    // orgUrl carries the trailing slash: https://aip.aero/?q=...
-                    urlTemplate: `${orgUrl.toString()}?q={search_term_string}`,
+                    // orgUrl carries the trailing slash: https://aip.aero/?...
+                    urlTemplate: `${orgUrl.toString()}?{search_term_string}`,
                   },
                   // maxlength mirrors the server action's search validation.
                   "query-input":
