@@ -1,0 +1,18 @@
+[Unit]
+Description=aip-aero facts importer (OurAirports -> /api/airport-facts)
+Documentation=https://github.com/aip-aero/aip-aero-crawlers
+After=network.target
+OnFailure=notify-failure@%n.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/ansible/aip-aero-crawlers
+User=ansible
+# Reuse the crawlers' env (API_ENDPOINT + API_KEY). The importer derives the
+# website origin from API_ENDPOINT when API_BASE is unset. The leading `-` makes
+# the file optional so the unit still starts if the env lives in the shell.
+EnvironmentFile=-/home/ansible/aip-aero-crawlers/.env
+ExecStart=/home/ansible/.local/bin/uv run python import_ourairports.py
+
+[Install]
+WantedBy=multi-user.target

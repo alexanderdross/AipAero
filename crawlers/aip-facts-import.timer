@@ -1,0 +1,11 @@
+[Unit]
+Description=Runs the aip-aero facts importer weekly
+
+[Timer]
+# Weekly, Sunday 03:30. Facts (runways/frequencies/coordinates) change rarely, so
+# a weekly refresh is plenty. Persistent catches up a missed run after downtime.
+OnCalendar=Sun *-*-* 03:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
