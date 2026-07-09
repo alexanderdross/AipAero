@@ -200,7 +200,8 @@
     "openingHours": "Heures d'ouverture",
     "fuel": "Carburant",
     "ppr": "PPR",
-    "pprRequired": "Autorisation préalable requise"
+    "pprRequired": "Autorisation préalable requise",
+    "nearest": "Météo de l'aéroport le plus proche {station} (à {km} km)"
   },
   "Common": {
     "lastUpdated": "Dernière mise à jour",

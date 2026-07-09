@@ -200,7 +200,8 @@
     "openingHours": "Åpningstider",
     "fuel": "Drivstoff",
     "ppr": "PPR",
-    "pprRequired": "Forhåndstillatelse kreves"
+    "pprRequired": "Forhåndstillatelse kreves",
+    "nearest": "Vær fra nærmeste flyplass {station} ({km} km unna)"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",

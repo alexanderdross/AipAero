@@ -200,7 +200,8 @@
     "openingHours": "Öppettider",
     "fuel": "Bränsle",
     "ppr": "PPR",
-    "pprRequired": "Föregående tillstånd krävs"
+    "pprRequired": "Föregående tillstånd krävs",
+    "nearest": "Väder från närmaste flygplats {station} ({km} km bort)"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",

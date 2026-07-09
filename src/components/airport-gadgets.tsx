@@ -4,7 +4,7 @@ import { AirportFacts } from "~/components/airport-facts";
 import { AirportWeather } from "~/components/airport-weather";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { reverseGeocode } from "~/lib/geocode";
-import { getAirportWeather } from "~/lib/weather";
+import { getAirportWeather, getNearestWeather } from "~/lib/weather";
 import type { Airport } from "~/server/db/schema";
 
 /**
@@ -28,6 +28,23 @@ export async function AirportGadgets({ airport }: { airport: Airport }) {
 
   const lat = facts?.lat ?? metar?.lat ?? null;
   const lon = facts?.lon ?? metar?.lon ?? null;
+
+  // When the field has no METAR/TAF of its own, fall back to the nearest
+  // reporting station's weather (needs coordinates), clearly labelled. The
+  // field's own METAR (if any) still feeds the aerodrome-data box's elevation /
+  // sun-times fallback - the nearest station must not stand in for those.
+  let weatherMetar = metar;
+  let weatherTaf = taf;
+  let nearest: { station: string; distanceKm: number } | null = null;
+  if (!metar && !taf && lat != null && lon != null) {
+    const near = await getNearestWeather(lat, lon);
+    if (near) {
+      weatherMetar = near.metar;
+      weatherTaf = near.taf;
+      nearest = { station: near.station, distanceKm: near.distanceKm };
+    }
+  }
+
   const geo =
     lat != null && lon != null ? await reverseGeocode(lat, lon) : null;
   const openingHours = facts?.openingHours ?? geo?.openingHours ?? null;
@@ -53,7 +70,12 @@ export async function AirportGadgets({ airport }: { airport: Airport }) {
             openingHours={openingHours}
           />
         </div>
-        <AirportWeather metar={metar} taf={taf} locale={locale} />
+        <AirportWeather
+          metar={weatherMetar}
+          taf={weatherTaf}
+          locale={locale}
+          nearest={nearest}
+        />
       </div>
     </div>
   );

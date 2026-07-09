@@ -235,7 +235,8 @@
     "openingHours": "Opening hours",
     "fuel": "Fuel",
     "ppr": "PPR",
-    "pprRequired": "Prior permission required"
+    "pprRequired": "Prior permission required",
+    "nearest": "Weather from the nearest airport {station} ({km} km away)"
   },
   "Common": {
     "lastUpdated": "Last updated",
