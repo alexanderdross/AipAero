@@ -1,5 +1,7 @@
 import "server-only";
 
+import { haversineKm } from "~/lib/distance";
+
 // Server-side METAR/TAF fetch from the NOAA / Aviation Weather Center API
 // (https://aviationweather.gov/data/api/). Free, no key. Runs on the Cloudflare
 // Worker at request time; the response is cached for REVALIDATE seconds via the
@@ -110,22 +112,6 @@ export interface NearestWeather {
   taf: Taf | null;
   station: string; // reporting station ICAO
   distanceKm: number;
-}
-
-const R_KM = 6371;
-const toRad = (x: number) => (x * Math.PI) / 180;
-function haversineKm(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number,
-): number {
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-  return 2 * R_KM * Math.asin(Math.sqrt(a));
 }
 
 /**

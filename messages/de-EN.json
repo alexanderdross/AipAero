@@ -247,6 +247,7 @@
     "coordinates": "Coordinates",
     "phone": "Phone",
     "map": "Map",
-    "locate": "Find my location"
+    "locate": "Find my location",
+    "nearby": "Nearby airfields"
   }
 }

@@ -212,6 +212,7 @@
     "coordinates": "Koordinater",
     "phone": "Telefon",
     "map": "Kart",
-    "locate": "Finn min posisjon"
+    "locate": "Finn min posisjon",
+    "nearby": "Flyplasser i nærheten"
   }
 }

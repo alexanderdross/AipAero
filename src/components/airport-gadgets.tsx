@@ -1,6 +1,7 @@
 import { getLocale } from "next-intl/server";
 import { AirportContact } from "~/components/airport-contact";
 import { AirportFacts } from "~/components/airport-facts";
+import { AirportNearby } from "~/components/airport-nearby";
 import { AirportWeather } from "~/components/airport-weather";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { reverseGeocode } from "~/lib/geocode";
@@ -75,6 +76,13 @@ export async function AirportGadgets({ airport }: { airport: Airport }) {
           taf={weatherTaf}
           locale={locale}
           nearest={nearest}
+        />
+        <AirportNearby
+          slug={airport.slug}
+          lat={lat}
+          lon={lon}
+          country={airport.country}
+          locale={locale}
         />
       </div>
     </div>

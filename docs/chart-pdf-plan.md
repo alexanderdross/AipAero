@@ -1,0 +1,102 @@
+# Plan: Direct chart-PDF link (+ optional inline preview)
+
+Goal: from an airport detail page, take the pilot **straight to the exact
+approach-chart PDF** (and optionally preview it inline), instead of the AIP
+index / frameset page they land on today.
+
+This is a **spec + step-by-step**, not yet implemented - it needs a scope
+decision (below) because the exact-PDF URL is not uniformly available and inline
+preview is unreliable cross-origin.
+
+---
+
+## Current state
+
+Per airport we store a single `url` (crawler output, `airports.url`). What it
+points at **varies by country/source**:
+
+- Some sources already link **directly to a PDF** (the `url` ends in `.pdf`).
+- Others link to an **HTML chart page / eAIP frameset** (e.g. DFS BasicVFR
+  permalinks are amendment-stable HTML `pages/CNNNNN.html`; eurocontrol eAIPs are
+  HTML nav pages). There is no single PDF behind these without extra parsing.
+
+So a reliable "direct PDF" link exists only where `url` is already a PDF; for the
+rest it needs per-country crawler work to capture the PDF URL.
+
+## Two hard constraints
+
+1. **No server-side PDF rendering on Workers.** Cloudflare Workers has no
+   Chromium, so we cannot rasterize a PDF to an image server-side. Any preview is
+   the browser's own PDF viewer via `<object>`/`<iframe>`.
+2. **Cross-origin framing is often blocked.** Many AIP hosts send
+   `X-Frame-Options: DENY` / a restrictive CSP `frame-ancestors`, which makes an
+   embedded preview show an **empty box**. Preview must therefore be best-effort,
+   with a visible fallback to "open in new tab".
+
+---
+
+## Staged approach
+
+### Stage 1 - UI only, where `url` is already a PDF (small, no crawler change)
+
+1. Add a helper `isPdfUrl(url: string): boolean` (`src/lib/utils.ts`) - true when
+   the path ends in `.pdf` (case-insensitive, ignoring query/hash).
+2. On the detail pages (the `(search)/*` result block, near the existing chart
+   link), when `isPdfUrl(airport.url)`:
+   - Render an explicit **"Open chart PDF"** link (`ExternalLink`, `rel="noopener"`),
+     visually distinct from the current "index page" link.
+   - Add an **optional inline preview** in a collapsible `<details>` (SSR, no JS):
+     ```tsx
+     <details>
+       <summary>{t("Chart.preview")}</summary>
+       <object data={airport.url} type="application/pdf"
+               class="h-[80vh] w-full">
+         {/* fallback shown if the host blocks framing */}
+         <ExternalLink href={airport.url}>{t("Chart.openPdf")}</ExternalLink>
+       </object>
+     </details>
+     ```
+     The `<object>` fallback content renders when the browser can't embed the PDF
+     (blocked framing / unsupported), so there is never a dead empty box.
+3. i18n: add `Chart.openPdf`, `Chart.preview` to all 22 locale files.
+4. Add the PDF host(s) to the CSP once known (`frame-src`, `object-src` /
+   `img-src` as needed) - CSP is currently `Report-Only`, so it won't block, but
+   keep it correct for when it is enforced.
+
+**Effort:** S. **Risk:** low. **Caveat:** only fields whose `url` is already a
+PDF benefit; preview works only where the host allows framing.
+
+### Stage 2 - capture the PDF URL in the crawlers (per country)
+
+For sources whose `url` is an HTML page, add a dedicated PDF URL so Stage 1's
+link/preview works everywhere.
+
+1. **Schema:** add a nullable `pdf_url` (text) to the `airports` table
+   (`src/server/db/schema.ts`) + a migration. Keep `url` as the human chart page.
+2. **Crawler model:** add `pdf_url: str | None` to `crawlers/crawlers/models.py`
+   (`Airport`), and to the API Zod schema (`airportApiInsertSchema`) +
+   `/api/airports` ingest.
+3. **Per-country extraction:** in each crawler, when the chart page exposes a
+   direct PDF (many eAIPs link the PDF from the chart HTML), capture it into
+   `pdf_url`. Do this **country by country** - the markup differs per source;
+   prefer an amendment-stable URL where one exists (like the DFS permalink
+   strategy). Where no stable PDF URL exists, leave `pdf_url` null (Stage 1
+   simply falls back to the `url` link).
+4. **Display:** prefer `pdf_url` for the "Open PDF" link/preview, else fall back
+   to `url` (and `isPdfUrl(url)`).
+
+**Effort:** M-L (spread across countries). **Risk:** medium (per-source
+markup). Roll out one country at a time; nothing breaks while `pdf_url` is null.
+
+---
+
+## Decisions needed from the owner
+
+1. **Start with Stage 1 only** (link + preview where `url` is already a PDF)? -
+   quick win, no crawler changes.
+2. **Inline preview:** enable it (best-effort `<object>` with a visible fallback
+   when framing is blocked), or link-only to avoid empty-box confusion?
+3. **Stage 2 priority order** - which countries first (e.g. the ones whose `url`
+   is HTML today and that have the most traffic)?
+
+Once decided, Stage 1 can ship in one small PR; Stage 2 proceeds per country.

@@ -212,6 +212,7 @@
     "coordinates": "Coordonnées",
     "phone": "Téléphone",
     "map": "Carte",
-    "locate": "Trouver ma position"
+    "locate": "Trouver ma position",
+    "nearby": "Aérodromes à proximité"
   }
 }

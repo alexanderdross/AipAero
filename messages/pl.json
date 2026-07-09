@@ -212,6 +212,7 @@
     "coordinates": "Współrzędne",
     "phone": "Telefon",
     "map": "Mapa",
-    "locate": "Znajdź moją lokalizację"
+    "locate": "Znajdź moją lokalizację",
+    "nearby": "Lotniska w pobliżu"
   }
 }

@@ -247,6 +247,7 @@
     "coordinates": "Koordinaten",
     "phone": "Telefon",
     "map": "Karte",
-    "locate": "Meinen Standort finden"
+    "locate": "Meinen Standort finden",
+    "nearby": "Flugplätze in der Nähe"
   }
 }

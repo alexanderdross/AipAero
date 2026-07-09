@@ -177,6 +177,7 @@
     "coordinates": "Souřadnice",
     "phone": "Telefon",
     "map": "Mapa",
-    "locate": "Najít mou polohu"
+    "locate": "Najít mou polohu",
+    "nearby": "Letiště v okolí"
   }
 }
