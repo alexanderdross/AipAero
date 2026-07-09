@@ -28,8 +28,8 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
 
 - ~~**Aerodrome facts card**: elevation, runways, **frequencies**, **opening hours** and a **postal
   address / coordinates / contact phone** - **shipped** (§C), embedded server-side from OurAirports
-  (CC0) + OpenAIP + OpenStreetMap.~~ Still wished for: circuit direction, **fuel** (AVGAS / JET-A1),
-  PPR flag + how to request it.
+  (CC0) + OpenAIP + OpenStreetMap. Fuel (AVGAS / JET-A1), PPR flag and circuit direction now render on
+  the card too (OpenAIP, best-effort).~~ Still wished for: **how to request PPR** (contact / procedure).
 - **Customs / Airport-of-Entry** flag + national border-crossing form links (UK **GAR**, etc.).
 - ~~**Weather**: decoded **METAR / TAF** with a per-report decode tab, plus sunrise / sunset + civil
   twilight (VFR night) - **shipped** (§C).~~
@@ -133,7 +133,9 @@ JET-A1), PPR flag + contact, circuit direction** (all best-effort from OpenAIP),
 coordinates (facts row, else the METAR station), shown in the aerodrome-data box.~~
 
 ### 4. Still open - the remaining roadmap
-- **Fuel / PPR / circuit direction** on the facts card (best-effort OpenAIP).
+- ~~**Fuel / PPR / circuit direction** on the facts card (best-effort OpenAIP).~~ **(shipped -
+  fuel + PPR + circuit render on the facts card; circuit is string-only for safety, since OpenAIP's
+  numeric traffic-pattern enum is undocumented.)** Still open: **how to request PPR** (contact).
 - **Deep link to the exact chart PDF** (+ optional inline preview) instead of the AIP index page.
 - ~~**Per-country AIRAC / crawl freshness** - a real per-country crawl timestamp.~~ **(shipped -
   `crawl_meta` + `QUERIES.crawlUpdatedAt`.)**

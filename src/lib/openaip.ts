@@ -46,6 +46,20 @@ function toFeet(value: number | null, unit: unknown): number | null {
   return unit === 1 ? Math.round(value) : Math.round(value * M_TO_FT);
 }
 
+// Circuit (traffic-pattern) direction. SAFETY-RELEVANT: a wrong left/right is
+// worse than none, so we only accept an UNAMBIGUOUS string ("L"/"R"/"LEFT"/
+// "RIGHT", any case) and deliberately do NOT guess from a bare numeric enum -
+// OpenAIP's `trafficPattern` integer mapping (0 vs 1 = left vs right) is not
+// publicly documented (the schema is behind auth), and mislabelling a circuit
+// direction on a pilot-facing card is unacceptable. null when absent/numeric.
+function parseTrafficPattern(v: unknown): "left" | "right" | null {
+  if (typeof v !== "string") return null;
+  const s = v.trim().toUpperCase();
+  if (s === "L" || s === "LEFT") return "left";
+  if (s === "R" || s === "RIGHT") return "right";
+  return null;
+}
+
 function parseRunways(raw: unknown): RunwayFact[] {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -68,6 +82,7 @@ function parseRunways(raw: unknown): RunwayFact[] {
           typeof surfaceCode === "number"
             ? (SURFACE[surfaceCode] ?? null)
             : null,
+        trafficPattern: parseTrafficPattern(rr.trafficPattern),
       };
     })
     .filter((r): r is RunwayFact => r !== null);

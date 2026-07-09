@@ -69,9 +69,18 @@ export async function AirportFacts({
 
   const runways = facts?.runways ?? [];
   const frequencies = facts?.frequencies ?? [];
+  // Circuit (traffic-pattern) direction per runway, when OpenAIP provided an
+  // unambiguous value (see `~/lib/openaip`); rendered as "(Platzrunde links)".
+  const circuit = (r: (typeof runways)[number]): string | null => {
+    if (r.trafficPattern === "left")
+      return `(${t("circuit")} ${t("circuitLeft")})`;
+    if (r.trafficPattern === "right")
+      return `(${t("circuit")} ${t("circuitRight")})`;
+    return null;
+  };
   const runwaysText = runways
     .map((r) =>
-      [r.ident, r.lengthFt ? `${r.lengthFt} ft` : null, r.surface]
+      [r.ident, r.lengthFt ? `${r.lengthFt} ft` : null, r.surface, circuit(r)]
         .filter(Boolean)
         .join(" "),
     )

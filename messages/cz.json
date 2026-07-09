@@ -166,7 +166,10 @@
     "fuel": "Palivo",
     "ppr": "PPR",
     "pprRequired": "Vyžaduje předchozí povolení",
-    "nearest": "Počasí z nejbližšího letiště {station} ({km} km)"
+    "nearest": "Počasí z nejbližšího letiště {station} ({km} km)",
+    "circuit": "Okruh",
+    "circuitLeft": "levý",
+    "circuitRight": "pravý"
   },
   "Common": {
     "lastUpdated": "Naposledy aktualizováno",

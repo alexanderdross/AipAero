@@ -201,7 +201,10 @@
     "fuel": "Paliwo",
     "ppr": "PPR",
     "pprRequired": "Wymagana wcześniejsza zgoda",
-    "nearest": "Pogoda z najbliższego lotniska {station} ({km} km)"
+    "nearest": "Pogoda z najbliższego lotniska {station} ({km} km)",
+    "circuit": "Krąg",
+    "circuitLeft": "lewy",
+    "circuitRight": "prawy"
   },
   "Common": {
     "lastUpdated": "Ostatnia aktualizacja",

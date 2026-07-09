@@ -201,7 +201,10 @@
     "fuel": "Brandstof",
     "ppr": "PPR",
     "pprRequired": "Voorafgaande toestemming vereist",
-    "nearest": "Weer van de dichtstbijzijnde luchthaven {station} ({km} km verderop)"
+    "nearest": "Weer van de dichtstbijzijnde luchthaven {station} ({km} km verderop)",
+    "circuit": "Circuit",
+    "circuitLeft": "links",
+    "circuitRight": "rechts"
   },
   "Common": {
     "lastUpdated": "Laatst bijgewerkt",

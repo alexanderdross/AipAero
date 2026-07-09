@@ -201,7 +201,10 @@
     "fuel": "Bränsle",
     "ppr": "PPR",
     "pprRequired": "Föregående tillstånd krävs",
-    "nearest": "Väder från närmaste flygplats {station} ({km} km bort)"
+    "nearest": "Väder från närmaste flygplats {station} ({km} km bort)",
+    "circuit": "Varvet",
+    "circuitLeft": "vänster",
+    "circuitRight": "höger"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",

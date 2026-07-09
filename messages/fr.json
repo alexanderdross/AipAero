@@ -201,7 +201,10 @@
     "fuel": "Carburant",
     "ppr": "PPR",
     "pprRequired": "Autorisation préalable requise",
-    "nearest": "Météo de l'aéroport le plus proche {station} (à {km} km)"
+    "nearest": "Météo de l'aéroport le plus proche {station} (à {km} km)",
+    "circuit": "Tour de piste",
+    "circuitLeft": "à gauche",
+    "circuitRight": "à droite"
   },
   "Common": {
     "lastUpdated": "Dernière mise à jour",

@@ -271,7 +271,10 @@
     "fuel": "Fuel",
     "ppr": "PPR",
     "pprRequired": "Prior permission required",
-    "nearest": "Weather from the nearest airport {station} ({km} km away)"
+    "nearest": "Weather from the nearest airport {station} ({km} km away)",
+    "circuit": "Traffic pattern",
+    "circuitLeft": "left",
+    "circuitRight": "right"
   },
   "Common": {
     "lastUpdated": "Last updated",
