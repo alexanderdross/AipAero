@@ -5,9 +5,10 @@ interface Props {
   description: string;
   url: string;
   // Optional facts, merged in when the server-rendered aerodrome-data / location
-  // boxes have them (see `AirportGadgets`). schema.org/Airport supports geo,
-  // elevation and a postal address, so we enrich the node with the same data the
-  // boxes display - one fetch feeds both.
+  // boxes have them (see `AirportGadgets`). schema.org/Airport (a Place) supports
+  // geo, elevation, a postal address, telephone, sameAs and additionalProperty,
+  // so we surface EVERY item the two boxes display inside the JSON-LD - the same
+  // getAirportFacts fetch feeds both, so the structured data can't diverge.
   latitude?: number | null;
   longitude?: number | null;
   elevationFt?: number | null;
@@ -15,6 +16,14 @@ interface Props {
   postalCode?: string | null;
   city?: string | null;
   telephone?: string | null;
+  // Official airport website (OurAirports/OpenAIP) -> schema.org `sameAs`.
+  sameAs?: string | null;
+  // Google Maps link for the field -> schema.org `hasMap` (a map of the place).
+  hasMap?: string | null;
+  // Every remaining aerodrome/location datum with no first-class schema.org
+  // property (aerodrome type, runway surface, fuel, PPR, opening hours, runways,
+  // frequencies, restaurant, customs) as PropertyValue entries.
+  additionalProperties?: Array<{ name: string; value: string }>;
 }
 
 export function SchemaAirport({
@@ -30,6 +39,9 @@ export function SchemaAirport({
   postalCode,
   city,
   telephone,
+  sameAs,
+  hasMap,
+  additionalProperties,
 }: Props) {
   const geo =
     latitude != null && longitude != null
@@ -54,6 +66,14 @@ export function SchemaAirport({
         }
       : undefined;
 
+  const additionalProperty = additionalProperties?.length
+    ? additionalProperties.map((p) => ({
+        "@type": "PropertyValue",
+        name: p.name,
+        value: p.value,
+      }))
+    : undefined;
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Airport",
@@ -65,6 +85,9 @@ export function SchemaAirport({
     ...(geo ? { geo } : {}),
     ...(address ? { address } : {}),
     ...(telephone ? { telephone } : {}),
+    ...(sameAs ? { sameAs } : {}),
+    ...(hasMap ? { hasMap } : {}),
+    ...(additionalProperty ? { additionalProperty } : {}),
   };
   return (
     <script

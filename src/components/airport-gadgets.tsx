@@ -7,6 +7,8 @@ import { AirportFacts } from "~/components/airport-facts";
 import { AirportNearby } from "~/components/airport-nearby";
 import { AirportWeatherWind } from "~/components/airport-weather-wind";
 import { SchemaAirport } from "~/components/schemas/schema-airport";
+import { localeLangMapping } from "~/i18n/routing";
+import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { reverseGeocode } from "~/lib/geocode";
 import { isPdfUrl } from "~/lib/utils";
@@ -56,6 +58,50 @@ export async function AirportGadgets({
   const street = geo
     ? [geo.road, geo.houseNumber].filter(Boolean).join(" ") || null
     : null;
+  const website = facts?.homeLink ?? geo?.website ?? null;
+  // Same Google Maps link the location box renders (coords when known, else the
+  // ICAO/name) -> schema.org `hasMap`.
+  const mapQuery =
+    lat != null && lon != null
+      ? `${lat},${lon}`
+      : `${airport.icao ?? airport.title} airport`;
+  const hasMap = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    mapQuery,
+  )}`;
+
+  // Every remaining item of the two boxes with no first-class schema.org field,
+  // as PropertyValue entries so the Airport JSON-LD mirrors what is displayed.
+  const lang = localeLangMapping[locale] ?? "en";
+  const runways = facts?.runways ?? [];
+  const surfaces = [...new Set(runways.map((r) => r.surface).filter(Boolean))];
+  const props: Array<{ name: string; value: string }> = [];
+  const addProp = (name: string, value: string | null | undefined) => {
+    if (value) props.push({ name, value });
+  };
+  addProp("Aerodrome type", aerodromeTypeLabel(facts?.aerodromeType, lang));
+  addProp("Runway surface", surfaces.join(", "));
+  addProp("Fuel", facts?.fuel.length ? facts.fuel.join(", ") : null);
+  if (facts?.ppr != null) addProp("PPR", facts.ppr ? "Yes" : "No");
+  addProp("Opening hours", openingHours);
+  addProp(
+    "Runways",
+    runways
+      .map((r) =>
+        [r.ident, r.lengthFt ? `${r.lengthFt} ft` : null, r.surface]
+          .filter(Boolean)
+          .join(" "),
+      )
+      .join("; ") || null,
+  );
+  addProp(
+    "Frequencies",
+    (facts?.frequencies ?? [])
+      .map((f) => `${f.type} ${f.mhz}`.trim())
+      .join("; ") || null,
+  );
+  if (facts?.restaurant != null)
+    addProp("Restaurant", facts.restaurant ? "Yes" : "No");
+  if (facts?.customs != null) addProp("Customs", facts.customs ? "Yes" : "No");
 
   return (
     <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -73,6 +119,9 @@ export async function AirportGadgets({
         postalCode={geo?.postcode ?? null}
         city={facts?.municipality ?? geo?.city ?? null}
         telephone={geo?.phone ?? null}
+        sameAs={website}
+        hasMap={hasMap}
+        additionalProperties={props}
       />
       <div className="flex flex-col gap-4">
         {isPdfUrl(airport.url) && <AirportChart url={airport.url} />}
