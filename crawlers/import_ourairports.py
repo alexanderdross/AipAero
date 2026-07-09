@@ -12,6 +12,14 @@ out-of-band, e.g. from a systemd timer alongside the crawlers:
 
 Data source: https://ourairports.com/data/ (public domain). The stable mirror
 URLs are the `davidmegginson.github.io/ourairports-data` CSVs.
+
+Optional address backfill: set `GEOCODE=1` to also reverse-geocode each field's
+postal address (street / postcode / phone) from OpenStreetMap (Nominatim) and
+persist it, so the website reads the address from D1 instead of geocoding live
+on every cold request. Nominatim's usage policy caps this at 1 request/second,
+so a full run takes a while - it is opt-in for that reason:
+
+    API_BASE=https://aip.aero API_KEY=<CRON_SECRET> GEOCODE=1 uv run python import_ourairports.py
 """
 
 from __future__ import annotations
@@ -122,11 +130,60 @@ def build_facts() -> list[dict[str, object]]:
                 "homeLink": (a.get("home_link") or "").strip() or None,
                 "runways": json.dumps(rwys, ensure_ascii=False),
                 "frequencies": json.dumps(frqs, ensure_ascii=False),
+                # Filled by reverse_geocode() when GEOCODE=1; else left null and
+                # the website geocodes live as a fallback.
+                "street": None,
+                "postcode": None,
+                "phone": None,
                 "source": "ourairports",
                 "updatedAt": now,
             }
         )
     return facts
+
+
+# OpenStreetMap (Nominatim) reverse-geocode: coordinates -> postal address.
+# Mirrors `src/lib/geocode.ts`. Descriptive User-Agent per Nominatim policy.
+NOMINATIM = "https://nominatim.openstreetmap.org/reverse"
+GEO_UA = "AIP:Aero-importer/1.0 (+https://aip.aero)"
+
+
+def reverse_geocode(client: httpx.Client, lat: float, lon: float) -> dict[str, str | None]:
+    try:
+        resp = client.get(
+            NOMINATIM,
+            params={"lat": lat, "lon": lon, "format": "jsonv2", "zoom": 18, "addressdetails": 1, "extratags": 1},
+            headers={"User-Agent": GEO_UA},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        addr = data.get("address") or {}
+        extra = data.get("extratags") or {}
+        road = (addr.get("road") or "").strip()
+        house = (addr.get("house_number") or "").strip()
+        street = " ".join(x for x in (road, house) if x) or None
+        return {
+            "street": street,
+            "postcode": (addr.get("postcode") or "").strip() or None,
+            "phone": (extra.get("phone") or extra.get("contact:phone") or "").strip() or None,
+        }
+    except Exception as exc:  # fail-soft: skip this field's address
+        print(f"    geocode failed ({lat},{lon}): {exc}")
+        return {"street": None, "postcode": None, "phone": None}
+
+
+def geocode_facts(facts: list[dict[str, object]]) -> None:
+    """Backfill street/postcode/phone in place, respecting Nominatim's 1 req/s."""
+    targets = [f for f in facts if f.get("lat") is not None and f.get("lon") is not None]
+    print(f"Geocoding {len(targets)} fields (~1/s, Nominatim policy)...")
+    with httpx.Client(follow_redirects=True) as client:
+        for i, f in enumerate(targets):
+            addr = reverse_geocode(client, float(f["lat"]), float(f["lon"]))  # type: ignore[arg-type]
+            f.update(addr)
+            if (i + 1) % 50 == 0:
+                print(f"  geocoded {i + 1}/{len(targets)}")
+            time.sleep(1)  # Nominatim: max 1 request/second
 
 
 def _api_base() -> str:
@@ -149,6 +206,9 @@ def main() -> None:
 
     facts = build_facts()
     print(f"Built {len(facts)} airport-facts rows; posting to {api_base}/api/airport-facts")
+
+    if os.environ.get("GEOCODE"):
+        geocode_facts(facts)
 
     url = f"{api_base}/api/airport-facts"
     headers = {"Authorization": f"Bearer {api_key}"}

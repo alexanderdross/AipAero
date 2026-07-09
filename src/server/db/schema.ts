@@ -73,6 +73,20 @@ export const airportFacts = createTable("airport_facts", {
   homeLink: text("home_link"), // official airport website, if published
   runways: text("runways"), // JSON: RunwayFact[]
   frequencies: text("frequencies"), // JSON: FrequencyFact[]
+  // Persisted enrichment so the detail page reads values from D1 instead of
+  // fetching them live per request. Populated by the importer (OpenAIP +
+  // OpenStreetMap); the live OpenAIP / Nominatim fetches remain a fallback for
+  // ICAOs not yet backfilled. The postal address comes from OSM/Nominatim; the
+  // rest from OpenAIP.
+  street: text("street"), // street + house number (OSM)
+  postcode: text("postcode"), // postal code (OSM)
+  phone: text("phone"), // contact phone (OSM)
+  fuel: text("fuel"), // JSON: string[] fuel labels (OpenAIP)
+  openingHours: text("opening_hours"), // hours of operation (OpenAIP)
+  ppr: integer("ppr", { mode: "boolean" }), // prior permission required (OpenAIP)
+  aerodromeType: integer("aerodrome_type"), // OpenAIP airport `type` enum code
+  restaurant: integer("restaurant", { mode: "boolean" }), // on-field restaurant
+  customs: integer("customs", { mode: "boolean" }), // customs / airport of entry
   source: text("source").notNull(), // provenance, e.g. "ourairports"
   updatedAt: integer("updated_at"), // unix seconds
 });

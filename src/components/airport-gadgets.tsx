@@ -52,12 +52,23 @@ export async function AirportGadgets({
   const lat = facts?.lat ?? null;
   const lon = facts?.lon ?? null;
 
+  // The postal address is persisted in D1 once the importer has backfilled it;
+  // only geocode live (Nominatim) as a fallback for ICAOs that have none stored.
+  const hasStoredAddress =
+    facts?.street != null || facts?.postcode != null || facts?.phone != null;
   const geo =
-    lat != null && lon != null ? await reverseGeocode(lat, lon) : null;
+    !hasStoredAddress && lat != null && lon != null
+      ? await reverseGeocode(lat, lon)
+      : null;
   const openingHours = facts?.openingHours ?? geo?.openingHours ?? null;
-  const street = geo
-    ? [geo.road, geo.houseNumber].filter(Boolean).join(" ") || null
-    : null;
+  const street =
+    facts?.street ??
+    (geo
+      ? [geo.road, geo.houseNumber].filter(Boolean).join(" ") || null
+      : null);
+  const postcode = facts?.postcode ?? geo?.postcode ?? null;
+  const city = facts?.municipality ?? geo?.city ?? null;
+  const phone = facts?.phone ?? geo?.phone ?? null;
   const website = facts?.homeLink ?? geo?.website ?? null;
   // Same Google Maps link the location box renders (coords when known, else the
   // ICAO/name) -> schema.org `hasMap`.
@@ -116,9 +127,9 @@ export async function AirportGadgets({
         longitude={lon}
         elevationFt={facts?.elevationFt ?? null}
         street={street}
-        postalCode={geo?.postcode ?? null}
-        city={facts?.municipality ?? geo?.city ?? null}
-        telephone={geo?.phone ?? null}
+        postalCode={postcode}
+        city={city}
+        telephone={phone}
         sameAs={website}
         hasMap={hasMap}
         additionalProperties={props}

@@ -245,6 +245,9 @@ export function mapOpenAipItem(item: Record<string, unknown>): NormalizedFacts {
     restaurant: hasFacility(item, 5),
     customs: hasFacility(item, 2),
     aerodromeType: typeof item.type === "number" ? item.type : null,
+    street: null, // postal address comes from OSM/Nominatim, not OpenAIP
+    postcode: null,
+    phone: null,
     runways: parseRunways(item.runways),
     frequencies: parseFrequencies(item.frequencies),
     source: "openaip",

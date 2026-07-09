@@ -37,6 +37,10 @@ export type AirportCoord = {
 // airport entries across every country on each run.
 const countryTag = (country: string) => `country:${country.toUpperCase()}`;
 
+// Per-ICAO facts tag, so the on-read write-back (see `MUTATIONS.persistAirportFacts`)
+// can invalidate exactly one field's cached facts instead of busting all of them.
+const factsTag = (icao: string) => `airportFacts:${icao.toUpperCase()}`;
+
 // During `next build` the OpenNext adapter exposes a *local* (miniflare) D1
 // binding that has no data (and, in CI, no schema). We must not fail the build
 // on it - static pages/sitemaps prerender with empty results and revalidate at
@@ -297,7 +301,7 @@ export const QUERIES = {
     return cachedRead<AirportFactsRow | undefined>(
       "airportFacts",
       ["airportFacts", icao],
-      ["airportFacts"],
+      ["airportFacts", factsTag(icao)],
       (db) =>
         db
           .select()
@@ -380,9 +384,9 @@ export const MUTATIONS = {
     if (!db) {
       throw new Error("D1 database binding is unavailable");
     }
-    // Per-row upsert keyed on ICAO (each row binds 8 params, well under the D1
-    // limit). Uses `excluded.*` so re-imports overwrite in place instead of
-    // wiping the table between paginated importer batches.
+    // Per-row upsert keyed on ICAO (each row binds ~19 params, well under the
+    // D1 100-param limit). Uses `excluded.*` so re-imports overwrite in place
+    // instead of wiping the table between paginated importer batches.
     const stmts = input.map((row) =>
       db
         .insert(airportFacts)
@@ -393,8 +397,19 @@ export const MUTATIONS = {
             lat: sql`excluded.lat`,
             lon: sql`excluded.lon`,
             elevationFt: sql`excluded.elevation_ft`,
+            municipality: sql`excluded.municipality`,
+            homeLink: sql`excluded.home_link`,
             runways: sql`excluded.runways`,
             frequencies: sql`excluded.frequencies`,
+            street: sql`excluded.street`,
+            postcode: sql`excluded.postcode`,
+            phone: sql`excluded.phone`,
+            fuel: sql`excluded.fuel`,
+            openingHours: sql`excluded.opening_hours`,
+            ppr: sql`excluded.ppr`,
+            aerodromeType: sql`excluded.aerodrome_type`,
+            restaurant: sql`excluded.restaurant`,
+            customs: sql`excluded.customs`,
             source: sql`excluded.source`,
             updatedAt: sql`excluded.updated_at`,
           },
@@ -405,6 +420,42 @@ export const MUTATIONS = {
     );
     revalidateTag("airportFacts");
     return result;
+  },
+
+  // On-read write-back: persist ONE ICAO's merged facts (from getAirportFacts,
+  // via `after()`) so the live OpenAIP enrichment becomes a fast DB read next
+  // time. Invalidates only that field's per-ICAO tag (not the global one), so a
+  // first-visit warm-up doesn't thrash every other field's cache.
+  persistAirportFacts: async function (row: InsertAirportFacts) {
+    const db = await getDb();
+    if (!db) return;
+    await db
+      .insert(airportFacts)
+      .values(row)
+      .onConflictDoUpdate({
+        target: airportFacts.icao,
+        set: {
+          lat: sql`excluded.lat`,
+          lon: sql`excluded.lon`,
+          elevationFt: sql`excluded.elevation_ft`,
+          municipality: sql`excluded.municipality`,
+          homeLink: sql`excluded.home_link`,
+          runways: sql`excluded.runways`,
+          frequencies: sql`excluded.frequencies`,
+          street: sql`excluded.street`,
+          postcode: sql`excluded.postcode`,
+          phone: sql`excluded.phone`,
+          fuel: sql`excluded.fuel`,
+          openingHours: sql`excluded.opening_hours`,
+          ppr: sql`excluded.ppr`,
+          aerodromeType: sql`excluded.aerodrome_type`,
+          restaurant: sql`excluded.restaurant`,
+          customs: sql`excluded.customs`,
+          source: sql`excluded.source`,
+          updatedAt: sql`excluded.updated_at`,
+        },
+      });
+    revalidateTag(factsTag(row.icao));
   },
 
   // Bust every given country's cached reads (and, via the tag cache, the
