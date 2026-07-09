@@ -204,7 +204,13 @@
     "nearest": "Météo de l'aéroport le plus proche {station} (à {km} km)",
     "circuit": "Tour de piste",
     "circuitLeft": "à gauche",
-    "circuitRight": "à droite"
+    "circuitRight": "à droite",
+    "windComponents": "Composantes du vent",
+    "headwind": "Vent de face",
+    "tailwind": "Vent arrière",
+    "crosswind": "Vent traversier",
+    "fromLeft": "de gauche",
+    "fromRight": "de droite"
   },
   "Common": {
     "lastUpdated": "Dernière mise à jour",

@@ -239,7 +239,13 @@
     "nearest": "Wetterdaten vom nächstgelegenen Flughafen {station} ({km} km entfernt)",
     "circuit": "Platzrunde",
     "circuitLeft": "links",
-    "circuitRight": "rechts"
+    "circuitRight": "rechts",
+    "windComponents": "Windkomponenten",
+    "headwind": "Gegenwind",
+    "tailwind": "Rückenwind",
+    "crosswind": "Seitenwind",
+    "fromLeft": "von links",
+    "fromRight": "von rechts"
   },
   "Common": {
     "lastUpdated": "Stand",

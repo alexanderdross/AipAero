@@ -169,7 +169,13 @@
     "nearest": "Počasí z nejbližšího letiště {station} ({km} km)",
     "circuit": "Okruh",
     "circuitLeft": "levý",
-    "circuitRight": "pravý"
+    "circuitRight": "pravý",
+    "windComponents": "Složky větru",
+    "headwind": "Protivítr",
+    "tailwind": "Zadní vítr",
+    "crosswind": "Boční vítr",
+    "fromLeft": "zleva",
+    "fromRight": "zprava"
   },
   "Common": {
     "lastUpdated": "Naposledy aktualizováno",

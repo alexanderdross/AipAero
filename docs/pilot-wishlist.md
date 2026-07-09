@@ -27,9 +27,12 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
 ## A. Wishlist - what I want when I look up a field
 
 - ~~**Aerodrome facts card**: elevation, runways, **frequencies**, **opening hours** and a **postal
-  address / coordinates / contact phone** - **shipped** (§C), embedded server-side from OurAirports
-  (CC0) + OpenAIP + OpenStreetMap. Fuel (AVGAS / JET-A1), PPR flag and circuit direction now render on
-  the card too (OpenAIP, best-effort).~~ Still wished for: **how to request PPR** (contact / procedure).
+  address / coordinates / contact phone** - **shipped** (§C), embedded server-side from OpenAIP +
+  OurAirports (CC0) + AWC/NOAA + OpenStreetMap. Fuel (AVGAS / JET-A1), PPR flag and circuit direction
+  now render on the card too (OpenAIP, best-effort).~~ Still wished for: **how to request PPR** (contact
+  / procedure).
+- ~~**Crosswind / headwind component** per runway from the reported wind, with a compass diagram -
+  **shipped** (§C).~~
 - **Customs / Airport-of-Entry** flag + national border-crossing form links (UK **GAR**, etc.).
 - ~~**Weather**: decoded **METAR / TAF** with a per-report decode tab, plus sunrise / sunset + civil
   twilight (VFR night) - **shipped** (§C).~~
@@ -83,9 +86,17 @@ automatically; a localized CTA on the country landing + airport-list pages; SEO/
   **real per-country crawl timestamp** (`crawl_meta` table + `QUERIES.crawlUpdatedAt`), not just the
   build date.
 - **Aerodrome facts** (`src/components/airport-facts.tsx`, `src/lib/airport-facts.ts`): embedded
-  runways / frequencies / elevation / opening hours per ICAO, merged from the **OurAirports** base
-  (CC0, imported into D1 by `crawlers/import_ourairports.py`) and **OpenAIP** when `OPENAIP_API_KEY`
-  is set (`src/lib/openaip.ts`, fail-soft). Content is embedded, not linked out.
+  runways / frequencies / elevation / opening hours per ICAO, merged from **three** sources by a
+  per-field precedence: **OpenAIP** when `OPENAIP_API_KEY` is set (`src/lib/openaip.ts`, richest, the
+  only source of fuel / PPR / hours / circuit), the **OurAirports** base (CC0, imported into D1 by
+  `crawlers/import_ourairports.py`; the only source of town / website), and **AWC / NOAA**
+  (`src/lib/awc-airport.ts`, the free no-key `aviationweather.gov` "airport" endpoint) as an
+  **always-on fallback** for coordinates / elevation / runways / frequencies. So even small VFR fields
+  now show data with no importer run and no key. Content is embedded, not linked out.
+- **Wind components** (`src/components/airport-wind.tsx`, `src/lib/crosswind.ts`): per-runway
+  head/tail- and cross-wind from the field's own reported wind and the runway bearings, with a
+  server-rendered compass SVG (runways + wind arrow, no client JS). Skips VRB winds / fields with no
+  runways.
 - **Weather decode tab** (`src/lib/metar-decode.ts`): each raw METAR/TAF expands (native `<details>`,
   SSR, no client JS) into plain-language lines via a built-in multilingual glossary.
 - **Sunrise / sunset + civil twilight** (`src/lib/sun-times.ts`): computed locally (no API) from the

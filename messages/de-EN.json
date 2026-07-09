@@ -239,7 +239,13 @@
     "nearest": "Weather from the nearest airport {station} ({km} km away)",
     "circuit": "Traffic pattern",
     "circuitLeft": "left",
-    "circuitRight": "right"
+    "circuitRight": "right",
+    "windComponents": "Wind components",
+    "headwind": "Headwind",
+    "tailwind": "Tailwind",
+    "crosswind": "Crosswind",
+    "fromLeft": "from the left",
+    "fromRight": "from the right"
   },
   "Common": {
     "lastUpdated": "Last updated",

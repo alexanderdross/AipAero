@@ -204,7 +204,13 @@
     "nearest": "Vær fra nærmeste flyplass {station} ({km} km unna)",
     "circuit": "Landingsrunde",
     "circuitLeft": "venstre",
-    "circuitRight": "høyre"
+    "circuitRight": "høyre",
+    "windComponents": "Vindkomponenter",
+    "headwind": "Motvind",
+    "tailwind": "Medvind",
+    "crosswind": "Sidevind",
+    "fromLeft": "fra venstre",
+    "fromRight": "fra høyre"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",
