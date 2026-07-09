@@ -96,7 +96,7 @@ class FR(HttpEurocontrolBase):
             try:
                 r = self.client.get(urljoin(home_url, src))
                 if r.status_code == 200 and r.text.strip():
-                    self.logger.warning(f"FR {src}[:2000]: {r.text[:2000]!r}")
+                    self.logger.warning(f"FR {src}[:8000]: {r.text[:8000]!r}")
                     break
             except Exception as e:  # noqa: BLE001
                 self.logger.warning(f"FR {src} fetch failed: {e}")
@@ -149,11 +149,28 @@ class FR(HttpEurocontrolBase):
 
         if not candidates:
             # SIA's front page (`…/eAIP_<DATE>/FRANCE/home.html`) is now a
-            # JS-driven page (`home.js` + `<body onLoad="init(...)">`) and no
-            # longer lists the edition index statically. Locate the real eAIP
-            # frameset by probing the known eAIP index filenames (relative to
-            # home.html and to the edition root) and returning the first that
-            # resolves to an actual frameset.
+            # JS-driven page (`home.js` + `<body onLoad="init(state, year,
+            # month, day, number)">`). home.js builds the effective eAIP index
+            # as `'AIRAC-'+year+'-'+month+'-'+day+'/html/index-fr-FR.html'`
+            # (assigned to the `dateVig` link) - i.e. under an AIRAC-dated
+            # subfolder of FRANCE/, not a flat sibling of home.html. Parse the
+            # init() date args and construct that path.
+            m = re.search(
+                r"init\(\s*'[^']*'\s*,\s*'(\d{4})'\s*,"
+                r"\s*'(\d{1,2})'\s*,\s*'(\d{1,2})'",
+                html,
+            )
+            if m:
+                edition_url = urljoin(
+                    base_url,
+                    f"AIRAC-{m.group(1)}-{m.group(2)}-{m.group(3)}"
+                    f"/html/{_INDEX_HREF}",
+                )
+                self.logger.info(
+                    f"FR: eAIP index from home.js AIRAC pattern: {edition_url}"
+                )
+                return edition_url
+            # Fallback: probe known filenames (also dumps home.js for diagnosis).
             if base_url.rstrip("/").endswith("home.html"):
                 found = self._probe_eaip_index(base_url)
                 if found:
