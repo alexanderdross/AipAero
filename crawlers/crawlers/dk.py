@@ -89,12 +89,71 @@ class DK(PlaywrightCrawlerBase):
             self.log_candidate_links(
                 html, base_url, limit=40, contains=r"aip|vfg|vfr|dokument|doc"
             )
+            # The Naviair tree has no <a href> nodes (verified live: 1 anchor
+            # total). Log the INTERACTIVE elements so the next run reveals how
+            # the tree is built (clickable divs/treeitems, an iframe, or a
+            # JSON/API endpoint) - then the click-navigation can be written
+            # precisely instead of guessed.
+            self._log_rendered_structure(html, base_url)
             return None
         try:
             return url, self.render_html(url)
         except Exception as e:
             self.logger.warning(f"DK: failed to render nav link {url}: {e}")
             return None
+
+    def _log_rendered_structure(self, html: str, base_url: str) -> None:
+        """Log the interactive/structural elements of the rendered page.
+
+        The Naviair nav tree is built without <a href> nodes, so the plain
+        link diagnostic comes up almost empty. This surfaces the elements that
+        DO drive navigation - tree items / buttons (click handlers), iframes
+        (the tree may live in one), and script-embedded URLs (a JSON/API the
+        SPA calls) - so the next live run reveals the real structure.
+        """
+        try:
+            soup = self.soup(html)
+
+            # 1. Clickable non-anchor nodes: role=treeitem/button/menuitem/tab,
+            #    <button>, and anything carrying a data-* nav hint.
+            interactive = soup.select(
+                "[role=treeitem], [role=button], [role=menuitem], [role=tab], "
+                "button, [data-href], [data-url], [data-node], [data-id]"
+            )
+            self.logger.warning(
+                f"DK: {len(interactive)} interactive elements on {base_url}; "
+                f"first 30:"
+            )
+            for el in interactive[:30]:
+                text = self.clean_text(el.get_text())[:50]
+                attrs = {
+                    k: v
+                    for k, v in el.attrs.items()
+                    if k in ("role", "data-href", "data-url", "data-node",
+                             "data-id", "class")
+                }
+                self.logger.warning(f"  <{el.name} {attrs}> {text!r}")
+
+            # 2. Iframes - the tree/content may be nested in one.
+            frames = [f.get("src") for f in soup.find_all("iframe") if f.get("src")]
+            if frames:
+                self.logger.warning(f"DK: iframes: {frames[:10]}")
+
+            # 3. Script-embedded URLs (a JSON tree / API endpoint the SPA hits).
+            urls = sorted(
+                set(
+                    re.findall(
+                        r"""["']([^"'<>\s]{3,120}?"""
+                        r"""(?:\.json|/api/|/tree|/nav|/document)[^"'<>\s]{0,60})["']""",
+                        html,
+                        re.I,
+                    )
+                )
+            )
+            if urls:
+                self.logger.warning(f"DK: candidate data URLs: {urls[:20]}")
+        except Exception as e:
+            self.logger.warning(f"DK: structure diagnostics failed: {e}")
 
     # ----- extraction ---------------------------------------------------------
 
