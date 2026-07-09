@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { env } from "~/env";
 import { MUTATIONS } from "~/server/db/queries";
@@ -30,6 +31,10 @@ export async function POST(req: NextRequest) {
   // harmless, and a country being enabled must not require touching this).
   const countries = Object.keys(countryTypeAvailability);
   const revalidated = MUTATIONS.revalidateCountries(countries);
+  // The aerodrome-facts reads (QUERIES.airportFacts) are cached under their
+  // own global tag - bust it too, it suffers the same empty build seeding.
+  revalidateTag("airportFacts");
+  revalidated.push("airportFacts");
   console.info(`Revalidated tags: ${revalidated.join(", ")}`);
 
   return NextResponse.json({ revalidated }, { status: 200 });
