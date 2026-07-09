@@ -107,6 +107,18 @@ class FR(HttpEurocontrolBase):
             candidates.append((self._extract_date(href), urljoin(base_url, href)))
 
         if not candidates:
+            # Diagnostic: SIA changed the object-document structure. Dump the
+            # navigable references so we can see the new edition-entry pattern.
+            self.logger.warning(
+                f"FR: no {_INDEX_HREF} link in {base_url}; dumping references:"
+            )
+            for tag in soup.find_all(["a", "frame", "iframe", "object"])[:50]:
+                ref = tag.get("href") or tag.get("src") or tag.get("data")
+                if ref:
+                    label = " ".join(tag.get_text().split())[:60]
+                    self.logger.warning(
+                        f"  <{tag.name}> {ref} | {label!r}"
+                    )
             raise ValueError(
                 f"Current-edition link ({_INDEX_HREF}) not found in {base_url}"
             )
