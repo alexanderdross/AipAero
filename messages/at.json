@@ -195,10 +195,14 @@
     "civilTwilight": "Bürgerliche Dämmerung",
     "facts": "Flugplatzdaten",
     "runways": "Pisten",
-    "frequencies": "Frequenzen"
+    "frequencies": "Frequenzen",
+    "decode": "Dekodiert anzeigen",
+    "openingHours": "Öffnungszeiten"
   },
   "Common": {
     "lastUpdated": "Stand",
-    "viewOnMap": "Auf Google Maps ansehen"
+    "viewOnMap": "Auf Google Maps ansehen",
+    "location": "Standort",
+    "website": "Webseite"
   }
 }

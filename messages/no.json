@@ -195,10 +195,14 @@
     "civilTwilight": "Borgerlig tussmørke",
     "facts": "Flyplassdata",
     "runways": "Rullebaner",
-    "frequencies": "Frekvenser"
+    "frequencies": "Frekvenser",
+    "decode": "Vis dekodet",
+    "openingHours": "Åpningstider"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",
-    "viewOnMap": "Se på Google Maps"
+    "viewOnMap": "Se på Google Maps",
+    "location": "Plassering",
+    "website": "Nettsted"
   }
 }

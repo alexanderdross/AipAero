@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { localeLangMapping } from "~/i18n/routing";
-import { getSunTimes } from "~/lib/sun-times";
+import { decodeReport } from "~/lib/metar-decode";
 import { type CloudLayer, type Metar, type Taf } from "~/lib/weather";
 
 // Flight-category badge colour (VFR/MVFR/IFR/LIFR is the standard NOAA scheme).
@@ -22,13 +22,16 @@ function formatClouds(clouds: CloudLayer[]): string | null {
 }
 
 /**
- * Server-rendered METAR/TAF + field-info gadget. Receives the already-fetched
+ * Server-rendered weather box: raw METAR/TAF plus a decoded quick-glance summary,
+ * the flight-category badge and the observation time. Receives the already-fetched
  * (and cached) weather from `AirportGadgets` and renders nothing when the field
- * has no reporting station. The raw METAR/TAF are shown verbatim (pilots read
- * them directly) alongside a decoded summary, the flight-category badge, and -
- * when the station reports coordinates - the field elevation and today's
- * sunrise / sunset / civil-twilight times (VFR night), computed locally with no
- * extra API call.
+ * has no reporting station. Field data (elevation, sunrise/sunset) lives in the
+ * separate aerodrome-data box.
+ *
+ * Because the raw METAR/TAF are coded, each carries a collapsible "decode" tab
+ * (`<details>`, no client JS) that expands the report into plain-language lines,
+ * computed server-side by `decodeReport`. The decoded text is in the SSR HTML, so
+ * it is crawlable and works without JavaScript.
  */
 export async function AirportWeather({
   metar,
@@ -43,13 +46,6 @@ export async function AirportWeather({
 
   const t = await getTranslations("Weather");
   const lang = localeLangMapping[locale] ?? "en";
-  const timeFmt = new Intl.DateTimeFormat(lang, {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "UTC",
-    hourCycle: "h23",
-  });
-  const hm = (d: Date | null) => (d ? `${timeFmt.format(d)} UTC` : null);
 
   const observed =
     metar?.obsTime != null
@@ -79,21 +75,28 @@ export async function AirportWeather({
   if (clouds) rows.push([t("clouds"), clouds]);
   if (temp) rows.push([t("temperature"), temp]);
   if (metar?.altim != null) rows.push([t("qnh"), `${metar.altim} hPa`]);
-  if (metar?.elev != null) {
-    const m = Math.round(metar.elev);
-    rows.push([t("elevation"), `${m} m (${Math.round(m / 0.3048)} ft)`]);
-  }
-  if (metar?.lat != null && metar?.lon != null) {
-    const sun = getSunTimes(new Date(), metar.lat, metar.lon);
-    if (sun.sunrise) rows.push([t("sunrise"), hm(sun.sunrise)!]);
-    if (sun.sunset) rows.push([t("sunset"), hm(sun.sunset)!]);
-    if (sun.civilDawn && sun.civilDusk) {
-      rows.push([
-        t("civilTwilight"),
-        `${timeFmt.format(sun.civilDawn)} - ${hm(sun.civilDusk)}`,
-      ]);
-    }
-  }
+
+  const decodedMetar = decodeReport(metar?.raw, lang);
+  const decodedTaf = decodeReport(taf?.raw, lang);
+
+  const decodeTab = (lines: ReturnType<typeof decodeReport>) =>
+    lines.length > 0 ? (
+      <details className="mt-1 text-sm">
+        <summary className="text-drossblue cursor-pointer text-center hover:underline">
+          {t("decode")}
+        </summary>
+        <ul className="mt-2 flex flex-col gap-y-1">
+          {lines.map((line, i) => (
+            <li key={i} className="flex flex-wrap gap-x-2">
+              <code className="text-drossgray-dark shrink-0 font-mono">
+                {line.token}
+              </code>
+              {line.text && <span>{line.text}</span>}
+            </li>
+          ))}
+        </ul>
+      </details>
+    ) : null;
 
   return (
     <section className="border border-[#ccc] bg-white p-4">
@@ -125,9 +128,12 @@ export async function AirportWeather({
       )}
 
       {metar && (
-        <pre className="bg-drossgray mt-3 overflow-x-auto rounded p-2 text-center text-sm break-words whitespace-pre-wrap">
-          {metar.raw}
-        </pre>
+        <>
+          <pre className="bg-drossgray mt-3 overflow-x-auto rounded p-2 text-center text-sm break-words whitespace-pre-wrap">
+            {metar.raw}
+          </pre>
+          {decodeTab(decodedMetar)}
+        </>
       )}
       {taf && (
         <>
@@ -137,6 +143,7 @@ export async function AirportWeather({
           <pre className="bg-drossgray mt-1 overflow-x-auto rounded p-2 text-center text-sm break-words whitespace-pre-wrap">
             {taf.raw}
           </pre>
+          {decodeTab(decodedTaf)}
         </>
       )}
 

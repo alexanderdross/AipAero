@@ -15,6 +15,9 @@ export interface NormalizedFacts {
   lat: number | null;
   lon: number | null;
   elevationFt: number | null;
+  municipality: string | null; // town/city (OurAirports)
+  homeLink: string | null; // official airport website (OurAirports)
+  openingHours: string | null; // hours of operation (OpenAIP, best-effort)
   runways: RunwayFact[];
   frequencies: FrequencyFact[];
   source: string; // provenance, e.g. "openaip" or "ourairports"
@@ -35,6 +38,9 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     lat: row.lat ?? null,
     lon: row.lon ?? null,
     elevationFt: row.elevationFt ?? null,
+    municipality: row.municipality ?? null,
+    homeLink: row.homeLink ?? null,
+    openingHours: null, // OurAirports has no hours; filled by OpenAIP if set
     runways: parseJsonArray<RunwayFact>(row.runways),
     frequencies: parseJsonArray<FrequencyFact>(row.frequencies),
     source: row.source,
@@ -45,6 +51,9 @@ const isEmpty = (f: NormalizedFacts) =>
   f.lat == null &&
   f.lon == null &&
   f.elevationFt == null &&
+  f.municipality == null &&
+  f.homeLink == null &&
+  f.openingHours == null &&
   f.runways.length === 0 &&
   f.frequencies.length === 0;
 
@@ -70,10 +79,15 @@ export async function getAirportFacts(
   if (!base) return !isEmpty(openaip) ? openaip : null;
 
   // Merge: prefer OpenAIP per field group, fall back to OurAirports.
+  // Address (municipality/homeLink) only comes from OurAirports; opening hours
+  // only from OpenAIP - so each simply takes whichever source has it.
   const merged: NormalizedFacts = {
     lat: openaip.lat ?? base.lat,
     lon: openaip.lon ?? base.lon,
     elevationFt: openaip.elevationFt ?? base.elevationFt,
+    municipality: base.municipality ?? openaip.municipality,
+    homeLink: base.homeLink ?? openaip.homeLink,
+    openingHours: openaip.openingHours ?? base.openingHours,
     runways: openaip.runways.length ? openaip.runways : base.runways,
     frequencies: openaip.frequencies.length
       ? openaip.frequencies

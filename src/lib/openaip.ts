@@ -73,6 +73,23 @@ function parseRunways(raw: unknown): RunwayFact[] {
     .filter((r): r is RunwayFact => r !== null);
 }
 
+// Best-effort hours of operation. The OpenAIP airport model is not publicly
+// documented for this field (the spec is behind auth), so we accept only shapes
+// we are sure read cleanly: a plain string, or an object carrying a human string
+// under `remarks`/`operatingHours`. Anything else yields null (fail-soft), so we
+// never render a raw object dump - the card simply omits opening hours.
+function parseOpeningHours(raw: unknown): string | null {
+  if (typeof raw === "string") return raw.trim() || null;
+  if (raw && typeof raw === "object") {
+    const o = raw as Record<string, unknown>;
+    for (const k of ["remarks", "operatingHours", "text", "description"]) {
+      if (typeof o[k] === "string" && o[k].trim())
+        return (o[k] as string).trim();
+    }
+  }
+  return null;
+}
+
 function parseFrequencies(raw: unknown): FrequencyFact[] {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -113,6 +130,9 @@ export async function getOpenAipFacts(
       lat: Array.isArray(coords) ? num(coords[1]) : null,
       lon: Array.isArray(coords) ? num(coords[0]) : null,
       elevationFt: elev ? toFeet(num(elev.value), elev.unit) : null,
+      municipality: null, // OpenAIP has no reliable town field; OurAirports fills it
+      homeLink: null,
+      openingHours: parseOpeningHours(item.hoursOfOperation),
       runways: parseRunways(item.runways),
       frequencies: parseFrequencies(item.frequencies),
       source: "openaip",
