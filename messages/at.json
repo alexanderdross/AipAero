@@ -225,6 +225,7 @@
     "phone": "Telefon",
     "map": "Karte",
     "locate": "Meinen Standort finden",
+    "locateError": "Standort konnte nicht ermittelt werden",
     "nearby": "Flugplätze in der Nähe",
     "restaurant": "Restaurant",
     "customs": "Zoll",

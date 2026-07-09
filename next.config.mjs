@@ -42,7 +42,10 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+    // geolocation=(self): the airport-list map's "locate me" button needs it
+    // for our own origin. An empty allowlist (geolocation=()) blocks it site-
+    // wide, so the button silently fails. camera/microphone stay disabled.
+    value: 'camera=(), microphone=(), geolocation=(self), interest-cohort=()',
   },
   // Report-Only: violations are surfaced but not blocked. Promote to
   // 'Content-Security-Policy' once the report stream is clean.

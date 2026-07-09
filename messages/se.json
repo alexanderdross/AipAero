@@ -225,6 +225,7 @@
     "phone": "Telefon",
     "map": "Karta",
     "locate": "Hitta min plats",
+    "locateError": "Kunde inte fastställa din plats",
     "nearby": "Flygplatser i närheten",
     "restaurant": "Restaurang",
     "customs": "Tull",

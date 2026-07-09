@@ -105,6 +105,8 @@ class DE(HttpCrawlerBase):
             if href:
                 label = " ".join(a.get_text().split())[:50]
                 self.logger.warning(f"  a.{a.get('class')} {href} | {label!r}")
+        # Small shell page: dump the raw markup so we can see a redirect / JS.
+        self.logger.warning(f"DE diag raw[:2000]: {html[:2000]!r}")
         self.save_response(url, html, prefix="de_diag")
 
     def _process_vfr(self, airports: list[Airport]) -> None:

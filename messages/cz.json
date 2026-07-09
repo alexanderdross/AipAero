@@ -190,6 +190,7 @@
     "phone": "Telefon",
     "map": "Mapa",
     "locate": "Najít mou polohu",
+    "locateError": "Nepodařilo se zjistit vaši polohu",
     "nearby": "Letiště v okolí",
     "restaurant": "Restaurace",
     "customs": "Celnice",

@@ -225,6 +225,7 @@
     "phone": "Telefoon",
     "map": "Kaart",
     "locate": "Mijn locatie vinden",
+    "locateError": "Kan je locatie niet bepalen",
     "nearby": "Vliegvelden in de buurt",
     "restaurant": "Restaurant",
     "customs": "Douane",

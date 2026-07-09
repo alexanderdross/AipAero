@@ -3,7 +3,7 @@
 import "leaflet/dist/leaflet.css";
 import type * as L from "leaflet";
 import { LocateFixedIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { AirportCoord } from "~/server/db/queries";
 
 export interface MapMarker {
@@ -43,14 +43,17 @@ const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ESCAPE[c]!);
 export function AirportMap({
   markers,
   locateLabel,
+  locateErrorLabel,
   mapLabel,
 }: {
   markers: MapMarker[];
   locateLabel: string;
+  locateErrorLabel: string;
   mapLabel: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const [locateError, setLocateError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -96,30 +99,46 @@ export function AirportMap({
       !mapRef.current ||
       typeof navigator === "undefined" ||
       !navigator.geolocation
-    )
+    ) {
+      setLocateError(locateErrorLabel);
       return;
+    }
+    setLocateError(null);
     const LL = (await import("leaflet")).default;
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const map = mapRef.current;
-      if (!map) return;
-      const here: [number, number] = [
-        pos.coords.latitude,
-        pos.coords.longitude,
-      ];
-      map.setView(here, 10);
-      LL.circleMarker(here, {
-        radius: 8,
-        weight: 3,
-        color: "#2d6a9a",
-        fillColor: "#2d6a9a",
-        fillOpacity: 0.9,
-      }).addTo(map);
-    });
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const map = mapRef.current;
+        if (!map) return;
+        const here: [number, number] = [
+          pos.coords.latitude,
+          pos.coords.longitude,
+        ];
+        map.setView(here, 10);
+        LL.circleMarker(here, {
+          radius: 8,
+          weight: 3,
+          color: "#2d6a9a",
+          fillColor: "#2d6a9a",
+          fillOpacity: 0.9,
+        }).addTo(map);
+      },
+      () => {
+        // Surface the failure instead of silently doing nothing (permission
+        // denied, position unavailable, or timeout).
+        setLocateError(locateErrorLabel);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+    );
   }
 
   return (
     <div className="mx-auto mb-6 max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="mb-2 flex justify-end">
+      <div className="mb-2 flex items-center justify-end gap-x-3">
+        {locateError && (
+          <span role="alert" className="text-sm text-red-700">
+            {locateError}
+          </span>
+        )}
         <button
           type="button"
           onClick={handleLocate}

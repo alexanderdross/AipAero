@@ -225,6 +225,7 @@
     "phone": "Phone",
     "map": "Map",
     "locate": "Find my location",
+    "locateError": "Could not determine your location",
     "nearby": "Nearby airfields",
     "restaurant": "Restaurant",
     "customs": "Customs",

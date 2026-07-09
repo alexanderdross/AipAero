@@ -225,6 +225,7 @@
     "phone": "Telefon",
     "map": "Kart",
     "locate": "Finn min posisjon",
+    "locateError": "Kunne ikke finne posisjonen din",
     "nearby": "Flyplasser i nærheten",
     "restaurant": "Restaurant",
     "customs": "Toll",
