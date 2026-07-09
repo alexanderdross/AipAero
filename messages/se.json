@@ -206,6 +206,8 @@
     "website": "Webbplats",
     "address": "Adress",
     "coordinates": "Koordinater",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "map": "Karta",
+    "locate": "Hitta min plats"
   }
 }

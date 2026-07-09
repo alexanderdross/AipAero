@@ -171,6 +171,8 @@
     "website": "Webová stránka",
     "address": "Adresa",
     "coordinates": "Souřadnice",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "map": "Mapa",
+    "locate": "Najít mou polohu"
   }
 }

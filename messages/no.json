@@ -206,6 +206,8 @@
     "website": "Nettsted",
     "address": "Adresse",
     "coordinates": "Koordinater",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "map": "Kart",
+    "locate": "Finn min posisjon"
   }
 }
