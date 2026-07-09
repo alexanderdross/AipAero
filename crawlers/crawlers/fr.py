@@ -119,6 +119,9 @@ class FR(HttpEurocontrolBase):
                     self.logger.warning(
                         f"  <{tag.name}> {ref} | {label!r}"
                     )
+            # No navigable references at all: dump the raw markup so we can see
+            # a redirect / JS shell (home.html is now a small stub).
+            self.logger.warning(f"FR home.html raw[:2000]: {html[:2000]!r}")
             raise ValueError(
                 f"Current-edition link ({_INDEX_HREF}) not found in {base_url}"
             )
