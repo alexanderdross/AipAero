@@ -220,7 +220,8 @@ export default async function RootPage() {
                     urlTemplate: `${orgUrl.toString()}?q={search_term_string}`,
                   },
                   // maxlength mirrors the server action's search validation.
-                  "query-input": "required maxlength=50 name=search_term_string",
+                  "query-input":
+                    "required maxlength=50 name=search_term_string",
                 },
               }),
             }}
