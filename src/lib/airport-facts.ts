@@ -10,7 +10,9 @@ import type {
 
 // Source-agnostic aerodrome facts rendered by `AirportFacts`. Merged from the
 // OurAirports base (imported into D1, public domain) and, when a key is set, the
-// richer OpenAIP API - so the site embeds the data rather than linking out.
+// richer OpenAIP API - so the site embeds the data rather than linking out. The
+// postal address (street/phone) is layered on separately from OpenStreetMap
+// (see `~/lib/geocode`), keyed by coordinates, in the gadgets wrapper.
 export interface NormalizedFacts {
   lat: number | null;
   lon: number | null;

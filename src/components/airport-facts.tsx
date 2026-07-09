@@ -11,17 +11,21 @@ const FT_PER_M = 0.3048;
  * surface), frequencies, opening hours and today's sunrise / sunset / civil
  * twilight (VFR night). Data is merged from OurAirports (D1) and OpenAIP (when a
  * key is set) - see `~/lib/airport-facts`; the METAR is a fallback source for
- * elevation and coordinates when the facts row is missing. Sun times are computed
- * locally (no API). Renders nothing when there is nothing to show.
+ * elevation and coordinates when the facts row is missing, and `openingHours` is
+ * resolved by the wrapper (OpenAIP else OSM). Sun times are computed locally (no
+ * API). The fields are laid out as a two-column table on >= sm. Renders nothing
+ * when there is nothing to show.
  */
 export async function AirportFacts({
   facts,
   metar,
   locale,
+  openingHours,
 }: {
   facts: NormalizedFacts | null;
   metar: Metar | null;
   locale: string;
+  openingHours: string | null;
 }) {
   const t = await getTranslations("Weather");
   const lang = localeLangMapping[locale] ?? "en";
@@ -49,7 +53,7 @@ export async function AirportFacts({
       t("elevation"),
       `${elevFt} ft (${Math.round(elevFt * FT_PER_M)} m)`,
     ]);
-  if (facts?.openingHours) rows.push([t("openingHours"), facts.openingHours]);
+  if (openingHours) rows.push([t("openingHours"), openingHours]);
   if (lat != null && lon != null) {
     const sun = getSunTimes(new Date(), lat, lon);
     if (sun.sunrise) rows.push([t("sunrise"), hm(sun.sunrise)!]);
@@ -63,44 +67,46 @@ export async function AirportFacts({
 
   const runways = facts?.runways ?? [];
   const frequencies = facts?.frequencies ?? [];
+  const runwaysText = runways
+    .map((r) =>
+      [r.ident, r.lengthFt ? `${r.lengthFt} ft` : null, r.surface]
+        .filter(Boolean)
+        .join(" "),
+    )
+    .join(" · ");
+  const frequenciesText = frequencies
+    .map((f) => `${f.type} ${f.mhz}`.trim())
+    .join(" · ");
 
-  if (rows.length === 0 && runways.length === 0 && frequencies.length === 0)
-    return null;
+  if (rows.length === 0 && !runwaysText && !frequenciesText) return null;
+
+  const cell = "border-drossgray flex justify-between gap-x-3 border-b py-1";
 
   return (
     <section className="border border-[#ccc] bg-white p-4">
       <h2 className="text-center text-xl font-normal">{t("facts")}</h2>
 
-      {rows.length > 0 && (
-        <dl className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
-          {rows.map(([label, value]) => (
-            <div key={label} className="flex gap-x-1">
-              <dt className="text-drossgray-dark">{label}:</dt>
-              <dd className="font-medium">{value}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
-
-      {runways.length > 0 && (
-        <div className="mt-3 text-center text-sm">
-          <span className="text-drossgray-dark">{t("runways")}:</span>{" "}
-          {runways
-            .map((r) =>
-              [r.ident, r.lengthFt ? `${r.lengthFt} ft` : null, r.surface]
-                .filter(Boolean)
-                .join(" "),
-            )
-            .join(" · ")}
-        </div>
-      )}
-
-      {frequencies.length > 0 && (
-        <div className="mt-2 text-center text-sm">
-          <span className="text-drossgray-dark">{t("frequencies")}:</span>{" "}
-          {frequencies.map((f) => `${f.type} ${f.mhz}`.trim()).join(" · ")}
-        </div>
-      )}
+      {/* Two-column table on >= sm; runways/frequencies span both columns. */}
+      <dl className="mt-3 grid grid-cols-1 gap-x-8 text-sm sm:grid-cols-2">
+        {rows.map(([label, value]) => (
+          <div key={label} className={cell}>
+            <dt className="text-drossgray-dark">{label}</dt>
+            <dd className="text-right font-medium">{value}</dd>
+          </div>
+        ))}
+        {runwaysText && (
+          <div className={`${cell} sm:col-span-2`}>
+            <dt className="text-drossgray-dark">{t("runways")}</dt>
+            <dd className="text-right font-medium">{runwaysText}</dd>
+          </div>
+        )}
+        {frequenciesText && (
+          <div className={`${cell} sm:col-span-2`}>
+            <dt className="text-drossgray-dark">{t("frequencies")}</dt>
+            <dd className="text-right font-medium">{frequenciesText}</dd>
+          </div>
+        )}
+      </dl>
     </section>
   );
 }

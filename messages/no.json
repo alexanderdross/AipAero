@@ -203,6 +203,9 @@
     "lastUpdated": "Sist oppdatert",
     "viewOnMap": "Se på Google Maps",
     "location": "Plassering",
-    "website": "Nettsted"
+    "website": "Nettsted",
+    "address": "Adresse",
+    "coordinates": "Koordinater",
+    "phone": "Telefon"
   }
 }
