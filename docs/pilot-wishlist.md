@@ -29,8 +29,8 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
 - ~~**Aerodrome facts card**: elevation, runways, **frequencies**, **opening hours** and a **postal
   address / coordinates / contact phone** - **shipped** (§C), embedded server-side from OpenAIP +
   OurAirports (CC0) + AWC/NOAA + OpenStreetMap. Fuel (AVGAS / JET-A1), PPR flag and circuit direction
-  now render on the card too (OpenAIP, best-effort).~~ Still wished for: **how to request PPR** (contact
-  / procedure).
+  now render on the card too (OpenAIP, verified against its authoritative v1 schema).~~ Still wished
+  for: **how to request PPR** (contact / procedure).
 - ~~**Crosswind / headwind component** per runway from the reported wind, with a compass diagram -
   **shipped** (§C).~~
 - **Customs / Airport-of-Entry** flag + national border-crossing form links (UK **GAR**, etc.).
@@ -144,9 +144,10 @@ JET-A1), PPR flag + contact, circuit direction** (all best-effort from OpenAIP),
 coordinates (facts row, else the METAR station), shown in the aerodrome-data box.~~
 
 ### 4. Still open - the remaining roadmap
-- ~~**Fuel / PPR / circuit direction** on the facts card (best-effort OpenAIP).~~ **(shipped -
-  fuel + PPR + circuit render on the facts card; circuit is string-only for safety, since OpenAIP's
-  numeric traffic-pattern enum is undocumented.)** Still open: **how to request PPR** (contact).
+- ~~**Fuel / PPR / circuit direction** on the facts card (OpenAIP).~~ **(shipped - fuel, PPR, opening
+  hours and circuit direction render on the facts card; field names + enums verified against OpenAIP's
+  authoritative public v1 schema, unit-tested in `openaip-parse.test.ts`.)** Still open: **how to
+  request PPR** (contact).
 - **Deep link to the exact chart PDF** (+ optional inline preview) instead of the AIP index page.
 - ~~**Per-country AIRAC / crawl freshness** - a real per-country crawl timestamp.~~ **(shipped -
   `crawl_meta` + `QUERIES.crawlUpdatedAt`.)**
