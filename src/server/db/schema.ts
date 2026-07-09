@@ -82,6 +82,9 @@ export interface RunwayFact {
   lengthFt: number | null;
   widthFt: number | null;
   surface: string | null; // free text (e.g. "ASP", "Asphalt", "GRASS")
+  // Circuit (traffic-pattern) direction. Safety-relevant, so only set from an
+  // unambiguous source; null when unknown. OpenAIP-only, best-effort.
+  trafficPattern?: "left" | "right" | null;
 }
 
 export interface FrequencyFact {

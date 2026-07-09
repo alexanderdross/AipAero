@@ -201,7 +201,10 @@
     "fuel": "Kraftstoff",
     "ppr": "PPR",
     "pprRequired": "Vorherige Erlaubnis erforderlich",
-    "nearest": "Wetterdaten vom nächstgelegenen Flughafen {station} ({km} km entfernt)"
+    "nearest": "Wetterdaten vom nächstgelegenen Flughafen {station} ({km} km entfernt)",
+    "circuit": "Platzrunde",
+    "circuitLeft": "links",
+    "circuitRight": "rechts"
   },
   "Common": {
     "lastUpdated": "Stand",

@@ -201,7 +201,10 @@
     "fuel": "Drivstoff",
     "ppr": "PPR",
     "pprRequired": "Forhåndstillatelse kreves",
-    "nearest": "Vær fra nærmeste flyplass {station} ({km} km unna)"
+    "nearest": "Vær fra nærmeste flyplass {station} ({km} km unna)",
+    "circuit": "Landingsrunde",
+    "circuitLeft": "venstre",
+    "circuitRight": "høyre"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",

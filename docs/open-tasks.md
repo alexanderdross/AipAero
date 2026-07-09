@@ -17,10 +17,16 @@ offen - der CD-Step wird mangels Secret in 0 Sekunden übersprungen.
    *"Revalidate all countries"* zeigt `{"revalidated": ["country:AT", ...]}`
    mit HTTP 200 (statt sofort zu überspringen).
 
-## 2. netcup-Crawler-Host aktualisieren 🔴 (Owner, 10 Min.)
+## 2. netcup-Crawler-Host einrichten 🔴 (Owner, ~15 Min.)
 
-Ohne dieses Update crawlen die 5 neuen Länder (BE, CZ, NO, PL, SE) nachts
-nicht.
+Ein Rundum-Update des Crawler-Hosts. Es schaltet drei Dinge frei, die im Code
+schon live sind, aber Daten aus einem Host-Lauf brauchen:
+**(a)** gefüllte Listen für BE/CZ/NO/PL/SE, **(b)** die **Karte + "Flugplätze
+in meiner Nähe"** und die Aerodrome-Facts-Karten (brauchen Koordinaten aus
+dem OurAirports-Import), **(c)** den **echten per-Country-Crawl-Zeitstempel**
+("Stand: …" auf der Flughafen-Liste, statt Build-Datum-Fallback).
+
+### Schritt 2.1 - Code + Abhängigkeiten aktualisieren
 
 ```bash
 # per SSH auf dem netcup-Server, im Repo-Verzeichnis:
@@ -28,22 +34,63 @@ git pull origin main
 cd crawlers
 uv sync --frozen
 
-# Bright-Data-Proxy fuer den Service hinterlegen (fuer GR):
-sudo systemctl edit aip-crawler.service
-# im Editor einfuegen:
-#   [Service]
-#   Environment="BRIGHTDATA_PROXY_URL=<Bright-Data-Wert>"
-sudo systemctl daemon-reload
+# Headless-Chromium fuer den DK-Crawler (JS-Rendering-Fallback) - einmalig:
+uv run playwright install chromium --with-deps
+```
 
-# Testlauf + Log:
+### Schritt 2.2 - Bright-Data-Zonen als Env-Vars hinterlegen (fuer GR)
+
+```bash
+sudo systemctl edit aip-crawler.service
+# im Editor einfuegen (Werte aus dem Bright-Data-Dashboard):
+#   [Service]
+#   Environment="BRIGHTDATA_UNLOCKER_URL=<Web-Unlocker-Zone-URL>"
+#   Environment="BRIGHTDATA_PROXY_URL=<Plain-Proxy-URL>"   # optional/Fallback
+sudo systemctl daemon-reload
+```
+
+`BRIGHTDATA_UNLOCKER_URL` loest das GR-Captcha (siehe Task 4); ohne sie bleibt
+GR blockiert, alle anderen Laender laufen aber normal.
+
+### Schritt 2.3 - OurAirports-Import einmalig ausführen (Karte + Facts)
+
+Befuellt die `airport_facts`-Tabelle mit Koordinaten/Pisten/Frequenzen. **Erst
+danach erscheinen die Karte und die Aerodrome-Facts-Karten.** Der Importer
+deckt automatisch alle Laender ab und braucht `API_BASE` + `API_KEY` (identisch
+zum Crawler-`CRON_SECRET`):
+
+```bash
+# im crawlers-Verzeichnis, mit denselben API-Zugangsdaten wie der Crawler:
+API_BASE="https://aip.aero" API_KEY="<CRON_SECRET>" \
+  uv run python import_ourairports.py
+# Erwartung: "Built N airport-facts rows; posting to https://aip.aero/api/airport-facts" -> 200/201
+```
+
+(Nur einmalig noetig; danach bei Bedarf wiederholen, wenn OurAirports neue
+Daten hat. Ein systemd-Timer dafuer ist optional.)
+
+### Schritt 2.4 - Regulären Crawl anstoßen (Listen + Zeitstempel)
+
+```bash
 sudo systemctl start aip-crawler.service
 journalctl -u aip-crawler.service -f
 ```
 
-**Erwartung im Log:** pro Land `Found N airports` (BE 168, CZ 11, NO 55,
-PL 69, SE 48) und `POST /api/airports` → 201.
-**Schnelltest im Browser:** https://aip.aero/pl/ und https://aip.aero/se/
-zeigen gefüllte Listen.
+**Erwartung im Log:** pro Land `Found N airports` (BE 167, CZ 11, NO 55,
+PL 69, SE 48) und `POST /api/airports` → 201. Jeder POST schreibt zugleich die
+`crawl_meta`-Tabelle → der **Crawl-Zeitstempel** wird ab jetzt echt.
+
+### Schritt 2.5 - Verifizieren im Browser
+
+- **Listen:** https://aip.aero/pl/ und https://aip.aero/se/ zeigen gefüllte
+  Listen.
+- **Karte:** https://aip.aero/de/flughafen-liste-deutschland/ zeigt oberhalb
+  der Listen die Leaflet-Karte mit "locate me"-Button (erscheint nur, wenn
+  Schritt 2.3 lief und Koordinaten vorhanden sind).
+- **Zeitstempel:** dieselbe Seite, die **"Stand: …"**-Zeile unter dem Titel
+  zeigt jetzt das Crawl-Datum (nach Schritt 2.4), nicht mehr das Build-Datum.
+- **Facts-Karte:** eine Detailseite wie https://aip.aero/de/vfr/?EDNY zeigt die
+  Aerodrome-Daten-Box (Elevation/Pisten/Frequenzen).
 
 ## 3. DK live verifizieren + freischalten 🟡 (Code fertig - Owner-Schritt offen)
 
@@ -53,9 +100,8 @@ statt sie zu fetchen), `playwright`-Dependency + `uv.lock`, der Live-Test
 installiert Chromium automatisch. DK steht noch in `ALLOWED_FAILURES`.
 
 **Offen:**
-1. **Owner (netcup-Host):** nach dem `git pull` (Task 2) einmalig
-   `uv run playwright install chromium --with-deps` ausführen (Browser-Binary
-   liegt außerhalb des uv-Cache).
+1. **Owner (netcup-Host):** Chromium installieren - erledigt durch Schritt 2.1
+   (`uv run playwright install chromium --with-deps`).
 2. **Claude:** Live-Crawl-Test für DK auswerten. Die genaue gerenderte
    DOM-Struktur von aim.naviair.dk ist noch unverifiziert - je nach Ergebnis
    die Menü-Navigation nachziehen (dieselbe Diagnose-Schleife wie bei den

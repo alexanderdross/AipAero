@@ -201,7 +201,10 @@
     "fuel": "Brændstof",
     "ppr": "PPR",
     "pprRequired": "Forudgående tilladelse påkrævet",
-    "nearest": "Vejr fra den nærmeste lufthavn {station} ({km} km væk)"
+    "nearest": "Vejr fra den nærmeste lufthavn {station} ({km} km væk)",
+    "circuit": "Trafikrunde",
+    "circuitLeft": "venstre",
+    "circuitRight": "højre"
   },
   "Common": {
     "lastUpdated": "Senest opdateret",
