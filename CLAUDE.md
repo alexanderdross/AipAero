@@ -167,6 +167,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 │   │   ├── models.py              # Airport pydantic model (shared)
 │   │   ├── http_base.py           # HttpCrawlerBase (httpx-based, preferred)
 │   │   ├── http_eurocontrol_base.py # HttpEurocontrolBase (BS4 eAIP parser)
+│   │   ├── playwright_base.py     # PlaywrightCrawlerBase (headless-Chromium render, JS sources - DK)
 │   │   ├── crawler_base.py        # CrawlerBase (Selenium, legacy - experimental crawlers only)
 │   │   ├── eurocontrol_base.py    # EurocontrolBase (Selenium, legacy - orphaned)
 │   │   ├── at.py                  # Austria - HttpCrawlerBase
@@ -267,8 +268,8 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 | United Kingdom    | UK   | `UK`          | `HttpEurocontrolBase` | no              | NATS eAIP             |
 | Belgium/Luxembourg| BE   | `BE`          | `HttpEurocontrolBase` | no              | skeyes eAIP           |
 | Czechia           | CZ   | `CZ`          | `HttpEurocontrolBase` | no              | ANS CR (rlp.cz) eAIP  |
-| Denmark           | DK   | `DK`          | `HttpCrawlerBase`     | no              | Naviair (custom nav)  |
-| Greece            | GR   | `GR`          | `HttpEurocontrolBase` | no              | HANSP (aisgr) eAIP    |
+| Denmark           | DK   | `DK`          | `PlaywrightCrawlerBase` | yes (headless)  | Naviair (JS app)      |
+| Greece            | GR   | `GR`          | `HttpEurocontrolBase` | via Web Unlocker | HANSP (aisgr) eAIP    |
 | Norway            | NO   | `NO`          | `HttpEurocontrolBase` | no              | Avinor eAIP           |
 | Poland            | PL   | `PL`          | `HttpEurocontrolBase` | no              | PANSA eAIP            |
 | Sweden            | SE   | `SE`          | `HttpEurocontrolBase` | no              | LFV eAIP              |
@@ -383,16 +384,17 @@ None currently. (`NEXT_PUBLIC_BUILD_DATE` is optionally stamped at build time - 
 - Located in `/crawlers/`
 - **Runtime**: Python 3.12+ with `uv` package manager
 - **Hosting**: netcup root server, scheduled by systemd (`aip-crawler.service` + `aip-crawler.timer`). The crawlers are **never** deployed to Vercel; treat the website and the crawlers as two independent deploy targets that communicate only over HTTP.
-- **Dependencies**: `httpx`, `bs4`, `pydantic`, `pydantic-settings` (the path all active crawlers use); `selenium`, `webdriver-manager` (legacy, kept only for the experimental/unscheduled crawlers)
+- **Dependencies**: `httpx`, `bs4`, `pydantic`, `pydantic-settings` (the path all active crawlers use); `playwright` (JS-rendering fallback, DK only - browser installed separately with `uv run playwright install chromium`); `selenium`, `webdriver-manager` (legacy, kept only for the experimental/unscheduled crawlers)
 - **Base classes** (the Selenium → httpx migration is complete for every active crawler; the legacy bases linger only for experimental ones):
-  - **`crawlers/crawlers/http_base.py` → `HttpCrawlerBase`** - preferred. Wraps an `httpx.Client` (pooled, redirects, sane UA), exposes `fetch()`, `soup()`, `get_frame_src()`, `follow_frame_chain()`, `clean_text()`, and `save_response()` for post-mortem debugging. No browser.
+  - **`crawlers/crawlers/http_base.py` → `HttpCrawlerBase`** - preferred. Wraps an `httpx.Client` (pooled, redirects, sane UA), exposes `fetch()`, `soup()`, `get_frame_src()`, `follow_frame_chain()`, `clean_text()`, and `save_response()` for post-mortem debugging. Also `use_browser_headers()` (WAF'd sources) and `use_proxy()` (Bright Data proxy / Web Unlocker zone). `fetch()` is HTML-only: it refuses image/binary URLs and content types (keeps metered-proxy traffic minimal). No browser.
   - **`crawlers/crawlers/http_eurocontrol_base.py` → `HttpEurocontrolBase`** - extends `HttpCrawlerBase` with `extract_airports_from_html()`, the BS4 parser for the eurocontrol-style eAIP navigation HTML (NL, UK, FR all share it).
+  - **`crawlers/crawlers/playwright_base.py` → `PlaywrightCrawlerBase`** - extends `HttpCrawlerBase` with `render_html(url)`, a headless-Chromium (Playwright) render for **client-rendered JS** sources (DK/Naviair; future JS-viewer AIPs). The one allowed browser fallback - runs ONLY on the netcup host / self-hosted runner, **never** on the Worker. `playwright` is imported lazily inside `render_html`, so importing a crawler never needs the browser; a missing/unlaunchable browser raises `PlaywrightUnavailable`, which crawlers catch to fail soft (0 airports, no crash). The BS4 helpers apply to the rendered DOM.
   - **`crawlers/crawlers/crawler_base.py` → `CrawlerBase`** *(legacy, Selenium)* - no active crawler inherits from it anymore (DE was ported to `HttpCrawlerBase`); kept only for the experimental crawlers. Re-exports `Airport` from `models.py` so old imports keep working.
   - **`crawlers/crawlers/eurocontrol_base.py` → `EurocontrolBase`** *(legacy, Selenium)* - orphaned after the NL/UK/FR ports; kept until `crawler_base.py` is deleted.
 - **Output**: Posts crawled airports to the Next.js API via `OutputHandler`
-- **Crawler env vars**: `API_ENDPOINT`, `API_KEY`, `LOG_LEVEL`, `LOG_FILE`
+- **Crawler env vars**: `API_ENDPOINT`, `API_KEY`, `LOG_LEVEL`, `LOG_FILE`. Optional Bright Data zones for blocked sources: `BRIGHTDATA_PROXY_URL` (plain proxy - clears IP blocks), `BRIGHTDATA_UNLOCKER_URL` (Web Unlocker - solves captchas + JS; GR prefers this over the plain proxy). Both are used through `use_proxy()`; credentials are never logged or committed.
 
-When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEurocontrolBase` if the source is a eurocontrol eAIP). **Do not** introduce Puppeteer (Node-only) or run a browser inside a Vercel function. If a future AIP genuinely requires JS rendering (e.g. potentially CZ / GR / HR from the open task list), add a single Playwright (Python) fallback path.
+When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEurocontrolBase` if the source is a eurocontrol eAIP). For a **client-rendered JS** source with no server-side HTML, inherit from `PlaywrightCrawlerBase` and render with `render_html()` (DK is the reference). For a **server-side captcha** gate (GR/HASP), route through the Bright Data Web Unlocker zone (`BRIGHTDATA_UNLOCKER_URL`) - Playwright alone cannot solve it. **Do not** introduce Puppeteer (Node-only) or run any browser inside a Worker/Vercel function - the browser lives with the crawlers on netcup.
 
 ## Deployment
 

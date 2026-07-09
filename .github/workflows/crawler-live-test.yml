@@ -53,16 +53,28 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen
 
+      # Headless Chromium for the JS-rendering fallback (DK/Naviair). Cached
+      # by setup-uv is not enough - the browser binary lives outside the uv
+      # cache, so install it explicitly. Best-effort: a failure here must not
+      # fail the whole job (DK then reports 0 via PlaywrightUnavailable and is
+      # an allowed failure below).
+      - name: Install Playwright Chromium
+        continue-on-error: true
+        run: uv run playwright install chromium --with-deps
+
       - name: Crawl live sources (no publish)
         env:
           COUNTRIES: ${{ inputs.countries || 'BE CZ DK GR NO PL SE' }}
           # Known-blocked countries: still crawled and reported, but their
-          # failure does not fail the job. DK = JS-rendered site (needs a
-          # Playwright fallback), GR = WAF blocks datacenter IPs (needs the
-          # BRIGHTDATA_PROXY_URL secret). Remove a code here once unblocked.
+          # failure does not fail the job. DK = JS-rendered site (Playwright
+          # renders it; kept here until a live run confirms the parse), GR =
+          # server-side captcha gate (needs the BRIGHTDATA_UNLOCKER_URL
+          # secret). Remove a code here once its crawler is verified.
           ALLOWED_FAILURES: "DK GR"
-          # Bright Data proxy for WAF-blocked sources (GR). Optional - set the
-          # repo secret BRIGHTDATA_PROXY_URL (http://user:pass@host:port).
+          # Bright Data zones for blocked sources (optional repo secrets).
+          # UNLOCKER solves captchas + JS (GR); PROXY is the plain proxy that
+          # only clears IP blocks. Format: http://user:pass@host:port.
+          BRIGHTDATA_UNLOCKER_URL: ${{ secrets.BRIGHTDATA_UNLOCKER_URL }}
           BRIGHTDATA_PROXY_URL: ${{ secrets.BRIGHTDATA_PROXY_URL }}
         run: |
           uv run python - <<'PY'

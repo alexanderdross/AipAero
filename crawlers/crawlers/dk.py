@@ -1,9 +1,11 @@
 """Denmark AIP crawler.
 
 Source: Naviair AIM (https://aim.naviair.dk/). Unlike NL/UK/FR this is a
-custom navigation UI, **not** a standard eurocontrol `<frame>` frameset, so
-this crawler inherits :class:`HttpCrawlerBase` (plain httpx + BeautifulSoup)
-and walks the menu by link text rather than by named frames.
+custom, **client-rendered JS** navigation UI - a plain HTTP fetch returns a
+near-empty shell with no links (verified via the live-crawl test). It
+therefore inherits :class:`PlaywrightCrawlerBase` and renders each page in a
+headless browser before walking the menu by link text; the BeautifulSoup
+extraction below runs on the rendered DOM.
 
 Navigation path (per the task spec in
 ``crawlers/tasks/crawler_denmark.md``):
@@ -21,14 +23,14 @@ For each airfield:
   - url:   the ADC (Aerodrome Chart) link — the href whose target contains
     "ADC", e.g. ``EK_AD_2_EKEB_ADC_en.pdf``.
 
-IMPORTANT — the exact DOM of aim.naviair.dk is **unverified**: the host is
-unreachable from the build/CI environment, so the structure encoded below is
-the best-effort interpretation of the task spec and has NOT been validated
-against live HTML. The parser is therefore written defensively and fails
-soft: every navigation/parse step is wrapped so a layout mismatch logs a
-warning and returns whatever airports were recoverable rather than raising.
-The site may also be a client-rendered JS app; if a live run yields nothing,
-the navigation likely needs a JSON/API endpoint or a Playwright fallback.
+IMPORTANT — the exact rendered DOM of aim.naviair.dk is **unverified**: the
+host is unreachable from the build/CI environment, so the structure encoded
+below is the best-effort interpretation of the task spec and has NOT been
+validated against live HTML. The parser is therefore written defensively and
+fails soft: every navigation/parse step is wrapped so a layout mismatch (or a
+missing browser) logs a warning and returns whatever airports were
+recoverable rather than raising. The live-crawl test reveals the real
+rendered structure and we iterate from there.
 """
 
 from __future__ import annotations
@@ -38,7 +40,8 @@ from urllib.parse import urljoin
 
 from bs4 import Tag
 
-from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_base import Airport
+from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
 
 COUNTRY = "DK"
 ROOT_URL = "https://aim.naviair.dk/"
@@ -50,7 +53,7 @@ _ICAO_TRAILING = re.compile(r"([A-Z]{4})\s*$")
 _ICAO_IN_HREF = re.compile(r"([A-Z]{4})[_-]?ADC", re.I)
 
 
-class DK(HttpCrawlerBase):
+class DK(PlaywrightCrawlerBase):
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
@@ -72,24 +75,25 @@ class DK(HttpCrawlerBase):
     def _follow(
         self, html: str, base_url: str, *needles: str
     ) -> tuple[str, str] | None:
-        """Find a link by text (see :meth:`_find_link_by_text`), fetch it,
+        """Find a link by text (see :meth:`_find_link_by_text`), render it,
         and return (url, html). Returns None (logging a warning) if the link
-        is missing or the fetch fails — the caller decides how to proceed."""
+        is missing or the render fails — the caller decides how to proceed."""
         url = self._find_link_by_text(html, base_url, *needles)
         if url is None:
             self.logger.warning(
                 f"DK: no nav link matching {needles!r} under {base_url}"
             )
-            # Diagnostic for the live-crawl test: show what links DO exist
-            # (an empty list means the site is a JS-rendered app).
+            # Diagnostic for the live-crawl test: show what links the RENDERED
+            # page exposes (an empty list means even the browser found none -
+            # the tree is likely built via non-anchor click handlers).
             self.log_candidate_links(
                 html, base_url, limit=40, contains=r"aip|vfg|vfr|dokument|doc"
             )
             return None
         try:
-            return url, self.fetch(url)
+            return url, self.render_html(url)
         except Exception as e:
-            self.logger.warning(f"DK: failed to fetch nav link {url}: {e}")
+            self.logger.warning(f"DK: failed to render nav link {url}: {e}")
             return None
 
     # ----- extraction ---------------------------------------------------------
@@ -193,7 +197,8 @@ class DK(HttpCrawlerBase):
         last_html: str | None = None
 
         try:
-            root_html = self.fetch(ROOT_URL)
+            # Render the shell so the JS-built navigation tree is present.
+            root_html = self.render_html(ROOT_URL)
             last_url, last_html = ROOT_URL, root_html
 
             # chapter "02. VFR Flight Guide Danmark"
@@ -222,6 +227,12 @@ class DK(HttpCrawlerBase):
                 airports.extend(
                     self._extract_section(ad3_html, ad3_url, "heliport")
                 )
+        except PlaywrightUnavailable as e:
+            # No browser on this host - DK stays unavailable, but the run must
+            # not crash (the other countries still publish).
+            self.logger.error(
+                f"DK skipped - headless browser unavailable: {e}"
+            )
         except Exception as e:
             self.logger.error(f"DK crawl failed: {e}")
             if last_html is not None:
