@@ -199,6 +199,32 @@ export default async function RootPage() {
         <main>
           <Title title={rootTitle} description={rootDescription} />
 
+          {/* Sitelinks Search Box: Google may render a search box under the
+              site's search result. The target URL must execute the search -
+              /?q=<term> is picked up by GlobalSearchInputField on mount. */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": `${orgUrl.toString()}#website`,
+                url: orgUrl.toString(),
+                name: "AIP:Aero",
+                alternateName: rootTitle,
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: {
+                    "@type": "EntryPoint",
+                    // orgUrl carries the trailing slash: https://aip.aero/?q=...
+                    urlTemplate: `${orgUrl.toString()}?q={search_term_string}`,
+                  },
+                  // maxlength mirrors the server action's search validation.
+                  "query-input": "required maxlength=50 name=search_term_string",
+                },
+              }),
+            }}
+          />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
