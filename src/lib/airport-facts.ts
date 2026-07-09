@@ -1,11 +1,13 @@
 import "server-only";
 
+import { after } from "next/server";
 import { getAwcAirport } from "~/lib/awc-airport";
 import { getOpenAipFacts } from "~/lib/openaip";
-import { QUERIES } from "~/server/db/queries";
+import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import type {
   AirportFactsRow,
   FrequencyFact,
+  InsertAirportFacts,
   RunwayFact,
 } from "~/server/db/schema";
 
@@ -17,6 +19,9 @@ import type {
 //   - OpenAIP  (`OPENAIP_API_KEY`): fuel / PPR / opening hours / type / etc.
 //   - AWC/NOAA (no key): coordinates / elevation / runways / frequencies.
 //   - Nominatim (in the gadgets wrapper): postal address, when D1 has none.
+// When a live source fills a gap, the merged row is written back to D1 after the
+// response (`after()` + `MUTATIONS.persistAirportFacts`), so the next visit reads
+// everything from the database - self-populating, no importer for OpenAIP values.
 export interface NormalizedFacts {
   lat: number | null;
   lon: number | null;
@@ -86,6 +91,31 @@ const firstArray = <T>(...arrays: (T[] | undefined)[]): T[] => {
   return [];
 };
 
+// Merged facts -> the D1 row shape, for the on-read write-back.
+function toRow(icao: string, f: NormalizedFacts): InsertAirportFacts {
+  return {
+    icao,
+    lat: f.lat,
+    lon: f.lon,
+    elevationFt: f.elevationFt,
+    municipality: f.municipality,
+    homeLink: f.homeLink,
+    runways: f.runways.length ? JSON.stringify(f.runways) : null,
+    frequencies: f.frequencies.length ? JSON.stringify(f.frequencies) : null,
+    street: f.street,
+    postcode: f.postcode,
+    phone: f.phone,
+    fuel: f.fuel.length ? JSON.stringify(f.fuel) : null,
+    openingHours: f.openingHours,
+    ppr: f.ppr,
+    aerodromeType: f.aerodromeType,
+    restaurant: f.restaurant,
+    customs: f.customs,
+    source: f.source,
+    updatedAt: Math.floor(Date.now() / 1000),
+  };
+}
+
 /**
  * Merged aerodrome facts for an ICAO. The **persisted D1 row wins** for every
  * field (that is the point - values come from the database, populated by the
@@ -136,5 +166,27 @@ export async function getAirportFacts(
       .filter(Boolean)
       .join("+"),
   };
-  return isEmpty(merged) ? null : merged;
+  if (isEmpty(merged)) return null;
+
+  // Write-back: when the live OpenAIP enrichment is present but the D1 row does
+  // not yet reflect it (first visit, or an ICAO the importer never enriched),
+  // persist the merged row AFTER the response so next time it is a DB read. The
+  // `source` marker bounds this to once per field (once the row carries
+  // "openaip", the guard is false). Fail-soft: any error is swallowed.
+  const alreadyPersisted = base?.source?.includes("openaip") ?? false;
+  if (openaip && !alreadyPersisted) {
+    const row = toRow(code, merged);
+    try {
+      after(async () => {
+        try {
+          await MUTATIONS.persistAirportFacts(row);
+        } catch {
+          /* best-effort cache-aside; ignore write failures */
+        }
+      });
+    } catch {
+      /* `after` unavailable in this context - skip the write-back */
+    }
+  }
+  return merged;
 }
