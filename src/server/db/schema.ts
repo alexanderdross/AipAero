@@ -94,3 +94,14 @@ export type AirportFactsRow = InferSelectModel<typeof airportFacts>;
 export type InsertAirportFacts = InferInsertModel<typeof airportFacts>;
 export const airportFactsApiInsertSchema =
   createInsertSchema(airportFacts).array();
+
+/**
+ * Per-country crawl timestamp - stamped each time the crawler POSTs a country's
+ * airports (`MUTATIONS.insertAirports`). Powers the real "last updated" date on
+ * the charts list, replacing the build-date proxy for countries that have been
+ * crawled since the last deploy.
+ */
+export const crawlMeta = createTable("crawl_meta", {
+  country: text("country").primaryKey(),
+  updatedAt: integer("updated_at").notNull(), // unix seconds
+});

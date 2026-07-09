@@ -10,6 +10,7 @@ import {
   type InsertAirportFacts,
   airports,
   airportFacts,
+  crawlMeta,
 } from "./schema";
 
 // Cache lifetime for the read queries (seconds). The AIP data only changes when
@@ -272,6 +273,24 @@ export const QUERIES = {
       [] as AirportCoord[],
     );
   },
+  crawlUpdatedAt: function (country: string) {
+    // Unix-seconds timestamp of the last crawler POST for this country (null if
+    // never crawled). Tagged with the country tag so a fresh POST busts it.
+    country = country.toUpperCase();
+    return cachedRead<number | null>(
+      "crawlUpdatedAt",
+      ["crawlUpdatedAt", country],
+      ["crawlUpdatedAt", countryTag(country)],
+      (db) =>
+        db
+          .select({ updatedAt: crawlMeta.updatedAt })
+          .from(crawlMeta)
+          .where(eq(crawlMeta.country, country))
+          .limit(1)
+          .then((rows) => rows[0]?.updatedAt ?? null),
+      null,
+    );
+  },
   airportFacts: function (icao: string) {
     // Embedded aerodrome facts by ICAO (OurAirports base, imported into D1).
     // Cached with a single global tag - the importer refreshes all rows at once.
@@ -327,7 +346,18 @@ export const MUTATIONS = {
     const insertStmts = chunk(input, INSERT_CHUNK_SIZE).map((rows) =>
       db.insert(airports).values(rows),
     );
-    const statements = [deleteStmt, ...insertStmts];
+    // Stamp this country's crawl time (unix seconds) in the same atomic batch,
+    // so the charts list can show a real "last updated" per country. Runs only
+    // at runtime (the crawler POST), where `Date` is available.
+    const crawledAt = Math.floor(Date.now() / 1000);
+    const crawlStmt = db
+      .insert(crawlMeta)
+      .values({ country, updatedAt: crawledAt })
+      .onConflictDoUpdate({
+        target: crawlMeta.country,
+        set: { updatedAt: sql`excluded.updated_at` },
+      });
+    const statements = [deleteStmt, ...insertStmts, crawlStmt];
     const result = await db.batch(
       statements as [
         (typeof statements)[number],
