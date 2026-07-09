@@ -197,7 +197,10 @@
     "runways": "Runways",
     "frequencies": "Frequencies",
     "decode": "Show decoded",
-    "openingHours": "Opening hours"
+    "openingHours": "Opening hours",
+    "fuel": "Fuel",
+    "ppr": "PPR",
+    "pprRequired": "Prior permission required"
   },
   "Common": {
     "lastUpdated": "Last updated",

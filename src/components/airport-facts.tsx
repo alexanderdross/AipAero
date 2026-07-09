@@ -53,6 +53,8 @@ export async function AirportFacts({
       t("elevation"),
       `${elevFt} ft (${Math.round(elevFt * FT_PER_M)} m)`,
     ]);
+  if (facts?.fuel.length) rows.push([t("fuel"), facts.fuel.join(", ")]);
+  if (facts?.ppr === true) rows.push([t("ppr"), t("pprRequired")]);
   if (openingHours) rows.push([t("openingHours"), openingHours]);
   if (lat != null && lon != null) {
     const sun = getSunTimes(new Date(), lat, lon);

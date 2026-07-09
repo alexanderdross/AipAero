@@ -197,7 +197,10 @@
     "runways": "Drogi startowe",
     "frequencies": "Częstotliwości",
     "decode": "Pokaż odkodowane",
-    "openingHours": "Godziny otwarcia"
+    "openingHours": "Godziny otwarcia",
+    "fuel": "Paliwo",
+    "ppr": "PPR",
+    "pprRequired": "Wymagana wcześniejsza zgoda"
   },
   "Common": {
     "lastUpdated": "Ostatnia aktualizacja",

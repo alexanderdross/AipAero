@@ -197,7 +197,10 @@
     "runways": "Banen",
     "frequencies": "Frequenties",
     "decode": "Gedecodeerd tonen",
-    "openingHours": "Openingstijden"
+    "openingHours": "Openingstijden",
+    "fuel": "Brandstof",
+    "ppr": "PPR",
+    "pprRequired": "Voorafgaande toestemming vereist"
   },
   "Common": {
     "lastUpdated": "Laatst bijgewerkt",
