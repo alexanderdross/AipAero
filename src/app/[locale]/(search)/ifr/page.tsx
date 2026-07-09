@@ -6,6 +6,8 @@ import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/meta
 import { notFound } from "next/navigation";
 import { AboutCountryBox } from "~/components/about-country-box";
 import { AirportGadgets } from "~/components/airport-gadgets";
+import { AirportGadgetsFallback } from "~/components/airport-gadgets-fallback";
+import { Suspense } from "react";
 import { ExternalLink } from "~/components/external-link";
 import { SchemaAirport } from "~/components/schemas/schema-airport";
 import { SchemaProduct } from "~/components/schemas/schema-product";
@@ -264,7 +266,11 @@ export default async function IndexPage({
         </div>
       </div>
 
-      {data && <AirportGadgets airport={data} />}
+      {data && (
+        <Suspense fallback={<AirportGadgetsFallback />}>
+          <AirportGadgets airport={data} />
+        </Suspense>
+      )}
 
       {/* About AIP Box */}
       <AboutCountryBox isH3={false} />
