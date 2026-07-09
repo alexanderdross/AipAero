@@ -96,7 +96,7 @@ class FR(HttpEurocontrolBase):
             try:
                 r = self.client.get(urljoin(home_url, src))
                 if r.status_code == 200 and r.text.strip():
-                    self.logger.warning(f"FR {src}[:2000]: {r.text[:2000]!r}")
+                    self.logger.warning(f"FR {src}[:8000]: {r.text[:8000]!r}")
                     break
             except Exception as e:  # noqa: BLE001
                 self.logger.warning(f"FR {src} fetch failed: {e}")
