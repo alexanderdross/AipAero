@@ -45,39 +45,46 @@ PL 69, SE 48) und `POST /api/airports` → 201.
 **Schnelltest im Browser:** https://aip.aero/pl/ und https://aip.aero/se/
 zeigen gefüllte Listen.
 
-## 3. Playwright-Fallback bauen + DK portieren 🟡 (Claude - Startsignal genügt)
+## 3. DK live verifizieren + freischalten 🟡 (Code fertig - Owner-Schritt offen)
 
-Empfohlener Weg für JS-gerenderte AIP-Quellen (DK jetzt, künftige Länder
-später). Hintergrund: aim.naviair.dk ist eine JS-App ohne serverseitige
-Links; auch SE/PL liefern bereits parallele `index-v2.html`-JS-Viewer aus -
-JS-Rendering wird der häufigste Blocker neuer Quellen sein.
+**Erledigt (im Code):** `PlaywrightCrawlerBase` (headless-Chromium-Render,
+lazy import, fail-soft) gebaut, `dk.py` darauf portiert (rendert die JS-App
+statt sie zu fetchen), `playwright`-Dependency + `uv.lock`, der Live-Test
+installiert Chromium automatisch. DK steht noch in `ALLOWED_FAILURES`.
 
-1. Playwright-(Python)-Fallback-Pfad in die Crawler-Basis (`crawlers/`) -
-   läuft nur auf netcup / Self-hosted-Runner, nie auf Workers/Vercel (die in
-   CLAUDE.md vorgesehene einzige Browser-Ausnahme).
-2. `dk.py` auf den Fallback portieren.
-3. Validierung über den Live-Crawl-Test (`crawler-live-test.yml`), dann DK in
-   `liveCountries` (`src/lib/utils.ts`) + Startseiten-Karte
-   (`src/app/page.tsx`) freischalten.
-4. Host-Voraussetzung danach auf netcup: `uv sync --frozen` +
-   `uv run playwright install chromium --with-deps`.
+**Offen:**
+1. **Owner (netcup-Host):** nach dem `git pull` (Task 2) einmalig
+   `uv run playwright install chromium --with-deps` ausführen (Browser-Binary
+   liegt außerhalb des uv-Cache).
+2. **Claude:** Live-Crawl-Test für DK auswerten. Die genaue gerenderte
+   DOM-Struktur von aim.naviair.dk ist noch unverifiziert - je nach Ergebnis
+   die Menü-Navigation nachziehen (dieselbe Diagnose-Schleife wie bei den
+   anderen Ländern).
+3. **Claude:** Bei plausibler Airport-Zahl DK in `liveCountries`
+   (`src/lib/utils.ts`) + Startseiten-Karte (`src/app/page.tsx`) freischalten
+   und aus `ALLOWED_FAILURES` entfernen.
 
 → Ergebnis: **11 von 12 Ländern live**
 
-## 4. GR über Bright Data Web Unlocker 🟡 (Owner + Claude)
+## 4. GR über Bright Data Web Unlocker 🟡 (Code fertig - Owner-Schritt offen)
 
 GR (aisgr.hasp.gov.gr) ist **serverseitig reCAPTCHA-geschützt** (verifiziert:
 `main.php` leitet ohne Captcha-Session zum Gate zurück) - Playwright hilft
-dort nicht, nur ein Unlocker-Dienst. Kosten bei nightly Crawls:
-Cent-Bereich (wenige Requests pro Nacht).
+dort nicht, nur ein Unlocker-Dienst. Kosten bei nightly Crawls: Cent-Bereich
+(wenige Requests pro Nacht).
 
+**Erledigt (im Code):** `gr.py` liest jetzt `BRIGHTDATA_UNLOCKER_URL`
+bevorzugt (Fallback: `BRIGHTDATA_PROXY_URL`); Live-Test reicht die Variable
+durch.
+
+**Offen:**
 1. **Owner:** Im Bright-Data-Dashboard eine **Web Unlocker**-Zone anlegen
    (eigenes Produkt, nicht die bestehende Proxy-Zone).
 2. **Owner:** Access-Parameter als GitHub-Secret `BRIGHTDATA_UNLOCKER_URL`
-   anlegen (Format wie gehabt, `http://`-Schema optional) + später als
-   Env-Var auf dem netcup-Host.
-3. **Claude:** `gr.py` auf die Unlocker-Zone umstellen, per Live-Test
-   validieren, GR freischalten.
+   anlegen (Format `http://user:pass@host:port`, `http://`-Schema optional) +
+   später als Env-Var auf dem netcup-Host.
+3. **Claude:** Live-Test für GR auswerten, ggf. die AD-Section-Selektoren
+   gegen die (dann sichtbare) echte Navigation nachziehen, GR freischalten.
 
 → Ergebnis: **12 von 12 Ländern live** (Alternative: GR bleibt ausgeblendet,
 kein technischer Schaden)

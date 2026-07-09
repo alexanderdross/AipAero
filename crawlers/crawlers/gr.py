@@ -64,15 +64,29 @@ class GR(HttpEurocontrolBase):
         # agents (verified in the live-crawl test run) - send a plain
         # browser fingerprint instead of the polite crawler UA.
         self.use_browser_headers()
-        # HASP's WAF also blocks datacenter IPs outright (403 even with
-        # browser headers). Route through the Bright Data proxy when
-        # configured; without it this crawler cannot reach the source.
+        # HASP's entry page is a SERVER-SIDE reCAPTCHA gate (verified live:
+        # main.php redirects back to the gate without a captcha session), so a
+        # plain datacenter proxy is not enough - it needs Bright Data's Web
+        # Unlocker zone, which solves the captcha and renders the JS. Prefer
+        # BRIGHTDATA_UNLOCKER_URL; fall back to the plain proxy
+        # (BRIGHTDATA_PROXY_URL) if only that is set (clears the IP block but
+        # not the captcha). Both are used through the same proxy endpoint.
+        unlocker = os.environ.get("BRIGHTDATA_UNLOCKER_URL", "").strip()
         proxy_url = os.environ.get("BRIGHTDATA_PROXY_URL", "").strip()
-        if proxy_url:
+        if unlocker:
+            self.logger.info("GR: routing via Bright Data Web Unlocker")
+            self.use_proxy(unlocker)
+        elif proxy_url:
+            self.logger.warning(
+                "GR: only BRIGHTDATA_PROXY_URL set - the plain proxy clears "
+                "the IP block but not the server-side captcha; set "
+                "BRIGHTDATA_UNLOCKER_URL for a Web Unlocker zone"
+            )
             self.use_proxy(proxy_url)
         else:
             self.logger.warning(
-                "GR: BRIGHTDATA_PROXY_URL not set - the HASP WAF will 403"
+                "GR: no BRIGHTDATA_UNLOCKER_URL / BRIGHTDATA_PROXY_URL set - "
+                "the HASP captcha gate will block this crawl"
             )
 
     def _find_link(self, html: str, base_url: str, pattern: re.Pattern) -> str | None:
