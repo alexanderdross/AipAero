@@ -100,7 +100,10 @@ export async function getAirportFacts(
   const code = icao.toUpperCase();
 
   const [row, openaip, awc] = await Promise.all([
-    QUERIES.airportFacts(code),
+    // Fail-soft to the live sources: this must not throw if the D1 row read
+    // fails (e.g. migration 0004 not yet applied when the code deploys, or a
+    // transient D1 error) - the page then renders from OpenAIP/AWC as before.
+    QUERIES.airportFacts(code).catch(() => undefined),
     getOpenAipFacts(code),
     getAwcAirport(code),
   ]);
