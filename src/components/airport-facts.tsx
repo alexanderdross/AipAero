@@ -3,42 +3,33 @@ import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import type { NormalizedFacts } from "~/lib/airport-facts";
 import { getSunTimes } from "~/lib/sun-times";
-import type { Metar } from "~/lib/weather";
 
 const FT_PER_M = 0.3048;
 
 /**
  * Server-rendered aerodrome-data box: elevation, runways (orientation / length /
  * surface), frequencies, opening hours and today's sunrise / sunset / civil
- * twilight (VFR night). Data is merged from OurAirports (D1) and OpenAIP (when a
- * key is set) - see `~/lib/airport-facts`; the METAR is a fallback source for
- * elevation and coordinates when the facts row is missing, and `openingHours` is
- * resolved by the wrapper (OpenAIP else OSM). Sun times are computed locally (no
- * API). The fields are laid out as a two-column table on >= sm. Renders nothing
- * when there is nothing to show.
+ * twilight (VFR night). Data is merged from OpenAIP / OurAirports / AWC (see
+ * `~/lib/airport-facts`); coordinates + elevation come from those (AWC is the
+ * always-on fallback), and `openingHours` is resolved by the wrapper (OpenAIP
+ * else OSM). Sun times are computed locally (no API). The fields are laid out as
+ * a two-column table on >= sm. Renders nothing when there is nothing to show.
  */
 export async function AirportFacts({
   facts,
-  metar,
   locale,
   openingHours,
 }: {
   facts: NormalizedFacts | null;
-  metar: Metar | null;
   locale: string;
   openingHours: string | null;
 }) {
   const t = await getTranslations("Weather");
   const lang = localeLangMapping[locale] ?? "en";
 
-  // Elevation: prefer the facts row (ft), fall back to the METAR station (metres).
-  const elevFt =
-    facts?.elevationFt ??
-    (metar?.elev != null ? Math.round(metar.elev / FT_PER_M) : null);
-
-  // Coordinates for the sunrise/sunset calc: facts row first, then the METAR.
-  const lat = facts?.lat ?? metar?.lat ?? null;
-  const lon = facts?.lon ?? metar?.lon ?? null;
+  const elevFt = facts?.elevationFt ?? null;
+  const lat = facts?.lat ?? null;
+  const lon = facts?.lon ?? null;
 
   const timeFmt = new Intl.DateTimeFormat(lang, {
     hour: "2-digit",

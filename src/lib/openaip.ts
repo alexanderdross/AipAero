@@ -12,7 +12,7 @@ import type { NormalizedFacts } from "~/lib/airport-facts";
 
 const API = "https://api.core.openaip.net/api/airports";
 const REVALIDATE = 60 * 60 * 24 * 7; // 7 days - facts change rarely
-const TIMEOUT_MS = 4000;
+const TIMEOUT_MS = 2500;
 
 export async function getOpenAipFacts(
   icao: string,

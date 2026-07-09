@@ -12,7 +12,7 @@ import type { FrequencyFact, RunwayFact } from "~/server/db/schema";
 
 const API = "https://aviationweather.gov/api/data/airport";
 const REVALIDATE = 60 * 60 * 24 * 7; // 7 days - facts change rarely
-const TIMEOUT_MS = 3000;
+const TIMEOUT_MS = 2000;
 
 // AWC single-letter surface code -> label.
 const SURFACE: Record<string, string> = { H: "Hard", S: "Grass", W: "Water" };

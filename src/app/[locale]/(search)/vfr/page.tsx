@@ -9,7 +9,6 @@ import { AirportGadgets } from "~/components/airport-gadgets";
 import { AirportGadgetsFallback } from "~/components/airport-gadgets-fallback";
 import { Suspense } from "react";
 import { ExternalLink } from "~/components/external-link";
-import { SchemaAirport } from "~/components/schemas/schema-airport";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import { SchemaWebsite } from "~/components/schemas/schema-website";
@@ -227,15 +226,6 @@ export default async function IndexPage({
         currentUrl={currentUrl}
       />
       <SchemaWebsite />
-      {data && (
-        <SchemaAirport
-          name={data.title}
-          icaoCode={data.icao}
-          alternateName={t("resultTitle", { airport: data.title })}
-          description={t("resultDescription", { airport: data.title })}
-          url={currentUrl}
-        />
-      )}
       <SchemaSitenav locale={locale} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SearchInputField
@@ -267,7 +257,13 @@ export default async function IndexPage({
 
       {data && (
         <Suspense fallback={<AirportGadgetsFallback />}>
-          <AirportGadgets airport={data} />
+          <AirportGadgets
+            airport={data}
+            schemaName={data.title}
+            schemaAlternateName={t("resultTitle", { airport: data.title })}
+            schemaDescription={t("resultDescription", { airport: data.title })}
+            schemaUrl={currentUrl}
+          />
         </Suspense>
       )}
 

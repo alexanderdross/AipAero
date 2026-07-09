@@ -1,4 +1,6 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Fragment } from "react";
 import { localeLangMapping } from "~/i18n/routing";
 import { decodeReport } from "~/lib/metar-decode";
@@ -23,18 +25,18 @@ function formatClouds(clouds: CloudLayer[]): string | null {
 }
 
 /**
- * Server-rendered weather box: raw METAR/TAF plus a decoded quick-glance summary,
- * the flight-category badge and the observation time. Receives the already-fetched
- * (and cached) weather from `AirportGadgets` and renders nothing when the field
- * has no reporting station. Field data (elevation, sunrise/sunset) lives in the
- * separate aerodrome-data box.
+ * Weather box: raw METAR/TAF plus a decoded quick-glance summary, the flight-
+ * category badge and the observation time. Client component - the ephemeral
+ * weather is lazy-loaded after the document streams (see `AirportWeatherWind`),
+ * so it never holds the airport-detail document open (Lighthouse TTFB). Renders
+ * nothing when the field has no reporting station. Field data (elevation,
+ * sunrise/sunset) lives in the separate, still server-rendered aerodrome-data box.
  *
  * Because the raw METAR/TAF are coded, each carries a collapsible "decode" tab
- * (`<details>`, no client JS) that expands the report into plain-language lines,
- * computed server-side by `decodeReport`. The decoded text is in the SSR HTML, so
- * it is crawlable and works without JavaScript.
+ * (`<details>`) expanding the report into plain-language lines via the pure,
+ * dependency-free `decodeReport` (runs client-side here).
  */
-export async function AirportWeather({
+export function AirportWeather({
   metar,
   taf,
   locale,
@@ -47,9 +49,8 @@ export async function AirportWeather({
   // has no METAR of its own) - shown as a clear note.
   nearest?: { station: string; distanceKm: number } | null;
 }) {
+  const t = useTranslations("Weather");
   if (!metar && !taf) return null;
-
-  const t = await getTranslations("Weather");
   const lang = localeLangMapping[locale] ?? "en";
 
   const observed =
