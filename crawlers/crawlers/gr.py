@@ -84,7 +84,9 @@ class GR(HttpEurocontrolBase):
                 return urljoin(base_url, a["href"].replace("\\", "/"))
         return None
 
-    def _resolve_eaip_index(self, base_url: str, html: str) -> str:
+    def _resolve_eaip_index(
+        self, base_url: str, html: str, allow_gate_probe: bool = True
+    ) -> str:
         """Walk the HASP intro hops to the eAIP frameset index.
 
         Best-effort: follow the "Browse" link into the effective AIP, then the
@@ -107,6 +109,22 @@ class GR(HttpEurocontrolBase):
             href = a["href"].replace("\\", "/")
             if _INDEX_HREF_RE.search(href.split("?")[0].split("#")[0]):
                 return urljoin(current_url, href)
+
+        # The HASP entry page is a reCAPTCHA gate (verified live: no links,
+        # a recaptcha widget, and the JS target "main.php?rand=<random>").
+        # Probe main.php directly - if the captcha is only enforced client-
+        # side, that IS the portal page carrying the AIP links.
+        if allow_gate_probe and "recaptcha" in current_html.lower():
+            probe = urljoin(current_url, "main.php?rand=0.5")
+            self.logger.info(f"GR: captcha gate detected; probing {probe}")
+            try:
+                main_html = self.fetch(probe)
+            except Exception as e:
+                self.logger.warning(f"GR: main.php probe failed: {e}")
+            else:
+                return self._resolve_eaip_index(
+                    probe, main_html, allow_gate_probe=False
+                )
 
         # Diagnostics for the live-crawl log: what IS on the page we could
         # not resolve (also flags a link-less JS-rendered app).
