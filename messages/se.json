@@ -210,7 +210,10 @@
     "tailwind": "Medvind",
     "crosswind": "Sidvind",
     "fromLeft": "från vänster",
-    "fromRight": "från höger"
+    "fromRight": "från höger",
+    "landingDirection": "Sannolik landningsriktning",
+    "aerodromeType": "Flygplatstyp",
+    "surface": "Underlag"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",
@@ -222,7 +225,11 @@
     "phone": "Telefon",
     "map": "Karta",
     "locate": "Hitta min plats",
-    "nearby": "Flygplatser i närheten"
+    "nearby": "Flygplatser i närheten",
+    "restaurant": "Restaurang",
+    "customs": "Tull",
+    "yes": "Ja",
+    "no": "Nej"
   },
   "Chart": {
     "title": "Inflygningskarta",

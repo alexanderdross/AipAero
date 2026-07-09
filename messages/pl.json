@@ -210,7 +210,10 @@
     "tailwind": "Wiatr tylny",
     "crosswind": "Wiatr boczny",
     "fromLeft": "z lewej",
-    "fromRight": "z prawej"
+    "fromRight": "z prawej",
+    "landingDirection": "Prawdopodobny kierunek lądowania",
+    "aerodromeType": "Typ lotniska",
+    "surface": "Nawierzchnia"
   },
   "Common": {
     "lastUpdated": "Ostatnia aktualizacja",
@@ -222,7 +225,11 @@
     "phone": "Telefon",
     "map": "Mapa",
     "locate": "Znajdź moją lokalizację",
-    "nearby": "Lotniska w pobliżu"
+    "nearby": "Lotniska w pobliżu",
+    "restaurant": "Restauracja",
+    "customs": "Odprawa celna",
+    "yes": "Tak",
+    "no": "Nie"
   },
   "Chart": {
     "title": "Mapa podejścia",

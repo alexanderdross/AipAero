@@ -194,6 +194,20 @@ function parseFuel(item: Record<string, unknown>): string[] {
   return out;
 }
 
+// services.passengerFacilities integer enum -> we surface two flags a pilot
+// cares about: 5 = Restaurant, 2 = Customs. null when the list is absent (we do
+// not assert "no restaurant" from missing data); false when the list exists but
+// omits the code.
+function hasFacility(
+  item: Record<string, unknown>,
+  code: number,
+): boolean | null {
+  const services = item.services as Record<string, unknown> | undefined;
+  const raw = services?.passengerFacilities;
+  if (!Array.isArray(raw)) return null;
+  return raw.includes(code);
+}
+
 // PPR (prior permission required): boolean in the schema. null when absent.
 function parsePpr(v: unknown): boolean | null {
   return typeof v === "boolean" ? v : null;
@@ -228,6 +242,9 @@ export function mapOpenAipItem(item: Record<string, unknown>): NormalizedFacts {
     ppr: parsePpr(item.ppr),
     fuel: parseFuel(item),
     openingHours: parseOpeningHours(item.hoursOfOperation),
+    restaurant: hasFacility(item, 5),
+    customs: hasFacility(item, 2),
+    aerodromeType: typeof item.type === "number" ? item.type : null,
     runways: parseRunways(item.runways),
     frequencies: parseFrequencies(item.frequencies),
     source: "openaip",

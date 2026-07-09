@@ -69,6 +69,27 @@ describe("mapOpenAipItem", () => {
     expect(mapOpenAipItem({ ppr: false }).ppr).toBe(false);
     expect(mapOpenAipItem({}).ppr).toBeNull();
   });
+
+  it("derives restaurant/customs from passengerFacilities (5=Restaurant, 2=Customs)", () => {
+    const withFac = mapOpenAipItem({
+      services: { passengerFacilities: [2, 5] },
+    });
+    expect(withFac.restaurant).toBe(true);
+    expect(withFac.customs).toBe(true);
+    const withoutFac = mapOpenAipItem({
+      services: { passengerFacilities: [3] },
+    });
+    expect(withoutFac.restaurant).toBe(false);
+    expect(withoutFac.customs).toBe(false);
+    // absent list -> unknown, not "no"
+    expect(mapOpenAipItem({}).restaurant).toBeNull();
+    expect(mapOpenAipItem({}).customs).toBeNull();
+  });
+
+  it("passes through the airport type enum code", () => {
+    expect(mapOpenAipItem({ type: 1 }).aerodromeType).toBe(1);
+    expect(mapOpenAipItem({}).aerodromeType).toBeNull();
+  });
 });
 
 describe("parseOpeningHours", () => {

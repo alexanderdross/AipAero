@@ -210,7 +210,10 @@
     "tailwind": "Vent arrière",
     "crosswind": "Vent traversier",
     "fromLeft": "de gauche",
-    "fromRight": "de droite"
+    "fromRight": "de droite",
+    "landingDirection": "Direction d'atterrissage probable",
+    "aerodromeType": "Type d'aérodrome",
+    "surface": "Revêtement"
   },
   "Common": {
     "lastUpdated": "Dernière mise à jour",
@@ -222,7 +225,11 @@
     "phone": "Téléphone",
     "map": "Carte",
     "locate": "Trouver ma position",
-    "nearby": "Aérodromes à proximité"
+    "nearby": "Aérodromes à proximité",
+    "restaurant": "Restaurant",
+    "customs": "Douane",
+    "yes": "Oui",
+    "no": "Non"
   },
   "Chart": {
     "title": "Carte d'approche",

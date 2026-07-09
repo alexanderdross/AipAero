@@ -280,7 +280,10 @@
     "tailwind": "Tailwind",
     "crosswind": "Crosswind",
     "fromLeft": "from the left",
-    "fromRight": "from the right"
+    "fromRight": "from the right",
+    "landingDirection": "Likely landing direction",
+    "aerodromeType": "Aerodrome type",
+    "surface": "Surface"
   },
   "Common": {
     "lastUpdated": "Last updated",
@@ -292,7 +295,11 @@
     "phone": "Phone",
     "map": "Map",
     "locate": "Find my location",
-    "nearby": "Nearby airfields"
+    "nearby": "Nearby airfields",
+    "restaurant": "Restaurant",
+    "customs": "Customs",
+    "yes": "Yes",
+    "no": "No"
   },
   "Chart": {
     "title": "Approach chart",

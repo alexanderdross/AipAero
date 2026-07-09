@@ -210,7 +210,10 @@
     "tailwind": "Rugwind",
     "crosswind": "Zijwind",
     "fromLeft": "van links",
-    "fromRight": "van rechts"
+    "fromRight": "van rechts",
+    "landingDirection": "Waarschijnlijke landingsrichting",
+    "aerodromeType": "Type luchthaven",
+    "surface": "Ondergrond"
   },
   "Common": {
     "lastUpdated": "Laatst bijgewerkt",
@@ -222,7 +225,11 @@
     "phone": "Telefoon",
     "map": "Kaart",
     "locate": "Mijn locatie vinden",
-    "nearby": "Vliegvelden in de buurt"
+    "nearby": "Vliegvelden in de buurt",
+    "restaurant": "Restaurant",
+    "customs": "Douane",
+    "yes": "Ja",
+    "no": "Nee"
   },
   "Chart": {
     "title": "Naderingskaart",

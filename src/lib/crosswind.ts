@@ -64,6 +64,20 @@ export function runwayWinds(
   return out.sort((a, b) => a.heading - b.heading);
 }
 
+/**
+ * The runway end most into wind (highest headwind) - the likely/recommended
+ * landing direction. null when no end has a positive headwind (calm or pure
+ * crosswind), since then wind gives no preference.
+ */
+export function recommendedLanding(winds: RunwayWind[]): RunwayWind | null {
+  let best: RunwayWind | null = null;
+  for (const w of winds) {
+    if (w.headwind <= 0) continue;
+    if (!best || w.headwind > best.headwind) best = w;
+  }
+  return best;
+}
+
 // Point on a compass circle (SVG coords, y down): bearing 0 = up.
 export function compassPoint(
   cx: number,

@@ -48,6 +48,12 @@ export async function AirportContact({
   if (address) rows.push([t("address"), address]);
   if (coords) rows.push([t("coordinates"), coords]);
   if (geo?.phone) rows.push([t("phone"), geo.phone]);
+  // On-field amenities from OpenAIP (null = unknown -> omit; we never assert
+  // "no" from missing data, only when the facilities list exists but omits it).
+  if (facts?.restaurant != null)
+    rows.push([t("restaurant"), facts.restaurant ? t("yes") : t("no")]);
+  if (facts?.customs != null)
+    rows.push([t("customs"), facts.customs ? t("yes") : t("no")]);
 
   return (
     <section className="border border-[#ccc] bg-white p-4">

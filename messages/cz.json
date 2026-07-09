@@ -175,7 +175,10 @@
     "tailwind": "Zadní vítr",
     "crosswind": "Boční vítr",
     "fromLeft": "zleva",
-    "fromRight": "zprava"
+    "fromRight": "zprava",
+    "landingDirection": "Pravděpodobný směr přistání",
+    "aerodromeType": "Typ letiště",
+    "surface": "Povrch"
   },
   "Common": {
     "lastUpdated": "Naposledy aktualizováno",
@@ -187,7 +190,11 @@
     "phone": "Telefon",
     "map": "Mapa",
     "locate": "Najít mou polohu",
-    "nearby": "Letiště v okolí"
+    "nearby": "Letiště v okolí",
+    "restaurant": "Restaurace",
+    "customs": "Celnice",
+    "yes": "Ano",
+    "no": "Ne"
   },
   "Chart": {
     "title": "Přibližovací mapa",
