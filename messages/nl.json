@@ -206,6 +206,8 @@
     "website": "Website",
     "address": "Adres",
     "coordinates": "Coördinaten",
-    "phone": "Telefoon"
+    "phone": "Telefoon",
+    "map": "Kaart",
+    "locate": "Mijn locatie vinden"
   }
 }

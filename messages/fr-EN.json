@@ -206,6 +206,8 @@
     "website": "Website",
     "address": "Address",
     "coordinates": "Coordinates",
-    "phone": "Phone"
+    "phone": "Phone",
+    "map": "Map",
+    "locate": "Find my location"
   }
 }

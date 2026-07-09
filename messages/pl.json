@@ -206,6 +206,8 @@
     "website": "Strona internetowa",
     "address": "Adres",
     "coordinates": "Współrzędne",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "map": "Mapa",
+    "locate": "Znajdź moją lokalizację"
   }
 }

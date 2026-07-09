@@ -3,6 +3,7 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { AboutCountryBox } from "~/components/about-country-box";
+import { AirportMap, type MapMarker } from "~/components/airport-map";
 import { LastUpdated } from "~/components/last-updated";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { Title } from "~/components/title";
@@ -159,6 +160,7 @@ export default async function IndexPage(
 
 async function AirportLists({ locale }: { locale: string }) {
   const t = await getTranslations("AirportsPage");
+  const tCommon = await getTranslations("Common");
   const country = locale.split("-")[0]!;
 
   const [
@@ -167,12 +169,14 @@ async function AirportLists({ locale }: { locale: string }) {
     heliports,
     militaryAirports,
     aeroportAirports,
+    withCoords,
   ] = await Promise.all([
     QUERIES.vfrAirports(country),
     QUERIES.ifrAirports(country),
     QUERIES.heliports(country),
     QUERIES.aeroportAirports(country),
     QUERIES.militaryAirports(country),
+    QUERIES.airportsWithCoords(country),
   ]);
 
   const i18nKeyMapping: Record<Airport["type"], string> = {
@@ -183,87 +187,109 @@ async function AirportLists({ locale }: { locale: string }) {
     aeroport: "aeroportCard",
   };
 
+  // Map markers: chart-linked fields that have coordinates. The detail-page href
+  // mirrors the list links below (localized path + slug as a bare query key).
+  const markers: MapMarker[] = withCoords
+    .filter((a) => a.lat != null && a.lon != null)
+    .map((a) => ({
+      title: a.title,
+      type: a.type,
+      lat: a.lat!,
+      lon: a.lon!,
+      href:
+        getPathname({ href: i18nPathMapping[a.type], locale }) + `?${a.slug}`,
+    }));
+
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-wrap justify-center gap-6">
-        {[
-          vfrAirports,
-          ifrAirports,
-          heliports,
-          militaryAirports,
-          aeroportAirports,
-        ]
-          .filter((x) => x.length > 0)
-          .map((airports, index) => {
-            // Safe: outer `.filter((x) => x.length > 0)` guarantees airports[0] exists.
-            const airportType = airports[0]!.type;
-            const key = i18nKeyMapping[airportType];
-            return (
-              <div
-                key={index}
-                className="min-w-80 flex-grow basis-0 border border-[#ccc] bg-white px-6 py-8"
-              >
-                <h2 className="text-center text-2xl font-normal">
-                  {t(`${key}.title`)}
-                </h2>
-                <p className="pb-2 text-center">{t(`${key}.description`)}</p>
-                <ol>
-                  {airports.map((airport, index) => {
-                    // Resolve the locale-prefixed detail URL server-side via
-                    // getPathname (e.g. "/at/vfr") + the slug as a bare query
-                    // key (".../vfr?LOWG"). We use next/link here rather than
-                    // next-intl's <Link>, which is a client component and needs
-                    // a NextIntlClientProvider ancestor (v4 behaviour) that this
-                    // server-rendered list does not have - same pattern as box.tsx.
-                    const href =
-                      getPathname({
-                        href: i18nPathMapping[airportType],
-                        locale,
-                      }) + `?${airport.slug}`;
-                    return (
-                      <li
-                        key={index}
-                        itemScope
-                        itemType="https://schema.org/Airport"
-                        className="flex items-center gap-x-4"
-                      >
-                        <span>{index + 1}.</span>
-                        <Link
-                          href={href}
-                          itemProp="url"
-                          className="justify-left text-drossblue flex gap-x-2 py-2 hover:underline"
-                          title={t(`${key}.linkTitle`, {
-                            airport: airport.title,
-                          })}
-                          aria-label={t(`${key}.linkTitle`, {
-                            airport: airport.title,
-                          })}
-                          target="_blank"
-                          rel="noopener"
+    <>
+      {markers.length > 0 && (
+        <AirportMap
+          markers={markers}
+          locateLabel={tCommon("locate")}
+          mapLabel={tCommon("map")}
+        />
+      )}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap justify-center gap-6">
+          {[
+            vfrAirports,
+            ifrAirports,
+            heliports,
+            militaryAirports,
+            aeroportAirports,
+          ]
+            .filter((x) => x.length > 0)
+            .map((airports, index) => {
+              // Safe: outer `.filter((x) => x.length > 0)` guarantees airports[0] exists.
+              const airportType = airports[0]!.type;
+              const key = i18nKeyMapping[airportType];
+              return (
+                <div
+                  key={index}
+                  className="min-w-80 flex-grow basis-0 border border-[#ccc] bg-white px-6 py-8"
+                >
+                  <h2 className="text-center text-2xl font-normal">
+                    {t(`${key}.title`)}
+                  </h2>
+                  <p className="pb-2 text-center">{t(`${key}.description`)}</p>
+                  <ol>
+                    {airports.map((airport, index) => {
+                      // Resolve the locale-prefixed detail URL server-side via
+                      // getPathname (e.g. "/at/vfr") + the slug as a bare query
+                      // key (".../vfr?LOWG"). We use next/link here rather than
+                      // next-intl's <Link>, which is a client component and needs
+                      // a NextIntlClientProvider ancestor (v4 behaviour) that this
+                      // server-rendered list does not have - same pattern as box.tsx.
+                      const href =
+                        getPathname({
+                          href: i18nPathMapping[airportType],
+                          locale,
+                        }) + `?${airport.slug}`;
+                      return (
+                        <li
+                          key={index}
+                          itemScope
+                          itemType="https://schema.org/Airport"
+                          className="flex items-center gap-x-4"
                         >
-                          <LinkIcon
-                            className="h-5 w-5 flex-shrink-0"
-                            aria-hidden="true"
+                          <span>{index + 1}.</span>
+                          <Link
+                            href={href}
+                            itemProp="url"
+                            className="justify-left text-drossblue flex gap-x-2 py-2 hover:underline"
+                            title={t(`${key}.linkTitle`, {
+                              airport: airport.title,
+                            })}
+                            aria-label={t(`${key}.linkTitle`, {
+                              airport: airport.title,
+                            })}
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            <LinkIcon
+                              className="h-5 w-5 flex-shrink-0"
+                              aria-hidden="true"
+                            />
+                            <span itemProp="name">{airport.title}</span>
+                          </Link>
+                          <meta
+                            itemProp="description"
+                            content={t(`${key}.linkTitle`, {
+                              airport: airport.title,
+                            })}
                           />
-                          <span itemProp="name">{airport.title}</span>
-                        </Link>
-                        <meta
-                          itemProp="description"
-                          content={t(`${key}.linkTitle`, {
-                            airport: airport.title,
-                          })}
-                        />
-                        {airport.icao && (
-                          <meta itemProp="icaoCode" content={airport.icao} />
-                        )}
-                      </li>
-                    );
-                  })}
-                </ol>
-              </div>
-            );
-          })}
+                          {airport.icao && (
+                            <meta itemProp="icaoCode" content={airport.icao} />
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </div>
+              );
+            })}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

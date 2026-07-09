@@ -1,5 +1,6 @@
 import { GlobeIcon, MapPinIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { Fragment } from "react";
 import { ExternalLink } from "~/components/external-link";
 import type { NormalizedFacts } from "~/lib/airport-facts";
 import type { GeoResult } from "~/lib/geocode";
@@ -53,17 +54,19 @@ export async function AirportContact({
       <h2 className="text-center text-xl font-normal">{t("location")}</h2>
 
       {rows.length > 0 && (
-        <dl className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
+        // Left-aligned label/value grid: the address wraps cleanly under its
+        // value column instead of centering awkwardly on narrow screens.
+        <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 text-sm">
           {rows.map(([label, value]) => (
-            <div key={label} className="flex gap-x-1">
+            <Fragment key={label}>
               <dt className="text-drossgray-dark">{label}:</dt>
               <dd className="font-medium">{value}</dd>
-            </div>
+            </Fragment>
           ))}
         </dl>
       )}
 
-      <div className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
+      <div className="mt-3 flex flex-wrap justify-start gap-x-6 gap-y-1 text-sm">
         {website && (
           <ExternalLink
             href={website}

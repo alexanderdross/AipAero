@@ -26,7 +26,7 @@ const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://*.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://*.googlesyndication.com https://*.google.com",
+  "img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://*.tile.openstreetmap.org",
   "font-src 'self' data:",
   "connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com",
   "frame-src https://googleads.g.doubleclick.net https://*.googlesyndication.com",

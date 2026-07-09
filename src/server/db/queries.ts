@@ -1,6 +1,6 @@
 "server-only";
 
-import { and, eq, asc, like, or, sql } from "drizzle-orm";
+import { and, eq, asc, isNotNull, like, or, sql } from "drizzle-orm";
 import { unstable_cache, revalidateTag } from "next/cache";
 import { getDb, type DB } from "~/server/db";
 import {
@@ -20,6 +20,15 @@ import {
 // writes low while still bounding staleness if an on-demand invalidation is ever
 // missed.
 const REVALIDATE_SECONDS = 60 * 60 * 24;
+
+// A chart-linked airport with map coordinates (see `airportsWithCoords`).
+export type AirportCoord = {
+  slug: string;
+  title: string;
+  type: Airport["type"];
+  lat: number | null;
+  lon: number | null;
+};
 
 // Per-country cache tag. Every read for a country carries this tag so a crawler
 // POST (always scoped to one country) can invalidate exactly that country's
@@ -231,6 +240,37 @@ export const QUERIES = {
       ),
       orderBy: [asc(airports.title)],
     });
+  },
+  airportsWithCoords: function (country: string) {
+    // Chart-linked airports of a country that have coordinates (joined from the
+    // OurAirports facts table) - powers the map on the airport-list page. Tagged
+    // with both the country tag (crawler refresh) and `airportFacts` (importer
+    // refresh) so it updates when either source changes.
+    country = country.toUpperCase();
+    return cachedRead(
+      "airportsWithCoords",
+      ["airportsWithCoords", country],
+      ["airportsWithCoords", countryTag(country), "airportFacts"],
+      (db) =>
+        db
+          .select({
+            slug: airports.slug,
+            title: airports.title,
+            type: airports.type,
+            lat: airportFacts.lat,
+            lon: airportFacts.lon,
+          })
+          .from(airports)
+          .innerJoin(airportFacts, eq(airports.icao, airportFacts.icao))
+          .where(
+            and(
+              eq(airports.country, country),
+              isNotNull(airportFacts.lat),
+              isNotNull(airportFacts.lon),
+            ),
+          ),
+      [] as AirportCoord[],
+    );
   },
   airportFacts: function (icao: string) {
     // Embedded aerodrome facts by ICAO (OurAirports base, imported into D1).

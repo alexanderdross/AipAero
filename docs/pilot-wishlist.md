@@ -26,18 +26,20 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
 
 ## A. Wishlist - what I want when I look up a field
 
-- **Aerodrome facts card**: elevation, runways and **frequencies** - **shipped** (§C), embedded
-  server-side from OurAirports (CC0) + OpenAIP. Still wished for: circuit direction, **fuel**
-  (AVGAS / JET-A1), PPR flag + how to request it, opening hours.
+- **Aerodrome facts card**: elevation, runways, **frequencies**, **opening hours** and a **postal
+  address / coordinates / contact phone** - **shipped** (§C), embedded server-side from OurAirports
+  (CC0) + OpenAIP + OpenStreetMap. Still wished for: circuit direction, **fuel** (AVGAS / JET-A1),
+  PPR flag + how to request it.
 - **Customs / Airport-of-Entry** flag + national border-crossing form links (UK **GAR**, etc.).
-- **Weather**: decoded **METAR / TAF** - **shipped** (§C). Sunrise / sunset + civil twilight (VFR night)
-  for stations that report coordinates - **next** (§D.3).
-- **Map + "airports near me"** (OpenStreetMap tiles), filter by fuel / customs / hard runway.
+- **Weather**: decoded **METAR / TAF** with a per-report decode tab, plus sunrise / sunset + civil
+  twilight (VFR night) - **shipped** (§C).
+- **Map + "airports near me"** (OpenStreetMap tiles) - **shipped** (§C): a Leaflet map on the
+  airport-list page with a "locate me" button. Still wished for: filter by fuel / customs / hard runway.
 - **Deep link to the exact chart PDF** (+ inline preview) instead of the AIP index page.
 - **Chart currency indicator** - a "last updated" date shipped (§C); true per-country AIRAC freshness
   still needs a crawl timestamp.
 - **Favorites / recently viewed** (localStorage - no account needed).
-- **Cross-country unified search** - one box across every country instead of one per locale.
+- **Cross-country unified search** - one box across every country - **shipped** (§C).
 - **More countries**: CH, IT, ES, ... beyond the current 12.
 - **EFB / tool hand-offs**: deep links to SkyDemon, ForeFlight, autorouter, Windy, OpenAIP, national
   self-briefing / AIS. (A Google Maps link per field already shipped, §C.)
@@ -48,9 +50,8 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
 
 | Area | Issue | Where |
 | --- | --- | --- |
-| Search scope | Country-siloed (one country per locale); matches `title`/`icao` only | `server/actions.ts`, `queries.ts` |
-| Airport "detail" | Beyond the chart link + weather, still no static facts (elevation/runways/freqs) | `(search)/*/page.tsx` |
-| Coordinates | Not stored; only available for fields with a NOAA METAR station | `server/db/schema.ts` |
+| Search scope | Per-country search matches `title`/`icao` only; a cross-country global search now exists on the root | `server/actions.ts`, `queries.ts` |
+| Coordinates | Stored per ICAO in `airport_facts` (OurAirports importer); still resolved at request time when absent | `server/db/schema.ts` |
 | Security | CSP still in Report-Only mode (not enforced) | `next.config.mjs` |
 
 Note: the Product-schema `aggregateRating` (4.9 / 247) is a **deliberate SEO choice the owner wants
@@ -80,10 +81,21 @@ automatically; a localized CTA on the country landing + airport-list pages; SEO/
   resolving the field by ICAO/name query (no stored coordinates needed).
 - **"Last updated"** indicator on the charts index (`src/components/last-updated.tsx`).
 - **Aerodrome facts** (`src/components/airport-facts.tsx`, `src/lib/airport-facts.ts`): embedded
-  runways / frequencies / elevation per ICAO, merged from the **OurAirports** base (CC0, imported into
-  D1 by `crawlers/import_ourairports.py`) and **OpenAIP** when `OPENAIP_API_KEY` is set
-  (`src/lib/openaip.ts`, fail-soft). Content is embedded, not linked out. Renders nothing until the
-  importer has run / a key is set.
+  runways / frequencies / elevation / opening hours per ICAO, merged from the **OurAirports** base
+  (CC0, imported into D1 by `crawlers/import_ourairports.py`) and **OpenAIP** when `OPENAIP_API_KEY`
+  is set (`src/lib/openaip.ts`, fail-soft). Content is embedded, not linked out.
+- **Weather decode tab** (`src/lib/metar-decode.ts`): each raw METAR/TAF expands (native `<details>`,
+  SSR, no client JS) into plain-language lines via a built-in multilingual glossary.
+- **Sunrise / sunset + civil twilight** (`src/lib/sun-times.ts`): computed locally (no API) from the
+  field coordinates, shown in the aerodrome-data box.
+- **Contact / location box** (`src/components/airport-contact.tsx`, `src/lib/geocode.ts`): postal
+  address (street / postcode / town), coordinates and contact phone, reverse-geocoded from
+  **OpenStreetMap (Nominatim)** using the best available coordinates (facts row, else METAR station),
+  cached + fail-soft.
+- **Map + "airports near me"** (`src/components/airport-map.tsx`): a Leaflet + OpenStreetMap map on the
+  airport-list page plotting every chart-linked field with coordinates, popups linking to the detail
+  page, and a geolocation "locate me" button. Leaflet runs client-side only; the SSR airport list is
+  the indexable no-JS fallback. Only rendered when the facts importer has populated coordinates.
 - **Cross-country search** on the root page (`src/components/global-search-input-field.tsx`).
 
 ---
@@ -101,16 +113,24 @@ from **EUROCONTROL AIS online** (https://www.eurocontrol.int/articles/ais-online
 search alongside the per-country one. Prioritize countries with the strongest Trade:Aero market activity
 for cross-sell synergy.
 
-### 2. Aerodrome facts card + map - needs a data source
-Elevation, runways, frequencies, and coordinates for **all** fields need an external database, since our
-own DB is intentionally minimal. **OpenAIP** (https://www.openaip.net/docs, https://github.com/openAIP)
-offers third-party APIs and is the natural candidate, **but**: its data is community-sourced (not
-authoritative), the API needs a key, and the licence is typically **non-commercial (CC BY-NC-SA)** -
-which must be cleared for an AdSense-funded site before use. With coordinates in hand, render a map with
-**Leaflet + OpenStreetMap tiles** (SSR fallback = nearby-airports list). Customs / Airport-of-Entry
-flags come from AIP GEN 1.2 / national data.
+### 2. Aerodrome facts card + map - **shipped**
+Facts (elevation / runways / frequencies / opening hours) merge OurAirports (CC0) + OpenAIP; the map
+(§C) uses Leaflet + OpenStreetMap tiles with the SSR airport list as the fallback. OpenAIP caveat still
+stands for the optional enrichment: community-sourced, needs a key, licence typically **non-commercial
+(CC BY-NC-SA)** - clear before an AdSense-funded launch. Still open on top of this: **fuel (AVGAS /
+JET-A1), PPR flag + contact, circuit direction** (all best-effort from OpenAIP), map **filters**, and
+**customs / Airport-of-Entry** flags from AIP GEN 1.2 / national data.
 
-### 3. Sunrise / sunset + civil twilight (VFR night) - effort S, no key
-For fields that report a METAR, the NOAA response already includes `lat`/`lon`/`elev`. Derive field
-elevation and sun times (a self-contained solar calculation, no dependency, server-side) - a cheap
-extension of the existing weather gadget. Full coverage still waits on D.2 coordinates.
+### 3. Sunrise / sunset + civil twilight (VFR night) - **shipped**
+`src/lib/sun-times.ts` computes rise/set + civil twilight locally (no key, server-side) from the field
+coordinates (facts row, else the METAR station), shown in the aerodrome-data box.
+
+### 4. Still open - the remaining roadmap
+- **Fuel / PPR / circuit direction** on the facts card (best-effort OpenAIP).
+- **Deep link to the exact chart PDF** (+ optional inline preview) instead of the AIP index page.
+- **Per-country AIRAC / crawl freshness** - a real per-country crawl timestamp (today the charts list
+  shows only the build date).
+- **Customs / Airport-of-Entry** flag + national border-crossing forms.
+- **Favorites / recently viewed** (localStorage).
+- **More countries** (CH, IT, ES, ...).
+- **Enforce CSP** (currently `Content-Security-Policy-Report-Only`).
