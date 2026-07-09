@@ -27,9 +27,14 @@ export async function AirportGadgets({ airport }: { airport: Airport }) {
   return (
     <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col gap-4">
-        <AirportContact airport={airport} facts={facts} />
+        {/* Location + aerodrome-data boxes side by side on >= md (each half
+            width), stacking on mobile. Weather spans the full width below, as it
+            carries the wide raw METAR/TAF blocks. */}
+        <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2">
+          <AirportContact airport={airport} facts={facts} />
+          <AirportFacts facts={facts} metar={metar} locale={locale} />
+        </div>
         <AirportWeather metar={metar} taf={taf} locale={locale} />
-        <AirportFacts facts={facts} metar={metar} locale={locale} />
       </div>
     </div>
   );
