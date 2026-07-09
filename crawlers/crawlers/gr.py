@@ -18,6 +18,16 @@ _BROWSE_RE = re.compile(r"browse", re.I)
 _AIP_ENTRY_RE = re.compile(r"\bAIP\b.*GREECE|Aeronautical Information Publication", re.I)
 _INDEX_HREF_RE = re.compile(r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I)
 
+# The HASP intro page carries NO server-side <a> links (verified live via the
+# proxied run) - its navigation is JS. The targets still appear as quoted
+# strings in the raw markup/scripts (onclick, window.open, location=, frame
+# src), so scan the raw HTML for URL-ish strings as diagnostics.
+_RAW_URL_RE = re.compile(
+    r"""["']([^"'<>\s]{2,160}?\.(?:html?|php|aspx?)(?:[?#][^"']{0,80})?)["']"""
+    r"""|["'](https?://[^"'<>\s]{4,160})["']""",
+    re.I,
+)
+
 
 class GR(HttpEurocontrolBase):
     """Greece AIP crawler (Hellenic AIS — https://aisgr.hasp.gov.gr/).
@@ -74,7 +84,9 @@ class GR(HttpEurocontrolBase):
                 return urljoin(base_url, a["href"].replace("\\", "/"))
         return None
 
-    def _resolve_eaip_index(self, base_url: str, html: str) -> str:
+    def _resolve_eaip_index(
+        self, base_url: str, html: str, allow_gate_probe: bool = True
+    ) -> str:
         """Walk the HASP intro hops to the eAIP frameset index.
 
         Best-effort: follow the "Browse" link into the effective AIP, then the
@@ -98,7 +110,46 @@ class GR(HttpEurocontrolBase):
             if _INDEX_HREF_RE.search(href.split("?")[0].split("#")[0]):
                 return urljoin(current_url, href)
 
+        # The HASP entry page is a reCAPTCHA gate (verified live: no links,
+        # a recaptcha widget, and the JS target "main.php?rand=<random>").
+        # Probe main.php directly - if the captcha is only enforced client-
+        # side, that IS the portal page carrying the AIP links.
+        if allow_gate_probe and "recaptcha" in current_html.lower():
+            probe = urljoin(current_url, "main.php?rand=0.5")
+            self.logger.info(f"GR: captcha gate detected; probing {probe}")
+            try:
+                main_html = self.fetch(probe)
+            except Exception as e:
+                self.logger.warning(f"GR: main.php probe failed: {e}")
+            else:
+                return self._resolve_eaip_index(
+                    probe, main_html, allow_gate_probe=False
+                )
+
+        # Diagnostics for the live-crawl log: what IS on the page we could
+        # not resolve (also flags a link-less JS-rendered app).
+        self.log_candidate_links(current_html, current_url, limit=60)
+        self._log_raw_url_candidates(current_html)
         raise ValueError(f"Could not resolve eAIP index from {base_url}")
+
+    def _log_raw_url_candidates(self, html: str) -> None:
+        """Log URL-ish strings from the RAW HTML (incl. inline JS/onclick).
+
+        Complements ``log_candidate_links`` (which only sees ``<a href>``):
+        the HASP intro page navigates via JS, so the real targets only show
+        up as quoted strings in scripts/attributes.
+        """
+        hits: list[str] = []
+        for m in _RAW_URL_RE.finditer(html):
+            candidate = next(g for g in m.groups() if g)
+            if candidate not in hits:
+                hits.append(candidate)
+        self.logger.warning(
+            f"GR: {len(hits)} raw URL candidates in the page source; "
+            f"first {min(40, len(hits))}:"
+        )
+        for candidate in hits[:40]:
+            self.logger.warning(f"  {candidate}")
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
@@ -133,6 +184,7 @@ class GR(HttpEurocontrolBase):
         except Exception as e:
             self.logger.error(f"GR crawl failed: {e}")
             if last_html is not None:
+                self.log_candidate_links(last_html, last_url, limit=60)
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:
