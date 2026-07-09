@@ -200,7 +200,8 @@
     "openingHours": "Godziny otwarcia",
     "fuel": "Paliwo",
     "ppr": "PPR",
-    "pprRequired": "Wymagana wcześniejsza zgoda"
+    "pprRequired": "Wymagana wcześniejsza zgoda",
+    "nearest": "Pogoda z najbliższego lotniska {station} ({km} km)"
   },
   "Common": {
     "lastUpdated": "Ostatnia aktualizacja",
@@ -211,6 +212,7 @@
     "coordinates": "Współrzędne",
     "phone": "Telefon",
     "map": "Mapa",
-    "locate": "Znajdź moją lokalizację"
+    "locate": "Znajdź moją lokalizację",
+    "nearby": "Lotniska w pobliżu"
   }
 }

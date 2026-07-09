@@ -200,7 +200,8 @@
     "openingHours": "Åpningstider",
     "fuel": "Drivstoff",
     "ppr": "PPR",
-    "pprRequired": "Forhåndstillatelse kreves"
+    "pprRequired": "Forhåndstillatelse kreves",
+    "nearest": "Vær fra nærmeste flyplass {station} ({km} km unna)"
   },
   "Common": {
     "lastUpdated": "Sist oppdatert",
@@ -211,6 +212,7 @@
     "coordinates": "Koordinater",
     "phone": "Telefon",
     "map": "Kart",
-    "locate": "Finn min posisjon"
+    "locate": "Finn min posisjon",
+    "nearby": "Flyplasser i nærheten"
   }
 }

@@ -200,7 +200,8 @@
     "openingHours": "Openingstijden",
     "fuel": "Brandstof",
     "ppr": "PPR",
-    "pprRequired": "Voorafgaande toestemming vereist"
+    "pprRequired": "Voorafgaande toestemming vereist",
+    "nearest": "Weer van de dichtstbijzijnde luchthaven {station} ({km} km verderop)"
   },
   "Common": {
     "lastUpdated": "Laatst bijgewerkt",
@@ -211,6 +212,7 @@
     "coordinates": "Coördinaten",
     "phone": "Telefoon",
     "map": "Kaart",
-    "locate": "Mijn locatie vinden"
+    "locate": "Mijn locatie vinden",
+    "nearby": "Vliegvelden in de buurt"
   }
 }

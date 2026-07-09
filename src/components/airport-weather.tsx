@@ -38,10 +38,14 @@ export async function AirportWeather({
   metar,
   taf,
   locale,
+  nearest,
 }: {
   metar: Metar | null;
   taf: Taf | null;
   locale: string;
+  // Set when the weather comes from the nearest reporting station (the field
+  // has no METAR of its own) - shown as a clear note.
+  nearest?: { station: string; distanceKm: number } | null;
 }) {
   if (!metar && !taf) return null;
 
@@ -117,6 +121,15 @@ export async function AirportWeather({
           </span>
         )}
       </div>
+
+      {nearest && (
+        <p className="text-drossgray-dark mt-1 text-center text-sm italic">
+          {t("nearest", {
+            station: nearest.station,
+            km: nearest.distanceKm,
+          })}
+        </p>
+      )}
 
       {rows.length > 0 && (
         <dl className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">

@@ -165,7 +165,8 @@
     "openingHours": "Otevírací doba",
     "fuel": "Palivo",
     "ppr": "PPR",
-    "pprRequired": "Vyžaduje předchozí povolení"
+    "pprRequired": "Vyžaduje předchozí povolení",
+    "nearest": "Počasí z nejbližšího letiště {station} ({km} km)"
   },
   "Common": {
     "lastUpdated": "Naposledy aktualizováno",
@@ -176,6 +177,7 @@
     "coordinates": "Souřadnice",
     "phone": "Telefon",
     "map": "Mapa",
-    "locate": "Najít mou polohu"
+    "locate": "Najít mou polohu",
+    "nearby": "Letiště v okolí"
   }
 }

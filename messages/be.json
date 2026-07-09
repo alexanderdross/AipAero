@@ -270,7 +270,8 @@
     "openingHours": "Opening hours",
     "fuel": "Fuel",
     "ppr": "PPR",
-    "pprRequired": "Prior permission required"
+    "pprRequired": "Prior permission required",
+    "nearest": "Weather from the nearest airport {station} ({km} km away)"
   },
   "Common": {
     "lastUpdated": "Last updated",
@@ -281,6 +282,7 @@
     "coordinates": "Coordinates",
     "phone": "Phone",
     "map": "Map",
-    "locate": "Find my location"
+    "locate": "Find my location",
+    "nearby": "Nearby airfields"
   }
 }

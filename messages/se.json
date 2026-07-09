@@ -200,7 +200,8 @@
     "openingHours": "Öppettider",
     "fuel": "Bränsle",
     "ppr": "PPR",
-    "pprRequired": "Föregående tillstånd krävs"
+    "pprRequired": "Föregående tillstånd krävs",
+    "nearest": "Väder från närmaste flygplats {station} ({km} km bort)"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",
@@ -211,6 +212,7 @@
     "coordinates": "Koordinater",
     "phone": "Telefon",
     "map": "Karta",
-    "locate": "Hitta min plats"
+    "locate": "Hitta min plats",
+    "nearby": "Flygplatser i närheten"
   }
 }

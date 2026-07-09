@@ -235,7 +235,8 @@
     "openingHours": "Öffnungszeiten",
     "fuel": "Kraftstoff",
     "ppr": "PPR",
-    "pprRequired": "Vorherige Erlaubnis erforderlich"
+    "pprRequired": "Vorherige Erlaubnis erforderlich",
+    "nearest": "Wetterdaten vom nächstgelegenen Flughafen {station} ({km} km entfernt)"
   },
   "Common": {
     "lastUpdated": "Stand",
@@ -246,6 +247,7 @@
     "coordinates": "Koordinaten",
     "phone": "Telefon",
     "map": "Karte",
-    "locate": "Meinen Standort finden"
+    "locate": "Meinen Standort finden",
+    "nearby": "Flugplätze in der Nähe"
   }
 }
