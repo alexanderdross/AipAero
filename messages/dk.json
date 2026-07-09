@@ -204,7 +204,13 @@
     "nearest": "Vejr fra den nærmeste lufthavn {station} ({km} km væk)",
     "circuit": "Trafikrunde",
     "circuitLeft": "venstre",
-    "circuitRight": "højre"
+    "circuitRight": "højre",
+    "windComponents": "Vindkomponenter",
+    "headwind": "Modvind",
+    "tailwind": "Medvind",
+    "crosswind": "Sidevind",
+    "fromLeft": "fra venstre",
+    "fromRight": "fra højre"
   },
   "Common": {
     "lastUpdated": "Senest opdateret",

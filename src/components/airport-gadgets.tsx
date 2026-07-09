@@ -4,6 +4,7 @@ import { AirportContact } from "~/components/airport-contact";
 import { AirportFacts } from "~/components/airport-facts";
 import { AirportNearby } from "~/components/airport-nearby";
 import { AirportWeather } from "~/components/airport-weather";
+import { AirportWind } from "~/components/airport-wind";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { reverseGeocode } from "~/lib/geocode";
 import { getAirportWeather, getNearestWeather } from "~/lib/weather";
@@ -80,6 +81,9 @@ export async function AirportGadgets({ airport }: { airport: Airport }) {
           locale={locale}
           nearest={nearest}
         />
+        {/* Crosswind/headwind per runway - the field's OWN wind only (never the
+            nearest-station substitute, which is a different location). */}
+        <AirportWind metar={metar} runways={facts?.runways ?? []} />
         <AirportNearby
           slug={airport.slug}
           lat={lat}

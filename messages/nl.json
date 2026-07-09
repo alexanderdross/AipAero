@@ -204,7 +204,13 @@
     "nearest": "Weer van de dichtstbijzijnde luchthaven {station} ({km} km verderop)",
     "circuit": "Circuit",
     "circuitLeft": "links",
-    "circuitRight": "rechts"
+    "circuitRight": "rechts",
+    "windComponents": "Windcomponenten",
+    "headwind": "Tegenwind",
+    "tailwind": "Rugwind",
+    "crosswind": "Zijwind",
+    "fromLeft": "van links",
+    "fromRight": "van rechts"
   },
   "Common": {
     "lastUpdated": "Laatst bijgewerkt",

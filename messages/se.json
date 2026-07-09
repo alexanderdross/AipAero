@@ -204,7 +204,13 @@
     "nearest": "Väder från närmaste flygplats {station} ({km} km bort)",
     "circuit": "Varvet",
     "circuitLeft": "vänster",
-    "circuitRight": "höger"
+    "circuitRight": "höger",
+    "windComponents": "Vindkomponenter",
+    "headwind": "Motvind",
+    "tailwind": "Medvind",
+    "crosswind": "Sidvind",
+    "fromLeft": "från vänster",
+    "fromRight": "från höger"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",

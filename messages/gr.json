@@ -204,7 +204,13 @@
     "nearest": "Καιρός από το πλησιέστερο αεροδρόμιο {station} ({km} χλμ)",
     "circuit": "Κύκλωμα",
     "circuitLeft": "αριστερά",
-    "circuitRight": "δεξιά"
+    "circuitRight": "δεξιά",
+    "windComponents": "Συνιστώσες ανέμου",
+    "headwind": "Αντίθετος άνεμος",
+    "tailwind": "Ούριος άνεμος",
+    "crosswind": "Πλάγιος άνεμος",
+    "fromLeft": "από αριστερά",
+    "fromRight": "από δεξιά"
   },
   "Common": {
     "lastUpdated": "Τελευταία ενημέρωση",
