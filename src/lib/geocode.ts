@@ -11,7 +11,7 @@ import "server-only";
 
 const API = "https://nominatim.openstreetmap.org/reverse";
 const REVALIDATE = 60 * 60 * 24 * 30; // 30 days - a field does not move
-const TIMEOUT_MS = 3500;
+const TIMEOUT_MS = 2500;
 const USER_AGENT = "AIP:Aero/1.0 (+https://aip.aero)";
 
 export interface GeoResult {

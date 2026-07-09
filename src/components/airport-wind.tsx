@@ -1,4 +1,6 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { compassPoint, recommendedLanding, runwayWinds } from "~/lib/crosswind";
 import type { Metar } from "~/lib/weather";
 import type { RunwayFact } from "~/server/db/schema";
@@ -47,18 +49,20 @@ function runwayLines(ends: RunwayEnd[]): [number, number, number, number][] {
 /**
  * Wind-components box: head/tail- and cross-wind per runway end, computed from
  * the field's own reported wind and the runway bearings (`~/lib/crosswind`), plus
- * the likely landing direction (the end most into wind). Server-rendered - the
- * compass (cardinals, runways with end designators, the wind arrow and the
- * highlighted recommended landing end) is a static SVG, no client JS. Renders
- * nothing without a numeric wind direction (VRB is skipped) or runways.
+ * the likely landing direction (the end most into wind). Client component,
+ * lazy-loaded with the weather (see `AirportWeatherWind`); the compass (cardinals,
+ * runways with end designators, the wind arrow and the highlighted recommended
+ * landing end) is a pure-math SVG. Renders nothing without a numeric wind
+ * direction (VRB is skipped) or runways.
  */
-export async function AirportWind({
+export function AirportWind({
   metar,
   runways,
 }: {
   metar: Metar | null;
   runways: RunwayFact[];
 }) {
+  const t = useTranslations("Weather");
   const wdir = typeof metar?.wdir === "number" ? metar.wdir : null;
   const wspd = metar?.wspd ?? null;
   if (wdir == null || wspd == null || wspd <= 0 || runways.length === 0)
@@ -67,7 +71,6 @@ export async function AirportWind({
   const winds = runwayWinds(runways, wdir, wspd);
   if (winds.length === 0) return null;
 
-  const t = await getTranslations("Weather");
   const rec = recommendedLanding(winds);
 
   const ends = runwayEnds(runways);
