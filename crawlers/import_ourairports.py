@@ -118,6 +118,8 @@ def build_facts() -> list[dict[str, object]]:
                 "lat": float(lat) if lat else None,
                 "lon": float(lon) if lon else None,
                 "elevationFt": int(elev) if elev and elev.lstrip("-").isdigit() else None,
+                "municipality": (a.get("municipality") or "").strip() or None,
+                "homeLink": (a.get("home_link") or "").strip() or None,
                 "runways": json.dumps(rwys, ensure_ascii=False),
                 "frequencies": json.dumps(frqs, ensure_ascii=False),
                 "source": "ourairports",

@@ -195,10 +195,14 @@
     "civilTwilight": "Αστικό λυκόφως",
     "facts": "Δεδομένα αεροδρομίου",
     "runways": "Διάδρομοι",
-    "frequencies": "Συχνότητες"
+    "frequencies": "Συχνότητες",
+    "decode": "Εμφάνιση αποκωδικοποίησης",
+    "openingHours": "Ώρες λειτουργίας"
   },
   "Common": {
     "lastUpdated": "Τελευταία ενημέρωση",
-    "viewOnMap": "Προβολή σε Χάρτες Google"
+    "viewOnMap": "Προβολή σε Χάρτες Google",
+    "location": "Τοποθεσία",
+    "website": "Ιστότοπος"
   }
 }

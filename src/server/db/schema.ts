@@ -69,6 +69,8 @@ export const airportFacts = createTable("airport_facts", {
   lat: real("lat"),
   lon: real("lon"),
   elevationFt: integer("elevation_ft"),
+  municipality: text("municipality"), // town/city the field serves
+  homeLink: text("home_link"), // official airport website, if published
   runways: text("runways"), // JSON: RunwayFact[]
   frequencies: text("frequencies"), // JSON: FrequencyFact[]
   source: text("source").notNull(), // provenance, e.g. "ourairports"

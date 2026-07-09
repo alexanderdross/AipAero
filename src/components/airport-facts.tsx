@@ -1,39 +1,91 @@
 import { getTranslations } from "next-intl/server";
-import { getAirportFacts } from "~/lib/airport-facts";
+import { localeLangMapping } from "~/i18n/routing";
+import type { NormalizedFacts } from "~/lib/airport-facts";
+import { getSunTimes } from "~/lib/sun-times";
+import type { Metar } from "~/lib/weather";
+
+const FT_PER_M = 0.3048;
 
 /**
- * Server-rendered aerodrome-facts card (runways, frequencies, elevation),
- * embedded on the airport detail page. Data is merged from the OurAirports base
- * (D1) and OpenAIP (when a key is set) - see `~/lib/airport-facts`. Renders
- * nothing when no facts are available, so it stays quiet until the importer has
- * run / a key is configured.
+ * Server-rendered aerodrome-data box: elevation, runways (orientation / length /
+ * surface), frequencies, opening hours and today's sunrise / sunset / civil
+ * twilight (VFR night). Data is merged from OurAirports (D1) and OpenAIP (when a
+ * key is set) - see `~/lib/airport-facts`; the METAR is a fallback source for
+ * elevation and coordinates when the facts row is missing. Sun times are computed
+ * locally (no API). Renders nothing when there is nothing to show.
  */
-export async function AirportFacts({ icao }: { icao: string | null }) {
-  const facts = await getAirportFacts(icao);
-  if (!facts) return null;
-
+export async function AirportFacts({
+  facts,
+  metar,
+  locale,
+}: {
+  facts: NormalizedFacts | null;
+  metar: Metar | null;
+  locale: string;
+}) {
   const t = await getTranslations("Weather");
-  const elevFt = facts.elevationFt;
+  const lang = localeLangMapping[locale] ?? "en";
+
+  // Elevation: prefer the facts row (ft), fall back to the METAR station (metres).
+  const elevFt =
+    facts?.elevationFt ??
+    (metar?.elev != null ? Math.round(metar.elev / FT_PER_M) : null);
+
+  // Coordinates for the sunrise/sunset calc: facts row first, then the METAR.
+  const lat = facts?.lat ?? metar?.lat ?? null;
+  const lon = facts?.lon ?? metar?.lon ?? null;
+
+  const timeFmt = new Intl.DateTimeFormat(lang, {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+    hourCycle: "h23",
+  });
+  const hm = (d: Date | null) => (d ? `${timeFmt.format(d)} UTC` : null);
+
+  const rows: Array<[string, string]> = [];
+  if (elevFt != null)
+    rows.push([
+      t("elevation"),
+      `${elevFt} ft (${Math.round(elevFt * FT_PER_M)} m)`,
+    ]);
+  if (facts?.openingHours) rows.push([t("openingHours"), facts.openingHours]);
+  if (lat != null && lon != null) {
+    const sun = getSunTimes(new Date(), lat, lon);
+    if (sun.sunrise) rows.push([t("sunrise"), hm(sun.sunrise)!]);
+    if (sun.sunset) rows.push([t("sunset"), hm(sun.sunset)!]);
+    if (sun.civilDawn && sun.civilDusk)
+      rows.push([
+        t("civilTwilight"),
+        `${timeFmt.format(sun.civilDawn)} - ${hm(sun.civilDusk)}`,
+      ]);
+  }
+
+  const runways = facts?.runways ?? [];
+  const frequencies = facts?.frequencies ?? [];
+
+  if (rows.length === 0 && runways.length === 0 && frequencies.length === 0)
+    return null;
 
   return (
     <section className="border border-[#ccc] bg-white p-4">
       <h2 className="text-center text-xl font-normal">{t("facts")}</h2>
 
-      <dl className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
-        {elevFt != null && (
-          <div className="flex gap-x-1">
-            <dt className="text-drossgray-dark">{t("elevation")}:</dt>
-            <dd className="font-medium">
-              {elevFt} ft ({Math.round(elevFt * 0.3048)} m)
-            </dd>
-          </div>
-        )}
-      </dl>
+      {rows.length > 0 && (
+        <dl className="mt-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm">
+          {rows.map(([label, value]) => (
+            <div key={label} className="flex gap-x-1">
+              <dt className="text-drossgray-dark">{label}:</dt>
+              <dd className="font-medium">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
 
-      {facts.runways.length > 0 && (
+      {runways.length > 0 && (
         <div className="mt-3 text-center text-sm">
           <span className="text-drossgray-dark">{t("runways")}:</span>{" "}
-          {facts.runways
+          {runways
             .map((r) =>
               [r.ident, r.lengthFt ? `${r.lengthFt} ft` : null, r.surface]
                 .filter(Boolean)
@@ -43,12 +95,10 @@ export async function AirportFacts({ icao }: { icao: string | null }) {
         </div>
       )}
 
-      {facts.frequencies.length > 0 && (
+      {frequencies.length > 0 && (
         <div className="mt-2 text-center text-sm">
           <span className="text-drossgray-dark">{t("frequencies")}:</span>{" "}
-          {facts.frequencies
-            .map((f) => `${f.type} ${f.mhz}`.trim())
-            .join(" · ")}
+          {frequencies.map((f) => `${f.type} ${f.mhz}`.trim()).join(" · ")}
         </div>
       )}
     </section>

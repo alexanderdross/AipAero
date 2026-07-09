@@ -195,10 +195,14 @@
     "civilTwilight": "Zmierzch cywilny",
     "facts": "Dane lotniska",
     "runways": "Drogi startowe",
-    "frequencies": "Częstotliwości"
+    "frequencies": "Częstotliwości",
+    "decode": "Pokaż odkodowane",
+    "openingHours": "Godziny otwarcia"
   },
   "Common": {
     "lastUpdated": "Ostatnia aktualizacja",
-    "viewOnMap": "Zobacz w Mapach Google"
+    "viewOnMap": "Zobacz w Mapach Google",
+    "location": "Lokalizacja",
+    "website": "Strona internetowa"
   }
 }

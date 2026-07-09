@@ -160,10 +160,14 @@
     "civilTwilight": "Občanský soumrak",
     "facts": "Údaje o letišti",
     "runways": "Dráhy",
-    "frequencies": "Frekvence"
+    "frequencies": "Frekvence",
+    "decode": "Zobrazit dekódované",
+    "openingHours": "Otevírací doba"
   },
   "Common": {
     "lastUpdated": "Naposledy aktualizováno",
-    "viewOnMap": "Zobrazit na Mapách Google"
+    "viewOnMap": "Zobrazit na Mapách Google",
+    "location": "Poloha",
+    "website": "Webová stránka"
   }
 }

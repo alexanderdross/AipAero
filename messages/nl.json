@@ -195,10 +195,14 @@
     "civilTwilight": "Burgerlijke schemering",
     "facts": "Vliegveldgegevens",
     "runways": "Banen",
-    "frequencies": "Frequenties"
+    "frequencies": "Frequenties",
+    "decode": "Gedecodeerd tonen",
+    "openingHours": "Openingstijden"
   },
   "Common": {
     "lastUpdated": "Laatst bijgewerkt",
-    "viewOnMap": "Bekijk op Google Maps"
+    "viewOnMap": "Bekijk op Google Maps",
+    "location": "Locatie",
+    "website": "Website"
   }
 }

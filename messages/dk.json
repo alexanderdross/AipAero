@@ -195,10 +195,14 @@
     "civilTwilight": "Borgerlig tusmørke",
     "facts": "Flyvepladsdata",
     "runways": "Baner",
-    "frequencies": "Frekvenser"
+    "frequencies": "Frekvenser",
+    "decode": "Vis afkodet",
+    "openingHours": "Åbningstider"
   },
   "Common": {
     "lastUpdated": "Senest opdateret",
-    "viewOnMap": "Se på Google Maps"
+    "viewOnMap": "Se på Google Maps",
+    "location": "Placering",
+    "website": "Websted"
   }
 }

@@ -195,10 +195,14 @@
     "civilTwilight": "Borgerlig skymning",
     "facts": "Flygplatsdata",
     "runways": "Banor",
-    "frequencies": "Frekvenser"
+    "frequencies": "Frekvenser",
+    "decode": "Visa avkodat",
+    "openingHours": "Öppettider"
   },
   "Common": {
     "lastUpdated": "Senast uppdaterad",
-    "viewOnMap": "Visa på Google Maps"
+    "viewOnMap": "Visa på Google Maps",
+    "location": "Plats",
+    "website": "Webbplats"
   }
 }
