@@ -93,18 +93,43 @@ async function withTimestamp(response) {
   });
 }
 
-// Rewrite cached HTML with a sticky "offline copy" banner right after <body>.
+// Localized banner texts, keyed by the ISO language code of the page's
+// <html lang> attribute (see localeLangMapping in src/i18n/routing.ts: en, de,
+// fr, nl, cs, da, el, nb, pl, sv). Fixed vocabulary in code, not site i18n -
+// the SW has no message-file access (same reasoning as the METAR glossary).
+// {date} is replaced with the stored UTC timestamp (UTC is the aviation norm).
+const BANNER_TEXTS = {
+  en: "Offline copy from {date} - aeronautical data may be out of date",
+  de: "Offline-Kopie vom {date} - Luftfahrtdaten sind möglicherweise veraltet",
+  fr: "Copie hors ligne du {date} - les données aéronautiques peuvent être obsolètes",
+  nl: "Offline kopie van {date} - luchtvaartgegevens kunnen verouderd zijn",
+  cs: "Offline kopie z {date} - letecká data mohou být zastaralá",
+  da: "Offline kopi fra {date} - luftfartsdata kan være forældede",
+  el: "Αντίγραφο εκτός σύνδεσης από {date} - τα αεροναυτικά δεδομένα ενδέχεται να είναι παρωχημένα",
+  nb: "Frakoblet kopi fra {date} - luftfartsdata kan være utdaterte",
+  pl: "Kopia offline z {date} - dane lotnicze mogą być nieaktualne",
+  sv: "Offlinekopia från {date} - flygdata kan vara föråldrade",
+};
+
+// Rewrite cached HTML with a sticky "offline copy" banner right after <body>,
+// in the page's own language (sniffed from its <html lang> attribute).
 // Aviation data must never be served stale without a visible date.
 async function injectOfflineBanner(cached) {
   const contentType = cached.headers.get("Content-Type") || "";
   if (!contentType.includes("text/html")) return cached;
   const cachedAt = cached.headers.get("sw-cached-at");
   let html = await cached.text();
+  const langMatch = html.match(/<html[^>]*\blang="([a-z]{2})/i);
+  const lang = langMatch ? langMatch[1].toLowerCase() : "en";
+  const text = (BANNER_TEXTS[lang] || BANNER_TEXTS.en).replace(
+    "{date}",
+    cachedAt || "?",
+  );
   const banner =
     '<div style="position:sticky;top:0;z-index:9999;background:#b45309;color:#fff;text-align:center;padding:8px 16px;font:14px/1.4 sans-serif">' +
-    "&#9888; Offline copy" +
-    (cachedAt ? " from " + cachedAt : "") +
-    " - aeronautical data may be out of date</div>";
+    "&#9888; " +
+    text +
+    "</div>";
   html = html.replace(/<body([^>]*)>/i, (match, attrs) => {
     return "<body" + attrs + ">" + banner;
   });

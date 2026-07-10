@@ -76,17 +76,96 @@
   </head>
   <body>
     <img class="logo" src="/logo.webp" alt="AIP:Aero" />
-    <h1>You are offline</h1>
-    <p>
+    <h1 id="t-title">You are offline</h1>
+    <p id="t-desc">
       This page is not available without a connection. Pages you viewed while
       online are listed below.
     </p>
-    <div class="warn">
+    <div class="warn" id="t-warn">
       &#9888; Cached content may be out of date - always verify aeronautical
       data before flight.
     </div>
     <ul id="saved"></ul>
     <p id="none">No cached pages yet.</p>
+    <script>
+      // Localize the static English defaults from the browser language (all
+      // languages of the supported locales; en stays the no-JS fallback).
+      // Fixed vocabulary in code, like the SW banner - no i18n files offline.
+      (function () {
+        var I18N = {
+          de: {
+            title: "Du bist offline",
+            desc: "Diese Seite ist ohne Verbindung nicht verfügbar. Zuvor besuchte Seiten sind unten aufgelistet.",
+            warn: "⚠ Gespeicherte Inhalte sind möglicherweise veraltet - Luftfahrtdaten vor dem Flug immer verifizieren.",
+            none: "Noch keine gespeicherten Seiten.",
+          },
+          fr: {
+            title: "Vous êtes hors ligne",
+            desc: "Cette page n'est pas disponible sans connexion. Les pages consultées en ligne sont listées ci-dessous.",
+            warn: "⚠ Le contenu en cache peut être obsolète - vérifiez toujours les données aéronautiques avant le vol.",
+            none: "Aucune page en cache pour le moment.",
+          },
+          nl: {
+            title: "Je bent offline",
+            desc: "Deze pagina is niet beschikbaar zonder verbinding. Eerder bezochte pagina's staan hieronder.",
+            warn: "⚠ Gecachte inhoud kan verouderd zijn - controleer luchtvaartgegevens altijd vóór de vlucht.",
+            none: "Nog geen opgeslagen pagina's.",
+          },
+          cs: {
+            title: "Jste offline",
+            desc: "Tato stránka není bez připojení dostupná. Dříve navštívené stránky jsou uvedeny níže.",
+            warn: "⚠ Uložený obsah může být zastaralý - letecká data před letem vždy ověřte.",
+            none: "Zatím žádné uložené stránky.",
+          },
+          da: {
+            title: "Du er offline",
+            desc: "Denne side er ikke tilgængelig uden forbindelse. Tidligere besøgte sider er vist nedenfor.",
+            warn: "⚠ Gemt indhold kan være forældet - verificér altid luftfartsdata før flyvning.",
+            none: "Ingen gemte sider endnu.",
+          },
+          el: {
+            title: "Είστε εκτός σύνδεσης",
+            desc: "Αυτή η σελίδα δεν είναι διαθέσιμη χωρίς σύνδεση. Οι σελίδες που επισκεφθήκατε εμφανίζονται παρακάτω.",
+            warn: "⚠ Το αποθηκευμένο περιεχόμενο ενδέχεται να είναι παρωχημένο - επαληθεύετε πάντα τα αεροναυτικά δεδομένα πριν από την πτήση.",
+            none: "Δεν υπάρχουν αποθηκευμένες σελίδες ακόμα.",
+          },
+          nb: {
+            title: "Du er frakoblet",
+            desc: "Denne siden er ikke tilgjengelig uten tilkobling. Tidligere besøkte sider er listet nedenfor.",
+            warn: "⚠ Lagret innhold kan være utdatert - verifiser alltid luftfartsdata før flyging.",
+            none: "Ingen lagrede sider ennå.",
+          },
+          pl: {
+            title: "Jesteś offline",
+            desc: "Ta strona nie jest dostępna bez połączenia. Wcześniej odwiedzone strony są wymienione poniżej.",
+            warn: "⚠ Zapisane treści mogą być nieaktualne - zawsze weryfikuj dane lotnicze przed lotem.",
+            none: "Brak zapisanych stron.",
+          },
+          sv: {
+            title: "Du är offline",
+            desc: "Den här sidan är inte tillgänglig utan anslutning. Tidigare besökta sidor listas nedan.",
+            warn: "⚠ Sparat innehåll kan vara föråldrat - verifiera alltid flygdata före flygning.",
+            none: "Inga sparade sidor ännu.",
+          },
+        };
+        var langs = navigator.languages || [navigator.language || "en"];
+        for (var i = 0; i < langs.length; i++) {
+          var code = String(langs[i]).slice(0, 2).toLowerCase();
+          if (code === "no" || code === "nn") code = "nb";
+          var t = I18N[code];
+          if (code === "en") break;
+          if (t) {
+            document.documentElement.lang = code;
+            document.title = t.title + " - AIP:Aero";
+            document.getElementById("t-title").textContent = t.title;
+            document.getElementById("t-desc").textContent = t.desc;
+            document.getElementById("t-warn").textContent = t.warn;
+            document.getElementById("none").textContent = t.none;
+            break;
+          }
+        }
+      })();
+    </script>
     <script>
       // List the explicitly saved fields first (titles from the
       // save-offline-button's localStorage index), then everything in the
