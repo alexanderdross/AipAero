@@ -187,6 +187,12 @@
     "description": "<p>Un problème est survenu.</p><p>Vous pouvez essayer de <retry>recharger cette page</retry>.</p>",
     "title": "Quelque chose s'est mal passé !"
   },
+  "NotFound": {
+    "title": "404 - Page introuvable",
+    "description": "Cette page ou ce code d'aérodrome n'existe pas. Recherchez plutôt l'aérodrome :",
+    "searchPlaceholder": "Rechercher un aérodrome par nom ou code OACI",
+    "home": "Retour à la page d'accueil"
+  },
   "Weather": {
     "title": "Météo",
     "observed": "Observé",

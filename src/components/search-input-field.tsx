@@ -94,9 +94,12 @@ export function SearchInputField({
       </form>
       {/* The results deliberately overlay the page content below (no CLS);
           the opaque panel keeps that content from showing through the gaps
-          between the result rows. */}
+          between the result rows. A SINGLE result never renders here: the
+          effect above navigates to its detail URL, whose page server-renders
+          the same chart link in this exact spot - the panel would just stack
+          on top of it. */}
       <div className="absolute left-1/2 z-10 mt-3 w-full max-w-7xl -translate-x-1/2 px-4 text-center text-white sm:px-6 lg:px-8">
-        {state.airports.length > 0 && (
+        {state.airports.length > 1 && (
           <div className="rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
             <ol className="space-y-1">
               {state.airports.map((airport, index) => (

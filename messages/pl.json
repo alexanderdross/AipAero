@@ -187,6 +187,12 @@
     "description": "<p>Niestety wystąpił błąd.</p><p>Możesz spróbować <retry>ponownie załadować tę stronę</retry>.</p>",
     "title": "Coś poszło nie tak!"
   },
+  "NotFound": {
+    "title": "404 - Nie znaleziono strony",
+    "description": "Ta strona lub kod lotniska nie istnieje. Spróbuj wyszukać lotnisko:",
+    "searchPlaceholder": "Szukaj lotniska po nazwie lub kodzie ICAO",
+    "home": "Powrót do strony głównej"
+  },
   "Weather": {
     "title": "Pogoda",
     "observed": "Zaobserwowano",

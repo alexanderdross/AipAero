@@ -187,6 +187,12 @@
     "description": "<p>Ett problem har tyvärr uppstått.</p><p>Du kan försöka <retry>ladda om den här sidan</retry>.</p>",
     "title": "Något gick fel!"
   },
+  "NotFound": {
+    "title": "404 - Sidan hittades inte",
+    "description": "Den här sidan eller flygplatskoden finns inte. Prova att söka efter flygplatsen i stället:",
+    "searchPlaceholder": "Sök efter en flygplats efter namn eller ICAO-kod",
+    "home": "Tillbaka till startsidan"
+  },
   "Weather": {
     "title": "Väder",
     "observed": "Observerad",

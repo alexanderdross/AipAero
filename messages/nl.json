@@ -187,6 +187,12 @@
     "description": "<p>Er is helaas een probleem opgetreden.</p><p>Je kunt proberen <retry>deze pagina opnieuw te laden</retry>.</p>",
     "title": "Er is iets misgegaan!"
   },
+  "NotFound": {
+    "title": "404 - Pagina niet gevonden",
+    "description": "Deze pagina of luchthavencode bestaat niet. Zoek in plaats daarvan naar de luchthaven:",
+    "searchPlaceholder": "Zoek een luchthaven op naam of ICAO-code",
+    "home": "Terug naar de startpagina"
+  },
   "Weather": {
     "title": "Weer",
     "observed": "Waargenomen",
