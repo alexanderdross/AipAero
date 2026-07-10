@@ -27,6 +27,12 @@ open - see the storage-limits decision below.
 - **Installable, but no offline:** `src/app/manifest.ts` emits the manifest, so
   Add-to-Home-Screen works. There is **no service worker** - any request without
   network fails with the browser's offline error page.
+  - Field finding (10.07.2026): "installable" on Chromium also requires
+    **192x192 and 512x512 PNG icons** in the manifest - with only the single
+    450x450 JPEG, Chrome/Edge showed no omnibox install icon and never fired
+    `beforeinstallprompt` (so the save button's native install dialog stayed
+    dead too). Fixed with generated `icon-192.png` / `icon-512.png` plus a
+    maskable 512 variant (logo in the ~80% safe zone on white).
 - Two properties of the current architecture make offline unusually cheap here:
   1. **`experimental.inlineCss`**: every HTML document carries its CSS inline,
      so a cached HTML page renders correctly offline without extra requests.
