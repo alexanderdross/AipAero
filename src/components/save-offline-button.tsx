@@ -2,6 +2,7 @@
 
 import { CheckIcon, DownloadIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import { isIos, isStandalone, promptInstall } from "~/lib/install-prompt";
 
 // Cache names must stay in sync with public/sw.js (SAVED_CACHE / CHARTS_CACHE).
 const SAVED_CACHE = "saved-v1";
@@ -51,16 +52,19 @@ export function SaveOfflineButton({
   chartUrl,
   saveLabel,
   savedLabel,
+  installHintLabel,
 }: {
   slug: string;
   title: string;
   chartUrl: string | null;
   saveLabel: string;
   savedLabel: string;
+  installHintLabel: string;
 }) {
   const [supported, setSupported] = useState(false);
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [showIosHint, setShowIosHint] = useState(false);
 
   useEffect(() => {
     if (!("caches" in window)) return;
@@ -72,6 +76,13 @@ export function SaveOfflineButton({
 
   async function save() {
     setBusy(true);
+    // Saving for offline implies wanting the app on the device: trigger the
+    // NATIVE install dialog right inside this user gesture (Chromium/Android;
+    // resolves "unavailable" when already installed or unsupported). Fired
+    // before the async cache work so the transient user activation is still
+    // valid. iOS has no programmatic install - a manual Add-to-Home-Screen
+    // hint is shown after saving instead.
+    void promptInstall();
     try {
       const pageUrl = window.location.pathname + window.location.search;
       const res = await fetch(pageUrl);
@@ -109,6 +120,7 @@ export function SaveOfflineButton({
       });
       writeIndex(index);
       setSaved(true);
+      if (isIos() && !isStandalone()) setShowIosHint(true);
     } catch {
       setSaved(false);
     } finally {
@@ -134,7 +146,7 @@ export function SaveOfflineButton({
   }
 
   return (
-    <p className="text-center text-sm">
+    <div className="text-center text-sm">
       <button
         type="button"
         disabled={busy}
@@ -149,6 +161,13 @@ export function SaveOfflineButton({
         )}
         <span>{saved ? savedLabel : saveLabel}</span>
       </button>
-    </p>
+      {/* iOS cannot install programmatically: after saving, show the manual
+          Add-to-Home-Screen route (hidden when already running installed). */}
+      {showIosHint && (
+        <p className="text-drossgray-dark mx-auto mt-1 max-w-md text-xs">
+          {installHintLabel}
+        </p>
+      )}
+    </div>
   );
 }

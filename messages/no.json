@@ -236,7 +236,8 @@
     "yes": "Ja",
     "no": "Nei",
     "saveOffline": "Lagre for frakoblet bruk",
-    "savedOffline": "Lagret frakoblet"
+    "savedOffline": "Lagret frakoblet",
+    "installHint": "Installer som app: velg 'Legg til på Hjem-skjermen' i nettleserens delemeny."
   },
   "Chart": {
     "title": "Innflygingskart",

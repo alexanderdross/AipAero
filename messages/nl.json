@@ -236,7 +236,8 @@
     "yes": "Ja",
     "no": "Nee",
     "saveOffline": "Opslaan voor offline",
-    "savedOffline": "Offline opgeslagen"
+    "savedOffline": "Offline opgeslagen",
+    "installHint": "Als app installeren: kies in het deelmenu van de browser 'Zet op beginscherm'."
   },
   "Chart": {
     "title": "Naderingskaart",

@@ -236,7 +236,8 @@
     "yes": "Tak",
     "no": "Nie",
     "saveOffline": "Zapisz do trybu offline",
-    "savedOffline": "Zapisano offline"
+    "savedOffline": "Zapisano offline",
+    "installHint": "Zainstaluj jako aplikację: w menu udostępniania przeglądarki wybierz 'Dodaj do ekranu głównego'."
   },
   "Chart": {
     "title": "Mapa podejścia",

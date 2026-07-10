@@ -236,7 +236,8 @@
     "yes": "Ja",
     "no": "Nej",
     "saveOffline": "Gem til offline",
-    "savedOffline": "Gemt offline"
+    "savedOffline": "Gemt offline",
+    "installHint": "Installér som app: vælg 'Føj til hjemmeskærm' i browserens delemenu."
   },
   "Chart": {
     "title": "Indflyvningskort",

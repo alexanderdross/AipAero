@@ -201,7 +201,8 @@
     "yes": "Ano",
     "no": "Ne",
     "saveOffline": "Uložit pro offline",
-    "savedOffline": "Uloženo offline"
+    "savedOffline": "Uloženo offline",
+    "installHint": "Nainstalovat jako aplikaci: v nabídce Sdílet v prohlížeči zvolte 'Přidat na plochu'."
   },
   "Chart": {
     "title": "Přibližovací mapa",

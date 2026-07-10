@@ -236,7 +236,8 @@
     "yes": "Ja",
     "no": "Nej",
     "saveOffline": "Spara för offline",
-    "savedOffline": "Sparad offline"
+    "savedOffline": "Sparad offline",
+    "installHint": "Installera som app: välj 'Lägg till på hemskärmen' i webbläsarens delningsmeny."
   },
   "Chart": {
     "title": "Inflygningskarta",
