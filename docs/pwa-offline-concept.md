@@ -6,8 +6,12 @@ capability**, so a pilot can install AIP:Aero on an EFB tablet, look up fields
 on the ground, and still open previously viewed airports (and explicitly saved
 charts) in the air with no connectivity.
 
-This is a **spec, not yet implemented**. It needs the scope decision in "Phasing"
-below.
+**Status: Phases 1 + 2 are implemented** (`public/sw.js`, `public/offline.html`,
+`src/components/service-worker-registration.tsx`, the `/sw.js` Cache-Control
+header and `worker-src 'self'` in `next.config.mjs`). Registration is skipped on
+localhost so `pnpm start`/`pnpm preview` and the Playwright E2E suite stay
+SW-free. Phase 3 (explicit "save chart for offline" + favorites) is still open -
+it needs new i18n keys and a UI decision.
 
 ---
 

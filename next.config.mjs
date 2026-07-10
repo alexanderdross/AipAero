@@ -34,6 +34,9 @@ const csp = [
   "base-uri 'self'",
   "form-action 'self'",
   "object-src 'none'",
+  // Offline service worker (public/sw.js) - explicit, so a future enforcing
+  // policy cannot silently break SW registration.
+  "worker-src 'self'",
 ].join('; ');
 
 const securityHeaders = [
@@ -85,6 +88,14 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: securityHeaders,
+      },
+      {
+        // The service worker must revalidate on every load so a deploy's new
+        // SW is picked up promptly (browsers honor Cache-Control here).
+        source: '/sw.js',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, max-age=0, must-revalidate' },
+        ],
       },
     ];
   },
