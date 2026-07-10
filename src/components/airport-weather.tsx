@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Fragment } from "react";
+import { SectionHeading } from "~/components/section-heading";
 import { localeLangMapping } from "~/i18n/routing";
 import { decodeReport } from "~/lib/metar-decode";
 import { type CloudLayer, type Metar, type Taf } from "~/lib/weather";
@@ -108,7 +109,9 @@ export function AirportWeather({
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-        <h2 className="text-xl font-normal">{t("title")}</h2>
+        <SectionHeading className="text-xl font-normal">
+          {t("title")}
+        </SectionHeading>
         {metar?.fltCat && (
           <span
             className={`${FLT_CAT_COLOR[metar.fltCat] ?? "bg-drossgray-dark"} rounded px-2 py-0.5 text-sm font-medium text-white`}

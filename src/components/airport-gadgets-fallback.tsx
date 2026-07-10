@@ -10,7 +10,7 @@ export function AirportGadgetsFallback() {
     "rounded-xl border border-drossgray-dark/15 bg-white p-4 shadow-sm animate-pulse";
   return (
     <div
-      className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8"
+      className="mx-auto mt-24 min-h-[40rem] max-w-7xl px-4 sm:px-6 lg:px-8"
       aria-hidden="true"
     >
       {/* Mirror the real gadget stack so the footer barely moves when the

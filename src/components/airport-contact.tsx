@@ -2,6 +2,7 @@ import { GlobeIcon, MapPinIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Fragment, type ReactNode } from "react";
 import { ExternalLink } from "~/components/external-link";
+import { SectionHeading } from "~/components/section-heading";
 import type { NormalizedFacts } from "~/lib/airport-facts";
 import type { GeoResult } from "~/lib/geocode";
 import type { Airport } from "~/server/db/schema";
@@ -71,7 +72,9 @@ export async function AirportContact({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <h2 className="text-center text-xl font-normal">{t("location")}</h2>
+      <SectionHeading className="text-center text-xl font-normal">
+        {t("location")}
+      </SectionHeading>
 
       {rows.length > 0 && (
         // Left-aligned label/value grid: the address wraps cleanly under its

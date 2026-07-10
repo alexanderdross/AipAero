@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { SectionHeading } from "~/components/section-heading";
 import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import type { NormalizedFacts } from "~/lib/airport-facts";
@@ -101,7 +102,9 @@ export async function AirportFacts({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <h2 className="text-center text-xl font-normal">{t("facts")}</h2>
+      <SectionHeading className="text-center text-xl font-normal">
+        {t("facts")}
+      </SectionHeading>
 
       {/* Two-column table on >= sm; runways/frequencies span both columns. */}
       <dl className="mt-3 grid grid-cols-1 gap-x-8 text-sm sm:grid-cols-2">

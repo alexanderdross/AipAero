@@ -1,6 +1,8 @@
 import { FileTextIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import { ChartPreview } from "~/components/chart-preview";
 import { ExternalLink } from "~/components/external-link";
+import { SectionHeading } from "~/components/section-heading";
 
 /**
  * Chart-PDF box, shown only when the airport's chart URL points directly at a
@@ -10,6 +12,10 @@ import { ExternalLink } from "~/components/external-link";
  * `X-Frame-Options` on some sources - the `<object>` fallback then shows the open
  * link, so there is never a dead empty box. A same-origin, always-working preview
  * (PDF.js + offline) needs the self-hosting path - see docs/aip-hosting-rights.md.
+ *
+ * The preview embed is lazy + on-click (see `ChartPreview`): the PDF is only
+ * fetched when the user expands it, keeping it off the initial page load. The
+ * box header and the primary open link stay server-rendered.
  */
 export async function AirportChart({ url }: { url: string }) {
   const t = await getTranslations("Chart");
@@ -23,7 +29,9 @@ export async function AirportChart({ url }: { url: string }) {
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <h2 className="text-center text-xl font-normal">{t("title")}</h2>
+      <SectionHeading className="text-center text-xl font-normal">
+        {t("title")}
+      </SectionHeading>
 
       <p className="mt-3 text-center text-sm">
         {openLink(
@@ -31,23 +39,11 @@ export async function AirportChart({ url }: { url: string }) {
         )}
       </p>
 
-      <details className="mt-3 text-sm">
-        <summary className="text-drossblue cursor-pointer text-center hover:underline">
-          {t("preview")}
-        </summary>
-        <object
-          data={url}
-          type="application/pdf"
-          className="border-drossgray-dark/15 mt-2 h-[75vh] w-full rounded-lg border"
-        >
-          {/* Shown when the host blocks framing (X-Frame-Options) */}
-          <p className="p-4 text-center">
-            {openLink(
-              "text-drossblue inline-flex items-center gap-x-1 hover:underline",
-            )}
-          </p>
-        </object>
-      </details>
+      <ChartPreview
+        url={url}
+        previewLabel={t("preview")}
+        openLabel={t("openPdf")}
+      />
     </section>
   );
 }
