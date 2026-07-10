@@ -30,4 +30,14 @@ export default defineCloudflareConfig({
   }),
   tagCache: d1NextTagCache,
   queue: memoryQueue,
+  // Serve prerendered/ISR routes (locale homepages, airport-list, terms,
+  // sitemaps) straight from the incremental cache WITHOUT booting the Next
+  // server - a large CPU-time saver per request. Safe for the dynamic ?ICAO
+  // detail pages: the interceptor matches on the prerender manifest, which
+  // does not contain the five search routes (they read searchParams), so
+  // those always fall through to a full render. Verified against
+  // @opennextjs/aws cacheInterceptor: security headers from next.config are
+  // still applied, the middleware still runs first, and tag revalidation
+  // (crawler POST) is checked before serving.
+  enableCacheInterception: true,
 });
