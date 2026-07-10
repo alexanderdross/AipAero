@@ -104,38 +104,44 @@ export function GlobalSearchInputField({
             }}
             autoComplete="off"
           />
+          {/* Results overlay the content below instead of pushing it down:
+              the result rows land after the 250ms debounce + server action,
+              often outside the 500ms post-input window CLS excuses, so an
+              in-flow list scores as layout shift. */}
+          {state.airports.length > 0 && (
+            <div className="absolute inset-x-0 top-full z-10 mt-2 rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
+              <ol className="space-y-1">
+                {state.airports.map((airport, i) => (
+                  <li key={i}>
+                    <a
+                      href={detailHref(airport)}
+                      title={`${airport.title} - ${TYPE_LABEL[airport.type]}`}
+                      className="bg-drossblue hover:bg-drossblue-light flex items-center justify-center gap-x-2 rounded-lg px-3 py-2.5 text-white transition-colors"
+                    >
+                      <span>{airport.title}</span>
+                      <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
+                        {TYPE_LABEL[airport.type]}
+                      </span>
+                      <span className="text-xs uppercase opacity-80">
+                        {airport.country}
+                      </span>
+                      <ArrowRightIcon
+                        className="h-4 w-4 flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                    </a>
+                  </li>
+                ))}
+              </ol>
+              {pending && (
+                <div className="bg-drossblue mt-1 rounded-lg py-2.5 text-center text-white">
+                  ...
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </form>
-      {state.airports.length > 0 && (
-        <ol className="mt-2">
-          {state.airports.map((airport, i) => (
-            <li key={i}>
-              <a
-                href={detailHref(airport)}
-                title={`${airport.title} - ${TYPE_LABEL[airport.type]}`}
-                className="bg-drossblue hover:bg-drossblue-light mt-1 flex items-center justify-center gap-x-2 rounded-lg px-3 py-2.5 text-white transition-colors"
-              >
-                <span>{airport.title}</span>
-                <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
-                  {TYPE_LABEL[airport.type]}
-                </span>
-                <span className="text-xs uppercase opacity-80">
-                  {airport.country}
-                </span>
-                <ArrowRightIcon
-                  className="h-4 w-4 flex-shrink-0"
-                  aria-hidden="true"
-                />
-              </a>
-            </li>
-          ))}
-        </ol>
-      )}
-      {pending && state.airports.length !== 0 && (
-        <div className="bg-drossblue mt-1 rounded-lg py-2.5 text-center text-white">
-          ...
-        </div>
-      )}
     </div>
   );
 }
