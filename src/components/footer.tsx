@@ -56,6 +56,9 @@ export default async function Footer() {
                     ? getPathname({ href: "/terms", locale })
                     : t(`${key}.href`)
                 }
+                // Own internal page: followed (no nofollow), unlike the
+                // default outbound rel the other entries keep.
+                rel={key === "terms" ? "noopener" : undefined}
                 hrefTitle={t(`${key}.hrefTitle`)}
                 className="text-drossblue mx-2 text-base hover:underline"
               >
