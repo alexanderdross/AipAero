@@ -8,7 +8,12 @@ import { LastUpdated } from "~/components/last-updated";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { Title } from "~/components/title";
 import Link from "next/link";
-import { getPathname, localeLangMapping, routing } from "~/i18n/routing";
+import {
+  getPathname,
+  isSingleLocale,
+  localeLangMapping,
+  routing,
+} from "~/i18n/routing";
 import { type Airport } from "~/server/db/schema";
 import LoadingList from "./loading-list";
 import { QUERIES } from "~/server/db/queries";
@@ -52,18 +57,17 @@ export async function generateMetadata(
     description: t("metaDescription"),
     alternates: {
       canonical: currentUrl,
-      languages:
-        locale === "uk"
-          ? undefined
-          : Object.assign(
-              {},
-              ...locales.map((l) => ({
-                [localeLangMapping[l]!]: new URL(
-                  getPathname({ href: "/airport-list", locale: l }),
-                  orgUrl,
-                ).toString(),
-              })),
-            ),
+      languages: isSingleLocale(locale)
+        ? undefined
+        : Object.assign(
+            {},
+            ...locales.map((l) => ({
+              [localeLangMapping[l]!]: new URL(
+                getPathname({ href: "/airport-list", locale: l }),
+                orgUrl,
+              ).toString(),
+            })),
+          ),
     },
     openGraph: {
       ...previousOpenGraph,

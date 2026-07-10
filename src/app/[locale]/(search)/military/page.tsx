@@ -19,6 +19,7 @@ import {
   localeCountryMapping,
   localeLangMapping,
   routing,
+  isSingleLocale,
 } from "~/i18n/routing";
 import { countryHasType, orgUrl, rootBreadcrumb } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
@@ -76,19 +77,18 @@ export async function generateMetadata(
       : t("metaDescription"),
     alternates: {
       canonical: currentUrl,
-      languages:
-        locale === "uk"
-          ? undefined
-          : Object.assign(
-              {},
-              ...locales.map((l) => ({
-                [localeLangMapping[l]!]:
-                  new URL(
-                    getPathname({ href: "/military", locale: l }),
-                    orgUrl,
-                  ).toString() + `${data ? `?${data.slug}` : ""}`,
-              })),
-            ),
+      languages: isSingleLocale(locale)
+        ? undefined
+        : Object.assign(
+            {},
+            ...locales.map((l) => ({
+              [localeLangMapping[l]!]:
+                new URL(
+                  getPathname({ href: "/military", locale: l }),
+                  orgUrl,
+                ).toString() + `${data ? `?${data.slug}` : ""}`,
+            })),
+          ),
     },
     openGraph: {
       ...previousOpenGraph,
