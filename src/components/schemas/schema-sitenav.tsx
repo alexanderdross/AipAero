@@ -40,38 +40,56 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
   const siteTranslations = await Promise.all(
     siteKeys.map((x) => getTranslations(x)),
   );
+
+  // The navigation entries (site self-link, sister project, then one per
+  // available page for this country).
+  const navItems = [
+    {
+      name: "AIP approach charts for VFR, IFR & Heliports across Europe",
+      alternateName: "AIP:Aero",
+      description:
+        "AIP approach charts VFR, IFR & Heliports for European countries",
+      url: orgUrl.toString(),
+    },
+    {
+      name: "Stratux - Anti-Collision System",
+      alternateName: "Dross:Aviation",
+      description:
+        "Stratux, Anti-Collision System for private aviation and gliders",
+      url: "https://dross.net/aviation/?aip",
+    },
+    ...siteTranslations.map((p, i) => ({
+      name: p("breadcrumb.alternateName"),
+      alternateName: p("breadcrumb.name"),
+      description: p("breadcrumb.description"),
+      url: trailingSlash(
+        new URL(getPathname({ href: slugs[i]!, locale }), orgUrl).toString(),
+      ),
+    })),
+  ];
+
+  // Wrap the SiteNavigationElement nodes as an ordered ItemList that is the
+  // main entity of the country's CollectionPage (its entry page), so the
+  // navigation is one structured collection rather than a flat list of nodes.
+  // `position` is valid on SiteNavigationElement (a CreativeWork subtype).
   const siteNavSchema = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: siteTranslations[0]!("breadcrumb.alternateName"),
+    url: trailingSlash(
+      new URL(getPathname({ href: "/", locale }), orgUrl).toString(),
+    ),
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: navItems.map((item, i) => ({
         "@type": "SiteNavigationElement",
-        name: "AIP approach charts for VFR, IFR & Heliports across Europe",
-        alternateName: "AIP:Aero",
-        description:
-          "AIP approach charts VFR, IFR & Heliports for European countries",
-        url: orgUrl.toString(),
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "SiteNavigationElement",
-        name: "Stratux - Anti-Collision System",
-        alternateName: "Dross:Aviation",
-        description:
-          "Stratux, Anti-Collision System for private aviation and gliders",
-        url: "https://dross.net/aviation/?aip",
-      },
-      ...siteTranslations.map((p, i) => ({
-        "@context": "https://schema.org",
-        "@type": "SiteNavigationElement",
-        name: p("breadcrumb.alternateName"),
-        alternateName: p("breadcrumb.name"),
-        description: p("breadcrumb.description"),
-        url: trailingSlash(
-          new URL(getPathname({ href: slugs[i]!, locale }), orgUrl).toString(),
-        ),
+        position: i + 1,
+        name: item.name,
+        alternateName: item.alternateName,
+        description: item.description,
+        url: item.url,
       })),
-    ],
+    },
   };
   return (
     <script

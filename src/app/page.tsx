@@ -254,26 +254,34 @@ export default async function RootPage() {
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 "@context": "https://schema.org",
-                "@graph": [
-                  {
-                    "@context": "https://schema.org",
-                    "@type": "SiteNavigationElement",
-                    name: rootTitle,
-                    alternateName: "AIP:Aero",
-                    description: rootDescription,
-                    inLanguage: "en",
-                    url: orgUrl.toString(),
-                  },
-                  ...localeElements.map((x) => ({
-                    "@context": "https://schema.org",
-                    "@type": "SiteNavigationElement",
-                    name: x.name,
-                    alternateName: x.alternateName,
-                    description: x.description,
-                    inLanguage: x.inLanguage,
-                    url: x.url,
-                  })),
-                ],
+                "@type": "CollectionPage",
+                name: rootTitle,
+                url: orgUrl.toString(),
+                // The country navigation as one ordered ItemList (main entity of
+                // the homepage collection), each entry a SiteNavigationElement.
+                mainEntity: {
+                  "@type": "ItemList",
+                  itemListElement: [
+                    {
+                      "@type": "SiteNavigationElement",
+                      position: 1,
+                      name: rootTitle,
+                      alternateName: "AIP:Aero",
+                      description: rootDescription,
+                      inLanguage: "en",
+                      url: orgUrl.toString(),
+                    },
+                    ...localeElements.map((x, i) => ({
+                      "@type": "SiteNavigationElement",
+                      position: i + 2,
+                      name: x.name,
+                      alternateName: x.alternateName,
+                      description: x.description,
+                      inLanguage: x.inLanguage,
+                      url: x.url,
+                    })),
+                  ],
+                },
               }),
             }}
           />
