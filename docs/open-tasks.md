@@ -21,24 +21,19 @@ systemd/bare-metal mehr): kein Code-Drift, Run-Logs + manueller Trigger.
 | **Crawl (publish)** | `.github/workflows/crawl.yml` | täglich 03:00 UTC + manuell |
 | **Airport facts import** | `.github/workflows/facts-import.yml` | wöchentlich So 03:30 UTC + manuell |
 
-### Ergebnis des ersten Publish-Laufs: 8 von 12 Ländern live
+### Aktueller Stand: 10 von 12 Ländern live
 
-**Publiziert (201 Created):** AT (72), NL (24), UK (122), BE (167), CZ (11),
-NO (55), PL (69), SE (48). Der `>50%`-Drop-Schutz bleibt erhalten (`crawl.yml`
-persistiert `last_run_counts.json` über `actions/cache`).
+**Publiziert:** AT (72), NL (24), UK (122), BE (167), CZ (11), NO (55), PL (69),
+SE (48) sowie - nach dem Fix (Task 2a) - **DE (792)** und **FR (143)**. Der
+`>50%`-Drop-Schutz bleibt erhalten (`crawl.yml` persistiert
+`last_run_counts.json` über `actions/cache`).
 
-**Vier mit Problemen** - siehe Tasks 2a / 3 / 4:
+**Noch nicht live (2 Länder):**
 
-| Land | Problem |
-| --- | --- |
-| **DE** | Crawler parst 0 (DFS hat die Einstiegsseiten/Markup geändert) - Task 2a |
-| **FR** | Editions-Einstieg geändert (kein `index-fr-FR.html` mehr) - Task 2a |
-| **GR** | Web Unlocker liefert `502 Access denied` - Task 4 |
-| **DK** | Naviair-Seite hat die VFG-Navigation geändert - Task 3 |
-
-> **Kein Datenverlust:** DE/FR brachen **vor** dem POST ab, es wurde nichts
-> gelöscht. Die Website zeigt für DE/FR weiter die bestehenden Listen; sie
-> werden nur nicht aktualisiert, bis der Fix greift.
+| Land | Problem | Status |
+| --- | --- | --- |
+| **GR** | Web Unlocker liefert `502 Access denied` | offen, Owner - Task 4 |
+| **DK** | AngularJS-SPA, Baum nicht statisch erreichbar | geparkt - Task 3 |
 
 ### Verifizieren im Browser (nach dem nächsten Deploy)
 
@@ -63,9 +58,10 @@ beide sind jetzt gefixt und per Live-Test verifiziert.
   (unter einem AIRAC-datierten Unterordner, nicht als flaches Geschwister). Fix:
   die `init()`-Datumsargumente parsen und diesen Pfad konstruieren.
 
-**Publish:** DE+FR wurden nach dem Fix per Crawl (publish) auf dem Branch in die
-Produktion geschrieben. Der Fix muss noch nach `main` gemergt werden, damit der
-**nächtliche** Crawl ihn nutzt (offener PR).
+**Publish:** DE (792) + FR (143) wurden nach dem Fix per Crawl (publish) in die
+Produktion geschrieben (201 Created, kein Drop-Guard-Block). Die Fixes sind auf
+`main` (PR #154) - der **nächtliche** Crawl nutzt sie ab jetzt. Nichts mehr
+offen.
 
 ## 3. DK live verifizieren + freischalten 🟡 (Claude)
 
@@ -95,27 +91,39 @@ Netzwerk-Intercept ermitteln und direkt abfragen. Bis dahin bleibt DK in
 → Ergebnis bei Umsetzung: **11 von 12 Ländern live** (aktuell **10 live**: alle
 außer DK und GR)
 
-## 4. GR: Web Unlocker liefert 502 🟡 (Owner-Blick nötig)
-
-GR (aisgr.hasp.gov.gr) ist serverseitig reCAPTCHA-geschützt - nur ein
-Unlocker-Dienst kommt durch.
+## 4. GR: Web Unlocker liefert `502 Access denied` 🟡 (Owner-Diagnose nötig)
 
 **✅ Erledigt (Owner):** Web-Unlocker-Zone `aipaero_web_unlocker_gr` angelegt
 (CAPTCHA Solver an), Access-URL als Actions-Secret `BRIGHTDATA_UNLOCKER_URL`
 gesetzt. **✅ Erledigt (Code):** `gr.py` liest die Variable bevorzugt.
 
 **Problem:** Der Unlocker selbst liefert `502 Access denied` für
-`aisgr.hasp.gov.gr` (2 Retries, dann Abbruch) - das kommt **nicht** von
-unseren Selektoren, sondern der Web Unlocker erreicht die Zielseite nicht.
+`aisgr.hasp.gov.gr` (2 Retries, dann Abbruch) - das kommt **nicht** von unseren
+Selektoren. **Wahrscheinlichste Ursache:** `hasp.gov.gr` ist eine
+**Regierungsdomain** (`.gov.gr`), die Bright Data aus Compliance-Gründen oft
+sperrt oder nur nach KYC-Freigabe durchlässt ("Access denied" ist Bright Datas
+eigene Ablehnung, nicht das Ziel).
 
-**Offen (Owner):** Im Bright-Data-Dashboard prüfen, warum die Domain 502 gibt
-(ggf. Domain in der Zone freischalten / Premium-Domains testweise aktivieren /
-Bright-Data-Support fragen, ob `hasp.gov.gr` unterstützt wird). Sobald der
-Unlocker durchkommt, wertet **Claude** den Live-Test aus und zieht die
-AD-Section-Selektoren gegen die dann sichtbare Navigation nach.
+**Offen (Owner) - Schritt für Schritt:**
 
-→ Ergebnis: **12 von 12 Ländern live** (Alternative: GR bleibt ausgeblendet,
-kein technischer Schaden)
+1. **Playground:** Zone `aipaero_web_unlocker_gr` → Tab *Playground* → URL
+   `https://aisgr.hasp.gov.gr/` senden. Kommt derselbe 502 → Zone/Bright-Data-
+   Problem (nicht unser Crawler).
+2. **Logs lesen:** Zone → *Logs* → den 502-Request öffnen → **exakten Grund**
+   notieren. "Domain not allowed" / "KYC required" / "restricted" → Schritt 4;
+   "target blocked/403" → Schritt 5.
+3. *(optional)* Per curl gegenprüfen (wie der Crawler, Native proxy access):
+   `curl -v -x brd.superproxy.io:33335 -U brd-customer-<ID>-zone-aipaero_web_unlocker_gr:<PW> "https://aisgr.hasp.gov.gr/"`
+4. **KYC/Domain-Freigabe:** Account-KYC im Dashboard abschließen; bei Support
+   die Domain freischalten lassen (Begründung: **öffentliche AIP-Daten**, keine
+   personenbezogenen Daten).
+5. **Wenn das Portal selbst blockt:** in der Zone *Premium domains* testweise
+   aktivieren und erneut testen.
+6. **Grund aus Schritt 2 an Claude** → dann Live-Test auswerten + GR-Selektoren
+   nachziehen.
+
+→ Bei Freigabe: **11-12 von 12 Ländern live** (je nach DK). Bleibt es gesperrt,
+wird GR ausgeblendet - kein technischer Schaden, alle anderen laufen unabhängig.
 
 ## 5. `docs/pilot-wishlist.md` abarbeiten 🟢 (Claude - nach 2a/3/4)
 
@@ -137,6 +145,11 @@ lesen → erledigte Punkte markieren → Priorisierung einholen → umsetzen.
   (`Website (Next.js)`, `Crawlers (Python)`, `E2E & rendered output
   (Playwright)`, `Lighthouse budgets (local)`) als Required Status Checks für
   `main` markieren.
+- **AIRAC-Zyklus anzeigen (Feature-Idee):** Die Website zeigt aktuell nur
+  "Stand: <Crawl-Datum>" auf der Flughafen-Liste (`last-updated.tsx`), nicht den
+  AIRAC-Zyklus. Der Crawler kennt das Editions-Datum aus den Quell-URLs
+  (`eAIP_09_JUL_2026`, `2026JUN25` …); ließe sich als "AIRAC 2026-07-09" neben
+  "Stand:" ergänzen (Owner-Wunsch, unpriorisiert).
 
 ## 7. Nearby-Box voll client-seitig 🟢 (nur falls Error 1102 erneut auftritt)
 
