@@ -59,15 +59,22 @@ export async function generateMetadata(
       canonical: currentUrl,
       languages: isSingleLocale(locale)
         ? undefined
-        : Object.assign(
-            {},
-            ...locales.map((l) => ({
-              [localeLangMapping[l]!]: new URL(
-                getPathname({ href: "/airport-list", locale: l }),
-                orgUrl,
-              ).toString(),
-            })),
-          ),
+        : {
+            ...Object.assign(
+              {},
+              ...locales.map((l) => ({
+                [localeLangMapping[l]!]: new URL(
+                  getPathname({ href: "/airport-list", locale: l }),
+                  orgUrl,
+                ).toString(),
+              })),
+            ),
+            // Fallback for languages we do not target: the English version.
+            "x-default": new URL(
+              getPathname({ href: "/airport-list", locale: englishLocale }),
+              orgUrl,
+            ).toString(),
+          },
     },
     openGraph: {
       ...previousOpenGraph,

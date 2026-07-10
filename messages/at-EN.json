@@ -92,7 +92,7 @@
   },
   "LocaleSwitcher": {
     "label": "Switch language",
-    "locale": "{locale, select, at {🇩🇪 Deutsch} en {🇬🇧 English} other {Unknown}}"
+    "locale": "{locale, select, at {🇦🇹 Deutsch} en {🇬🇧 English} other {Unknown}}"
   },
   "CountrySiteNavElement": {
     "name": "AIP and approach charts of Austria",

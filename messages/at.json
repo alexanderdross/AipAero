@@ -92,7 +92,7 @@
   },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
-    "locale": "{locale, select, at {🇩🇪 Deutsch} en {🇬🇧 English} other {Unbekannt}}"
+    "locale": "{locale, select, at {🇦🇹 Deutsch} en {🇬🇧 English} other {Unbekannt}}"
   },
   "CountrySiteNavElement": {
     "name": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
