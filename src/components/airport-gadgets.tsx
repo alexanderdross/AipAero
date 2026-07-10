@@ -7,6 +7,8 @@ import { AirportFacts } from "~/components/airport-facts";
 import { AirportNearby } from "~/components/airport-nearby";
 import { AirportWeatherWind } from "~/components/airport-weather-wind";
 import { SchemaAirport } from "~/components/schemas/schema-airport";
+import { SchemaDigitalDocument } from "~/components/schemas/schema-digital-document";
+import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
@@ -153,7 +155,20 @@ export async function AirportGadgets({
         additionalProperties={props}
       />
       <div className="flex flex-col gap-4">
-        {isPdfUrl(airport.url) && <AirportChart url={airport.url} />}
+        {isPdfUrl(airport.url) && (
+          <>
+            <AirportChart url={airport.url} />
+            {/* Structured-data twin of the chart box: marks the PDF up as a
+                DigitalDocument that is part of this airport page. */}
+            <SchemaDigitalDocument
+              name={schemaName}
+              alternateName={schemaAlternateName}
+              description={schemaDescription}
+              url={airport.url}
+              isPartOfUrl={schemaUrl}
+            />
+          </>
+        )}
         {/* Location + aerodrome-data boxes side by side on >= md (each half
             width, stretched to equal height), stacking on mobile. */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -172,6 +187,9 @@ export async function AirportGadgets({
             lon={lon}
           />
         </div>
+        {/* Trade:Aero cross-sell (locale + country aware), above the weather
+            box - same discreet SSR text CTA as on the country / list pages. */}
+        <TradeAeroCta />
         {/* Ephemeral weather + wind: lazy-loaded client-side. The Weather i18n
             namespace is scoped to this client subtree. */}
         <NextIntlClientProvider messages={pick(messages, "Weather")}>
