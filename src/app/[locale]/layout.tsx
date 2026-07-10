@@ -4,6 +4,8 @@ import { localeLangMapping, routing } from "~/i18n/routing";
 import Footer from "~/components/footer";
 import { Header } from "~/components/header";
 import { BreadCrumbs } from "~/components/breadcrumbs";
+import { SchemaWebsite } from "~/components/schemas/schema-website";
+import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import { inter } from "~/lib/fonts";
 import { NextIntlClientProvider } from "next-intl";
 import pick from "lodash/pick";
@@ -40,6 +42,17 @@ export default async function LocaleLayout(
       lang={localeLangMapping[locale]}
     >
       <body className={"bg-drossgray font-sans"}>
+        {/* Site-wide JSON-LD lives in the layout (not the individual pages) so
+            it renders exactly once. On the dynamic search pages, schemas emitted
+            directly by the page were duplicated by the Cloudflare/OpenNext
+            render, while schemas rendered from the layout inside a Suspense
+            boundary (like the locale-switcher's WebPage, and the airport
+            gadgets' Airport node) appear once - so WebSite + SiteNavigation are
+            rendered here, inside a Suspense boundary, to match that pattern. */}
+        <Suspense fallback={null}>
+          <SchemaWebsite />
+          <SchemaSitenav locale={locale} />
+        </Suspense>
         <Header withLangSwitcher />
         <main>{props.children}</main>
         {/* Reserve the breadcrumb bar's height so it never shifts the footer

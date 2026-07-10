@@ -20,7 +20,6 @@ import { QUERIES } from "~/server/db/queries";
 import { i18nPathMapping, orgUrl, rootBreadcrumb } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { modifiedDate as buildDate } from "~/lib/build-info";
-import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 
 // All slugs besides the static ones will be 404
@@ -158,7 +157,6 @@ export default async function IndexPage(
         publishedDate={modifiedDate}
         currentUrl={currentUrl}
       />
-      <SchemaSitenav locale={locale} />
       <Suspense fallback={<LoadingList />}>
         <AirportLists locale={locale} />
       </Suspense>

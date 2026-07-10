@@ -10,8 +10,6 @@ import { AirportGadgetsFallback } from "~/components/airport-gadgets-fallback";
 import { Suspense } from "react";
 import { ExternalLink } from "~/components/external-link";
 import { SchemaProduct } from "~/components/schemas/schema-product";
-import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
-import { SchemaWebsite } from "~/components/schemas/schema-website";
 import { SearchInputField } from "~/components/search-input-field";
 import { Title } from "~/components/title";
 import {
@@ -235,8 +233,6 @@ export default async function IndexPage({
         publishedDate={modifiedDate}
         currentUrl={currentUrl}
       />
-      <SchemaWebsite />
-      <SchemaSitenav locale={locale} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SearchInputField
           value={data?.icao ?? undefined}
