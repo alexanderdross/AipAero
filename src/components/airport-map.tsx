@@ -1,6 +1,5 @@
 "use client";
 
-import "leaflet/dist/leaflet.css";
 import type * as L from "leaflet";
 import { LocateFixedIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -62,6 +61,7 @@ export function AirportMap({
   const mapRef = useRef<L.Map | null>(null);
   const [locateError, setLocateError] = useState<string | null>(null);
   const [markers, setMarkers] = useState<MapMarker[] | null>(null);
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -81,11 +81,51 @@ export function AirportMap({
     };
   }, [locale]);
 
+  // Defer the heavy Leaflet init + OSM tiles until the decorative map scrolls
+  // near the viewport. The map is not page content, but loading its tiles on
+  // mount made an OpenStreetMap tile the Largest Contentful Paint and pulled
+  // ~40 KiB of images onto the critical path. Gating the init on an
+  // IntersectionObserver lets the server-rendered list / title win LCP and
+  // keeps the tiles off the initial load. `rootMargin` starts the load just
+  // before the map enters view. The cheap marker-JSON fetch above still runs
+  // on mount, so empty-coordinate countries collapse before first paint (no
+  // layout shift).
   useEffect(() => {
-    if (!markers || markers.length === 0) return;
+    const el = containerRef.current;
+    if (!el || inView) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [inView, markers]);
+
+  useEffect(() => {
+    if (!inView || !markers || markers.length === 0) return;
     let cancelled = false;
     void (async () => {
-      const LL = (await import("leaflet")).default;
+      // Load Leaflet's stylesheet lazily together with its JS, only when the
+      // map actually renders. A top-level `import "leaflet/dist/leaflet.css"`
+      // would bake this ~11 KiB into the airport-list route's CSS chunk, which
+      // Next then preloads whenever another page prefetches the airport-list
+      // <Link> (breadcrumb / menu) - producing a "preloaded but not used"
+      // console warning on pages that never show the map. Loading it here keeps
+      // it off that route chunk.
+      const [LLModule] = await Promise.all([
+        import("leaflet"),
+        import("leaflet/dist/leaflet.css"),
+      ]);
+      const LL = LLModule.default;
       if (cancelled || !containerRef.current || mapRef.current) return;
       const map = LL.map(containerRef.current, { scrollWheelZoom: false });
       mapRef.current = map;
@@ -119,7 +159,7 @@ export function AirportMap({
       mapRef.current?.remove();
       mapRef.current = null;
     };
-  }, [markers]);
+  }, [markers, inView]);
 
   async function handleLocate() {
     if (
