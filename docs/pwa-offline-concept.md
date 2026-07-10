@@ -87,7 +87,7 @@ of the full build manifest ever becomes a requirement.
 | `/api/airport-weather` | **Network-only** | Safety: no stale METAR/TAF, box stays empty offline |
 | OSM tiles | **Cache-first with expiry** (e.g. 7 days, LRU cap ~200 tiles) | Keeps the map usable offline for visited areas; respects OSM tile policy by capping volume |
 | Chart PDFs (cross-origin AIP hosts) | **Explicit save only** (Phase 3) | Not auto-cached: large, opaque (no-CORS) responses count against quota opaquely; only on user action |
-| `/manifest.webmanifest`, logo, icons | Cache-first | Tiny app-shell set, precached on SW install |
+| `/manifest.webmanifest`, logo, offline page | Stale-while-revalidate | Precached on SW install, but UNHASHED and deploy-mutable - cache-first pinned the pre-icons manifest forever (Edge field finding 10.07.2026), blocking installability |
 
 ### Offline fallback page
 

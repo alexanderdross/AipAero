@@ -5,6 +5,8 @@
  *
  * Cache strategies per resource class:
  *   - /_next/static/* (content-hashed)  -> cache-first, no expiry
+ *   - shell files (manifest/logo/offline) -> stale-while-revalidate (unhashed,
+ *                                          change on deploys - see fetch handler)
  *   - HTML navigations                  -> network-first, cached fallback with
  *                                          an "offline copy" banner, then
  *                                          /offline.html
@@ -99,6 +101,8 @@ async function cacheOpenClients() {
 }
 
 async function trimCache(name, maxEntries) {
+  // No cap given (e.g. the shell files' stale-while-revalidate): never trim.
+  if (!maxEntries) return;
   const cache = await caches.open(name);
   const keys = await cache.keys();
   if (keys.length <= maxEntries) return;
@@ -239,11 +243,19 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (url.origin === self.location.origin) {
-    if (
-      url.pathname.startsWith("/_next/static/") ||
-      PRECACHE_URLS.includes(url.pathname)
-    ) {
+    // Content-hashed build assets never change under their URL: cache-first.
+    if (url.pathname.startsWith("/_next/static/")) {
       event.respondWith(cacheFirst(request, STATIC_CACHE));
+      return;
+    }
+    // App-shell files (manifest, logo, offline page) are UNHASHED and change
+    // on deploys. Cache-first pinned the precached manifest forever - field-
+    // tested 10.07.2026: Edge kept serving the pre-icons manifest from
+    // static-v1 after the deploy, so the PWA never became installable there.
+    // Stale-while-revalidate serves instantly AND refreshes for the next
+    // visit (a sw.js byte change also re-runs the install addAll).
+    if (PRECACHE_URLS.includes(url.pathname)) {
+      event.respondWith(staleWhileRevalidate(request, STATIC_CACHE));
       return;
     }
     if (url.pathname.startsWith("/api/airport-coords")) {
