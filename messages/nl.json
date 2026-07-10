@@ -230,7 +230,9 @@
     "restaurant": "Restaurant",
     "customs": "Douane",
     "yes": "Ja",
-    "no": "Nee"
+    "no": "Nee",
+    "saveOffline": "Opslaan voor offline",
+    "savedOffline": "Offline opgeslagen"
   },
   "Chart": {
     "title": "Naderingskaart",

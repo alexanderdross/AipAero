@@ -88,29 +88,56 @@
     <ul id="saved"></ul>
     <p id="none">No cached pages yet.</p>
     <script>
-      // Enumerate the SW page cache (name must match PAGES_CACHE in /sw.js).
-      if ("caches" in window) {
+      // List the explicitly saved fields first (titles from the
+      // save-offline-button's localStorage index), then everything in the
+      // browsing cache. Cache names must match /sw.js (SAVED_CACHE /
+      // PAGES_CACHE); the index key must match save-offline-button.tsx.
+      (function () {
+        if (!("caches" in window)) return;
+        var list = document.getElementById("saved");
+        var seen = {};
+
+        function addLink(href, label, strong) {
+          if (seen[href]) return;
+          seen[href] = true;
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = href;
+          a.textContent = label;
+          if (strong) a.style.fontWeight = "600";
+          li.appendChild(a);
+          list.appendChild(li);
+        }
+
+        try {
+          var index = JSON.parse(
+            localStorage.getItem("aip-offline-saved") || "[]",
+          );
+          index.forEach(function (entry) {
+            if (entry && entry.url) {
+              addLink(entry.url, entry.title || entry.url, true);
+            }
+          });
+        } catch (e) {
+          /* fail-soft */
+        }
+
         caches
           .open("pages-v1")
           .then(function (cache) {
             return cache.keys();
           })
           .then(function (keys) {
-            var list = document.getElementById("saved");
             keys.forEach(function (request) {
               var url = new URL(request.url);
-              var li = document.createElement("li");
-              var a = document.createElement("a");
-              a.href = url.pathname + url.search;
-              a.textContent = decodeURIComponent(url.pathname + url.search);
-              li.appendChild(a);
-              list.appendChild(li);
+              var href = url.pathname + url.search;
+              addLink(href, decodeURIComponent(href), false);
             });
           })
           .catch(function () {
             /* fail-soft */
           });
-      }
+      })();
     </script>
   </body>
 </html>

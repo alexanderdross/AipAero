@@ -6,12 +6,19 @@ capability**, so a pilot can install AIP:Aero on an EFB tablet, look up fields
 on the ground, and still open previously viewed airports (and explicitly saved
 charts) in the air with no connectivity.
 
-**Status: Phases 1 + 2 are implemented** (`public/sw.js`, `public/offline.html`,
-`src/components/service-worker-registration.tsx`, the `/sw.js` Cache-Control
-header and `worker-src 'self'` in `next.config.mjs`). Registration is skipped on
-localhost so `pnpm start`/`pnpm preview` and the Playwright E2E suite stay
-SW-free. Phase 3 (explicit "save chart for offline" + favorites) is still open -
-it needs new i18n keys and a UI decision.
+**Status: Phases 1 + 2 + 3 are implemented** (`public/sw.js`,
+`public/offline.html`, `src/components/service-worker-registration.tsx`, the
+`/sw.js` Cache-Control header and `worker-src 'self'` in `next.config.mjs`).
+Registration is skipped on localhost so `pnpm start`/`pnpm preview` and the
+Playwright E2E suite stay SW-free. Phase 3 shipped as
+`src/components/save-offline-button.tsx` on the airport-detail pages: it pins
+the page (and a direct-PDF chart, `no-cors`) in the never-trimmed
+`saved-v1`/`charts-v1` caches, indexes the field in localStorage
+(`aip-offline-saved` - the Favorites foundation) and requests storage
+persistence; the SW serves saved pages before the browsing cache and saved
+chart PDFs to the inline preview embed, and `offline.html` lists saved fields
+by title first. Only the optional Phase 4 (explicit country bulk download) is
+open - see the storage-limits decision below.
 
 ---
 

@@ -230,7 +230,9 @@
     "restaurant": "Restaurant",
     "customs": "Zoll",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "saveOffline": "Für offline speichern",
+    "savedOffline": "Offline gespeichert"
   },
   "Chart": {
     "title": "Anflugkarte",

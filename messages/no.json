@@ -230,7 +230,9 @@
     "restaurant": "Restaurant",
     "customs": "Toll",
     "yes": "Ja",
-    "no": "Nei"
+    "no": "Nei",
+    "saveOffline": "Lagre for frakoblet bruk",
+    "savedOffline": "Lagret frakoblet"
   },
   "Chart": {
     "title": "Innflygingskart",

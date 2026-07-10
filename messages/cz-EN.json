@@ -195,7 +195,9 @@
     "restaurant": "Restaurant",
     "customs": "Customs",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "saveOffline": "Save for offline",
+    "savedOffline": "Saved for offline"
   },
   "Chart": {
     "title": "Approach chart",
