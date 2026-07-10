@@ -77,14 +77,21 @@ async function getEntries(pathname: Href, country: Locale) {
       locale: l,
       lang: localeLangMapping[l],
     }));
+  // Single-locale countries (uk, be) serve one language, so emit no alternate-
+  // language links - a lone self-referential hreflang is redundant.
+  const emitAlternates = alternateLangs.length > 1;
   // Both the current country and its English version of the base pathname should be included
   const pageEntries = alternateLangs.map((l) => ({
     url: getUrl(pathname, l.locale),
-    alternates: {
-      languages: Object.fromEntries(
-        alternateLangs.map((l) => [l.lang, getUrl(pathname, l.locale)]),
-      ),
-    },
+    ...(emitAlternates
+      ? {
+          alternates: {
+            languages: Object.fromEntries(
+              alternateLangs.map((l) => [l.lang, getUrl(pathname, l.locale)]),
+            ),
+          },
+        }
+      : {}),
   }));
   // In case of the airport list, repeat for every airport
   if (pathname === "/airport-list") {
@@ -109,14 +116,18 @@ async function getEntries(pathname: Href, country: Locale) {
       .map((x) => {
         return alternateLangs.map((l) => ({
           url: getAirportUrl(i18nPathMapping[x.type], x.slug, l.locale),
-          alternates: {
-            languages: Object.fromEntries(
-              alternateLangs.map((l) => [
-                l.lang,
-                getAirportUrl(i18nPathMapping[x.type], x.slug, l.locale),
-              ]),
-            ),
-          },
+          ...(emitAlternates
+            ? {
+                alternates: {
+                  languages: Object.fromEntries(
+                    alternateLangs.map((l) => [
+                      l.lang,
+                      getAirportUrl(i18nPathMapping[x.type], x.slug, l.locale),
+                    ]),
+                  ),
+                },
+              }
+            : {}),
         }));
       })
       .flat();

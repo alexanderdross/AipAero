@@ -84,6 +84,18 @@ export type Locale = (typeof routing.locales)[number];
 export const { Link, getPathname, redirect, usePathname, useRouter } =
   createNavigation(routing);
 
+/**
+ * A country is single-locale when routing has no `<cc>-EN` partner for it
+ * (currently `uk` and `be`): only one language is ever served, so it needs no
+ * language switcher and no alternate-language hreflang / sitemap links. Derived
+ * from the routing config so a newly added single-language country (an English
+ * locale with no `-EN` sibling) is handled automatically.
+ */
+export function isSingleLocale(locale: string): boolean {
+  const native = locale.replace("-EN", "");
+  return !(routing.locales as readonly string[]).includes(native + "-EN");
+}
+
 export const localeLangMapping: Record<
   (typeof routing.locales)[number] | string,
   string

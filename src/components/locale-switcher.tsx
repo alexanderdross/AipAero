@@ -1,6 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import LocaleSwitcherSelect from "~/components/locale-switcher-select";
 import { SelectItem } from "~/components/ui/select";
+import { isSingleLocale } from "~/i18n/routing";
 import { SchemaWebpage } from "./schemas/schema-webpage";
 import { Suspense } from "react";
 
@@ -11,7 +12,10 @@ export default function LocaleSwitcher() {
   const nonEnglish = locale.replace("-EN", "");
   const english = nonEnglish + "-EN";
 
-  if (locale === "uk" || locale === "us") {
+  // Single-locale countries (uk, be) serve only one language, so there is
+  // nothing to switch - render nothing instead of a pointless one-option select
+  // (which also showed an "Unknown" label for the locale with no partner).
+  if (isSingleLocale(locale)) {
     return;
   }
 

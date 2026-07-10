@@ -15,7 +15,12 @@ import { Hero } from "~/components/hero";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
-import { getPathname, localeLangMapping, routing } from "~/i18n/routing";
+import {
+  getPathname,
+  isSingleLocale,
+  localeLangMapping,
+  routing,
+} from "~/i18n/routing";
 import { cn, orgUrl, rootBreadcrumb } from "~/lib/utils";
 
 // Decorative icon per card type (keyed by the card message key). aria-hidden in
@@ -60,18 +65,17 @@ export async function generateMetadata(
     description: t("metaDescription"),
     alternates: {
       canonical: trailingSlash(currentUrl),
-      languages:
-        locale === "uk"
-          ? undefined
-          : Object.assign(
-              {},
-              ...locales.map((l) => ({
-                [localeLangMapping[l]!]: new URL(
-                  getPathname({ href: "/", locale: l }),
-                  orgUrl,
-                ).toString(),
-              })),
-            ),
+      languages: isSingleLocale(locale)
+        ? undefined
+        : Object.assign(
+            {},
+            ...locales.map((l) => ({
+              [localeLangMapping[l]!]: new URL(
+                getPathname({ href: "/", locale: l }),
+                orgUrl,
+              ).toString(),
+            })),
+          ),
     },
     openGraph: {
       ...previousOpenGraph,
