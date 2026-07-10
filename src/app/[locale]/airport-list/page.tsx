@@ -248,6 +248,15 @@ async function AirportLists({ locale }: { locale: string }) {
                           href: i18nPathMapping[airportType],
                           locale,
                         }) + `?${airport.slug}`;
+                      // Compute the localized link title once per airport: it
+                      // feeds the title, aria-label and the microdata meta. The
+                      // country lists run to hundreds of rows, so collapsing
+                      // three identical ICU formats to one meaningfully cuts the
+                      // server render cost (the large DE list has hit the Worker
+                      // resource limit during regeneration).
+                      const linkTitle = t(`${key}.linkTitle`, {
+                        airport: airport.title,
+                      });
                       return (
                         <li
                           key={index}
@@ -260,12 +269,8 @@ async function AirportLists({ locale }: { locale: string }) {
                             href={href}
                             itemProp="url"
                             className="justify-left text-drossblue flex gap-x-2 py-2 hover:underline"
-                            title={t(`${key}.linkTitle`, {
-                              airport: airport.title,
-                            })}
-                            aria-label={t(`${key}.linkTitle`, {
-                              airport: airport.title,
-                            })}
+                            title={linkTitle}
+                            aria-label={linkTitle}
                             target="_blank"
                             rel="noopener"
                           >
@@ -275,12 +280,7 @@ async function AirportLists({ locale }: { locale: string }) {
                             />
                             <span itemProp="name">{airport.title}</span>
                           </Link>
-                          <meta
-                            itemProp="description"
-                            content={t(`${key}.linkTitle`, {
-                              airport: airport.title,
-                            })}
-                          />
+                          <meta itemProp="description" content={linkTitle} />
                           {airport.icao && (
                             <meta itemProp="icaoCode" content={airport.icao} />
                           )}
