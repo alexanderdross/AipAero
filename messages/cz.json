@@ -64,7 +64,7 @@
   },
   "LocaleSwitcher": {
     "label": "Změnit jazyk",
-    "locale": "{locale, select, cs {🇨🇿 Čeština} en {🇬🇧 English} other {Neznámý}}"
+    "locale": "{locale, select, cz {🇨🇿 Čeština} en {🇬🇧 English} other {Neznámý}}"
   },
   "CountrySiteNavElement": {
     "name": "Přibližovací mapy a letecká informační příručka AIP pro Česko",

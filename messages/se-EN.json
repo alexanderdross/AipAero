@@ -92,7 +92,7 @@
   },
   "LocaleSwitcher": {
     "label": "Switch language",
-    "locale": "{locale, select, sv {🇸🇪 Svenska} en {🇬🇧 English} other {Unknown}}"
+    "locale": "{locale, select, se {🇸🇪 Svenska} en {🇬🇧 English} other {Unknown}}"
   },
   "CountrySiteNavElement": {
     "name": "AIP and approach charts of Sweden",

@@ -64,7 +64,7 @@
   },
   "LocaleSwitcher": {
     "label": "Switch language",
-    "locale": "{locale, select, cs {🇨🇿 Čeština} en {🇬🇧 English} other {Unknown}}"
+    "locale": "{locale, select, cz {🇨🇿 Čeština} en {🇬🇧 English} other {Unknown}}"
   },
   "CountrySiteNavElement": {
     "name": "AIP and approach charts of Czechia",
