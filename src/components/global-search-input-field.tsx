@@ -116,7 +116,7 @@ export function GlobalSearchInputField({
                 className="bg-drossblue hover:bg-drossblue-light mt-1 flex items-center justify-center gap-x-2 rounded-lg px-3 py-2.5 text-white transition-colors"
               >
                 <span>{airport.title}</span>
-                <span className="rounded bg-white/25 px-1.5 py-0.5 text-xs font-medium">
+                <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
                   {TYPE_LABEL[airport.type]}
                 </span>
                 <span className="text-xs uppercase opacity-80">

@@ -94,40 +94,24 @@ export function SearchInputField({
       </form>
       <div className="absolute left-1/2 mt-3 w-full max-w-7xl -translate-x-1/2 transform px-4 text-center text-white sm:px-6 lg:px-8">
         <ol>
-          {state.airports.map((airport, index) => {
-            // Erstellen des Regex für die Übereinstimmung
-            const regex = new RegExp(`()`, "gi");
-            const parts = airport.title.split(regex);
-
-            return (
-              <li key={index}>
-                <ExternalLink
-                  href={`${airport.url}`}
-                  className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                  hrefTitle={`${airport.title}`} //hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
-                >
-                  <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
-                    AIP
-                  </span>
-                  <span>
-                    {parts.map((part, i) =>
-                      regex.test(part) ? (
-                        <span key={i} className="underline">
-                          {part}
-                        </span>
-                      ) : (
-                        <span key={i}>{part}</span>
-                      ),
-                    )}
-                  </span>
-                  <ExternalLinkIcon
-                    className="h-5 w-5 flex-shrink-0"
-                    aria-hidden="true"
-                  />
-                </ExternalLink>
-              </li>
-            );
-          })}
+          {state.airports.map((airport, index) => (
+            <li key={index}>
+              <ExternalLink
+                href={`${airport.url}`}
+                className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue mt-1 flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                hrefTitle={`${airport.title}`} //hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
+              >
+                <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
+                  AIP
+                </span>
+                <span>{airport.title}</span>
+                <ExternalLinkIcon
+                  className="h-5 w-5 flex-shrink-0"
+                  aria-hidden="true"
+                />
+              </ExternalLink>
+            </li>
+          ))}
         </ol>
         {pending && state.airports.length !== 0 && (
           <div className="bg-drossblue rounded-lg py-2">...</div>
