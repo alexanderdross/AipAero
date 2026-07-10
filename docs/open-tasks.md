@@ -73,13 +73,27 @@ Produktion geschrieben. Der Fix muss noch nach `main` gemergt werden, damit der
 fail-soft), `dk.py` darauf portiert; Live-Test + `crawl.yml` installieren
 Chromium pro Lauf automatisch. DK steht noch in `ALLOWED_FAILURES`.
 
-**Befund aus dem ersten Lauf:** Playwright rendert die Seite korrekt, aber der
-erwartete "VFR Flight Guide"-Navigationslink fehlt (aim.naviair.dk hat die
-Struktur geändert - aktuell nur ein "Ændringer"-Link sichtbar). Selektoren
-gegen die neue DOM nachziehen, dann DK in `liveCountries` (`src/lib/utils.ts`)
-+ Startseiten-Karte (`src/app/page.tsx`) freischalten.
+**Befund (Struktur-Diagnose 2026-07-09):** aim.naviair.dk ist eine **AngularJS-
+SPA**. Die gerenderte Seite enthält quasi nichts Navigierbares:
+- nur **1 Anchor** (`Ændringer til AIP/VFG/AIC`), **kein** "VFR Flight Guide"-Link,
+- nur 2 Buttons (Navbar-Toggle + ein `ng-hide`-Button),
+- **kein iframe**; einziger struktureller Hinweis: `/templates/treegrid.html`
+  (Angular-Tree-Grid-Template).
 
-→ Ergebnis: **11 von 12 Ländern live**
+Der AIP-Baum wird **asynchron per Angular-Route/Klick** in die SPA geladen -
+`render_html` erwischt den DOM, **bevor** der Baum befüllt ist, und die Knoten
+sind **klickbare Angular-Tree-Items ohne `<a href>`**, kein aus dem HTML
+ableitbarer Daten-Endpoint. Der aktuelle text-basierte Link-Follow-Ansatz
+(`_follow` sucht `<a>`-Texte) kann das nicht bedienen.
+
+**Nötig für einen Fix (nicht best-effort, größerer Umbau):** `PlaywrightBase`
+um **Klick-Navigation + Warten auf Selektor** erweitern (Tree-Item anklicken →
+VFG → Part 3 → AD 2 / AD 3 aufklappen) **oder** den Tree-Daten-Endpoint per
+Netzwerk-Intercept ermitteln und direkt abfragen. Bis dahin bleibt DK in
+`ALLOWED_FAILURES` (schadet nichts - die anderen 11 Länder laufen normal).
+
+→ Ergebnis bei Umsetzung: **11 von 12 Ländern live** (aktuell **10 live**: alle
+außer DK und GR)
 
 ## 4. GR: Web Unlocker liefert 502 🟡 (Owner-Blick nötig)
 
