@@ -127,7 +127,13 @@ export async function AirportGadgets({
   if (facts?.customs != null) addProp("Customs", facts.customs ? "Yes" : "No");
 
   return (
-    <div className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
+    // min-h matches the streaming fallback (AirportGadgetsFallback): reserving a
+    // consistent height for the whole gadget region keeps the footer from
+    // shifting when the fallback is replaced AND when the lazy client weather box
+    // later appears or collapses (both happen within the reserved height). Fields
+    // taller than this (e.g. with a PDF chart) still grow past it; sparse fields
+    // get a little trailing whitespace. Keep this value in sync with the fallback.
+    <div className="mx-auto mt-24 min-h-[40rem] max-w-7xl px-4 sm:px-6 lg:px-8">
       {/* Enriched Airport JSON-LD - one facts fetch feeds this and the boxes. */}
       <SchemaAirport
         name={schemaName}
