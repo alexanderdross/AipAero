@@ -92,29 +92,36 @@ export function SearchInputField({
         <input type="hidden" name="type" value={type} />
         <input type="hidden" name="country" value={country} />
       </form>
-      <div className="absolute left-1/2 mt-3 w-full max-w-7xl -translate-x-1/2 transform px-4 text-center text-white sm:px-6 lg:px-8">
-        <ol>
-          {state.airports.map((airport, index) => (
-            <li key={index}>
-              <ExternalLink
-                href={`${airport.url}`}
-                className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue mt-1 flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                hrefTitle={`${airport.title}`} //hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
-              >
-                <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
-                  AIP
-                </span>
-                <span>{airport.title}</span>
-                <ExternalLinkIcon
-                  className="h-5 w-5 flex-shrink-0"
-                  aria-hidden="true"
-                />
-              </ExternalLink>
-            </li>
-          ))}
-        </ol>
-        {pending && state.airports.length !== 0 && (
-          <div className="bg-drossblue rounded-lg py-2">...</div>
+      {/* The results deliberately overlay the page content below (no CLS);
+          the opaque panel keeps that content from showing through the gaps
+          between the result rows. */}
+      <div className="absolute left-1/2 z-10 mt-3 w-full max-w-7xl -translate-x-1/2 px-4 text-center text-white sm:px-6 lg:px-8">
+        {state.airports.length > 0 && (
+          <div className="rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
+            <ol className="space-y-1">
+              {state.airports.map((airport, index) => (
+                <li key={index}>
+                  <ExternalLink
+                    href={`${airport.url}`}
+                    className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                    hrefTitle={`${airport.title}`} //hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
+                  >
+                    <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
+                      AIP
+                    </span>
+                    <span>{airport.title}</span>
+                    <ExternalLinkIcon
+                      className="h-5 w-5 flex-shrink-0"
+                      aria-hidden="true"
+                    />
+                  </ExternalLink>
+                </li>
+              ))}
+            </ol>
+            {pending && (
+              <div className="bg-drossblue mt-1 rounded-lg py-2">...</div>
+            )}
+          </div>
         )}
       </div>
     </>
