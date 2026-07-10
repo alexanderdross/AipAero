@@ -59,10 +59,14 @@ Known issues (current AIRAC cycle, 2026-07; see `docs/open-tasks.md`):
   `AIRAC-YYYY-MM-DD/html/` subfolder (fr.py derives it from `home.js`). Verified
   live (DE 792, FR 143).
 - **GR** - the Bright Data Web Unlocker returns `502 Access denied` for
-  `aisgr.hasp.gov.gr`; needs a Bright-Data-side fix before the selectors can be
-  validated.
-- **DK** - still in `ALLOWED_FAILURES`: Playwright renders the page but the
-  Naviair navigation changed (no "VFR Flight Guide" link), so it parses 0.
+  `aisgr.hasp.gov.gr` (likely a Bright-Data compliance/KYC block on the `.gov`
+  domain, not our selectors); needs a Bright-Data-side fix/allowlist before the
+  selectors can be validated. Owner diagnosis steps in `docs/open-tasks.md` #4.
+- **DK** - parked in `ALLOWED_FAILURES`: `aim.naviair.dk` is an AngularJS SPA
+  whose AIP tree loads asynchronously into click-driven tree items (no
+  `<a href>`, no iframe, no HTML-discoverable data endpoint), so the text-link
+  crawler can't navigate it. A fix needs Playwright click-navigation or the
+  tree's data API - see `crawlers/tasks/crawler_denmark.md` + open-tasks.md #3.
 
 Open (see `tasks/` for per-country research notes):
 
