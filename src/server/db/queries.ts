@@ -188,12 +188,17 @@ export const QUERIES = {
     country = country.toUpperCase();
     return cachedRead<Airport | undefined>(
       "airport",
-      ["airport", slug, country, type],
+      // Case-insensitive cache key so "?edny" and "?EDNY" share one entry.
+      ["airport", slug.toUpperCase(), country, type],
       ["airport", countryTag(country)],
       (db) =>
         db.query.airports.findFirst({
           where: and(
-            eq(airports.slug, slug),
+            // Manually typed detail URLs often arrive lowercased (?edny for
+            // ?EDNY); SQLite compares TEXT case-sensitively, so match the slug
+            // NOCASE (slugs are ASCII). The pages' canonical URL still carries
+            // the stored slug casing, deduping the case variants for crawlers.
+            sql`${airports.slug} = ${slug} COLLATE NOCASE`,
             eq(airports.country, country),
             eq(airports.type, type),
           ),
