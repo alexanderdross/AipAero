@@ -173,6 +173,10 @@
       "title": "Alexander Dross",
       "hrefTitle": "Webseite von Alexander Dross",
       "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Gebruiksvoorwaarden",
+      "hrefTitle": "Gebruiksvoorwaarden - AIP:Aero Nederland"
     }
   },
   "Error": {
@@ -238,5 +242,23 @@
     "title": "Naderingskaart",
     "openPdf": "Kaart-PDF openen",
     "preview": "Voorbeeld tonen"
+  },
+  "TermsPage": {
+    "title": "Gebruiksvoorwaarden",
+    "intro": "AIP:Aero is een gratis zoek- en indexdienst voor luchtvaartpublicaties (AIP), naderingskaarten en luchthavengegevens in Europa.",
+    "servicesTitle": "Onze dienst",
+    "servicesText": "Met AIP:Aero vind je vliegvelden op naam of ICAO-code en kom je direct bij de officiële AIP-publicatie van het betreffende land. Daarnaast tonen onze luchthavenpagina's aanvullende informatie zoals weerberichten (METAR/TAF), luchthavengegevens (banen, frequenties, hoogte), kaarten en contactgegevens; pagina's kunnen ook voor offline gebruik worden opgeslagen. De dienst is gratis en zonder registratie.",
+    "disclaimerTitle": "Aansprakelijkheidsuitsluiting",
+    "disclaimerText": "AIP:Aero kan onder geen enkele omstandigheid aansprakelijk worden gesteld. Wij publiceren zelf geen luchtvaartdocumenten: wij verwijzen uitsluitend naar de meest recente AIP (Aeronautical Information Publication) die door de officiële uitgever van het betreffende land beschikbaar wordt gesteld. Hetzelfde geldt voor weergegevens (METAR/TAF) en luchthavengegevens: deze informatie tonen wij op onze pagina's, maar zij is afkomstig van de hieronder vermelde externe bronnen. Wij aanvaarden geen enkele aansprakelijkheid of garantie voor de juistheid, volledigheid of actualiteit van gelinkte of ingebedde inhoud, noch voor de beschikbaarheid van deze website. Deze website vervangt geen officiële vluchtvoorbereiding: de gezagvoerder blijft als enige verantwoordelijk voor het verkrijgen en verifiëren van alle voor een vlucht vereiste informatie.",
+    "sourcesTitle": "Databronnen",
+    "sourcesIntro": "De gelinkte en ingebedde gegevens betrekken wij uit de volgende bronnen (adressen als platte tekst, bewust niet klikbaar):",
+    "sourcesAip": "Officiële AIP-publicaties waarnaar wij verwijzen",
+    "sourcesData": "Ingebedde externe gegevens",
+    "srcAwc": "weer METAR/TAF en luchthavengegevens",
+    "srcOurAirports": "basisgegevens van luchthavens",
+    "srcOpenAip": "uitgebreide luchthavengegevens: banen, frequenties, brandstof",
+    "srcOsm": "kaarten en adressen",
+    "metaTitle": "Gebruiksvoorwaarden - AIP:Aero Nederland",
+    "metaDescription": "Gebruiksvoorwaarden van AIP:Aero, de gratis AIP- en naderingskaarten-zoekdienst voor Nederland en Europa: dienstbeschrijving, aansprakelijkheidsuitsluiting en databronnen."
   }
 }

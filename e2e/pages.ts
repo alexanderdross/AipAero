@@ -89,6 +89,32 @@ const searchPages: TestPage[] = [
   { path: "/se/vfr/", lang: "sv", label: "vfr se" },
 ];
 
+// Terms-of-service pages - every locale (single uniform slug /terms).
+const termsPages: TestPage[] = [
+  { path: "/uk/terms/", lang: "en", label: "terms uk" },
+  { path: "/de/terms/", lang: "de", label: "terms de" },
+  { path: "/de/en/terms/", lang: "en", label: "terms de-EN" },
+  { path: "/fr/terms/", lang: "fr", label: "terms fr" },
+  { path: "/fr/en/terms/", lang: "en", label: "terms fr-EN" },
+  { path: "/nl/terms/", lang: "nl", label: "terms nl" },
+  { path: "/nl/en/terms/", lang: "en", label: "terms nl-EN" },
+  { path: "/at/terms/", lang: "de", label: "terms at" },
+  { path: "/at/en/terms/", lang: "en", label: "terms at-EN" },
+  { path: "/be/terms/", lang: "en", label: "terms be" },
+  { path: "/cz/terms/", lang: "cs", label: "terms cz" },
+  { path: "/cz/en/terms/", lang: "en", label: "terms cz-EN" },
+  { path: "/dk/terms/", lang: "da", label: "terms dk" },
+  { path: "/dk/en/terms/", lang: "en", label: "terms dk-EN" },
+  { path: "/gr/terms/", lang: "el", label: "terms gr" },
+  { path: "/gr/en/terms/", lang: "en", label: "terms gr-EN" },
+  { path: "/no/terms/", lang: "nb", label: "terms no" },
+  { path: "/no/en/terms/", lang: "en", label: "terms no-EN" },
+  { path: "/pl/terms/", lang: "pl", label: "terms pl" },
+  { path: "/pl/en/terms/", lang: "en", label: "terms pl-EN" },
+  { path: "/se/terms/", lang: "sv", label: "terms se" },
+  { path: "/se/en/terms/", lang: "en", label: "terms se-EN" },
+];
+
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */
 export const rootPage: TestPage = { path: "/", lang: "en", label: "root" };
 
@@ -98,6 +124,7 @@ export const allPages: TestPage[] = [
   ...countryPages,
   ...airportListPages,
   ...searchPages,
+  ...termsPages,
 ];
 
 /** A representative subset for the (slower) accessibility sweep. */

@@ -173,6 +173,10 @@
       "title": "Alexander Dross",
       "hrefTitle": "Webbplats av Alexander Dross",
       "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Användarvillkor",
+      "hrefTitle": "Användarvillkor - AIP:Aero Sverige"
     }
   },
   "Error": {
@@ -238,5 +242,23 @@
     "title": "Inflygningskarta",
     "openPdf": "Öppna kart-PDF",
     "preview": "Visa förhandsvisning"
+  },
+  "TermsPage": {
+    "title": "Användarvillkor",
+    "intro": "AIP:Aero är en kostnadsfri sök- och indextjänst för luftfartspublikationer (AIP), inflygningskartor och flygplatsdata i Europa.",
+    "servicesTitle": "Vår tjänst",
+    "servicesText": "AIP:Aero hittar flygplatser via namn eller ICAO-kod och leder direkt till det aktuella landets officiella AIP-publikation. Dessutom visar våra flygplatssidor kompletterande information som väderrapporter (METAR/TAF), flygplatsdata (banor, frekvenser, höjd), kartor och kontaktuppgifter; sidor kan även sparas för offlineanvändning. Tjänsten är kostnadsfri och kräver ingen registrering.",
+    "disclaimerTitle": "Ansvarsfriskrivning",
+    "disclaimerText": "AIP:Aero kan under inga omständigheter hållas ansvarigt. Vi publicerar inga luftfartsdokument själva: vi länkar endast till den senaste AIP (Aeronautical Information Publication) som tillhandahålls av respektive lands officiella utgivare. Detsamma gäller väderdata (METAR/TAF) och flygplatsdata: denna information bäddas in på våra sidor men kommer från de externa källor som anges nedan. Vi tar inget ansvar och lämnar ingen garanti för riktigheten, fullständigheten eller aktualiteten hos länkat eller inbäddat innehåll, och inte heller för denna webbplats tillgänglighet. Denna webbplats ersätter inte den officiella flygförberedelsen: befälhavaren är ensam ansvarig för att inhämta och verifiera all information som krävs för en flygning.",
+    "sourcesTitle": "Datakällor",
+    "sourcesIntro": "De länkade och inbäddade uppgifterna hämtar vi från följande källor (adresser som ren text, avsiktligt inte klickbara):",
+    "sourcesAip": "Officiella AIP-publikationer som vi länkar till",
+    "sourcesData": "Inbäddade externa data",
+    "srcAwc": "väder METAR/TAF och flygplatsdata",
+    "srcOurAirports": "basdata för flygplatser",
+    "srcOpenAip": "utökade flygplatsdata: banor, frekvenser, bränsle",
+    "srcOsm": "kartor och adresser",
+    "metaTitle": "Användarvillkor - AIP:Aero Sverige",
+    "metaDescription": "Användarvillkor för AIP:Aero, den kostnadsfria AIP- och inflygningskartssökningen för Sverige och Europa: tjänstebeskrivning, ansvarsfriskrivning och datakällor."
   }
 }

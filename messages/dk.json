@@ -173,6 +173,10 @@
       "title": "Alexander Dross",
       "hrefTitle": "Hjemmeside af Alexander Dross",
       "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Vilkår for brug",
+      "hrefTitle": "Vilkår for brug - AIP:Aero Danmark"
     }
   },
   "Error": {
@@ -238,5 +242,23 @@
     "title": "Indflyvningskort",
     "openPdf": "Åbn kort-PDF",
     "preview": "Vis forhåndsvisning"
+  },
+  "TermsPage": {
+    "title": "Vilkår for brug",
+    "intro": "AIP:Aero er en gratis søge- og indekstjeneste for luftfartspublikationer (AIP), indflyvningskort og flyvepladsdata i Europa.",
+    "servicesTitle": "Vores tjeneste",
+    "servicesText": "AIP:Aero finder flyvepladser efter navn eller ICAO-kode og fører direkte til det pågældende lands officielle AIP-publikation. Derudover viser vores flyvepladssider supplerende oplysninger som vejrmeldinger (METAR/TAF), flyvepladsdata (baner, frekvenser, højde), kort og kontaktoplysninger; sider kan også gemmes til offline brug. Tjenesten er gratis og uden registrering.",
+    "disclaimerTitle": "Ansvarsfraskrivelse",
+    "disclaimerText": "AIP:Aero kan under ingen omstændigheder holdes ansvarlig. Vi udgiver ikke selv luftfartsdokumenter: vi linker udelukkende til den nyeste AIP (Aeronautical Information Publication), som stilles til rådighed af det pågældende lands officielle udgiver. Det samme gælder vejrdata (METAR/TAF) og flyvepladsdata: disse oplysninger vises på vores sider, men stammer fra de eksterne kilder, der er anført nedenfor. Vi påtager os intet ansvar og ingen garanti for rigtigheden, fuldstændigheden eller aktualiteten af linket eller indlejret indhold, ej heller for denne hjemmesides tilgængelighed. Denne hjemmeside erstatter ikke den officielle flyveforberedelse: luftfartøjschefen er alene ansvarlig for at indhente og verificere alle oplysninger, der kræves til en flyvning.",
+    "sourcesTitle": "Datakilder",
+    "sourcesIntro": "De linkede og indlejrede data henter vi fra følgende kilder (adresser som ren tekst, bevidst ikke klikbare):",
+    "sourcesAip": "Officielle AIP-publikationer, vi linker til",
+    "sourcesData": "Indlejrede eksterne data",
+    "srcAwc": "vejr METAR/TAF og flyvepladsdata",
+    "srcOurAirports": "basisdata for flyvepladser",
+    "srcOpenAip": "udvidede flyvepladsdata: baner, frekvenser, brændstof",
+    "srcOsm": "kort og adresser",
+    "metaTitle": "Vilkår for brug - AIP:Aero Danmark",
+    "metaDescription": "Vilkår for brug af AIP:Aero, den gratis AIP- og indflyvningskort-søgning for Danmark og Europa: beskrivelse af tjenesten, ansvarsfraskrivelse og datakilder."
   }
 }

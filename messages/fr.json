@@ -173,6 +173,10 @@
       "title": "Alexander Dross",
       "hrefTitle": "Site web d'Alexander Dross",
       "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Conditions d'utilisation",
+      "hrefTitle": "Conditions d'utilisation - AIP:Aero France"
     }
   },
   "Error": {
@@ -238,5 +242,23 @@
     "title": "Carte d'approche",
     "openPdf": "Ouvrir le PDF de la carte",
     "preview": "Afficher l'aperçu"
+  },
+  "TermsPage": {
+    "title": "Conditions d'utilisation",
+    "intro": "AIP:Aero est un service gratuit de recherche et d'indexation des publications d'information aéronautique (AIP), des cartes d'approche et des données d'aérodromes en Europe.",
+    "servicesTitle": "Notre service",
+    "servicesText": "AIP:Aero permet de trouver les aérodromes par nom ou code OACI et mène directement à la publication AIP officielle du pays concerné. Nos pages d'aérodrome intègrent en outre des informations complémentaires telles que les bulletins météo (METAR/TAF), les données d'aérodrome (pistes, fréquences, altitude), des cartes et des coordonnées ; les pages peuvent aussi être enregistrées pour une utilisation hors ligne. Le service est gratuit et sans inscription.",
+    "disclaimerTitle": "Clause de non-responsabilité",
+    "disclaimerText": "AIP:Aero ne peut en aucun cas être tenu responsable. Nous ne publions aucun document aéronautique : nous nous contentons de renvoyer vers la dernière AIP (Aeronautical Information Publication) mise à disposition par l'éditeur officiel du pays concerné. Il en va de même pour les données météo (METAR/TAF) et les données d'aérodromes : ces informations sont intégrées à nos pages mais proviennent des sources externes listées ci-dessous. Nous n'assumons aucune responsabilité ni garantie quant à l'exactitude, l'exhaustivité ou l'actualité des contenus liés ou intégrés, ni quant à la disponibilité de ce site. Ce site ne remplace pas la préparation du vol officielle : le commandant de bord reste seul responsable de l'obtention et de la vérification de toutes les informations nécessaires au vol.",
+    "sourcesTitle": "Sources de données",
+    "sourcesIntro": "Les données liées et intégrées proviennent des sources suivantes (adresses en texte brut, volontairement non cliquables) :",
+    "sourcesAip": "Publications AIP officielles vers lesquelles nous renvoyons",
+    "sourcesData": "Données externes intégrées",
+    "srcAwc": "météo METAR/TAF et données d'aérodrome",
+    "srcOurAirports": "données de base des aérodromes",
+    "srcOpenAip": "données d'aérodrome étendues : pistes, fréquences, carburant",
+    "srcOsm": "cartes et adresses",
+    "metaTitle": "Conditions d'utilisation - AIP:Aero France",
+    "metaDescription": "Conditions d'utilisation d'AIP:Aero, la recherche gratuite d'AIP et de cartes d'approche pour France et l'Europe : description du service, clause de non-responsabilité et sources de données."
   }
 }
