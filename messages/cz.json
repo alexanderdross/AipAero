@@ -152,6 +152,12 @@
     "description": "<p>Bohužel došlo k chybě.</p><p>Můžete zkusit <retry>tuto stránku znovu načíst</retry>.</p>",
     "title": "Něco se pokazilo!"
   },
+  "NotFound": {
+    "title": "404 - Stránka nenalezena",
+    "description": "Tato stránka nebo kód letiště neexistuje. Zkuste letiště vyhledat:",
+    "searchPlaceholder": "Hledat letiště podle názvu nebo kódu ICAO",
+    "home": "Zpět na úvodní stránku"
+  },
   "Weather": {
     "title": "Počasí",
     "observed": "Naměřeno",

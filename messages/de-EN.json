@@ -222,6 +222,12 @@
     "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
     "title": "Something went wrong!"
   },
+  "NotFound": {
+    "title": "404 - Page not found",
+    "description": "This page or airport code does not exist. Try searching for the airport instead:",
+    "searchPlaceholder": "Search any airport by name or ICAO code",
+    "home": "Back to the home page"
+  },
   "Weather": {
     "title": "Weather",
     "observed": "Observed",

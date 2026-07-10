@@ -187,6 +187,12 @@
     "description": "<p>Es ist leider ein Problem aufgetreten.</p><p>Du kannst versuchen <retry>diese Seite neu zu laden</retry>.</p>",
     "title": "Etwas ist schief gelaufen!"
   },
+  "NotFound": {
+    "title": "404 - Seite nicht gefunden",
+    "description": "Diese Seite oder diesen Flugplatz-Code gibt es nicht. Suche stattdessen direkt nach dem Flugplatz:",
+    "searchPlaceholder": "Flugplatz nach Name oder ICAO-Code suchen",
+    "home": "Zurück zur Startseite"
+  },
   "Weather": {
     "title": "Wetter",
     "observed": "Beobachtet",

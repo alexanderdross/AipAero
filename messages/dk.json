@@ -187,6 +187,12 @@
     "description": "<p>Der opstod desværre en fejl.</p><p>Du kan prøve at <retry>genindlæse denne side</retry>.</p>",
     "title": "Der gik noget galt!"
   },
+  "NotFound": {
+    "title": "404 - Siden blev ikke fundet",
+    "description": "Denne side eller flyvepladskode findes ikke. Prøv i stedet at søge efter flyvepladsen:",
+    "searchPlaceholder": "Søg efter en flyveplads efter navn eller ICAO-kode",
+    "home": "Tilbage til forsiden"
+  },
   "Weather": {
     "title": "Vejr",
     "observed": "Observeret",

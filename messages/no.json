@@ -187,6 +187,12 @@
     "description": "<p>Det oppstod dessverre et problem.</p><p>Du kan prøve å <retry>laste denne siden på nytt</retry>.</p>",
     "title": "Noe gikk galt!"
   },
+  "NotFound": {
+    "title": "404 - Siden ble ikke funnet",
+    "description": "Denne siden eller flyplasskoden finnes ikke. Prøv å søke etter flyplassen i stedet:",
+    "searchPlaceholder": "Søk etter en flyplass etter navn eller ICAO-kode",
+    "home": "Tilbake til forsiden"
+  },
   "Weather": {
     "title": "Vær",
     "observed": "Observert",
