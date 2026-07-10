@@ -7,7 +7,7 @@ import { test, expect, type Page } from "@playwright/test";
 // tests parse every ld+json block and assert the expected @types are present.
 
 type Parsed = {
-  /** Every @type found (top level or inside an @graph), flattened. */
+  /** Every @type found anywhere in the tree (top level, @graph, or nested), flattened. */
   types: string[];
   /** Whether every block parsed as JSON with an @context of schema.org. */
   allValid: boolean;
@@ -25,13 +25,18 @@ async function readJsonLd(page: Page, path: string): Promise<Parsed> {
   const types: string[] = [];
   let allValid = true;
 
+  // Walk the whole tree so nested @types are found too (e.g. a
+  // SiteNavigationElement inside a CollectionPage's mainEntity ItemList /
+  // itemListElement), not just top-level or @graph entries.
   const collect = (node: unknown) => {
     if (Array.isArray(node)) return node.forEach(collect);
     if (node && typeof node === "object") {
       const obj = node as Record<string, unknown>;
       const t = obj["@type"];
       if (typeof t === "string") types.push(t);
-      if (Array.isArray(obj["@graph"])) obj["@graph"].forEach(collect);
+      else if (Array.isArray(t))
+        t.forEach((x) => typeof x === "string" && types.push(x));
+      for (const v of Object.values(obj)) collect(v);
     }
   };
 
