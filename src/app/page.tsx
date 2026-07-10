@@ -18,6 +18,7 @@ import {
   rootTitle,
 } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
+import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import { inter } from "~/lib/fonts";
 import { routing } from "~/i18n/routing";
@@ -380,6 +381,8 @@ export default async function RootPage() {
         </main>
 
         <Footer />
+        {/* Offline PWA: registers /sw.js after load (production hosts only). */}
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );

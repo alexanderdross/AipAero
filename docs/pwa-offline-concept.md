@@ -6,8 +6,12 @@ capability**, so a pilot can install AIP:Aero on an EFB tablet, look up fields
 on the ground, and still open previously viewed airports (and explicitly saved
 charts) in the air with no connectivity.
 
-This is a **spec, not yet implemented**. It needs the scope decision in "Phasing"
-below.
+**Status: Phases 1 + 2 are implemented** (`public/sw.js`, `public/offline.html`,
+`src/components/service-worker-registration.tsx`, the `/sw.js` Cache-Control
+header and `worker-src 'self'` in `next.config.mjs`). Registration is skipped on
+localhost so `pnpm start`/`pnpm preview` and the Playwright E2E suite stay
+SW-free. Phase 3 (explicit "save chart for offline" + favorites) is still open -
+it needs new i18n keys and a UI decision.
 
 ---
 
@@ -106,14 +110,57 @@ A button on the airport detail page ("Für offline speichern") that:
   next navigation - no in-page "update available" prompt needed at this app's
   interaction depth.
 
+## Storage limits and country scoping (decision, 10.07.2026)
+
+Question raised by the owner: with more countries coming, does the offline
+cache grow too large - and should bookmarking e.g. `/de/` scope the offline
+content to Germany?
+
+**Finding: country scoping is already emergent.** The SW does no content
+precache (only 3 tiny shell files); everything else is cached **on visit**. A
+user who browses only `/de/` only ever caches German pages, and adding new
+countries adds zero bytes to existing users' caches. The caps bound the worst
+case regardless of country count: 100 pages (~15 MB) + 200 tiles (~5-10 MB) +
+30 marker responses, FIFO-trimmed - roughly **20-25 MB maximum** per device.
+
+**Where the real limits are** (Cache Storage quota is per origin,
+browser-dependent):
+
+| Browser | Quota | Practical relevance |
+| --- | --- | --- |
+| Chrome / Edge / Android | up to ~60% of free disk | effectively unlimited here |
+| Firefox | up to 10% of disk (max 10 GB) | uncritical |
+| Safari / iOS (the EFB device!) | ~1 GB order of magnitude, aggressive eviction | the actual constraint |
+
+Two traps that kill country-level bulk caching of charts:
+
+1. **iOS eviction**: Safari largely ignores `storage.persist()` and evicts
+   under pressure; only home-screen-installed PWAs are exempt from the 7-day
+   cleanup. The EFB tablet is exactly the constrained device.
+2. **Opaque-response padding**: chart PDFs live on foreign AIP hosts without
+   CORS. Chromium charges each cached opaque (`no-cors`) response with ~7 MB
+   quota padding regardless of real size - ~400 DE chart PDFs would book
+   ~2.8 GB of quota. Bulk PDF precaching is therefore a non-starter; PDFs are
+   only cached one at a time on explicit user action (Phase 3).
+
+**Decision:** no bookmark- or install-triggered country precache (there is no
+bookmark event anyway, and unsolicited multi-MB downloads are hostile to data
+plans and batteries). Keep the usage-driven caching; ship Phase 3 for explicit
+per-airport saves. An optional **Phase 4** may add an explicit
+"make <country> available offline" button on the country page that fetches the
+**HTML detail pages only** (~60 MB for DE, no PDFs), with a size estimate and
+progress - to be considered only after Phase 3 exists and iOS behaviour has
+been tested on a real device.
+
 ## Explicitly out of scope
 
 - **Offline search / offline DB replica** (shipping the airport index into
   IndexedDB): real work, questionable value - the pilot flow is "look up on the
   ground, save, fly". Revisit only on user demand.
 - **Web Push notifications**: no use case yet.
-- **Precaching all airports of a country**: quota + tile-policy hostile; the
-  explicit-save flow covers the real need.
+- **Automatic precaching of all airports of a country**: quota + tile-policy
+  hostile (see the storage-limits decision above); the explicit-save flow
+  covers the real need, an explicit country-bulk button is at most Phase 4.
 
 ## Phasing
 

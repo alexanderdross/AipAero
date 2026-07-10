@@ -6,6 +6,7 @@ import { Header } from "~/components/header";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { SchemaWebsite } from "~/components/schemas/schema-website";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
+import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { inter } from "~/lib/fonts";
 import { NextIntlClientProvider } from "next-intl";
 import pick from "lodash/pick";
@@ -66,6 +67,8 @@ export default async function LocaleLayout(
           </NextIntlClientProvider>
         </div>
         <Footer />
+        {/* Offline PWA: registers /sw.js after load (production hosts only). */}
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );
