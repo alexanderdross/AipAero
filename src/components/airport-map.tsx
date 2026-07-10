@@ -132,7 +132,7 @@ export function AirportMap({
   }
 
   return (
-    <div className="mx-auto mb-6 max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mb-2 flex items-center justify-end gap-x-3">
         {locateError && (
           <span role="alert" className="text-sm text-red-700">
@@ -154,11 +154,17 @@ export function AirportMap({
       {/* `isolate` contains Leaflet's internal z-indexes (its controls default
           to z-index 1000) in a local stacking context, so they can't paint
           over the mobile menu / drawer overlay (z-50). */}
+      {/* The map is decorative - it illustrates coverage, it is not page
+          content - so the tile layer is desaturated to greyscale to make it
+          recede. Only the tiles are greyed (via the .leaflet-tile-pane child);
+          the coloured airfield markers live in a different Leaflet pane and
+          keep their colour. Greyscale preserves luminance, so place-label
+          contrast on the tiles stays AA-compliant. */}
       <div
         ref={containerRef}
         role="application"
         aria-label={mapLabel}
-        className="border-drossgray-dark/15 isolate h-80 w-full rounded-lg border bg-white"
+        className="border-drossgray-dark/15 bg-drossgray isolate h-80 w-full rounded-lg border [&_.leaflet-tile-pane]:grayscale"
       />
     </div>
   );

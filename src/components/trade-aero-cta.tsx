@@ -16,8 +16,8 @@ export async function TradeAeroCta() {
   const locale = await getLocale();
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <p className="text-drossgray-dark mt-10 text-center text-sm">
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <p className="text-drossgray-dark text-center text-sm">
         {t("title")}{" "}
         <ExternalLink
           href={tradeAeroUrl(locale)}
