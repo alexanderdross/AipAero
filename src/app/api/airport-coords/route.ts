@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getPathname } from "~/i18n/routing";
 import { i18nPathMapping } from "~/lib/utils";
+import { withEdgeCache } from "~/server/edge-cache";
 import { QUERIES } from "~/server/db/queries";
 
 /**
@@ -17,8 +18,16 @@ import { QUERIES } from "~/server/db/queries";
  * Reads go through the cached `QUERIES.airportsWithCoords` (per-country tag), and
  * the response carries a 1h `Cache-Control` so browsers / the edge cache it. DB
  * reads fail-soft to `[]` during the build and when no D1 binding is present.
+ *
+ * `withEdgeCache` serves repeat hits from the Cloudflare Cache API (keyed on
+ * the URL incl. `?locale`) - without it every map view is a full Worker
+ * invocation, because `s-maxage` alone is inert for Worker responses.
  */
-export async function GET(request: Request): Promise<NextResponse> {
+export async function GET(request: Request): Promise<Response> {
+  return withEdgeCache(request, () => handleCoords(request));
+}
+
+async function handleCoords(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const locale = searchParams.get("locale") ?? "";
   const country = locale.split("-")[0];
