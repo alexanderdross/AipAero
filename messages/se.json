@@ -19,6 +19,10 @@
     "/airport-list": {
       "title": "Flygplatslista",
       "hrefTitle": "Lista över flygplatser i Sverige"
+    },
+    "/terms": {
+      "title": "Användarvillkor",
+      "hrefTitle": "Användarvillkor - AIP:Aero Sverige"
     }
   },
   "Menu": {
@@ -236,7 +240,9 @@
     "yes": "Ja",
     "no": "Nej",
     "saveOffline": "Spara för offline",
-    "savedOffline": "Sparad offline"
+    "savedOffline": "Sparad offline",
+    "installHint": "Installera som app: välj 'Lägg till på hemskärmen' i webbläsarens delningsmeny.",
+    "installHintMac": "På Mac: installera via Safaris delningsmeny med 'Lägg till i Dock'."
   },
   "Chart": {
     "title": "Inflygningskarta",

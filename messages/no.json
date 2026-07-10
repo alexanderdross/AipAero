@@ -19,6 +19,10 @@
     "/airport-list": {
       "title": "Flyplassliste",
       "hrefTitle": "Liste over flyplasser i Norge"
+    },
+    "/terms": {
+      "title": "Vilkår for bruk",
+      "hrefTitle": "Vilkår for bruk - AIP:Aero Norge"
     }
   },
   "Menu": {
@@ -236,7 +240,9 @@
     "yes": "Ja",
     "no": "Nei",
     "saveOffline": "Lagre for frakoblet bruk",
-    "savedOffline": "Lagret frakoblet"
+    "savedOffline": "Lagret frakoblet",
+    "installHint": "Installer som app: velg 'Legg til på Hjem-skjermen' i nettleserens delemeny.",
+    "installHintMac": "På Mac: installer via delemenyen i Safari med 'Legg til i Dock'."
   },
   "Chart": {
     "title": "Innflygingskart",

@@ -15,6 +15,10 @@
     "/airport-list": {
       "title": "Seznam letišť",
       "hrefTitle": "Seznam letišť v Česku"
+    },
+    "/terms": {
+      "title": "Podmínky použití",
+      "hrefTitle": "Podmínky použití - AIP:Aero Česko"
     }
   },
   "Menu": {
@@ -201,7 +205,9 @@
     "yes": "Ano",
     "no": "Ne",
     "saveOffline": "Uložit pro offline",
-    "savedOffline": "Uloženo offline"
+    "savedOffline": "Uloženo offline",
+    "installHint": "Nainstalovat jako aplikaci: v nabídce Sdílet v prohlížeči zvolte 'Přidat na plochu'.",
+    "installHintMac": "Na Macu: nainstalujte přes nabídku Sdílet v Safari volbou 'Přidat do Docku'."
   },
   "Chart": {
     "title": "Přibližovací mapa",

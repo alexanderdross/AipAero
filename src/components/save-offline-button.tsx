@@ -2,6 +2,12 @@
 
 import { CheckIcon, DownloadIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import {
+  isIos,
+  isMacSafari,
+  isStandalone,
+  promptInstall,
+} from "~/lib/install-prompt";
 
 // Cache names must stay in sync with public/sw.js (SAVED_CACHE / CHARTS_CACHE).
 const SAVED_CACHE = "saved-v1";
@@ -51,16 +57,24 @@ export function SaveOfflineButton({
   chartUrl,
   saveLabel,
   savedLabel,
+  installHintLabel,
+  installHintMacLabel,
 }: {
   slug: string;
   title: string;
   chartUrl: string | null;
   saveLabel: string;
   savedLabel: string;
+  installHintLabel: string;
+  installHintMacLabel: string;
 }) {
   const [supported, setSupported] = useState(false);
   const [saved, setSaved] = useState(false);
   const [busy, setBusy] = useState(false);
+  // Which manual-install hint to show after saving: Apple platforms have no
+  // programmatic install ("ios" = Share -> Add to Home Screen, "mac" = Safari
+  // Share -> Add to Dock); Chromium platforms get the native prompt instead.
+  const [manualHint, setManualHint] = useState<"ios" | "mac" | null>(null);
 
   useEffect(() => {
     if (!("caches" in window)) return;
@@ -72,6 +86,13 @@ export function SaveOfflineButton({
 
   async function save() {
     setBusy(true);
+    // Saving for offline implies wanting the app on the device: trigger the
+    // NATIVE install dialog right inside this user gesture (Chromium/Android;
+    // resolves "unavailable" when already installed or unsupported). Fired
+    // before the async cache work so the transient user activation is still
+    // valid. iOS has no programmatic install - a manual Add-to-Home-Screen
+    // hint is shown after saving instead.
+    void promptInstall();
     try {
       const pageUrl = window.location.pathname + window.location.search;
       const res = await fetch(pageUrl);
@@ -109,6 +130,10 @@ export function SaveOfflineButton({
       });
       writeIndex(index);
       setSaved(true);
+      if (!isStandalone()) {
+        if (isIos()) setManualHint("ios");
+        else if (isMacSafari()) setManualHint("mac");
+      }
     } catch {
       setSaved(false);
     } finally {
@@ -134,7 +159,7 @@ export function SaveOfflineButton({
   }
 
   return (
-    <p className="text-center text-sm">
+    <div className="text-center text-sm">
       <button
         type="button"
         disabled={busy}
@@ -149,6 +174,13 @@ export function SaveOfflineButton({
         )}
         <span>{saved ? savedLabel : saveLabel}</span>
       </button>
-    </p>
+      {/* Apple platforms cannot install programmatically: after saving, show
+          the manual route (hidden when already running as an installed app). */}
+      {manualHint && (
+        <p className="text-drossgray-dark mx-auto mt-1 max-w-md text-xs">
+          {manualHint === "ios" ? installHintLabel : installHintMacLabel}
+        </p>
+      )}
+    </div>
   );
 }

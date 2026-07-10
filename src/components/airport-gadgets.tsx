@@ -165,6 +165,8 @@ export async function AirportGadgets({
           chartUrl={isPdfUrl(airport.url) ? airport.url : null}
           saveLabel={tCommon("saveOffline")}
           savedLabel={tCommon("savedOffline")}
+          installHintLabel={tCommon("installHint")}
+          installHintMacLabel={tCommon("installHintMac")}
         />
         {isPdfUrl(airport.url) && (
           <>
