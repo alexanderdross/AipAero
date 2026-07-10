@@ -15,7 +15,7 @@ const items = [
   {
     Icon: ShieldCheckIcon,
     title: "Official sources",
-    text: "We link straight to each country's national AIP publication",
+    text: "We link straight to the latest version of each country's national AIP publication",
   },
   {
     Icon: GlobeIcon,
