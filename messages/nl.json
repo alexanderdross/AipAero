@@ -92,7 +92,7 @@
   },
   "LocaleSwitcher": {
     "label": "Taal wijzigen",
-    "locale": "{locale, select, nl {🇳🇱 Dutch} en {🇬🇧 English} other {Onbekend}}"
+    "locale": "{locale, select, nl {🇳🇱 Nederlands} en {🇬🇧 English} other {Onbekend}}"
   },
   "CountrySiteNavElement": {
     "name": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
