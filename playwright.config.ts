@@ -16,7 +16,11 @@ export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
+  // CI runs on the memory-constrained self-hosted runner (historic OOM kills):
+  // cap the parallel Chromium workers there and allow one extra retry so a
+  // transient kill/timeout doesn't fail the whole job. Locally: full speed.
+  workers: process.env.CI ? 2 : undefined,
+  retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? [["github"], ["list"]] : "list",
   use: {
     baseURL: `http://localhost:${PORT}`,

@@ -38,7 +38,10 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
   twilight (VFR night) - **shipped** (§C).~~
 - ~~**Map + "airports near me"** (OpenStreetMap tiles) - **shipped** (§C): a Leaflet map on the
   airport-list page with a "locate me" button.~~ Still wished for: filter by fuel / customs / hard runway.
-- **Deep link to the exact chart PDF** (+ inline preview) instead of the AIP index page.
+- ~~**Deep link to the exact chart PDF** (+ inline preview) instead of the AIP index page - **partially
+  shipped**: where the crawler URL already points at a PDF, the detail page shows a chart box with a
+  direct "open PDF" link, a lazy on-click inline preview and DigitalDocument JSON-LD.~~ Still wished
+  for: exact-PDF URLs for the countries whose crawler stores an index page (see `docs/chart-pdf-plan.md`).
 - ~~**Chart currency indicator** - a "last updated" date shipped (§C); true per-country AIRAC freshness
   now shipped too (a real per-country crawl timestamp via the `crawl_meta` table).~~
 - **Favorites / recently viewed** (localStorage - no account needed).
@@ -148,7 +151,9 @@ coordinates (facts row, else the METAR station), shown in the aerodrome-data box
   hours and circuit direction render on the facts card; field names + enums verified against OpenAIP's
   authoritative public v1 schema, unit-tested in `openaip-parse.test.ts`.)** Still open: **how to
   request PPR** (contact).
-- **Deep link to the exact chart PDF** (+ optional inline preview) instead of the AIP index page.
+- ~~**Deep link to the exact chart PDF** (+ optional inline preview).~~ **(partially shipped - chart
+  box with direct PDF link, lazy on-click preview and DigitalDocument JSON-LD wherever the stored URL
+  is already a PDF.)** Still open: exact-PDF URLs for index-page countries (`docs/chart-pdf-plan.md`).
 - ~~**Per-country AIRAC / crawl freshness** - a real per-country crawl timestamp.~~ **(shipped -
   `crawl_meta` + `QUERIES.crawlUpdatedAt`.)**
 - **Customs / Airport-of-Entry** flag + national border-crossing forms.

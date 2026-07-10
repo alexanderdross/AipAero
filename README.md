@@ -8,7 +8,7 @@ The project is split across two hosts by design — they are independent deploy 
 
 - **Website (`src/`) → [Cloudflare Workers](https://workers.cloudflare.com/)** via the [OpenNext Cloudflare adapter](https://opennext.js.org/cloudflare) (`@opennextjs/cloudflare`). Config lives in `wrangler.jsonc` + `open-next.config.ts`. The Worker serves both `aip.aero` (canonical) and `www.aip.aero` (301-redirected to the apex in `src/middleware.ts`); `workers.dev` is disabled.
 - **Database → [Cloudflare D1](https://developers.cloudflare.com/d1/)** (SQLite), reached through the `DB` binding — there is no connection string. Two more Cloudflare resources back OpenNext caching: an [R2](https://developers.cloudflare.com/r2/) bucket (`NEXT_INC_CACHE_R2_BUCKET` → bucket `aip-aero-inc-cache`, incremental/data cache) and a D1 database (`NEXT_TAG_CACHE_D1`, backs `revalidateTag`). R2 replaced the former `NEXT_INC_CACHE_KV` namespace, whose free-tier ~1k-writes/day cap was exhausted by wholesale cache invalidation on every crawl.
-- **Crawlers (`crawlers/`) → [netcup](https://www.netcup.eu/) root server.** The Python scrapers stay on the existing netcup VM under systemd (`aip-crawler.service` + `aip-crawler.timer`). Serverless is the wrong runtime for scheduled, long-running scraping, so the crawlers are **not** deployed to Workers. They reach the website over HTTP and post results to `https://aip.aero/api/airports` (authenticated with `CRON_SECRET`).
+- **Crawlers (`crawlers/`) → self-hosted GitHub Actions runner** (on the Coolify/[netcup](https://www.netcup.eu/) box). The Python scrapers run as scheduled workflows - `.github/workflows/crawl.yml` (daily) and `facts-import.yml` (weekly OurAirports import), both manually triggerable. This replaced the old bare-metal systemd timer (`aip-crawler.service` + `aip-crawler.timer`): fresh checkout per run (no code drift), run logs, and per-run headless Chromium for the DK Playwright fallback. Serverless is the wrong runtime for scheduled, long-running scraping, so the crawlers are **not** deployed to Workers. They reach the website over HTTP and post results to `https://aip.aero/api/airports` (authenticated with `CRON_SECRET`).
 
 Treat all Next.js code as serverless on the Workers runtime: no persistent filesystem, no long-running handlers, no Chromium/Selenium, no raw Node TCP.
 
@@ -26,7 +26,7 @@ flowchart TD
         Cache["Cache (R2 incr. + D1 tag cache)"]
         IsHit{"Cache hit?"}
   end
- subgraph subGraph1["netcup root server (systemd timer)"]
+ subgraph subGraph1["self-hosted GitHub Actions runner (scheduled workflows)"]
         Crawlers["Airport Crawlers (Python)"]
   end
     Crawlers -- "POST data + CRON_SECRET" --> API
@@ -103,9 +103,9 @@ docker compose up --build -d
 
 The container exposes port `3000` internally (mapped to `127.0.0.1:8080` by `docker-compose.yml`) and used to sit behind a reverse proxy on the netcup host. This path is no longer used in production — it remains only for local container testing.
 
-### Crawlers (netcup)
+### Crawlers (GitHub Actions)
 
-The Python crawlers under `crawlers/` run on the netcup root server, scheduled by `aip-crawler.timer`. They use `httpx` + `BeautifulSoup` for static AIP sites (AT, DE, FR, NL, UK are all on this path). See `crawlers/README.md` for the per-country status, the `Airport` schema, and how to add a new country.
+The Python crawlers under `crawlers/` run as scheduled GitHub Actions workflows on the self-hosted runner - `.github/workflows/crawl.yml` (daily crawl + publish) and `facts-import.yml` (weekly OurAirports import), both triggerable via `workflow_dispatch`. They use `httpx` + `BeautifulSoup` for static AIP sites (all twelve country crawlers are on this path; DK renders via Playwright). See `crawlers/README.md` for the per-country status, the `Airport` schema, and how to add a new country.
 
 ## Learn More
 

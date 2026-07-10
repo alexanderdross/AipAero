@@ -67,10 +67,14 @@ wiring.** Two mechanisms guarantee this:
 - **A) Footer link (sitewide)** - the existing `tradeaero` footer link now points to `tradeAeroUrl(locale)`
   instead of the static `https://trade.aero`.
 - **B) Contextual CTA box** - a localized `TradeAeroCta` (server-rendered) on the **country landing page**
-  (`[locale]/page.tsx`) and the **airport-list page**, e.g. _"Flugzeug in Deutschland kaufen oder
-  verkaufen? → Flugzeuge in Deutschland ansehen"_. Country-specific, varied anchor text - far more valuable
-  than a repeated boilerplate footer link, with clear conversion intent.
-- (C) An airport-detail CTA under the chart button is a natural later add-on, not yet built.
+  (`[locale]/page.tsx`) and the **airport-list page** (between the map and the listings), e.g. _"Flugzeug
+  in Deutschland kaufen oder verkaufen? → Flugzeuge in Deutschland ansehen"_. Country-specific, varied
+  anchor text - far more valuable than a repeated boilerplate footer link, with clear conversion intent.
+- **C) Airport-detail CTA** - implemented: the same `TradeAeroCta` renders on all five detail pages
+  (`vfr`/`ifr`/`heliports`/`military`/`aeroports`) inside the gadgets wrapper
+  (`src/components/airport-gadgets.tsx`), placed above the weather box. Mobile note: the link is plain
+  inline flow with a trailing inline-block icon - an inline-flex anchor detached the icon from the last
+  word when the copy wrapped.
 
 ## Link behaviour
 
@@ -106,7 +110,8 @@ have a tractable eAIP to crawl.
 - `src/components/trade-aero-cta.tsx` - the localized CTA box (SSR).
 - `src/components/external-link.tsx` - optional `rel` prop.
 - `src/components/footer.tsx` - footer link → locale-aware deep link.
-- `src/app/[locale]/page.tsx`, `src/app/[locale]/airport-list/page.tsx` - render the CTA.
+- `src/app/[locale]/page.tsx`, `src/app/[locale]/airport-list/page.tsx`,
+  `src/components/airport-gadgets.tsx` (all five detail pages) - render the CTA.
 - `messages/*.json` - the `TradeAero` namespace (all 9 locales).
 
 ## Open follow-ups

@@ -1,4 +1,4 @@
-# AIP:Aero - Offene Aufgaben (Stand: 09.07.2026)
+# AIP:Aero - Offene Aufgaben (Stand: 10.07.2026)
 
 Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional · ✅ erledigt
 
@@ -138,15 +138,35 @@ lesen → erledigte Punkte markieren → Priorisierung einholen → umsetzen.
   (Playwright)`, `Lighthouse budgets (local)`) als Required Status Checks für
   `main` markieren.
 
-## Zuletzt behobene Website-Bugs (auf dem Branch, noch nicht auf `main`)
+## 7. Nearby-Box voll client-seitig 🟢 (nur falls Error 1102 erneut auftritt)
+
+Vereinbarte Eskalation: tritt der Cloudflare-1102 (Worker-Memory) trotz der
+Box-Query (`QUERIES.airportsNear`) wieder auf, wandert `airport-nearby.tsx`
+komplett client-seitig hinter einen kleinen API-Endpunkt (wie Karte/Wetter) -
+dann verlaesst auch die Box-Query den SSR-Pfad. Trade-off: die Nearby-Links
+stehen dann nicht mehr im Server-HTML. **Nicht proaktiv umsetzen; der Owner
+meldet sich, wenn es soweit ist.**
+
+## ✅ Website-Verbesserungen 10.07.2026 (PRs #156-#172, alle gemergt)
+
+Redesign (globale + Laender-Startseiten, Inter-Font, Kartenlook), Cloudflare-
+1102-Fixes (Map-Marker client-seitig via `/api/airport-coords`, Nearby-Box-Query,
+CD-Warm-up), Performance (inlineCss, lazy Leaflet-CSS + Map-Defer, lazy
+Chart-PDF-Preview, CLS-Fixes), SEO (x-default-hreflang, Sitenav als
+multi-typisierter CollectionPage/ItemList-Knoten, DigitalDocument fuer
+Chart-PDFs, Schema-Dedup via Layout), i18n (Sprachumschalter se/cz/dk/gr,
+AT-Flagge, "Nederlands"), UX (AIP-Badge, Anker-Headings, Trade:Aero auf
+Detailseiten inkl. Mobile-Fix). Details: CLAUDE.md ist auf diesem Stand.
+
+## Zuletzt behobene Website-Bugs (inzwischen auf `main` deployt)
 
 - **"Flugplätze in der Nähe"**: auf 4 Einträge begrenzt und als zentrierter
-  Blocksatz-Block gerendert (`airport-nearby.tsx`).
+  Blocksatz-Block gerendert (`airport-nearby.tsx`); Query inzwischen als
+  Bounding-Box (`airportsNear`, s. Task 7).
 - **"Find my location"-Button** (Karte): Der `Permissions-Policy`-Header
   schickte `geolocation=()` und deaktivierte die Geolocation-API seitenweit -
   auf `geolocation=(self)` korrigiert (`next.config.mjs`); Handler mit
-  Error-Callback + lokalisierter Fehlermeldung gehärtet. **Greift erst nach
-  dem nächsten Deploy.**
+  Error-Callback + lokalisierter Fehlermeldung gehärtet.
 
 ---
 

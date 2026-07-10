@@ -4,9 +4,16 @@ Goal: from an airport detail page, take the pilot **straight to the exact
 approach-chart PDF** (and optionally preview it inline), instead of the AIP
 index / frameset page they land on today.
 
-This is a **spec + step-by-step**, not yet implemented - it needs a scope
-decision (below) because the exact-PDF URL is not uniformly available and inline
-preview is unreliable cross-origin.
+**Status: the website side is implemented.** Where the stored `url` already
+points at a PDF (`isPdfUrl`), the detail page renders a chart box
+(`src/components/airport-chart.tsx`) with a direct "open PDF" link, a lazy
+**on-click** inline preview (`src/components/chart-preview.tsx` - the `<object>`
+embed mounts only when the user expands it, since browsers fetch embeds even
+inside a collapsed `<details>`), and `schema.org/DigitalDocument` JSON-LD
+(`schema-digital-document.tsx`). What remains from this plan is the
+**per-country crawler work** to capture exact-PDF URLs for sources that store an
+index/frameset page, plus the self-hosting path below - the scope notes stay for
+that.
 
 ---
 
