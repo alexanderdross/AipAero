@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAirportWeather, getNearestWeather } from "~/lib/weather";
+import { withEdgeCache } from "~/server/edge-cache";
 
 // Weather payload for the client-side (lazy) weather + wind gadgets. Keeping
 // the METAR/TAF fetches here - a separate request the browser makes after the
@@ -15,7 +16,15 @@ export const dynamic = "force-dynamic";
 
 const ICAO_RE = /^[A-Z]{4}$/;
 
-export async function GET(request: Request) {
+// Repeat hits within the 10-min weather window are served from the Cloudflare
+// Cache API (keyed on URL incl. icao/lat/lon) instead of re-invoking the
+// handler - the fail-soft empty payload sends no Cache-Control and is
+// deliberately never cached (stale METAR/TAF must not be pinned).
+export async function GET(request: Request): Promise<Response> {
+  return withEdgeCache(request, () => handleWeather(request));
+}
+
+async function handleWeather(request: Request): Promise<Response> {
   const url = new URL(request.url);
   const icao = (url.searchParams.get("icao") ?? "").toUpperCase();
   const latRaw = url.searchParams.get("lat");
