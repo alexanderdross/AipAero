@@ -32,6 +32,15 @@
 	"vars": {
 		"NODE_ENV": "production"
 	},
+	// Self-reference binding required by the OpenNext memory queue (ISR
+	// revalidation, see open-next.config.ts): stale routes are re-rendered by
+	// fetching the worker itself. "service" must equal the worker "name" above.
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "aip-aero"
+		}
+	],
 	// CRON_SECRET is a secret, set it with: wrangler secret put CRON_SECRET
 	// (and mirror it in .dev.vars for local `pnpm preview`).
 	"d1_databases": [
