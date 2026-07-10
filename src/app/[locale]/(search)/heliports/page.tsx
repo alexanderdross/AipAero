@@ -242,7 +242,7 @@ export default async function IndexPage({
               <li>
                 <ExternalLink
                   href={`${data.url}`}
-                  className="bg-drossblue hover:bg-drossblue-light flex content-center justify-center gap-x-2 py-2"
+                  className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                   hrefTitle={t("resultTitle", { airport: data.title })}
                 >
                   <span>{data.title}</span>

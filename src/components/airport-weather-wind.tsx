@@ -72,7 +72,7 @@ export function AirportWeatherWind({
     // Reserve roughly the height of the weather box to avoid layout shift.
     return (
       <div
-        className="bg-drossgray/40 h-48 animate-pulse rounded border border-[#eee]"
+        className="bg-drossgray/40 border-drossgray-dark/15 h-48 animate-pulse rounded-xl border"
         aria-hidden="true"
       />
     );

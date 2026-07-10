@@ -6,7 +6,8 @@
  * comparable height so the About box below does not jump when they arrive (CLS).
  */
 export function AirportGadgetsFallback() {
-  const box = "border border-[#ccc] bg-white p-4 animate-pulse";
+  const box =
+    "rounded-xl border border-drossgray-dark/15 bg-white p-4 shadow-sm animate-pulse";
   return (
     <div
       className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8"

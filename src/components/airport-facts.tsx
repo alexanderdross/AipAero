@@ -100,7 +100,7 @@ export async function AirportFacts({
   const cell = "border-drossgray flex justify-between gap-x-3 border-b py-1";
 
   return (
-    <section className="border border-[#ccc] bg-white p-4">
+    <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <h2 className="text-center text-xl font-normal">{t("facts")}</h2>
 
       {/* Two-column table on >= sm; runways/frequencies span both columns. */}

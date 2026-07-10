@@ -17,21 +17,21 @@ export async function TradeAeroCta() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="border-drossblue/20 bg-drossblue/5 mt-12 flex flex-col items-center gap-4 rounded-xl border p-6 text-center sm:flex-row sm:justify-between sm:text-left">
-        <p className="text-drossblue font-medium">{t("title")}</p>
+      <p className="text-drossgray-dark mt-10 text-center text-sm">
+        {t("title")}{" "}
         <ExternalLink
           href={tradeAeroUrl(locale)}
           hrefTitle={t("buttonHrefTitle")}
           rel="noopener"
-          className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 font-medium whitespace-nowrap text-white transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+          className="text-drossblue inline-flex items-center gap-x-1 font-medium hover:underline"
         >
           <span>{t("buttonTitle")}</span>
           <ExternalLinkIcon
-            className="size-4 flex-shrink-0"
+            className="size-3.5 flex-shrink-0"
             aria-hidden="true"
           />
         </ExternalLink>
-      </div>
+      </p>
     </div>
   );
 }

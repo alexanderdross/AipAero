@@ -103,7 +103,7 @@ export function SearchInputField({
               <li key={index}>
                 <ExternalLink
                   href={`${airport.url}`}
-                  className="bg-drossblue hover:bg-drossblue-light flex content-center justify-center gap-x-2 py-2"
+                  className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                   hrefTitle={`${airport.title}`} //hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
                 >
                   <span>
@@ -127,7 +127,7 @@ export function SearchInputField({
           })}
         </ol>
         {pending && state.airports.length !== 0 && (
-          <div className="bg-drossblue py-2">...</div>
+          <div className="bg-drossblue rounded-lg py-2">...</div>
         )}
       </div>
     </>

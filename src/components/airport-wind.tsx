@@ -89,7 +89,7 @@ export function AirportWind({
   ];
 
   return (
-    <section className="border border-[#ccc] bg-white p-4">
+    <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <h2 className="text-center text-xl font-normal">{t("windComponents")}</h2>
 
       <div className="mt-3 flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:justify-center sm:gap-10">
