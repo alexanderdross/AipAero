@@ -151,11 +151,14 @@ export function AirportMap({
           <span>{locateLabel}</span>
         </button>
       </div>
+      {/* `isolate` contains Leaflet's internal z-indexes (its controls default
+          to z-index 1000) in a local stacking context, so they can't paint
+          over the mobile menu / drawer overlay (z-50). */}
       <div
         ref={containerRef}
         role="application"
         aria-label={mapLabel}
-        className="h-80 w-full rounded border border-[#ccc] bg-white"
+        className="isolate h-80 w-full rounded border border-[#ccc] bg-white"
       />
     </div>
   );

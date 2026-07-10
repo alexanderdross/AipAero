@@ -47,21 +47,25 @@ persistiert `last_run_counts.json` über `actions/cache`).
   Leaflet-Karte mit "locate me"-Button (erscheint nur nach dem Facts-Import).
 - **Zeitstempel:** dieselbe Seite, "Stand: …" zeigt das Crawl-Datum.
 
-## 2a. DE + FR reparieren (AIRAC-Zyklus-Regression) 🔴 (Claude - in Arbeit)
+## ✅ 2a. DE + FR reparieren (AIRAC-Zyklus-Regression) - GEFIXT (Claude)
 
-Beide Kernländer-Crawler brechen seit dem aktuellen AIRAC-Zyklus: die Quellen
-haben ihre Einstiegs-URLs/Markup verschoben.
+Beide Kernländer-Crawler waren durch AIRAC-Zyklus-Änderungen der Quellen kaputt;
+beide sind jetzt gefixt und per Live-Test verifiziert.
 
-- **FR:** Navigation läuft korrekt bis `…/eAIP_09_JUL_2026/FRANCE/home.html`
-  (HTTP 200), aber der `<object>` zeigt jetzt direkt auf eine **konkrete
-  Edition** statt auf den Multi-Editions-Index mit `index-fr-FR.html`.
-- **DE:** beide DFS-Forks (BasicVFR/BasicIFR) laden (200), liefern aber 0
-  `folder-link`-Elemente - DFS hat vermutlich Klasse/Struktur der
-  Einstiegsseiten geändert.
+- **DE (792 Airports):** DFS liefert die statischen `pages/CNNNNN.html`-
+  Einstiegsseiten jetzt als winzige `<meta http-equiv="Refresh">`-Weiterleitungen
+  auf die editionsspezifische `…/<AIRAC>/chapter/<hash>.html`. httpx folgt Meta-
+  Refreshes nicht → 0 Anchors. Fix: `_fetch()` folgt dem Meta-Refresh und gibt
+  die effektive URL zurück; die `myPermalink`-Logik speichert weiter stabile
+  `pages/CNNNNN.html`-Permalinks.
+- **FR (143 Airports):** SIAs `…/FRANCE/home.html` ist JS-getrieben; `home.js`
+  baut den eAIP-Index als `AIRAC-<year>-<month>-<day>/html/index-fr-FR.html`
+  (unter einem AIRAC-datierten Unterordner, nicht als flaches Geschwister). Fix:
+  die `init()`-Datumsargumente parsen und diesen Pfad konstruieren.
 
-**Ablauf:** Diagnose-Logging in `fr.py`/`de.py` (temporärer Commit) → Live-Test
-auf dem Branch → echte Struktur auslesen → Selektoren fixen → verifizieren.
-Läuft. Kein Owner-Schritt.
+**Publish:** DE+FR wurden nach dem Fix per Crawl (publish) auf dem Branch in die
+Produktion geschrieben. Der Fix muss noch nach `main` gemergt werden, damit der
+**nächtliche** Crawl ihn nutzt (offener PR).
 
 ## 3. DK live verifizieren + freischalten 🟡 (Claude)
 
@@ -69,13 +73,27 @@ Läuft. Kein Owner-Schritt.
 fail-soft), `dk.py` darauf portiert; Live-Test + `crawl.yml` installieren
 Chromium pro Lauf automatisch. DK steht noch in `ALLOWED_FAILURES`.
 
-**Befund aus dem ersten Lauf:** Playwright rendert die Seite korrekt, aber der
-erwartete "VFR Flight Guide"-Navigationslink fehlt (aim.naviair.dk hat die
-Struktur geändert - aktuell nur ein "Ændringer"-Link sichtbar). Selektoren
-gegen die neue DOM nachziehen, dann DK in `liveCountries` (`src/lib/utils.ts`)
-+ Startseiten-Karte (`src/app/page.tsx`) freischalten.
+**Befund (Struktur-Diagnose 2026-07-09):** aim.naviair.dk ist eine **AngularJS-
+SPA**. Die gerenderte Seite enthält quasi nichts Navigierbares:
+- nur **1 Anchor** (`Ændringer til AIP/VFG/AIC`), **kein** "VFR Flight Guide"-Link,
+- nur 2 Buttons (Navbar-Toggle + ein `ng-hide`-Button),
+- **kein iframe**; einziger struktureller Hinweis: `/templates/treegrid.html`
+  (Angular-Tree-Grid-Template).
 
-→ Ergebnis: **11 von 12 Ländern live**
+Der AIP-Baum wird **asynchron per Angular-Route/Klick** in die SPA geladen -
+`render_html` erwischt den DOM, **bevor** der Baum befüllt ist, und die Knoten
+sind **klickbare Angular-Tree-Items ohne `<a href>`**, kein aus dem HTML
+ableitbarer Daten-Endpoint. Der aktuelle text-basierte Link-Follow-Ansatz
+(`_follow` sucht `<a>`-Texte) kann das nicht bedienen.
+
+**Nötig für einen Fix (nicht best-effort, größerer Umbau):** `PlaywrightBase`
+um **Klick-Navigation + Warten auf Selektor** erweitern (Tree-Item anklicken →
+VFG → Part 3 → AD 2 / AD 3 aufklappen) **oder** den Tree-Daten-Endpoint per
+Netzwerk-Intercept ermitteln und direkt abfragen. Bis dahin bleibt DK in
+`ALLOWED_FAILURES` (schadet nichts - die anderen 11 Länder laufen normal).
+
+→ Ergebnis bei Umsetzung: **11 von 12 Ländern live** (aktuell **10 live**: alle
+außer DK und GR)
 
 ## 4. GR: Web Unlocker liefert 502 🟡 (Owner-Blick nötig)
 

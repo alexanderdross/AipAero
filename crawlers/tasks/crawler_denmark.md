@@ -86,3 +86,17 @@ As already mentioned, the country code (two letter) **for Denmark is "DK"**.
 
 ## Verification
 Please send me the print statement from the output handler, so that I can check if everything is correct.
+## Live-test finding (2026-07-09): AngularJS SPA, tree not statically reachable
+
+A live render of `https://aim.naviair.dk/` exposes almost nothing to the parser:
+only 1 anchor (`Ændringer til AIP/VFG/AIC`), 2 buttons (navbar toggle + an
+`ng-hide` button), no iframe. The only structural hint is `/templates/treegrid.html`
+- an AngularJS tree-grid template. The AIP/VFG tree is injected client-side after
+an async fetch/route change that has NOT completed when `render_html` scrapes the
+DOM, and the nodes are click-driven Angular tree items with no `<a href>`.
+
+Implication: the current text-based link-follow (`_follow`) cannot navigate it. A
+fix needs either (a) `PlaywrightCrawlerBase` extended with click-navigation +
+wait-for-selector to expand VFG → Part 3 → AD 2 / AD 3, or (b) discovering the
+tree's data endpoint via network interception and querying it directly. Until
+then DK stays in `ALLOWED_FAILURES`.
