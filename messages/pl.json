@@ -173,6 +173,10 @@
       "title": "Alexander Dross",
       "hrefTitle": "Strona internetowa Alexandra Drossa",
       "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Warunki korzystania",
+      "hrefTitle": "Warunki korzystania - AIP:Aero Polska"
     }
   },
   "Error": {
@@ -238,5 +242,23 @@
     "title": "Mapa podejścia",
     "openPdf": "Otwórz PDF mapy",
     "preview": "Pokaż podgląd"
+  },
+  "TermsPage": {
+    "title": "Warunki korzystania",
+    "intro": "AIP:Aero to bezpłatna usługa wyszukiwania i indeksowania zbiorów informacji lotniczych (AIP), map podejścia i danych lotnisk w Europie.",
+    "servicesTitle": "Nasza usługa",
+    "servicesText": "AIP:Aero wyszukuje lotniska po nazwie lub kodzie ICAO i prowadzi bezpośrednio do oficjalnej publikacji AIP danego kraju. Dodatkowo nasze strony lotnisk zawierają informacje uzupełniające, takie jak komunikaty pogodowe (METAR/TAF), dane lotniska (drogi startowe, częstotliwości, wysokość), mapy i dane kontaktowe; strony można też zapisać do użytku offline. Usługa jest bezpłatna i nie wymaga rejestracji.",
+    "disclaimerTitle": "Wyłączenie odpowiedzialności",
+    "disclaimerText": "AIP:Aero w żadnym wypadku nie ponosi odpowiedzialności. Sami nie publikujemy dokumentów lotniczych: jedynie odsyłamy do najnowszej AIP (Aeronautical Information Publication) udostępnianej przez oficjalnego wydawcę danego kraju. To samo dotyczy danych pogodowych (METAR/TAF) i danych lotnisk: informacje te osadzamy na naszych stronach, pochodzą one jednak z wymienionych poniżej źródeł zewnętrznych. Nie ponosimy żadnej odpowiedzialności ani nie udzielamy gwarancji co do poprawności, kompletności lub aktualności treści, do których prowadzą odnośniki lub które są osadzone, ani co do dostępności tej strony. Ta strona nie zastępuje oficjalnego przygotowania do lotu: dowódca statku powietrznego pozostaje wyłącznie odpowiedzialny za uzyskanie i zweryfikowanie wszystkich informacji wymaganych do lotu.",
+    "sourcesTitle": "Źródła danych",
+    "sourcesIntro": "Dane, do których odsyłamy i które osadzamy, pochodzą z następujących źródeł (adresy jako zwykły tekst, celowo nieklikalne):",
+    "sourcesAip": "Oficjalne publikacje AIP, do których odsyłamy",
+    "sourcesData": "Osadzone dane zewnętrzne",
+    "srcAwc": "pogoda METAR/TAF i dane lotnisk",
+    "srcOurAirports": "podstawowe dane lotnisk",
+    "srcOpenAip": "rozszerzone dane lotnisk: drogi startowe, częstotliwości, paliwo",
+    "srcOsm": "mapy i adresy",
+    "metaTitle": "Warunki korzystania - AIP:Aero Polska",
+    "metaDescription": "Warunki korzystania z AIP:Aero, bezpłatnej wyszukiwarki AIP i map podejścia dla Polska i Europy: opis usługi, wyłączenie odpowiedzialności i źródła danych."
   }
 }

@@ -88,6 +88,9 @@ for (const p of allPages) {
 }
 
 test("meta descriptions are unique across pages", async ({ page }) => {
+  // Visits every page in the matrix in one test; with the terms pages the
+  // matrix is 80+ pages, which outgrew the default 30s timeout.
+  test.slow();
   const seen = new Map<string, string>();
   const dupes: string[] = [];
   for (const p of allPages) {

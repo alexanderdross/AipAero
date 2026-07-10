@@ -44,6 +44,7 @@ export const routing = defineRouting({
   },
   pathnames: {
     "/": "/",
+    "/terms": "/terms",
     "/vfr": "/vfr",
     "/ifr": "/ifr",
     "/heliports": "/heliports",

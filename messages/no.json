@@ -173,6 +173,10 @@
       "title": "Alexander Dross",
       "hrefTitle": "Nettsiden til Alexander Dross",
       "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Vilkår for bruk",
+      "hrefTitle": "Vilkår for bruk - AIP:Aero Norge"
     }
   },
   "Error": {
@@ -238,5 +242,23 @@
     "title": "Innflygingskart",
     "openPdf": "Åpne kart-PDF",
     "preview": "Vis forhåndsvisning"
+  },
+  "TermsPage": {
+    "title": "Vilkår for bruk",
+    "intro": "AIP:Aero er en gratis søke- og indekstjeneste for luftfartspublikasjoner (AIP), innflygingskart og flyplassdata i Europa.",
+    "servicesTitle": "Vår tjeneste",
+    "servicesText": "AIP:Aero finner flyplasser etter navn eller ICAO-kode og fører direkte til det aktuelle landets offisielle AIP-publikasjon. I tillegg viser flyplassidene våre utfyllende informasjon som værmeldinger (METAR/TAF), flyplassdata (rullebaner, frekvenser, høyde), kart og kontaktinformasjon; sider kan også lagres for frakoblet bruk. Tjenesten er gratis og uten registrering.",
+    "disclaimerTitle": "Ansvarsfraskrivelse",
+    "disclaimerText": "AIP:Aero kan ikke under noen omstendigheter holdes ansvarlig. Vi publiserer ikke selv luftfartsdokumenter: vi lenker utelukkende til den nyeste AIP (Aeronautical Information Publication) som gjøres tilgjengelig av det aktuelle landets offisielle utgiver. Det samme gjelder værdata (METAR/TAF) og flyplassdata: denne informasjonen vises på sidene våre, men stammer fra de eksterne kildene som er oppført nedenfor. Vi påtar oss intet ansvar og ingen garanti for riktigheten, fullstendigheten eller aktualiteten av lenket eller innebygd innhold, og heller ikke for tilgjengeligheten til dette nettstedet. Dette nettstedet erstatter ikke offisiell flygeforberedelse: fartøysjefen er alene ansvarlig for å innhente og verifisere all informasjon som kreves for en flyging.",
+    "sourcesTitle": "Datakilder",
+    "sourcesIntro": "De lenkede og innebygde dataene henter vi fra følgende kilder (adresser som ren tekst, bevisst ikke klikkbare):",
+    "sourcesAip": "Offisielle AIP-publikasjoner vi lenker til",
+    "sourcesData": "Innebygde eksterne data",
+    "srcAwc": "vær METAR/TAF og flyplassdata",
+    "srcOurAirports": "grunndata for flyplasser",
+    "srcOpenAip": "utvidede flyplassdata: rullebaner, frekvenser, drivstoff",
+    "srcOsm": "kart og adresser",
+    "metaTitle": "Vilkår for bruk - AIP:Aero Norge",
+    "metaDescription": "Vilkår for bruk av AIP:Aero, det gratis AIP- og innflygingskart-søket for Norge og Europa: tjenestebeskrivelse, ansvarsfraskrivelse og datakilder."
   }
 }

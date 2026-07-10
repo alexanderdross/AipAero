@@ -208,6 +208,10 @@
       "title": "Alexander Dross",
       "hrefTitle": "Webseite von Alexander Dross",
       "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Nutzungsbedingungen",
+      "hrefTitle": "Nutzungsbedingungen - AIP:Aero Deutschland"
     }
   },
   "Error": {
@@ -273,5 +277,23 @@
     "title": "Anflugkarte",
     "openPdf": "Chart-PDF öffnen",
     "preview": "Vorschau anzeigen"
+  },
+  "TermsPage": {
+    "title": "Nutzungsbedingungen",
+    "intro": "AIP:Aero ist ein kostenloser Such- und Indexdienst für Luftfahrthandbücher (AIP), Anflugkarten und Flugplatzdaten in Europa.",
+    "servicesTitle": "Unser Service",
+    "servicesText": "AIP:Aero findet Flugplätze per Name oder ICAO-Code und führt direkt zur offiziellen AIP-Publikation des jeweiligen Landes. Ergänzend betten unsere Flugplatzseiten Zusatzinformationen ein, etwa Wettermeldungen (METAR/TAF), Flugplatzdaten (Pisten, Frequenzen, Höhe), Karten und Kontaktdaten; Seiten lassen sich zudem für die Offline-Nutzung speichern. Der Dienst ist kostenlos und ohne Registrierung nutzbar.",
+    "disclaimerTitle": "Haftungsausschluss",
+    "disclaimerText": "AIP:Aero kann unter keinen Umständen haftbar gemacht werden. Wir veröffentlichen selbst keine Luftfahrtdokumente, sondern verlinken lediglich auf die jeweils neueste, vom offiziellen Herausgeber des jeweiligen Landes bereitgestellte AIP (Aeronautical Information Publication). Gleiches gilt für Wetterdaten (METAR/TAF) und Flugplatzdaten: Diese Informationen binden wir zwar auf unseren Seiten ein, sie stammen jedoch von den unten aufgeführten externen Quellen. Für Richtigkeit, Vollständigkeit und Aktualität verlinkter oder eingebundener Inhalte sowie für die Verfügbarkeit dieser Website übernehmen wir keinerlei Haftung oder Gewähr. Diese Website ersetzt keine offizielle Flugvorbereitung: Der verantwortliche Luftfahrzeugführer bleibt allein verpflichtet, alle für einen Flug erforderlichen Informationen einzuholen und zu prüfen.",
+    "sourcesTitle": "Datenquellen",
+    "sourcesIntro": "Die verlinkten und eingebundenen Daten beziehen wir aus folgenden Quellen (Adressen als reiner Text, bewusst nicht klickbar):",
+    "sourcesAip": "Offizielle AIP-Publikationen, auf die wir verlinken",
+    "sourcesData": "Eingebundene externe Daten",
+    "srcAwc": "Wetter METAR/TAF und Flugplatzdaten",
+    "srcOurAirports": "Flugplatz-Basisdaten",
+    "srcOpenAip": "erweiterte Flugplatzdaten: Pisten, Frequenzen, Kraftstoff",
+    "srcOsm": "Karten und Adressen",
+    "metaTitle": "Nutzungsbedingungen - AIP:Aero Deutschland",
+    "metaDescription": "Nutzungsbedingungen von AIP:Aero, der kostenlosen AIP- und Anflugkarten-Suche für Deutschland und Europa: Servicebeschreibung, Haftungsausschluss und Datenquellen."
   }
 }

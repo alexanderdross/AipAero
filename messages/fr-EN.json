@@ -173,6 +173,10 @@
       "title": "Alexander Dross",
       "hrefTitle": "Website by Alexander Dross",
       "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "hrefTitle": "Terms of Service - AIP:Aero France"
     }
   },
   "Error": {
@@ -238,5 +242,23 @@
     "title": "Approach chart",
     "openPdf": "Open chart PDF",
     "preview": "Show preview"
+  },
+  "TermsPage": {
+    "title": "Terms of Service",
+    "intro": "AIP:Aero is a free search and index service for Aeronautical Information Publications (AIP), approach charts and airport data across Europe.",
+    "servicesTitle": "Our service",
+    "servicesText": "AIP:Aero lets you find aerodromes by name or ICAO code and takes you directly to the official AIP publication of the respective country. In addition, our airport pages embed supplementary information such as weather reports (METAR/TAF), aerodrome data (runways, frequencies, elevation), maps and contact details, and pages can be saved for offline use. The service is provided free of charge and without registration.",
+    "disclaimerTitle": "Disclaimer of liability",
+    "disclaimerText": "AIP:Aero cannot be held liable under any circumstances. We do not publish aeronautical documents ourselves: we only link to the latest Aeronautical Information Publication (AIP) made available by the official provider of the respective country. The same applies to weather data (METAR/TAF) and airport data: we embed this information on our pages, but it originates from the external sources listed below. We assume no liability or warranty for the accuracy, completeness or timeliness of any linked or embedded content, nor for the availability of this website. This website does not replace the official pre-flight briefing: the pilot in command remains solely responsible for obtaining and verifying all information required for a flight.",
+    "sourcesTitle": "Data sources",
+    "sourcesIntro": "We obtain the linked and embedded data from the following sources (addresses shown as plain text, deliberately not clickable):",
+    "sourcesAip": "Official AIP publications we link to",
+    "sourcesData": "Embedded external data",
+    "srcAwc": "weather METAR/TAF and airport data",
+    "srcOurAirports": "airport base data",
+    "srcOpenAip": "extended aerodrome data: runways, frequencies, fuel",
+    "srcOsm": "maps and addresses",
+    "metaTitle": "Terms of Service - AIP:Aero France",
+    "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for France and Europe: service description, disclaimer of liability and data sources."
   }
 }

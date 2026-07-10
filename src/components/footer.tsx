@@ -2,13 +2,20 @@ import { Fragment } from "react";
 import { ExternalLink } from "~/components/external-link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { env } from "~/env";
+import { getPathname } from "~/i18n/routing";
 import { tradeAeroUrl } from "~/lib/trade-aero";
 
 export default async function Footer() {
   const t = await getTranslations("Footer");
   const locale = await getLocale();
   const keysTop = ["stratux", "tradeaero"] as const;
-  const keysMiddle = ["home", "imprint", "contact", "privacy"] as const;
+  const keysMiddle = [
+    "home",
+    "imprint",
+    "contact",
+    "privacy",
+    "terms",
+  ] as const;
 
   return (
     <>
@@ -41,7 +48,17 @@ export default async function Footer() {
           {keysMiddle.map((key, idx) => (
             <Fragment key={idx}>
               <ExternalLink
-                href={t(`${key}.href`)}
+                // The terms page is our own localized route, so its href comes
+                // from the routing config (getPathname) instead of the i18n
+                // files - new locales get the right link automatically.
+                href={
+                  key === "terms"
+                    ? getPathname({ href: "/terms", locale })
+                    : t(`${key}.href`)
+                }
+                // Own internal page: followed (no nofollow), unlike the
+                // default outbound rel the other entries keep.
+                rel={key === "terms" ? "noopener" : undefined}
                 hrefTitle={t(`${key}.hrefTitle`)}
                 className="text-drossblue mx-2 text-base hover:underline"
               >
