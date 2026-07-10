@@ -2,14 +2,31 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
+import {
+  HelicopterIcon,
+  PlaneIcon,
+  PlaneTakeoffIcon,
+  ShieldIcon,
+  TowerControlIcon,
+} from "lucide-react";
 import { AboutCountryBox } from "~/components/about-country-box";
 import { Box } from "~/components/box";
+import { Hero } from "~/components/hero";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
-import { Title } from "~/components/title";
 import { getPathname, localeLangMapping, routing } from "~/i18n/routing";
 import { cn, orgUrl, rootBreadcrumb } from "~/lib/utils";
+
+// Decorative icon per card type (keyed by the card message key). aria-hidden in
+// Box, so it adds visual scent without changing the heading's accessible name.
+const cardIcons: Record<string, React.ReactNode> = {
+  vfrCard: <PlaneIcon className="size-6" />,
+  ifrCard: <PlaneTakeoffIcon className="size-6" />,
+  heliportCard: <HelicopterIcon className="size-6" />,
+  aeroportCard: <TowerControlIcon className="size-6" />,
+  militaryCard: <ShieldIcon className="size-6" />,
+};
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -118,9 +135,11 @@ export default async function CountryPage(
 
   const modifiedDate = new Date(buildDate);
 
+  const cardLang = locale.replace("-EN", "");
+
   return (
     <>
-      <Title title={t("title")} description={t("description")} />
+      <Hero title={t("title")} description={t("description")} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -135,16 +154,21 @@ export default async function CountryPage(
         currentUrl={currentUrl}
       />
       <SchemaSitenav locale={locale} />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           className={cn(
-            "grid grid-cols-1 gap-6 md:grid-cols-2",
-            keys.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2",
+            "grid grid-cols-1 gap-6",
+            keys.length >= 2 && "md:grid-cols-2",
+            keys.length === 3 && "lg:grid-cols-3",
+            // Keep 1-2 card layouts from stretching edge to edge.
+            keys.length <= 2 && "mx-auto max-w-3xl",
           )}
         >
           {keys.map((key) => (
             <Box
               key={key}
+              lang={cardLang}
+              icon={cardIcons[key]}
               title={t(`${key}.title`)}
               description={t(`${key}.description`)}
               buttons={[
@@ -152,6 +176,7 @@ export default async function CountryPage(
                   href: t(`${key}.buttonHref`),
                   hrefTitle: t(`${key}.buttonHrefTitle`),
                   title: t(`${key}.buttonTitle`),
+                  variant: "primary",
                 },
               ]}
             />

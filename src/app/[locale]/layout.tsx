@@ -4,6 +4,7 @@ import { localeLangMapping, routing } from "~/i18n/routing";
 import Footer from "~/components/footer";
 import { Header } from "~/components/header";
 import { BreadCrumbs } from "~/components/breadcrumbs";
+import { inter } from "~/lib/fonts";
 import { NextIntlClientProvider } from "next-intl";
 import pick from "lodash/pick";
 import { Suspense } from "react";
@@ -34,7 +35,10 @@ export default async function LocaleLayout(
   const messages = await getMessages();
 
   return (
-    <html className="h-full" lang={localeLangMapping[locale]}>
+    <html
+      className={`h-full ${inter.variable}`}
+      lang={localeLangMapping[locale]}
+    >
       <body className={"bg-drossgray font-sans"}>
         <Header withLangSwitcher />
         <main>{props.children}</main>

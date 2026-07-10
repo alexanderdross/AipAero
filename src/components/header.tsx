@@ -11,9 +11,9 @@ export async function Header({ withLangSwitcher = false }) {
   const messages = await getMessages();
 
   return (
-    <header className="border-grid sticky top-0 z-50 w-full border-b bg-white">
+    <header className="border-grid sticky top-0 z-50 w-full border-b bg-white/90 backdrop-blur">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-12 items-center justify-between">
+        <div className="flex h-14 items-center justify-between">
           <Link href="/" title="Go to AIP Index">
             <Image
               className="h-10 w-auto py-2 sm:py-1"

@@ -15,10 +15,10 @@ export function Title({ className, title, description }: Props) {
       )}
     >
       <div className="pb-4 text-center">
-        <h1 className="m-0 text-2xl break-words hyphens-auto md:text-3xl lg:text-4xl">
+        <h1 className="m-0 text-3xl font-bold tracking-tight text-balance break-words hyphens-auto md:text-4xl lg:text-5xl">
           {title}
         </h1>
-        <p className="text-md md:text-md mt-2 break-words hyphens-auto">
+        <p className="text-drossgray-dark mx-auto mt-3 max-w-2xl text-base text-balance break-words hyphens-auto md:text-lg">
           {description}
         </p>
       </div>

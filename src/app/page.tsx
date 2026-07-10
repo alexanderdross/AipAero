@@ -6,9 +6,11 @@ import { AboutBox } from "~/components/about-box";
 import { Box } from "~/components/box";
 import { GlobalSearchInputField } from "~/components/global-search-input-field";
 import Footer from "~/components/footer";
-import { Title } from "~/components/title";
+import { Hero } from "~/components/hero";
 import { Header } from "~/components/header";
+import { ValueProps } from "~/components/value-props";
 import {
+  countryTypeAvailability,
   liveCountries,
   orgUrl,
   rootBreadcrumb,
@@ -17,6 +19,7 @@ import {
 } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { modifiedDate as buildDate } from "~/lib/build-info";
+import { inter } from "~/lib/fonts";
 import { routing } from "~/i18n/routing";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 
@@ -167,10 +170,20 @@ export default async function RootPage() {
     },
   ].sort((a, b) => a.name.localeCompare(b.name));
 
+  // Short, language-neutral labels for the chart types each country exposes,
+  // shown as pills on its card so the grid hints at what is behind each link.
+  const typeBadge: Record<string, string> = {
+    vfr: "VFR",
+    ifr: "IFR",
+    heliport: "Heliport",
+    mil: "Military",
+    aeroport: "Aéroport",
+  };
+
   const modifiedDate = new Date(buildDate);
 
   return (
-    <html className="h-full" lang="en">
+    <html className={`h-full ${inter.variable}`} lang="en">
       {/* We cant set the alternate links via metadata api, since it disallows the use of duplicate hrefLang */}
       <head>
         {countries.map((e) => (
@@ -197,8 +210,6 @@ export default async function RootPage() {
         <Header />
 
         <main>
-          <Title title={rootTitle} description={rootDescription} />
-
           {/* Sitelinks Search Box: Google may render a search box under the
               site's search result. The target URL must execute the search -
               the VALUELESS query key (https://aip.aero/?EDNY, the site's SEO
@@ -274,19 +285,30 @@ export default async function RootPage() {
             currentUrl={orgUrl.toString()}
           />
 
-          {/* Global cross-country search */}
-          <GlobalSearchInputField placeholder="Search any airport across Europe by name or ICAO code" />
+          {/* Hero: headline plus the global cross-country search as the
+              primary call to action. */}
+          <Hero title={rootTitle} description={rootDescription}>
+            <GlobalSearchInputField placeholder="Search any airport across Europe by name or ICAO code" />
+          </Hero>
+
+          {/* Trust strip */}
+          <ValueProps />
 
           {/* Country Boxes */}
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
             <div
               className={"grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"}
             >
               {countries.map((e) => (
                 <Box
                   key={e.name}
-                  title={`AIP ${e.name} ${e.flag}`}
+                  lang="en"
+                  icon={<span className="text-3xl">{e.flag}</span>}
+                  title={`AIP ${e.name}`}
                   description={`Browse AIP of ${e.name} and download airport approach charts`}
+                  badges={(countryTypeAvailability[e.tld] ?? []).map(
+                    (t) => typeBadge[t] ?? t,
+                  )}
                   buttons={
                     e.isSingleLocale
                       ? [
@@ -294,6 +316,7 @@ export default async function RootPage() {
                             title: `AIP ${e.name} in ${e.nativeLang}`,
                             hrefTitle: `AIP ${e.name} in ${e.nativeLang}`,
                             href: `/${e.tld}/`,
+                            variant: "primary" as const,
                           },
                         ]
                       : [
@@ -301,11 +324,13 @@ export default async function RootPage() {
                             title: `AIP ${e.name} in English`,
                             hrefTitle: `AIP ${e.name} in English`,
                             href: `/${e.tld}/en/`,
+                            variant: "primary" as const,
                           },
                           {
                             title: `AIP ${e.name} in ${e.nativeLang}`,
                             hrefTitle: `AIP ${e.name} in ${e.nativeLang}`,
                             href: `/${e.tld}/`,
+                            variant: "secondary" as const,
                           },
                         ]
                   }
