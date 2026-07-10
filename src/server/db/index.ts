@@ -18,6 +18,15 @@ export type DB = DrizzleD1Database<typeof schema>;
  * `react.cache` dedupes the lookup within a single request.
  */
 export const getDb = cache(async (): Promise<DB | null> => {
+  // During `next build` (static generation) there is no Worker binding, and
+  // calling getCloudflareContext({ async: true }) boots a miniflare `workerd`
+  // instance PER call to synthesize one. Across the ~180 build-time reads that
+  // is a swarm of dozens of workerd processes, which OOMs the memory-limited CI
+  // runners (the E2E + Lighthouse jobs build with plain `next build`; exit 137).
+  // Reads are meant to fail-soft to empty during the build and revalidate at
+  // runtime (same NEXT_PHASE signal queries.ts uses), so short-circuit to null
+  // BEFORE touching the Cloudflare context. Production runs on the real binding.
+  if (process.env.NEXT_PHASE === "phase-production-build") return null;
   try {
     const { env } = await getCloudflareContext({ async: true });
     if (!env?.DB) return null;
