@@ -254,34 +254,36 @@ export default async function RootPage() {
             dangerouslySetInnerHTML={{
               __html: JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "CollectionPage",
+                // One multi-typed node: the homepage navigation
+                // (SiteNavigationElement), the collection (CollectionPage) and
+                // the ordered ItemList that carries the per-country nav entries.
+                "@type": [
+                  "SiteNavigationElement",
+                  "CollectionPage",
+                  "ItemList",
+                ],
                 name: rootTitle,
                 url: orgUrl.toString(),
-                // The country navigation as one ordered ItemList (main entity of
-                // the homepage collection), each entry a SiteNavigationElement.
-                mainEntity: {
-                  "@type": "ItemList",
-                  itemListElement: [
-                    {
-                      "@type": "SiteNavigationElement",
-                      position: 1,
-                      name: rootTitle,
-                      alternateName: "AIP:Aero",
-                      description: rootDescription,
-                      inLanguage: "en",
-                      url: orgUrl.toString(),
-                    },
-                    ...localeElements.map((x, i) => ({
-                      "@type": "SiteNavigationElement",
-                      position: i + 2,
-                      name: x.name,
-                      alternateName: x.alternateName,
-                      description: x.description,
-                      inLanguage: x.inLanguage,
-                      url: x.url,
-                    })),
-                  ],
-                },
+                itemListElement: [
+                  {
+                    "@type": "SiteNavigationElement",
+                    position: 1,
+                    name: rootTitle,
+                    alternateName: "AIP:Aero",
+                    description: rootDescription,
+                    inLanguage: "en",
+                    url: orgUrl.toString(),
+                  },
+                  ...localeElements.map((x, i) => ({
+                    "@type": "SiteNavigationElement",
+                    position: i + 2,
+                    name: x.name,
+                    alternateName: x.alternateName,
+                    description: x.description,
+                    inLanguage: x.inLanguage,
+                    url: x.url,
+                  })),
+                ],
               }),
             }}
           />
