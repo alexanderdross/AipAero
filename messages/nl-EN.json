@@ -19,6 +19,10 @@
     "/airport-list": {
       "title": "Airport List",
       "hrefTitle": "List of Airports/ Airfields in the Netherlands"
+    },
+    "/terms": {
+      "title": "Terms of Service",
+      "hrefTitle": "Terms of Service - AIP:Aero the Netherlands"
     }
   },
   "Menu": {
@@ -237,7 +241,8 @@
     "no": "No",
     "saveOffline": "Save for offline",
     "savedOffline": "Saved for offline",
-    "installHint": "Install as an app: open your browser's Share menu and choose 'Add to Home Screen'."
+    "installHint": "Install as an app: open your browser's Share menu and choose 'Add to Home Screen'.",
+    "installHintMac": "On a Mac: install via Safari's Share menu using 'Add to Dock'."
   },
   "Chart": {
     "title": "Approach chart",

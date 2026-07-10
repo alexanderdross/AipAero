@@ -19,6 +19,10 @@
     "/airport-list": {
       "title": "Luchthavenlijst",
       "hrefTitle": "Luchthavenlijst Nederland"
+    },
+    "/terms": {
+      "title": "Gebruiksvoorwaarden",
+      "hrefTitle": "Gebruiksvoorwaarden - AIP:Aero Nederland"
     }
   },
   "Menu": {
@@ -237,7 +241,8 @@
     "no": "Nee",
     "saveOffline": "Opslaan voor offline",
     "savedOffline": "Offline opgeslagen",
-    "installHint": "Als app installeren: kies in het deelmenu van de browser 'Zet op beginscherm'."
+    "installHint": "Als app installeren: kies in het deelmenu van de browser 'Zet op beginscherm'.",
+    "installHintMac": "Op de Mac: installeer via het deelmenu van Safari met 'Zet in Dock'."
   },
   "Chart": {
     "title": "Naderingskaart",

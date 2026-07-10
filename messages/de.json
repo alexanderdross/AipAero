@@ -23,6 +23,10 @@
     "/airport-list": {
       "title": "Flughafen Liste",
       "hrefTitle": "Liste der Flughäfen Deutschland"
+    },
+    "/terms": {
+      "title": "Nutzungsbedingungen",
+      "hrefTitle": "Nutzungsbedingungen - AIP:Aero Deutschland"
     }
   },
   "Menu": {
@@ -272,7 +276,8 @@
     "no": "Nein",
     "saveOffline": "Für offline speichern",
     "savedOffline": "Offline gespeichert",
-    "installHint": "Als App installieren: im Teilen-Menü des Browsers 'Zum Home-Bildschirm' wählen."
+    "installHint": "Als App installieren: im Teilen-Menü des Browsers 'Zum Home-Bildschirm' wählen.",
+    "installHintMac": "Am Mac: über das Teilen-Menü in Safari mit 'Zum Dock hinzufügen' installieren."
   },
   "Chart": {
     "title": "Anflugkarte",

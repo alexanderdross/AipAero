@@ -19,6 +19,10 @@
     "/airport-list": {
       "title": "Lista lotnisk",
       "hrefTitle": "Lista lotnisk w Polsce"
+    },
+    "/terms": {
+      "title": "Warunki korzystania",
+      "hrefTitle": "Warunki korzystania - AIP:Aero Polska"
     }
   },
   "Menu": {
@@ -237,7 +241,8 @@
     "no": "Nie",
     "saveOffline": "Zapisz do trybu offline",
     "savedOffline": "Zapisano offline",
-    "installHint": "Zainstaluj jako aplikację: w menu udostępniania przeglądarki wybierz 'Dodaj do ekranu głównego'."
+    "installHint": "Zainstaluj jako aplikację: w menu udostępniania przeglądarki wybierz 'Dodaj do ekranu głównego'.",
+    "installHintMac": "Na Macu: zainstaluj przez menu udostępniania Safari, wybierając 'Dodaj do Docka'."
   },
   "Chart": {
     "title": "Mapa podejścia",

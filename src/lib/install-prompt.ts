@@ -62,3 +62,20 @@ export function isIos(): boolean {
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
   );
 }
+
+/**
+ * Desktop Safari on macOS (no `beforeinstallprompt` there either; installing
+ * is manual via Share -> "Add to Dock" since Safari 17). Chromium browsers on
+ * the Mac identify as Chrome/Edge and are excluded - they get the native
+ * prompt instead.
+ */
+export function isMacSafari(): boolean {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  return (
+    /Macintosh/.test(ua) &&
+    /Safari\//.test(ua) &&
+    !/Chrome|Chromium|CriOS|Edg|OPR/.test(ua) &&
+    !isIos()
+  );
+}

@@ -19,6 +19,10 @@
     "/airport-list": {
       "title": "Flyvepladsliste",
       "hrefTitle": "Liste over flyvepladser i Danmark"
+    },
+    "/terms": {
+      "title": "Vilkår for brug",
+      "hrefTitle": "Vilkår for brug - AIP:Aero Danmark"
     }
   },
   "Menu": {
@@ -237,7 +241,8 @@
     "no": "Nej",
     "saveOffline": "Gem til offline",
     "savedOffline": "Gemt offline",
-    "installHint": "Installér som app: vælg 'Føj til hjemmeskærm' i browserens delemenu."
+    "installHint": "Installér som app: vælg 'Føj til hjemmeskærm' i browserens delemenu.",
+    "installHintMac": "På Mac: installér via Safaris delemenu med 'Føj til Dock'."
   },
   "Chart": {
     "title": "Indflyvningskort",

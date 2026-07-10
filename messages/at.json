@@ -19,6 +19,10 @@
     "/airport-list": {
       "title": "Flughafen Liste",
       "hrefTitle": "Flughafen Liste Österreich"
+    },
+    "/terms": {
+      "title": "Nutzungsbedingungen",
+      "hrefTitle": "Nutzungsbedingungen - AIP:Aero Österreich"
     }
   },
   "Menu": {
@@ -237,7 +241,8 @@
     "no": "Nein",
     "saveOffline": "Für offline speichern",
     "savedOffline": "Offline gespeichert",
-    "installHint": "Als App installieren: im Teilen-Menü des Browsers 'Zum Home-Bildschirm' wählen."
+    "installHint": "Als App installieren: im Teilen-Menü des Browsers 'Zum Home-Bildschirm' wählen.",
+    "installHintMac": "Am Mac: über das Teilen-Menü in Safari mit 'Zum Dock hinzufügen' installieren."
   },
   "Chart": {
     "title": "Anflugkarte",
