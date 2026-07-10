@@ -55,6 +55,16 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
+  experimental: {
+    // Inline each page's CSS as a <style> in <head> instead of external
+    // <link rel="stylesheet"> requests. Removes the render-blocking CSS round
+    // trip (Lighthouse "render-blocking requests") and, because there is no
+    // external CSS file to preload, also removes the "resource was preloaded
+    // but not used" console warnings from route prefetching. The inlined CSS
+    // (~10 KiB gzipped) is a negligible per-request cost now that the heavy
+    // airport-list markers are fetched client-side (not serialised into SSR).
+    inlineCss: true,
+  },
   // Emit metadata blocking in <head> for every request instead of streaming
   // it. Since Next 15.2 metadata is streamed for non-bot user agents, so on
   // dynamically rendered routes (the search / airport-detail pages, which read
