@@ -92,7 +92,7 @@
   },
   "LocaleSwitcher": {
     "label": "Skift sprog",
-    "locale": "{locale, select, da {🇩🇰 Dansk} en {🇬🇧 English} other {Ukendt}}"
+    "locale": "{locale, select, dk {🇩🇰 Dansk} en {🇬🇧 English} other {Ukendt}}"
   },
   "CountrySiteNavElement": {
     "name": "Indflyvningskort & luftfartsinformationspublikation AIP for Danmark",

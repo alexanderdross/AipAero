@@ -92,7 +92,7 @@
   },
   "LocaleSwitcher": {
     "label": "Byt språk",
-    "locale": "{locale, select, sv {🇸🇪 Svenska} en {🇬🇧 English} other {Okänt}}"
+    "locale": "{locale, select, se {🇸🇪 Svenska} en {🇬🇧 English} other {Okänt}}"
   },
   "CountrySiteNavElement": {
     "name": "Inflygningskartor & luftfartspublikation AIP för Sverige",

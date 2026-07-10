@@ -92,7 +92,7 @@
   },
   "LocaleSwitcher": {
     "label": "Switch language",
-    "locale": "{locale, select, da {🇩🇰 Dansk} en {🇬🇧 English} other {Unknown}}"
+    "locale": "{locale, select, dk {🇩🇰 Dansk} en {🇬🇧 English} other {Unknown}}"
   },
   "CountrySiteNavElement": {
     "name": "AIP and approach charts of Denmark",

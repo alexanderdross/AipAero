@@ -92,7 +92,7 @@
   },
   "LocaleSwitcher": {
     "label": "Αλλαγή γλώσσας",
-    "locale": "{locale, select, el {🇬🇷 Ελληνικά} en {🇬🇧 English} other {Άγνωστο}}"
+    "locale": "{locale, select, gr {🇬🇷 Ελληνικά} en {🇬🇧 English} other {Άγνωστο}}"
   },
   "CountrySiteNavElement": {
     "name": "Χάρτες προσέγγισης & Αεροναυτικό Εγχειρίδιο AIP για την Ελλάδα",
