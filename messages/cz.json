@@ -206,8 +206,8 @@
     "no": "Ne",
     "saveOffline": "Uložit pro offline",
     "savedOffline": "Uloženo offline",
-    "installHint": "Nainstalovat jako aplikaci: v nabídce Sdílet v prohlížeči zvolte 'Přidat na plochu'.",
-    "installHintMac": "Na Macu: nainstalujte přes nabídku Sdílet v Safari volbou 'Přidat do Docku'."
+    "installHint": "Nainstalovat jako aplikaci: v nabídce Sdílet v prohlížeči zvolte 'Přidat na plochu'. Poté aplikaci jednou otevřete online a letiště v ní uložte znovu - aplikace má vlastní offline úložiště.",
+    "installHintMac": "Na Macu: nainstalujte přes nabídku Sdílet v Safari volbou 'Přidat do Docku'. Poté aplikaci jednou otevřete online a letiště v ní uložte znovu - aplikace má vlastní offline úložiště."
   },
   "Chart": {
     "title": "Přibližovací mapa",

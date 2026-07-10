@@ -159,6 +159,27 @@ per-airport saves. An optional **Phase 4** may add an explicit
 progress - to be considered only after Phase 3 exists and iOS behaviour has
 been tested on a real device.
 
+**Field finding (iOS device test, 10.07.2026):** launching the freshly
+installed home-screen app for the first time **while offline** shows the
+native "Safari cannot open the page" error - no toolbar, no offline fallback.
+Root cause is the storage separation above taken to its conclusion: the
+installed app starts with **no service worker and no caches at all** (they
+live in Safari's storage, not the app's), so nothing can intercept the
+navigation. Fields saved in Safari are equally invisible inside the app.
+Countermeasures shipped:
+
+1. `sw.js` snapshots all **currently open client pages** into the pages cache
+   right at `activate` (`cacheOpenClients()`) - previously a page was only
+   cached on the *next* navigation, so the installed app's start URL itself
+   stayed uncached after its first online open. Now **one online launch of the
+   app suffices** to make its start page available offline.
+2. The iOS/macOS install hints (`Common.installHint`/`installHintMac`) now
+   state the operative step: open the app once while online and re-save fields
+   **inside the app** (own offline storage).
+
+The platform boundary itself (separate storage, no programmatic install on
+Apple platforms) cannot be engineered away.
+
 ## Explicitly out of scope
 
 - **Offline search / offline DB replica** (shipping the airport index into

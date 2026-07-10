@@ -276,8 +276,8 @@
     "no": "No",
     "saveOffline": "Save for offline",
     "savedOffline": "Saved for offline",
-    "installHint": "Install as an app: open your browser's Share menu and choose 'Add to Home Screen'.",
-    "installHintMac": "On a Mac: install via Safari's Share menu using 'Add to Dock'."
+    "installHint": "Install as an app: open your browser's Share menu and choose 'Add to Home Screen'. Then open the app once while online and save your fields there again - the app has its own offline storage.",
+    "installHintMac": "On a Mac: install via Safari's Share menu using 'Add to Dock'. Then open the app once while online and save your fields there again - the app has its own offline storage."
   },
   "Chart": {
     "title": "Approach chart",
