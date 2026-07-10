@@ -23,11 +23,14 @@ export async function TradeAeroCta() {
           href={tradeAeroUrl(locale)}
           hrefTitle={t("buttonHrefTitle")}
           rel="noopener"
-          className="text-drossblue inline-flex items-center gap-x-1 font-medium hover:underline"
+          className="text-drossblue font-medium hover:underline"
         >
-          <span>{t("buttonTitle")}</span>
+          {/* Inline flow (not inline-flex): when the long copy wraps on mobile
+              the icon trails the last word instead of floating vertically
+              centered at the right edge of the multi-line block. */}
+          {t("buttonTitle")}
           <ExternalLinkIcon
-            className="size-3.5 flex-shrink-0"
+            className="ml-1 inline-block size-3.5 align-[-0.125em]"
             aria-hidden="true"
           />
         </ExternalLink>
