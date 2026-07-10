@@ -230,7 +230,9 @@
     "restaurant": "Restaurant",
     "customs": "Told",
     "yes": "Ja",
-    "no": "Nej"
+    "no": "Nej",
+    "saveOffline": "Gem til offline",
+    "savedOffline": "Gemt offline"
   },
   "Chart": {
     "title": "Indflyvningskort",

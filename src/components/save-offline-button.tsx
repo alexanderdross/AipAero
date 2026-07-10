@@ -1,0 +1,154 @@
+"use client";
+
+import { CheckIcon, DownloadIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+
+// Cache names must stay in sync with public/sw.js (SAVED_CACHE / CHARTS_CACHE).
+const SAVED_CACHE = "saved-v1";
+const CHARTS_CACHE = "charts-v1";
+// localStorage index of saved fields - doubles as the Favorites list (see
+// docs/pwa-offline-concept.md, Phase 3).
+const INDEX_KEY = "aip-offline-saved";
+
+interface SavedEntry {
+  slug: string;
+  title: string;
+  url: string;
+  chartUrl: string | null;
+  savedAt: string;
+}
+
+function readIndex(): SavedEntry[] {
+  try {
+    const raw = localStorage.getItem(INDEX_KEY);
+    const parsed = raw ? (JSON.parse(raw) as SavedEntry[]) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeIndex(entries: SavedEntry[]) {
+  try {
+    localStorage.setItem(INDEX_KEY, JSON.stringify(entries));
+  } catch {
+    /* quota / private mode: fail-soft */
+  }
+}
+
+/**
+ * Explicit "save for offline" for an airport-detail page (PWA concept Phase 3):
+ * stores the page HTML in the never-trimmed `saved-v1` cache (stamped with
+ * `sw-cached-at` so the offline banner can show its age) and, when the chart is
+ * a direct PDF, the PDF as an opaque `no-cors` response in `charts-v1` (served
+ * by the SW for the inline preview embed when offline). The saved fields are
+ * indexed in localStorage - the Favorites foundation. Renders nothing where
+ * Cache Storage is unavailable. All fail-soft: an error resets to unsaved.
+ */
+export function SaveOfflineButton({
+  slug,
+  title,
+  chartUrl,
+  saveLabel,
+  savedLabel,
+}: {
+  slug: string;
+  title: string;
+  chartUrl: string | null;
+  saveLabel: string;
+  savedLabel: string;
+}) {
+  const [supported, setSupported] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (!("caches" in window)) return;
+    setSupported(true);
+    setSaved(readIndex().some((e) => e.slug === slug));
+  }, [slug]);
+
+  if (!supported) return null;
+
+  async function save() {
+    setBusy(true);
+    try {
+      const pageUrl = window.location.pathname + window.location.search;
+      const res = await fetch(pageUrl);
+      if (!res.ok) throw new Error(String(res.status));
+      const headers = new Headers(res.headers);
+      headers.set("sw-cached-at", new Date().toUTCString());
+      headers.delete("Content-Length");
+      const stamped = new Response(await res.blob(), {
+        status: res.status,
+        headers,
+      });
+      const savedCache = await caches.open(SAVED_CACHE);
+      await savedCache.put(pageUrl, stamped);
+
+      if (chartUrl) {
+        try {
+          const pdf = await fetch(chartUrl, { mode: "no-cors" });
+          const charts = await caches.open(CHARTS_CACHE);
+          await charts.put(chartUrl, pdf);
+        } catch {
+          /* chart host unreachable: the page is still saved */
+        }
+      }
+
+      // Ask the browser not to evict the saved data (EFB use; may be ignored).
+      void navigator.storage?.persist?.();
+
+      const index = readIndex().filter((e) => e.slug !== slug);
+      index.push({
+        slug,
+        title,
+        url: pageUrl,
+        chartUrl,
+        savedAt: new Date().toISOString(),
+      });
+      writeIndex(index);
+      setSaved(true);
+    } catch {
+      setSaved(false);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function unsave() {
+    setBusy(true);
+    try {
+      const pageUrl = window.location.pathname + window.location.search;
+      const savedCache = await caches.open(SAVED_CACHE);
+      await savedCache.delete(pageUrl);
+      if (chartUrl) {
+        const charts = await caches.open(CHARTS_CACHE);
+        await charts.delete(chartUrl);
+      }
+      writeIndex(readIndex().filter((e) => e.slug !== slug));
+      setSaved(false);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <p className="text-center text-sm">
+      <button
+        type="button"
+        disabled={busy}
+        onClick={saved ? unsave : save}
+        title={saved ? savedLabel : saveLabel}
+        className="text-drossblue inline-flex items-center gap-x-1 hover:underline disabled:opacity-50"
+      >
+        {saved ? (
+          <CheckIcon className="size-4 flex-shrink-0" aria-hidden="true" />
+        ) : (
+          <DownloadIcon className="size-4 flex-shrink-0" aria-hidden="true" />
+        )}
+        <span>{saved ? savedLabel : saveLabel}</span>
+      </button>
+    </p>
+  );
+}

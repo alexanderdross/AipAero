@@ -26,6 +26,10 @@ const STATIC_CACHE = `static-${VERSION}`;
 const PAGES_CACHE = `pages-${VERSION}`;
 const TILES_CACHE = `tiles-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
+// Explicit "save for offline" (Phase 3, written by save-offline-button.tsx):
+// never trimmed, so a pilot's saved fields cannot be FIFO-evicted by browsing.
+const SAVED_CACHE = `saved-${VERSION}`;
+const CHARTS_CACHE = `charts-${VERSION}`;
 
 const PRECACHE_URLS = ["/offline.html", "/logo.webp", "/manifest.webmanifest"];
 
@@ -45,7 +49,14 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  const keep = new Set([STATIC_CACHE, PAGES_CACHE, TILES_CACHE, DATA_CACHE]);
+  const keep = new Set([
+    STATIC_CACHE,
+    PAGES_CACHE,
+    TILES_CACHE,
+    DATA_CACHE,
+    SAVED_CACHE,
+    CHARTS_CACHE,
+  ]);
   event.waitUntil(
     caches
       .keys()
@@ -113,6 +124,10 @@ async function handleNavigation(request) {
     return fresh;
   } catch (_err) {
     // Full-URL match (incl. search): every ?ICAO detail page is its own entry.
+    // Explicitly saved pages win over the FIFO-trimmed browsing cache.
+    const savedCache = await caches.open(SAVED_CACHE);
+    const saved = await savedCache.match(request);
+    if (saved) return injectOfflineBanner(saved);
     const cached = await cache.match(request);
     if (cached) return injectOfflineBanner(cached);
     const offline = await caches.match("/offline.html");
@@ -188,6 +203,24 @@ self.addEventListener("fetch", (event) => {
 
   if (url.hostname.endsWith("tile.openstreetmap.org")) {
     event.respondWith(cacheFirst(request, TILES_CACHE, TILES_MAX));
+    return;
+  }
+
+  // Explicitly saved chart PDFs (cross-origin AIP hosts): the inline preview
+  // <object> embed is intercepted here and served from the charts cache when
+  // saved, so it works offline. Nothing is cached implicitly - misses just
+  // pass through to the network.
+  if (
+    request.destination === "object" ||
+    request.destination === "embed" ||
+    request.destination === "iframe"
+  ) {
+    event.respondWith(
+      caches
+        .open(CHARTS_CACHE)
+        .then((cache) => cache.match(request))
+        .then((cached) => cached || fetch(request)),
+    );
     return;
   }
   // Other cross-origin requests (AIP hosts, ads, analytics): untouched.

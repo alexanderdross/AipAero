@@ -230,7 +230,9 @@
     "restaurant": "Restaurang",
     "customs": "Tull",
     "yes": "Ja",
-    "no": "Nej"
+    "no": "Nej",
+    "saveOffline": "Spara för offline",
+    "savedOffline": "Sparad offline"
   },
   "Chart": {
     "title": "Inflygningskarta",

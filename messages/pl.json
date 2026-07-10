@@ -230,7 +230,9 @@
     "restaurant": "Restauracja",
     "customs": "Odprawa celna",
     "yes": "Tak",
-    "no": "Nie"
+    "no": "Nie",
+    "saveOffline": "Zapisz do trybu offline",
+    "savedOffline": "Zapisano offline"
   },
   "Chart": {
     "title": "Mapa podejścia",

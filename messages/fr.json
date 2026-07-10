@@ -230,7 +230,9 @@
     "restaurant": "Restaurant",
     "customs": "Douane",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "saveOffline": "Enregistrer pour hors ligne",
+    "savedOffline": "Enregistré hors ligne"
   },
   "Chart": {
     "title": "Carte d'approche",

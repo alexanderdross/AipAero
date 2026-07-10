@@ -1,12 +1,13 @@
 import pick from "lodash/pick";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { AirportChart } from "~/components/airport-chart";
 import { AirportContact } from "~/components/airport-contact";
 import { AirportFacts } from "~/components/airport-facts";
 import { AirportNearby } from "~/components/airport-nearby";
 import { AirportWeatherWind } from "~/components/airport-weather-wind";
 import { SchemaAirport } from "~/components/schemas/schema-airport";
+import { SaveOfflineButton } from "~/components/save-offline-button";
 import { SchemaDigitalDocument } from "~/components/schemas/schema-digital-document";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { localeLangMapping } from "~/i18n/routing";
@@ -45,10 +46,11 @@ export async function AirportGadgets({
   schemaDescription: string;
   schemaUrl: string;
 }) {
-  const [locale, messages, facts] = await Promise.all([
+  const [locale, messages, facts, tCommon] = await Promise.all([
     getLocale(),
     getMessages(),
     getAirportFacts(airport.icao),
+    getTranslations("Common"),
   ]);
 
   let lat = facts?.lat ?? null;
@@ -155,6 +157,15 @@ export async function AirportGadgets({
         additionalProperties={props}
       />
       <div className="flex flex-col gap-4">
+        {/* Explicit "save for offline" (PWA Phase 3): pins this page (and a
+            direct-PDF chart) in the never-trimmed offline caches. */}
+        <SaveOfflineButton
+          slug={airport.slug}
+          title={airport.title}
+          chartUrl={isPdfUrl(airport.url) ? airport.url : null}
+          saveLabel={tCommon("saveOffline")}
+          savedLabel={tCommon("savedOffline")}
+        />
         {isPdfUrl(airport.url) && (
           <>
             <AirportChart url={airport.url} />

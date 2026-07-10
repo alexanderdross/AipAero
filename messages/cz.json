@@ -195,7 +195,9 @@
     "restaurant": "Restaurace",
     "customs": "Celnice",
     "yes": "Ano",
-    "no": "Ne"
+    "no": "Ne",
+    "saveOffline": "Uložit pro offline",
+    "savedOffline": "Uloženo offline"
   },
   "Chart": {
     "title": "Přibližovací mapa",
