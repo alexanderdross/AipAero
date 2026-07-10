@@ -151,8 +151,6 @@ export default async function IndexPage(
       <Suspense fallback={<LoadingList />}>
         <AirportLists locale={locale} />
       </Suspense>
-      {/* Trade:Aero cross-sell (locale + country aware) */}
-      <TradeAeroCta />
       {/* About AIP Box */}
       <AboutCountryBox isH3={false} />
     </>
@@ -211,6 +209,9 @@ async function AirportLists({ locale }: { locale: string }) {
           mapLabel={tCommon("map")}
         />
       )}
+      {/* Trade:Aero cross-sell (locale + country aware), placed between the
+          map and the listings. */}
+      <TradeAeroCta />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap justify-center gap-6">
           {[
