@@ -158,7 +158,7 @@ export function AirportMap({
         ref={containerRef}
         role="application"
         aria-label={mapLabel}
-        className="isolate h-80 w-full rounded border border-[#ccc] bg-white"
+        className="border-drossgray-dark/15 isolate h-80 w-full rounded-lg border bg-white"
       />
     </div>
   );

@@ -50,7 +50,7 @@ export async function AirportNearby({
   if (!nearby.length) return null;
 
   return (
-    <section className="border border-[#ccc] bg-white p-4">
+    <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <h2 className="text-center text-xl font-normal">{t("nearby")}</h2>
       <ul className="mx-auto mt-3 flex w-fit flex-col gap-y-1 text-sm">
         {nearby.map((a) => {

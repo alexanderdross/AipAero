@@ -106,7 +106,7 @@ export function AirportWeather({
     ) : null;
 
   return (
-    <section className="border border-[#ccc] bg-white p-4">
+    <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
         <h2 className="text-xl font-normal">{t("title")}</h2>
         {metar?.fltCat && (

@@ -22,7 +22,7 @@ export async function AirportChart({ url }: { url: string }) {
   );
 
   return (
-    <section className="border border-[#ccc] bg-white p-4">
+    <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <h2 className="text-center text-xl font-normal">{t("title")}</h2>
 
       <p className="mt-3 text-center text-sm">
@@ -38,7 +38,7 @@ export async function AirportChart({ url }: { url: string }) {
         <object
           data={url}
           type="application/pdf"
-          className="mt-2 h-[75vh] w-full rounded border border-[#ccc]"
+          className="border-drossgray-dark/15 mt-2 h-[75vh] w-full rounded-lg border"
         >
           {/* Shown when the host blocks framing (X-Frame-Options) */}
           <p className="p-4 text-center">

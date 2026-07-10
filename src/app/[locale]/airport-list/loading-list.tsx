@@ -34,7 +34,7 @@ export default async function LoadingList() {
         {items.map((item) => (
           <div
             key={item.title}
-            className="min-w-80 flex-grow basis-0 border border-[#ccc] bg-white px-6 py-8"
+            className="border-drossgray-dark/15 min-w-80 flex-grow basis-0 rounded-xl border bg-white px-6 py-8 shadow-sm"
           >
             <h2 className="text-center text-2xl font-normal">{item.title}</h2>
             <p className="pb-2 text-center">{item.description}</p>

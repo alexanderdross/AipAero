@@ -70,7 +70,7 @@ export async function AirportContact({
     rows.push([t("customs"), facts.customs ? t("yes") : t("no")]);
 
   return (
-    <section className="border border-[#ccc] bg-white p-4">
+    <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <h2 className="text-center text-xl font-normal">{t("location")}</h2>
 
       {rows.length > 0 && (

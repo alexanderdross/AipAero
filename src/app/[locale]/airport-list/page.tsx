@@ -228,7 +228,7 @@ async function AirportLists({ locale }: { locale: string }) {
               return (
                 <div
                   key={index}
-                  className="min-w-80 flex-grow basis-0 border border-[#ccc] bg-white px-6 py-8"
+                  className="border-drossgray-dark/15 min-w-80 flex-grow basis-0 rounded-xl border bg-white px-6 py-8 shadow-sm"
                 >
                   <h2 className="text-center text-2xl font-normal">
                     {t(`${key}.title`)}
