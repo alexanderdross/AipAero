@@ -1,6 +1,6 @@
 "server-only";
 
-import { and, eq, asc, isNotNull, like, or, sql } from "drizzle-orm";
+import { and, between, eq, asc, isNotNull, like, or, sql } from "drizzle-orm";
 import { unstable_cache, revalidateTag } from "next/cache";
 import { getDb, type DB } from "~/server/db";
 import {
@@ -276,6 +276,47 @@ export const QUERIES = {
           ),
       [] as AirportCoord[],
     );
+  },
+  airportsNear: async function (
+    country: string,
+    lat: number,
+    lon: number,
+    latDelta: number,
+    lonDelta: number,
+  ): Promise<AirportCoord[]> {
+    // Chart-linked fields of a country within a lat/lon bounding box - powers the
+    // "nearby airfields" box on the airport-detail pages. SQLite does the box
+    // filter, so the render receives only the handful of fields in range instead
+    // of the whole country's coordinates (loading all of them per detail request
+    // just to pick the 4 nearest was a Worker "Error 1102 - exceeded resource
+    // limits" contributor on data-rich countries). Deliberately UNCACHED, like the
+    // as-you-type search: a per-airport box would otherwise create unbounded cache
+    // entries. Fail-soft to [] during the build / when no DB binding is present.
+    // `between` on a nullable column excludes NULLs, so no explicit isNotNull.
+    const db = await getDb();
+    if (!db) return [];
+    const c = country.toUpperCase();
+    try {
+      return (await db
+        .select({
+          slug: airports.slug,
+          title: airports.title,
+          type: airports.type,
+          lat: airportFacts.lat,
+          lon: airportFacts.lon,
+        })
+        .from(airports)
+        .innerJoin(airportFacts, eq(airports.icao, airportFacts.icao))
+        .where(
+          and(
+            eq(airports.country, c),
+            between(airportFacts.lat, lat - latDelta, lat + latDelta),
+            between(airportFacts.lon, lon - lonDelta, lon + lonDelta),
+          ),
+        )) as AirportCoord[];
+    } catch {
+      return [];
+    }
   },
   crawlUpdatedAt: function (country: string) {
     // Unix-seconds timestamp of the last crawler POST for this country (null if

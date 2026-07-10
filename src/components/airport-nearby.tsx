@@ -34,7 +34,14 @@ export async function AirportNearby({
   if (lat == null || lon == null) return null;
   const t = await getTranslations("Common");
 
-  const all = await QUERIES.airportsWithCoords(country);
+  // Query only fields inside a bounding box around this one (SQLite-side) rather
+  // than loading the whole country's coordinates and filtering in JS. 1 deg of
+  // latitude is ~111 km; longitude degrees shrink with latitude (divide by
+  // cos(lat), floored so it never blows up near the poles). The haversine pass
+  // below refines the box to the exact MAX_KM circle.
+  const latDelta = MAX_KM / 111;
+  const lonDelta = latDelta / Math.max(Math.cos((lat * Math.PI) / 180), 0.2);
+  const all = await QUERIES.airportsNear(country, lat, lon, latDelta, lonDelta);
   const seen = new Set<string>();
   const nearby = all
     .filter((a) => a.slug !== slug && a.lat != null && a.lon != null)
