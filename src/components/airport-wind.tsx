@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { SectionHeading } from "~/components/section-heading";
 import { compassPoint, recommendedLanding, runwayWinds } from "~/lib/crosswind";
 import type { Metar } from "~/lib/weather";
 import type { RunwayFact } from "~/server/db/schema";
@@ -90,7 +91,9 @@ export function AirportWind({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <h2 className="text-center text-xl font-normal">{t("windComponents")}</h2>
+      <SectionHeading className="text-center text-xl font-normal">
+        {t("windComponents")}
+      </SectionHeading>
 
       <div className="mt-3 flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:justify-center sm:gap-10">
         <svg

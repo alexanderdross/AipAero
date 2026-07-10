@@ -2,6 +2,7 @@ import { FileTextIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { ChartPreview } from "~/components/chart-preview";
 import { ExternalLink } from "~/components/external-link";
+import { SectionHeading } from "~/components/section-heading";
 
 /**
  * Chart-PDF box, shown only when the airport's chart URL points directly at a
@@ -28,7 +29,9 @@ export async function AirportChart({ url }: { url: string }) {
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <h2 className="text-center text-xl font-normal">{t("title")}</h2>
+      <SectionHeading className="text-center text-xl font-normal">
+        {t("title")}
+      </SectionHeading>
 
       <p className="mt-3 text-center text-sm">
         {openLink(

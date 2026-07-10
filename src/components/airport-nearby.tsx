@@ -1,6 +1,7 @@
 import { LinkIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { SectionHeading } from "~/components/section-heading";
 import { getPathname } from "~/i18n/routing";
 import { haversineKm } from "~/lib/distance";
 import { i18nPathMapping } from "~/lib/utils";
@@ -51,7 +52,9 @@ export async function AirportNearby({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <h2 className="text-center text-xl font-normal">{t("nearby")}</h2>
+      <SectionHeading className="text-center text-xl font-normal">
+        {t("nearby")}
+      </SectionHeading>
       <ul className="mx-auto mt-3 flex w-fit flex-col gap-y-1 text-sm">
         {nearby.map((a) => {
           const href =
