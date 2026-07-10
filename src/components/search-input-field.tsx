@@ -106,7 +106,7 @@ export function SearchInputField({
                   className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
                   hrefTitle={`${airport.title}`} //hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
                 >
-                  <span className="rounded bg-white/20 px-1.5 py-0.5 text-xs font-semibold tracking-wide">
+                  <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
                     AIP
                   </span>
                   <span>
