@@ -129,15 +129,31 @@ export async function getAirportFacts(
   if (!icao || !/^[A-Z]{4}$/.test(icao.toUpperCase())) return null;
   const code = icao.toUpperCase();
 
-  const [row, openaip, awc] = await Promise.all([
-    // Fail-soft to the live sources: this must not throw if the D1 row read
-    // fails (e.g. migration 0004 not yet applied when the code deploys, or a
-    // transient D1 error) - the page then renders from OpenAIP/AWC as before.
-    QUERIES.airportFacts(code).catch(() => undefined),
-    getOpenAipFacts(code),
-    getAwcAirport(code),
-  ]);
+  // Fail-soft to the live sources: this must not throw if the D1 row read
+  // fails (e.g. migration 0004 not yet applied when the code deploys, or a
+  // transient D1 error) - the page then renders from OpenAIP/AWC as before.
+  const row = await QUERIES.airportFacts(code).catch(() => undefined);
   const base = row ? rowToFacts(row) : null;
+
+  // The D1 row is primary - only fire the live fetches for what it cannot
+  // answer, instead of unconditionally on every render (2 external
+  // subrequests per detail view whose results were usually discarded):
+  // - OpenAIP: skipped once the write-back has run (`source` carries
+  //   "openaip", meaning everything OpenAIP offers is already merged in).
+  // - AWC: only when a field it can fill (coords/elevation/runways/
+  //   frequencies) is still missing from the row.
+  const needOpenaip = !(base?.source.includes("openaip") ?? false);
+  const needAwc =
+    !base ||
+    base.lat == null ||
+    base.lon == null ||
+    base.elevationFt == null ||
+    base.runways.length === 0 ||
+    base.frequencies.length === 0;
+  const [openaip, awc] = await Promise.all([
+    needOpenaip ? getOpenAipFacts(code) : null,
+    needAwc ? getAwcAirport(code) : null,
+  ]);
   if (!openaip && !base && !awc) return null;
 
   const merged: NormalizedFacts = {

@@ -31,6 +31,11 @@ export async function GET() {
   return new NextResponse(xml, {
     headers: {
       "Content-Type": "application/xml",
+      // The index only changes on deploy (lastmod = build date); 1h matches
+      // the per-country sitemaps' revalidate. s-maxage is browser/edge intent -
+      // on Workers it only takes effect once responses are put in an edge
+      // cache, but it costs nothing and documents the freshness contract.
+      "Cache-Control": "public, max-age=3600, s-maxage=3600",
     },
   });
 }

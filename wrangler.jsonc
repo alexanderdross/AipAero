@@ -3,8 +3,10 @@
 	"name": "aip-aero",
 	"main": ".open-next/worker.js",
 	// nodejs_compat + a compat date >= 2024-09-23 is required for the Node APIs
-	// OpenNext and the D1/Drizzle driver rely on.
-	"compatibility_date": "2024-12-30",
+	// OpenNext and the D1/Drizzle driver rely on. Keep the date reasonably
+	// current (runtime/perf fixes ship behind it); it must not exceed the
+	// workerd bundled with the installed wrangler.
+	"compatibility_date": "2026-06-01",
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
@@ -13,7 +15,11 @@
 		"directory": ".open-next/assets"
 	},
 	"observability": {
-		"enabled": true
+		"enabled": true,
+		// Sample 25% of invocation events instead of 100%: the free tier caps at
+		// 200k events/day (the dashboard already warned about sampling), and full
+		// logging is only needed while actively debugging - bump back to 1 then.
+		"head_sampling_rate": 0.25
 	},
 	// Serve on the Cloudflare-managed apex domain instead of *.workers.dev.
 	// custom_domain: true makes Wrangler create the DNS record + route binding.
