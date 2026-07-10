@@ -68,28 +68,27 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
     })),
   ];
 
-  // Wrap the SiteNavigationElement nodes as an ordered ItemList that is the
-  // main entity of the country's CollectionPage (its entry page), so the
-  // navigation is one structured collection rather than a flat list of nodes.
-  // `position` is valid on SiteNavigationElement (a CreativeWork subtype).
+  // One multi-typed node for the country's entry page: it is at once the
+  // navigation (SiteNavigationElement), the collection (CollectionPage) and the
+  // ordered list (ItemList) that carries the per-page nav entries via
+  // itemListElement. `ItemList` is the type that provides `itemListElement`
+  // (that is a property, not a type); `position` is valid on
+  // SiteNavigationElement (a CreativeWork subtype).
   const siteNavSchema = {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",
+    "@type": ["SiteNavigationElement", "CollectionPage", "ItemList"],
     name: siteTranslations[0]!("breadcrumb.alternateName"),
     url: trailingSlash(
       new URL(getPathname({ href: "/", locale }), orgUrl).toString(),
     ),
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: navItems.map((item, i) => ({
-        "@type": "SiteNavigationElement",
-        position: i + 1,
-        name: item.name,
-        alternateName: item.alternateName,
-        description: item.description,
-        url: item.url,
-      })),
-    },
+    itemListElement: navItems.map((item, i) => ({
+      "@type": "SiteNavigationElement",
+      position: i + 1,
+      name: item.name,
+      alternateName: item.alternateName,
+      description: item.description,
+      url: item.url,
+    })),
   };
   return (
     <script
