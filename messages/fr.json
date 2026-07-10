@@ -241,8 +241,8 @@
     "no": "Non",
     "saveOffline": "Enregistrer pour hors ligne",
     "savedOffline": "Enregistré hors ligne",
-    "installHint": "Installer comme application : dans le menu Partager du navigateur, choisissez 'Sur l'écran d'accueil'.",
-    "installHintMac": "Sur Mac : installez via le menu Partager de Safari avec 'Ajouter au Dock'."
+    "installHint": "Installer comme application : dans le menu Partager du navigateur, choisissez 'Sur l'écran d'accueil'. Ouvrez ensuite l'application une fois en ligne et enregistrez-y de nouveau vos terrains - l'application a son propre stockage hors ligne.",
+    "installHintMac": "Sur Mac : installez via le menu Partager de Safari avec 'Ajouter au Dock'. Ouvrez ensuite l'application une fois en ligne et enregistrez-y de nouveau vos terrains - l'application a son propre stockage hors ligne."
   },
   "Chart": {
     "title": "Carte d'approche",

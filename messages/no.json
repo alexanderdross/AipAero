@@ -241,8 +241,8 @@
     "no": "Nei",
     "saveOffline": "Lagre for frakoblet bruk",
     "savedOffline": "Lagret frakoblet",
-    "installHint": "Installer som app: velg 'Legg til på Hjem-skjermen' i nettleserens delemeny.",
-    "installHintMac": "På Mac: installer via delemenyen i Safari med 'Legg til i Dock'."
+    "installHint": "Installer som app: velg 'Legg til på Hjem-skjermen' i nettleserens delemeny. Åpne deretter appen én gang mens du er tilkoblet og lagre plassene på nytt der - appen har eget frakoblet lager.",
+    "installHintMac": "På Mac: installer via delemenyen i Safari med 'Legg til i Dock'. Åpne deretter appen én gang mens du er tilkoblet og lagre plassene på nytt der - appen har eget frakoblet lager."
   },
   "Chart": {
     "title": "Innflygingskart",

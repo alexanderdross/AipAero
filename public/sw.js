@@ -65,9 +65,38 @@ self.addEventListener("activate", (event) => {
           keys.filter((key) => !keep.has(key)).map((key) => caches.delete(key)),
         ),
       )
-      .then(() => self.clients.claim()),
+      .then(() => self.clients.claim())
+      .then(() => cacheOpenClients()),
   );
 });
+
+// Snapshot the pages that are open RIGHT NOW into the pages cache. Without
+// this, a page only gets cached on the NEXT navigation after the SW activates -
+// so the first online launch of an installed home-screen app (whose start URL
+// is the airport page itself) would leave that very page uncached, and the
+// next offline launch would hit the native error page (field-tested on iOS,
+// where the installed app has its own storage separate from Safari). Fail-soft.
+async function cacheOpenClients() {
+  try {
+    const clientList = await self.clients.matchAll({ type: "window" });
+    const cache = await caches.open(PAGES_CACHE);
+    await Promise.all(
+      clientList.map(async (client) => {
+        try {
+          const url = new URL(client.url);
+          if (url.origin !== self.location.origin) return;
+          const fresh = await fetch(url.href);
+          if (fresh.ok) await cache.put(url.href, await withTimestamp(fresh));
+        } catch (_err) {
+          /* offline or fetch failure: nothing to snapshot */
+        }
+      }),
+    );
+    trimCache(PAGES_CACHE, PAGES_MAX);
+  } catch (_err) {
+    /* fail-soft */
+  }
+}
 
 async function trimCache(name, maxEntries) {
   const cache = await caches.open(name);

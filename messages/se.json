@@ -241,8 +241,8 @@
     "no": "Nej",
     "saveOffline": "Spara för offline",
     "savedOffline": "Sparad offline",
-    "installHint": "Installera som app: välj 'Lägg till på hemskärmen' i webbläsarens delningsmeny.",
-    "installHintMac": "På Mac: installera via Safaris delningsmeny med 'Lägg till i Dock'."
+    "installHint": "Installera som app: välj 'Lägg till på hemskärmen' i webbläsarens delningsmeny. Öppna sedan appen en gång online och spara dina fält där igen - appen har eget offlinelagring.",
+    "installHintMac": "På Mac: installera via Safaris delningsmeny med 'Lägg till i Dock'. Öppna sedan appen en gång online och spara dina fält där igen - appen har eget offlinelagring."
   },
   "Chart": {
     "title": "Inflygningskarta",

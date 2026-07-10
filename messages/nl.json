@@ -241,8 +241,8 @@
     "no": "Nee",
     "saveOffline": "Opslaan voor offline",
     "savedOffline": "Offline opgeslagen",
-    "installHint": "Als app installeren: kies in het deelmenu van de browser 'Zet op beginscherm'.",
-    "installHintMac": "Op de Mac: installeer via het deelmenu van Safari met 'Zet in Dock'."
+    "installHint": "Als app installeren: kies in het deelmenu van de browser 'Zet op beginscherm'. Open de app daarna één keer online en sla je velden daar opnieuw op - de app heeft eigen offline-opslag.",
+    "installHintMac": "Op de Mac: installeer via het deelmenu van Safari met 'Zet in Dock'. Open de app daarna één keer online en sla je velden daar opnieuw op - de app heeft eigen offline-opslag."
   },
   "Chart": {
     "title": "Naderingskaart",
