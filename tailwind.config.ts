@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Tahoma", "Verdana", "sans-serif"],
+        sans: ["var(--font-sans)", "Tahoma", "Verdana", "sans-serif"],
       },
       colors: {
         drossblue: {

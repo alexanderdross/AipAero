@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, SearchIcon } from "lucide-react";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Input } from "~/components/ui/input";
 import { searchAirportsGlobal } from "~/server/actions";
@@ -80,25 +80,31 @@ export function GlobalSearchInputField({
   }, [debounced]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-6 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-2xl px-4 pb-2 sm:px-6 lg:px-8">
       <form action={formAction} ref={formRef}>
         <label htmlFor="global-search" className="sr-only">
           {placeholder}
         </label>
-        <Input
-          id="global-search"
-          name="search"
-          className="bg-white text-center"
-          type="text"
-          placeholder={placeholder}
-          title={placeholder}
-          value={search}
-          onChange={(e) => {
-            hasTypedRef.current = true;
-            setSearch(e.currentTarget.value);
-          }}
-          autoComplete="off"
-        />
+        <div className="relative">
+          <SearchIcon
+            className="text-drossgray-dark pointer-events-none absolute top-1/2 left-3 size-5 -translate-y-1/2"
+            aria-hidden="true"
+          />
+          <Input
+            id="global-search"
+            name="search"
+            className="focus-visible:ring-drossblue border-drossgray-dark/20 h-12 rounded-lg bg-white pl-10 text-base shadow-sm focus-visible:ring-2"
+            type="text"
+            placeholder={placeholder}
+            title={placeholder}
+            value={search}
+            onChange={(e) => {
+              hasTypedRef.current = true;
+              setSearch(e.currentTarget.value);
+            }}
+            autoComplete="off"
+          />
+        </div>
       </form>
       {state.airports.length > 0 && (
         <ol className="mt-2">
@@ -107,7 +113,7 @@ export function GlobalSearchInputField({
               <a
                 href={detailHref(airport)}
                 title={`${airport.title} - ${TYPE_LABEL[airport.type]}`}
-                className="bg-drossblue hover:bg-drossblue-light mt-1 flex items-center justify-center gap-x-2 py-2 text-white"
+                className="bg-drossblue hover:bg-drossblue-light mt-1 flex items-center justify-center gap-x-2 rounded-lg px-3 py-2.5 text-white transition-colors"
               >
                 <span>{airport.title}</span>
                 <span className="rounded bg-white/25 px-1.5 py-0.5 text-xs font-medium">
@@ -126,7 +132,9 @@ export function GlobalSearchInputField({
         </ol>
       )}
       {pending && state.airports.length !== 0 && (
-        <div className="bg-drossblue mt-1 py-2 text-center text-white">...</div>
+        <div className="bg-drossblue mt-1 rounded-lg py-2.5 text-center text-white">
+          ...
+        </div>
       )}
     </div>
   );
