@@ -14,13 +14,24 @@ type Parsed = {
 };
 
 async function readJsonLd(page: Page, path: string): Promise<Parsed> {
-  const res = await page.goto(path, { waitUntil: "domcontentloaded" });
+  const res = await page.goto(path, { waitUntil: "load" });
   expect(res?.status(), `HTTP status for ${path}`).toBe(200);
+  // Give late-streamed Suspense content and the SchemaDedupe pass time to run.
+  await page.waitForTimeout(2000);
 
   const blocks = await page
     .locator('script[type="application/ld+json"]')
     .allTextContents();
   expect(blocks.length, `no JSON-LD on ${path}`).toBeGreaterThan(0);
+
+  // No two blocks may be byte-identical (whitespace-normalized): the same
+  // schema node rendered twice is exactly the Workers serving-path artifact
+  // the SchemaDedupe component removes - guard against local regressions too.
+  const normalized = blocks.map((b) => b.replace(/\s+/g, ""));
+  expect(
+    new Set(normalized).size,
+    `duplicate identical JSON-LD blocks on ${path}`,
+  ).toBe(normalized.length);
 
   const types: string[] = [];
   let allValid = true;

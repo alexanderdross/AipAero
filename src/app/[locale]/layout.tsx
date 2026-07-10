@@ -6,6 +6,7 @@ import { Header } from "~/components/header";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { SchemaWebsite } from "~/components/schemas/schema-website";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
+import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { inter } from "~/lib/fonts";
 import { NextIntlClientProvider } from "next-intl";
@@ -69,6 +70,9 @@ export default async function LocaleLayout(
         <Footer />
         {/* Offline PWA: registers /sw.js after load (production hosts only). */}
         <ServiceWorkerRegistration />
+        {/* Merge byte-identical duplicate JSON-LD nodes (Workers serving-path
+            artifact - see the component's doc comment). */}
+        <SchemaDedupe />
       </body>
     </html>
   );

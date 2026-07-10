@@ -19,6 +19,7 @@ import {
   rootTitle,
 } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
+import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import { inter } from "~/lib/fonts";
@@ -302,6 +303,9 @@ export default async function RootPage() {
         <Footer />
         {/* Offline PWA: registers /sw.js after load (production hosts only). */}
         <ServiceWorkerRegistration />
+        {/* Merge byte-identical duplicate JSON-LD nodes (Workers serving-path
+            artifact - see the component's doc comment). */}
+        <SchemaDedupe />
       </body>
     </html>
   );
