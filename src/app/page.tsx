@@ -10,6 +10,7 @@ import { Hero } from "~/components/hero";
 import { Header } from "~/components/header";
 import { ValueProps } from "~/components/value-props";
 import {
+  countryMeta,
   countryTypeAvailability,
   liveCountries,
   orgUrl,
@@ -21,7 +22,7 @@ import { SchemaProduct } from "~/components/schemas/schema-product";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import { inter } from "~/lib/fonts";
-import { routing } from "~/i18n/routing";
+import { isSingleLocale, routing } from "~/i18n/routing";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 
 export async function generateMetadata(
@@ -78,98 +79,16 @@ export default async function RootPage() {
     url: x("url"),
   }));
 
-  const countries = [
-    {
-      tld: "uk",
-      lang: "en",
-      name: "United Kingdom",
-      flag: "🇬🇧",
-      nativeLang: "English",
-      isSingleLocale: true,
-    },
-    {
-      tld: "de",
-      lang: "de",
-      name: "Germany",
-      flag: "🇩🇪",
-      nativeLang: "German",
-    },
-    {
-      tld: "fr",
-      lang: "fr",
-      name: "France",
-      flag: "🇫🇷",
-      nativeLang: "French",
-    },
-    {
-      tld: "nl",
-      lang: "nl",
-      name: "Netherlands",
-      flag: "🇳🇱",
-      nativeLang: "Dutch",
-    },
-    {
-      tld: "at",
-      lang: "de",
-      name: "Austria",
-      flag: "🇦🇹",
-      nativeLang: "German",
-    },
-    // TEMPORARILY HIDDEN - crawlers for these countries are not yet
-    // verified against their live AIP sources, so their pages are empty.
-    // Un-comment a country here (and in `liveCountries` in ~/lib/utils)
-    // once its crawler feeds data. See CLAUDE.md (Supported Countries).
-    {
-      tld: "be",
-      lang: "en",
-      name: "Belgium & Luxembourg",
-      flag: "🇧🇪",
-      nativeLang: "English",
-      isSingleLocale: true,
-    },
-    {
-      tld: "cz",
-      lang: "cs",
-      name: "Czechia",
-      flag: "🇨🇿",
-      nativeLang: "Czech",
-    },
-    //{
-    //  tld: "dk",
-    //  lang: "da",
-    //  name: "Denmark",
-    //  flag: "🇩🇰",
-    //  nativeLang: "Danish",
-    //},
-    //{
-    //  tld: "gr",
-    //  lang: "el",
-    //  name: "Greece",
-    //  flag: "🇬🇷",
-    //  nativeLang: "Greek",
-    //},
-    {
-      tld: "no",
-      lang: "no",
-      name: "Norway",
-      flag: "🇳🇴",
-      nativeLang: "Norwegian",
-    },
-    {
-      tld: "pl",
-      lang: "pl",
-      name: "Poland",
-      flag: "🇵🇱",
-      nativeLang: "Polish",
-    },
-    {
-      tld: "se",
-      lang: "sv",
-      name: "Sweden",
-      flag: "🇸🇪",
-      nativeLang: "Swedish",
-    },
-  ].sort((a, b) => a.name.localeCompare(b.name));
+  // Country cards derive from `liveCountries` x `countryMeta` (~/lib/utils):
+  // launching a country is a single un-comment in `liveCountries`, no edit
+  // here. Single-locale countries (uk, be) get one button and no /en/ twin.
+  const countries = liveCountries
+    .map((tld) => ({
+      tld,
+      ...countryMeta[tld]!,
+      isSingleLocale: isSingleLocale(tld),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   // Short, language-neutral labels for the chart types each country exposes,
   // shown as pills on its card so the grid hints at what is behind each link.

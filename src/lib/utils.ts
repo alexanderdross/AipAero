@@ -76,9 +76,9 @@ export function countryHasType(
 
 // Countries whose crawler is verified and feeding airport data. Only these are
 // promoted on the start page and listed in the sitemap index; the others stay
-// fully wired (routes, translations, crawlers) but hidden, so launching one is
-// just un-commenting its line here and its card in `src/app/page.tsx` once its
-// crawler has been validated against the live AIP source.
+// fully wired (routes, translations, crawlers, COUNTRY_META) but hidden, so
+// launching one is just un-commenting its line here once its crawler has been
+// validated against the live AIP source.
 export const liveCountries: string[] = [
   "at",
   "de",
@@ -95,3 +95,34 @@ export const liveCountries: string[] = [
   // "dk",
   // "gr",
 ];
+
+// English-facing display metadata per country, keyed by the two-letter code.
+// The global homepage (src/app/page.tsx) derives its country cards, hreflang
+// links and about-text links from `liveCountries` x this map - so launching a
+// country never needs an edit there. `lang` is the hreflang ISO code of the
+// country's native locale (see `localeLangMapping` in routing.ts);
+// `nativeLang` is the English NAME of that language for the card buttons.
+// Whether a country has an English twin locale comes from `isSingleLocale()`
+// in routing.ts - not duplicated here.
+export const countryMeta: Record<
+  string,
+  { lang: string; name: string; flag: string; nativeLang: string }
+> = {
+  uk: { lang: "en", name: "United Kingdom", flag: "🇬🇧", nativeLang: "English" },
+  de: { lang: "de", name: "Germany", flag: "🇩🇪", nativeLang: "German" },
+  fr: { lang: "fr", name: "France", flag: "🇫🇷", nativeLang: "French" },
+  nl: { lang: "nl", name: "Netherlands", flag: "🇳🇱", nativeLang: "Dutch" },
+  at: { lang: "de", name: "Austria", flag: "🇦🇹", nativeLang: "German" },
+  be: {
+    lang: "en",
+    name: "Belgium & Luxembourg",
+    flag: "🇧🇪",
+    nativeLang: "English",
+  },
+  cz: { lang: "cs", name: "Czechia", flag: "🇨🇿", nativeLang: "Czech" },
+  dk: { lang: "da", name: "Denmark", flag: "🇩🇰", nativeLang: "Danish" },
+  gr: { lang: "el", name: "Greece", flag: "🇬🇷", nativeLang: "Greek" },
+  no: { lang: "no", name: "Norway", flag: "🇳🇴", nativeLang: "Norwegian" },
+  pl: { lang: "pl", name: "Poland", flag: "🇵🇱", nativeLang: "Polish" },
+  se: { lang: "sv", name: "Sweden", flag: "🇸🇪", nativeLang: "Swedish" },
+};
