@@ -37,16 +37,23 @@ const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ESCAPE[c]!);
  * Client-rendered OpenStreetMap (Leaflet) map of a country's airfields. Leaflet
  * runs entirely in `useEffect` (never during SSR - it needs `window`), so the
  * server emits just the empty container; the indexable airport list beneath it
- * (on the airport-list page) is the no-JS fallback. Only mounted when there are
- * markers to show. The "locate" button centres the map on the user's position.
+ * (on the airport-list page) is the no-JS fallback. The "locate" button centres
+ * the map on the user's position.
+ *
+ * The markers are fetched client-side from `/api/airport-coords` rather than
+ * passed in as server props: the map is decorative, and keeping hundreds of
+ * markers out of the airport-list server render avoids weighing down that heavy
+ * page (a Worker "Error 1102 - exceeded resource limits" contributor on the
+ * large DE list). While the markers load the empty container reserves its height
+ * (no layout shift); if the country has no coordinates the map renders nothing.
  */
 export function AirportMap({
-  markers,
+  locale,
   locateLabel,
   locateErrorLabel,
   mapLabel,
 }: {
-  markers: MapMarker[];
+  locale: string;
   locateLabel: string;
   locateErrorLabel: string;
   mapLabel: string;
@@ -54,8 +61,28 @@ export function AirportMap({
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const [locateError, setLocateError] = useState<string | null>(null);
+  const [markers, setMarkers] = useState<MapMarker[] | null>(null);
 
   useEffect(() => {
+    let active = true;
+    // Trailing slash: the app sets `trailingSlash: true`, so the slashless URL
+    // 308-redirects - request the canonical form directly to skip that hop.
+    fetch(`/api/airport-coords/?locale=${encodeURIComponent(locale)}`)
+      .then((r) => (r.ok ? (r.json() as Promise<MapMarker[]>) : []))
+      .then((m) => {
+        if (active) setMarkers(Array.isArray(m) ? m : []);
+      })
+      .catch(() => {
+        // Fail-soft: render nothing rather than a broken map.
+        if (active) setMarkers([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, [locale]);
+
+  useEffect(() => {
+    if (!markers || markers.length === 0) return;
     let cancelled = false;
     void (async () => {
       const LL = (await import("leaflet")).default;
@@ -130,6 +157,10 @@ export function AirportMap({
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
     );
   }
+
+  // Loaded and this country has no coordinates - render no decorative map.
+  // While still loading (markers === null) the container below reserves height.
+  if (markers !== null && markers.length === 0) return null;
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -3,7 +3,7 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { AboutCountryBox } from "~/components/about-country-box";
-import { AirportMap, type MapMarker } from "~/components/airport-map";
+import { AirportMap } from "~/components/airport-map";
 import { LastUpdated } from "~/components/last-updated";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { Title } from "~/components/title";
@@ -172,14 +172,12 @@ async function AirportLists({ locale }: { locale: string }) {
     heliports,
     militaryAirports,
     aeroportAirports,
-    withCoords,
   ] = await Promise.all([
     QUERIES.vfrAirports(country),
     QUERIES.ifrAirports(country),
     QUERIES.heliports(country),
     QUERIES.aeroportAirports(country),
     QUERIES.militaryAirports(country),
-    QUERIES.airportsWithCoords(country),
   ]);
 
   const i18nKeyMapping: Record<Airport["type"], string> = {
@@ -190,29 +188,18 @@ async function AirportLists({ locale }: { locale: string }) {
     aeroport: "aeroportCard",
   };
 
-  // Map markers: chart-linked fields that have coordinates. The detail-page href
-  // mirrors the list links below (localized path + slug as a bare query key).
-  const markers: MapMarker[] = withCoords
-    .filter((a) => a.lat != null && a.lon != null)
-    .map((a) => ({
-      title: a.title,
-      type: a.type,
-      lat: a.lat!,
-      lon: a.lon!,
-      href:
-        getPathname({ href: i18nPathMapping[a.type], locale }) + `?${a.slug}`,
-    }));
-
   return (
     <>
-      {markers.length > 0 && (
-        <AirportMap
-          markers={markers}
-          locateLabel={tCommon("locate")}
-          locateErrorLabel={tCommon("locateError")}
-          mapLabel={tCommon("map")}
-        />
-      )}
+      {/* Decorative map. Its markers are fetched client-side from
+          /api/airport-coords (keyed by locale) so hundreds of coordinates never
+          weigh down this heavy server render; it renders nothing when the
+          country has no coordinates. */}
+      <AirportMap
+        locale={locale}
+        locateLabel={tCommon("locate")}
+        locateErrorLabel={tCommon("locateError")}
+        mapLabel={tCommon("map")}
+      />
       {/* Trade:Aero cross-sell (locale + country aware), placed between the
           map and the listings. */}
       <TradeAeroCta />

@@ -90,3 +90,29 @@ jobs:
           done
           echo "::warning::Post-deploy revalidation failed - pages refresh via ISR within 1h or on the next crawler POST"
           exit 0
+
+      # The country airport-list pages are the heaviest to render. The revalidate
+      # above marks them stale, so the first request regenerates them on the
+      # Worker - a cold render that, for the large DE list, has hit the Worker
+      # resource limit (Error 1102) on a real user. Do that regeneration here,
+      # off the user's request path, so visitors always get the cached HTML.
+      # Best-effort: never fail the deploy on a warm-up hiccup.
+      - name: Warm up the large list pages
+        run: |
+          urls=(
+            "https://aip.aero/de/flughafen-liste-deutschland/"
+            "https://aip.aero/at/flughafen-liste-oesterreich/"
+            "https://aip.aero/fr/liste-des-aeroports-francais/"
+            "https://aip.aero/nl/luchthavenlijst-nederland/"
+            "https://aip.aero/uk/airport-list-uk/"
+            "https://aip.aero/be/airport-list-belgium/"
+            "https://aip.aero/cz/letiste-cesko/"
+            "https://aip.aero/no/flyplasser-norge/"
+            "https://aip.aero/pl/lotniska-polska/"
+            "https://aip.aero/se/flygplatser-sverige/"
+          )
+          for u in "${urls[@]}"; do
+            code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000
+            echo "warm $u -> HTTP $code"
+          done
+          exit 0
