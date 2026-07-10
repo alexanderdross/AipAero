@@ -10,19 +10,36 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "AIP:Aero",
     description:
       "Find Aeronautical Information Publications (AIP), approach charts and airport data across Europe.",
+    // Stable app identity across start_url changes (recommended by Chromium).
+    id: "/",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
     // drossblue - the primary brand color (see tailwind.config.ts).
     theme_color: "#2d6a9a",
-    // A single square icon. `logo.webp` (the 421x65 wordmark) was dropped: it is
-    // not square, so browsers reject it as an app icon ("Resource size is not
-    // correct"). The 450x450 JPG is a valid installable icon.
+    // Chromium's installability criteria require 192x192 AND 512x512 PNG icons;
+    // a single 450x450 JPEG failed them (field-tested: no omnibox install icon,
+    // no beforeinstallprompt). Generated from aip-logo-450x450.jpg, which stays
+    // in public/ as the OG image. The maskable variant keeps the logo inside
+    // the ~80% safe zone on a white canvas for adaptive Android icons.
     icons: [
       {
-        src: "/aip-logo-450x450.jpg",
-        sizes: "450x450",
-        type: "image/jpeg",
+        src: "/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/icon-512-maskable.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "maskable",
       },
     ],
   };
