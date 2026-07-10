@@ -14,7 +14,6 @@ import { Box } from "~/components/box";
 import { Hero } from "~/components/hero";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { SchemaProduct } from "~/components/schemas/schema-product";
-import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import {
   getPathname,
   isSingleLocale,
@@ -164,7 +163,6 @@ export default async function CountryPage(
         publishedDate={modifiedDate}
         currentUrl={currentUrl}
       />
-      <SchemaSitenav locale={locale} />
       <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           className={cn(
