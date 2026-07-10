@@ -2,6 +2,7 @@
 
 import { and, between, eq, asc, isNotNull, like, or, sql } from "drizzle-orm";
 import { unstable_cache, revalidateTag } from "next/cache";
+import { cache } from "react";
 import { getDb, type DB } from "~/server/db";
 import {
   type InsertAirport,
@@ -184,7 +185,17 @@ export const QUERIES = {
       [] as Airport[],
     );
   },
-  airport: function (slug: string, country: string, type: Airport["type"]) {
+  // React `cache()` = request-scoped dedupe: generateMetadata and the page
+  // body both look up the same airport row in one request, and with blocking
+  // metadata (htmlLimitedBots) those two calls run strictly SEQUENTIALLY -
+  // without this wrapper the second call re-enters the incremental-cache
+  // handler (an extra R2/D1 read on every detail-page hit). unstable_cache
+  // caches across requests but does not memoize within one.
+  airport: cache(function (
+    slug: string,
+    country: string,
+    type: Airport["type"],
+  ) {
     country = country.toUpperCase();
     return cachedRead<Airport | undefined>(
       "airport",
@@ -205,7 +216,7 @@ export const QUERIES = {
         }),
       undefined,
     );
-  },
+  }),
   airports: async function (
     search: string,
     country: string,
