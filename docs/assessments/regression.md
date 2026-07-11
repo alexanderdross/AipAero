@@ -25,7 +25,7 @@ The CI workflow at `.github/workflows/ci.yml` is the regression baseline. Every 
 | `uv sync --frozen` | Dep install regression. |
 | `python -m compileall` | Syntax errors in any crawler / glue file. |
 | Import smoke test for AT/DE/FR/NL/UK | Catches anything that breaks `__init__` (e.g. accidentally re-introducing the Selenium parent for an HTTP crawler). |
-| `pytest tests/` (91 tests) | Behavioural regressions in `HttpCrawlerBase` helpers, the eAIP parser, the AT table parser, the DE folder-link/permalink parser, and the FR/NL/UK edition resolvers. |
+| `pytest tests/` (114 tests) | Behavioural regressions in `HttpCrawlerBase` / `PlaywrightCrawlerBase` helpers, the eAIP parser, the AT table parser, the DE folder-link/permalink parser, the DK Playwright parse, the GR zone selection, and the FR/NL/UK edition resolvers. |
 
 ### Build gate (now in-CI, no separate external service)
 

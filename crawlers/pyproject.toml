@@ -15,10 +15,6 @@ dependencies = [
     # browser separately: `uv run playwright install chromium` (--with-deps on
     # a fresh box). Importing a crawler never launches it (lazy import).
     "playwright>=1.48.0",
-    # Selenium + webdriver-manager are kept while AT/DE/FR/UK still use them.
-    # Drop both once the migration to httpx + BeautifulSoup is complete.
-    "selenium>=4.45.0",
-    "webdriver-manager>=4.1.2",
 ]
 
 [dependency-groups]
