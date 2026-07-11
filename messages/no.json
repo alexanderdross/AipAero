@@ -248,7 +248,15 @@
     "saveOffline": "Lagre for frakoblet bruk",
     "savedOffline": "Lagret frakoblet",
     "installHint": "Installer som app: velg 'Legg til på Hjem-skjermen' i nettleserens delemeny. Åpne deretter appen én gang mens du er tilkoblet og lagre plassene på nytt der - appen har eget frakoblet lager.",
-    "installHintMac": "På Mac: installer via delemenyen i Safari med 'Legg til i Dock'. Åpne deretter appen én gang mens du er tilkoblet og lagre plassene på nytt der - appen har eget frakoblet lager."
+    "installHintMac": "På Mac: installer via delemenyen i Safari med 'Legg til i Dock'. Åpne deretter appen én gang mens du er tilkoblet og lagre plassene på nytt der - appen har eget frakoblet lager.",
+    "bulkDownload": "Lagre alle {count} sider frakoblet (ca. {size} MB)",
+    "bulkDownloaded": "Tilgjengelig frakoblet",
+    "bulkUpdate": "Oppdater",
+    "bulkRemove": "Fjern",
+    "bulkProgress": "Lagrer sider",
+    "bulkCancel": "Avbryt",
+    "bulkError": "Nedlastingen mislyktes - prøv igjen",
+    "bulkNoSpace": "Ikke nok ledig lagringsplass på denne enheten"
   },
   "Chart": {
     "title": "Innflygingskart",

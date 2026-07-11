@@ -213,7 +213,15 @@
     "saveOffline": "Uložit pro offline",
     "savedOffline": "Uloženo offline",
     "installHint": "Nainstalovat jako aplikaci: v nabídce Sdílet v prohlížeči zvolte 'Přidat na plochu'. Poté aplikaci jednou otevřete online a letiště v ní uložte znovu - aplikace má vlastní offline úložiště.",
-    "installHintMac": "Na Macu: nainstalujte přes nabídku Sdílet v Safari volbou 'Přidat do Docku'. Poté aplikaci jednou otevřete online a letiště v ní uložte znovu - aplikace má vlastní offline úložiště."
+    "installHintMac": "Na Macu: nainstalujte přes nabídku Sdílet v Safari volbou 'Přidat do Docku'. Poté aplikaci jednou otevřete online a letiště v ní uložte znovu - aplikace má vlastní offline úložiště.",
+    "bulkDownload": "Uložit všech {count} stránek offline (cca {size} MB)",
+    "bulkDownloaded": "Dostupné offline",
+    "bulkUpdate": "Aktualizovat",
+    "bulkRemove": "Odebrat",
+    "bulkProgress": "Ukládání stránek",
+    "bulkCancel": "Zrušit",
+    "bulkError": "Stažení se nezdařilo - zkuste to prosím znovu",
+    "bulkNoSpace": "Nedostatek volného úložiště v tomto zařízení"
   },
   "Chart": {
     "title": "Přibližovací mapa",

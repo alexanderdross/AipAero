@@ -248,7 +248,15 @@
     "saveOffline": "Opslaan voor offline",
     "savedOffline": "Offline opgeslagen",
     "installHint": "Als app installeren: kies in het deelmenu van de browser 'Zet op beginscherm'. Open de app daarna één keer online en sla je velden daar opnieuw op - de app heeft eigen offline-opslag.",
-    "installHintMac": "Op de Mac: installeer via het deelmenu van Safari met 'Zet in Dock'. Open de app daarna één keer online en sla je velden daar opnieuw op - de app heeft eigen offline-opslag."
+    "installHintMac": "Op de Mac: installeer via het deelmenu van Safari met 'Zet in Dock'. Open de app daarna één keer online en sla je velden daar opnieuw op - de app heeft eigen offline-opslag.",
+    "bulkDownload": "Alle {count} pagina's offline opslaan (ca. {size} MB)",
+    "bulkDownloaded": "Offline beschikbaar",
+    "bulkUpdate": "Bijwerken",
+    "bulkRemove": "Verwijderen",
+    "bulkProgress": "Pagina's worden opgeslagen",
+    "bulkCancel": "Annuleren",
+    "bulkError": "Download mislukt - probeer het opnieuw",
+    "bulkNoSpace": "Onvoldoende vrije opslagruimte op dit apparaat"
   },
   "Chart": {
     "title": "Naderingskaart",
