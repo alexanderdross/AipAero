@@ -33,7 +33,9 @@ Direct deps as of latest lock:
 | `pydantic-settings` | 2.9.1 | 2.14.0 | none |
 | `playwright` | 1.48+ | current | JS-render fallback (DK); browser installed per run |
 
-No published CVEs in the active set. **Selenium has been removed** (2026-07): no dependency uses it anymore - the experimental crawlers (`belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run`), the legacy `CrawlerBase` / `EurocontrolBase` bases and the `cache_warmer.py` script were deleted, and `selenium` / `webdriver-manager` (plus their `trio` / `wsproto` transitive deps) dropped from `pyproject.toml` / `uv.lock`. All 12 active crawlers run on httpx (DK via Playwright).
+No published CVEs in the direct set. **Transitive advisory resolved (2026-07-11):** `pip-audit` flagged the transitive `idna` 3.10 (pulled by `httpx` -> `anyio`) as PYSEC-2026-215 (moderate) - the GitHub Dependabot moderate alert that `pnpm audit` never sees because it is a Python dependency. Fixed by `uv lock --upgrade-package idna` (idna 3.10 -> 3.18, past the 3.15 fix); `pip-audit` is now clean and the 114-test pytest suite still passes. Run `uv run --with pip-audit pip-audit` from `crawlers/` to reproduce.
+
+**Selenium has been removed** (2026-07): no dependency uses it anymore - the experimental crawlers (`belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run`), the legacy `CrawlerBase` / `EurocontrolBase` bases and the `cache_warmer.py` script were deleted, and `selenium` / `webdriver-manager` (plus their `trio` / `wsproto` transitive deps) dropped from `pyproject.toml` / `uv.lock`. All 12 active crawlers run on httpx (DK via Playwright).
 
 ## Code review
 
