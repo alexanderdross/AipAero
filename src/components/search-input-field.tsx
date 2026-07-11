@@ -69,7 +69,7 @@ export function SearchInputField({
     } else if (state.airports.length > 1) {
       router.push("./");
     }
-  }, [state]);
+  }, [state, router]);
 
   return (
     <>
