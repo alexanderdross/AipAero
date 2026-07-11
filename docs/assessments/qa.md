@@ -1,29 +1,51 @@
 # QA Assessment
 
-Top-level summary across the seven assessments. Each section has a verdict and a pointer to the detailed doc.
+Top-level summary across the assessments. Each section has a verdict and a pointer to the detailed doc.
 
 ## Methodology
 
-This QA assessment is a roll-up: it doesn't introduce new findings of its own. It indexes the other six assessments, calls out cross-cutting themes, and ranks the consolidated action list by ROI.
+This QA assessment is a roll-up: it doesn't introduce new findings of its own. It indexes the other assessments, calls out cross-cutting themes, and ranks the consolidated action list by ROI.
+
+## Latest full verification run - 2026-07-11 (clean checkout of `main`)
+
+Every runnable suite was executed; all green.
+
+| Suite | Command | Result |
+| --- | --- | --- |
+| Website typecheck | `pnpm typecheck` | ✅ clean |
+| Website lint | `pnpm lint` | ✅ 0 errors (5 pre-existing warnings) |
+| Website format | `pnpm format:check` | ✅ clean |
+| i18n parity | `node scripts/check-i18n.mjs` | ✅ all locale pairs match |
+| Website unit | `pnpm test` (Vitest) | ✅ 27 passed |
+| Website build | `SKIP_ENV_VALIDATION=1 pnpm build` | ✅ built |
+| Website E2E / functionality | `pnpm test:e2e` (Playwright) | ✅ 94 passed |
+| Website security | `pnpm audit --audit-level=high --prod` | ✅ no known vulnerabilities |
+| Crawler unit | `uv run pytest tests/` | ✅ 114 passed |
+| Crawler lock/compile | `uv lock --check` · `compileall` | ✅ clean |
+| Crawler dry run (no publish) | `crawler-live-test.yml` (12 countries) | ✅ 10/12 live, 2,203 airports (DK/GR allowed failures) |
+
+See [`functionality.md`](./functionality.md) and [`dry-run.md`](./dry-run.md) for detail.
 
 ## Section verdicts
 
 | Area | Verdict | Detail |
 | --- | --- | --- |
-| **Unit tests** | ✅ Now in place for the crawlers (91 tests, gated in CI). Website only lightly covered (Vitest pure-helper tests), justified. | [`unit-tests.md`](./unit-tests.md) |
-| **Regression** | ✅ CI gates typecheck + format + crawler unit tests + the OpenNext `pnpm cf-build` (no DB needed). Visual regression is a gap. | [`regression.md`](./regression.md) |
+| **Unit tests** | ✅ Crawlers: 114 tests gated in CI. Website: 27 Vitest pure-helper/component tests. | [`unit-tests.md`](./unit-tests.md) |
+| **Regression** | ✅ CI gates typecheck + format + lint + i18n + crawler unit tests + Vitest + E2E + `pnpm cf-build`. Visual regression is a gap. | [`regression.md`](./regression.md) |
+| **Functionality** | ✅ E2E 94 passed (SEO/a11y/JSON-LD/flows/sitemap), Vitest 27, build ✅; crawler dry run 10/12 live. | [`functionality.md`](./functionality.md) |
+| **Dry run** | ✅ 2026-07-11: 10/12 countries parse live (2,203 airports); DK/GR the known allowed failures. | [`dry-run.md`](./dry-run.md) |
 | **Performance** | ⚠️ Static analysis only - no live numbers yet. Three actionable bugs/gaps found. | [`performance.md`](./performance.md) |
 | **Best practices** | ⚠️ Most App Router conventions followed correctly. Five concrete gaps, one is a real bug (missing `revalidateTag` calls). | [`best-practices.md`](./best-practices.md) |
-| **Security** | ⚠️ Strong on auth + validation + SQL. Twenty-five transitive npm advisories (all dev-side or one-step-removed). One small input-validation tweak needed. | [`security.md`](./security.md) |
+| **Security** | ✅ Strong on auth + validation + SQL; `pnpm audit --prod` clean (0 high+); Selenium removed. | [`security.md`](./security.md) |
 | **UAT** | ⏸ Runbook delivered. Awaiting human walk-through. | [`uat.md`](./uat.md) |
 
 ## Cross-cutting themes
 
 ### 1. The system is well-architected for its size
 
-Single-author T3 stack project. Caching is right (per-country cache-tag invalidation on writes, `unstable_cache` on reads), separation of concerns is clean (server/`actions.ts` for `"use server"`, server/db/`queries.ts` for DB, env validation centralised), i18n correctly uses the modern `defineRouting` + `createNavigation` API. The crawlers were the worst offender (Selenium for everything) and have now been migrated to httpx for all five countries.
+Single-author T3 stack project. Caching is right (per-country cache-tag invalidation on writes, `unstable_cache` on reads), separation of concerns is clean (server/`actions.ts` for `"use server"`, server/db/`queries.ts` for DB, env validation centralised), i18n correctly uses the modern `defineRouting` + `createNavigation` API. The crawlers were the worst offender (Selenium for everything) and have now been migrated to httpx for all 12 countries (DK via Playwright); Selenium and the legacy bases have been removed.
 
-The split-host architecture (Cloudflare Workers for web, netcup for crawlers) is correct - repeatedly re-evaluated, repeatedly the right answer.
+The split-host architecture (Cloudflare Workers for web, a self-hosted GitHub Actions runner for the crawlers) is correct - repeatedly re-evaluated, repeatedly the right answer.
 
 ### 2. The two real bugs found
 
@@ -94,4 +116,4 @@ This QA assessment is "code-side complete" - the unit tests are merged, the docs
 
 ---
 
-_Last updated: 2026-05-06. Re-run per the commands in [`README.md`](./README.md)._
+_Last updated: 2026-07-11. Re-run per the commands in [`README.md`](./README.md)._

@@ -2,11 +2,11 @@
 
 ## Status
 
-✅ **Implemented for the crawler subsystem.** 91 tests, all passing, gated in CI.
+✅ **Implemented for the crawler subsystem.** 114 tests, all passing, gated in CI.
 
-❌ **Not implemented for the website.** Justified below.
+✅ **Implemented for the website.** 27 Vitest tests over the pure helpers + two leaf components, gated in CI.
 
-## What's tested
+## What's tested (crawlers)
 
 The pytest suite lives at `crawlers/tests/` and exercises the pure-function-shaped seams in the crawler code:
 
@@ -45,27 +45,33 @@ uv run pytest tests/ -v    # verbose with test names
 
 CI runs `uv run pytest tests/` on every PR and push to `main` (see `.github/workflows/ci.yml`, the *Crawlers (Python)* job).
 
-## Why no website tests yet
+## What's tested (website)
 
-Three reasons, in priority order:
+The Vitest suite runs with `pnpm test` (jsdom environment) and covers the pure, high-value logic seams - the aviation math and parsers where a silent regression would mislead a pilot, plus two leaf components:
 
-1. **The risky logic is in the crawlers**, not the website. The website's "logic" is mostly Next.js routing + Drizzle queries + i18n message rendering - there's no business logic deeper than `eq(airports.country, X)` to test in isolation. Type-checking and end-to-end runtime in production catch the realistic failure modes.
-2. **Deep component/RTL coverage is still non-trivial.** Adding broad Vitest / Jest + RTL coverage is non-trivial for an App Router project (server components, async server actions, `unstable_cache`-wrapped reads). It's worth doing before the next significant feature - not as a blanket "add tests" sweep.
-3. **The four existing client components** (`menu`, `mobile-menu`, `breadcrumbs`, `search-input-field`, `locale-switcher-select`) are all thin wrappers over Radix primitives. Testing Radix is FAANG's job, not ours.
+| File | Target | Tests |
+| --- | --- | --- |
+| `src/lib/openaip-parse.test.ts` | OpenAIP airport-schema mapper (runways, frequencies, enums) | 9 |
+| `src/lib/metar-decode.test.ts` | METAR/TAF token decoder + glossary | 7 |
+| `src/lib/utils.test.ts` | pure helpers (`cn`, `i18nPathMapping`, slug/URL helpers) | 4 |
+| `src/lib/crosswind.test.ts` | crosswind/headwind trigonometry from runway bearings | 3 |
+| `src/components/box.test.tsx` | country/type card render | 2 |
+| `src/components/external-link.test.tsx` | `rel="noopener noreferrer"` + target on outbound links | 2 |
 
-When unit tests are eventually added to the website, the natural starting points (in order of return-on-effort) are:
+The aviation-safety-relevant logic (wind components, METAR decode, OpenAIP field mapping) is deliberately prioritised: these are the site's most consequential pure functions, so they carry the deepest unit coverage. Server components, `"use server"` actions and `unstable_cache`-wrapped DB reads are exercised end-to-end by the Playwright suite (see [`functionality.md`](./functionality.md)) rather than in isolation, where an App Router harness would add cost for little marginal coverage.
 
-- `src/server/db/queries.ts` - the cache-tagged read paths and the bulk-replace insert.
+Natural next starting points (in order of return-on-effort) if the website suite grows:
+
 - `src/server/actions.ts` - `searchAirports` input validation.
 - `src/app/api/airports/route.ts` - request body validation, slug enrichment, auth.
-- `src/lib/utils.ts` - pure helpers like `i18nPathMapping`.
+- `src/server/db/queries.ts` - the cache-tagged read paths and the bulk-replace insert.
 
 ## What this suite does not cover
 
 - **DE crawler** - ✅ now covered. DE was ported off Selenium/`CrawlerBase` to `HttpCrawlerBase`, so it runs in CI; its tests are `tests/test_de.py` in the table above. (It was previously excluded as untestable without Chromium.)
 - **End-to-end crawler runs** - these are integration tests against live AIP sites, which are slow, flaky from datacenter IPs, and out of scope for unit tests. The `output_handler.py` POST happens inside `main.py`; that's the natural end-to-end seam to mock if integration testing becomes valuable later.
-- **Real network** - by design. Adding network-based tests would be flaky and slow; if a parser breaks because the upstream HTML changed, the real netcup cron run will fail loud and `error_logs/` will have the response body for diagnosis.
+- **Real network** - by design. Adding network-based tests would be flaky and slow; if a parser breaks because the upstream HTML changed, the scheduled *Crawl (publish)* run (and the *Crawler live test* dry run) will fail loud and `error_logs/` will have the response body for diagnosis.
 
 ---
 
-_Last updated: 2026-05-06._
+_Last updated: 2026-07-11._

@@ -43,7 +43,7 @@ For each conventional best practice, mark it ✅ (followed), ⚠️ (partial / m
 | Practice | Verdict | Evidence |
 | --- | --- | --- |
 | Env vars validated at runtime | ✅ | `@t3-oss/env-nextjs` + Zod in `src/env.js`. `SKIP_ENV_VALIDATION` only used in CI/Docker builds. |
-| No persistent filesystem assumptions | ✅ | Crawlers are split out to netcup; no `fs.writeFile` paths in website code. |
+| No persistent filesystem assumptions | ✅ | Crawlers are split out to the self-hosted GitHub Actions runner; no `fs.writeFile` paths in website code. |
 | No long-running request handlers | ✅ | API routes are short and DB-bound; no streaming SSE or background jobs. |
 | Edge-runtime safety in middleware | ✅ | `src/middleware.ts` uses only Web APIs (`NextRequest`, `URL`, `Headers`). No Node-only `fs`, `child_process`, etc. |
 | Image optimisation via `next/image` | ✅ | Resolved for the header: `src/components/header.tsx` renders `<Image priority>` from `next/image`. The Workers runtime doesn't run the Next image optimizer (`next.config.mjs` sets `images.unoptimized: true`), so this buys correct sizing, `priority`/lazy defaults, and layout stability rather than server-side WebP/AVIF. Any remaining raw assets in `public/` (`aip-logo-*.jpg`, `logo.webp`) are the next targets. |
@@ -93,4 +93,4 @@ For each conventional best practice, mark it ✅ (followed), ⚠️ (partial / m
 
 ---
 
-_Last updated: 2026-05-06._
+_Last updated: 2026-07-11._
