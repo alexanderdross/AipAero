@@ -248,7 +248,15 @@
     "saveOffline": "Spara för offline",
     "savedOffline": "Sparad offline",
     "installHint": "Installera som app: välj 'Lägg till på hemskärmen' i webbläsarens delningsmeny. Öppna sedan appen en gång online och spara dina fält där igen - appen har eget offlinelagring.",
-    "installHintMac": "På Mac: installera via Safaris delningsmeny med 'Lägg till i Dock'. Öppna sedan appen en gång online och spara dina fält där igen - appen har eget offlinelagring."
+    "installHintMac": "På Mac: installera via Safaris delningsmeny med 'Lägg till i Dock'. Öppna sedan appen en gång online och spara dina fält där igen - appen har eget offlinelagring.",
+    "bulkDownload": "Spara alla {count} sidor offline (ca {size} MB)",
+    "bulkDownloaded": "Tillgänglig offline",
+    "bulkUpdate": "Uppdatera",
+    "bulkRemove": "Ta bort",
+    "bulkProgress": "Sparar sidor",
+    "bulkCancel": "Avbryt",
+    "bulkError": "Nedladdningen misslyckades - försök igen",
+    "bulkNoSpace": "Inte tillräckligt med ledigt lagringsutrymme på den här enheten"
   },
   "Chart": {
     "title": "Inflygningskarta",

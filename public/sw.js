@@ -20,7 +20,8 @@
  * cached HTML gets a banner with its stored timestamp, never a silent copy.
  *
  * Bump VERSION to invalidate all caches on structural changes. Keep the
- * PAGES cache name in sync with public/offline.html (it enumerates it).
+ * PAGES cache name in sync with public/offline.html (it enumerates it), and
+ * the bulk prefix/version with save-country-offline-button.tsx.
  */
 
 const VERSION = "v1";
@@ -32,6 +33,13 @@ const DATA_CACHE = `data-${VERSION}`;
 // never trimmed, so a pilot's saved fields cannot be FIFO-evicted by browsing.
 const SAVED_CACHE = `saved-${VERSION}`;
 const CHARTS_CACHE = `charts-${VERSION}`;
+// Country packs (Phase 4, written by save-country-offline-button.tsx): one
+// cache per locale (`bulk-<locale>-<VERSION>`), never trimmed, replaced
+// wholesale on re-download. Old-version packs are dropped like the rest.
+const BULK_PREFIX = "bulk-";
+function isBulkCache(name) {
+  return name.startsWith(BULK_PREFIX) && name.endsWith(`-${VERSION}`);
+}
 
 const PRECACHE_URLS = ["/offline.html", "/logo.webp", "/manifest.webmanifest"];
 
@@ -64,7 +72,9 @@ self.addEventListener("activate", (event) => {
       .keys()
       .then((keys) =>
         Promise.all(
-          keys.filter((key) => !keep.has(key)).map((key) => caches.delete(key)),
+          keys
+            .filter((key) => !keep.has(key) && !isBulkCache(key))
+            .map((key) => caches.delete(key)),
         ),
       )
       .then(() => self.clients.claim())
@@ -188,6 +198,10 @@ async function handleNavigation(request) {
     if (saved) return injectOfflineBanner(saved);
     const cached = await cache.match(request);
     if (cached) return injectOfflineBanner(cached);
+    // Country packs (bulk-<locale>-*): a global match covers them - the only
+    // other caches holding navigation HTML (saved/pages) were checked above.
+    const bulk = await caches.match(request);
+    if (bulk) return injectOfflineBanner(bulk);
     const offline = await caches.match("/offline.html");
     if (offline) return offline;
     return new Response("Offline", {

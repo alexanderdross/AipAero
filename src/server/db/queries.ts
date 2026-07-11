@@ -262,6 +262,25 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
+  airportsByCountry: function (country: string) {
+    // All chart-linked airports of a country (slug + type only) - the download
+    // set behind GET /api/airport-urls, which feeds the explicit country
+    // offline pack (PWA concept Phase 4). One bounded entry per country,
+    // busted by the crawler POST via the country tag.
+    country = country.toUpperCase();
+    return cachedRead(
+      "airportsByCountry",
+      ["airportsByCountry", country],
+      ["airportsByCountry", countryTag(country)],
+      (db) =>
+        db
+          .select({ slug: airports.slug, type: airports.type })
+          .from(airports)
+          .where(eq(airports.country, country))
+          .orderBy(asc(airports.title)),
+      [] as { slug: string; type: Airport["type"] }[],
+    );
+  },
   airportsWithCoords: function (country: string) {
     // Chart-linked airports of a country that have coordinates (joined from the
     // OurAirports facts table) - powers the map on the airport-list page. Tagged

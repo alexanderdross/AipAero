@@ -283,7 +283,15 @@
     "saveOffline": "Für offline speichern",
     "savedOffline": "Offline gespeichert",
     "installHint": "Als App installieren: im Teilen-Menü des Browsers 'Zum Home-Bildschirm' wählen. Die App danach einmal online öffnen und Plätze dort erneut speichern - die App hat eigenen Offline-Speicher.",
-    "installHintMac": "Am Mac: über das Teilen-Menü in Safari mit 'Zum Dock hinzufügen' installieren. Die App danach einmal online öffnen und Plätze dort erneut speichern - die App hat eigenen Offline-Speicher."
+    "installHintMac": "Am Mac: über das Teilen-Menü in Safari mit 'Zum Dock hinzufügen' installieren. Die App danach einmal online öffnen und Plätze dort erneut speichern - die App hat eigenen Offline-Speicher.",
+    "bulkDownload": "Alle {count} Seiten offline speichern (ca. {size} MB)",
+    "bulkDownloaded": "Offline verfügbar",
+    "bulkUpdate": "Aktualisieren",
+    "bulkRemove": "Entfernen",
+    "bulkProgress": "Seiten werden gespeichert",
+    "bulkCancel": "Abbrechen",
+    "bulkError": "Download fehlgeschlagen - bitte erneut versuchen",
+    "bulkNoSpace": "Nicht genügend freier Speicherplatz auf diesem Gerät"
   },
   "Chart": {
     "title": "Anflugkarte",

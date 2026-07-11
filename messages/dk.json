@@ -248,7 +248,15 @@
     "saveOffline": "Gem til offline",
     "savedOffline": "Gemt offline",
     "installHint": "Installér som app: vælg 'Føj til hjemmeskærm' i browserens delemenu. Åbn derefter appen én gang online og gem dine pladser igen dér - appen har sit eget offline-lager.",
-    "installHintMac": "På Mac: installér via Safaris delemenu med 'Føj til Dock'. Åbn derefter appen én gang online og gem dine pladser igen dér - appen har sit eget offline-lager."
+    "installHintMac": "På Mac: installér via Safaris delemenu med 'Føj til Dock'. Åbn derefter appen én gang online og gem dine pladser igen dér - appen har sit eget offline-lager.",
+    "bulkDownload": "Gem alle {count} sider offline (ca. {size} MB)",
+    "bulkDownloaded": "Tilgængelig offline",
+    "bulkUpdate": "Opdater",
+    "bulkRemove": "Fjern",
+    "bulkProgress": "Gemmer sider",
+    "bulkCancel": "Annuller",
+    "bulkError": "Download mislykkedes - prøv igen",
+    "bulkNoSpace": "Ikke nok ledig lagerplads på denne enhed"
   },
   "Chart": {
     "title": "Indflyvningskort",

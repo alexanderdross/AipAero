@@ -318,7 +318,15 @@
     "saveOffline": "Save for offline",
     "savedOffline": "Saved for offline",
     "installHint": "Install as an app: open your browser's Share menu and choose 'Add to Home Screen'. Then open the app once while online and save your fields there again - the app has its own offline storage.",
-    "installHintMac": "On a Mac: install via Safari's Share menu using 'Add to Dock'. Then open the app once while online and save your fields there again - the app has its own offline storage."
+    "installHintMac": "On a Mac: install via Safari's Share menu using 'Add to Dock'. Then open the app once while online and save your fields there again - the app has its own offline storage.",
+    "bulkDownload": "Save all {count} pages offline (approx. {size} MB)",
+    "bulkDownloaded": "Available offline",
+    "bulkUpdate": "Update",
+    "bulkRemove": "Remove",
+    "bulkProgress": "Saving pages",
+    "bulkCancel": "Cancel",
+    "bulkError": "Download failed - please try again",
+    "bulkNoSpace": "Not enough free storage on this device"
   },
   "Chart": {
     "title": "Approach chart",

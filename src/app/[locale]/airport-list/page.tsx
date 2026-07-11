@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { AboutCountryBox } from "~/components/about-country-box";
 import { AirportMap } from "~/components/airport-map";
 import { LastUpdated } from "~/components/last-updated";
+import { SaveCountryOfflineButton } from "~/components/save-country-offline-button";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { Title } from "~/components/title";
 import Link from "next/link";
@@ -193,6 +194,18 @@ async function AirportLists({ locale }: { locale: string }) {
     aeroport: "aeroportCard",
   };
 
+  // Country offline pack (PWA concept Phase 4): every detail page plus this
+  // list page. The size hint mirrors the client component's per-page estimate
+  // (~75 KB of stored inlineCss HTML per page).
+  const pageCount =
+    vfrAirports.length +
+    ifrAirports.length +
+    heliports.length +
+    militaryAirports.length +
+    aeroportAirports.length +
+    1;
+  const sizeMb = Math.max(1, Math.round((pageCount * 75) / 1024));
+
   return (
     <>
       {/* Decorative map. Its markers are fetched client-side from
@@ -208,6 +221,24 @@ async function AirportLists({ locale }: { locale: string }) {
       {/* Trade:Aero cross-sell (locale + country aware), placed between the
           map and the listings. */}
       <TradeAeroCta />
+      {/* Explicit country bulk download (PWA Phase 4): HTML detail pages only,
+          no PDFs. Hidden while the country has no airports (fresh deploy). */}
+      {pageCount > 1 && (
+        <SaveCountryOfflineButton
+          locale={locale}
+          downloadLabel={tCommon("bulkDownload", {
+            count: pageCount,
+            size: sizeMb,
+          })}
+          downloadedLabel={tCommon("bulkDownloaded")}
+          updateLabel={tCommon("bulkUpdate")}
+          removeLabel={tCommon("bulkRemove")}
+          progressLabel={tCommon("bulkProgress")}
+          cancelLabel={tCommon("bulkCancel")}
+          errorLabel={tCommon("bulkError")}
+          noSpaceLabel={tCommon("bulkNoSpace")}
+        />
+      )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap justify-center gap-6">
           {[

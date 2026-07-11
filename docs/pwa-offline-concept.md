@@ -6,7 +6,7 @@ capability**, so a pilot can install AIP:Aero on an EFB tablet, look up fields
 on the ground, and still open previously viewed airports (and explicitly saved
 charts) in the air with no connectivity.
 
-**Status: Phases 1 + 2 + 3 are implemented** (`public/sw.js`,
+**Status: Phases 1 + 2 + 3 + 4 are implemented** (`public/sw.js`,
 `public/offline.html`, `src/components/service-worker-registration.tsx`, the
 `/sw.js` Cache-Control header and `worker-src 'self'` in `next.config.mjs`).
 Registration is skipped on localhost so `pnpm start`/`pnpm preview` and the
@@ -17,8 +17,17 @@ the page (and a direct-PDF chart, `no-cors`) in the never-trimmed
 (`aip-offline-saved` - the Favorites foundation) and requests storage
 persistence; the SW serves saved pages before the browsing cache and saved
 chart PDFs to the inline preview embed, and `offline.html` lists saved fields
-by title first. Only the optional Phase 4 (explicit country bulk download) is
-open - see the storage-limits decision below.
+by title first. Phase 4 shipped as
+`src/components/save-country-offline-button.tsx` on the airport-list page: an
+explicit "save all pages offline" country pack (size estimate on the button,
+per-page progress, cancel, update with pruning, remove) that fetches the
+locale's detail-page URL list from `GET /api/airport-urls` on click and stores
+**HTML pages only - never chart PDFs** (opaque-response quota padding, see the
+storage-limits decision below) - into a per-locale `bulk-<locale>-v1` cache
+(never trimmed, replaced wholesale on re-download); a
+`navigator.storage.estimate()` guard refuses the download when the device
+lacks space, the pack is indexed in localStorage (`aip-offline-bulk`) and
+`offline.html` links each pack's list page first.
 
 ---
 
@@ -165,6 +174,15 @@ per-airport saves. An optional **Phase 4** may add an explicit
 progress - to be considered only after Phase 3 exists and iOS behaviour has
 been tested on a real device.
 
+**Phase 4 shipped (see the status note above):** the button lives on the
+airport-list page (`save-country-offline-button.tsx`), stays strictly
+user-triggered, HTML-only, quota-guarded, and downloads with a deliberately low
+concurrency (3) - each detail page is a dynamic Worker render, so a country
+pack must not hit production as a request burst. The URL list endpoint
+(`/api/airport-urls`) is a small cached standalone route (like
+`/api/airport-coords`) so hundreds of URLs never weigh down the airport-list
+server render.
+
 **Field finding (iOS device test, 10.07.2026):** launching the freshly
 installed home-screen app for the first time **while offline** shows the
 native "Safari cannot open the page" error - no toolbar, no offline fallback.
@@ -194,7 +212,8 @@ Apple platforms) cannot be engineered away.
 - **Web Push notifications**: no use case yet.
 - **Automatic precaching of all airports of a country**: quota + tile-policy
   hostile (see the storage-limits decision above); the explicit-save flow
-  covers the real need, an explicit country-bulk button is at most Phase 4.
+  covers the real need. (The *explicit, user-triggered* country-bulk button
+  shipped as Phase 4 - automatic/unsolicited precaching stays out of scope.)
 
 ## Phasing
 
@@ -205,6 +224,10 @@ Apple platforms) cannot be engineered away.
    cached-copy banner wiring, storage persistence request.
 3. **Phase 3 - explicit chart saving + favorites:** the save button, the
    `charts` cache, the localStorage index shared with Favorites.
+4. **Phase 4 - explicit country bulk download:** the country-pack button on the
+   airport-list page (`save-country-offline-button.tsx` + `/api/airport-urls`,
+   per-locale `bulk-<locale>-v1` caches). HTML only, quota-guarded, with size
+   estimate, progress, cancel, update (with pruning) and remove.
 
 ## Verification
 

@@ -167,10 +167,12 @@
       })();
     </script>
     <script>
-      // List the explicitly saved fields first (titles from the
-      // save-offline-button's localStorage index), then everything in the
+      // List the downloaded country packs and the explicitly saved fields
+      // first (titles from the localStorage indexes), then everything in the
       // browsing cache. Cache names must match /sw.js (SAVED_CACHE /
-      // PAGES_CACHE); the index key must match save-offline-button.tsx.
+      // PAGES_CACHE); the index keys must match save-offline-button.tsx
+      // ("aip-offline-saved") and save-country-offline-button.tsx
+      // ("aip-offline-bulk").
       (function () {
         if (!("caches" in window)) return;
         var list = document.getElementById("saved");
@@ -186,6 +188,24 @@
           if (strong) a.style.fontWeight = "600";
           li.appendChild(a);
           list.appendChild(li);
+        }
+
+        try {
+          // Country packs (Phase 4): link the pack's airport-list page - it is
+          // itself in the bulk cache and indexes every downloaded detail page.
+          var bulk = JSON.parse(localStorage.getItem("aip-offline-bulk") || "{}");
+          Object.keys(bulk).forEach(function (loc) {
+            var pack = bulk[loc];
+            if (pack && pack.url) {
+              addLink(
+                pack.url,
+                (pack.title || pack.url) + " (" + (pack.count || "?") + ")",
+                true,
+              );
+            }
+          });
+        } catch (e) {
+          /* fail-soft */
         }
 
         try {

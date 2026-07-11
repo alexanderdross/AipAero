@@ -248,7 +248,15 @@
     "saveOffline": "Zapisz do trybu offline",
     "savedOffline": "Zapisano offline",
     "installHint": "Zainstaluj jako aplikację: w menu udostępniania przeglądarki wybierz 'Dodaj do ekranu głównego'. Następnie otwórz aplikację raz online i zapisz w niej lotniska ponownie - aplikacja ma własną pamięć offline.",
-    "installHintMac": "Na Macu: zainstaluj przez menu udostępniania Safari, wybierając 'Dodaj do Docka'. Następnie otwórz aplikację raz online i zapisz w niej lotniska ponownie - aplikacja ma własną pamięć offline."
+    "installHintMac": "Na Macu: zainstaluj przez menu udostępniania Safari, wybierając 'Dodaj do Docka'. Następnie otwórz aplikację raz online i zapisz w niej lotniska ponownie - aplikacja ma własną pamięć offline.",
+    "bulkDownload": "Zapisz wszystkie {count} stron offline (ok. {size} MB)",
+    "bulkDownloaded": "Dostępne offline",
+    "bulkUpdate": "Aktualizuj",
+    "bulkRemove": "Usuń",
+    "bulkProgress": "Zapisywanie stron",
+    "bulkCancel": "Anuluj",
+    "bulkError": "Pobieranie nie powiodło się - spróbuj ponownie",
+    "bulkNoSpace": "Za mało wolnego miejsca na tym urządzeniu"
   },
   "Chart": {
     "title": "Mapa podejścia",
