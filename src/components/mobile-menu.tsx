@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { type LinkProps } from "next/link";
-import { useRouter } from "next/navigation";
 import { Link as IntLink } from "~/i18n/routing";
 
 import { cn } from "~/lib/utils";
@@ -31,14 +30,10 @@ export function MobileNav() {
 
   const [open, setOpen] = React.useState(false);
 
-  const onOpenChange = React.useCallback(
-    (open: boolean) => {
-      setOpen(open);
-      //setMetaColor(open ? "#09090b" : metaColor)
-    },
-    [open],
-    //[setMetaColor, metaColor]
-  );
+  const onOpenChange = React.useCallback((open: boolean) => {
+    setOpen(open);
+    //setMetaColor(open ? "#09090b" : metaColor)
+  }, []);
 
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
