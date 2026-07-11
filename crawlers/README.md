@@ -21,7 +21,7 @@ The website itself runs on Cloudflare Workers (via the OpenNext adapter). Server
 - Browser fallback: a single Playwright (Python) path for sites that genuinely require JS rendering — only when there's no static URL to follow
 - Pydantic for the `Airport` model (`crawlers/crawlers/models.py`) and settings
 
-> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`. None of the active sites need a JS engine — they serve static HTML, sometimes inside legacy framesets. **All twelve active crawlers are now off Selenium** and run on httpx. The legacy `crawler_base.py` / `eurocontrol_base.py` (Selenium) modules remain only for the experimental, non-scheduled crawlers (belgium, car_sam_nam, pac_n, pac_p, run); once those are ported or pruned, `selenium` + `webdriver-manager` can be removed. New crawlers must not introduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
+> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`, but none of the active sites need a JS engine - they serve static HTML, sometimes inside legacy framesets. **All twelve active crawlers run on httpx** (DK renders via Playwright). Selenium has been fully removed: the legacy `crawler_base.py` / `eurocontrol_base.py` bases, the experimental crawlers (belgium, car_sam_nam, pac_n, pac_p, run) and the `cache_warmer.py` script are gone, along with the `selenium` / `webdriver-manager` dependencies. New crawlers must not reintroduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
 
 ## Base classes
 
@@ -29,8 +29,7 @@ The website itself runs on Cloudflare Workers (via the OpenNext adapter). Server
 | ------------------------- | ---------------------- | -------------------------------------------------------- |
 | `http_base.py`            | `HttpCrawlerBase`      | The source serves static HTML over HTTP (default choice). |
 | `http_eurocontrol_base.py`| `HttpEurocontrolBase`  | The source is a eurocontrol-style eAIP frameset (used by most eAIP crawlers: NL, UK, FR, BE, CZ, GR, NO, PL, SE). |
-| `crawler_base.py`         | `CrawlerBase`          | *Legacy, Selenium.* No active crawler uses it; kept only for the experimental (unscheduled) crawlers. |
-| `eurocontrol_base.py`     | `EurocontrolBase`      | *Legacy, Selenium.* Orphaned, slated for deletion.       |
+| `playwright_base.py`      | `PlaywrightCrawlerBase`| The source is a client-rendered JS app with no static HTML (DK/Naviair). Renders via headless Chromium (lazy import). |
 
 `HttpCrawlerBase` provides `fetch(url, encoding=…)`, `soup(html)`, `get_frame_src(html, base_url, name)`, `follow_frame_chain(start_url, [name1, name2, …])`, `clean_text(text)`, and `save_response(url, body, prefix)` for dumping the last response to `error_logs/` on failure. `HttpEurocontrolBase` adds `extract_airports_from_html(html, base_url, id_in_menu, category)`, which parses the standard eAIP nav menu (paired title/details `<div>`s) and prefers `<a title*='charts related'>` for the airport's chart URL.
 

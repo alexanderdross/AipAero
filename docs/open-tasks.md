@@ -137,10 +137,11 @@ lesen → erledigte Punkte markieren → Priorisierung einholen → umsetzen.
 - **Runner non-ephemeral machen:** der self-hosted Runner arbeitet die Queue
   aktuell nur langsam ab (jeder Job wartet, weil ephemeral + einzeln). Für
   schnellere manuelle Läufe non-ephemeral konfigurieren.
-- **Legacy-Selenium entfernen:** experimentelle Crawler (`belgium.py`,
-  `car_sam_nam.py`, `pac_n.py`, `pac_p.py`, `run.py`) löschen oder portieren,
-  dann `crawler_base.py` + `eurocontrol_base.py` + die Dependencies
-  `selenium`/`webdriver-manager` in einem Commit entfernen.
+- **✅ Legacy-Selenium entfernt:** die experimentellen Crawler (`belgium.py`,
+  `car_sam_nam.py`, `pac_n.py`, `pac_p.py`, `run.py`), die Selenium-Basen
+  (`crawler_base.py`, `eurocontrol_base.py`), das `cache_warmer.py`-Skript und
+  die Dependencies `selenium` / `webdriver-manager` sind entfernt. Alle 12
+  aktiven Crawler laufen auf httpx (DK via Playwright).
 - **Branch-Protection:** Repo-Settings → *Rules → Rulesets* → die 4 CI-Checks
   (`Website (Next.js)`, `Crawlers (Python)`, `E2E & rendered output
   (Playwright)`, `Lighthouse budgets (local)`) als Required Status Checks für
