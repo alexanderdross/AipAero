@@ -113,7 +113,7 @@ Drizzle Studio (`pnpm db:studio`) plus a `console.time` around the cached query 
 
 ### 5. Crawler timing baseline
 
-In production logs (`journalctl -u aip-crawler`):
+In the crawler run logs (GitHub → Actions → *Crawl (publish)* / *Crawler live test*, per-country timing lines):
 
 | Country | Pre-port (Selenium) | Post-port (httpx) |
 | --- | --- | --- |

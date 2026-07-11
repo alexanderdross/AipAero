@@ -4,12 +4,14 @@
 
 User Acceptance Testing is, by definition, a human-driven evaluation against business expectations. This document is a **runbook + checklist** for a person to walk through the live site and the crawler ingestion path, confirming each user-facing behaviour matches what's described in `CLAUDE.md` and the README.
 
+> **Automated portions verified 2026-07-11** (E2E / structured-data / a11y / sitemap via Playwright, 94 passed - see [`functionality.md`](./functionality.md); crawler dry run 10/12 live - see [`dry-run.md`](./dry-run.md)). The **human golden-path walk-through below is still pending** and must be done against the live site by a person.
+
 ## Scope
 
 | Surface | Depth |
 | --- | --- |
 | Website (Cloudflare Workers) | Every locale × every country-applicable page; search; airport detail. |
-| Crawlers (netcup) | One scheduled cycle observed end-to-end via systemd. |
+| Crawlers (self-hosted Actions runner) | One dry run + one *Crawl (publish)* cycle observed end-to-end via the Actions run logs. |
 | Backend ingest | One real POST verified, plus a forged POST verified to be 401. |
 
 ## Pre-flight
@@ -18,12 +20,12 @@ Before running UAT, confirm these aren't currently in flight:
 
 - [ ] No PR is mid-merge to `main`.
 - [ ] The most recent Cloudflare Workers production deploy is from `main` and green.
-- [ ] netcup `aip-crawler.timer` is `active (waiting)` - `systemctl status aip-crawler.timer`.
+- [ ] The self-hosted Actions runner is **online** (Settings → Actions → Runners) and the last *Crawl (publish)* run was green.
 - [ ] You can reach `https://aip.aero/` from a clean browser session.
 
 ## A - Website golden paths (per locale)
 
-The site has 9 locales: `at`, `at-EN`, `de`, `de-EN`, `fr`, `fr-EN`, `nl`, `nl-EN`, `uk`. UAT all 9, but you can batch by language family.
+The site's locale + live-country set is the source of truth in `src/i18n/routing.ts` (`liveCountries`) and `countryTypeAvailability` in `src/lib/utils.ts`. As of 2026-07 the live countries are UK, DE, FR, NL, AT plus BE, CZ, NO, PL, SE (each native + `-EN` where applicable; single-locale countries like `uk`/`be` have no `-EN`). UAT each live locale, batching by language family. The examples below use the original five; extend to the newer countries the same way.
 
 For each locale, walk through:
 
@@ -72,20 +74,20 @@ Verify by:
 
 ## D - Crawler ingestion path
 
-On the netcup host, observe one timer cycle:
+Trigger one run and read the Actions logs (GitHub → Actions → *Crawl (publish)* →
+*Run workflow*; or observe the daily 03:00 UTC schedule):
 
-```bash
-systemctl status aip-crawler.timer
-journalctl -u aip-crawler --since "10 minutes ago" -f
+```
+Actions → Crawl (publish) → latest run → job log
 ```
 
 Expect:
 
-- [ ] Timer fires on schedule.
-- [ ] For each country (AT, DE, FR, NL, UK), a "Starting crawler: XX" log line.
-- [ ] Each finishes in seconds - all five crawlers are now on the HTTP path.
-- [ ] "Successfully wrote output for XX" appears once per country at the API call.
-- [ ] No `error_logs/` files or leftover browser screenshots written for any of AT/DE/FR/NL/UK (all on the HTTP path).
+- [ ] The run starts on the self-hosted runner and installs deps + Chromium.
+- [ ] For each of the 12 countries, a "Starting crawler: XX" log line.
+- [ ] Each finishes in seconds - all crawlers are on the httpx path (DK renders via Playwright).
+- [ ] "Successfully wrote output for XX" per published country (10/12; DK/GR are known allowed failures).
+- [ ] The drop guard logs a per-country count and does not refuse to publish (no ">50% drop" line) on a normal cycle.
 
 ## E - Backend ingest endpoint
 
@@ -151,7 +153,7 @@ Not a full WCAG audit, but a sanity check:
 
 If any area fails, file an issue with:
 
-- The exact URL / curl / journalctl output.
+- The exact URL / curl / Actions run-log output.
 - Browser + OS (for website issues).
 - Whether the failure is a regression (worked previously) or a new bug.
 

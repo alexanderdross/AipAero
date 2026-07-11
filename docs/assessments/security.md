@@ -8,21 +8,18 @@ Three pillars: dependency scan, code review of the externally-exposed surface (t
 
 ### Website (`pnpm audit`)
 
-**25 vulnerabilities - 12 moderate, 13 high.** All are transitive (no direct dep is vulnerable). Summary:
-
-| Package | Severity | Path | Status |
-| --- | --- | --- | --- |
-| `undici` | high | `cheerio > undici` | Patch available - bump cheerio when a release with the new undici lands. |
-| `postcss` (<8.5.10) | moderate | `next > postcss` | Will resolve once Next bumps the bundled postcss. |
-| `yaml` (<2.8.3) | moderate | `tailwindcss > postcss-load-config > yaml` | Patch available; Tailwind dep tree update needed. |
-| `esbuild` | review | `drizzle-kit > esbuild` | Dev-only (drizzle-kit is `devDependencies`); not shipped to production. |
-| `minimatch`, `ajv`, `flatted`, `brace-expansion`, `picomatch` | various | `eslint > …` | Dev-only; ESLint dep tree. |
-
-All findings are in dev-side or transitive deps - none are first-degree dependencies in `package.json`. Running `pnpm audit` reproduces this list.
+**2026-07-11: `pnpm audit` reports no known vulnerabilities** - both the CI command
+`pnpm audit --audit-level=high --prod` and the full `pnpm audit` are clean. The
+dev-side / transitive advisories in the 2026-05 snapshot (undici via cheerio,
+postcss, yaml, esbuild via drizzle-kit, the eslint chain) have since resolved
+through routine dependency bumps.
 
 **Action items:**
-- Track the `cheerio > undici` chain - `undici` advisories can land in production if you ever evaluate `cheerio` against attacker-controlled HTML with active fetching enabled. We don't (we use it server-side for our own crawler, no JS execution), but worth bumping when convenient.
-- Dev-toolchain advisories (drizzle-kit, eslint) don't reach production builds and can be left to Dependabot's normal cadence.
+- Nothing outstanding from `pnpm audit`.
+- **Caveat:** GitHub **Dependabot** uses its own advisory database and cadence,
+  so it may occasionally raise an alert that `pnpm audit` does not yet list.
+  Handle those on Dependabot's normal cadence; dev-toolchain advisories
+  (drizzle-kit, eslint) don't reach the production build.
 
 ### Crawlers (`uv tree`)
 
@@ -80,12 +77,12 @@ The `airports` query uses `like(airports.title, \`%${search}%\`)` - Drizzle stil
 
 - `process.env.*` is referenced **only** in `src/env.js` (the t3-env validator). The rest of the code imports from `~/env`. ✅
 - `.env` is gitignored (`/.env`, `/.env*.local`); only `.env.example` is committed and contains no secrets.
-- `CRON_SECRET` is the single shared secret between the Cloudflare Worker and the netcup crawler host. Rotate by updating both ends (`wrangler secret put CRON_SECRET` on the Worker) and re-deploying the website.
+- `CRON_SECRET` is the single shared secret between the Cloudflare Worker and the crawler runner (the self-hosted GitHub Actions runner reads it as the `API_KEY` workflow secret). Rotate by updating both ends (`wrangler secret put CRON_SECRET` on the Worker, and the repo Actions secret) and re-deploying the website.
 - `ADSENSE_ID` and the Axiom tokens are not security-sensitive in the breach sense (public IDs / write-only tokens) but should still rotate together with any compromise.
 
 ### Crawlers - outbound risk
 
-The crawlers are an HTTP client with hardcoded, country-specific entry URLs. There's no user-controlled input flowing into URLs (no SSRF surface), and the only data they emit is the parsed airport list, validated by the website's API endpoint before insertion. The Python venv runs as a non-root systemd service (per the `aip-crawler.service` unit on netcup). No code execution path for attacker-controlled HTML - `BeautifulSoup` is a parser, not a renderer; we never `eval` or execute extracted JS.
+The crawlers are an HTTP client with hardcoded, country-specific entry URLs. There's no user-controlled input flowing into URLs (no SSRF surface), and the only data they emit is the parsed airport list, validated by the website's API endpoint before insertion. They run as scheduled GitHub Actions workflows on the self-hosted runner (fresh checkout per run, no long-lived host state). No code execution path for attacker-controlled HTML - `BeautifulSoup` is a parser, not a renderer; we never `eval` or execute extracted JS.
 
 ## Browser-facing security headers
 
@@ -109,7 +106,7 @@ The one remaining step is promoting the CSP from Report-Only to enforcing.
 | SQL injection | None - Drizzle typed builders throughout. |
 | XSS | None - `dangerouslySetInnerHTML` only wraps server-built JSON-LD. |
 | Secrets | Centralised via t3-env, gitignored, single rotation key. |
-| Dependencies | 25 transitive npm advisories, all dev-side or one-step-removed; nothing first-degree. |
+| Dependencies | `pnpm audit --prod` clean (0 known vulnerabilities as of 2026-07-11); no first-degree advisories. |
 | Headers | Explicit headers set (X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy, CSP in Report-Only); promote CSP to enforcing. |
 
 **Action items, ranked:**
@@ -122,4 +119,4 @@ The one remaining step is promoting the CSP from Report-Only to enforcing.
 
 ---
 
-_Last run: 2026-05-06. Reproduce with `pnpm audit` (website) and `cd crawlers && uv tree --outdated` (crawlers)._
+_Last run: 2026-07-11. Reproduce with `pnpm audit` (website) and `cd crawlers && uv tree --outdated` (crawlers)._
