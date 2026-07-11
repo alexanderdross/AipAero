@@ -22,7 +22,7 @@ Every runnable suite was executed; all green.
 | Website security | `pnpm audit --audit-level=high --prod` | ✅ no known vulnerabilities |
 | Crawler unit | `uv run pytest tests/` | ✅ 114 passed |
 | Crawler lock/compile | `uv lock --check` · `compileall` | ✅ clean |
-| Crawler dry run (no publish) | `crawler-live-test.yml` (12 countries) | ✅ 10/12 live, 2,203 airports (DK/GR allowed failures) |
+| Crawler dry run (no publish) | `crawler-live-test.yml` (12 countries) | ✅ 10/12 live, 1,503 airports (DK/GR allowed failures) |
 
 See [`functionality.md`](./functionality.md) and [`dry-run.md`](./dry-run.md) for detail.
 
@@ -33,7 +33,7 @@ See [`functionality.md`](./functionality.md) and [`dry-run.md`](./dry-run.md) fo
 | **Unit tests** | ✅ Crawlers: 114 tests gated in CI. Website: 27 Vitest pure-helper/component tests. | [`unit-tests.md`](./unit-tests.md) |
 | **Regression** | ✅ CI gates typecheck + format + lint + i18n + crawler unit tests + Vitest + E2E + `pnpm cf-build`. Visual regression is a gap. | [`regression.md`](./regression.md) |
 | **Functionality** | ✅ E2E 94 passed (SEO/a11y/JSON-LD/flows/sitemap), Vitest 27, build ✅; crawler dry run 10/12 live. | [`functionality.md`](./functionality.md) |
-| **Dry run** | ✅ 2026-07-11: 10/12 countries parse live (2,203 airports); DK/GR the known allowed failures. | [`dry-run.md`](./dry-run.md) |
+| **Dry run** | ✅ 2026-07-11: 10/12 countries parse live (1,503 airports); DK/GR the known allowed failures. | [`dry-run.md`](./dry-run.md) |
 | **Performance** | ⚠️ Static analysis only - no live numbers yet. Three actionable bugs/gaps found. | [`performance.md`](./performance.md) |
 | **Best practices** | ⚠️ Most App Router conventions followed correctly. Five concrete gaps, one is a real bug (missing `revalidateTag` calls). | [`best-practices.md`](./best-practices.md) |
 | **Security** | ✅ Strong on auth + validation + SQL; `pnpm audit --prod` clean (0 high+); Selenium removed. | [`security.md`](./security.md) |

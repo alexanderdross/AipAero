@@ -33,7 +33,7 @@ their failure does not fail the job while the rest must pass.
 > POST to `https://aip.aero/api/airports`. Use the dry run to validate; use
 > *Crawl (publish)* only when you intend to write.
 
-## Result - 2026-07-11 (run 29143448110, all 12 countries)
+## Result - 2026-07-11 (run 29146643686, all 12 countries)
 
 Job passed (`Only known-blocked countries failed: ['DK','GR'] - passing.`).
 
@@ -52,7 +52,7 @@ Job passed (`Only known-blocked countries failed: ['DK','GR'] - passing.`).
 | **DK** | 0 | ⚠️ allowed failure |
 | **GR** | 0 | ⚠️ allowed failure |
 
-**10 of 12 live, 2,203 airports parsed.** DE (792) and FR (143) confirm the
+**10 of 12 live, 1,503 airports parsed.** DE (792) and FR (143) confirm the
 2026-07 AIRAC-cycle fixes hold (DE meta-refresh follow; FR `home.js` AIRAC-dated
 index path).
 
