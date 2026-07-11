@@ -12,7 +12,7 @@ Snapshot assessments of the AIP:Aero website, crawlers, and backend. Each docume
 | 6 | Cloudflare Workers / Next.js best practices | [`best-practices.md`](./best-practices.md) | Audit of the codebase against documented Cloudflare Workers + App Router conventions. |
 | 7 | Security assessment | [`security.md`](./security.md) | Real `pnpm audit` + `uv` dep tree output; manual code review of auth, validation, and SQL. |
 | 8 | Functionality test | [`functionality.md`](./functionality.md) | Real Playwright E2E (94), Vitest (27), pytest (114), production build. |
-| 9 | Crawler dry run | [`dry-run.md`](./dry-run.md) | Real `crawler-live-test` run: 10/12 live, 2,203 airports parsed (no publish). |
+| 9 | Crawler dry run | [`dry-run.md`](./dry-run.md) | Real `crawler-live-test` run: 10/12 live, 1,503 airports parsed (no publish). |
 
 ## Scope
 
