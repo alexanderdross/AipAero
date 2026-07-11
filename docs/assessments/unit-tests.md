@@ -12,15 +12,19 @@ The pytest suite lives at `crawlers/tests/` and exercises the pure-function-shap
 
 | File | Target | Tests |
 | --- | --- | --- |
-| `tests/test_http_base.py` | `HttpCrawlerBase` (fetch, frame chain, text helpers, lifecycle) | 16 |
+| `tests/test_http_base.py` | `HttpCrawlerBase` (fetch, frame chain, text helpers, lifecycle) | 21 |
 | `tests/test_http_eurocontrol_base.py` | `extract_airports_from_html` - eAIP nav menu parsing for NL/UK/FR | 12 |
+| `tests/test_playwright_base.py` | `PlaywrightCrawlerBase` - lazy browser import + fail-soft rendering | 4 |
 | `tests/test_at.py` | `AT.extract_airports` - Austrocontrol's table format | 18 |
 | `tests/test_de.py` | `DE` - DFS BasicVFR/BasicIFR folder-link tree parsing + `myPermalink` resolution | 14 |
+| `tests/test_dk.py` | `DK` - Naviair extraction on the Playwright-rendered DOM | 5 |
 | `tests/test_fr.py` | `FR` - SIA eAIP edition selection + menu-section resilience | 14 |
+| `tests/test_gr.py` | `GR` - Bright Data Web Unlocker zone selection | 4 |
 | `tests/test_nl.py` | `NL` - LVNL AIRAC edition resolver | 11 |
 | `tests/test_uk.py` | `UK` - NATS AIRAC edition selector | 6 |
+| `tests/test_main.py` | `main.py` - active-crawler country selection / CLI args | 5 |
 
-Network is mocked with `httpx.MockTransport`; HTML is synthetic and mirrors the real shapes (frameset chains, eAIP menu pairs, `TAD_HP;TXT_NAME;NNNN` UK suffix, Austrocontrol section-header rows). No real outbound requests are made, so the suite runs in ~1.5s and is safe to run anywhere.
+Network is mocked with `httpx.MockTransport`; HTML is synthetic and mirrors the real shapes (frameset chains, eAIP menu pairs, `TAD_HP;TXT_NAME;NNNN` UK suffix, Austrocontrol section-header rows). No real outbound requests are made (Playwright is stubbed in `test_playwright_base`/`test_dk`), so the suite runs in ~10s and is safe to run anywhere.
 
 ## Coverage of behaviours that previously broke silently
 

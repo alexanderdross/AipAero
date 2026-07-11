@@ -34,10 +34,9 @@ Direct deps as of latest lock:
 | `bs4` | 0.0.2 / `beautifulsoup4` 4.13.4 | 4.14.3 | minor; bump on next routine refresh |
 | `pydantic` | 2.11.4 | 2.13.4 | none |
 | `pydantic-settings` | 2.9.1 | 2.14.0 | none |
-| `selenium` | 4.32.0 | 4.43.0 | now only used by the experimental crawlers; will be removed once they port off it |
-| `webdriver-manager` | 4.0.2 | current | will be removed with selenium |
+| `playwright` | 1.48+ | current | JS-render fallback (DK); browser installed per run |
 
-No published CVEs in the active set. `de.py` has already ported to `HttpCrawlerBase`, so no active crawler imports Selenium. The `selenium` + `webdriver-manager` chain is slated for deletion once the experimental crawlers (`belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run`) port off `CrawlerBase` or are pruned; deferring upgrade churn there is intentional.
+No published CVEs in the active set. **Selenium has been removed** (2026-07): no dependency uses it anymore - the experimental crawlers (`belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run`), the legacy `CrawlerBase` / `EurocontrolBase` bases and the `cache_warmer.py` script were deleted, and `selenium` / `webdriver-manager` (plus their `trio` / `wsproto` transitive deps) dropped from `pyproject.toml` / `uv.lock`. All 12 active crawlers run on httpx (DK via Playwright).
 
 ## Code review
 

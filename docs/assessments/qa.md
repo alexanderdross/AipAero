@@ -53,7 +53,7 @@ DE has been ported from the legacy `CrawlerBase` to `HttpCrawlerBase`: it now en
 - The CI import smoke test now includes DE, eliminating Chromium-on-CI as a constraint.
 - DE now has unit tests (`crawlers/tests/test_de.py`).
 
-The remaining cleanup is bounded: `crawlers/crawlers/crawler_base.py` and `eurocontrol_base.py` (Selenium) survive only because the experimental, non-scheduled crawlers (`belgium`, `car_sam_nam`, `pac_n`, `pac_p`, `run`) still import them - no active crawler does. Once those are ported or pruned, the legacy bases plus `selenium` / `webdriver-manager` (and their `trio` / `wsproto` transitive deps) can come out in one cleanup commit.
+The cleanup is now complete (2026-07): `crawlers/crawlers/crawler_base.py`, `eurocontrol_base.py`, the experimental crawlers (`belgium`, `car_sam_nam`, `pac_n`, `pac_p`, `run`) and the `cache_warmer.py` script have been deleted, and `selenium` / `webdriver-manager` (with their `trio` / `wsproto` transitive deps) removed from `pyproject.toml` / `uv.lock`. No Selenium remains in the tree.
 
 ## Consolidated action list, ranked
 
@@ -67,7 +67,7 @@ The remaining cleanup is bounded: `crawlers/crawlers/crawler_base.py` and `euroc
 | 6 | ⚠️ partial | Audit `src/components/schemas/*.tsx` for unnecessary `"use client"` (only `schema-product` was free; `schema-webpage` and `schema-website` use `usePathname()` and need a refactor to convert) | performance |
 | 7 | ⚠️ partial | Add `headers()` in `next.config.mjs` for `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`. CSP intentionally deferred - needs careful nonce/origin work to not break inline JSON-LD, AdSense, and Axiom. | security |
 | 8 | ⏸ pending | Run UAT once against production | uat |
-| 9 | ✅ done (DE) ⚠️ partial (cleanup) | DE ported to `HttpCrawlerBase` and added to the CI smoke test. Legacy `crawler_base.py` / `eurocontrol_base.py` plus `selenium` / `webdriver-manager` remain only because the experimental `belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run` crawlers still depend on them - none are wired into the active scheduler. | cross-cutting |
+| 9 | ✅ done | DE ported to `HttpCrawlerBase` and added to the CI smoke test. Legacy Selenium cleanup finished: `crawler_base.py` / `eurocontrol_base.py`, the experimental `belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run` crawlers, `cache_warmer.py` and the `selenium` / `webdriver-manager` deps all removed. | cross-cutting |
 | 10 | ✅ done | Wire `@next/bundle-analyzer` as a `pnpm analyze` script | performance |
 
 Items 1–5, 6 (partial), 7 (partial), 9, and 10 landed together; see commit history.

@@ -44,7 +44,7 @@ Active (in `crawlers/`) - 12 countries:
 - [x] United Kingdom (https://nats-uk.ead-it.com/) - `HttpEurocontrolBase`
 - [x] Belgium + Luxembourg (https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/index-en-GB.html) - `HttpEurocontrolBase`
 - [x] Czech Republic (https://aim.rlp.cz/eaip/html/index-en-GB.html) - `HttpEurocontrolBase`
-- [x] Denmark (https://aim.naviair.dk/) - `HttpCrawlerBase` (custom Naviair navigation)
+- [x] Denmark (https://aim.naviair.dk/) - `PlaywrightCrawlerBase` (client-rendered Naviair JS app; headless-Chromium render)
 - [x] Greece (https://aisgr.hasp.gov.gr/) - `HttpEurocontrolBase`
 - [x] Norway (https://avinor.no/en/ais/aipnorway/) - `HttpEurocontrolBase`
 - [x] Poland (https://www.ais.pansa.pl/en/publications/aip-poland/) - `HttpEurocontrolBase`
