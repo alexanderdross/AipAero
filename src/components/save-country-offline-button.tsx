@@ -117,8 +117,11 @@ export function SaveCountryOfflineButton({
     // inside this user gesture (no-op on iOS / when already installed).
     void promptInstall();
     try {
+      // Trailing slash: the app sets `trailingSlash: true`, so the slashless
+      // URL 308-redirects - request the canonical form directly to skip that
+      // hop (same as the map's coords fetch).
       const res = await fetch(
-        `/api/airport-urls?locale=${encodeURIComponent(locale)}`,
+        `/api/airport-urls/?locale=${encodeURIComponent(locale)}`,
       );
       if (!res.ok) throw new Error(String(res.status));
       const detailUrls = (await res.json()) as string[];
