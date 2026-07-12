@@ -27,7 +27,9 @@ export function BreadCrumbs() {
     // (justify-center on the scroll container would make the left edge
     // unreachable when overflowing).
     <div className="[scrollbar-width:none] overflow-x-auto px-4 py-8 sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden">
-      <Breadcrumb className="mx-auto w-max">
+      {/* Localized landmark label (overrides the primitive's hardcoded
+          English "breadcrumb" default). */}
+      <Breadcrumb aria-label={t("label")} className="mx-auto w-max">
         <BreadcrumbList className="flex-nowrap whitespace-nowrap">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>

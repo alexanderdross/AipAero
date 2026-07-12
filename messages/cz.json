@@ -1,5 +1,6 @@
 {
   "BreadCrumbs": {
+    "label": "Drobečková navigace",
     "root": {
       "title": "AIP Index",
       "hrefTitle": "AIP Index"
@@ -203,6 +204,7 @@
     "surface": "Povrch"
   },
   "Common": {
+    "homeLink": "AIP:Aero - Letecké informační příručky (AIP) & přibližovací mapy pro Evropu",
     "lastUpdated": "Naposledy aktualizováno",
     "viewOnMap": "Zobrazit na Mapách Google",
     "location": "Poloha",

@@ -1,11 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { NextIntlClientProvider } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import LocaleSwitcher from "./locale-switcher";
 import { Menu } from "./menu";
 import { MobileNav } from "./mobile-menu";
 
-export function Header({ withLangSwitcher = false }) {
+export async function Header({ withLangSwitcher = false }) {
+  const tCommon = await getTranslations("Common");
+
   return (
     // ONE provider around header + mobile pill bar, with an explicitly EMPTY
     // messages object: every label is server-resolved and passed down as
@@ -21,7 +24,9 @@ export function Header({ withLangSwitcher = false }) {
       <header className="border-grid sticky top-0 z-50 w-full border-b bg-white/95 lg:bg-white/90 lg:backdrop-blur">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-14 items-center justify-between">
-            <Link href="/" title="Go to AIP Index">
+            {/* Localized, keyword-rich title describing the link target (the
+                global AIP index) - was a hardcoded English string. */}
+            <Link href="/" title={tCommon("homeLink")}>
               <Image
                 // Explicit width + height at each breakpoint (not w-auto) so the
                 // browser reserves the exact box before load - clears Lighthouse's

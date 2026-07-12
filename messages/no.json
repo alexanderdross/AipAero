@@ -1,5 +1,6 @@
 {
   "BreadCrumbs": {
+    "label": "Brødsmulesti",
     "root": {
       "title": "AIP Index",
       "hrefTitle": "AIP Index"
@@ -238,6 +239,7 @@
     "surface": "Dekke"
   },
   "Common": {
+    "homeLink": "AIP:Aero - Luftfartspublikasjoner (AIP) & innflygingskart for Europa",
     "lastUpdated": "Sist oppdatert",
     "viewOnMap": "Se på Google Maps",
     "location": "Plassering",

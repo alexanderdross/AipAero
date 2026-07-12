@@ -42,9 +42,12 @@ test("mobile pill nav is visible, marks the active page and navigates", async ({
 test("mobile pill nav is hidden on desktop widths", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/de/");
-  await expect(page.getByRole("navigation", { name: "Menü" })).toBeHidden();
-  // The desktop menu carries the links instead.
-  await expect(page.locator('header nav a[aria-current="page"]')).toHaveCount(
-    1,
-  );
+  // Desktop and mobile nav share the localized "Menü" landmark label (only
+  // one is ever visible per breakpoint), so target the pill bar structurally:
+  // it is the one with a <ul>.
+  await expect(page.locator('nav[aria-label="Menü"]:has(ul)')).toBeHidden();
+  // The desktop menu carries the links instead - visible, with active marker.
+  const desktopNav = page.locator("header nav[aria-label='Menü']");
+  await expect(desktopNav).toBeVisible();
+  await expect(desktopNav.locator('a[aria-current="page"]')).toHaveCount(1);
 });

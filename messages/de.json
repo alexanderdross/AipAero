@@ -1,5 +1,6 @@
 {
   "BreadCrumbs": {
+    "label": "Brotkrümelnavigation",
     "root": {
       "title": "AIP Index",
       "hrefTitle": "AIP Index"
@@ -273,6 +274,7 @@
     "surface": "Belag"
   },
   "Common": {
+    "homeLink": "AIP:Aero - Luftfahrthandbücher (AIP) & Anflugkarten für Europa",
     "lastUpdated": "Stand",
     "viewOnMap": "Auf Google Maps ansehen",
     "location": "Standort",

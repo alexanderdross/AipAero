@@ -64,10 +64,11 @@ const BreadcrumbPage = React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<"span">
 >(({ className, ...props }, ref) => (
+  // Plain span with aria-current="page" (WAI-ARIA APG breadcrumb pattern).
+  // The shadcn default role="link" + aria-disabled announced a fake disabled
+  // link for the current page - a non-interactive span needs neither.
   <span
     ref={ref}
-    role="link"
-    aria-disabled="true"
     aria-current="page"
     className={cn("text-foreground font-normal", className)}
     {...props}
