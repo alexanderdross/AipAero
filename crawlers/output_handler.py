@@ -89,6 +89,27 @@ class OutputHandler:
             self.logger.error(str(e))
             return
 
+        # Chart-PDF coverage monitoring: the extracted pdf_urls are edition-
+        # specific and the chart-page markup shifts with AIRAC cycles - a
+        # collapse to 0 where the last run had coverage means the per-country
+        # selectors broke. Publish anyway (fail-soft: the site falls back to
+        # the chart-page url), but flag it loudly in the run log.
+        pdf_count = sum(1 for a in airports if a.pdf_url)
+        last_pdf = self._last_counts.get(f"{country.upper()}::pdf")
+        self.logger.info(
+            f"{country}: pdf_url coverage {pdf_count}/{len(airports)}"
+            + (f" (last run: {last_pdf})" if last_pdf is not None else "")
+        )
+        if last_pdf and pdf_count == 0:
+            msg = (
+                f"{country}: chart-PDF coverage collapsed ({last_pdf} -> 0) - "
+                "chart-page markup likely changed (docs/chart-pdf-plan.md); "
+                "the site falls back to the chart-page url meanwhile"
+            )
+            self.logger.warning(msg)
+            # GitHub Actions annotation (the daily crawl runs there).
+            print(f"::warning title=Chart-PDF coverage::{msg}", flush=True)
+
         self.logger.info(
             f"Writing {len(airports)} airports for {country} "
             f"to {self.settings.api_endpoint}"
@@ -101,6 +122,15 @@ class OutputHandler:
                 # Key matches the Drizzle column property (`pdfUrl`), which the
                 # API's drizzle-zod schema validates against.
                 "pdfUrl": a.pdf_url,
+                # JSON-encoded chart list ({name, url} each) - the `charts`
+                # column is TEXT, so the string IS the stored value.
+                "charts": (
+                    json.dumps(
+                        [c.model_dump() for c in a.charts], ensure_ascii=False
+                    )
+                    if a.charts
+                    else None
+                ),
                 "type": a.airport_type,
                 "country": country.upper(),
             }
@@ -119,7 +149,10 @@ class OutputHandler:
             self.logger.error(f"Failed to write output for {country}: {e}")
             return
 
-        # Only update the recorded count after a successful publish.
+        # Only update the recorded counts after a successful publish. The
+        # "<CC>::pdf" key rides in the same state file (actions/cache) and is
+        # ignored by the airport-count drop guard.
         self._last_counts[country.upper()] = len(airports)
+        self._last_counts[f"{country.upper()}::pdf"] = pdf_count
         self._save_counts()
         self.logger.info(f"Successfully wrote output for {country}.")

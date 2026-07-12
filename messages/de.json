@@ -310,6 +310,7 @@
     "borderCrossing": "Grenzübertritt"
   },
   "Chart": {
+    "allCharts": "Alle Karten ({count})",
     "title": "Anflugkarte",
     "openPdf": "Chart-PDF öffnen",
     "preview": "Vorschau anzeigen"

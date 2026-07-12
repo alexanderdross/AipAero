@@ -275,6 +275,7 @@
     "borderCrossing": "Gränspassage"
   },
   "Chart": {
+    "allCharts": "Alla kartor ({count})",
     "title": "Inflygningskarta",
     "openPdf": "Öppna kart-PDF",
     "preview": "Visa förhandsvisning"

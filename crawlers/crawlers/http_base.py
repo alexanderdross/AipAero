@@ -4,12 +4,12 @@ import logging
 import re
 import time
 from pathlib import Path
-from urllib.parse import urljoin
+from urllib.parse import unquote, urljoin
 
 import httpx
 from bs4 import BeautifulSoup
 
-from crawlers.models import Airport
+from crawlers.models import Airport, ChartLink
 
 __all__ = ["Airport", "HttpCrawlerBase"]
 
@@ -339,7 +339,9 @@ class HttpCrawlerBase:
         for airport in airports:
             try:
                 html = self.fetch(airport.url)
-                airport.pdf_url = self._pick_pdf_url(html, airport.url)
+                links = self._collect_pdf_links(html, airport.url)
+                airport.pdf_url = self._pick_pdf_url(links)
+                airport.charts = self._to_chart_links(links) or None
                 if airport.pdf_url:
                     found += 1
             except Exception as e:
@@ -351,15 +353,43 @@ class HttpCrawlerBase:
         )
         return airports
 
-    def _pick_pdf_url(self, html: str, base_url: str) -> str | None:
+    # A page never legitimately lists more charts than this; the cap bounds the
+    # stored JSON (the biggest real case seen in recon was LFKJ with 42).
+    MAX_CHARTS = 50
+
+    def _collect_pdf_links(
+        self, html: str, base_url: str
+    ) -> list[tuple[str, str]]:
+        """Every PDF link on a chart page as (visible text, absolute URL),
+        deduplicated by URL, in document order."""
         soup = self.soup(html)
         links: list[tuple[str, str]] = []
+        seen: set[str] = set()
         for link in soup.find_all("a", href=True):
             href = link["href"]
             if ".pdf" not in href.lower():
                 continue
+            url = urljoin(base_url, href)
+            if url in seen:
+                continue
+            seen.add(url)
             text = " ".join(link.get_text(" ", strip=True).split())
-            links.append((text, urljoin(base_url, href)))
+            links.append((text, url))
+        return links[: self.MAX_CHARTS]
+
+    def _to_chart_links(self, links: list[tuple[str, str]]) -> list[ChartLink]:
+        """Name each chart by the source's own link text; sources that link
+        bare icons (NL/PL/SE) get the filename stem instead ("EHAM-VFR-PROC")."""
+        charts: list[ChartLink] = []
+        for text, url in links:
+            name = text
+            if not name:
+                stem = url.rsplit("/", 1)[-1]
+                name = unquote(stem[:-4] if stem.lower().endswith(".pdf") else stem)
+            charts.append(ChartLink(name=name[:120], url=url))
+        return charts
+
+    def _pick_pdf_url(self, links: list[tuple[str, str]]) -> str | None:
         if not links:
             return None
         for pattern in self.PDF_TEXT_PRIORITY:

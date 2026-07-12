@@ -240,6 +240,7 @@
     "borderCrossing": "Border crossing"
   },
   "Chart": {
+    "allCharts": "All charts ({count})",
     "title": "Approach chart",
     "openPdf": "Open chart PDF",
     "preview": "Show preview"

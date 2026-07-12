@@ -1,0 +1,1 @@
+ALTER TABLE `aip_aero_v4_airports` ADD `charts` text;

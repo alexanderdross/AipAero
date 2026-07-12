@@ -107,8 +107,20 @@ export function SaveOfflineButton({
 
       if (chartUrl) {
         try {
-          const pdf = await fetch(chartUrl, { mode: "no-cors" });
+          // CORS first: a readable response stores at its REAL size. Only
+          // when the AIP host sends no CORS headers (the common case) fall
+          // back to an opaque no-cors response - it still serves offline,
+          // but Cache Storage pads opaque entries (~7 MB quota each, see
+          // docs/pwa-offline-concept.md), so avoid it where possible.
           const charts = await caches.open(CHARTS_CACHE);
+          let pdf: Response | null = null;
+          try {
+            const res = await fetch(chartUrl);
+            if (res.ok) pdf = res;
+          } catch {
+            /* no CORS on the chart host - use the opaque fallback */
+          }
+          pdf ??= await fetch(chartUrl, { mode: "no-cors" });
           await charts.put(chartUrl, pdf);
         } catch {
           /* chart host unreachable: the page is still saved */

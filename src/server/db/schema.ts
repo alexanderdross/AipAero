@@ -31,6 +31,11 @@ export const airports = createTable(
     // sources whose crawler stores an index/frameset page leave it null and
     // the site falls back to `url` (+ isPdfUrl). Never required.
     pdfUrl: text("pdf_url"),
+    // FULL list of the source's chart PDFs for this airport - JSON array of
+    // {name, url} (name = the source's own designation, e.g. "AD 2.EGPD-2-1"
+    // or "EHAM-VFR-PROC"), capped by the crawlers. `pdfUrl` stays the primary
+    // pick for the chart box's main link; this feeds the "all charts" list.
+    charts: text("charts"),
     type: text("type", {
       enum: ["vfr", "ifr", "heliport", "mil", "aeroport"],
     }).notNull(),

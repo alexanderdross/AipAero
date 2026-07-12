@@ -1,3 +1,5 @@
+import type { ChartLink } from "~/lib/charts";
+
 interface Props {
   name: string;
   alternateName: string;
@@ -6,6 +8,10 @@ interface Props {
   url: string;
   /** The aip.aero airport-detail page the chart belongs to. */
   isPartOfUrl: string;
+  /** AIRAC/publication effective date (ISO), when derivable from the URL. */
+  datePublished?: string | null;
+  /** The source's full chart list; emitted as hasPart DigitalDocuments. */
+  charts?: ChartLink[];
 }
 
 /**
@@ -20,6 +26,8 @@ export function SchemaDigitalDocument({
   description,
   url,
   isPartOfUrl,
+  datePublished,
+  charts,
 }: Props) {
   const schema = {
     "@context": "https://schema.org",
@@ -29,11 +37,25 @@ export function SchemaDigitalDocument({
     description: description,
     url: url,
     encodingFormat: "application/pdf",
+    ...(datePublished && { datePublished }),
     isPartOf: {
       "@type": "WebPage",
       "@id": isPartOfUrl,
       url: isPartOfUrl,
     },
+    // The source's other charts for this field (SIDs/STARs/IACs...), each a
+    // DigitalDocument of its own, named by the source's designation.
+    ...(charts &&
+      charts.length > 1 && {
+        hasPart: charts
+          .filter((c) => c.url !== url)
+          .map((c) => ({
+            "@type": "DigitalDocument",
+            name: c.name,
+            url: c.url,
+            encodingFormat: "application/pdf",
+          })),
+      }),
   };
   return (
     <script
