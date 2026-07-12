@@ -124,6 +124,13 @@
       "buttonHref": "/uk/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports United Kingdom (UK)"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports/ heliports in the UK",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/uk/airport-list-uk/",
+      "buttonHrefTitle": "List of Airports/ Airfields in the United Kingdom (UK)"
+    },
     "breadcrumb": {
       "name": "AIP United Kingdom",
       "alternateName": "AIP and approach charts of the UK",

@@ -124,6 +124,13 @@
       "buttonHref": "/dk/en/heliports/",
       "buttonHrefTitle": "AIP VFR Helicopter Aerodromes Denmark"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports in Denmark",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/dk/en/airport-list-denmark/",
+      "buttonHrefTitle": "List of Airfields/ Airports Denmark"
+    },
     "breadcrumb": {
       "name": "AIP Denmark",
       "alternateName": "AIP and approach charts of Denmark",

@@ -124,6 +124,13 @@
       "buttonHref": "/nl/en/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports Netherlands"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports/ heliports in the Netherlands",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/nl/en/airport-list-netherlands/",
+      "buttonHrefTitle": "List of Airports/ Airfields in the Netherlands"
+    },
     "breadcrumb": {
       "name": "AIP Netherlands",
       "alternateName": "AIP and approach charts of the Netherlands",

@@ -159,6 +159,13 @@
       "buttonHref": "/de/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports Deutschland"
     },
+    "airportListCard": {
+      "title": "Flughafen Liste",
+      "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick",
+      "buttonTitle": "Flughafen Liste",
+      "buttonHref": "/de/flughafen-liste-deutschland/",
+      "buttonHrefTitle": "Liste der Flughäfen Deutschland"
+    },
     "breadcrumb": {
       "name": "AIP Deutschland",
       "alternateName": "Anflugkarten & Luftfahrthandbuch AIP für Deutschland",

@@ -124,6 +124,13 @@
       "buttonHref": "/gr/heliports/",
       "buttonHrefTitle": "AIP VFR Ελικοδρόμια Ελλάδα"
     },
+    "airportListCard": {
+      "title": "Λίστα Αεροδρομίων",
+      "description": "Όλα τα αεροδρόμια/αερολιμένες της Ελλάδας με μια ματιά",
+      "buttonTitle": "Λίστα Αεροδρομίων",
+      "buttonHref": "/gr/aerolimenes-ellada/",
+      "buttonHrefTitle": "Λίστα αεροδρομίων Ελλάδας"
+    },
     "breadcrumb": {
       "name": "AIP Ελλάδα",
       "alternateName": "Χάρτες προσέγγισης & Αεροναυτικό Εγχειρίδιο AIP για την Ελλάδα",

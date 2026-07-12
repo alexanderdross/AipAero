@@ -124,6 +124,13 @@
       "buttonHref": "/se/heliports/",
       "buttonHrefTitle": "AIP VFR Helikopterflygplatser Sverige"
     },
+    "airportListCard": {
+      "title": "Flygplatslista",
+      "description": "Alla flygplatser i Sverige i överblick",
+      "buttonTitle": "Flygplatslista",
+      "buttonHref": "/se/flygplatser-sverige/",
+      "buttonHrefTitle": "Lista över flygplatser i Sverige"
+    },
     "breadcrumb": {
       "name": "AIP Sverige",
       "alternateName": "Inflygningskartor & luftfartspublikation AIP för Sverige",

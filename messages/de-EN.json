@@ -159,6 +159,13 @@
       "buttonHref": "/de/en/heliports/",
       "buttonHrefTitle": "AIP VFR Helicopter Aerodromes Germany"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports in Germany",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/de/en/airport-list-germany/",
+      "buttonHrefTitle": "List of Airfields/ Airports Germany"
+    },
     "breadcrumb": {
       "name": "AIP Germany",
       "alternateName": "AIP and approach charts of Germany",

@@ -124,6 +124,13 @@
       "buttonHref": "/pl/heliports/",
       "buttonHrefTitle": "AIP VFR Heliporty Polska"
     },
+    "airportListCard": {
+      "title": "Lista lotnisk",
+      "description": "Wszystkie lotniska w Polsce w jednym miejscu",
+      "buttonTitle": "Lista lotnisk",
+      "buttonHref": "/pl/lotniska-polska/",
+      "buttonHrefTitle": "Lista lotnisk w Polsce"
+    },
     "breadcrumb": {
       "name": "AIP Polska",
       "alternateName": "Mapy podejścia i zbiór informacji lotniczych AIP dla Polski",

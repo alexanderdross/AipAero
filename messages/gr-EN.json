@@ -124,6 +124,13 @@
       "buttonHref": "/gr/en/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports Greece"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports in Greece",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/gr/en/airport-list-greece/",
+      "buttonHrefTitle": "List of Airports Greece"
+    },
     "breadcrumb": {
       "name": "AIP Greece",
       "alternateName": "AIP and approach charts of Greece",
