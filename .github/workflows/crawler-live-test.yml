@@ -17,6 +17,15 @@ on:
         description: "Space-separated country codes to test-crawl (default: the 7 new ones)"
         required: false
         default: "BE CZ DK GR NO PL SE"
+      pdf_recon:
+        description: "Chart-PDF reconnaissance: fetch the first 3 airports' chart pages per country and list the PDF links found (Stage-2 groundwork)"
+        required: false
+        type: boolean
+        default: false
+      check_urls:
+        description: "Space-separated external URLs to HTTP-check from the runner (e.g. EFB deep-link patterns; the sandboxed agent has no egress)"
+        required: false
+        default: ""
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
@@ -62,9 +71,22 @@ jobs:
         continue-on-error: true
         run: uv run playwright install chromium --with-deps
 
+      # Optional: verify external deep-link URL patterns (EFB hand-offs etc.)
+      # from the runner - the sandboxed agent environment has no egress, so
+      # this is the only place such links can be validated before shipping.
+      - name: Check external URLs
+        if: ${{ inputs.check_urls != '' }}
+        continue-on-error: true
+        run: |
+          for u in ${{ inputs.check_urls }}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 -L -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" "$u" || echo "ERR")
+            echo "URLCHECK $code $u"
+          done
+
       - name: Crawl live sources (no publish)
         env:
           COUNTRIES: ${{ inputs.countries || 'BE CZ DK GR NO PL SE' }}
+          PDF_RECON: ${{ inputs.pdf_recon && '1' || '' }}
           # Known-blocked countries: still crawled and reported, but their
           # failure does not fail the job. DK = JS-rendered site (Playwright
           # renders it; kept here until a live run confirms the parse), GR =
@@ -99,12 +121,59 @@ jobs:
               code = code.upper()
               print(f"\n===== {code} =====", flush=True)
               try:
-                  airports = COUNTRY_CRAWLERS[code]().crawl()
+                  crawler = COUNTRY_CRAWLERS[code]()
+                  airports = crawler.crawl()
                   results[code] = len(airports)
                   for a in airports[:5]:
                       print(f"   {a.icao} | {a.title} -> {a.url[:100]}")
                   if len(airports) > 5:
                       print(f"   ... and {len(airports) - 5} more")
+                  # Stage-2 plumbing check: how many airports carry a direct
+                  # chart-PDF URL (pdf_url), with samples.
+                  with_pdf = [a for a in airports if getattr(a, "pdf_url", None)]
+                  print(f"   pdf_url coverage: {len(with_pdf)}/{len(airports)}")
+                  for a in with_pdf[:3]:
+                      print(f"     {a.icao or a.title} pdf -> {a.pdf_url[:110]}")
+                  # Reconnaissance mode: fetch the first chart pages and list
+                  # the PDF links they expose, so per-country extraction can
+                  # be written against real markup (the AIP hosts are not
+                  # reachable from the sandboxed agent environment).
+                  if os.environ.get("PDF_RECON"):
+                      import re as _re
+                      from urllib.parse import urljoin as _urljoin
+                      for a in airports[:3]:
+                          print(f"   --- recon {a.icao or a.title}: {a.url[:110]}")
+                          try:
+                              html = crawler.fetch(a.url)
+                              # DE permalinks are tiny meta-refresh redirects
+                              # to the edition-specific page - follow once.
+                              m = _re.search(
+                                  r'http-equiv=["\']?refresh[^>]*url=([^"\'> ]+)',
+                                  html,
+                                  _re.I,
+                              )
+                              if m:
+                                  target = _urljoin(a.url, m.group(1).strip())
+                                  print(f"       meta-refresh -> {target[:120]}")
+                                  html = crawler.fetch(target)
+                              soup = crawler.soup(html)
+                              pdfs = []
+                              for link in soup.find_all("a", href=True):
+                                  href = link["href"]
+                                  if ".pdf" in href.lower():
+                                      text = " ".join(link.get_text(" ", strip=True).split())[:80]
+                                      pdfs.append((text, _urljoin(a.url, href)))
+                              if not pdfs:
+                                  # Some sources embed rather than link.
+                                  for tag in soup.find_all(["object", "embed", "iframe", "img"]):
+                                      src = tag.get("data") or tag.get("src") or ""
+                                      if src and (".pdf" in src.lower() or "print" in src.lower()):
+                                          pdfs.append((f"<{tag.name}>", _urljoin(a.url, src)))
+                              print(f"       {len(pdfs)} pdf link(s)")
+                              for text, href in pdfs[:12]:
+                                  print(f"       [{text}] {href[:130]}")
+                          except Exception as re_err:
+                              print(f"       recon failed: {type(re_err).__name__}: {re_err}")
               except Exception as e:
                   results[code] = None
                   print(f"{code}: FAILED - {type(e).__name__}: {e}")
