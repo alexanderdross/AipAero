@@ -1,15 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { NextIntlClientProvider } from "next-intl";
 import LocaleSwitcher from "./locale-switcher";
 import { Menu } from "./menu";
 import { MobileNav } from "./mobile-menu";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import pick from "lodash/pick";
 
-export async function Header({ withLangSwitcher = false }) {
-  const messages = await getMessages();
-
+export function Header({ withLangSwitcher = false }) {
   return (
     // backdrop-blur only from lg: on a sticky header it forces continuous
     // compositing while scrolling, which is measurable jank on low-end mobile
@@ -34,13 +30,15 @@ export async function Header({ withLangSwitcher = false }) {
             />
           </Link>
 
-          {/* ONE provider for the whole header: next-intl's client Link /
-              usePathname (NavLink, the locale select) need its locale context.
-              Only the LocaleSwitcher namespace is serialized - the nav labels
-              are server-rendered strings, so the Menu namespace (previously
-              duplicated into the payload twice) ships not at all. The provider
-              adds no DOM node, so the flex row is unchanged. */}
-          <NextIntlClientProvider messages={pick(messages, "LocaleSwitcher")}>
+          {/* ONE provider for the whole header, with an explicitly EMPTY
+              messages object: every label is server-resolved and passed down
+              as props, so zero header messages ship to the client. The
+              provider still has to exist - next-intl's client Link /
+              usePathname (NavLink, the language links, SchemaWebpage) resolve
+              the locale from its context. Do not omit the messages prop:
+              next-intl v4 would inherit and serialize ALL messages then. The
+              provider adds no DOM node, so the flex row is unchanged. */}
+          <NextIntlClientProvider messages={{}}>
             {withLangSwitcher && <Menu />}
             <LocaleSwitcher />
             {withLangSwitcher && <MobileNav />}
