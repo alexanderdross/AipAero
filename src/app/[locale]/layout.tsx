@@ -56,7 +56,19 @@ export default async function LocaleLayout(
           <SchemaSitenav locale={locale} />
         </Suspense>
         <Header withLangSwitcher />
-        <main>{props.children}</main>
+        {/* min-h-screen: the footer must START below the initial viewport on
+            every page. The dynamic search/detail routes stream the page into
+            this layout shell, and their loading state (LoadingSub, ~230px) is
+            far shorter than the real content - so on a slow stream the first
+            paint showed header + skeleton + FOOTER (at ~y380), and the
+            arriving content then pushed the footer ~1500px down: a single
+            ~0.36 CLS event attributed to the footer (reproduced locally with
+            a delayed gadget stream; the live EDDF/LFPG 0.36-0.39 outliers).
+            With main reserving a viewport height, the footer sits below the
+            fold before AND after the stream, so the swap cannot shift any
+            viewport-visible content. Short pages just gain some background
+            whitespace above the fold - the standard sticky-footer trade. */}
+        <main className="min-h-screen">{props.children}</main>
         {/* Reserve the breadcrumb bar's height so it never shifts the footer
             when it renders (it reads searchParams, so it resolves after the
             Suspense boundary). Fixes the ~0.11 CLS Lighthouse flagged. */}
