@@ -256,7 +256,11 @@
     "bulkProgress": "Gemmer sider",
     "bulkCancel": "Annuller",
     "bulkError": "Download mislykkedes - prøv igen",
-    "bulkNoSpace": "Ikke nok ledig lagerplads på denne enhed"
+    "bulkNoSpace": "Ikke nok ledig lagerplads på denne enhed",
+    "pavedRunway": "Befæstet bane",
+    "favorites": "Favoritter",
+    "recentlyViewed": "Senest viste",
+    "borderCrossing": "Grænsepassage"
   },
   "Chart": {
     "title": "Indflyvningskort",

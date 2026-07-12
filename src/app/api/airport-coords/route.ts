@@ -27,6 +27,38 @@ export async function GET(request: Request): Promise<Response> {
   return withEdgeCache(request, () => handleCoords(request));
 }
 
+// Paved-surface heuristic for the map's "paved runway" filter. Surfaces come
+// from OurAirports codes ("ASP", "CON", "PEM", "BIT", ...) or free text
+// ("Asphalt", "concrete", "tarmac"); anything not clearly paved (grass,
+// gravel, water, unknown/null) counts as not paved - the filter must never
+// promise a hard surface it cannot back up.
+const PAVED_RE = /asp|con|pem|bit|tarmac|paved|seal|macadam/i;
+
+function hasPavedRunway(runwaysJson: string | null | undefined): boolean {
+  if (!runwaysJson) return false;
+  try {
+    const runways = JSON.parse(runwaysJson) as Array<{
+      surface?: string | null;
+    }>;
+    return (
+      Array.isArray(runways) &&
+      runways.some((r) => r?.surface && PAVED_RE.test(r.surface))
+    );
+  } catch {
+    return false;
+  }
+}
+
+function hasFuel(fuelJson: string | null | undefined): boolean {
+  if (!fuelJson) return false;
+  try {
+    const fuel = JSON.parse(fuelJson) as unknown[];
+    return Array.isArray(fuel) && fuel.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 async function handleCoords(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const locale = searchParams.get("locale") ?? "";
@@ -48,6 +80,12 @@ async function handleCoords(request: Request): Promise<NextResponse> {
       lon: a.lon!,
       href:
         getPathname({ href: i18nPathMapping[a.type], locale }) + `?${a.slug}`,
+      // Facts flags for the map filters, reduced to booleans server-side so
+      // the payload stays a few bytes per marker. false = "not known to have
+      // it" (facts may simply be missing), never a verified negative.
+      fuel: hasFuel(a.fuel),
+      customs: a.customs === true,
+      paved: hasPavedRunway(a.runways),
     }));
 
   return NextResponse.json(markers, {

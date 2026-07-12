@@ -24,12 +24,18 @@ import {
 const REVALIDATE_SECONDS = 60 * 60 * 24;
 
 // A chart-linked airport with map coordinates (see `airportsWithCoords`).
+// The facts columns (fuel/customs/runways, raw D1 values) are only selected by
+// `airportsWithCoords` - they feed the map filters - and stay absent on the
+// bounding-box "nearby" query.
 export type AirportCoord = {
   slug: string;
   title: string;
   type: Airport["type"];
   lat: number | null;
   lon: number | null;
+  fuel?: string | null;
+  customs?: boolean | null;
+  runways?: string | null;
 };
 
 // Per-country cache tag. Every read for a country carries this tag so a crawler
@@ -299,6 +305,12 @@ export const QUERIES = {
             type: airports.type,
             lat: airportFacts.lat,
             lon: airportFacts.lon,
+            // Raw facts for the map filters (fuel / customs / paved runway);
+            // the API route reduces them to booleans before they reach the
+            // client, so the marker payload stays small.
+            fuel: airportFacts.fuel,
+            customs: airportFacts.customs,
+            runways: airportFacts.runways,
           })
           .from(airports)
           .innerJoin(airportFacts, eq(airports.icao, airportFacts.icao))
@@ -391,12 +403,12 @@ export const QUERIES = {
 };
 
 // Cloudflare D1 caps bound parameters at 100 per query - far below SQLite's own
-// limit. Each airport row binds 6 columns (icao, title, url, type, country,
-// slug), so cap each INSERT at floor(100 / 6) = 16 rows (96 params) to stay
-// under the D1 limit. Exceeding it fails the whole batch with
+// limit. Each airport row binds 7 columns (icao, title, url, pdf_url, type,
+// country, slug), so cap each INSERT at floor(100 / 7) = 14 rows (98 params) to
+// stay under the D1 limit. Exceeding it fails the whole batch with
 // "D1_ERROR: too many SQL variables".
 const D1_MAX_BOUND_PARAMS = 100;
-const INSERT_COLUMNS = 6;
+const INSERT_COLUMNS = 7;
 const INSERT_CHUNK_SIZE = Math.floor(D1_MAX_BOUND_PARAMS / INSERT_COLUMNS);
 
 function chunk<T>(items: T[], size: number): T[][] {

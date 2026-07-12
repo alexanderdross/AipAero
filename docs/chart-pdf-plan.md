@@ -10,10 +10,19 @@ points at a PDF (`isPdfUrl`), the detail page renders a chart box
 **on-click** inline preview (`src/components/chart-preview.tsx` - the `<object>`
 embed mounts only when the user expands it, since browsers fetch embeds even
 inside a collapsed `<details>`), and `schema.org/DigitalDocument` JSON-LD
-(`schema-digital-document.tsx`). What remains from this plan is the
-**per-country crawler work** to capture exact-PDF URLs for sources that store an
-index/frameset page, plus the self-hosting path below - the scope notes stay for
-that.
+(`schema-digital-document.tsx`).
+
+**Stage 2 plumbing is also implemented:** the `airports` table carries a
+nullable `pdf_url` column (migration 0005), the crawler `Airport` model has an
+optional `pdf_url` (posted as `pdfUrl`, validated by the drizzle-zod API
+schema), and the detail page prefers `airport.pdfUrl` over the `isPdfUrl(url)`
+fallback for the chart box / offline chart save / DigitalDocument JSON-LD.
+Nothing breaks while `pdf_url` is null. What remains is the **per-country
+crawler extraction** (step 3 below) to actually capture exact-PDF URLs for
+sources that store an index/frameset page - the AIP hosts are not reachable
+from the sandboxed agent environment, so each country's extraction must be
+validated via the crawler live test on the self-hosted runner. The
+self-hosting path below stays future scope.
 
 ---
 

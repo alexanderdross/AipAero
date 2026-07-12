@@ -256,7 +256,11 @@
     "bulkProgress": "Pagina's worden opgeslagen",
     "bulkCancel": "Annuleren",
     "bulkError": "Download mislukt - probeer het opnieuw",
-    "bulkNoSpace": "Onvoldoende vrije opslagruimte op dit apparaat"
+    "bulkNoSpace": "Onvoldoende vrije opslagruimte op dit apparaat",
+    "pavedRunway": "Verharde baan",
+    "favorites": "Favorieten",
+    "recentlyViewed": "Recent bekeken",
+    "borderCrossing": "Grensoverschrijding"
   },
   "Chart": {
     "title": "Naderingskaart",

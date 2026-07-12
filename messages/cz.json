@@ -221,7 +221,11 @@
     "bulkProgress": "Ukládání stránek",
     "bulkCancel": "Zrušit",
     "bulkError": "Stažení se nezdařilo - zkuste to prosím znovu",
-    "bulkNoSpace": "Nedostatek volného úložiště v tomto zařízení"
+    "bulkNoSpace": "Nedostatek volného úložiště v tomto zařízení",
+    "pavedRunway": "Zpevněná dráha",
+    "favorites": "Oblíbené",
+    "recentlyViewed": "Nedávno zobrazené",
+    "borderCrossing": "Překročení hranice"
   },
   "Chart": {
     "title": "Přibližovací mapa",

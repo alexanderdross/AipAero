@@ -26,6 +26,11 @@ export const airports = createTable(
     icao: text("icao"),
     title: text("title").notNull(),
     url: text("url").notNull(),
+    // Direct link to the exact approach-chart PDF, where the crawler could
+    // capture one (chart-PDF plan Stage 2, docs/chart-pdf-plan.md). Nullable:
+    // sources whose crawler stores an index/frameset page leave it null and
+    // the site falls back to `url` (+ isPdfUrl). Never required.
+    pdfUrl: text("pdf_url"),
     type: text("type", {
       enum: ["vfr", "ifr", "heliport", "mil", "aeroport"],
     }).notNull(),

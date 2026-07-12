@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { AboutCountryBox } from "~/components/about-country-box";
 import { Box } from "~/components/box";
+import { FavoritesRecent } from "~/components/favorites-recent";
 import { Hero } from "~/components/hero";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { SchemaProduct } from "~/components/schemas/schema-product";
@@ -110,6 +111,7 @@ export default async function CountryPage(
   setRequestLocale(locale);
 
   const t = await getTranslations("CountryPage");
+  const tCommon = await getTranslations("Common");
 
   // Cards are data-driven: show whichever type cards this locale's messages
   // define. Each country's CountryPage only carries the cards for the types it
@@ -198,6 +200,16 @@ export default async function CountryPage(
 
       {/* About AIP Box */}
       <AboutCountryBox isH3={true} />
+
+      {/* Personal favorites (offline-saved fields) + recently viewed, from
+          localStorage. Client-only and at the very bottom: it appears after
+          hydration below the fold, so the indexable content above is
+          untouched (no LCP/CLS cost) - SEO pages stay byte-identical for
+          crawlers and first-time visitors. */}
+      <FavoritesRecent
+        favoritesLabel={tCommon("favorites")}
+        recentLabel={tCommon("recentlyViewed")}
+      />
     </>
   );
 }

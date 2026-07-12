@@ -1,9 +1,10 @@
-import { GlobeIcon, MapPinIcon } from "lucide-react";
+import { GlobeIcon, MapPinIcon, StampIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Fragment, type ReactNode } from "react";
 import { ExternalLink } from "~/components/external-link";
 import { SectionHeading } from "~/components/section-heading";
 import type { NormalizedFacts } from "~/lib/airport-facts";
+import { borderCrossingForm } from "~/lib/border-crossing";
 import type { GeoResult } from "~/lib/geocode";
 import type { Airport } from "~/server/db/schema";
 
@@ -70,6 +71,11 @@ export async function AirportContact({
   if (facts?.customs != null)
     rows.push([t("customs"), facts.customs ? t("yes") : t("no")]);
 
+  // National border-crossing form (verified official link, e.g. the UK GAR).
+  // Country-level, not per-field: the UK GAR applies to every international
+  // GA flight to/from the UK regardless of the field's customs designation.
+  const borderForm = borderCrossingForm(airport.country);
+
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <SectionHeading className="text-center text-xl font-normal">
@@ -108,6 +114,18 @@ export async function AirportContact({
           <MapPinIcon className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
           <span>{t("viewOnMap")}</span>
         </ExternalLink>
+        {borderForm && (
+          <ExternalLink
+            href={borderForm.href}
+            hrefTitle={`${t("borderCrossing")} (${borderForm.name})`}
+            className="text-drossblue inline-flex items-center gap-x-1 hover:underline"
+          >
+            <StampIcon className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+            <span>
+              {t("borderCrossing")} ({borderForm.name})
+            </span>
+          </ExternalLink>
+        )}
       </div>
     </section>
   );

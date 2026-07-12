@@ -256,7 +256,11 @@
     "bulkProgress": "Lagrer sider",
     "bulkCancel": "Avbryt",
     "bulkError": "Nedlastingen mislyktes - prøv igjen",
-    "bulkNoSpace": "Ikke nok ledig lagringsplass på denne enheten"
+    "bulkNoSpace": "Ikke nok ledig lagringsplass på denne enheten",
+    "pavedRunway": "Rullebane med fast dekke",
+    "favorites": "Favoritter",
+    "recentlyViewed": "Nylig vist",
+    "borderCrossing": "Grensepassering"
   },
   "Chart": {
     "title": "Innflygingskart",

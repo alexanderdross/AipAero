@@ -170,6 +170,7 @@ export default async function IndexPage(
 async function AirportLists({ locale }: { locale: string }) {
   const t = await getTranslations("AirportsPage");
   const tCommon = await getTranslations("Common");
+  const tWeather = await getTranslations("Weather");
   const country = locale.split("-")[0]!;
 
   const [
@@ -217,6 +218,9 @@ async function AirportLists({ locale }: { locale: string }) {
         locateLabel={tCommon("locate")}
         locateErrorLabel={tCommon("locateError")}
         mapLabel={tCommon("map")}
+        fuelLabel={tWeather("fuel")}
+        customsLabel={tCommon("customs")}
+        pavedLabel={tCommon("pavedRunway")}
       />
       {/* Trade:Aero cross-sell (locale + country aware), placed between the
           map and the listings. */}

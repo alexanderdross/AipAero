@@ -6,6 +6,7 @@ import { AirportContact } from "~/components/airport-contact";
 import { AirportFacts } from "~/components/airport-facts";
 import { AirportNearby } from "~/components/airport-nearby";
 import { AirportWeatherWind } from "~/components/airport-weather-wind";
+import { RecentTracker } from "~/components/recent-tracker";
 import { SchemaAirport } from "~/components/schemas/schema-airport";
 import { SaveOfflineButton } from "~/components/save-offline-button";
 import { SchemaDigitalDocument } from "~/components/schemas/schema-digital-document";
@@ -52,6 +53,12 @@ export async function AirportGadgets({
     getAirportFacts(airport.icao),
     getTranslations("Common"),
   ]);
+
+  // Direct chart PDF (chart-PDF plan Stage 2): prefer the crawler-captured
+  // `pdf_url` where a country's crawler stores an index page as `url`; fall
+  // back to `url` itself when it already points at a PDF (Stage 1 behaviour).
+  const chartPdfUrl =
+    airport.pdfUrl ?? (isPdfUrl(airport.url) ? airport.url : null);
 
   let lat = facts?.lat ?? null;
   let lon = facts?.lon ?? null;
@@ -156,28 +163,31 @@ export async function AirportGadgets({
         hasMap={hasMap}
         additionalProperties={props}
       />
+      {/* Records this view in the localStorage recents index (renders
+          nothing; feeds the "recently viewed" list on the country page). */}
+      <RecentTracker slug={airport.slug} title={airport.title} />
       <div className="flex flex-col gap-4">
         {/* Explicit "save for offline" (PWA Phase 3): pins this page (and a
             direct-PDF chart) in the never-trimmed offline caches. */}
         <SaveOfflineButton
           slug={airport.slug}
           title={airport.title}
-          chartUrl={isPdfUrl(airport.url) ? airport.url : null}
+          chartUrl={chartPdfUrl}
           saveLabel={tCommon("saveOffline")}
           savedLabel={tCommon("savedOffline")}
           installHintLabel={tCommon("installHint")}
           installHintMacLabel={tCommon("installHintMac")}
         />
-        {isPdfUrl(airport.url) && (
+        {chartPdfUrl && (
           <>
-            <AirportChart url={airport.url} />
+            <AirportChart url={chartPdfUrl} />
             {/* Structured-data twin of the chart box: marks the PDF up as a
                 DigitalDocument that is part of this airport page. */}
             <SchemaDigitalDocument
               name={schemaName}
               alternateName={schemaAlternateName}
               description={schemaDescription}
-              url={airport.url}
+              url={chartPdfUrl}
               isPartOfUrl={schemaUrl}
             />
           </>

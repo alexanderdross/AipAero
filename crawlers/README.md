@@ -107,10 +107,14 @@ class Airport(BaseModel):
     icao: str | None
     title: str
     url: str
+    pdf_url: str | None = None  # exact chart PDF, when the source exposes a stable one
     airport_type: Literal["vfr", "ifr", "heliport", "mil", "aeroport"] = Field(alias="type")
 ```
 
-The model lives in `crawlers/crawlers/models.py`. Register the new crawler in `main.py`; output is written by `OutputHandler.write_output(airports, country)`.
+The model lives in `crawlers/crawlers/models.py`. `pdf_url` is optional
+(chart-PDF plan Stage 2, `docs/chart-pdf-plan.md`): set it when the source
+exposes a stable direct-PDF link for the airport's charts; leave it `None`
+otherwise - the website then falls back to `url`. Register the new crawler in `main.py`; output is written by `OutputHandler.write_output(airports, country)`.
 
 A minimal eurocontrol-style crawler looks like:
 

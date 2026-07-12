@@ -97,7 +97,10 @@ The crawlers are an HTTP client with hardcoded, country-specific entry URLs. The
 - `Content-Security-Policy` - sent in **Report-Only** mode for now (allows `'self'`, the AdSense / Google origins, and the Cloudflare Web Analytics beacon; `'unsafe-inline'` on `script-src` covers the inline `<script type="application/ld+json">` JSON-LD blocks until they move to nonces). Promote to an enforcing `Content-Security-Policy` once the report stream is clean.
 - `Strict-Transport-Security` - configurable at the Cloudflare edge (not on by default).
 
-The one remaining step is promoting the CSP from Report-Only to enforcing.
+**Resolved (2026-07-12):** the CSP has been promoted from Report-Only to an
+enforcing `Content-Security-Policy` (AdSense's documented origins incl.
+`*.adtrafficquality.google` allowlisted; `object-src https:` for the
+chart-PDF inline preview embeds; `upgrade-insecure-requests` re-added).
 
 ## Summary
 
@@ -114,7 +117,7 @@ The one remaining step is promoting the CSP from Report-Only to enforcing.
 **Action items, ranked:**
 
 1. ✅ **Fixed.** `searchAirports` country validation tightened to `z.string().length(2)`.
-2. ⚠️ **Partial.** `next.config.mjs` now sends `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and a `Permissions-Policy` denying camera/microphone/geolocation/interest-cohort. **A CSP is now sent in Report-Only mode** (allowing `'self'`, AdSense/Google, and the Cloudflare Web Analytics beacon; `'unsafe-inline'` for the JSON-LD blocks); the remaining work is promoting it to an enforcing `Content-Security-Policy` once the report stream is clean.
+2. ✅ **Done.** `next.config.mjs` sends `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, a `Permissions-Policy` (camera/microphone/interest-cohort denied, `geolocation=(self)` for the map's locate button), and an **enforcing `Content-Security-Policy`** (promoted from Report-Only 2026-07-12; `'unsafe-inline'` on script-src remains for the JSON-LD blocks until a nonce migration).
 3. Bump `cheerio` when a release ships with the patched `undici`.
 4. Document a `CRON_SECRET` rotation runbook in `CLAUDE.md`.
 5. (Optional) Add Upstash Ratelimit on `/api/airports` once the threat model warrants.

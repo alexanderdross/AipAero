@@ -6,10 +6,8 @@ const withAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 
-// Content Security Policy — sent in Report-Only mode for now so violations
-// are reported to the browser console / report-uri but the page still
-// works. Watch for violations from AdSense over the next deploy cycle, then
-// flip the header name to plain `Content-Security-Policy` to enforce.
+// Content Security Policy — ENFORCED (promoted from Report-Only after the
+// report stream came back clean; the pilot-wishlist security item).
 //
 // 'unsafe-inline' on script-src is needed for the inline <script
 // type="application/ld+json"> blocks until those are migrated to nonces.
@@ -19,24 +17,36 @@ const withAnalyzer = withBundleAnalyzer({
 // cloudflareinsights.com, so both origins are allowlisted on script-src /
 // connect-src respectively.
 //
-// `upgrade-insecure-requests` is intentionally omitted: it is ignored in a
-// Report-Only policy (and Chrome logs that as a console error). Re-add it
-// when this policy is promoted to an enforcing `Content-Security-Policy`.
+// AdSense needs, per Google's published CSP guidance for ads: script-src
+// pagead2.googlesyndication.com + tpc.googlesyndication.com +
+// googleads.g.doubleclick.net, frames on googleads.g.doubleclick.net /
+// *.googlesyndication.com, and the *.adtrafficquality.google verification
+// endpoints on script/frame/img/connect. Enforcing without these blanks ad
+// slots (revenue), so they are allowlisted up front, not reactively.
+//
+// object-src: the chart box's inline PDF preview embeds the approach chart
+// from the national AIP hosts via <object> (chart-preview.tsx). Those hosts
+// are many and change per AIRAC cycle, so they cannot be enumerated -
+// `object-src https:` restricts embeds to HTTPS while keeping the preview
+// working. ('none' would silently break it on every detail page.)
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://*.googletagmanager.com",
+  "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://googleads.g.doubleclick.net https://*.adtrafficquality.google https://*.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://*.tile.openstreetmap.org",
+  "img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://*.adtrafficquality.google https://*.tile.openstreetmap.org",
   "font-src 'self' data:",
-  "connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com",
-  "frame-src https://googleads.g.doubleclick.net https://*.googlesyndication.com",
+  "connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.adtrafficquality.google",
+  "frame-src https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  "object-src 'none'",
-  // Offline service worker (public/sw.js) - explicit, so a future enforcing
+  "object-src https:",
+  // Offline service worker (public/sw.js) - explicit, so the enforcing
   // policy cannot silently break SW registration.
   "worker-src 'self'",
+  // Only meaningful in an enforcing policy (ignored + console-noise in
+  // Report-Only, which is why it was omitted before the promotion).
+  "upgrade-insecure-requests",
 ].join('; ');
 
 const securityHeaders = [
@@ -50,9 +60,10 @@ const securityHeaders = [
     // wide, so the button silently fails. camera/microphone stay disabled.
     value: 'camera=(), microphone=(), geolocation=(self), interest-cohort=()',
   },
-  // Report-Only: violations are surfaced but not blocked. Promote to
-  // 'Content-Security-Policy' once the report stream is clean.
-  { key: 'Content-Security-Policy-Report-Only', value: csp },
+  // Enforcing (promoted from Content-Security-Policy-Report-Only). If a
+  // legitimate resource ever gets blocked, extend the allowlist above -
+  // do NOT fall back to Report-Only.
+  { key: 'Content-Security-Policy', value: csp },
 ];
 
 /** @type {import('next').NextConfig} */

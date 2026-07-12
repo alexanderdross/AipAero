@@ -256,7 +256,11 @@
     "bulkProgress": "Sparar sidor",
     "bulkCancel": "Avbryt",
     "bulkError": "Nedladdningen misslyckades - försök igen",
-    "bulkNoSpace": "Inte tillräckligt med ledigt lagringsutrymme på den här enheten"
+    "bulkNoSpace": "Inte tillräckligt med ledigt lagringsutrymme på den här enheten",
+    "pavedRunway": "Belagd bana",
+    "favorites": "Favoriter",
+    "recentlyViewed": "Senast visade",
+    "borderCrossing": "Gränspassage"
   },
   "Chart": {
     "title": "Inflygningskarta",
