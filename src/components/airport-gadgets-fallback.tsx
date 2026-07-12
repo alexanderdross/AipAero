@@ -20,6 +20,9 @@ export function AirportGadgetsFallback() {
           box is omitted on purpose - most fields (e.g. the DE DFS HTML links)
           have none, so reserving for it would over-shoot more often than not. */}
       <div className="flex flex-col gap-4">
+        {/* Mirrors the save-offline row (min-h-6 in save-offline-button.tsx)
+            so the boxes below do not move when the streamed content lands. */}
+        <div className="min-h-6" />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className={`${box} h-64`} />
           <div className={`${box} h-64`} />

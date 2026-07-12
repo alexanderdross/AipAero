@@ -377,7 +377,7 @@ New i18n namespaces backing these - `Weather` (incl. `decode`, `openingHours`), 
 - **Custom colors**:
   - `drossblue`: `#2d6a9a` (primary brand color), light: `#4084b8`
   - `drossgray`: `#f0f2f2` (background), dark: `#626262`
-- **Font**: Inter via `next/font/google` (`src/lib/fonts.ts` - self-hosted/inlined, `--font-sans` variable, `display: "swap"`, `preload: false` to keep the woff2 off the critical path); Tahoma, Verdana as fallback stack
+- **Font**: Inter via `next/font/google` (`src/lib/fonts.ts` - self-hosted/inlined, `--font-sans` variable, `preload: false` to keep the woff2 off the critical path, **`display: "optional"`** - NOT "swap": without a preload the woff2 arrives seconds after first paint and the late swap re-wrapped wrap-heavy lines, measured 2026-07-12 as the dominant live CLS source (0.36 on the EDDF detail page). With `optional`, cold-cache visits keep next/font's metric-adjusted fallback with zero late reflow; repeat visits render Inter from cache); Tahoma, Verdana as fallback stack
 - **CSS delivery**: `experimental.inlineCss: true` in `next.config.mjs` - each page's CSS is inlined as a `<style>` in `<head>` instead of external stylesheet links. Removes the render-blocking CSS round trip AND structurally eliminates "resource was preloaded but not used" console warnings from route prefetching (there is no external CSS file to preload). ~10 KiB gzipped per document is fine now that heavy data (map markers) is no longer serialised into SSR - keep it enabled.
 - **shadcn/ui**: new-york style, Radix UI primitives, Lucide icons (`lucide-react` pinned to `^1.21.0` - verify icon names by import before using)
 - **CSS Variables**: Used for shadcn theme tokens (background, foreground, etc.)

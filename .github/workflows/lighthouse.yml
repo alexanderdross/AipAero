@@ -17,6 +17,11 @@ on:
         description: "Base URL of the deployed site to audit (no trailing slash), e.g. https://aip-aero.<subdomain>.workers.dev"
         required: true
         type: string
+      paths:
+        description: "Optional space-separated path list overriding the default page set (trailing-slash canonical form, e.g. '/uk/ /de/vfr/?EDNY')"
+        required: false
+        type: string
+        default: ""
 
 concurrency:
   group: lighthouse-${{ github.workflow }}-${{ github.ref }}
@@ -52,24 +57,33 @@ jobs:
           apt-get install -y --no-install-recommends /tmp/chrome.deb
           rm /tmp/chrome.deb
 
+      - name: Build URL list
+        id: urls
+        env:
+          BASE_URL: ${{ inputs.base_url }}
+          PATHS: ${{ inputs.paths }}
+        # Default: representative URLs across locales and page types (keep the
+        # list small - each URL adds ~15-30s). The `paths` input overrides it
+        # for one-off broader audits. Trailing slashes: the site sets
+        # `trailingSlash: true`, so the slashless form 308-redirects -
+        # auditing it would charge the redirect hop against the perf score.
+        run: |
+          if [ -z "$PATHS" ]; then
+            PATHS="/uk/ /uk/vfr/ /de/ /de/ifr/ /de/flughafen-liste-deutschland/"
+          fi
+          {
+            echo "list<<EOF"
+            for p in $PATHS; do echo "${BASE_URL}${p}"; done
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Run Lighthouse
         uses: treosh/lighthouse-ci-action@v12
         id: lhci
         env:
           CHROME_PATH: /usr/bin/google-chrome-stable
         with:
-          # A handful of representative URLs across locales and page types.
-          # Keep this list small — each URL adds ~30s and the action runs
-          # three Lighthouse passes per URL to median out variance.
-          # Trailing slashes: the site sets `trailingSlash: true`, so the
-          # slashless form 308-redirects - auditing it would charge the
-          # redirect hop against the performance score.
-          urls: |
-            ${{ inputs.base_url }}/uk/
-            ${{ inputs.base_url }}/uk/vfr/
-            ${{ inputs.base_url }}/de/
-            ${{ inputs.base_url }}/de/ifr/
-            ${{ inputs.base_url }}/de/flughafen-liste-deutschland/
+          urls: ${{ steps.urls.outputs.list }}
           configPath: ./.lighthouserc.cjs
           uploadArtifacts: true
           temporaryPublicStorage: true

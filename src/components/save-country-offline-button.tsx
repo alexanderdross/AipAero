@@ -105,8 +105,6 @@ export function SaveCountryOfflineButton({
     setSaved(readIndex()[locale] ?? null);
   }, [locale]);
 
-  if (!supported) return null;
-
   async function download() {
     cancelRef.current = false;
     setBusy(true);
@@ -233,8 +231,12 @@ export function SaveCountryOfflineButton({
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-6 text-center text-sm sm:px-6 lg:px-8">
-      {busy && progress ? (
+    // Rendered from SSR on with a reserved row height; the interactive content
+    // mounts after hydration. Returning null until mounted inserted the row
+    // post-hydration and shifted the airport list below it (CLS) - same fix
+    // as the per-field save button.
+    <div className="mx-auto min-h-6 max-w-7xl px-4 pb-6 text-center text-sm sm:px-6 lg:px-8">
+      {!supported ? null : busy && progress ? (
         <p className="text-drossgray-dark inline-flex items-center gap-x-2">
           <span>
             {progressLabel} {progress.done}/{progress.total}
