@@ -80,12 +80,14 @@ async function handleCoords(request: Request): Promise<NextResponse> {
       lon: a.lon!,
       href:
         getPathname({ href: i18nPathMapping[a.type], locale }) + `?${a.slug}`,
-      // Facts flags for the map filters, reduced to booleans server-side so
-      // the payload stays a few bytes per marker. false = "not known to have
-      // it" (facts may simply be missing), never a verified negative.
-      fuel: hasFuel(a.fuel),
-      customs: a.customs === true,
-      paved: hasPavedRunway(a.runways),
+      // Facts flags for the map filters, reduced to booleans server-side and
+      // OMITTED when false: an absent key reads as falsy in the map's filter
+      // check, and serialising `"fuel":false,...` on every marker would add
+      // ~40 bytes x hundreds of markers (~30 KB on DE) for no information -
+      // false only means "not known to have it", never a verified negative.
+      ...(hasFuel(a.fuel) && { fuel: true }),
+      ...(a.customs === true && { customs: true }),
+      ...(hasPavedRunway(a.runways) && { paved: true }),
     }));
 
   return NextResponse.json(markers, {

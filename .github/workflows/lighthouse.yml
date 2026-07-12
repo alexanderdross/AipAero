@@ -33,6 +33,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.0
 
+      # Node 22 before the Lighthouse action: current Lighthouse uses
+      # `import ... with { type: 'json' }`, which the runner's default Node 18
+      # cannot parse (SyntaxError: Unexpected token 'with') - same reason
+      # ci.yml's lighthouse job pins Node first.
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
       - name: Install Chrome for Lighthouse
         # The self-hosted runner (ubuntu-noble) ships no browser and Ubuntu's
         # `chromium` is snap-only, so install Chrome from the official .deb.
@@ -52,11 +61,15 @@ jobs:
           # A handful of representative URLs across locales and page types.
           # Keep this list small — each URL adds ~30s and the action runs
           # three Lighthouse passes per URL to median out variance.
+          # Trailing slashes: the site sets `trailingSlash: true`, so the
+          # slashless form 308-redirects - auditing it would charge the
+          # redirect hop against the performance score.
           urls: |
-            ${{ inputs.base_url }}/uk
-            ${{ inputs.base_url }}/uk/vfr
-            ${{ inputs.base_url }}/de
-            ${{ inputs.base_url }}/de/ifr
+            ${{ inputs.base_url }}/uk/
+            ${{ inputs.base_url }}/uk/vfr/
+            ${{ inputs.base_url }}/de/
+            ${{ inputs.base_url }}/de/ifr/
+            ${{ inputs.base_url }}/de/flughafen-liste-deutschland/
           configPath: ./.lighthouserc.cjs
           uploadArtifacts: true
           temporaryPublicStorage: true

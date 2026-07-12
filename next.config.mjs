@@ -33,7 +33,7 @@ const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://googleads.g.doubleclick.net https://*.adtrafficquality.google https://*.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://*.adtrafficquality.google https://*.tile.openstreetmap.org",
+  "img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.tile.openstreetmap.org",
   "font-src 'self' data:",
   "connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.adtrafficquality.google",
   "frame-src https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google",
