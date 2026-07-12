@@ -27,7 +27,6 @@
   },
   "Menu": {
     "label": "Menu",
-    "close": "Close",
     "home": {
       "title": "AIP Denmark",
       "hrefTitle": "AIP Denmark"

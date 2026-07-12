@@ -31,7 +31,6 @@
   },
   "Menu": {
     "label": "Menü",
-    "close": "Schließen",
     "home": {
       "title": "AIP Deutschland",
       "hrefTitle": "AIP Deutschland"

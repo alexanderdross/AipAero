@@ -1,38 +1,43 @@
 import { getTranslations } from "next-intl/server";
 import { navItems } from "~/lib/nav-items";
-import { MobileNavDialog } from "./mobile-nav-dialog";
 import { NavLink } from "./nav-link";
 
 /**
- * Mobile navigation. Server component: the link list is real SSR HTML (inside
- * the closed native `<dialog>` - see MobileNavDialog), so crawlers see the
- * nav under mobile-first indexing and no Menu messages ship to the client.
- * Rows are full-width, min-h-12 tap targets with dividers; the active page is
- * marked via aria-current (NavLink).
+ * Mobile navigation as a horizontally scrollable pill bar below the sticky
+ * header row (replaces the former hamburger + dialog: zero dialog JS, one
+ * less tap, and every destination is immediately visible instead of hidden
+ * behind an icon). Server component - the links are plain SSR HTML in the
+ * document flow (mobile-first indexing sees a real always-visible `<nav>`),
+ * the only hydrated part is NavLink's aria-current active state. The bar
+ * scrolls away with the page on purpose: keeping it sticky would cost
+ * ~50px of every mobile viewport permanently. Countries have 3-6 entries;
+ * overflow scrolls horizontally (scrollbar hidden, partial pill peeks as
+ * the affordance).
  */
 export async function MobileNav() {
   const t = await getTranslations("Menu");
 
   return (
-    <MobileNavDialog label={t("label")} closeLabel={t("close")}>
-      <nav aria-label={t("label")}>
-        <ul className="divide-border divide-y">
-          {navItems.map(
-            (item) =>
-              t.has(`${item.key}.title`) && (
-                <li key={item.key}>
-                  <NavLink
-                    title={t(`${item.key}.hrefTitle`)}
-                    href={item.href}
-                    className="text-drossgray-dark aria-[current=page]:text-drossblue flex min-h-12 items-center px-6 text-base aria-[current=page]:font-semibold"
-                  >
-                    {t(`${item.key}.title`)}
-                  </NavLink>
-                </li>
-              ),
-          )}
-        </ul>
-      </nav>
-    </MobileNavDialog>
+    <nav
+      aria-label={t("label")}
+      className="border-grid [scrollbar-width:none] overflow-x-auto border-b bg-white lg:hidden [&::-webkit-scrollbar]:hidden"
+    >
+      <ul className="mx-auto flex w-max max-w-7xl min-w-full gap-2 px-4 py-2 sm:px-6">
+        {navItems.map(
+          (item) =>
+            t.has(`${item.key}.title`) && (
+              <li key={item.key}>
+                <NavLink
+                  title={t(`${item.key}.hrefTitle`)}
+                  href={item.href}
+                  className="text-foreground/80 aria-[current=page]:border-drossblue aria-[current=page]:bg-drossblue flex min-h-10 items-center rounded-full border px-3 text-sm whitespace-nowrap aria-[current=page]:font-semibold aria-[current=page]:text-white"
+                >
+                  {t(`${item.key}.title`)}
+                </NavLink>
+              </li>
+            ),
+        )}
+      </ul>
+    </nav>
   );
 }

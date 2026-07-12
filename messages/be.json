@@ -35,7 +35,6 @@
   },
   "Menu": {
     "label": "Menu",
-    "close": "Close",
     "home": {
       "title": "AIP Belgium",
       "hrefTitle": "AIP Belgium & Luxembourg"

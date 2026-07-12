@@ -27,7 +27,6 @@
   },
   "Menu": {
     "label": "Menü",
-    "close": "Schließen",
     "home": {
       "title": "AIP Österreich",
       "hrefTitle": "AIP Österreich"
