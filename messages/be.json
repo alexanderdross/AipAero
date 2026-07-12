@@ -326,7 +326,11 @@
     "bulkProgress": "Saving pages",
     "bulkCancel": "Cancel",
     "bulkError": "Download failed - please try again",
-    "bulkNoSpace": "Not enough free storage on this device"
+    "bulkNoSpace": "Not enough free storage on this device",
+    "pavedRunway": "Paved runway",
+    "favorites": "Favourites",
+    "recentlyViewed": "Recently viewed",
+    "borderCrossing": "Border crossing"
   },
   "Chart": {
     "title": "Approach chart",

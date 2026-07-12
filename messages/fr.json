@@ -256,7 +256,11 @@
     "bulkProgress": "Enregistrement des pages",
     "bulkCancel": "Annuler",
     "bulkError": "Échec du téléchargement - veuillez réessayer",
-    "bulkNoSpace": "Espace de stockage insuffisant sur cet appareil"
+    "bulkNoSpace": "Espace de stockage insuffisant sur cet appareil",
+    "pavedRunway": "Piste revêtue",
+    "favorites": "Favoris",
+    "recentlyViewed": "Consultés récemment",
+    "borderCrossing": "Passage frontalier"
   },
   "Chart": {
     "title": "Carte d'approche",

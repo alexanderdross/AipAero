@@ -1,0 +1,108 @@
+"use client";
+
+import { HistoryIcon, StarIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import type { RecentEntry } from "~/components/recent-tracker";
+
+// Index keys shared with save-offline-button.tsx (favorites = the explicitly
+// saved fields, per the PWA concept: one implementation for both) and
+// recent-tracker.tsx.
+const SAVED_KEY = "aip-offline-saved";
+const RECENT_KEY = "aip-recently-viewed";
+const SHOW_MAX = 8;
+
+interface LinkEntry {
+  url: string;
+  title: string;
+}
+
+function readEntries(key: string): LinkEntry[] {
+  try {
+    const raw = localStorage.getItem(key);
+    const parsed = raw ? (JSON.parse(raw) as RecentEntry[]) : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((e) => e && typeof e.url === "string")
+      .map((e) => ({ url: e.url, title: e.title || e.url }));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Personal "Favorites" (the offline-saved fields) and "Recently viewed" lists
+ * from localStorage (pilot-wishlist item; no account needed). Client-only by
+ * nature - the data is personal and must never be in the indexable SSR HTML.
+ * Web-performance guard rails: rendered at the very bottom of the page
+ * (below the about box), so the post-hydration appearance happens below the
+ * fold for virtually all viewports (no LCP/CLS impact on the indexable
+ * content above); renders nothing for first-time visitors.
+ */
+export function FavoritesRecent({
+  favoritesLabel,
+  recentLabel,
+}: {
+  favoritesLabel: string;
+  recentLabel: string;
+}) {
+  const [favorites, setFavorites] = useState<LinkEntry[]>([]);
+  const [recent, setRecent] = useState<LinkEntry[]>([]);
+
+  useEffect(() => {
+    const favs = readEntries(SAVED_KEY).slice(0, SHOW_MAX);
+    const favUrls = new Set(favs.map((f) => f.url));
+    setFavorites(favs);
+    // Recents exclude fields already shown as favorites - one row per field.
+    setRecent(
+      readEntries(RECENT_KEY)
+        .filter((e) => !favUrls.has(e.url))
+        .slice(0, SHOW_MAX),
+    );
+  }, []);
+
+  if (favorites.length === 0 && recent.length === 0) return null;
+
+  const section = (
+    label: string,
+    entries: LinkEntry[],
+    icon: React.ReactNode,
+  ) =>
+    entries.length > 0 && (
+      <section>
+        <h2 className="inline-flex items-center gap-x-1 text-base font-medium">
+          {icon}
+          <span>{label}</span>
+        </h2>
+        <ul className="mt-1">
+          {entries.map((e) => (
+            <li key={e.url}>
+              <a
+                href={e.url}
+                title={e.title}
+                className="text-drossblue inline-block py-0.5 hover:underline"
+              >
+                {e.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 pt-8 pb-4 text-sm sm:px-6 lg:px-8">
+      <div className="flex flex-wrap justify-center gap-x-16 gap-y-6 text-left">
+        {section(
+          favoritesLabel,
+          favorites,
+          <StarIcon className="size-4 flex-shrink-0" aria-hidden="true" />,
+        )}
+        {section(
+          recentLabel,
+          recent,
+          <HistoryIcon className="size-4 flex-shrink-0" aria-hidden="true" />,
+        )}
+      </div>
+    </div>
+  );
+}

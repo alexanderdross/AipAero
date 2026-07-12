@@ -291,7 +291,11 @@
     "bulkProgress": "Seiten werden gespeichert",
     "bulkCancel": "Abbrechen",
     "bulkError": "Download fehlgeschlagen - bitte erneut versuchen",
-    "bulkNoSpace": "Nicht genügend freier Speicherplatz auf diesem Gerät"
+    "bulkNoSpace": "Nicht genügend freier Speicherplatz auf diesem Gerät",
+    "pavedRunway": "Befestigte Piste",
+    "favorites": "Favoriten",
+    "recentlyViewed": "Zuletzt angesehen",
+    "borderCrossing": "Grenzübertritt"
   },
   "Chart": {
     "title": "Anflugkarte",

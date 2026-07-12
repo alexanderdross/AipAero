@@ -98,6 +98,9 @@ class OutputHandler:
                 "icao": a.icao if a.icao else None,
                 "title": a.title,
                 "url": a.url,
+                # Key matches the Drizzle column property (`pdfUrl`), which the
+                # API's drizzle-zod schema validates against.
+                "pdfUrl": a.pdf_url,
                 "type": a.airport_type,
                 "country": country.upper(),
             }

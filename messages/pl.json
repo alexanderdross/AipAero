@@ -256,7 +256,11 @@
     "bulkProgress": "Zapisywanie stron",
     "bulkCancel": "Anuluj",
     "bulkError": "Pobieranie nie powiodło się - spróbuj ponownie",
-    "bulkNoSpace": "Za mało wolnego miejsca na tym urządzeniu"
+    "bulkNoSpace": "Za mało wolnego miejsca na tym urządzeniu",
+    "pavedRunway": "Utwardzony pas",
+    "favorites": "Ulubione",
+    "recentlyViewed": "Ostatnio przeglądane",
+    "borderCrossing": "Przekroczenie granicy"
   },
   "Chart": {
     "title": "Mapa podejścia",

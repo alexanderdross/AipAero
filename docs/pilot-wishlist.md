@@ -33,18 +33,26 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
   for: **how to request PPR** (contact / procedure).
 - ~~**Crosswind / headwind component** per runway from the reported wind, with a compass diagram -
   **shipped** (§C).~~
-- **Customs / Airport-of-Entry** flag + national border-crossing form links (UK **GAR**, etc.).
+- ~~**Customs / Airport-of-Entry** flag + national border-crossing form links (UK **GAR**, etc.) -
+  **shipped** (§C): the customs flag renders on the contact box (OpenAIP), and verified national
+  border-crossing form links render per country (`src/lib/border-crossing.ts`; UK GAR first).~~
+  Still wished for: form links for further countries as they are verified.
 - ~~**Weather**: decoded **METAR / TAF** with a per-report decode tab, plus sunrise / sunset + civil
   twilight (VFR night) - **shipped** (§C).~~
 - ~~**Map + "airports near me"** (OpenStreetMap tiles) - **shipped** (§C): a Leaflet map on the
-  airport-list page with a "locate me" button.~~ Still wished for: filter by fuel / customs / hard runway.
+  airport-list page with a "locate me" button, now with **filters** for fuel / customs / paved
+  runway (facts-driven toggles).~~
 - ~~**Deep link to the exact chart PDF** (+ inline preview) instead of the AIP index page - **partially
   shipped**: where the crawler URL already points at a PDF, the detail page shows a chart box with a
-  direct "open PDF" link, a lazy on-click inline preview and DigitalDocument JSON-LD.~~ Still wished
-  for: exact-PDF URLs for the countries whose crawler stores an index page (see `docs/chart-pdf-plan.md`).
+  direct "open PDF" link, a lazy on-click inline preview and DigitalDocument JSON-LD. The Stage-2
+  plumbing (nullable `pdf_url` column + crawler model + API + display preference) is in place.~~
+  Still wished for: the per-country crawler extraction of exact-PDF URLs for sources that store an
+  index page (see `docs/chart-pdf-plan.md`; needs live-source validation on the runner).
 - ~~**Chart currency indicator** - a "last updated" date shipped (§C); true per-country AIRAC freshness
   now shipped too (a real per-country crawl timestamp via the `crawl_meta` table).~~
-- **Favorites / recently viewed** (localStorage - no account needed).
+- ~~**Favorites / recently viewed** (localStorage - no account needed) - **shipped** (§C): favorites
+  are the offline-saved fields (one implementation, per the PWA concept), recents are tracked on
+  detail-page views; both listed on the country landing page.~~
 - ~~**Cross-country unified search** - one box across every country - **shipped** (§C).~~
 - **More countries**: CH, IT, ES, ... beyond the current 12.
 - **EFB / tool hand-offs**: deep links to SkyDemon, ForeFlight, autorouter, Windy, OpenAIP, national
@@ -58,7 +66,7 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
 | --- | --- | --- |
 | ~~Search scope~~ | ~~Per-country search matches `title`/`icao` only; a cross-country global search now exists on the root~~ **done** | `server/actions.ts`, `queries.ts` |
 | ~~Coordinates~~ | ~~Stored per ICAO in `airport_facts` (OurAirports importer); resolved at request time when absent~~ **done** | `server/db/schema.ts` |
-| Security | CSP still in Report-Only mode (not enforced) | `next.config.mjs` |
+| ~~Security~~ | ~~CSP still in Report-Only mode~~ **enforced** (AdSense + adtrafficquality origins allowlisted, `object-src https:` for the chart-PDF embeds) | `next.config.mjs` |
 
 Note: the Product-schema `aggregateRating` (4.9 / 247) is a **deliberate SEO choice the owner wants
 kept** - left as-is on purpose.
@@ -66,6 +74,19 @@ kept** - left as-is on purpose.
 ---
 
 ## C. Shipped
+
+**Wishlist batch 2026-07-12.** **Favorites / recently viewed** (favorites = the offline-saved
+fields via the existing `aip-offline-saved` index, recents tracked client-side in
+`aip-recently-viewed`; both rendered as a client-only section at the bottom of the country landing
+page - below the fold, so the indexable SSR content and CLS/LCP stay untouched). **Map filters**
+(fuel / customs / paved runway) on the airport-list Leaflet map - facts-driven boolean flags computed
+server-side in `/api/airport-coords`, AND-combined toggles in the map's existing control row,
+markers redrawn in a layer group (no map/tile teardown per toggle). **Border-crossing form links**
+(`src/lib/border-crossing.ts` - verified official links only; UK GAR on every UK detail page's
+contact box). **Chart-PDF Stage-2 plumbing** (`pdf_url` column + crawler model + API + display
+preference; per-country extraction still open, see `docs/chart-pdf-plan.md`). **CSP enforced**
+(promoted from Report-Only; AdSense/adtrafficquality origins allowlisted up front, `object-src
+https:` keeps the chart-PDF inline preview working).
 
 **First batch (low-hanging fruits).** French live search fixed (`mil`/`aeroport` in the search enum);
 ICAO column searched directly; the unused debounce wired up; mobile nav shows Aéroports & Militaire;
@@ -138,9 +159,9 @@ Prioritize countries with the strongest Trade:Aero market activity for cross-sel
 ~~Facts (elevation / runways / frequencies / opening hours) merge OurAirports (CC0) + OpenAIP; the map
 (§C) uses Leaflet + OpenStreetMap tiles with the SSR airport list as the fallback.~~ OpenAIP caveat still
 stands for the optional enrichment: community-sourced, needs a key, licence typically **non-commercial
-(CC BY-NC-SA)** - clear before an AdSense-funded launch. Still open on top of this: **fuel (AVGAS /
-JET-A1), PPR flag + contact, circuit direction** (all best-effort from OpenAIP), map **filters**, and
-**customs / Airport-of-Entry** flags from AIP GEN 1.2 / national data.
+(CC BY-NC-SA)** - clear before an AdSense-funded launch. ~~Still open on top of this: fuel / PPR /
+circuit direction, map filters, customs flags~~ - all shipped (§C); customs sourcing beyond OpenAIP
+(AIP GEN 1.2 / national data) remains a possible refinement.
 
 ### 3. ~~Sunrise / sunset + civil twilight (VFR night)~~ - **shipped**
 ~~`src/lib/sun-times.ts` computes rise/set + civil twilight locally (no key, server-side) from the field
@@ -156,7 +177,9 @@ coordinates (facts row, else the METAR station), shown in the aerodrome-data box
   is already a PDF.)** Still open: exact-PDF URLs for index-page countries (`docs/chart-pdf-plan.md`).
 - ~~**Per-country AIRAC / crawl freshness** - a real per-country crawl timestamp.~~ **(shipped -
   `crawl_meta` + `QUERIES.crawlUpdatedAt`.)**
-- **Customs / Airport-of-Entry** flag + national border-crossing forms.
-- **Favorites / recently viewed** (localStorage).
+- ~~**Customs / Airport-of-Entry** flag + national border-crossing forms.~~ **(shipped - customs flag
+  on the contact box; verified form links via `border-crossing.ts`, UK GAR first.)** Still open:
+  verify + add form links for further countries.
+- ~~**Favorites / recently viewed** (localStorage).~~ **(shipped.)**
 - **More countries** (CH, IT, ES, ...).
-- **Enforce CSP** (currently `Content-Security-Policy-Report-Only`).
+- ~~**Enforce CSP**.~~ **(shipped - enforcing `Content-Security-Policy` in `next.config.mjs`.)**

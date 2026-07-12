@@ -11,7 +11,19 @@ export interface MapMarker {
   type: AirportCoord["type"];
   lat: number;
   lon: number;
+  // Facts flags for the filters (computed server-side in /api/airport-coords).
+  // Optional: cached marker responses from before the filters existed lack
+  // them - the toggles then simply stay hidden until the cache refreshes.
+  fuel?: boolean;
+  customs?: boolean;
+  paved?: boolean;
 }
+
+// Filter keys, AND-combined: an enabled filter keeps only markers that are
+// KNOWN to have the attribute (facts may be missing - false is "unknown", so
+// filtering is conservative, never asserting a negative).
+type FilterKey = "fuel" | "customs" | "paved";
+const FILTER_KEYS: FilterKey[] = ["fuel", "customs", "paved"];
 
 // Marker colour by type - matches the flight-category / brand palette and clears
 // contrast on the light OSM tiles.
@@ -51,17 +63,31 @@ export function AirportMap({
   locateLabel,
   locateErrorLabel,
   mapLabel,
+  fuelLabel,
+  customsLabel,
+  pavedLabel,
 }: {
   locale: string;
   locateLabel: string;
   locateErrorLabel: string;
   mapLabel: string;
+  fuelLabel: string;
+  customsLabel: string;
+  pavedLabel: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const layerRef = useRef<L.LayerGroup | null>(null);
+  const leafletRef = useRef<typeof L | null>(null);
   const [locateError, setLocateError] = useState<string | null>(null);
   const [markers, setMarkers] = useState<MapMarker[] | null>(null);
   const [inView, setInView] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
+  const [filters, setFilters] = useState<Record<FilterKey, boolean>>({
+    fuel: false,
+    customs: false,
+    paved: false,
+  });
 
   useEffect(() => {
     let active = true;
@@ -129,37 +155,54 @@ export function AirportMap({
       if (cancelled || !containerRef.current || mapRef.current) return;
       const map = LL.map(containerRef.current, { scrollWheelZoom: false });
       mapRef.current = map;
+      leafletRef.current = LL;
       LL.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 18,
       }).addTo(map);
+      // Markers live in their own layer group so the filter toggles can
+      // redraw them without tearing down the map (tiles would reload).
+      layerRef.current = LL.layerGroup().addTo(map);
 
-      const points: [number, number][] = [];
-      for (const m of markers) {
-        const color = COLOR[m.type] ?? "#525252";
-        LL.circleMarker([m.lat, m.lon], {
-          radius: 6,
-          weight: 2,
-          color,
-          fillColor: color,
-          fillOpacity: 0.7,
-        })
-          .bindPopup(
-            `<a href="${escapeHtml(m.href)}">${escapeHtml(m.title)}</a>`,
-          )
-          .addTo(map);
-        points.push([m.lat, m.lon]);
-      }
+      // Frame ALL of the country's fields once - filter toggles later change
+      // the visible markers but never the framing (a jumping viewport on each
+      // toggle would be disorienting).
+      const points: [number, number][] = markers.map((m) => [m.lat, m.lon]);
       if (points.length)
         map.fitBounds(points, { padding: [30, 30], maxZoom: 11 });
+      setMapReady(true);
     })();
     return () => {
       cancelled = true;
+      setMapReady(false);
+      layerRef.current = null;
       mapRef.current?.remove();
       mapRef.current = null;
     };
   }, [markers, inView]);
+
+  // (Re)draw the marker layer - on init and whenever a filter toggles.
+  useEffect(() => {
+    const LL = leafletRef.current;
+    const layer = layerRef.current;
+    if (!mapReady || !LL || !layer || !markers) return;
+    layer.clearLayers();
+    const active = FILTER_KEYS.filter((k) => filters[k]);
+    for (const m of markers) {
+      if (!active.every((k) => m[k])) continue;
+      const color = COLOR[m.type] ?? "#525252";
+      LL.circleMarker([m.lat, m.lon], {
+        radius: 6,
+        weight: 2,
+        color,
+        fillColor: color,
+        fillOpacity: 0.7,
+      })
+        .bindPopup(`<a href="${escapeHtml(m.href)}">${escapeHtml(m.title)}</a>`)
+        .addTo(layer);
+    }
+  }, [mapReady, markers, filters]);
 
   async function handleLocate() {
     if (
@@ -202,9 +245,38 @@ export function AirportMap({
   // While still loading (markers === null) the container below reserves height.
   if (markers !== null && markers.length === 0) return null;
 
+  // Show a filter toggle only when at least one field is known to have the
+  // attribute - a filter that can only ever empty the map is noise (also
+  // hides the toggles for cached pre-filter marker responses without flags).
+  const filterLabels: Record<FilterKey, string> = {
+    fuel: fuelLabel,
+    customs: customsLabel,
+    paved: pavedLabel,
+  };
+  const availableFilters = FILTER_KEYS.filter((k) =>
+    (markers ?? []).some((m) => m[k]),
+  );
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="mb-2 flex items-center justify-end gap-x-3">
+      {/* Filters + locate share the existing control row (flex-wrap on narrow
+          screens), so the toggles add no reserved layout height / CLS. */}
+      <div className="mb-2 flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
+        {availableFilters.map((key) => (
+          <button
+            key={key}
+            type="button"
+            aria-pressed={filters[key]}
+            onClick={() => setFilters((f) => ({ ...f, [key]: !f[key] }))}
+            className={
+              filters[key]
+                ? "bg-drossblue rounded-full border border-transparent px-3 py-0.5 text-sm text-white"
+                : "text-drossblue border-drossgray-dark/30 hover:border-drossblue rounded-full border bg-white px-3 py-0.5 text-sm"
+            }
+          >
+            {filterLabels[key]}
+          </button>
+        ))}
         {locateError && (
           <span role="alert" className="text-sm text-red-700">
             {locateError}
