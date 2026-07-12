@@ -127,7 +127,7 @@
     },
     "airportListCard": {
       "title": "Flughafen Liste",
-      "description": "Alle Flugplätze/ Flughäfen in Österreich im Überblick",
+      "description": "Alle Flugplätze/ Flughäfen in Österreich im Überblick - mit Offline-Download, Zoll- und Fuel-Infos",
       "buttonTitle": "Flughafen Liste",
       "buttonHref": "/at/flughafen-liste-oesterreich/",
       "buttonHrefTitle": "Flughafen Liste Österreich"
@@ -265,6 +265,7 @@
     "bulkCancel": "Abbrechen",
     "bulkError": "Download fehlgeschlagen - bitte erneut versuchen",
     "bulkNoSpace": "Nicht genügend freier Speicherplatz auf diesem Gerät",
+    "bulkScope": "Enthalten: alle Flugplatz-Seiten mit Flugplatzdaten. Nicht enthalten: Anflugkarten-PDFs (einzeln pro Flugplatz speicherbar) und Live-Wetter (benötigt Internet).",
     "pavedRunway": "Befestigte Piste",
     "favorites": "Favoriten",
     "recentlyViewed": "Zuletzt angesehen",

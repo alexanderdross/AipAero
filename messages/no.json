@@ -127,7 +127,7 @@
     },
     "airportListCard": {
       "title": "Flyplassliste",
-      "description": "Oversikt over alle flyplasser i Norge",
+      "description": "Oversikt over alle flyplasser i Norge - med offline nedlasting, toll- og drivstoffinfo",
       "buttonTitle": "Flyplassliste",
       "buttonHref": "/no/flyplasser-norge/",
       "buttonHrefTitle": "Liste over flyplasser i Norge"
@@ -265,6 +265,7 @@
     "bulkCancel": "Avbryt",
     "bulkError": "Nedlastingen mislyktes - prøv igjen",
     "bulkNoSpace": "Ikke nok ledig lagringsplass på denne enheten",
+    "bulkScope": "Inkludert: alle flyplassider med flyplassdata. Ikke inkludert: PDF-er med innflygingskart (kan lagres per flyplass) og live-vær (krever tilkobling).",
     "pavedRunway": "Rullebane med fast dekke",
     "favorites": "Favoritter",
     "recentlyViewed": "Nylig vist",

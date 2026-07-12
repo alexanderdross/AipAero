@@ -127,7 +127,7 @@
     },
     "airportListCard": {
       "title": "Luchthavenlijst",
-      "description": "Alle vliegvelden/luchthavens in Nederland op een rij",
+      "description": "Alle vliegvelden/luchthavens in Nederland op een rij - met offline download, douane- en brandstofinfo",
       "buttonTitle": "Luchthavenlijst",
       "buttonHref": "/nl/luchthavenlijst-nederland/",
       "buttonHrefTitle": "Luchthavenlijst Nederland"
@@ -265,6 +265,7 @@
     "bulkCancel": "Annuleren",
     "bulkError": "Download mislukt - probeer het opnieuw",
     "bulkNoSpace": "Onvoldoende vrije opslagruimte op dit apparaat",
+    "bulkScope": "Inbegrepen: alle vliegveldpagina's met luchtvaartgegevens. Niet inbegrepen: PDF's van aanvliegkaarten (per vliegveld op te slaan) en live weer (verbinding vereist).",
     "pavedRunway": "Verharde baan",
     "favorites": "Favorieten",
     "recentlyViewed": "Recent bekeken",

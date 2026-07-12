@@ -127,7 +127,7 @@
     },
     "airportListCard": {
       "title": "Flygplatslista",
-      "description": "Alla flygplatser i Sverige i överblick",
+      "description": "Alla flygplatser i Sverige i överblick - med offline-nedladdning, tull- och bränsleinfo",
       "buttonTitle": "Flygplatslista",
       "buttonHref": "/se/flygplatser-sverige/",
       "buttonHrefTitle": "Lista över flygplatser i Sverige"
@@ -265,6 +265,7 @@
     "bulkCancel": "Avbryt",
     "bulkError": "Nedladdningen misslyckades - försök igen",
     "bulkNoSpace": "Inte tillräckligt med ledigt lagringsutrymme på den här enheten",
+    "bulkScope": "Ingår: alla flygplatssidor med flygplatsdata. Ingår inte: PDF:er med inflygningskartor (kan sparas per flygplats) och live-väder (kräver anslutning).",
     "pavedRunway": "Belagd bana",
     "favorites": "Favoriter",
     "recentlyViewed": "Senast visade",

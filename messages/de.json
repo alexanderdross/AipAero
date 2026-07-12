@@ -162,7 +162,7 @@
     },
     "airportListCard": {
       "title": "Flughafen Liste",
-      "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick",
+      "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick - mit Offline-Download, Zoll- und Fuel-Infos",
       "buttonTitle": "Flughafen Liste",
       "buttonHref": "/de/flughafen-liste-deutschland/",
       "buttonHrefTitle": "Liste der Flughäfen Deutschland"
@@ -300,6 +300,7 @@
     "bulkCancel": "Abbrechen",
     "bulkError": "Download fehlgeschlagen - bitte erneut versuchen",
     "bulkNoSpace": "Nicht genügend freier Speicherplatz auf diesem Gerät",
+    "bulkScope": "Enthalten: alle Flugplatz-Seiten mit Flugplatzdaten. Nicht enthalten: Anflugkarten-PDFs (einzeln pro Flugplatz speicherbar) und Live-Wetter (benötigt Internet).",
     "pavedRunway": "Befestigte Piste",
     "favorites": "Favoriten",
     "recentlyViewed": "Zuletzt angesehen",

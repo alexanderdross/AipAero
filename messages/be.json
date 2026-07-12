@@ -197,7 +197,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports/ heliports in Belgium & Luxembourg",
+      "description": "Overview of all airfields/ airports/ heliports in Belgium & Luxembourg - with offline download, customs and fuel info",
       "buttonTitle": "Airport List",
       "buttonHref": "/be/airport-list-belgium/",
       "buttonHrefTitle": "List of Airports/ Airfields in Belgium & Luxembourg"
@@ -335,6 +335,7 @@
     "bulkCancel": "Cancel",
     "bulkError": "Download failed - please try again",
     "bulkNoSpace": "Not enough free storage on this device",
+    "bulkScope": "Included: all airfield pages with aerodrome data. Not included: approach chart PDFs (can be saved per airfield) and live weather (needs a connection).",
     "pavedRunway": "Paved runway",
     "favorites": "Favourites",
     "recentlyViewed": "Recently viewed",
