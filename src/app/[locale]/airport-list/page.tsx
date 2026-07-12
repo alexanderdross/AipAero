@@ -183,8 +183,8 @@ async function AirportLists({ locale }: { locale: string }) {
     QUERIES.vfrAirports(country),
     QUERIES.ifrAirports(country),
     QUERIES.heliports(country),
-    QUERIES.aeroportAirports(country),
     QUERIES.militaryAirports(country),
+    QUERIES.aeroportAirports(country),
   ]);
 
   const i18nKeyMapping: Record<Airport["type"], string> = {
