@@ -88,14 +88,21 @@ Nominatim) on the first request per field, then caches it 30 days. To store it i
 D1 instead - so it is a fast DB read and always in the SSR HTML + Airport JSON-LD
 - run the importer with `GEOCODE=1`. It reverse-geocodes every field (street /
 postcode / phone) at **max 1 request/second** (Nominatim policy), so a full run
-takes ~30-60 min:
+takes ~30-60 min.
+
+**Easiest path:** GitHub → Actions → *Airport facts import* → *Run workflow* →
+check the **geocode** input. Locally / manually instead:
 
 ```bash
 API_BASE=https://aip.aero API_KEY="<CRON_SECRET>" GEOCODE=1 uv run python import_ourairports.py
 ```
 
 Without `GEOCODE=1` the address columns stay null and the live geocode fallback
-fills them at request time (unchanged behaviour).
+fills them at request time (unchanged behaviour). Re-running WITHOUT geocode
+does **not** erase previously persisted addresses or OpenAIP enrichment: the
+upsert preserves existing enrichment columns when the incoming value is null
+(`COALESCE` in `MUTATIONS.upsertAirportFacts` - null means "don't know", never
+a verified absence).
 
 ### A.3 - Verify
 

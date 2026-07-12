@@ -13,6 +13,12 @@ on:
   schedule:
     - cron: "30 3 * * 0" # weekly, Sunday 03:30 UTC
   workflow_dispatch:
+    inputs:
+      geocode:
+        description: "Also reverse-geocode every field's postal address (GEOCODE=1, ~30-60 min at Nominatim's 1 req/s) so the detail pages read it from D1 instead of geocoding live"
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: facts-import
@@ -25,7 +31,9 @@ jobs:
   import:
     name: Import OurAirports facts
     runs-on: self-hosted
-    timeout-minutes: 20
+    # 90 min headroom for the optional GEOCODE pass (Nominatim allows 1 req/s;
+    # ~2-3k fields). The plain weekly import finishes in a couple of minutes.
+    timeout-minutes: 90
     defaults:
       run:
         working-directory: crawlers
@@ -49,4 +57,7 @@ jobs:
         env:
           API_BASE: https://aip.aero
           API_KEY: ${{ secrets.CRON_SECRET }}
+          # Empty unless the dispatch input asks for the address backfill -
+          # the importer only checks whether GEOCODE is set/non-empty.
+          GEOCODE: ${{ inputs.geocode == true && '1' || '' }}
         run: uv run python import_ourairports.py
