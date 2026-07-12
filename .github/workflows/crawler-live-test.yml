@@ -140,11 +140,22 @@ jobs:
                   # reachable from the sandboxed agent environment).
                   if os.environ.get("PDF_RECON"):
                       import re as _re
+                      import httpx as _httpx
                       from urllib.parse import urljoin as _urljoin
+                      # Fresh client: crawl() closes the crawler's own client.
+                      recon_client = _httpx.Client(
+                          follow_redirects=True,
+                          timeout=30,
+                          headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"},
+                      )
+                      def _fetch_text(u):
+                          r = recon_client.get(u)
+                          r.raise_for_status()
+                          return r.text
                       for a in airports[:3]:
                           print(f"   --- recon {a.icao or a.title}: {a.url[:110]}")
                           try:
-                              html = crawler.fetch(a.url)
+                              html = _fetch_text(a.url)
                               # DE permalinks are tiny meta-refresh redirects
                               # to the edition-specific page - follow once.
                               m = _re.search(
@@ -155,7 +166,7 @@ jobs:
                               if m:
                                   target = _urljoin(a.url, m.group(1).strip())
                                   print(f"       meta-refresh -> {target[:120]}")
-                                  html = crawler.fetch(target)
+                                  html = _fetch_text(target)
                               soup = crawler.soup(html)
                               pdfs = []
                               for link in soup.find_all("a", href=True):
