@@ -39,6 +39,18 @@ hosts are not reachable from the sandboxed agent environment):
 | PL | first PDF (single link per page) | the VFR AD chart |
 | SE | href `VAC.pdf` | visual approach chart |
 
+**Chart-list stage is implemented too** (12.07.2026, "PDF-Optimierungen 1-4"):
+the crawlers store the source's FULL chart list per airport (`airports.charts`,
+JSON `{name, url}[]`, capped at 50, names from the source's own designations
+with a filename-stem fallback), the chart box renders the primary link plus a
+collapsed "all charts" `<details>` list, an honest designation + AIRAC date
+line (parsed from the URL, `src/lib/charts.ts` - unit-tested), and the
+DigitalDocument JSON-LD carries `datePublished` + the other charts as
+`hasPart`. The daily crawl logs per-country `pdf_url coverage` and emits a
+GitHub-Actions warning when a country's coverage collapses to 0 (markup
+drift); the per-field offline save fetches chart PDFs CORS-first (real size)
+before falling back to the opaque no-cors cache entry (quota padding).
+
 **DE has no public chart PDFs** - the BasicVFR chart pages expose zero PDF
 links (recon probes on multiple permalinks) - so `pdf_url` stays null for DE
 and the site keeps linking the permalink page. The self-hosting path below
