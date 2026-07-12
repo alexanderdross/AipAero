@@ -157,6 +157,11 @@ class AT(HttpCrawlerBase):
             )
         return airports
 
+    # Chart-PDF extraction (recon 2026-07-12): the AD-2 page links every
+    # chart as "LOWG AD 2 MAP 1-1" etc.; MAP 1-1 is the aerodrome chart.
+    FETCH_PDF_URLS = True
+    PDF_TEXT_PRIORITY = (r"AD 2 MAP 1-1$",)
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         last_url = ROOT_URL
@@ -204,6 +209,8 @@ class AT(HttpCrawlerBase):
                 raise ValueError(f"No {COUNTRY} airports found")
 
             self.logger.info(f"Found {len(airports)} airports for {COUNTRY}")
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
             return airports
         except Exception as e:
             self.logger.error(f"AT crawl failed: {e}")

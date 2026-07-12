@@ -115,6 +115,11 @@ class NL(HttpEurocontrolBase):
             f"Could not resolve current-edition link/redirect in {base_url}"
         )
 
+    # Chart-PDF extraction (recon 2026-07-12): each AD page links 1-2 PDFs,
+    # EHxx-VFR-PROC.pdf is the visual procedures chart - exactly our target.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"-VFR-PROC\.pdf$",)
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -145,6 +150,9 @@ class NL(HttpEurocontrolBase):
                     nav_html, nav_url, "AD 3en-GBdetails", "heliport"
                 )
             )
+
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"NL crawl failed: {e}")
             if last_html is not None:

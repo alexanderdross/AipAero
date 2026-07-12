@@ -102,6 +102,11 @@ class UK(HttpEurocontrolBase):
         assert last_error is not None
         raise last_error
 
+    # Chart-PDF extraction (recon 2026-07-12): chart links are labelled
+    # "AD 2.EGPD-2-1" (2-1 = aerodrome chart); small fields have only that one.
+    FETCH_PDF_URLS = True
+    PDF_TEXT_PRIORITY = (r"AD 2\.\w{4}-2-1$",)
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -130,6 +135,9 @@ class UK(HttpEurocontrolBase):
                     nav_html, nav_url, _AD3_SECTION_IDS, "heliport"
                 )
             )
+
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"UK crawl failed: {e}")
             if last_html is not None:

@@ -176,6 +176,11 @@ class SE(HttpEurocontrolBase):
         )
         return edition_url, last_html
 
+    # Chart-PDF extraction (recon 2026-07-12): each AD page links exactly one
+    # PDF - the visual approach chart ("<ICAO> VAC.pdf").
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"VAC\.pdf$",)
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -238,6 +243,9 @@ class SE(HttpEurocontrolBase):
                 airport.title = re.sub(
                     r"\s+", " ", _TITLE_NOISE_RE.sub(" ", airport.title)
                 ).strip()
+
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"SE crawl failed: {e}")
             if last_html is not None:

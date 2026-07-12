@@ -410,6 +410,10 @@ class PL(HttpEurocontrolBase):
             f"PL: enriched {enriched}/{len(airports)} titles from AD 1 index"
         )
 
+    # Chart-PDF extraction (recon 2026-07-12): each VFR AD page links exactly
+    # one PDF (AD_4_<ICAO>_4-1.pdf) - the first-PDF fallback is the chart.
+    FETCH_PDF_URLS = True
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -481,6 +485,9 @@ class PL(HttpEurocontrolBase):
                     )
                 except ValueError as e2:
                     self.logger.warning(f"PL: skipping heliports - {e2}")
+
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"PL crawl failed: {e}")
             if last_html is not None:
