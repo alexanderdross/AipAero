@@ -82,8 +82,6 @@ export function SaveOfflineButton({
     setSaved(readIndex().some((e) => e.slug === slug));
   }, [slug]);
 
-  if (!supported) return null;
-
   async function save() {
     setBusy(true);
     // Saving for offline implies wanting the app on the device: trigger the
@@ -159,21 +157,28 @@ export function SaveOfflineButton({
   }
 
   return (
-    <div className="text-center text-sm">
-      <button
-        type="button"
-        disabled={busy}
-        onClick={saved ? unsave : save}
-        title={saved ? savedLabel : saveLabel}
-        className="text-drossblue inline-flex items-center gap-x-1 hover:underline disabled:opacity-50"
-      >
-        {saved ? (
-          <CheckIcon className="size-4 flex-shrink-0" aria-hidden="true" />
-        ) : (
-          <DownloadIcon className="size-4 flex-shrink-0" aria-hidden="true" />
-        )}
-        <span>{saved ? savedLabel : saveLabel}</span>
-      </button>
+    // The container renders from SSR on (min-h reserves the row) and only the
+    // button mounts after hydration: `if (!supported) return null` inserted
+    // the row post-hydration and pushed the whole gadget region down - a
+    // measured in-viewport layout shift on every detail view (CLS). The rare
+    // no-Cache-Storage browser just keeps a 24px blank line instead.
+    <div className="min-h-6 text-center text-sm">
+      {supported && (
+        <button
+          type="button"
+          disabled={busy}
+          onClick={saved ? unsave : save}
+          title={saved ? savedLabel : saveLabel}
+          className="text-drossblue inline-flex items-center gap-x-1 hover:underline disabled:opacity-50"
+        >
+          {saved ? (
+            <CheckIcon className="size-4 flex-shrink-0" aria-hidden="true" />
+          ) : (
+            <DownloadIcon className="size-4 flex-shrink-0" aria-hidden="true" />
+          )}
+          <span>{saved ? savedLabel : saveLabel}</span>
+        </button>
+      )}
       {/* Apple platforms cannot install programmatically: after saving, show
           the manual route (hidden when already running as an installed app). */}
       {manualHint && (
