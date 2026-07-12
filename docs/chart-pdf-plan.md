@@ -17,12 +17,32 @@ nullable `pdf_url` column (migration 0005), the crawler `Airport` model has an
 optional `pdf_url` (posted as `pdfUrl`, validated by the drizzle-zod API
 schema), and the detail page prefers `airport.pdfUrl` over the `isPdfUrl(url)`
 fallback for the chart box / offline chart save / DigitalDocument JSON-LD.
-Nothing breaks while `pdf_url` is null. What remains is the **per-country
-crawler extraction** (step 3 below) to actually capture exact-PDF URLs for
-sources that store an index/frameset page - the AIP hosts are not reachable
-from the sandboxed agent environment, so each country's extraction must be
-validated via the crawler live test on the self-hosted runner. The
-self-hosting path below stays future scope.
+Nothing breaks while `pdf_url` is null.
+
+**Stage 2 extraction is implemented for 9 countries** (12.07.2026):
+`attach_pdf_urls()` in `HttpCrawlerBase` (opt-in via `FETCH_PDF_URLS`)
+fetches every airport's chart page during the crawl and picks the most
+relevant PDF via per-country priority regexes (`PDF_TEXT_PRIORITY` /
+`PDF_HREF_PRIORITY`; fallback: the page's first PDF link). The patterns were
+derived from `pdf_recon` runs of the crawler live-test workflow (the AIP
+hosts are not reachable from the sandboxed agent environment):
+
+| Country | Selector | Chart picked |
+| --- | --- | --- |
+| AT | text `AD 2 MAP 1-1` | aerodrome chart |
+| FR | href `_ADC_01.pdf` > `_ADC_` > `_APDC_` | aerodrome chart (Cartes/<ICAO>/) |
+| NL | href `-VFR-PROC.pdf` | visual procedures chart |
+| UK | text `AD 2.Exxx-2-1` | aerodrome chart |
+| BE | text `-2-1` | aerodrome chart (validated live; recon client got 403) |
+| CZ | href `-vfrc.pdf` > `-adc.pdf` | VFR chart, else aerodrome chart |
+| NO | text `AD 2 Exxx 2 - 1` | aerodrome chart |
+| PL | first PDF (single link per page) | the VFR AD chart |
+| SE | href `VAC.pdf` | visual approach chart |
+
+**DE has no public chart PDFs** - the BasicVFR chart pages expose zero PDF
+links (recon probes on multiple permalinks) - so `pdf_url` stays null for DE
+and the site keeps linking the permalink page. The self-hosting path below
+stays future scope.
 
 ---
 
