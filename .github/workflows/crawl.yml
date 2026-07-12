@@ -92,6 +92,33 @@ jobs:
         # Unquoted $COUNTRIES so it word-splits into per-country args.
         run: uv run main.py $COUNTRIES
 
+      # Each published country busts its `country:<CC>` cache tags - without a
+      # warm-up, the FIRST visitor of a heavy chart list after the nightly
+      # crawl pays the synchronous regeneration (measured 2026-07-12 as the
+      # LCP 3.1s / Lighthouse 92 tail on the DE list). Same pattern as the
+      # post-deploy warm-up in cd.yml. Best-effort: never fail the crawl run.
+      - name: Warm up the large list pages
+        if: ${{ !cancelled() }}
+        working-directory: .
+        run: |
+          urls=(
+            "https://aip.aero/de/flughafen-liste-deutschland/"
+            "https://aip.aero/at/flughafen-liste-oesterreich/"
+            "https://aip.aero/fr/liste-des-aeroports-francais/"
+            "https://aip.aero/nl/luchthavenlijst-nederland/"
+            "https://aip.aero/uk/airport-list-uk/"
+            "https://aip.aero/be/airport-list-belgium/"
+            "https://aip.aero/cz/letiste-cesko/"
+            "https://aip.aero/no/flyplasser-norge/"
+            "https://aip.aero/pl/lotniska-polska/"
+            "https://aip.aero/se/flygplatser-sverige/"
+          )
+          for u in "${urls[@]}"; do
+            code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000
+            echo "warm $u -> HTTP $code"
+          done
+          exit 0
+
       - name: Upload crawl log
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
