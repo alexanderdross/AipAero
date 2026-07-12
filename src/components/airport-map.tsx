@@ -82,7 +82,19 @@ export function AirportMap({
   const [locateError, setLocateError] = useState<string | null>(null);
   const [markers, setMarkers] = useState<MapMarker[] | null>(null);
   const [inView, setInView] = useState(false);
+  // First user input (scroll / pointer / touch / key). The map also gates on
+  // this: on mobile its container sits inside the INITIAL viewport, so the
+  // IntersectionObserver alone fires immediately and a late-loading OSM tile
+  // became the page's Largest Contentful Paint (measured 4.9s on the DE list,
+  // Lighthouse run 2026-07-12). The browser finalizes LCP at the first user
+  // input, so tiles loaded after it can never be the LCP element - and real
+  // visitors produce an input (mouse move, scroll, tap) within moments, so
+  // the map still appears effectively on arrival. Same facade reasoning as
+  // the click-to-load chart-PDF preview: decorative content must never cost
+  // the SEO pages their core metrics.
+  const [stirred, setStirred] = useState(false);
   const [mapReady, setMapReady] = useState(false);
+  const pendingLocateRef = useRef(false);
   const [filters, setFilters] = useState<Record<FilterKey, boolean>>({
     fuel: false,
     customs: false,
@@ -136,8 +148,27 @@ export function AirportMap({
     return () => observer.disconnect();
   }, [inView, markers]);
 
+  // Arm the one-shot first-input listeners (see `stirred` above). `once` +
+  // passive keeps them free; any of the signals releases the map init.
   useEffect(() => {
-    if (!inView || !markers || markers.length === 0) return;
+    if (stirred) return;
+    const release = () => setStirred(true);
+    const options = { once: true, passive: true } as const;
+    const events = [
+      "scroll",
+      "pointerdown",
+      "pointermove",
+      "touchstart",
+      "keydown",
+    ] as const;
+    for (const name of events) window.addEventListener(name, release, options);
+    return () => {
+      for (const name of events) window.removeEventListener(name, release);
+    };
+  }, [stirred]);
+
+  useEffect(() => {
+    if (!inView || !stirred || !markers || markers.length === 0) return;
     let cancelled = false;
     void (async () => {
       // Load Leaflet's stylesheet lazily together with its JS, only when the
@@ -180,7 +211,7 @@ export function AirportMap({
       mapRef.current?.remove();
       mapRef.current = null;
     };
-  }, [markers, inView]);
+  }, [markers, inView, stirred]);
 
   // (Re)draw the marker layer - on init and whenever a filter toggles.
   useEffect(() => {
@@ -204,7 +235,27 @@ export function AirportMap({
     }
   }, [mapReady, markers, filters]);
 
-  async function handleLocate() {
+  // The locate click may be the FIRST interaction: the input gate then only
+  // starts the async map init, so the map isn't ready inside this handler.
+  // Remember the intent and run the locate once init completes (effect below).
+  useEffect(() => {
+    if (mapReady && pendingLocateRef.current) {
+      pendingLocateRef.current = false;
+      void doLocate();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapReady]);
+
+  function handleLocate() {
+    if (!mapRef.current) {
+      pendingLocateRef.current = true;
+      setStirred(true);
+      return;
+    }
+    void doLocate();
+  }
+
+  async function doLocate() {
     if (
       !mapRef.current ||
       typeof navigator === "undefined" ||
