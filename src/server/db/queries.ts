@@ -475,6 +475,16 @@ export const MUTATIONS = {
     // Per-row upsert keyed on ICAO (each row binds ~19 params, well under the
     // D1 100-param limit). Uses `excluded.*` so re-imports overwrite in place
     // instead of wiping the table between paginated importer batches.
+    //
+    // Enrichment columns use COALESCE(excluded.<col>, <existing>): a null (or
+    // absent) incoming value means "don't know", never a verified absence -
+    // the weekly OurAirports importer does not carry the OpenAIP fields
+    // (fuel / opening hours / PPR / customs / ...) or the OSM address, and a
+    // plain `excluded.*` SET wiped that persisted enrichment every Sunday,
+    // silently draining e.g. the map's fuel/customs filters until each field
+    // happened to be re-visited (on-read write-back). The base columns the
+    // importer IS authoritative for (coords / elevation / runways / ...)
+    // keep the plain overwrite so upstream refreshes land.
     const stmts = input.map((row) =>
       db
         .insert(airportFacts)
@@ -489,15 +499,15 @@ export const MUTATIONS = {
             homeLink: sql`excluded.home_link`,
             runways: sql`excluded.runways`,
             frequencies: sql`excluded.frequencies`,
-            street: sql`excluded.street`,
-            postcode: sql`excluded.postcode`,
-            phone: sql`excluded.phone`,
-            fuel: sql`excluded.fuel`,
-            openingHours: sql`excluded.opening_hours`,
-            ppr: sql`excluded.ppr`,
-            aerodromeType: sql`excluded.aerodrome_type`,
-            restaurant: sql`excluded.restaurant`,
-            customs: sql`excluded.customs`,
+            street: sql`COALESCE(excluded.street, ${airportFacts.street})`,
+            postcode: sql`COALESCE(excluded.postcode, ${airportFacts.postcode})`,
+            phone: sql`COALESCE(excluded.phone, ${airportFacts.phone})`,
+            fuel: sql`COALESCE(excluded.fuel, ${airportFacts.fuel})`,
+            openingHours: sql`COALESCE(excluded.opening_hours, ${airportFacts.openingHours})`,
+            ppr: sql`COALESCE(excluded.ppr, ${airportFacts.ppr})`,
+            aerodromeType: sql`COALESCE(excluded.aerodrome_type, ${airportFacts.aerodromeType})`,
+            restaurant: sql`COALESCE(excluded.restaurant, ${airportFacts.restaurant})`,
+            customs: sql`COALESCE(excluded.customs, ${airportFacts.customs})`,
             source: sql`excluded.source`,
             updatedAt: sql`excluded.updated_at`,
           },
@@ -514,6 +524,11 @@ export const MUTATIONS = {
   // via `after()`) so the live OpenAIP enrichment becomes a fast DB read next
   // time. Invalidates only that field's per-ICAO tag (not the global one), so a
   // first-visit warm-up doesn't thrash every other field's cache.
+  //
+  // Same COALESCE-preserve on the enrichment columns as the bulk upsert above:
+  // the merged row carries null for fields no source knew AT THIS REQUEST
+  // (e.g. OpenAIP briefly unreachable) - that must not erase enrichment that
+  // an earlier request already persisted.
   persistAirportFacts: async function (row: InsertAirportFacts) {
     const db = await getDb();
     if (!db) return;
@@ -530,15 +545,15 @@ export const MUTATIONS = {
           homeLink: sql`excluded.home_link`,
           runways: sql`excluded.runways`,
           frequencies: sql`excluded.frequencies`,
-          street: sql`excluded.street`,
-          postcode: sql`excluded.postcode`,
-          phone: sql`excluded.phone`,
-          fuel: sql`excluded.fuel`,
-          openingHours: sql`excluded.opening_hours`,
-          ppr: sql`excluded.ppr`,
-          aerodromeType: sql`excluded.aerodrome_type`,
-          restaurant: sql`excluded.restaurant`,
-          customs: sql`excluded.customs`,
+          street: sql`COALESCE(excluded.street, ${airportFacts.street})`,
+          postcode: sql`COALESCE(excluded.postcode, ${airportFacts.postcode})`,
+          phone: sql`COALESCE(excluded.phone, ${airportFacts.phone})`,
+          fuel: sql`COALESCE(excluded.fuel, ${airportFacts.fuel})`,
+          openingHours: sql`COALESCE(excluded.opening_hours, ${airportFacts.openingHours})`,
+          ppr: sql`COALESCE(excluded.ppr, ${airportFacts.ppr})`,
+          aerodromeType: sql`COALESCE(excluded.aerodrome_type, ${airportFacts.aerodromeType})`,
+          restaurant: sql`COALESCE(excluded.restaurant, ${airportFacts.restaurant})`,
+          customs: sql`COALESCE(excluded.customs, ${airportFacts.customs})`,
           source: sql`excluded.source`,
           updatedAt: sql`excluded.updated_at`,
         },
