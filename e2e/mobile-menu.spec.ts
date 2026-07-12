@@ -1,61 +1,50 @@
 import { test, expect } from "@playwright/test";
 
-// The mobile navigation is a native <dialog> bottom sheet whose links are
-// server-rendered (SEO: mobile-first indexing must see a real <nav> in the
-// HTML, not a portal that mounts on open). These tests run at a phone
-// viewport against the `next start` server.
+// The mobile navigation is a horizontally scrollable pill bar below the
+// sticky header row - plain server-rendered links, always visible (SEO:
+// mobile-first indexing sees a real <nav> without any interaction). These
+// tests run at a phone viewport against the `next start` server.
 
 test.use({ viewport: { width: 390, height: 844 } });
 
-test("mobile nav links are in the SSR HTML while the dialog is closed", async ({
-  page,
-}) => {
+test("mobile pill nav links are in the raw SSR HTML", async ({ page }) => {
   // Assert against the raw document, before hydration can mount anything.
   const res = await page.request.get("/de/");
   const html = await res.text();
-  expect(html).toContain("<dialog");
-  expect(html).toMatch(/<dialog[^>]*>[\s\S]*flughafen-liste-deutschland/);
+  expect(html).toMatch(
+    /<nav[^>]*aria-label="Menü"[^>]*>[\s\S]*flughafen-liste-deutschland/,
+  );
 });
 
-test("mobile menu opens, marks the active page and closes on navigation", async ({
+test("mobile pill nav is visible, marks the active page and navigates", async ({
   page,
 }) => {
   await page.goto("/de/");
 
-  const dialog = page.locator("dialog");
-  await expect(dialog).toHaveCount(1);
-  await expect(dialog).not.toBeVisible();
-
-  // 48px tap target hamburger, localized accessible name.
-  await page.getByRole("button", { name: "Menü" }).click();
-  await expect(dialog).toBeVisible();
+  // Visible without any interaction (no hamburger, no dialog).
+  const nav = page.getByRole("navigation", { name: "Menü" });
+  await expect(nav).toBeVisible();
+  const links = nav.getByRole("link");
+  expect(await links.count()).toBeGreaterThanOrEqual(4);
 
   // The current page (home) carries aria-current="page".
-  await expect(dialog.locator('nav a[aria-current="page"]')).toHaveCount(1);
+  await expect(nav.locator('a[aria-current="page"]')).toHaveCount(1);
 
-  // Navigating from the menu closes the sheet.
-  await dialog.locator("nav a", { hasText: "VFR" }).first().click();
+  // Client-side navigation moves the active marker along.
+  await nav.locator("a", { hasText: "VFR" }).first().click();
   await page.waitForURL(/\/de\/vfr\/?$/);
-  await expect(dialog).not.toBeVisible();
-
-  // On the target page the active marker moved along.
-  await page.getByRole("button", { name: "Menü" }).click();
-  await expect(
-    dialog.locator('nav a[aria-current="page"]').first(),
-  ).toHaveAttribute("href", /\/de\/vfr\/?$/);
+  await expect(nav.locator('a[aria-current="page"]').first()).toHaveAttribute(
+    "href",
+    /\/de\/vfr\/?$/,
+  );
 });
 
-test("mobile menu closes via the close button and ESC", async ({ page }) => {
+test("mobile pill nav is hidden on desktop widths", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/de/");
-  const dialog = page.locator("dialog");
-
-  await page.getByRole("button", { name: "Menü" }).click();
-  await expect(dialog).toBeVisible();
-  await page.getByRole("button", { name: "Schließen" }).click();
-  await expect(dialog).not.toBeVisible();
-
-  await page.getByRole("button", { name: "Menü" }).click();
-  await expect(dialog).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(dialog).not.toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Menü" })).toBeHidden();
+  // The desktop menu carries the links instead.
+  await expect(page.locator('header nav a[aria-current="page"]')).toHaveCount(
+    1,
+  );
 });

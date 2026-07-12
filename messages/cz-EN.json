@@ -23,7 +23,6 @@
   },
   "Menu": {
     "label": "Menu",
-    "close": "Close",
     "home": {
       "title": "AIP Czechia",
       "hrefTitle": "AIP Czechia"

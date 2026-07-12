@@ -64,11 +64,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-/* Lock body scroll while a modal dialog (the mobile nav sheet) is open -
-   native <dialog> does not scroll-lock by itself. */
-@layer base {
-  body:has(dialog:modal) {
-    overflow: hidden;
-  }
-}
