@@ -26,6 +26,8 @@
     }
   },
   "Menu": {
+    "label": "Menu",
+    "close": "Luk",
     "home": {
       "title": "AIP Danmark",
       "hrefTitle": "AIP Danmark"

@@ -24,19 +24,30 @@ test("language switcher navigates from /de/ to the English variant", async ({
 }) => {
   await page.goto("/de/");
 
-  // The locale switcher is a Radix Select; the desktop trigger is the visible
-  // combobox (the mobile-menu copy is display:none on desktop widths).
-  const trigger = page.locator('[role="combobox"]:visible').first();
-  await expect(trigger).toBeVisible();
-  await trigger.click();
+  // The locale switcher is two plain links (native + English) in a labelled
+  // nav landmark; the current language carries aria-current.
+  const switcher = page.getByRole("navigation", { name: "Sprache ändern" });
+  await expect(switcher.getByRole("link")).toHaveCount(2);
+  await expect(
+    switcher.locator("a[aria-current]", { hasText: "Deutsch" }),
+  ).toHaveCount(1);
 
-  // Two options: native (German) then English. Pick English (the second).
-  const options = page.getByRole("option");
-  await expect(options).toHaveCount(2);
-  await options.nth(1).click();
-
+  await switcher.getByRole("link", { name: /English/ }).click();
   await page.waitForURL(/\/de\/en\/?$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
+});
+
+test("language switcher preserves the valueless ?ICAO airport key", async ({
+  page,
+}) => {
+  // The airport detail scheme is a bare query KEY (?EDNY, no value); the
+  // language links must carry it over without re-encoding it as ?EDNY=.
+  await page.goto("/de/vfr/?EDNY");
+  const switcher = page.getByRole("navigation", { name: "Sprache ändern" });
+  await expect(switcher.getByRole("link", { name: /English/ })).toHaveAttribute(
+    "href",
+    /\/de\/en\/vfr\/\?EDNY$/,
+  );
 });
 
 test("unknown path under a valid locale returns 404", async ({ page }) => {

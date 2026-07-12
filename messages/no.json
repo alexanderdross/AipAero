@@ -26,6 +26,8 @@
     }
   },
   "Menu": {
+    "label": "Meny",
+    "close": "Lukk",
     "home": {
       "title": "AIP Norge",
       "hrefTitle": "AIP Norge"

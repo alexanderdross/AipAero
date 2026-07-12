@@ -7,7 +7,6 @@ import { LastUpdated } from "~/components/last-updated";
 import { SaveCountryOfflineButton } from "~/components/save-country-offline-button";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { Title } from "~/components/title";
-import Link from "next/link";
 import {
   getPathname,
   isSingleLocale,
@@ -284,10 +283,12 @@ async function AirportLists({ locale }: { locale: string }) {
                     {airports.map((airport, index) => {
                       // Resolve the locale-prefixed detail URL server-side via
                       // getPathname (e.g. "/at/vfr") + the slug as a bare query
-                      // key (".../vfr?LOWG"). We use next/link here rather than
-                      // next-intl's <Link>, which is a client component and needs
-                      // a NextIntlClientProvider ancestor (v4 behaviour) that this
-                      // server-rendered list does not have - same pattern as box.tsx.
+                      // key (".../vfr?LOWG"). Rows are plain <a>, NOT next/link:
+                      // with target="_blank" every click is a full document load
+                      // anyway, so the per-row Link client component only added
+                      // hydration work and viewport prefetches whose RSC payload
+                      // could never be used - hundreds of rows made that a real
+                      // main-thread and Worker-request cost.
                       const href =
                         getPathname({
                           href: i18nPathMapping[airportType],
@@ -317,7 +318,7 @@ async function AirportLists({ locale }: { locale: string }) {
                           className="flex items-center gap-x-4 [contain-intrinsic-size:auto_2.5rem] [content-visibility:auto]"
                         >
                           <span>{index + 1}.</span>
-                          <Link
+                          <a
                             href={href}
                             itemProp="url"
                             className="justify-left text-drossblue flex gap-x-2 py-2 hover:underline"
@@ -332,7 +333,7 @@ async function AirportLists({ locale }: { locale: string }) {
                               <use href="#row-link-icon" />
                             </svg>
                             <span itemProp="name">{airport.title}</span>
-                          </Link>
+                          </a>
                           {airport.icao && (
                             <meta itemProp="icaoCode" content={airport.icao} />
                           )}

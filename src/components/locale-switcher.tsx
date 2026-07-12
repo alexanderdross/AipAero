@@ -1,9 +1,8 @@
 import { useLocale, useTranslations } from "next-intl";
-import LocaleSwitcherSelect from "~/components/locale-switcher-select";
-import { SelectItem } from "~/components/ui/select";
-import { isSingleLocale } from "~/i18n/routing";
-import { SchemaWebpage } from "./schemas/schema-webpage";
 import { Suspense } from "react";
+import { isSingleLocale } from "~/i18n/routing";
+import LocaleSwitcherLinks from "./locale-switcher-links";
+import { SchemaWebpage } from "./schemas/schema-webpage";
 
 export default function LocaleSwitcher() {
   const t = useTranslations("LocaleSwitcher");
@@ -13,8 +12,9 @@ export default function LocaleSwitcher() {
   const english = nonEnglish + "-EN";
 
   // Single-locale countries (uk, be) serve only one language, so there is
-  // nothing to switch - render nothing instead of a pointless one-option select
-  // (which also showed an "Unknown" label for the locale with no partner).
+  // nothing to switch - render nothing instead of a pointless one-option
+  // toggle (which also showed an "Unknown" label for the locale with no
+  // partner).
   if (isSingleLocale(locale)) {
     return;
   }
@@ -22,12 +22,13 @@ export default function LocaleSwitcher() {
   return (
     <Suspense fallback={null}>
       <SchemaWebpage nonEnglishLocale={nonEnglish} englishLocale={english} />
-      <LocaleSwitcherSelect defaultValue={locale} label={t("label")}>
-        <SelectItem value={nonEnglish}>
-          {t("locale", { locale: nonEnglish })}
-        </SelectItem>
-        <SelectItem value={english}>{t("locale", { locale: "en" })}</SelectItem>
-      </LocaleSwitcherSelect>
+      <LocaleSwitcherLinks
+        label={t("label")}
+        options={[
+          { locale: nonEnglish, label: t("locale", { locale: nonEnglish }) },
+          { locale: english, label: t("locale", { locale: "en" }) },
+        ]}
+      />
     </Suspense>
   );
 }

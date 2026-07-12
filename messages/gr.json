@@ -26,6 +26,8 @@
     }
   },
   "Menu": {
+    "label": "Μενού",
+    "close": "Κλείσιμο",
     "home": {
       "title": "AIP Ελλάδα",
       "hrefTitle": "AIP Ελλάδα"
