@@ -113,8 +113,10 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 │   ├── components/
 │   │   ├── header.tsx              # Sticky header with logo, menu, lang switcher
 │   │   ├── footer.tsx              # Footer with external links
-│   │   ├── menu.tsx                # Desktop navigation (client component)
-│   │   ├── mobile-menu.tsx         # Mobile navigation drawer
+│   │   ├── menu.tsx                # Desktop navigation (server component, NavLink islands)
+│   │   ├── mobile-menu.tsx         # Mobile navigation (server-rendered links in a native <dialog>)
+│   │   ├── mobile-nav-dialog.tsx   # Client island: hamburger + native <dialog> bottom sheet
+│   │   ├── nav-link.tsx            # Client link with aria-current="page" active state
 │   │   ├── box.tsx                 # Card component for country/type selection
 │   │   ├── about-box.tsx           # About section container
 │   │   ├── about-country-box.tsx   # Country-specific about section
@@ -139,9 +141,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 │   │   └── ui/                     # shadcn/ui components (new-york style)
 │   │       ├── breadcrumb.tsx
 │   │       ├── button.tsx
-│   │       ├── drawer.tsx
 │   │       ├── input.tsx
-│   │       ├── navigation-menu.tsx
 │   │       ├── select.tsx
 │   │       └── skeleton.tsx
 │   ├── i18n/
@@ -149,6 +149,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 │   │   └── request.ts             # next-intl request config
 │   ├── lib/
 │   │   ├── utils.ts               # cn(), orgUrl, constants, i18nPathMapping
+│   │   ├── nav-items.ts           # Shared header nav entries (desktop menu + mobile dialog)
 │   │   ├── fonts.ts               # Inter via next/font (--font-sans, no preload)
 │   │   └── try-catch.ts           # Async try-catch wrapper utility
 │   ├── server/
@@ -224,7 +225,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 
 ## Internationalization (i18n)
 
-- **Library**: next-intl v3
+- **Library**: next-intl v4
 - **Locales**: `at`, `at-EN`, `de`, `de-EN`, `fr`, `fr-EN`, `nl`, `nl-EN`, `uk`
 - **Default locale**: `uk` (United Kingdom / English)
 - **Locale prefix mode**: `always` (every URL has a locale prefix)
@@ -466,5 +467,6 @@ When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEuroc
 - The `searchAirports` server action only supports types `vfr`, `ifr`, `heliport` (not `mil` or `aeroport`)
 - **`<main>` in `[locale]/layout.tsx` carries `min-h-screen` - the footer must START below the initial viewport on every page.** The dynamic search/detail routes stream the page into the layout shell, and their loading state is far shorter than the real content: without the reserve, a slow stream painted header + skeleton + footer (in-viewport), and the arriving content pushed the footer ~1500px down - a single ~0.36 CLS event (the live EDDF/LFPG outliers, root-caused 12.07.2026 with a local PerformanceObserver repro). Do not remove the class, and keep any new route's loading state in mind: it may be short, the viewport reserve is what protects CLS.
 - **Cloudflare "Error 1102 - Worker exceeded resource limits" has TWO variants - always diagnose via the `outcome` field in the observability logs, never from the error number alone.** (a) **Memory** (128 MB, not configurable): every early occurrence traced to loading a **whole country's dataset into a single render** - first the airport-list map markers (fixed: client-fetched from `/api/airport-coords`), then the "nearby airfields" box (fixed: bounded `QUERIES.airportsNear` box query). Never introduce another full-country in-memory load on a request path; the agreed next escalation if the memory variant recurs is moving the nearby box fully client-side. (b) **CPU** (`outcome: "exceededCpu"`, observed 10.07.2026): the Workers **Free plan** limits CPU to 10 ms/request - our SSR pages need 200-1000 ms and only survived on burst tolerance, so concurrent load (e.g. a browser prefetching several dynamic routes at once) got requests killed. Fix = **Workers Paid plan** (30 s/request); no code change can fully avoid this on Free.
+- **Header navigation is server-rendered; the mobile menu is a native `<dialog>` bottom sheet (vaul was removed).** `menu.tsx` / `mobile-menu.tsx` are server components - labels resolve at render time, so NO Menu messages ship to the client. The only client islands are `nav-link.tsx` (active state as `aria-current="page"` via `usePathname`; style it with the `aria-[current=page]:` variant) and `mobile-nav-dialog.tsx` (hamburger + `showModal()`; focus trap/ESC/backdrop are native, entry animation is CSS `starting:`, body scroll-lock is `body:has(dialog:modal)` in globals.css). The mobile nav links are real SSR HTML inside the CLOSED dialog - do not move them back into a portal that mounts on open (mobile-first indexing must see the `<nav>`). Nav entries live once in `src/lib/nav-items.ts` (shared by both menus). next-intl's client `Link`/`usePathname` throw without a `NextIntlClientProvider` ancestor - the header carries exactly ONE provider (LocaleSwitcher messages only) around Menu + LocaleSwitcher + MobileNav; a provider adds no DOM node, so the header flex row is unaffected. `backdrop-blur` on the sticky header is lg-only (continuous compositing cost while scrolling on low-end mobiles); tap targets are 48px (`h-12 w-12` hamburger, `min-h-12` menu rows). The `Menu.label` / `Menu.close` i18n keys exist in every locale.
 - New crawlers must inherit from `HttpCrawlerBase` (or `HttpEurocontrolBase` for eurocontrol eAIPs); use `PlaywrightCrawlerBase` only for genuinely client-rendered JS sources (DK). Never spin up a browser in `__init__` - it makes the crawler impossible to import in browserless environments (CI runners); Playwright is imported lazily inside `render_html`.
 - The DE crawler (`de.py`) enters DFS BasicVFR/BasicIFR at static section index pages (`…/pages/CNNNNN.html`) and stores each airport's amendment-stable `myPermalink` (`const myPermalink = "pages/CNNNNN.html"`) rather than the physical, edition-specific URL (`…/<AIRAC>/chapter/<hash>.html`) that DFS renames every AIRAC cycle - so saved links survive amendments. The VFR folder-link hrefs are already those permalinks, so no per-airfield fetch is needed (only an edition-specific href triggers a leaf fetch to read `myPermalink`).

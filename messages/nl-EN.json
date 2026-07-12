@@ -26,6 +26,8 @@
     }
   },
   "Menu": {
+    "label": "Menu",
+    "close": "Close",
     "home": {
       "title": "AIP Netherlands",
       "hrefTitle": "AIP Netherlands"

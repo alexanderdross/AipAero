@@ -22,6 +22,8 @@
     }
   },
   "Menu": {
+    "label": "Menu",
+    "close": "Zavřít",
     "home": {
       "title": "AIP Česko",
       "hrefTitle": "AIP Česko"

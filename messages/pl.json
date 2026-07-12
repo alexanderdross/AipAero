@@ -26,6 +26,8 @@
     }
   },
   "Menu": {
+    "label": "Menu",
+    "close": "Zamknij",
     "home": {
       "title": "AIP Polska",
       "hrefTitle": "AIP Polska"

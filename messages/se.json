@@ -26,6 +26,8 @@
     }
   },
   "Menu": {
+    "label": "Meny",
+    "close": "Stäng",
     "home": {
       "title": "AIP Sverige",
       "hrefTitle": "AIP Sverige"

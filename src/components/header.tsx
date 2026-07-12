@@ -11,7 +11,10 @@ export async function Header({ withLangSwitcher = false }) {
   const messages = await getMessages();
 
   return (
-    <header className="border-grid sticky top-0 z-50 w-full border-b bg-white/90 backdrop-blur">
+    // backdrop-blur only from lg: on a sticky header it forces continuous
+    // compositing while scrolling, which is measurable jank on low-end mobile
+    // devices; bg-white/95 is visually near-opaque without the filter.
+    <header className="border-grid sticky top-0 z-50 w-full border-b bg-white/95 lg:bg-white/90 lg:backdrop-blur">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between">
           <Link href="/" title="Go to AIP Index">
@@ -31,19 +34,17 @@ export async function Header({ withLangSwitcher = false }) {
             />
           </Link>
 
-          {withLangSwitcher && (
-            <NextIntlClientProvider messages={pick(messages, "Menu")}>
-              <Menu />
-            </NextIntlClientProvider>
-          )}
+          {/* ONE provider for the whole header: next-intl's client Link /
+              usePathname (NavLink, the locale select) need its locale context.
+              Only the LocaleSwitcher namespace is serialized - the nav labels
+              are server-rendered strings, so the Menu namespace (previously
+              duplicated into the payload twice) ships not at all. The provider
+              adds no DOM node, so the flex row is unchanged. */}
           <NextIntlClientProvider messages={pick(messages, "LocaleSwitcher")}>
+            {withLangSwitcher && <Menu />}
             <LocaleSwitcher />
+            {withLangSwitcher && <MobileNav />}
           </NextIntlClientProvider>
-          {withLangSwitcher && (
-            <NextIntlClientProvider messages={pick(messages, "Menu")}>
-              <MobileNav />
-            </NextIntlClientProvider>
-          )}
         </div>
       </div>
     </header>

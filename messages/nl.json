@@ -26,6 +26,8 @@
     }
   },
   "Menu": {
+    "label": "Menu",
+    "close": "Sluiten",
     "home": {
       "title": "AIP Nederland",
       "hrefTitle": "AIP Netherlands"

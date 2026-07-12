@@ -1,38 +1,28 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import { navItems } from "~/lib/nav-items";
+import { NavLink } from "./nav-link";
 
-import { useTranslations } from "next-intl";
-import { Link as IntLink, usePathname } from "~/i18n/routing";
-import { cn } from "~/lib/utils";
-
-export function Menu() {
-  const t = useTranslations("Menu");
-  const pathname = usePathname();
-  const items = [
-    { href: "/" as const, key: "home" },
-    { href: "/vfr" as const, key: "vfr" },
-    { href: "/ifr" as const, key: "ifr" },
-    { href: "/heliports" as const, key: "heliports" },
-    { href: "/airport-list" as const, key: "airports" },
-    { href: "/aeroports" as const, key: "aeroports" },
-    { href: "/military" as const, key: "military" },
-  ];
+/**
+ * Desktop navigation. Server component: labels and hrefs resolve at render
+ * time, so no Menu messages ship to the client - only the tiny NavLink island
+ * hydrates (for the aria-current active state).
+ */
+export async function Menu() {
+  const t = await getTranslations("Menu");
 
   return (
-    <nav className="hidden items-center gap-4 text-sm lg:flex xl:gap-6">
-      {items.map(
+    <nav className="hidden items-center gap-4 lg:flex xl:gap-6">
+      {navItems.map(
         (item) =>
           t.has(`${item.key}.title`) && (
-            <IntLink
+            <NavLink
               title={t(`${item.key}.hrefTitle`)}
               key={item.key}
-              className={cn(
-                "text-foreground/80 text-lg transition-colors hover:underline",
-                pathname === item.href && "underline",
-              )}
+              className="text-foreground/80 text-lg transition-colors hover:underline aria-[current=page]:underline"
               href={item.href}
             >
               {t(`${item.key}.title`)}
-            </IntLink>
+            </NavLink>
           ),
       )}
     </nav>
