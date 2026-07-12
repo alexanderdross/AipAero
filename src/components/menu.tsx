@@ -11,7 +11,13 @@ export async function Menu() {
   const t = await getTranslations("Menu");
 
   return (
-    <nav className="hidden items-center gap-4 lg:flex xl:gap-6">
+    // Same localized landmark label as the mobile pill nav - only one of the
+    // two is visible per breakpoint, so screen readers always find exactly
+    // one "Menu" navigation.
+    <nav
+      aria-label={t("label")}
+      className="hidden items-center gap-4 lg:flex xl:gap-6"
+    >
       {navItems.map(
         (item) =>
           t.has(`${item.key}.title`) && (

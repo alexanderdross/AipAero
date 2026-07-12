@@ -1,5 +1,6 @@
 {
   "BreadCrumbs": {
+    "label": "Ścieżka nawigacyjna",
     "root": {
       "title": "Indeks AIP",
       "hrefTitle": "Indeks AIP"
@@ -238,6 +239,7 @@
     "surface": "Nawierzchnia"
   },
   "Common": {
+    "homeLink": "AIP:Aero - Zbiory informacji lotniczych (AIP) & mapy podejścia dla Europy",
     "lastUpdated": "Ostatnia aktualizacja",
     "viewOnMap": "Zobacz w Mapach Google",
     "location": "Lokalizacja",

@@ -1,5 +1,6 @@
 {
   "BreadCrumbs": {
+    "label": "Sökväg",
     "root": {
       "title": "AIP Index",
       "hrefTitle": "AIP Index"
@@ -238,6 +239,7 @@
     "surface": "Underlag"
   },
   "Common": {
+    "homeLink": "AIP:Aero - Luftfartspublikationer (AIP) & inflygningskartor för Europa",
     "lastUpdated": "Senast uppdaterad",
     "viewOnMap": "Visa på Google Maps",
     "location": "Plats",

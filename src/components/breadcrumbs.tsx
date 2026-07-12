@@ -19,9 +19,18 @@ export function BreadCrumbs() {
   const icao = useSearchParams().keys().next().value;
 
   return (
-    <div className="flex justify-center overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
-      <Breadcrumb>
-        <BreadcrumbList>
+    // Long trails (airport titles) must not wrap to a second line - that
+    // would exceed the layout's reserved bar height (min-h-[5.5rem]) and
+    // shift the footer. Instead the bar scrolls horizontally on overflow,
+    // same pattern as the mobile pill nav: scrollbar hidden, the clipped
+    // last crumb is the affordance. mx-auto + w-max centers short trails
+    // (justify-center on the scroll container would make the left edge
+    // unreachable when overflowing).
+    <div className="[scrollbar-width:none] overflow-x-auto px-4 py-8 sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden">
+      {/* Localized landmark label (overrides the primitive's hardcoded
+          English "breadcrumb" default). */}
+      <Breadcrumb aria-label={t("label")} className="mx-auto w-max">
+        <BreadcrumbList className="flex-nowrap whitespace-nowrap">
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <Link href="/" title={t("root.hrefTitle")}>

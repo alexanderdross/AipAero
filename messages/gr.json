@@ -1,5 +1,6 @@
 {
   "BreadCrumbs": {
+    "label": "Διαδρομή πλοήγησης",
     "root": {
       "title": "AIP Index",
       "hrefTitle": "AIP Index"
@@ -238,6 +239,7 @@
     "surface": "Επιφάνεια"
   },
   "Common": {
+    "homeLink": "AIP:Aero - Εγχειρίδια αεροναυτικών πληροφοριών (AIP) & χάρτες προσέγγισης για την Ευρώπη",
     "lastUpdated": "Τελευταία ενημέρωση",
     "viewOnMap": "Προβολή σε Χάρτες Google",
     "location": "Τοποθεσία",

@@ -1,5 +1,6 @@
 {
   "BreadCrumbs": {
+    "label": "Brødkrummesti",
     "root": {
       "title": "AIP Index",
       "hrefTitle": "AIP Index"
@@ -238,6 +239,7 @@
     "surface": "Belægning"
   },
   "Common": {
+    "homeLink": "AIP:Aero - Luftfartspublikationer (AIP) & anflyvningskort for Europa",
     "lastUpdated": "Senest opdateret",
     "viewOnMap": "Se på Google Maps",
     "location": "Placering",
