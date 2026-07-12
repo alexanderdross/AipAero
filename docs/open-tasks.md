@@ -1,4 +1,4 @@
-# AIP:Aero - Offene Aufgaben (Stand: 10.07.2026)
+# AIP:Aero - Offene Aufgaben (Stand: 12.07.2026)
 
 Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional · ✅ erledigt
 
@@ -125,12 +125,16 @@ eigene Ablehnung, nicht das Ziel).
 → Bei Freigabe: **11-12 von 12 Ländern live** (je nach DK). Bleibt es gesperrt,
 wird GR ausgeblendet - kein technischer Schaden, alle anderen laufen unabhängig.
 
-## 5. `docs/pilot-wishlist.md` abarbeiten 🟢 (Claude - nach 2a/3/4)
+## ✅ 5. `docs/pilot-wishlist.md` abarbeiten - WEITGEHEND ERLEDIGT (12.07.2026)
 
-Erst Abgleich gegen den aktuellen Stand - parallel wurden bereits umgesetzt:
-Aerodrome-Facts (OpenAIP + OurAirports + AWC/NOAA), globale Cross-Country-Suche,
-METAR/TAF-Decode-Tab, Wetter-Gadgets, Sitelinks Search Box. Ablauf: Liste
-lesen → erledigte Punkte markieren → Priorisierung einholen → umsetzen.
+Alle priorisierten Wunschlisten-Items sind umgesetzt (PRs #197-#209: Favorites/
+Recents, Customs-Flag + Grenzformular-Links, Karten-Filter, Chart-PDF-Plumbing,
+CSP enforced, Country-Bulk-Download, Web-Vitals-/Navigations-Umbau - Lighthouse
+live 97-100). **Noch offen** (siehe Wishlist §A/§D): NOTAMs, PPR-Kontakt/
+Prozedere, Chart-PDF-Extraktion pro Land (`docs/chart-pdf-plan.md`), weitere
+Grenzformular-Länder, weitere Länder (CH/IT/ES, dazu DK/GR live schalten -
+Tasks 3/4), EFB-Hand-offs, Customs-Quellen jenseits OpenAIP, OpenAIP-Lizenz
+klären.
 
 ## 6. Optionale Aufräumarbeiten 🟢 (niedrige Priorität)
 
@@ -186,3 +190,16 @@ Detailseiten inkl. Mobile-Fix). Details: CLAUDE.md ist auf diesem Stand.
 
 **Reihenfolge-Empfehlung:** 2a (DE/FR-Fix, läuft) zuerst - das sind Kernländer.
 Parallel 4 (GR-502 im Bright-Data-Dashboard prüfen). Danach 3 (DK), dann 5.
+
+## ✅ Website-Verbesserungen 12.07.2026 (PRs #197-#209, alle gemergt)
+
+PWA Country-Bulk-Download (Phase 4) inkl. Scope-Hinweis; Wishlist-Batch
+(Favorites/Recents, Customs + Grenzformulare, Karten-Filter, pdf_url-Plumbing,
+CSP enforced); Web-Vitals-Pass (Font display:optional, main min-h-screen
+CLS-Fix, eine Cached-Query pro Land, Karten-Input-Gating, Icon-Sprite +
+content-visibility, Warm-ups, feingranulare Facts-Invalidierung); Navigation
+server-gerendert (mobile Pill-Bar statt Hamburger-Dialog, Link-Sprachumschalter,
+-43 kB First-Load-JS, vaul/@radix-ui-select/cva entfernt); Flughafenlisten-Karte
+auf den Landing-Pages; Breadcrumb horizontal scrollbar + lokalisierte
+Titles/aria-Labels. Live-Lighthouse nach Deploy: 97-100 in allen Kategorien.
+Details: CLAUDE.md ist auf diesem Stand.
