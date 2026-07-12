@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
+import { BreadCrumbs } from "~/components/breadcrumbs";
 import { Title } from "~/components/title";
 import {
   getPathname,
@@ -176,6 +177,11 @@ export default async function TermsPage(
           </section>
         </div>
       </div>
+
+      {/* Bottom breadcrumb (root > country > terms). The terms page never had
+          BreadcrumbList JSON-LD - the shared component adds it, with the
+          schema name falling back to the visible BreadCrumbs label. */}
+      <BreadCrumbs locale={locale} page={{ href: "/terms" }} />
     </>
   );
 }

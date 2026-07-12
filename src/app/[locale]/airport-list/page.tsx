@@ -2,6 +2,7 @@ import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { AboutCountryBox } from "~/components/about-country-box";
+import { BreadCrumbs } from "~/components/breadcrumbs";
 import { AirportMap } from "~/components/airport-map";
 import { LastUpdated } from "~/components/last-updated";
 import { SaveCountryOfflineButton } from "~/components/save-country-offline-button";
@@ -16,7 +17,7 @@ import {
 import { type Airport } from "~/server/db/schema";
 import LoadingList from "./loading-list";
 import { QUERIES } from "~/server/db/queries";
-import { i18nPathMapping, orgUrl, rootBreadcrumb } from "~/lib/utils";
+import { i18nPathMapping, orgUrl } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
@@ -102,40 +103,10 @@ export default async function IndexPage(
   const t = await getTranslations("AirportsPage");
   const crawledAt = await QUERIES.crawlUpdatedAt(locale.split("-")[0]!);
 
-  const tCountry = await getTranslations("CountryPage");
   const currentUrl = new URL(
     getPathname({ href: "/airport-list", locale }),
     orgUrl,
   ).toString();
-  const breadcrumbsSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      rootBreadcrumb,
-      {
-        "@type": "ListItem",
-        position: 2,
-        item: {
-          "@id":
-            new URL(getPathname({ href: "/", locale }), orgUrl).toString() +
-            "/",
-          name: tCountry("breadcrumb.name"),
-          alternateName: tCountry("breadcrumb.alternateName"),
-          description: tCountry("breadcrumb.description"),
-        },
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        item: {
-          "@id": currentUrl,
-          name: t("breadcrumb.name"),
-          alternateName: t("breadcrumb.alternateName"),
-          description: t("breadcrumb.description"),
-        },
-      },
-    ],
-  };
 
   const modifiedDate = new Date(buildDate);
 
@@ -143,12 +114,6 @@ export default async function IndexPage(
     <>
       <Title title={t("title")} description={t("description")} />
       <LastUpdated timestamp={crawledAt} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbsSchema),
-        }}
-      />
       <SchemaProduct
         name={t("breadcrumb.alternateName")}
         alternateName={t("breadcrumb.name")}
@@ -161,6 +126,18 @@ export default async function IndexPage(
       </Suspense>
       {/* About AIP Box */}
       <AboutCountryBox isH3={false} />
+
+      {/* Bottom breadcrumb: visible trail + BreadcrumbList JSON-LD from one
+          data structure (root > country > airport list). */}
+      <BreadCrumbs
+        locale={locale}
+        page={{
+          href: "/airport-list",
+          name: t("breadcrumb.name"),
+          alternateName: t("breadcrumb.alternateName"),
+          description: t("breadcrumb.description"),
+        }}
+      />
     </>
   );
 }
