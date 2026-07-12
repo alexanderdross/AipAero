@@ -100,25 +100,12 @@ async function getEntries(pathname: Href, country: Locale) {
         }
       : {}),
   }));
-  // In case of the airport list, repeat for every airport
+  // In case of the airport list, repeat for every airport. One cached read
+  // for the whole country (the per-airport entries carry their own type) -
+  // the former five per-type queries cost five tag-cache checks + D1 misses
+  // + R2 writes on every sitemap regeneration.
   if (pathname === "/airport-list") {
-    const [vfrAirports, ifrAirports, heliports, aeroports, militaryAirports] =
-      await Promise.all([
-        QUERIES.vfrAirports(country),
-        QUERIES.ifrAirports(country),
-        QUERIES.heliports(country),
-        QUERIES.aeroportAirports(country),
-        QUERIES.militaryAirports(country),
-      ]);
-    const airports = [
-      vfrAirports,
-      ifrAirports,
-      heliports,
-      aeroports,
-      militaryAirports,
-    ]
-      .filter((x) => x.length > 0)
-      .flat();
+    const airports = await QUERIES.airportsByCountry(country);
     const airportEntries = airports
       .map((x) => {
         return alternateLangs.map((l) => ({

@@ -112,85 +112,6 @@ function cachedRead<T>(
 }
 
 export const QUERIES = {
-  vfrAirports: function (country: string) {
-    // Country codes are stored uppercase (the crawler upper()s them). D1/SQLite
-    // compares strings case-sensitively (unlike the old MySQL ci collation), so
-    // normalize the locale-derived country (e.g. "at") before querying.
-    country = country.toUpperCase();
-    return cachedRead(
-      "vfrAirports",
-      ["vfrAirports", country],
-      ["vfrAirports", countryTag(country)],
-      (db) =>
-        db.query.airports.findMany({
-          where: and(eq(airports.country, country), eq(airports.type, "vfr")),
-          orderBy: [asc(airports.title)],
-        }),
-      [] as Airport[],
-    );
-  },
-  ifrAirports: function (country: string) {
-    country = country.toUpperCase();
-    return cachedRead(
-      "ifrAirports",
-      ["ifrAirports", country],
-      ["ifrAirports", countryTag(country)],
-      (db) =>
-        db.query.airports.findMany({
-          where: and(eq(airports.country, country), eq(airports.type, "ifr")),
-          orderBy: [asc(airports.title)],
-        }),
-      [] as Airport[],
-    );
-  },
-  heliports: function (country: string) {
-    country = country.toUpperCase();
-    return cachedRead(
-      "heliports",
-      ["heliports", country],
-      ["heliports", countryTag(country)],
-      (db) =>
-        db.query.airports.findMany({
-          where: and(
-            eq(airports.country, country),
-            eq(airports.type, "heliport"),
-          ),
-          orderBy: [asc(airports.title)],
-        }),
-      [] as Airport[],
-    );
-  },
-  militaryAirports: function (country: string) {
-    country = country.toUpperCase();
-    return cachedRead(
-      "militaryAirports",
-      ["militaryAirports", country],
-      ["militaryAirports", countryTag(country)],
-      (db) =>
-        db.query.airports.findMany({
-          where: and(eq(airports.country, country), eq(airports.type, "mil")),
-          orderBy: [asc(airports.title)],
-        }),
-      [] as Airport[],
-    );
-  },
-  aeroportAirports: function (country: string) {
-    country = country.toUpperCase();
-    return cachedRead(
-      "aeroportAirports",
-      ["aeroportAirports", country],
-      ["aeroportAirports", countryTag(country)],
-      (db) =>
-        db.query.airports.findMany({
-          where: and(
-            eq(airports.country, country),
-            eq(airports.type, "aeroport"),
-          ),
-          orderBy: [asc(airports.title)],
-        }),
-      [] as Airport[],
-    );
-  },
   // React `cache()` = request-scoped dedupe: generateMetadata and the page
   // body both look up the same airport row in one request, and with blocking
   // metadata (htmlLimitedBots) those two calls run strictly SEQUENTIALLY -
@@ -269,22 +190,31 @@ export const QUERIES = {
     });
   },
   airportsByCountry: function (country: string) {
-    // All chart-linked airports of a country (slug + type only) - the download
-    // set behind GET /api/airport-urls, which feeds the explicit country
-    // offline pack (PWA concept Phase 4). One bounded entry per country,
-    // busted by the crawler POST via the country tag.
+    // ALL chart-linked airports of a country in ONE cached, title-ordered
+    // read (full rows). This is the single source for the airport-list page,
+    // the sitemap and GET /api/airport-urls - callers partition by `type` in
+    // JS. It replaced five per-type queries (vfr/ifr/heliport/mil/aeroport):
+    // those cost every list/sitemap regeneration five tag-cache checks, five
+    // D1 misses and five R2 writes, which showed up live as a multi-second
+    // render delay on the streamed list content after a tag bust (PL list:
+    // LCP 4.2s / Lighthouse 86, 2026-07-12). One bounded entry per country,
+    // busted by the crawler POST via the country tag. ("v2" in the key: the
+    // entry shape changed from slug+type-only rows to full rows - old-shaped
+    // deployed entries must not be read back.)
+    // Country codes are stored uppercase (the crawler upper()s them);
+    // D1/SQLite compares strings case-sensitively, so normalize the
+    // locale-derived country (e.g. "at") before querying.
     country = country.toUpperCase();
     return cachedRead(
       "airportsByCountry",
-      ["airportsByCountry", country],
+      ["airportsByCountry", country, "v2"],
       ["airportsByCountry", countryTag(country)],
       (db) =>
-        db
-          .select({ slug: airports.slug, type: airports.type })
-          .from(airports)
-          .where(eq(airports.country, country))
-          .orderBy(asc(airports.title)),
-      [] as { slug: string; type: Airport["type"] }[],
+        db.query.airports.findMany({
+          where: eq(airports.country, country),
+          orderBy: [asc(airports.title)],
+        }),
+      [] as Airport[],
     );
   },
   airportsWithCoords: function (country: string) {
