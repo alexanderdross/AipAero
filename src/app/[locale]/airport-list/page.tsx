@@ -1,4 +1,3 @@
-import { LinkIcon } from "lucide-react";
 import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
@@ -244,6 +243,27 @@ async function AirportLists({ locale }: { locale: string }) {
         />
       )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* ONE SVG symbol for the hundreds of per-row link icons below. An
+            inline lucide LinkIcon per row cost ~350 bytes + 3 extra DOM nodes
+            each - doubled by the RSC flight payload, ~0.5 MB / ~2,400 nodes on
+            the 792-row DE list (document was 2.08 MB uncompressed, DOM 7,208
+            elements). Each row references this symbol via <use> instead.
+            Paths = lucide "link" (ISC licensed), keep in sync if the icon set
+            ever changes. */}
+        <svg className="hidden" aria-hidden="true">
+          <symbol
+            id="row-link-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+          </symbol>
+        </svg>
         <div className="flex flex-wrap justify-center gap-6">
           {[
             vfrAirports,
@@ -279,12 +299,14 @@ async function AirportLists({ locale }: { locale: string }) {
                           href: i18nPathMapping[airportType],
                           locale,
                         }) + `?${airport.slug}`;
-                      // Compute the localized link title once per airport: it
-                      // feeds the title, aria-label and the microdata meta. The
-                      // country lists run to hundreds of rows, so collapsing
-                      // three identical ICU formats to one meaningfully cuts the
-                      // server render cost (the large DE list has hit the Worker
-                      // resource limit during regeneration).
+                      // The localized link title feeds the tooltip/title only.
+                      // It used to also fill an aria-label and a microdata
+                      // description meta per row - dropped 2026-07-12: the
+                      // accessible name is better served by the visible link
+                      // text (WCAG label-in-name), the boilerplate description
+                      // added no schema value beyond name/url/icaoCode, and at
+                      // ~200 bytes x2 (HTML + RSC payload) per row they were a
+                      // measurable slice of the DE list's 2 MB document.
                       const linkTitle = t(`${key}.linkTitle`, {
                         airport: airport.title,
                       });
@@ -293,7 +315,12 @@ async function AirportLists({ locale }: { locale: string }) {
                           key={index}
                           itemScope
                           itemType="https://schema.org/Airport"
-                          className="flex items-center gap-x-4"
+                          // content-visibility: below-fold rows skip layout +
+                          // paint entirely (the DE list renders 792 of them;
+                          // main-thread rendering was 1.6s). The intrinsic
+                          // size matches a row's real height so the scrollbar
+                          // stays stable; find-in-page still works.
+                          className="flex items-center gap-x-4 [contain-intrinsic-size:auto_2.5rem] [content-visibility:auto]"
                         >
                           <span>{index + 1}.</span>
                           <Link
@@ -301,17 +328,17 @@ async function AirportLists({ locale }: { locale: string }) {
                             itemProp="url"
                             className="justify-left text-drossblue flex gap-x-2 py-2 hover:underline"
                             title={linkTitle}
-                            aria-label={linkTitle}
                             target="_blank"
                             rel="noopener"
                           >
-                            <LinkIcon
+                            <svg
                               className="h-5 w-5 flex-shrink-0"
                               aria-hidden="true"
-                            />
+                            >
+                              <use href="#row-link-icon" />
+                            </svg>
                             <span itemProp="name">{airport.title}</span>
                           </Link>
-                          <meta itemProp="description" content={linkTitle} />
                           {airport.icao && (
                             <meta itemProp="icaoCode" content={airport.icao} />
                           )}
