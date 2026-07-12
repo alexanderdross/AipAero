@@ -290,13 +290,19 @@ export const QUERIES = {
   airportsWithCoords: function (country: string) {
     // Chart-linked airports of a country that have coordinates (joined from the
     // OurAirports facts table) - powers the map on the airport-list page. Tagged
-    // with both the country tag (crawler refresh) and `airportFacts` (importer
-    // refresh) so it updates when either source changes.
+    // with the country tag (crawler refresh), `airportFacts` (post-deploy
+    // full revalidate) and `airportCoords` (busted once per importer batch -
+    // see `upsertAirportFacts`) so it updates when any source changes.
     country = country.toUpperCase();
     return cachedRead(
       "airportsWithCoords",
       ["airportsWithCoords", country],
-      ["airportsWithCoords", countryTag(country), "airportFacts"],
+      [
+        "airportsWithCoords",
+        countryTag(country),
+        "airportFacts",
+        "airportCoords",
+      ],
       (db) =>
         db
           .select({
@@ -516,7 +522,18 @@ export const MUTATIONS = {
     const result = await db.batch(
       stmts as [(typeof stmts)[number], ...(typeof stmts)[number][]],
     );
-    revalidateTag("airportFacts");
+    // Fine-grained invalidation: the importer posts ~3k rows in ~100-row
+    // batches over several minutes, and busting the global "airportFacts"
+    // tag on EVERY batch sent every detail page's facts read cold for the
+    // whole posting phase - measured live 2026-07-12 as TTFB 1.6s / LCP 3.3s
+    // on an uninvolved detail page while an import ran. Bust only the
+    // batch's own per-ICAO tags, plus `airportCoords` so the map queries see
+    // new coordinates. The global "airportFacts" tag stays reserved for the
+    // post-deploy POST /api/revalidate (which must bust everything at once).
+    for (const row of input) {
+      revalidateTag(factsTag(row.icao));
+    }
+    revalidateTag("airportCoords");
     return result;
   },
 
