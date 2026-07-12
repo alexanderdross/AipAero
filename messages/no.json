@@ -239,6 +239,7 @@
     "surface": "Dekke"
   },
   "Common": {
+    "openIn": "Åpne i",
     "homeLink": "AIP:Aero - Luftfartspublikasjoner (AIP) & innflygingskart for Europa",
     "lastUpdated": "Sist oppdatert",
     "viewOnMap": "Se på Google Maps",

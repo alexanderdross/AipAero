@@ -313,5 +313,66 @@ class HttpCrawlerBase:
         except Exception as e:
             self.logger.error(f"Failed to save response body: {e}")
 
+    # --- Chart-PDF extraction (Stage 2, docs/chart-pdf-plan.md) -----------
+    # Per-crawler opt-in: when FETCH_PDF_URLS is True, crawl() calls
+    # attach_pdf_urls() to fetch every airport's chart page and store the most
+    # relevant direct chart-PDF link in `pdf_url`. Selection: the priority
+    # regexes are tried in order - first against each PDF link's visible TEXT,
+    # then against its HREF; the first match wins, else the page's first PDF
+    # link. Patterns come from the pdf_recon live-test runs (the AIP hosts are
+    # not reachable from the sandboxed dev environment).
+    FETCH_PDF_URLS: bool = False
+    PDF_TEXT_PRIORITY: tuple[str, ...] = ()
+    PDF_HREF_PRIORITY: tuple[str, ...] = ()
+
+    def attach_pdf_urls(self, airports: list[Airport]) -> list[Airport]:
+        """Best-effort chart-PDF enrichment; must run while the client is
+        still open (inside crawl(), before its `finally: self.close()`).
+
+        Every failure is per-field fail-soft: a missing PDF never blocks the
+        airport row - `pdf_url` simply stays None and the website falls back
+        to the chart page `url`.
+        """
+        if not self.FETCH_PDF_URLS:
+            return airports
+        found = 0
+        for airport in airports:
+            try:
+                html = self.fetch(airport.url)
+                airport.pdf_url = self._pick_pdf_url(html, airport.url)
+                if airport.pdf_url:
+                    found += 1
+            except Exception as e:
+                self.logger.debug(
+                    f"pdf_url skip {airport.icao or airport.title}: {e}"
+                )
+        self.logger.info(
+            f"pdf_url: {found}/{len(airports)} airports with a direct chart PDF"
+        )
+        return airports
+
+    def _pick_pdf_url(self, html: str, base_url: str) -> str | None:
+        soup = self.soup(html)
+        links: list[tuple[str, str]] = []
+        for link in soup.find_all("a", href=True):
+            href = link["href"]
+            if ".pdf" not in href.lower():
+                continue
+            text = " ".join(link.get_text(" ", strip=True).split())
+            links.append((text, urljoin(base_url, href)))
+        if not links:
+            return None
+        for pattern in self.PDF_TEXT_PRIORITY:
+            rx = re.compile(pattern, re.I)
+            for text, href in links:
+                if rx.search(text):
+                    return href
+        for pattern in self.PDF_HREF_PRIORITY:
+            rx = re.compile(pattern, re.I)
+            for text, href in links:
+                if rx.search(href):
+                    return href
+        return links[0][1]
+
     def crawl(self) -> list[Airport]:
         raise NotImplementedError("Crawlers must implement crawl()")

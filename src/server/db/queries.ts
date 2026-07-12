@@ -33,6 +33,11 @@ export type AirportCoord = {
   type: Airport["type"];
   lat: number | null;
   lon: number | null;
+  // Only on `airportsWithCoords` rows: lets the coords API apply the verified
+  // customs overrides (customs-overrides.ts). Optional so entries cached
+  // before the column was added stay type-compatible (they just get no
+  // override until the next revalidation).
+  icao?: string | null;
   fuel?: string | null;
   customs?: boolean | null;
   runways?: string | null;
@@ -239,6 +244,7 @@ export const QUERIES = {
             slug: airports.slug,
             title: airports.title,
             type: airports.type,
+            icao: airports.icao,
             lat: airportFacts.lat,
             lon: airportFacts.lon,
             // Raw facts for the map filters (fuel / customs / paved runway);

@@ -92,6 +92,11 @@ class CZ(HttpEurocontrolBase):
             )
         return airports
 
+    # Chart-PDF extraction (recon 2026-07-12): semantic hrefs like
+    # a2-tb-vfrc.pdf (VFR chart) / a2-tb-adc.pdf (aerodrome chart).
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"-vfrc\.pdf$", r"-adc\.pdf$")
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -107,6 +112,9 @@ class CZ(HttpEurocontrolBase):
 
             # 2. One chapter per aerodrome; all are type "ifr" per the spec.
             airports.extend(self._extract_airport_sections(nav_html, nav_url))
+
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"CZ crawl failed: {e}")
             if last_html is not None:

@@ -2,6 +2,7 @@ import "server-only";
 
 import { after } from "next/server";
 import { getAwcAirport } from "~/lib/awc-airport";
+import { customsOverride } from "~/lib/customs-overrides";
 import { getOpenAipFacts } from "~/lib/openaip";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import type {
@@ -167,7 +168,9 @@ export async function getAirportFacts(
     fuel: base?.fuel.length ? base.fuel : (openaip?.fuel ?? []),
     openingHours: base?.openingHours ?? openaip?.openingHours ?? null,
     restaurant: base?.restaurant ?? openaip?.restaurant ?? null,
-    customs: base?.customs ?? openaip?.customs ?? null,
+    // Verified GEN-1.2 override first (compliance-grade, in code - see
+    // customs-overrides.ts), then the persisted/community sources.
+    customs: customsOverride(code) ?? base?.customs ?? openaip?.customs ?? null,
     aerodromeType: base?.aerodromeType ?? openaip?.aerodromeType ?? null,
     street: base?.street ?? null,
     postcode: base?.postcode ?? null,

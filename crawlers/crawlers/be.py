@@ -115,6 +115,12 @@ class BE(HttpEurocontrolBase):
             raise ValueError(f"No per-airport AD sections found in {nav_url}")
         return airports
 
+    # Chart-PDF extraction: skeyes blocks plain clients (403) but this
+    # crawler's browser headers get through; "-2-1" mirrors the eurocontrol
+    # chart numbering (aerodrome chart). Validated via the live test.
+    FETCH_PDF_URLS = True
+    PDF_TEXT_PRIORITY = (r"-2-1$",)
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -134,6 +140,9 @@ class BE(HttpEurocontrolBase):
             last_url, last_html = nav_url, nav_html
 
             airports.extend(self._extract_airport_sections(nav_html, nav_url))
+
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"BE crawl failed: {e}")
             if last_html is not None:

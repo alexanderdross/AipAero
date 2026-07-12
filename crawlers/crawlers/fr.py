@@ -198,6 +198,11 @@ class FR(HttpEurocontrolBase):
         )
         return candidates[0][1]
 
+    # Chart-PDF extraction (recon 2026-07-12): semantic hrefs under
+    # Cartes/<ICAO>/, e.g. AD_2_LFBA_ADC_01.pdf (aerodrome chart).
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_ADC_01\.pdf$", r"_ADC_", r"_APDC_")
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
@@ -261,6 +266,9 @@ class FR(HttpEurocontrolBase):
                     f"No FR sections could be parsed from {nav_url}: "
                     f"{'; '.join(section_errors)}"
                 )
+
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"FR crawl failed: {e}")
             if last_html is not None:

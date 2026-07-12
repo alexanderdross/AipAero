@@ -239,6 +239,7 @@
     "surface": "Ondergrond"
   },
   "Common": {
+    "openIn": "Openen in",
     "homeLink": "AIP:Aero - Luchtvaartpublicaties (AIP) & aanvliegkaarten voor Europa",
     "lastUpdated": "Laatst bijgewerkt",
     "viewOnMap": "Bekijk op Google Maps",

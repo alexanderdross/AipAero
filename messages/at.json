@@ -239,6 +239,7 @@
     "surface": "Belag"
   },
   "Common": {
+    "openIn": "Öffnen in",
     "homeLink": "AIP:Aero - Luftfahrthandbücher (AIP) & Anflugkarten für Europa",
     "lastUpdated": "Stand",
     "viewOnMap": "Auf Google Maps ansehen",

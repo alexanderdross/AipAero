@@ -190,3 +190,27 @@ revises the schema, refresh the enum maps in `openaip-parse.ts` and its test.
   importer.
 - Everything here is fail-soft: until a source is switched on, the affected
   boxes simply render nothing - the site keeps working.
+
+## Customs overrides (AIP GEN 1.2)
+
+OpenAIP's customs flag is community-sourced. The authoritative list of
+customs / Airport-of-Entry aerodromes is each country's **AIP GEN 1.2**
+("entry, transit and departure of aircraft"). Verified values live in code -
+`src/lib/customs-overrides.ts` - and win over every other source at read time
+(the facts merge AND the map-filter flags), same verified-only policy as the
+border-crossing form links.
+
+Adding a country's entries:
+
+1. Open the national eAIP's **GEN 1.2** section (reachable from the runner or
+   a normal browser - the sandboxed agent environment has no egress to the
+   AIP hosts; the `crawler-live-test.yml` workflow's `check_urls` input can
+   fetch and status-check URLs from the runner).
+2. Note the designated customs aerodromes (including "on request" / "with
+   prior notice" fields - those count as `true`; the pilot must still check
+   the AIP entry for the notice period).
+3. Add `ICAO: true` entries (or `false` for fields OpenAIP wrongly flags) to
+   `customsOverrides` with a source comment (`// DE GEN 1.2, AIRAC 2026-07`).
+4. `pnpm check` + PR as usual. No importer run needed - the override applies
+   at read time; the per-country cache revalidates on the next crawler POST
+   or `/api/revalidate` call.
