@@ -18,7 +18,7 @@ The database is still deliberately thin - per airport it stores only six fields 
 type, country, slug`, `src/server/db/schema.ts`), and the crawlers emit only those. Operational data
 is not stored; where a gadget needs it (weather), it is fetched **server-side at request time** from a
 free API and cached, never persisted. Still missing in-app: ~~coordinates for all fields~~, ~~a map~~,
-**NOTAMs**, ~~runway/frequency~~/**customs** data, **favorites**.
+**NOTAMs**, ~~runway/frequency~~/~~customs~~ data, ~~favorites~~.
 
 The rest of this document is what I, as the pilot, still wish it did - and what has shipped so far.
 
@@ -74,6 +74,21 @@ kept** - left as-is on purpose.
 ---
 
 ## C. Shipped
+
+**UX / performance / navigation batch 2026-07-12 (afternoon, PRs #197-#209).** **Country bulk
+download** (PWA Phase 4, `save-country-offline-button.tsx`): all of a country's detail pages saved
+for offline use from the airport-list page (HTML-only, quota-guarded, progress/cancel/update/remove),
+plus a localized scope hint stating what IS and is NOT included (chart PDFs stay per-field, live
+weather needs a connection). **Airport-list card** on every country landing page (localized href,
+description names the offline download / customs / fuel features). **Navigation rebuilt for
+performance + SEO**: both menus server-rendered (zero Menu messages to the client), the mobile menu
+is a horizontally scrollable pill bar (SSR links, one less tap), the language switcher is two plain
+crawlable links (Radix Select removed), the airport-list rows are plain `<a>` - net -43 kB First
+Load JS on the homepage and three dependencies removed (vaul, @radix-ui/react-select,
+class-variance-authority). **Breadcrumb** scrolls horizontally instead of wrapping (CLS guard) and
+carries localized aria-labels; header logo + navs got localized, keyword-rich titles/labels.
+Verified live: Lighthouse 97-100 across all four categories on homepage, landing, list and detail
+pages.
 
 **Wishlist batch 2026-07-12.** **Favorites / recently viewed** (favorites = the offline-saved
 fields via the existing `aip-offline-saved` index, recents tracked client-side in
