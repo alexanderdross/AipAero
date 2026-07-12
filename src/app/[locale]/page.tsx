@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { AboutCountryBox } from "~/components/about-country-box";
 import { Box } from "~/components/box";
+import { BreadCrumbs } from "~/components/breadcrumbs";
 import { FavoritesRecent } from "~/components/favorites-recent";
 import { Hero } from "~/components/hero";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
@@ -22,7 +23,7 @@ import {
   localeLangMapping,
   routing,
 } from "~/i18n/routing";
-import { cn, orgUrl, rootBreadcrumb } from "~/lib/utils";
+import { cn, orgUrl } from "~/lib/utils";
 
 // Decorative icon per card type (keyed by the card message key). aria-hidden in
 // Box, so it adds visual scent without changing the heading's accessible name.
@@ -131,23 +132,6 @@ export default async function CountryPage(
 
   const currentUrl =
     new URL(getPathname({ href: "/", locale }), orgUrl).toString() + "/";
-  const breadcrumbsSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      rootBreadcrumb,
-      {
-        "@type": "ListItem",
-        position: 2,
-        item: {
-          "@id": currentUrl,
-          name: t("breadcrumb.name"),
-          alternateName: t("breadcrumb.alternateName"),
-          description: t("breadcrumb.description"),
-        },
-      },
-    ],
-  };
 
   const modifiedDate = new Date(buildDate);
 
@@ -156,12 +140,6 @@ export default async function CountryPage(
   return (
     <>
       <Hero title={t("title")} description={t("description")} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbsSchema),
-        }}
-      />
       <SchemaProduct
         name={t("breadcrumb.alternateName")}
         alternateName={t("breadcrumb.name")}
@@ -215,6 +193,10 @@ export default async function CountryPage(
         favoritesLabel={tCommon("favorites")}
         recentLabel={tCommon("recentlyViewed")}
       />
+
+      {/* Bottom breadcrumb: visible trail + BreadcrumbList JSON-LD from one
+          data structure (root > country, the country is the current page). */}
+      <BreadCrumbs locale={locale} />
     </>
   );
 }

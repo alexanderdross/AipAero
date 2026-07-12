@@ -5,6 +5,7 @@ import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { notFound } from "next/navigation";
 import { AboutCountryBox } from "~/components/about-country-box";
+import { BreadCrumbs } from "~/components/breadcrumbs";
 import { AirportGadgets } from "~/components/airport-gadgets";
 import { AirportGadgetsFallback } from "~/components/airport-gadgets-fallback";
 import { Suspense } from "react";
@@ -19,7 +20,7 @@ import {
   routing,
   isSingleLocale,
 } from "~/i18n/routing";
-import { countryHasType, orgUrl, rootBreadcrumb } from "~/lib/utils";
+import { countryHasType, orgUrl } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 import { type Airport } from "~/server/db/schema";
 
@@ -157,40 +158,10 @@ export function createSearchPage(config: SearchPageConfig) {
       }
     }
 
-    const tCountry = await getTranslations("CountryPage");
     let currentUrl = new URL(getPathname({ href, locale }), orgUrl).toString();
     let schemaProductName = t("breadcrumb.alternateName");
     let schemaAlternateName = t("breadcrumb.name");
     let schemaDescription = t("breadcrumb.description");
-    const breadcrumbsSchema = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        rootBreadcrumb,
-        {
-          "@type": "ListItem",
-          position: 2,
-          item: {
-            "@id":
-              new URL(getPathname({ href: "/", locale }), orgUrl).toString() +
-              "/",
-            name: tCountry("breadcrumb.name"),
-            alternateName: tCountry("breadcrumb.alternateName"),
-            description: tCountry("breadcrumb.description"),
-          },
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          item: {
-            "@id": new URL(getPathname({ href, locale }), orgUrl).toString(),
-            name: t("breadcrumb.name"),
-            alternateName: t("breadcrumb.alternateName"),
-            description: t("breadcrumb.description"),
-          },
-        },
-      ],
-    };
     if (data) {
       currentUrl = new URL(
         getPathname({
@@ -206,16 +177,6 @@ export function createSearchPage(config: SearchPageConfig) {
         ? `${schemaPrefix} ${data.icao}`
         : data.title;
       schemaDescription = t("resultDescription", { airport: data.title });
-      breadcrumbsSchema.itemListElement.push({
-        "@type": "ListItem",
-        position: 4,
-        item: {
-          "@id": currentUrl,
-          name: data.icao ?? data.title,
-          alternateName: t("resultTitle", { airport: data.title }),
-          description: t("resultDescription", { airport: data.title }),
-        },
-      });
     }
 
     const modifiedDate = new Date(buildDate);
@@ -229,12 +190,6 @@ export function createSearchPage(config: SearchPageConfig) {
               ? t("resultDescription", { airport: data.title })
               : t("description")
           }
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(breadcrumbsSchema),
-          }}
         />
         <SchemaProduct
           name={schemaProductName}
@@ -290,6 +245,30 @@ export function createSearchPage(config: SearchPageConfig) {
 
         {/* About AIP Box */}
         <AboutCountryBox isH3={false} />
+
+        {/* Bottom breadcrumb (visible trail + BreadcrumbList JSON-LD from one
+            data structure). The airport crumb shows the ICAO code, or the
+            real title for non-ICAO fields - exactly the schema's item name. */}
+        <BreadCrumbs
+          locale={locale}
+          page={{
+            href,
+            name: t("breadcrumb.name"),
+            alternateName: t("breadcrumb.alternateName"),
+            description: t("breadcrumb.description"),
+          }}
+          airport={
+            data
+              ? {
+                  url: currentUrl,
+                  label: data.icao ?? data.title,
+                  name: data.icao ?? data.title,
+                  alternateName: t("resultTitle", { airport: data.title }),
+                  description: t("resultDescription", { airport: data.title }),
+                }
+              : undefined
+          }
+        />
       </>
     );
   }

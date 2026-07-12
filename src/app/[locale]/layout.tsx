@@ -1,16 +1,13 @@
 import { notFound } from "next/navigation";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { localeLangMapping, routing } from "~/i18n/routing";
 import Footer from "~/components/footer";
 import { Header } from "~/components/header";
-import { BreadCrumbs } from "~/components/breadcrumbs";
 import { SchemaWebsite } from "~/components/schemas/schema-website";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { inter } from "~/lib/fonts";
-import { NextIntlClientProvider } from "next-intl";
-import pick from "lodash/pick";
 import { Suspense } from "react";
 
 export function generateStaticParams() {
@@ -35,8 +32,6 @@ export default async function LocaleLayout(
   // headers(), which opts the whole route into dynamic rendering and stops
   // the page (and its generateMetadata output) from being prerendered.
   setRequestLocale(locale);
-
-  const messages = await getMessages();
 
   return (
     <html
@@ -68,17 +63,11 @@ export default async function LocaleLayout(
             fold before AND after the stream, so the swap cannot shift any
             viewport-visible content. Short pages just gain some background
             whitespace above the fold - the standard sticky-footer trade. */}
+        {/* The breadcrumb bar is rendered by each PAGE at the end of its
+            content (server-rendered, ~/components/breadcrumbs.tsx) - the
+            former layout-level client breadcrumb (and its height reserve)
+            is gone. */}
         <main className="min-h-screen">{props.children}</main>
-        {/* Reserve the breadcrumb bar's height so it never shifts the footer
-            when it renders (it reads searchParams, so it resolves after the
-            Suspense boundary). Fixes the ~0.11 CLS Lighthouse flagged. */}
-        <div className="min-h-[5.5rem]">
-          <NextIntlClientProvider messages={pick(messages, "BreadCrumbs")}>
-            <Suspense fallback={null}>
-              <BreadCrumbs />
-            </Suspense>
-          </NextIntlClientProvider>
-        </div>
         <Footer />
         {/* Offline PWA: registers /sw.js after load (production hosts only). */}
         <ServiceWorkerRegistration />
