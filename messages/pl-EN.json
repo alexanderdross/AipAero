@@ -127,7 +127,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports/ heliports in Poland",
+      "description": "Overview of all airfields/ airports/ heliports in Poland - with offline download, customs and fuel info",
       "buttonTitle": "Airport List",
       "buttonHref": "/pl/en/airport-list-poland/",
       "buttonHrefTitle": "List of Airports/ Airfields in Poland"
@@ -265,6 +265,7 @@
     "bulkCancel": "Cancel",
     "bulkError": "Download failed - please try again",
     "bulkNoSpace": "Not enough free storage on this device",
+    "bulkScope": "Included: all airfield pages with aerodrome data. Not included: approach chart PDFs (can be saved per airfield) and live weather (needs a connection).",
     "pavedRunway": "Paved runway",
     "favorites": "Favourites",
     "recentlyViewed": "Recently viewed",

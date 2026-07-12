@@ -92,7 +92,7 @@
     },
     "airportListCard": {
       "title": "Seznam letišť",
-      "description": "Přehled všech letišť v Česku",
+      "description": "Přehled všech letišť v Česku - s offline stažením a informacemi o clu a palivu",
       "buttonTitle": "Seznam letišť",
       "buttonHref": "/cz/letiste-cesko/",
       "buttonHrefTitle": "Seznam letišť v Česku"
@@ -230,6 +230,7 @@
     "bulkCancel": "Zrušit",
     "bulkError": "Stažení se nezdařilo - zkuste to prosím znovu",
     "bulkNoSpace": "Nedostatek volného úložiště v tomto zařízení",
+    "bulkScope": "Obsahuje: všechny stránky letišť s letištními daty. Neobsahuje: PDF přibližovacích map (lze uložit u jednotlivých letišť) a aktuální počasí (vyžaduje připojení).",
     "pavedRunway": "Zpevněná dráha",
     "favorites": "Oblíbené",
     "recentlyViewed": "Nedávno zobrazené",

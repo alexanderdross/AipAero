@@ -127,7 +127,7 @@
     },
     "airportListCard": {
       "title": "Liste des aéroports",
-      "description": "Vue d'ensemble de tous les aérodromes/aéroports en France",
+      "description": "Vue d'ensemble de tous les aérodromes/aéroports en France - avec téléchargement hors ligne, infos douane et carburant",
       "buttonTitle": "Liste des aéroports",
       "buttonHref": "/fr/liste-des-aeroports-francais/",
       "buttonHrefTitle": "Liste des aéroports France"
@@ -265,6 +265,7 @@
     "bulkCancel": "Annuler",
     "bulkError": "Échec du téléchargement - veuillez réessayer",
     "bulkNoSpace": "Espace de stockage insuffisant sur cet appareil",
+    "bulkScope": "Inclus : toutes les pages d'aérodromes avec leurs données. Non inclus : les PDF des cartes d'approche (enregistrables par aérodrome) et la météo en direct (connexion requise).",
     "pavedRunway": "Piste revêtue",
     "favorites": "Favoris",
     "recentlyViewed": "Consultés récemment",

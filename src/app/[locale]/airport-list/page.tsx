@@ -220,20 +220,28 @@ async function AirportLists({ locale }: { locale: string }) {
       {/* Explicit country bulk download (PWA Phase 4): HTML detail pages only,
           no PDFs. Hidden while the country has no airports (fresh deploy). */}
       {pageCount > 1 && (
-        <SaveCountryOfflineButton
-          locale={locale}
-          downloadLabel={tCommon("bulkDownload", {
-            count: pageCount,
-            size: sizeMb,
-          })}
-          downloadedLabel={tCommon("bulkDownloaded")}
-          updateLabel={tCommon("bulkUpdate")}
-          removeLabel={tCommon("bulkRemove")}
-          progressLabel={tCommon("bulkProgress")}
-          cancelLabel={tCommon("bulkCancel")}
-          errorLabel={tCommon("bulkError")}
-          noSpaceLabel={tCommon("bulkNoSpace")}
-        />
+        <>
+          <SaveCountryOfflineButton
+            locale={locale}
+            downloadLabel={tCommon("bulkDownload", {
+              count: pageCount,
+              size: sizeMb,
+            })}
+            downloadedLabel={tCommon("bulkDownloaded")}
+            updateLabel={tCommon("bulkUpdate")}
+            removeLabel={tCommon("bulkRemove")}
+            progressLabel={tCommon("bulkProgress")}
+            cancelLabel={tCommon("bulkCancel")}
+            errorLabel={tCommon("bulkError")}
+            noSpaceLabel={tCommon("bulkNoSpace")}
+          />
+          {/* What the pack does / does not contain - static SSR text (no CLS,
+              crawlable), pulled up toward the button row above (its container
+              carries pb-6). */}
+          <p className="text-drossgray-dark mx-auto -mt-4 max-w-xl px-4 pb-6 text-center text-xs">
+            {tCommon("bulkScope")}
+          </p>
+        </>
       )}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* ONE SVG symbol for the hundreds of per-row link icons below. An

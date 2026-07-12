@@ -127,7 +127,7 @@
     },
     "airportListCard": {
       "title": "Lista lotnisk",
-      "description": "Wszystkie lotniska w Polsce w jednym miejscu",
+      "description": "Wszystkie lotniska w Polsce w jednym miejscu - z pobieraniem offline oraz informacjami o cle i paliwie",
       "buttonTitle": "Lista lotnisk",
       "buttonHref": "/pl/lotniska-polska/",
       "buttonHrefTitle": "Lista lotnisk w Polsce"
@@ -265,6 +265,7 @@
     "bulkCancel": "Anuluj",
     "bulkError": "Pobieranie nie powiodło się - spróbuj ponownie",
     "bulkNoSpace": "Za mało wolnego miejsca na tym urządzeniu",
+    "bulkScope": "Zawiera: wszystkie strony lotnisk z danymi lotniskowymi. Nie zawiera: map podejścia w PDF (można zapisać osobno dla każdego lotniska) ani aktualnej pogody (wymaga połączenia).",
     "pavedRunway": "Utwardzony pas",
     "favorites": "Ulubione",
     "recentlyViewed": "Ostatnio przeglądane",

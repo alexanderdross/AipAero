@@ -127,7 +127,7 @@
     },
     "airportListCard": {
       "title": "Flyvepladsliste",
-      "description": "Oversigt over alle flyvepladser/ lufthavne i Danmark",
+      "description": "Oversigt over alle flyvepladser/ lufthavne i Danmark - med offline download, told- og brændstofinfo",
       "buttonTitle": "Flyvepladsliste",
       "buttonHref": "/dk/flyvepladser-danmark/",
       "buttonHrefTitle": "Liste over flyvepladser i Danmark"
@@ -265,6 +265,7 @@
     "bulkCancel": "Annuller",
     "bulkError": "Download mislykkedes - prøv igen",
     "bulkNoSpace": "Ikke nok ledig lagerplads på denne enhed",
+    "bulkScope": "Inkluderet: alle flyvepladssider med flyvepladsdata. Ikke inkluderet: PDF'er med anflyvningskort (kan gemmes pr. flyveplads) og live-vejr (kræver forbindelse).",
     "pavedRunway": "Befæstet bane",
     "favorites": "Favoritter",
     "recentlyViewed": "Senest viste",
