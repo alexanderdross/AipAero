@@ -300,7 +300,7 @@ export default async function RootPage() {
           </AboutBox>
         </main>
 
-        <Footer />
+        <Footer global />
         {/* Offline PWA: registers /sw.js after load (production hosts only). */}
         <ServiceWorkerRegistration />
         {/* Merge byte-identical duplicate JSON-LD nodes (Workers serving-path

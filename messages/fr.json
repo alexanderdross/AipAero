@@ -152,6 +152,9 @@
     "buttonHrefTitle": "Trade:Aero - la plus grande place de marché d'avions d'Europe"
   },
   "Footer": {
+    "navTitle": "Navigation",
+    "legalTitle": "Mentions légales & contact",
+    "partnersTitle": "Partenaires",
     "stratux": {
       "title": "📡 Stratux - Système anti-collision",
       "hrefTitle": "Stratux - Système anti-collision pour l'aviation privée et les planeurs",

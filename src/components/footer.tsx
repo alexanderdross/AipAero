@@ -1,85 +1,153 @@
-import { Fragment } from "react";
-import { ExternalLink } from "~/components/external-link";
 import { getLocale, getTranslations } from "next-intl/server";
+import { ExternalLink } from "~/components/external-link";
 import { env } from "~/env";
-import { getPathname } from "~/i18n/routing";
+import { getPathname, type Locale } from "~/i18n/routing";
+import { navItems } from "~/lib/nav-items";
 import { tradeAeroUrl } from "~/lib/trade-aero";
+import { countryMeta, liveCountries } from "~/lib/utils";
 
-export default async function Footer() {
+/**
+ * Site footer: three named groups (navigation / legal / partners) instead of
+ * the former pipe-separated text rows (the "|" strings were announced by
+ * screen readers; lists + CSS gaps are not).
+ *
+ * - Navigation: the country's main pages from the shared nav-items (localized
+ *   SEO titles from the Menu namespace) - site-wide internal links on every
+ *   page, plain followed same-tab <a>. On the GLOBAL homepage (no locale
+ *   context) the group lists the live countries instead (`global` prop).
+ * - Legal/network: the owner-site links (dross.net home/imprint/contact/
+ *   privacy - genuinely external) plus our own localized /terms as a plain
+ *   internal <a> (the old footer opened it in a new tab via ExternalLink).
+ * - Partners: Trade:Aero (locale + country aware deep link, followed) and
+ *   Stratux.
+ *
+ * All SSR, zero client JS; the footer starts below the fold on every page
+ * (main min-h-screen), so the added height is Web-Vitals-free. Group labels
+ * are <p>, not headings - heading levels vary per page and a footer <h2>/<h3>
+ * could break axe's heading-order rule depending on the page outline.
+ */
+export default async function Footer({ global = false }: { global?: boolean }) {
   const t = await getTranslations("Footer");
   const locale = await getLocale();
-  const keysTop = ["stratux", "tradeaero"] as const;
-  const keysMiddle = [
-    "home",
-    "imprint",
-    "contact",
-    "privacy",
-    "terms",
-  ] as const;
+  const tMenu = await getTranslations("Menu");
+
+  const navLinks = global
+    ? liveCountries.map((cc) => {
+        const meta = countryMeta[cc];
+        return {
+          key: cc,
+          href: getPathname({ href: "/", locale: cc as Locale }) + "/",
+          title: `${meta?.flag ?? ""} ${meta?.name ?? cc.toUpperCase()}`.trim(),
+          titleAttr: `AIP ${meta?.name ?? cc.toUpperCase()}`,
+        };
+      })
+    : navItems
+        .filter((item) => tMenu.has(`${item.key}.title`))
+        .map((item) => ({
+          key: item.key,
+          href:
+            getPathname({ href: item.href, locale: locale as Locale }) + "/",
+          title: tMenu(`${item.key}.title`),
+          titleAttr: tMenu(`${item.key}.hrefTitle`),
+        }));
+
+  const legalExternal = ["home", "imprint", "contact", "privacy"] as const;
+
+  const groupLabel =
+    "text-drossgray-dark text-xs font-semibold tracking-wider uppercase";
+  const linkRow =
+    "text-drossblue inline-flex min-h-10 items-center hover:underline";
 
   return (
     <>
-      <footer className="mx-auto max-w-7xl overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
-        {/* Top links */}
-        <div className="flex flex-wrap justify-center gap-x-2 px-5 py-2">
-          {keysTop.map((key, idx) => {
-            // Trade:Aero gets the locale + country aware deep link (and a
-            // followed rel so it passes relevance / referrer); the others keep
-            // their static i18n href and the default outbound rel.
-            const isTrade = key === "tradeaero";
-            return (
-              <Fragment key={idx}>
-                <ExternalLink
-                  href={isTrade ? tradeAeroUrl(locale) : t(`${key}.href`)}
-                  hrefTitle={t(`${key}.hrefTitle`)}
-                  rel={isTrade ? "noopener" : undefined}
-                  className="text-drossblue mx-2 text-base hover:underline"
-                >
-                  {t(`${key}.title`)}
-                </ExternalLink>
-                {idx < keysTop.length - 1 && "|"}
-              </Fragment>
-            );
-          })}
-        </div>
+      <footer className="border-drossgray-dark/10 border-t">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="grid gap-x-8 gap-y-8 sm:grid-cols-3">
+            {/* Site navigation: internal, followed, same tab. */}
+            <nav aria-label={t("navTitle")}>
+              <p className={groupLabel}>{t("navTitle")}</p>
+              <ul className="mt-2 flex flex-col">
+                {navLinks.map((link) => (
+                  <li key={link.key}>
+                    <a
+                      href={link.href}
+                      title={link.titleAttr}
+                      className={linkRow}
+                    >
+                      {link.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-        {/* Middle links */}
-        <div className="flex flex-wrap justify-center">
-          {keysMiddle.map((key, idx) => (
-            <Fragment key={idx}>
-              <ExternalLink
-                // The terms page is our own localized route, so its href comes
-                // from the routing config (getPathname) instead of the i18n
-                // files - new locales get the right link automatically.
-                href={
-                  key === "terms"
-                    ? getPathname({ href: "/terms", locale })
-                    : t(`${key}.href`)
-                }
-                // Own internal page: followed (no nofollow), unlike the
-                // default outbound rel the other entries keep.
-                rel={key === "terms" ? "noopener" : undefined}
-                hrefTitle={t(`${key}.hrefTitle`)}
-                className="text-drossblue mx-2 text-base hover:underline"
-              >
-                {t(`${key}.title`)}
-              </ExternalLink>
-              {idx < keysMiddle.length - 1 && "|"}
-            </Fragment>
-          ))}
-        </div>
+            {/* Legal / owner network. */}
+            <div>
+              <p className={groupLabel}>{t("legalTitle")}</p>
+              <ul className="mt-2 flex flex-col">
+                {legalExternal.map((key) => (
+                  <li key={key}>
+                    <ExternalLink
+                      href={t(`${key}.href`)}
+                      hrefTitle={t(`${key}.hrefTitle`)}
+                      className={linkRow}
+                    >
+                      {t(`${key}.title`)}
+                    </ExternalLink>
+                  </li>
+                ))}
+                <li>
+                  {/* Our own localized page: plain followed same-tab link. */}
+                  <a
+                    href={getPathname({ href: "/terms", locale }) + "/"}
+                    title={t("terms.hrefTitle")}
+                    className={linkRow}
+                  >
+                    {t("terms.title")}
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-        {/* Bottom */}
-        <p className="text-drossgray-dark mt-2 text-center text-base">
-          &copy; {new Date().getFullYear()} made with ♥ by
-          <ExternalLink
-            href={t("madeBy.href")}
-            hrefTitle={t("madeBy.hrefTitle")}
-            className="text-drossblue mx-2 text-base italic hover:underline"
-          >
-            {t("madeBy.title")}
-          </ExternalLink>
-        </p>
+            {/* Partner properties. */}
+            <div>
+              <p className={groupLabel}>{t("partnersTitle")}</p>
+              <ul className="mt-2 flex flex-col">
+                <li>
+                  <ExternalLink
+                    href={tradeAeroUrl(locale)}
+                    hrefTitle={t("tradeaero.hrefTitle")}
+                    rel="noopener"
+                    className={linkRow}
+                  >
+                    {t("tradeaero.title")}
+                  </ExternalLink>
+                </li>
+                <li>
+                  <ExternalLink
+                    href={t("stratux.href")}
+                    hrefTitle={t("stratux.hrefTitle")}
+                    className={linkRow}
+                  >
+                    {t("stratux.title")}
+                  </ExternalLink>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <p className="text-drossgray-dark mt-8 text-center text-base">
+            &copy; {new Date().getFullYear()} made with ♥ by
+            <ExternalLink
+              href={t("madeBy.href")}
+              hrefTitle={t("madeBy.hrefTitle")}
+              rel="author noopener noreferrer nofollow"
+              className="text-drossblue mx-2 text-base italic hover:underline"
+            >
+              {t("madeBy.title")}
+            </ExternalLink>
+          </p>
+        </div>
       </footer>
 
       {/* Cloudflare Web Analytics (manual injection) */}
