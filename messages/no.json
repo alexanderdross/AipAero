@@ -124,6 +124,13 @@
       "buttonHref": "/no/heliports/",
       "buttonHrefTitle": "AIP VFR Helikopterplasser Norge"
     },
+    "airportListCard": {
+      "title": "Flyplassliste",
+      "description": "Oversikt over alle flyplasser i Norge",
+      "buttonTitle": "Flyplassliste",
+      "buttonHref": "/no/flyplasser-norge/",
+      "buttonHrefTitle": "Liste over flyplasser i Norge"
+    },
     "breadcrumb": {
       "name": "AIP Norge",
       "alternateName": "Innflygingskart og luftfartshåndbok AIP for Norge",

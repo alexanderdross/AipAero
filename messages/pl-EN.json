@@ -124,6 +124,13 @@
       "buttonHref": "/pl/en/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports Poland"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports/ heliports in Poland",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/pl/en/airport-list-poland/",
+      "buttonHrefTitle": "List of Airports/ Airfields in Poland"
+    },
     "breadcrumb": {
       "name": "AIP Poland",
       "alternateName": "AIP and approach charts of Poland",

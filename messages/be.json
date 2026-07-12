@@ -194,6 +194,13 @@
       "buttonHref": "/be/military/",
       "buttonHrefTitle": "AIP Military Belgium & Luxembourg"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports/ heliports in Belgium & Luxembourg",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/be/airport-list-belgium/",
+      "buttonHrefTitle": "List of Airports/ Airfields in Belgium & Luxembourg"
+    },
     "breadcrumb": {
       "name": "AIP Belgium & Luxembourg",
       "alternateName": "AIP and approach charts of Belgium & Luxembourg",

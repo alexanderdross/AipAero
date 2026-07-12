@@ -89,6 +89,13 @@
       "buttonHref": "/cz/en/ifr/",
       "buttonHrefTitle": "AIP IFR Czechia"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports in Czechia",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/cz/en/airport-list-czechia/",
+      "buttonHrefTitle": "List of Airfields/ Airports Czechia"
+    },
     "breadcrumb": {
       "name": "AIP Czechia",
       "alternateName": "AIP and approach charts of Czechia",

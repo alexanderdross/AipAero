@@ -124,6 +124,13 @@
       "buttonHref": "/se/en/heliports/",
       "buttonHrefTitle": "AIP VFR Helicopter Aerodromes Sweden"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports in Sweden",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/se/en/airport-list-sweden/",
+      "buttonHrefTitle": "List of Airfields/ Airports Sweden"
+    },
     "breadcrumb": {
       "name": "AIP Sweden",
       "alternateName": "AIP and approach charts of Sweden",

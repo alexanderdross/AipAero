@@ -4,6 +4,7 @@ import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import {
   HelicopterIcon,
+  ListIcon,
   PlaneIcon,
   PlaneTakeoffIcon,
   ShieldIcon,
@@ -31,6 +32,7 @@ const cardIcons: Record<string, React.ReactNode> = {
   heliportCard: <HelicopterIcon className="size-6" />,
   aeroportCard: <TowerControlIcon className="size-6" />,
   militaryCard: <ShieldIcon className="size-6" />,
+  airportListCard: <ListIcon className="size-6" />,
 };
 
 // All slugs besides the static ones will be 404
@@ -116,12 +118,14 @@ export default async function CountryPage(
   // Cards are data-driven: show whichever type cards this locale's messages
   // define. Each country's CountryPage only carries the cards for the types it
   // exposes (see countryTypeAvailability), so t.has() gates them automatically.
+  // airportListCard (the localized /airport-list link) exists in every locale.
   const allCardKeys = [
     "vfrCard",
     "ifrCard",
     "heliportCard",
     "aeroportCard",
     "militaryCard",
+    "airportListCard",
   ] as const;
   const keys = allCardKeys.filter((k) => t.has(`${k}.title`));
 
@@ -170,7 +174,8 @@ export default async function CountryPage(
           className={cn(
             "grid grid-cols-1 gap-6",
             keys.length >= 2 && "md:grid-cols-2",
-            keys.length === 3 && "lg:grid-cols-3",
+            // 3 cards fill one row; 5 (BE) balance as 3+2. 4 stays a 2x2 grid.
+            (keys.length === 3 || keys.length === 5) && "lg:grid-cols-3",
             // Keep 1-2 card layouts from stretching edge to edge.
             keys.length <= 2 && "mx-auto max-w-3xl",
           )}

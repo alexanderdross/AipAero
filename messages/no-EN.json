@@ -124,6 +124,13 @@
       "buttonHref": "/no/en/heliports/",
       "buttonHrefTitle": "AIP VFR Helicopter Aerodromes Norway"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports in Norway",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/no/en/airport-list-norway/",
+      "buttonHrefTitle": "List of Airfields/ Airports Norway"
+    },
     "breadcrumb": {
       "name": "AIP Norway",
       "alternateName": "AIP and approach charts of Norway",

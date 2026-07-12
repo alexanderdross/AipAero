@@ -124,6 +124,13 @@
       "buttonHref": "/fr/aeroports/",
       "buttonHrefTitle": "AIP Airports France"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all aerodromes/airports in France",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/fr/en/airport-list-france/",
+      "buttonHrefTitle": "List of Airports France"
+    },
     "breadcrumb": {
       "name": "AIP France",
       "alternateName": "Approach Charts & Aeronautical Information Publication AIP for France",

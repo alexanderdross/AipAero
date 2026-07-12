@@ -124,6 +124,13 @@
       "buttonHref": "/at/en/heliports/",
       "buttonHrefTitle": "AIP VFR Heliports Austria"
     },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports in Austria",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/at/en/airport-list-austria/",
+      "buttonHrefTitle": "List of Airfields/ Airports Austria"
+    },
     "breadcrumb": {
       "name": "AIP Austria",
       "alternateName": "AIP and approach charts of Austria",

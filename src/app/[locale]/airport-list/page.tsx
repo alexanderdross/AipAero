@@ -172,19 +172,19 @@ async function AirportLists({ locale }: { locale: string }) {
   const tWeather = await getTranslations("Weather");
   const country = locale.split("-")[0]!;
 
-  const [
-    vfrAirports,
-    ifrAirports,
-    heliports,
-    militaryAirports,
-    aeroportAirports,
-  ] = await Promise.all([
-    QUERIES.vfrAirports(country),
-    QUERIES.ifrAirports(country),
-    QUERIES.heliports(country),
-    QUERIES.militaryAirports(country),
-    QUERIES.aeroportAirports(country),
-  ]);
+  // One cached read for the whole country, partitioned by type in JS (the
+  // rows are title-ordered, so each partition stays sorted). The former five
+  // per-type queries cost every regeneration five tag-cache checks, five D1
+  // misses and five R2 writes - the multi-second streamed-content delay
+  // Lighthouse caught on a freshly tag-busted list.
+  const allAirports = await QUERIES.airportsByCountry(country);
+  const byType = (type: Airport["type"]) =>
+    allAirports.filter((a) => a.type === type);
+  const vfrAirports = byType("vfr");
+  const ifrAirports = byType("ifr");
+  const heliports = byType("heliport");
+  const militaryAirports = byType("mil");
+  const aeroportAirports = byType("aeroport");
 
   const i18nKeyMapping: Record<Airport["type"], string> = {
     vfr: "vfrCard",
@@ -197,13 +197,7 @@ async function AirportLists({ locale }: { locale: string }) {
   // Country offline pack (PWA concept Phase 4): every detail page plus this
   // list page. The size hint mirrors the client component's per-page estimate
   // (~75 KB of stored inlineCss HTML per page).
-  const pageCount =
-    vfrAirports.length +
-    ifrAirports.length +
-    heliports.length +
-    militaryAirports.length +
-    aeroportAirports.length +
-    1;
+  const pageCount = allAirports.length + 1;
   const sizeMb = Math.max(1, Math.round((pageCount * 75) / 1024));
 
   return (

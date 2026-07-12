@@ -89,6 +89,13 @@
       "buttonHref": "/cz/ifr/",
       "buttonHrefTitle": "Letecká informační příručka AIP IFR Česko"
     },
+    "airportListCard": {
+      "title": "Seznam letišť",
+      "description": "Přehled všech letišť v Česku",
+      "buttonTitle": "Seznam letišť",
+      "buttonHref": "/cz/letiste-cesko/",
+      "buttonHrefTitle": "Seznam letišť v Česku"
+    },
     "breadcrumb": {
       "name": "AIP Česko",
       "alternateName": "Přibližovací mapy a letecká informační příručka AIP pro Česko",
