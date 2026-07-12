@@ -5,6 +5,7 @@ import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { notFound } from "next/navigation";
 import { AboutCountryBox } from "~/components/about-country-box";
+import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { AirportGadgets } from "~/components/airport-gadgets";
 import { AirportGadgetsFallback } from "~/components/airport-gadgets-fallback";
@@ -242,6 +243,11 @@ export function createSearchPage(config: SearchPageConfig) {
             />
           </Suspense>
         )}
+
+        {/* Trade:Aero cross-sell above the "why this website" box - only on
+            the BASE search view: the detail view (?ICAO) already renders the
+            CTA inside the gadgets wrapper, and twice per page is spam. */}
+        {!data && <TradeAeroCta />}
 
         {/* About AIP Box */}
         <AboutCountryBox isH3={false} />
