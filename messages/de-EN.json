@@ -274,6 +274,7 @@
     "surface": "Surface"
   },
   "Common": {
+    "openIn": "Open in",
     "homeLink": "AIP:Aero - Aeronautical Information Publications (AIP) & approach charts for Europe",
     "lastUpdated": "Last updated",
     "viewOnMap": "View on Google Maps",

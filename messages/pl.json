@@ -239,6 +239,7 @@
     "surface": "Nawierzchnia"
   },
   "Common": {
+    "openIn": "Otwórz w",
     "homeLink": "AIP:Aero - Zbiory informacji lotniczych (AIP) & mapy podejścia dla Europy",
     "lastUpdated": "Ostatnia aktualizacja",
     "viewOnMap": "Zobacz w Mapach Google",

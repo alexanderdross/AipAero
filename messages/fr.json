@@ -239,6 +239,7 @@
     "surface": "Revêtement"
   },
   "Common": {
+    "openIn": "Ouvrir dans",
     "homeLink": "AIP:Aero - Publications d'information aéronautique (AIP) & cartes d'approche pour l'Europe",
     "lastUpdated": "Dernière mise à jour",
     "viewOnMap": "Voir sur Google Maps",

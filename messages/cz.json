@@ -204,6 +204,7 @@
     "surface": "Povrch"
   },
   "Common": {
+    "openIn": "Otevřít v",
     "homeLink": "AIP:Aero - Letecké informační příručky (AIP) & přibližovací mapy pro Evropu",
     "lastUpdated": "Naposledy aktualizováno",
     "viewOnMap": "Zobrazit na Mapách Google",

@@ -239,6 +239,7 @@
     "surface": "Underlag"
   },
   "Common": {
+    "openIn": "Öppna i",
     "homeLink": "AIP:Aero - Luftfartspublikationer (AIP) & inflygningskartor för Europa",
     "lastUpdated": "Senast uppdaterad",
     "viewOnMap": "Visa på Google Maps",

@@ -239,6 +239,7 @@
     "surface": "Belægning"
   },
   "Common": {
+    "openIn": "Åbn i",
     "homeLink": "AIP:Aero - Luftfartspublikationer (AIP) & anflyvningskort for Europa",
     "lastUpdated": "Senest opdateret",
     "viewOnMap": "Se på Google Maps",

@@ -1,10 +1,11 @@
-import { GlobeIcon, MapPinIcon, StampIcon } from "lucide-react";
+import { GlobeIcon, MapPinIcon, SendIcon, StampIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Fragment, type ReactNode } from "react";
 import { ExternalLink } from "~/components/external-link";
 import { SectionHeading } from "~/components/section-heading";
 import type { NormalizedFacts } from "~/lib/airport-facts";
 import { borderCrossingForm } from "~/lib/border-crossing";
+import { efbLinks } from "~/lib/efb-links";
 import type { GeoResult } from "~/lib/geocode";
 import type { Airport } from "~/server/db/schema";
 
@@ -76,6 +77,9 @@ export async function AirportContact({
   // GA flight to/from the UK regardless of the field's customs designation.
   const borderForm = borderCrossingForm(airport.country);
 
+  // EFB / pilot-tool hand-offs (verified ICAO deep-link patterns only).
+  const efb = efbLinks(airport.icao);
+
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <SectionHeading className="text-center text-xl font-normal">
@@ -127,6 +131,28 @@ export async function AirportContact({
           </ExternalLink>
         )}
       </div>
+
+      {/* EFB / pilot-tool hand-offs: the same field opened in the tools a
+          pilot plans with. ICAO-keyed deep links, so non-ICAO fields show
+          nothing. Plain outbound links - no server data, no client JS. */}
+      {efb.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center justify-start gap-x-4 gap-y-1 text-sm">
+          <span className="text-drossgray-dark inline-flex items-center gap-x-1">
+            <SendIcon className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+            {t("openIn")}:
+          </span>
+          {efb.map((link) => (
+            <ExternalLink
+              key={link.name}
+              href={link.href}
+              hrefTitle={`${airport.icao}: ${link.name}`}
+              className="text-drossblue hover:underline"
+            >
+              {link.name}
+            </ExternalLink>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

@@ -1,3 +1,4 @@
+import { customsOverride } from "~/lib/customs-overrides";
 import { NextResponse } from "next/server";
 import { getPathname } from "~/i18n/routing";
 import { i18nPathMapping } from "~/lib/utils";
@@ -86,7 +87,11 @@ async function handleCoords(request: Request): Promise<NextResponse> {
       // ~40 bytes x hundreds of markers (~30 KB on DE) for no information -
       // false only means "not known to have it", never a verified negative.
       ...(hasFuel(a.fuel) && { fuel: true }),
-      ...(a.customs === true && { customs: true }),
+      // Verified GEN-1.2 override wins over the community/D1 value, so the
+      // map filter and the detail page's contact box always agree.
+      ...((customsOverride(a.icao) ?? a.customs) === true && {
+        customs: true,
+      }),
       ...(hasPavedRunway(a.runways) && { paved: true }),
     }));
 
