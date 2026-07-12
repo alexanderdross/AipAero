@@ -132,6 +132,9 @@ jobs:
                   # chart-PDF URL (pdf_url), with samples.
                   with_pdf = [a for a in airports if getattr(a, "pdf_url", None)]
                   print(f"   pdf_url coverage: {len(with_pdf)}/{len(airports)}")
+                  with_charts = [a for a in airports if getattr(a, "charts", None)]
+                  n_charts = sum(len(a.charts or []) for a in with_charts)
+                  print(f"   charts lists: {len(with_charts)}/{len(airports)} ({n_charts} charts total)")
                   for a in with_pdf[:3]:
                       print(f"     {a.icao or a.title} pdf -> {a.pdf_url[:110]}")
                   # Reconnaissance mode: fetch the first chart pages and list

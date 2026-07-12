@@ -275,6 +275,7 @@
     "borderCrossing": "Διέλευση συνόρων"
   },
   "Chart": {
+    "allCharts": "Όλοι οι χάρτες ({count})",
     "title": "Χάρτης προσέγγισης",
     "openPdf": "Άνοιγμα PDF χάρτη",
     "preview": "Προεπισκόπηση"

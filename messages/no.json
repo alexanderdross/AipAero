@@ -275,6 +275,7 @@
     "borderCrossing": "Grensepassering"
   },
   "Chart": {
+    "allCharts": "Alle kart ({count})",
     "title": "Innflygingskart",
     "openPdf": "Åpne kart-PDF",
     "preview": "Vis forhåndsvisning"

@@ -275,6 +275,7 @@
     "borderCrossing": "Passage frontalier"
   },
   "Chart": {
+    "allCharts": "Toutes les cartes ({count})",
     "title": "Carte d'approche",
     "openPdf": "Ouvrir le PDF de la carte",
     "preview": "Afficher l'aperçu"

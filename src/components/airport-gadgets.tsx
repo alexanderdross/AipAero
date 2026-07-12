@@ -15,6 +15,7 @@ import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
+import { airacDateFromUrl, parseCharts } from "~/lib/charts";
 import { isPdfUrl } from "~/lib/utils";
 import type { Airport } from "~/server/db/schema";
 
@@ -59,6 +60,8 @@ export async function AirportGadgets({
   // back to `url` itself when it already points at a PDF (Stage 1 behaviour).
   const chartPdfUrl =
     airport.pdfUrl ?? (isPdfUrl(airport.url) ? airport.url : null);
+  // The source's full chart list (crawler-captured JSON; [] when absent).
+  const chartList = parseCharts(airport.charts);
 
   let lat = facts?.lat ?? null;
   let lon = facts?.lon ?? null;
@@ -180,15 +183,22 @@ export async function AirportGadgets({
         />
         {chartPdfUrl && (
           <>
-            <AirportChart url={chartPdfUrl} />
+            <AirportChart
+              url={chartPdfUrl}
+              charts={chartList}
+              locale={locale}
+            />
             {/* Structured-data twin of the chart box: marks the PDF up as a
-                DigitalDocument that is part of this airport page. */}
+                DigitalDocument that is part of this airport page, dated by
+                the AIRAC edition and carrying the other charts as hasPart. */}
             <SchemaDigitalDocument
               name={schemaName}
               alternateName={schemaAlternateName}
               description={schemaDescription}
               url={chartPdfUrl}
               isPartOfUrl={schemaUrl}
+              datePublished={airacDateFromUrl(chartPdfUrl)}
+              charts={chartList}
             />
           </>
         )}

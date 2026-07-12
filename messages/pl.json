@@ -275,6 +275,7 @@
     "borderCrossing": "Przekroczenie granicy"
   },
   "Chart": {
+    "allCharts": "Wszystkie mapy ({count})",
     "title": "Mapa podejścia",
     "openPdf": "Otwórz PDF mapy",
     "preview": "Pokaż podgląd"
