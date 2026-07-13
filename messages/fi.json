@@ -284,7 +284,7 @@
     "bulkError": "Lataus epäonnistui - yritä uudelleen",
     "bulkNoSpace": "Laitteella ei ole tarpeeksi vapaata tallennustilaa",
     "bulkScope": "Sisältyy: kaikki lentopaikkasivut lentopaikkatietoineen. Ei sisälly: lähestymiskarttojen PDF-tiedostot (voi tallentaa lentopaikkakohtaisesti) ja reaaliaikainen sää (vaatii yhteyden).",
-    "moreInfo": "lisätietoja",
+    "moreInfo": "Lisätietoja",
     "pavedRunway": "Päällystetty kiitotie",
     "favorites": "Suosikit",
     "recentlyViewed": "Viimeksi katsotut",
