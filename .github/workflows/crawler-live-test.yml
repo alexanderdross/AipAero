@@ -125,6 +125,7 @@ jobs:
           uv run python - <<'PY'
           import os
           import re
+          import ssl
           import subprocess
           from urllib.parse import urljoin, urlsplit
 
@@ -133,9 +134,39 @@ jobs:
 
           from crawlers.http_base import BROWSER_HEADERS
 
-          client = httpx.Client(
-              follow_redirects=True, timeout=30, headers=BROWSER_HEADERS
-          )
+          # Public intermediates for hosts that send a broken chain (SI
+          # sends the wrong RapidSSL intermediate - probe-si.md). Fetched
+          # over normally verified connections; verification never off.
+          EXTRA_CA_URLS = [
+              "https://cacerts.digicert.com/RapidSSLTLSRSACAG1.crt.pem",
+          ]
+
+          def make_client(kind: str | None) -> httpx.Client:
+              """Default client, or a TLS-special variant that still
+              verifies: "ca" = default bundle + pinned intermediates,
+              "legacy" = TLSv1/SECLEVEL=0 handshake for ancient stacks."""
+              verify: ssl.SSLContext | bool = True
+              if kind == "ca":
+                  ctx = ssl.create_default_context()
+                  for u in EXTRA_CA_URLS:
+                      r = httpx.get(u, timeout=30, follow_redirects=True)
+                      r.raise_for_status()
+                      ctx.load_verify_locations(cadata=r.text)
+                  verify = ctx
+              elif kind == "legacy":
+                  ctx = ssl.create_default_context()
+                  ctx.minimum_version = ssl.TLSVersion.TLSv1
+                  ctx.set_ciphers("DEFAULT@SECLEVEL=0")
+                  ctx.options |= getattr(ssl, "OP_LEGACY_SERVER_CONNECT", 0)
+                  verify = ctx
+              return httpx.Client(
+                  follow_redirects=True,
+                  timeout=30,
+                  headers=BROWSER_HEADERS,
+                  verify=verify,
+              )
+
+          client = make_client(None)
           META_REFRESH = re.compile(
               r"""http-equiv=["']?refresh["']?[^>]*url=([^"'>\s]+)""", re.I
           )
@@ -217,7 +248,8 @@ jobs:
               print(f"{pad}[render] title: {title[:120]}")
               dump_links(soup, url, pad + "  ")
 
-          def probe(url: str, depth: int = 0) -> None:
+          def probe(url: str, depth: int = 0, retried: bool = False) -> None:
+              global client
               pad = "   " + "  " * depth
               try:
                   r = client.get(url)
@@ -225,8 +257,26 @@ jobs:
                   r.raise_for_status()
               except httpx.ConnectError as e:
                   print(f"{pad}FAILED - ConnectError: {e}")
-                  if depth == 0:
+                  if depth == 0 and not retried:
                       tls_diagnose(url, pad)
+                      # Retry once with the matching TLS-special client
+                      # (still verifying): broken chain -> pinned extra
+                      # CAs; pre-certificate handshake alert -> legacy.
+                      kind = (
+                          "ca"
+                          if "CERTIFICATE_VERIFY_FAILED" in str(e)
+                          else "legacy"
+                      )
+                      print(f"{pad}[tls-retry] rebuilding client: {kind}")
+                      try:
+                          client = make_client(kind)
+                      except Exception as ce:
+                          print(
+                              f"{pad}[tls-retry] client build failed: "
+                              f"{type(ce).__name__}: {ce}"
+                          )
+                          return
+                      probe(url, depth, retried=True)
                   return
               except Exception as e:
                   print(f"{pad}FAILED - {type(e).__name__}: {e}")
@@ -261,6 +311,7 @@ jobs:
 
           for url in os.environ["PROBE"].split():
               print(f"\n===== PROBE {url[:120]} =====", flush=True)
+              client = make_client(None)  # reset any tls-retry swap
               probe(url)
           PY
 
