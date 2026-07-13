@@ -115,7 +115,7 @@
   },
   "About": {
     "title": "Til hvers er þessi vefur?",
-    "description": "Íslenska <aip>flugmálahandbókin AIP</aip> er aðgengileg í ókeypis útgáfu. Þessi vefur einfaldar leitina að flugvöllum, þar sem útgáfa Isavia býður ekki upp á leitaraðgerð. Við berum enga ábyrgð á nákvæmni eða tímanleika AIP (Aeronautical Information Publication), enda er hún ekki rekin af okkur. Við bjóðum aðeins þægilega tengla á viðkomandi aðflugskort.",
+    "description": "Íslenska <aip>flugmálahandbókin AIP</aip> er aðgengileg í ókeypis útgáfu. Þessi vefur einfaldar leitina að flugvöllum, þar sem útgáfa Isavia býður ekki upp á leitaraðgerð. Við berum enga ábyrgð á nákvæmni eða tímanleika AIP (Aeronautical Information Publication), enda er hún ekki gefin út af okkur. Við bjóðum aðeins þægilega tengla á viðkomandi aðflugskort.",
     "aipUrl": "https://eaip.isavia.is/",
     "aipTitle": "AIP Ísland"
   },

@@ -24,17 +24,17 @@ const INDEX_KEY = "aip-offline-bulk";
 // button label uses the same figure (see airport-list/page.tsx).
 const EST_BYTES_PER_PAGE = 75 * 1024;
 
-// STRICTLY sequential: every detail page is a dynamic Worker render, and on
-// the Workers Free plan (10 ms CPU/request, burst-tolerated) even 3 sustained
-// concurrent renders exhausted the burst budget - a single DE pack download
-// caused a sitewide exceededCpu storm (1,492 Error-1102s, observed live
-// 13.07.2026, Ray a1aaa7516b4dd2cb). Do not raise this above 1 while the
-// Worker runs on the Free plan.
-const CONCURRENCY = 1;
+// Low deliberately: every detail page is a dynamic Worker render. On the
+// Workers FREE plan (10 ms CPU/request) even 3 sustained concurrent renders
+// exhausted the burst budget - a single DE pack download caused a sitewide
+// exceededCpu storm (1,492 Error-1102s, 13.07.2026). The account moved to the
+// Paid plan (30 s CPU/request) the same day, which makes the pack a non-issue
+// - but keep this modest: if the account ever drops back to Free, set it to 1.
+const CONCURRENCY = 3;
 
 // Breather between pages - keeps the pack download from being a continuous
 // CPU drain on the Worker (see the incident above).
-const PAGE_DELAY_MS = 250;
+const PAGE_DELAY_MS = 100;
 
 // Per-page fetch timeout: without one, a single stalled connection hangs its
 // worker forever - three stalls froze the whole DE download at 126/793
@@ -200,7 +200,9 @@ export function SaveCountryOfflineButton({
         });
       // Consecutive pages that ended in a 5xx or a network failure/timeout -
       // the overload signal for the give-up guard (a 404 does not count: a
-      // removed airport is not server distress). Single worker, so no races.
+      // removed airport is not server distress). Shared across the workers;
+      // interleaving makes "consecutive" approximate, which is fine for an
+      // overload heuristic (JS is single-threaded, no data races).
       let consecutiveFailures = 0;
       let overloaded = false;
       const worker = async () => {

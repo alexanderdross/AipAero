@@ -242,6 +242,9 @@ export const allPages: TestPage[] = [
 export const a11yPages: TestPage[] = [
   rootPage,
   { path: "/de/", lang: "de", label: "country de" },
+  // A prefix != ISO-code country (at -> de): catches invalid [lang] values
+  // derived from the URL prefix, which de/fr mask (Lighthouse hit on /at/).
+  { path: "/at/", lang: "de", label: "country at" },
   { path: "/de/flughafen-liste-deutschland/", lang: "de", label: "list de" },
   { path: "/de/vfr/", lang: "de", label: "vfr de" },
   { path: "/fr/military/", lang: "fr", label: "military fr" },

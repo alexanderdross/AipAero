@@ -145,7 +145,7 @@
   },
   "About": {
     "title": "Why this website?",
-    "description": "The free <aip>Aeronautical Information Publication AIP France</aip> is now available from the Service de l'information aéronautique as a basic version, but without a search function. Our site makes it easier to find aerodromes but does not guarantee the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only provide links to the respective approach charts.",
+    "description": "The free <aip>Aeronautical Information Publication AIP France</aip> is now available from the Service de l'information aéronautique as a basic version, but without a search function. Our site makes it easier to find aerodromes but does not guarantee the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only provide links to the respective approach charts.",
     "aipUrl": "https://www.sia.aviation-civile.gouv.fr/plandesite",
     "aipTitle": "Aeronautical Information Publication AIP France"
   },

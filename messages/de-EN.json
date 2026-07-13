@@ -180,7 +180,7 @@
   },
   "About": {
     "title": "What is this website for?",
-    "description": "The free <aip>German Aeronautical Information Publication AIP</aip> is now available as a basic version from Deutsche Flugsicherung (DFS), but without a search function. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not operated by us. We only link to the respective approach charts.",
+    "description": "The free <aip>German Aeronautical Information Publication AIP</aip> is now available as a basic version from Deutsche Flugsicherung (DFS), but without a search function. Our site makes it easier to find airfields, but we do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only link to the respective approach charts.",
     "aipUrl": "https://aip.dfs.de/basicAIP/",
     "aipTitle": "AIP Germany"
   },

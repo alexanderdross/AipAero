@@ -145,7 +145,7 @@
   },
   "About": {
     "title": "Dlaczego ta strona?",
-    "description": "<aip>AIP Polski</aip> jest dostępny w bezpłatnej wersji. Celem tej strony jest uproszczenie wyszukiwania lotnisk, ponieważ podstawowa wersja udostępniana przez Polską Agencję Żeglugi Powietrznej (PAŻP) nie zawiera wyszukiwarki. Nie ponosimy odpowiedzialności za poprawność i dokładność zbiorów AIP (Aeronautical Information Publication), ponieważ nie są one przez nas prowadzone. Udostępniamy jedynie wygodne linki do odpowiednich map podejścia.",
+    "description": "<aip>AIP Polski</aip> jest dostępny w bezpłatnej wersji. Celem tej strony jest uproszczenie wyszukiwania lotnisk, ponieważ podstawowa wersja udostępniana przez Polską Agencję Żeglugi Powietrznej (PAŻP) nie zawiera wyszukiwarki. Nie ponosimy odpowiedzialności za poprawność i dokładność zbiorów AIP (Aeronautical Information Publication), ponieważ nie są one przez nas publikowane. Udostępniamy jedynie wygodne linki do odpowiednich map podejścia.",
     "aipUrl": "https://www.ais.pansa.pl/",
     "aipTitle": "AIP of Poland"
   },

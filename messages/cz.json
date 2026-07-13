@@ -110,7 +110,7 @@
   },
   "About": {
     "title": "K čemu tato webová stránka?",
-    "description": "Bezplatná <aip>letecká informační příručka AIP Česko</aip> je k dispozici od Řízení letového provozu ČR (ŘLP), avšak bez vyhledávací funkce. Naše stránka usnadňuje vyhledávání letišť, nepřebírá však žádnou odpovědnost za správnost nebo aktuálnost AIP (Aeronautical Information Publication), protože ji neprovozujeme. Pouze odkazujeme na příslušné přibližovací mapy.",
+    "description": "Bezplatná <aip>letecká informační příručka AIP Česko</aip> je k dispozici od Řízení letového provozu ČR (ŘLP), avšak bez vyhledávací funkce. Naše stránka usnadňuje vyhledávání letišť, nepřebírá však žádnou odpovědnost za správnost nebo aktuálnost AIP (Aeronautical Information Publication), protože ji nevydáváme. Pouze odkazujeme na příslušné přibližovací mapy.",
     "aipUrl": "https://aim.rlp.cz/eaip/html/index-en-GB.html",
     "aipTitle": "Letecká informační příručka AIP Česko"
   },

@@ -332,8 +332,8 @@ export default async function RootPage() {
           {/* About Box */}
           <AboutBox title="About this website" isH3={true}>
             This website aims to simplify the search for approach charts and
-            Aeronautical Information Publication (AIP) for aerodromes, airports,
-            and airfields in{" "}
+            Aeronautical Information Publications (AIPs) for aerodromes,
+            airports, and airfields in{" "}
             {countries.map((e, idx) => (
               <Fragment key={e.name}>
                 <Link
@@ -352,10 +352,9 @@ export default async function RootPage() {
                   : ""}
               </Fragment>
             ))}
-            . We are not liable for the correctness and accuracy of AIPs
-            (Aeronautical Information Publication), as these are not operated by
-            us. We merely provide convenient links to corresponding approach
-            charts.
+            . We do not accept any liability for the accuracy or timeliness of
+            the AIPs, as they are not published by us. We only provide
+            convenient links to the respective approach charts.
           </AboutBox>
         </main>
 

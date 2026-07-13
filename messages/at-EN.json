@@ -145,7 +145,7 @@
   },
   "About": {
     "title": "About this website",
-    "description": "The <aip>AIP Austria</aip> is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by Austro Control does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
+    "description": "The <aip>AIP Austria</aip> is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by Austro Control does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only provide convenient links to the respective approach charts.",
     "aipUrl": "https://eaip.austrocontrol.at",
     "aipTitle": "AIP Austria"
   },
