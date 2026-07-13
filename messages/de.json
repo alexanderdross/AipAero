@@ -207,17 +207,17 @@
     },
     "imprint": {
       "title": "Impressum",
-      "hrefTitle": "Impressum",
+      "hrefTitle": "Impressum - Dross:Network",
       "href": "https://dross.net/imprint"
     },
     "contact": {
       "title": "Kontakt",
-      "hrefTitle": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
       "href": "https://dross.net/contact"
     },
     "privacy": {
       "title": "Datenschutz",
-      "hrefTitle": "Datenschutz",
+      "hrefTitle": "Datenschutz - Dross:Network",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {

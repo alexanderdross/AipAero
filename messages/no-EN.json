@@ -172,17 +172,17 @@
     },
     "imprint": {
       "title": "Imprint",
-      "hrefTitle": "Imprint",
+      "hrefTitle": "Imprint - Dross:Network",
       "href": "https://dross.net/imprint"
     },
     "contact": {
       "title": "Contact",
-      "hrefTitle": "Contact",
+      "hrefTitle": "Contact - Dross:Network",
       "href": "https://dross.net/contact"
     },
     "privacy": {
       "title": "Privacy",
-      "hrefTitle": "Privacy Policy",
+      "hrefTitle": "Privacy Policy - Dross:Network",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {

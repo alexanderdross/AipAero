@@ -137,17 +137,17 @@
     },
     "imprint": {
       "title": "Tiráž",
-      "hrefTitle": "Tiráž",
+      "hrefTitle": "Tiráž - Dross:Network",
       "href": "https://dross.net/imprint"
     },
     "contact": {
       "title": "Kontakt",
-      "hrefTitle": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
       "href": "https://dross.net/contact"
     },
     "privacy": {
       "title": "Ochrana osobních údajů",
-      "hrefTitle": "Zásady ochrany osobních údajů",
+      "hrefTitle": "Zásady ochrany osobních údajů - Dross:Network",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {

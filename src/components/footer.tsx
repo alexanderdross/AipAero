@@ -38,7 +38,8 @@ export default async function Footer({ global = false }: { global?: boolean }) {
           key: cc,
           href: getPathname({ href: "/", locale: cc as Locale }) + "/",
           title: `${meta?.flag ?? ""} ${meta?.name ?? cc.toUpperCase()}`.trim(),
-          titleAttr: `AIP ${meta?.name ?? cc.toUpperCase()}`,
+          // Same keyword-rich pattern as the homepage about-box links.
+          titleAttr: `Aeronautical Information Publication (AIP) of ${meta?.name ?? cc.toUpperCase()}`,
         };
       })
     : navItems
