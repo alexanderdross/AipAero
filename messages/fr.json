@@ -287,7 +287,8 @@
     "pavedRunway": "Piste revêtue",
     "favorites": "Favoris",
     "recentlyViewed": "Consultés récemment",
-    "borderCrossing": "Passage frontalier"
+    "borderCrossing": "Passage frontalier",
+    "alsoAvailable": "Également disponible :"
   },
   "Chart": {
     "allCharts": "Toutes les cartes ({count})",

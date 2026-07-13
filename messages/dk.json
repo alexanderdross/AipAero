@@ -287,7 +287,8 @@
     "pavedRunway": "Befæstet bane",
     "favorites": "Favoritter",
     "recentlyViewed": "Senest viste",
-    "borderCrossing": "Grænsepassage"
+    "borderCrossing": "Grænsepassage",
+    "alsoAvailable": "Også tilgængelig:"
   },
   "Chart": {
     "allCharts": "Alle kort ({count})",

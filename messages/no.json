@@ -287,7 +287,8 @@
     "pavedRunway": "Rullebane med fast dekke",
     "favorites": "Favoritter",
     "recentlyViewed": "Nylig vist",
-    "borderCrossing": "Grensepassering"
+    "borderCrossing": "Grensepassering",
+    "alsoAvailable": "Også tilgjengelig:"
   },
   "Chart": {
     "allCharts": "Alle kart ({count})",

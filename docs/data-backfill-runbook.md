@@ -207,8 +207,12 @@ Adding a country's entries:
    country codes, e.g. `DE UK`): the run resolves the current AIRAC edition
    on the runner and prints every customs-/ICAO-relevant table row of the
    section - the sandboxed agent environment has no egress to the AIP hosts.
-   Countries without a recon function yet are listed in the step's `RECONS`
-   map (add one modeled on `recon_uk` for eurocontrol eAIPs).
+   Countries with a eurocontrol eAIP need NO extra code: the generic recon
+   derives the GEN 1.2 URL from the country's own crawler output (an AD-2
+   detail URL with the current AIRAC path, section name substituted), so it
+   works for newly added countries automatically. Only non-eurocontrol
+   sources (UK landing-page edition walk, DE folder walk) have bespoke
+   functions in the step's `RECONS` map.
 2. Note the designated customs aerodromes (including "on request" / "with
    prior notice" fields - those count as `true`; the pilot must still check
    the AIP entry for the notice period).
@@ -229,5 +233,5 @@ Per-country status (13.07.2026):
   no text layer; confirmed by the recon's debug dump 13.07.2026). Filling
   DE needs a human reading the pages in the browser (or the zoll.de
   Zollflugplatz list) - do NOT OCR a compliance list unreviewed.
-- Other countries: pending; their eurocontrol eAIPs should work like UK
-  (add a `recon_<cc>` modeled on `recon_uk`).
+- Other countries: pending; run the workflow with `gen12: <CC>` - the
+  generic eurocontrol recon needs no per-country code.

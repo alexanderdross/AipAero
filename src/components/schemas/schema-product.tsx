@@ -7,6 +7,12 @@ interface Props {
   description: string;
   publishedDate: Date;
   currentUrl: string;
+  /**
+   * Cross-type sibling pages of the same airport (e.g. the IFR page from the
+   * VFR page and vice versa), emitted as `isRelatedTo` Product references so
+   * the structured data mirrors the visible cross-type links.
+   */
+  related?: { url: string; name: string }[];
 }
 
 export function SchemaProduct({
@@ -15,10 +21,21 @@ export function SchemaProduct({
   description,
   publishedDate,
   currentUrl,
+  related,
 }: Props) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
+    ...(related && related.length > 0
+      ? {
+          isRelatedTo: related.map((r) => ({
+            "@type": "Product",
+            "@id": r.url,
+            url: r.url,
+            name: r.name,
+          })),
+        }
+      : {}),
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",

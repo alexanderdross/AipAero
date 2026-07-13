@@ -287,7 +287,8 @@
     "pavedRunway": "Ασφαλτοστρωμένος διάδρομος",
     "favorites": "Αγαπημένα",
     "recentlyViewed": "Πρόσφατα προβεβλημένα",
-    "borderCrossing": "Διέλευση συνόρων"
+    "borderCrossing": "Διέλευση συνόρων",
+    "alsoAvailable": "Διαθέσιμο επίσης:"
   },
   "Chart": {
     "allCharts": "Όλοι οι χάρτες ({count})",

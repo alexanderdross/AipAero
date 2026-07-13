@@ -41,12 +41,15 @@ export async function AirportGadgets({
   schemaAlternateName,
   schemaDescription,
   schemaUrl,
+  related = [],
 }: {
   airport: Airport;
   schemaName: string;
   schemaAlternateName: string;
   schemaDescription: string;
   schemaUrl: string;
+  /** Cross-type sibling pages of the same field ("also available as IFR"). */
+  related?: { type: string; url: string; label: string; title: string }[];
 }) {
   const [locale, messages, facts, tCommon] = await Promise.all([
     getLocale(),
@@ -181,6 +184,25 @@ export async function AirportGadgets({
           installHintLabel={tCommon("installHint")}
           installHintMacLabel={tCommon("installHintMac")}
         />
+        {/* Cross-type sibling pages: plain followed same-tab links (internal
+            linking between the VFR/IFR/heliport variants of the same field).
+            The aria-label starts with the visible text (label-in-name) and
+            appends the target page's SEO title. */}
+        {related.length > 0 && (
+          <p className="flex flex-wrap items-center justify-center gap-x-6 text-center">
+            {related.map((r) => (
+              <a
+                key={r.type}
+                href={r.url}
+                title={r.title}
+                aria-label={`${tCommon("alsoAvailable")} ${r.label} - ${r.title}`}
+                className="text-drossblue inline-flex min-h-10 items-center gap-x-1 hover:underline"
+              >
+                {tCommon("alsoAvailable")}&nbsp;<strong>{r.label}</strong>
+              </a>
+            ))}
+          </p>
+        )}
         {chartPdfUrl && (
           <>
             <AirportChart
