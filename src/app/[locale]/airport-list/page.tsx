@@ -222,10 +222,12 @@ async function AirportLists({ locale }: { locale: string }) {
               carries pb-6). */}
           <p className="text-drossgray-dark mx-auto -mt-4 max-w-xl px-4 pb-6 text-center text-xs">
             {tCommon("bulkScope")}{" "}
+            {/* Permanent underline: inside the gray note the blue alone is
+                not distinguishable enough (axe link-in-text-block). */}
             <a
               href={efbHref}
               title={tFooter("efb.hrefTitle")}
-              className="text-drossblue hover:underline"
+              className="text-drossblue underline"
             >
               {tCommon("moreInfo")}
             </a>

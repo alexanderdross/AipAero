@@ -9,6 +9,12 @@
  * code, so non-ICAO fields get no hand-offs. App-scheme links (ForeFlight,
  * SkyDemon) are deliberately absent: their URL schemes are not publicly
  * documented as stable, and they fail silently when the app is missing.
+ *
+ * autorouter was REMOVED 13.07.2026: /airport/<ICAO> renders "page not
+ * found" even for logged-in users (owner-verified in the browser) - a
+ * status-code check alone had let this soft-404 through, so any re-add
+ * needs a content-verified pattern (or the planned autorouter API
+ * integration, see the NOTAM entry in docs/pilot-wishlist.md).
  */
 export function efbLinks(
   icao: string | null | undefined,
@@ -21,6 +27,5 @@ export function efbLinks(
       name: "Windy",
       href: `https://www.windy.com/airport/${code.toLowerCase()}`,
     },
-    { name: "autorouter", href: `https://www.autorouter.aero/airport/${code}` },
   ];
 }

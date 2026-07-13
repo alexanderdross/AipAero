@@ -31,7 +31,14 @@ const items = [
   {
     Icon: MonitorSmartphoneIcon,
     title: "EFB & offline ready",
-    text: "Install as an app, save whole countries offline and import charts into your EFB",
+    // The whole tile is the anchor; the styled span makes the link visually
+    // obvious (owner feedback) without nesting a second <a>.
+    text: (
+      <>
+        <span className="text-drossblue underline">Install as an app</span>,
+        save whole countries offline and import charts into your EFB
+      </>
+    ),
     // English guide (the root page is English); per-locale EFB links live in
     // the footer of every locale page.
     href: "/uk/efb/",

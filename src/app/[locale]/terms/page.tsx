@@ -1,5 +1,6 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import Link from "next/link";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { Title } from "~/components/title";
@@ -126,6 +127,7 @@ export default async function TermsPage(
   // Enable static rendering (MUST precede getTranslations - see CLAUDE.md).
   setRequestLocale(locale);
   const t = await getTranslations("TermsPage");
+  const tCommon = await getTranslations("Common");
 
   return (
     <>
@@ -136,7 +138,21 @@ export default async function TermsPage(
             <h2 className="text-xl font-semibold tracking-tight">
               {t("servicesTitle")}
             </h2>
-            <p className="mt-3">{t("servicesText")}</p>
+            <p className="mt-3">
+              {t.rich("servicesText", {
+                // The brand mention links to the global homepage (permanent
+                // underline - color alone fails axe link-in-text-block).
+                home: (chunks) => (
+                  <Link
+                    href="/"
+                    title={tCommon("homeLink")}
+                    className="text-drossblue underline"
+                  >
+                    {chunks}
+                  </Link>
+                ),
+              })}
+            </p>
           </section>
 
           <section>

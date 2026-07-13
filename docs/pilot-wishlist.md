@@ -206,4 +206,7 @@ coordinates (facts row, else the METAR station), shown in the aerodrome-data box
   NOTAMs - the one briefing datum we are missing entirely. Before building: verify the API's terms
   of use and attribution requirements from the runner (same verified-only policy as the
   border-crossing links), then design auth flow, caching (NOTAMs are time-critical - short TTL,
-  never silently stale, like the weather box) and fail-soft rendering.
+  never silently stale, like the weather box) and fail-soft rendering. NOTE: the autorouter
+  hand-off LINK was removed 13.07.2026 - `/airport/<ICAO>` renders "page not found" even
+  logged-in (a soft-404 that a status-code check had let through); a deep link may return
+  alongside the API integration once a content-verified pattern exists.
