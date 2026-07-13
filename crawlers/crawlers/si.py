@@ -14,10 +14,10 @@ COUNTRY = "SI"
 ROOT_URL = "https://aim.sloveniacontrol.si/aim/eAIP/Operations/history-en-GB.html"
 CA_PEM_URL = "https://cacerts.digicert.com/RapidSSLTLSRSACAG1.crt.pem"
 
-# Edition entry links on the history page ("index-en-GB.html" per AMDT);
-# an embedded yyyy-mm-dd in the href picks the edition by date (NL/UK
-# pattern) when present, else the first listed entry wins (newest first).
-_INDEX_HREF_RE = re.compile(r"index-en-GB\.html?$", re.I)
+# Edition entry links on the history page: live run 29272201936 shows
+# bare "../Operations/<yyyy-mm-dd>-AIRAC/html/index.html" hrefs (no
+# language suffix); the folder date picks the edition (NL/UK pattern).
+_INDEX_HREF_RE = re.compile(r"index[-\w]*\.html?$", re.I)
 _DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
 
 _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
