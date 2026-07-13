@@ -1,0 +1,341 @@
+{
+  "BreadCrumbs": {
+    "label": "Navigeerimisrada",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Eesti (Eesti keeles)",
+      "hrefTitle": "AIP Eesti"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Aeronavigatsiooniteabe kogumik AIP VFR Eesti"
+    },
+    "/heliports": {
+      "title": "Kopteriväljakud",
+      "hrefTitle": "AIP VFR kopteriväljakud Eestis"
+    },
+    "/airport-list": {
+      "title": "Lennuväljade nimekiri",
+      "hrefTitle": "Eesti lennuväljade nimekiri"
+    },
+    "/terms": {
+      "title": "Kasutustingimused",
+      "hrefTitle": "Kasutustingimused - AIP:Aero Eesti"
+    },
+    "/efb": {
+      "title": "EFB juhend",
+      "hrefTitle": "EFB juhend - AIP:Aero tahvelarvutis"
+    }
+  },
+  "Menu": {
+    "label": "Menüü",
+    "home": {
+      "title": "AIP Eesti",
+      "hrefTitle": "AIP Eesti"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Aeronavigatsiooniteabe kogumik AIP VFR Eesti"
+    },
+    "heliports": {
+      "title": "Kopteriväljakud",
+      "hrefTitle": "AIP VFR kopteriväljakud Eestis"
+    },
+    "airports": {
+      "title": "Lennuväljade nimekiri",
+      "hrefTitle": "Eesti lennuväljade nimekiri"
+    }
+  },
+  "AirportsPage": {
+    "title": "Eesti lennuväljade nimekiri",
+    "metaTitle": "🛩️ Eesti lennuväljade nimekiri",
+    "description": "Ülevaade kõigist Eesti lennuväljadest",
+    "metaDescription": "Ülevaade kõigist Eesti lennuväljadest ja lennujaamadest🗺️",
+    "vfrCard": {
+      "title": "VFR-lennuväljad",
+      "description": "VFR-lennuväljad Eestis",
+      "linkTitle": "Vaata ja laadi alla AIP VFR kaardid ning lähenemiskaart lennuväljale {airport} siit."
+    },
+    "heliportCard": {
+      "title": "Kopteriväljakud",
+      "description": "Kopteriväljakud Eestis",
+      "linkTitle": "Vaata ja laadi alla AIP VFR kaardid ning lähenemiskaardid kopteriväljakule {airport} siit."
+    },
+    "breadcrumb": {
+      "name": "Eesti lennuväljade nimekiri",
+      "alternateName": "Eesti lennuväljade nimekiri",
+      "description": "Ülevaade kõigist Eesti lennuväljadest"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR HEL AD lähenemiskaartide otsing Eesti kopteriväljakutele",
+    "metaTitle": "🛩️ AIP VFR HEL AD lähenemiskaartide otsing Eesti kopteriväljakutele",
+    "description": "Sisesta lennuvälja nimi või ICAO-kood, et avada EANS-i avaldatud kopteriväljakute VFR-lähenemiskaardid.",
+    "metaDescription": "Otsi AIP VFR Eesti HEL AD kopteriväljakuid ja laadi lähenemiskaardid alla🗺️",
+    "searchTitle": "Sisesta lennuvälja nimi või ICAO-kood, et avada kopteriväljakute VFR AIP",
+    "searchPlaceholder": "Sisesta lennuvälja nimi või ICAO-kood, et avada kopteriväljakute VFR AIP",
+    "resultTitle": "AIP VFR kopterikaardid väljakule {airport}",
+    "resultDescription": "Vaata ja laadi alla AIP VFR kopterikaardid ning lähenemiskaardid väljakule {airport} siit.",
+    "breadcrumb": {
+      "name": "AIP VFR kopteriväljakud Eestis",
+      "alternateName": "AIP VFR HEL AD lähenemiskaartide otsing Eesti kopteriväljakutele",
+      "description": "Otsi AIP VFR Eesti HEL AD kopteriväljakuid ja laadi lähenemiskaardid alla"
+    }
+  },
+  "VfrPage": {
+    "title": "AIP VFR lähenemiskaartide otsing Eesti",
+    "metaTitle": "🛩️ AIP VFR lähenemiskaartide otsing Eesti",
+    "description": "Sisesta lennuvälja nimi või ICAO-kood, et avada EANS-i avaldatud VFR-lähenemiskaardid.",
+    "metaDescription": "Otsi AIP VFR Eesti AD lennuvälju ja laadi lähenemiskaardid alla🗺️",
+    "searchTitle": "Sisesta lennuvälja nimi või ICAO-kood, et avada VFR AIP",
+    "searchPlaceholder": "Sisesta lennuvälja nimi või ICAO-kood, et avada VFR AIP",
+    "resultTitle": "AIP VFR kaardid lennuväljale {airport}",
+    "resultDescription": "Vaata ja laadi alla AIP VFR kaardid ning lähenemiskaart lennuväljale {airport} siit.",
+    "breadcrumb": {
+      "name": "Aeronavigatsiooniteabe kogumik AIP VFR Eesti",
+      "alternateName": "AIP VFR lähenemiskaartide otsing Eesti",
+      "description": "Otsi AIP VFR Eesti AD lennuvälju ja laadi lähenemiskaardid alla"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Vaheta keelt",
+    "locale": "{locale, select, ee {🇪🇪 Eesti} en {🇬🇧 English} other {Tundmatu}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Lähenemiskaardid ja aeronavigatsiooniteabe kogumik AIP Eesti jaoks",
+    "alternateName": "AIP Eesti",
+    "description": "Siit saad alla laadida kõik Eesti AIP (Aeronautical Information Publication) aeronavigatsiooniteabe kogumikud ja lähenemiskaardid",
+    "inLanguage": "et",
+    "url": "https://aip.aero/ee/"
+  },
+  "CountryPage": {
+    "title": "Lähenemiskaardid ja aeronavigatsiooniteabe kogumik AIP Eesti jaoks",
+    "metaTitle": "🛩️ Lähenemiskaardid ja aeronavigatsiooniteabe kogumik AIP Eesti jaoks",
+    "description": "Siit saad alla laadida kõik Eesti AIP (Aeronautical Information Publication) aeronavigatsiooniteabe kogumikud ja lähenemiskaardid",
+    "metaDescription": "Siit saad alla laadida kõik Eesti AIP (Aeronautical Information Publication) aeronavigatsiooniteabe kogumikud ja lähenemiskaardid🗺️",
+    "vfrCard": {
+      "title": "Aeronavigatsiooniteabe kogumik AIP VFR",
+      "description": "Otsi AIP VFR Eesti AD lennuvälju ja laadi lähenemiskaardid alla",
+      "buttonTitle": "Aeronavigatsiooniteabe kogumik AIP VFR",
+      "buttonHref": "/ee/vfr/",
+      "buttonHrefTitle": "Aeronavigatsiooniteabe kogumik AIP VFR Eesti"
+    },
+    "heliportCard": {
+      "title": "Kopteriväljakud",
+      "description": "Otsi AIP VFR Eesti HEL AD kopteriväljakuid ja laadi lähenemiskaardid alla",
+      "buttonTitle": "AIP VFR kopteriväljakud",
+      "buttonHref": "/ee/heliports/",
+      "buttonHrefTitle": "AIP VFR kopteriväljakud Eestis"
+    },
+    "airportListCard": {
+      "title": "Lennuväljade nimekiri",
+      "description": "Ülevaade kõigist Eesti lennuväljadest - koos offline-allalaadimise, tolli- ja kütuseinfoga",
+      "buttonTitle": "Lennuväljade nimekiri",
+      "buttonHref": "/ee/lennuvaljade-nimekiri-eesti/",
+      "buttonHrefTitle": "Eesti lennuväljade nimekiri"
+    },
+    "breadcrumb": {
+      "name": "AIP Eesti",
+      "alternateName": "Lähenemiskaardid ja aeronavigatsiooniteabe kogumik AIP Eesti jaoks",
+      "description": "Siit saad alla laadida kõik Eesti AIP (Aeronautical Information Publication) aeronavigatsiooniteabe kogumikud ja lähenemiskaardid"
+    }
+  },
+  "About": {
+    "title": "Milleks see veebileht on?",
+    "description": "Eesti <aip>aeronavigatsiooniteabe kogumik AIP</aip> on tasuta kättesaadav. Selle veebilehe eesmärk on lihtsustada lennuväljade otsimist, kuna EANS-i versioonis puudub otsingufunktsioon. Me ei vastuta AIP (Aeronautical Information Publication) õigsuse ega ajakohasuse eest, kuna seda ei halda meie. Pakume ainult mugavaid linke vastavatele lähenemiskaartidele.",
+    "aipUrl": "https://eaip.eans.ee/",
+    "aipTitle": "AIP Eesti"
+  },
+  "TradeAero": {
+    "title": "Kas ostad või müüd lennukit?",
+    "description": "Avasta Trade:Aero kaudu Eestis müüdavaid õhusõidukeid - turuplats õhusõidukite ostmiseks ja müümiseks.",
+    "buttonTitle": "Trade:Aero - Euroopa suurim õhusõidukite turuplats",
+    "buttonHrefTitle": "Trade:Aero - Euroopa suurim õhusõidukite turuplats"
+  },
+  "Footer": {
+    "navTitle": "Navigatsioon",
+    "legalTitle": "Õigusteave ja kontakt",
+    "partnersTitle": "Partnerid",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP:Aero avaleht - AIP-id ja lähenemiskaardid Euroopa jaoks"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Avaleht",
+      "hrefTitle": "Avaleht - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Õigusteave",
+      "hrefTitle": "Õigusteave - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privaatsuspoliitika",
+      "hrefTitle": "Privaatsuspoliitika - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Alexander Drossi veebileht",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Kasutustingimused",
+      "hrefTitle": "Kasutustingimused - AIP:Aero Eesti"
+    },
+    "efb": {
+      "title": "EFB juhend",
+      "hrefTitle": "AIP:Aero sinu EFB-s - paigaldus, offline-kaardid, import"
+    }
+  },
+  "Error": {
+    "description": "<p>Kahjuks tekkis probleem.</p><p>Võid proovida <retry>seda lehte uuesti laadida</retry>.</p>",
+    "title": "Midagi läks valesti!"
+  },
+  "NotFound": {
+    "title": "404 - Lehte ei leitud",
+    "description": "Seda lehte või lennuvälja koodi ei ole olemas. Proovi selle asemel lennuvälja otsida:",
+    "searchPlaceholder": "Otsi lennuvälja nime või ICAO-koodi järgi",
+    "home": "Tagasi avalehele"
+  },
+  "Weather": {
+    "title": "Ilm",
+    "observed": "Vaadeldud",
+    "forecast": "Prognoos",
+    "wind": "Tuul",
+    "visibility": "Nähtavus",
+    "clouds": "Pilved",
+    "temperature": "Temperatuur",
+    "qnh": "QNH",
+    "source": "Allikas",
+    "elevation": "Kõrgus merepinnast",
+    "sunrise": "Päikesetõus",
+    "sunset": "Päikeseloojang",
+    "civilTwilight": "Tsiviilhämarik",
+    "facts": "Lennuvälja andmed",
+    "runways": "Rajad",
+    "frequencies": "Sagedused",
+    "decode": "Näita dekodeeritult",
+    "openingHours": "Lahtiolekuajad",
+    "fuel": "Kütus",
+    "ppr": "PPR",
+    "pprRequired": "Vajalik eelnev luba",
+    "nearest": "Ilm lähimalt lennuväljalt {station} ({km} km kaugusel)",
+    "circuit": "Lennuring",
+    "circuitLeft": "vasak",
+    "circuitRight": "parem",
+    "windComponents": "Tuulekomponendid",
+    "headwind": "Vastutuul",
+    "tailwind": "Pärituul",
+    "crosswind": "Külgtuul",
+    "fromLeft": "vasakult",
+    "fromRight": "paremalt",
+    "landingDirection": "Tõenäoline maandumissuund",
+    "aerodromeType": "Lennuvälja tüüp",
+    "surface": "Kate"
+  },
+  "Common": {
+    "openIn": "Ava rakenduses",
+    "homeLink": "AIP:Aero - Aeronavigatsiooniteabe kogumikud (AIP) ja lähenemiskaardid Euroopa jaoks",
+    "lastUpdated": "Viimati uuendatud",
+    "viewOnMap": "Vaata Google Mapsis",
+    "location": "Asukoht",
+    "website": "Veebileht",
+    "address": "Aadress",
+    "coordinates": "Koordinaadid",
+    "phone": "Telefon",
+    "map": "Kaart",
+    "locate": "Leia minu asukoht",
+    "locateError": "Sinu asukohta ei õnnestunud kindlaks teha",
+    "nearby": "Lähedal asuvad lennuväljad",
+    "restaurant": "Restoran",
+    "customs": "Toll",
+    "yes": "Jah",
+    "no": "Ei",
+    "saveOffline": "Salvesta offline-kasutuseks",
+    "savedOffline": "Salvestatud offline",
+    "installHint": "Paigalda rakendusena: vali brauseri jagamismenüüst 'Lisa avakuvale'. Seejärel ava rakendus üks kord võrgus ja salvesta oma väljad seal uuesti - rakendusel on oma offline-salvestusruum.",
+    "installHintMac": "Macis: paigalda Safari jagamismenüü kaudu valikuga 'Lisa dokki'. Seejärel ava rakendus üks kord võrgus ja salvesta oma väljad seal uuesti - rakendusel on oma offline-salvestusruum.",
+    "bulkDownload": "Salvesta kõik {count} lehte offline (u {size} MB)",
+    "bulkDownloaded": "Saadaval offline",
+    "bulkUpdate": "Uuenda",
+    "bulkRemove": "Eemalda",
+    "bulkProgress": "Lehtede salvestamine",
+    "bulkCancel": "Katkesta",
+    "bulkError": "Allalaadimine ebaõnnestus - proovi uuesti",
+    "bulkNoSpace": "Sellel seadmel pole piisavalt vaba salvestusruumi",
+    "bulkScope": "Sisaldab: kõik lennuväljalehed koos lennuvälja andmetega. Ei sisalda: lähenemiskaartide PDF-e (saab salvestada iga lennuvälja kohta eraldi) ja reaalajas ilma (vajab ühendust).",
+    "pavedRunway": "Kattega rada",
+    "favorites": "Lemmikud",
+    "recentlyViewed": "Hiljuti vaadatud",
+    "borderCrossing": "Piiriületus",
+    "alsoAvailable": "Samuti saadaval:"
+  },
+  "Chart": {
+    "allCharts": "Kõik kaardid ({count})",
+    "title": "Lähenemiskaart",
+    "openPdf": "Ava kaardi PDF",
+    "preview": "Näita eelvaadet"
+  },
+  "TermsPage": {
+    "title": "Kasutustingimused",
+    "intro": "AIP:Aero on tasuta otsingu- ja indeksiteenus aeronavigatsiooniteabe kogumike (AIP), lähenemiskaartide ja lennuväljade andmete jaoks Euroopas.",
+    "servicesTitle": "Meie teenus",
+    "servicesText": "AIP:Aero leiab lennuväljad nime või ICAO-koodi järgi ja viib otse vastava riigi ametliku AIP-väljaandeni. Lisaks kuvavad meie lennuväljalehed täiendavat teavet, näiteks ilmateateid (METAR/TAF), lennuvälja andmeid (rajad, sagedused, kõrgus merepinnast), kaarte ja kontaktandmeid; lehti saab salvestada ka offline-kasutuseks. Teenus on tasuta ega nõua registreerimist.",
+    "disclaimerTitle": "Vastutuse välistamine",
+    "disclaimerText": "AIP:Aero ei vastuta mitte mingil juhul. Me ei avalda ise lennundusdokumente: lingime ainult uusimale AIP-le (Aeronautical Information Publication), mille teeb kättesaadavaks vastava riigi ametlik väljaandja. Sama kehtib ilmaandmete (METAR/TAF) ja lennuväljade andmete kohta: see teave on meie lehtedele manustatud, kuid pärineb allpool loetletud välistest allikatest. Me ei võta mingit vastutust ega anna garantiid lingitud või manustatud sisu õigsuse, täielikkuse ega ajakohasuse eest, samuti mitte selle veebilehe kättesaadavuse eest. See veebileht ei asenda ametlikku lennueelset ettevalmistust: õhusõiduki kapten vastutab ainuisikuliselt kogu lennuks vajaliku teabe hankimise ja kontrollimise eest.",
+    "sourcesTitle": "Andmeallikad",
+    "sourcesIntro": "Lingitud ja manustatud andmed pärinevad järgmistest allikatest (aadressid tavatekstina, tahtlikult mitteklikitavad):",
+    "sourcesAip": "Ametlikud AIP-väljaanded, millele lingime",
+    "sourcesData": "Manustatud välised andmed",
+    "srcAwc": "ilm METAR/TAF ja lennuvälja andmed",
+    "srcOurAirports": "lennuväljade põhiandmed",
+    "srcOpenAip": "laiendatud lennuvälja andmed: rajad, sagedused, kütus",
+    "srcOsm": "kaardid ja aadressid",
+    "metaTitle": "Kasutustingimused - AIP:Aero Eesti",
+    "metaDescription": "AIP:Aero kasutustingimused - tasuta AIP ja lähenemiskaartide otsing Eesti ja Euroopa jaoks: teenuse kirjeldus, vastutuse välistamine ja andmeallikad."
+  },
+  "EfbPage": {
+    "title": "Kasuta AIP:Aero-t oma EFB-s",
+    "intro": "Kuidas paigaldada AIP:Aero oma EFB-tahvelarvutisse, salvestada lähenemiskaarte offline, laadida alla terveid riike ja saata väljad edasi oma planeerimistööriistadesse - samm-sammult.",
+    "metaTitle": "EFB juhend Eesti - AIP ja lähenemiskaardid tahvelarvutis | AIP:Aero",
+    "metaDescription": "Paigalda AIP:Aero rakendusena oma EFB-tahvelarvutisse, salvesta lähenemiskaarte offline, laadi alla terveid riike ja impordi kaardi-PDF-e ForeFlighti, SkyDemonisse jm (Eesti).",
+    "installTitle": "Paigalda rakendusena (PWA)",
+    "installText": "AIP:Aero on paigaldatav veebirakendus: see avaneb täisekraanil nagu native rakendus ja kõik salvestatu on offline kättesaadav. App store'i pole vaja.",
+    "installIos": "iPad / iPhone (Safari): ava aip.aero, puuduta jagamisikooni ja seejärel \"Lisa avakuvale\".",
+    "installAndroid": "Android (Chrome): ava aip.aero, puuduta menüüd ja seejärel \"Lisa avakuvale\" / \"Paigalda rakendus\".",
+    "offlineTitle": "Salvesta üksikuid väljakuid offline",
+    "offlineText": "Igal detailvaate lehel on nupp \"Salvesta offline\". See salvestab lehe ja, kui AIP selle avaldab, lähenemiskaardi PDF-i sinu seadmesse; väljak ilmub seejärel riigi lehel lemmikute alla. Salvestatud koopiad näitavad oma allalaadimiskuupäeva.",
+    "bulkTitle": "Laadi alla terve riik",
+    "bulkText": "Lennuväljade nimekirjast saad ühe korraga alla laadida kõik riigi detailvaate lehed (ainult lehed, ilma kaardi-PDF-ideta - need salvesta iga väljaku kohta eraldi). Pakett näitab enne allalaadimist oma suurust ning seda saab igal ajal uuendada või eemaldada.",
+    "importTitle": "Kaardi-PDF-id ForeFlightis, SkyDemonis jm",
+    "importText": "Kui riiklik AIP avaldab kaardi-PDF-e, lingib detailvaate lehe kaardikast kehtiva PDF-i koos AIRAC-kuupäevaga. Laadi see alla ja impordi oma EFB-rakendusse oma sisuna, nt ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) või Garmin Pilot. Saksamaa avaldab PDF-ide asemel HTML-lehti - kasuta seal AIP-linki.",
+    "toolsTitle": "Edastamine planeerimistööriistadesse",
+    "toolsText": "Iga detailvaate lehe asukohakast avab sama väljaku otse SkyVectoris, Windys ja autorouteris - mugav marsruudi planeerimiseks, ilmamudeliteks ja lennuplaani esitamiseks.",
+    "weatherTitle": "Ilmabriifing lehel",
+    "weatherText": "Detailvaate lehed näitavad reaalajas METAR/TAF-i koos selgekeelse dekodeeringuga, lennukategooria märgist ning raja kaupa vastu- ja külgtuulekomponente - kiire kontroll, mitte ametliku briifingu asendus.",
+    "customsTitle": "Toll ja piiriületus",
+    "customsText": "Detailvaate lehed näitavad, kas väljak pakub tolliteenust; kui riiklik AIP loetleb selle jaotises GEN 1.2, on väärtus kontrollitud selle ametliku allika vastu. Piiriületuse formaalsuste jaoks lingib asukohakast ametlikud vormid (nt Ühendkuningriigi General Aviation Report) ja kaardil saab filtreerida tolliväljakuid. Reeglid muutuvad - kinnita need alati kehtiva AIP ja kohaliku ametiasutusega.",
+    "disclaimerTitle": "Ohutusmärkus",
+    "disclaimerText": "AIP:Aero lingib ametlikele AIP-väljaannetele, kuid ei ole ametlik allikas. Offline-koopiad kannavad oma allalaadimiskuupäeva ja võivad iga AIRAC-tsükliga aeguda - kontrolli kaartide kehtivust enne iga lendu ja hangi alati ametlik lennueelne briifing."
+  }
+}
