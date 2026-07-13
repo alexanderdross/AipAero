@@ -336,6 +336,15 @@
     "customsTitle": "Odprawa celna i przekraczanie granicy",
     "customsText": "Strony szczegółowe pokazują, czy lotnisko oferuje odprawę celną; tam gdzie krajowy AIP wymienia to w GEN 1.2, wartość jest zweryfikowana z tym oficjalnym źródłem. Do formalności granicznych ramka lokalizacji linkuje oficjalne formularze (np. brytyjski General Aviation Report), a mapa może filtrować lotniska celne. Przepisy się zmieniają - zawsze potwierdzaj je z aktualnym AIP i lokalnym urzędem.",
     "disclaimerTitle": "Uwaga dotycząca bezpieczeństwa",
-    "disclaimerText": "AIP:Aero linkuje do oficjalnych publikacji AIP, ale sam nie jest oficjalnym źródłem. Kopie offline noszą datę pobrania i mogą się dezaktualizować z każdym cyklem AIRAC - sprawdzaj aktualność map przed każdym lotem i zawsze uzyskaj oficjalny briefing przedlotowy."
+    "disclaimerText": "AIP:Aero linkuje do oficjalnych publikacji AIP, ale sam nie jest oficjalnym źródłem. Kopie offline noszą datę pobrania i mogą się dezaktualizować z każdym cyklem AIRAC - sprawdzaj aktualność map przed każdym lotem i zawsze uzyskaj oficjalny briefing przedlotowy.",
+    "installButton": "Zainstaluj teraz",
+    "ctaTitle": "Wypróbuj teraz",
+    "faqTitle": "Częste pytania",
+    "faq1q": "Czy AIP:Aero działa całkowicie offline?",
+    "faq1a": "Zapisane lotniska i pobrane pakiety krajów działają bez internetu; każda kopia offline pokazuje baner z datą zapisu. Pogoda na żywo (METAR/TAF) zawsze wymaga połączenia.",
+    "faq2q": "Które kraje są objęte?",
+    "faq2a": "Wszystkie dostępne kraje są wymienione na stronie głównej - zasięg stale rośnie. Każda karta kraju pokazuje dostępne typy map.",
+    "faq3q": "Czy mapy są aktualne?",
+    "faq3a": "Linki do map prowadzą do oficjalnych krajowych publikacji AIP, wraz z datą AIRAC tam, gdzie jest publikowana. Przed lotem zawsze sprawdź oficjalne źródło."
   }
 }

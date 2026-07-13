@@ -336,6 +336,15 @@
     "customsTitle": "Tull och gränspassage",
     "customsText": "Detaljsidor visar om ett fält erbjuder tullklarering; där den nationella AIP:en listar det i GEN 1.2 är värdet verifierat mot den officiella källan. För gränsformaliteter länkar platsrutan till de officiella formulären (t.ex. brittiska General Aviation Report), och kartan kan filtrera på tullfält. Regler ändras - bekräfta dem alltid med gällande AIP och den lokala myndigheten.",
     "disclaimerTitle": "Säkerhetsanmärkning",
-    "disclaimerText": "AIP:Aero länkar till officiella AIP-publikationer men är ingen officiell källa. Offline-kopior bär sitt nedladdningsdatum och kan bli inaktuella med varje AIRAC-cykel - kontrollera kartornas giltighet före varje flygning och inhämta alltid en officiell briefing."
+    "disclaimerText": "AIP:Aero länkar till officiella AIP-publikationer men är ingen officiell källa. Offline-kopior bär sitt nedladdningsdatum och kan bli inaktuella med varje AIRAC-cykel - kontrollera kartornas giltighet före varje flygning och inhämta alltid en officiell briefing.",
+    "installButton": "Installera nu",
+    "ctaTitle": "Prova nu",
+    "faqTitle": "Vanliga frågor",
+    "faq1q": "Fungerar AIP:Aero helt offline?",
+    "faq1a": "Sparade fält och nedladdade landspaket fungerar utan internet; varje offlinekopia visar en banner med spardatumet. Live-väder (METAR/TAF) kräver alltid uppkoppling.",
+    "faq2q": "Vilka länder täcks?",
+    "faq2a": "Alla tillgängliga länder listas på startsidan - täckningen växer kontinuerligt. Varje landskort visar tillgängliga korttyper.",
+    "faq3q": "Är kartorna aktuella?",
+    "faq3a": "Kartlänkar pekar på de officiella nationella AIP-publikationerna, inklusive AIRAC-datum där det publiceras. Verifiera alltid den officiella källan före flygning."
   }
 }

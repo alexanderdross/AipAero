@@ -1,14 +1,18 @@
 import {
   ArrowRightIcon,
+  CheckIcon,
   DownloadIcon,
   MoreVerticalIcon,
   ShareIcon,
   SquarePlusIcon,
+  XIcon,
 } from "lucide-react";
 import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { BreadCrumbs } from "~/components/breadcrumbs";
+import { InstallAppButton } from "~/components/install-app-button";
+import { SectionHeading } from "~/components/section-heading";
 import { Title } from "~/components/title";
 import {
   getPathname,
@@ -119,16 +123,63 @@ export default async function EfbPage(
   const chip =
     "border-drossgray-dark/20 text-drossblue inline-flex size-8 shrink-0 items-center justify-center rounded-md border bg-white shadow-sm";
 
+  // Install steps as schema.org/HowTo (rich-result candidate); the two
+  // platforms are HowToSections of the same procedure. FAQ block as
+  // FAQPage. This page is statically prerendered, so page-emitted JSON-LD
+  // is safe (the duplication artifact only hits dynamically rendered
+  // routes - see CLAUDE.md).
+  const howToJson = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: t("installTitle"),
+    description: t("installText"),
+    step: [
+      {
+        "@type": "HowToSection",
+        name: "iOS / iPadOS (Safari)",
+        position: 1,
+        itemListElement: [
+          { "@type": "HowToStep", position: 1, text: t("installIos") },
+        ],
+      },
+      {
+        "@type": "HowToSection",
+        name: "Android (Chrome)",
+        position: 2,
+        itemListElement: [
+          { "@type": "HowToStep", position: 1, text: t("installAndroid") },
+        ],
+      },
+    ],
+  };
+  const faqJson = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: ([1, 2, 3] as const).map((i) => ({
+      "@type": "Question",
+      name: t(`faq${i}q`),
+      acceptedAnswer: { "@type": "Answer", text: t(`faq${i}a`) },
+    })),
+  };
+
   return (
     <>
       <Title title={t("title")} description={t("intro")} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJson) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJson) }}
+      />
       <div className="mx-auto mt-12 max-w-3xl px-4 pb-8 sm:px-6 lg:px-8">
         <div className="border-drossgray-dark/15 flex flex-col gap-8 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
           {SECTIONS.map((section) => (
             <section key={section}>
-              <h2 className="text-xl font-semibold tracking-tight">
+              <SectionHeading className="text-xl font-semibold tracking-tight">
                 {t(`${section}Title`)}
-              </h2>
+              </SectionHeading>
               {section === "bulk" ? (
                 <p className="mt-3">
                   {t.rich("bulkText", {
@@ -168,10 +219,74 @@ export default async function EfbPage(
                       <span>{text}</span>
                     </div>
                   ))}
+                  {/* Native install prompt where the browser offers one
+                      (Chromium); renders nothing elsewhere - the manual
+                      steps above stay the accessible path. */}
+                  <InstallAppButton label={t("installButton")} />
                 </div>
+              )}
+              {section === "offline" && (
+                // Schematic save-button mockup: tap the download button,
+                // get the saved state. Decorative - the text explains it.
+                <span
+                  aria-hidden="true"
+                  className="border-drossgray-dark/15 bg-drossgray/50 mt-3 inline-flex items-center gap-1 rounded-lg border p-3"
+                >
+                  <span className={chip}>
+                    <DownloadIcon className="size-4" />
+                  </span>
+                  <ArrowRightIcon className="text-drossgray-dark size-3" />
+                  <span className={chip}>
+                    <CheckIcon className="size-4" />
+                  </span>
+                </span>
+              )}
+              {section === "bulk" && (
+                // Schematic pack-download mockup: progress bar + cancel.
+                <span
+                  aria-hidden="true"
+                  className="border-drossgray-dark/15 bg-drossgray/50 mt-3 flex items-center gap-3 rounded-lg border p-3"
+                >
+                  <span className="bg-drossgray-dark/20 h-2 min-w-24 flex-1 overflow-hidden rounded-full">
+                    <span className="bg-drossblue block h-full w-2/5 rounded-full" />
+                  </span>
+                  <span className={chip}>
+                    <XIcon className="size-4" />
+                  </span>
+                </span>
               )}
             </section>
           ))}
+
+          {/* FAQ - mirrored as FAQPage JSON-LD above. */}
+          <section>
+            <SectionHeading className="text-xl font-semibold tracking-tight">
+              {t("faqTitle")}
+            </SectionHeading>
+            <div className="mt-3 flex flex-col gap-4">
+              {([1, 2, 3] as const).map((i) => (
+                <div key={i}>
+                  <h3 className="font-semibold">{t(`faq${i}q`)}</h3>
+                  <p className="mt-1">{t(`faq${i}a`)}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Closing CTA: from the guide straight into the product. */}
+          <section className="border-drossgray-dark/15 border-t pt-6 text-center">
+            <h2 className="text-xl font-semibold tracking-tight">
+              {t("ctaTitle")}
+            </h2>
+            <a
+              href={airportListHref}
+              title={tMenu("airports.hrefTitle")}
+              className="bg-drossblue hover:bg-drossblue-light mt-4 inline-flex min-h-10 items-center gap-x-2 rounded-lg px-5 py-2.5 font-medium text-white transition-colors"
+            >
+              <span>{tMenu("airports.title")}</span>
+              <ArrowRightIcon className="size-4" aria-hidden="true" />
+            </a>
+          </section>
         </div>
       </div>
 

@@ -306,6 +306,15 @@
     "customsTitle": "Aduanas y cruce de fronteras",
     "customsText": "Las páginas de detalle muestran si un aeródromo ofrece despacho de aduanas; cuando la AIP nacional lo recoge en GEN 1.2, el valor está verificado con esa fuente oficial. Para los trámites fronterizos, el recuadro de ubicación enlaza a los formularios oficiales (p. ej. el General Aviation Report británico), y el mapa puede filtrar por aeródromos con aduanas. Las normas cambian - confírmalas siempre con la AIP vigente y la autoridad local.",
     "disclaimerTitle": "Aviso de seguridad",
-    "disclaimerText": "AIP:Aero enlaza a publicaciones AIP oficiales, pero no es una fuente oficial. Las copias sin conexión llevan su fecha de descarga y pueden quedar obsoletas con cada ciclo AIRAC - comprueba la vigencia de las cartas antes de cada vuelo y obtén siempre un briefing oficial."
+    "disclaimerText": "AIP:Aero enlaza a publicaciones AIP oficiales, pero no es una fuente oficial. Las copias sin conexión llevan su fecha de descarga y pueden quedar obsoletas con cada ciclo AIRAC - comprueba la vigencia de las cartas antes de cada vuelo y obtén siempre un briefing oficial.",
+    "installButton": "Instalar ahora",
+    "ctaTitle": "Pruébalo ahora",
+    "faqTitle": "Preguntas frecuentes",
+    "faq1q": "¿Funciona AIP:Aero completamente sin conexión?",
+    "faq1a": "Los aeródromos guardados y los paquetes de país descargados funcionan sin internet; cada copia sin conexión muestra un aviso con su fecha de guardado. El tiempo en vivo (METAR/TAF) siempre necesita conexión.",
+    "faq2q": "¿Qué países están cubiertos?",
+    "faq2a": "Todos los países disponibles aparecen en la página de inicio - la cobertura crece continuamente. Cada tarjeta de país muestra los tipos de cartas disponibles.",
+    "faq3q": "¿Están actualizadas las cartas?",
+    "faq3a": "Los enlaces apuntan a las publicaciones AIP nacionales oficiales, incluida la fecha AIRAC cuando se publica. Verifica siempre la fuente oficial antes del vuelo."
   }
 }

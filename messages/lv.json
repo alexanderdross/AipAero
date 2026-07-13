@@ -336,6 +336,15 @@
     "customsTitle": "Muita un robežšķērsošana",
     "customsText": "Detaļu lapas rāda, vai lidlaukā ir pieejama muitas kontrole; ja nacionālā AIP to norāda GEN 1.2 sadaļā, vērtība ir pārbaudīta pret šo oficiālo avotu. Robežšķērsošanas formalitātēm atrašanās vietas lodziņš norāda saites uz oficiālajām veidlapām (piemēram, Apvienotās Karalistes General Aviation Report), un kartē var filtrēt muitas lidlaukus. Noteikumi mainās - vienmēr pārliecinieties aktuālajā AIP un pie vietējās iestādes.",
     "disclaimerTitle": "Drošības piezīme",
-    "disclaimerText": "AIP:Aero norāda saites uz oficiālajām AIP publikācijām, bet pats nav oficiāls avots. Bezsaistes kopijas ir marķētas ar to lejupielādes datumu un var novecot ar katru AIRAC ciklu - pirms katra lidojuma pārbaudiet karšu aktualitāti un vienmēr saņemiet oficiālu pirmslidojuma pārskatu."
+    "disclaimerText": "AIP:Aero norāda saites uz oficiālajām AIP publikācijām, bet pats nav oficiāls avots. Bezsaistes kopijas ir marķētas ar to lejupielādes datumu un var novecot ar katru AIRAC ciklu - pirms katra lidojuma pārbaudiet karšu aktualitāti un vienmēr saņemiet oficiālu pirmslidojuma pārskatu.",
+    "installButton": "Instalēt tūlīt",
+    "ctaTitle": "Izmēģini tagad",
+    "faqTitle": "Biežāk uzdotie jautājumi",
+    "faq1q": "Vai AIP:Aero darbojas pilnībā bezsaistē?",
+    "faq1a": "Saglabātie lidlauki un lejupielādētās valstu pakotnes darbojas bez interneta; katra bezsaistes kopija rāda joslu ar saglabāšanas datumu. Tiešsaistes laikapstākļiem (METAR/TAF) vienmēr nepieciešams savienojums.",
+    "faq2q": "Kuras valstis ir iekļautas?",
+    "faq2a": "Visas pieejamās valstis ir uzskaitītas sākumlapā - pārklājums nepārtraukti aug. Katra valsts kartīte rāda pieejamos karšu veidus.",
+    "faq3q": "Vai kartes ir aktuālas?",
+    "faq3a": "Karšu saites ved uz oficiālajām nacionālajām AIP publikācijām, ieskaitot AIRAC datumu, ja tas ir publicēts. Pirms lidojuma vienmēr pārbaudi oficiālo avotu."
   }
 }

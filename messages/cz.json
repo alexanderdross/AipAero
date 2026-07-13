@@ -301,6 +301,15 @@
     "customsTitle": "Celní odbavení a překročení hranic",
     "customsText": "Detailní stránky ukazují, zda letiště nabízí celní odbavení; kde to národní AIP uvádí v GEN 1.2, je hodnota ověřena proti tomuto oficiálnímu zdroji. Pro hraniční formality odkazuje box s polohou na oficiální formuláře (např. britský General Aviation Report) a mapa umí filtrovat celní letiště. Pravidla se mění - vždy je potvrďte s aktuálním AIP a místním úřadem.",
     "disclaimerTitle": "Bezpečnostní upozornění",
-    "disclaimerText": "AIP:Aero odkazuje na oficiální publikace AIP, ale není oficiálním zdrojem. Offline kopie nesou datum stažení a mohou s každým cyklem AIRAC zastarat - před každým letem ověřte platnost map a vždy si vyžádejte oficiální předletový briefing."
+    "disclaimerText": "AIP:Aero odkazuje na oficiální publikace AIP, ale není oficiálním zdrojem. Offline kopie nesou datum stažení a mohou s každým cyklem AIRAC zastarat - před každým letem ověřte platnost map a vždy si vyžádejte oficiální předletový briefing.",
+    "installButton": "Nainstalovat nyní",
+    "ctaTitle": "Vyzkoušejte to",
+    "faqTitle": "Časté dotazy",
+    "faq1q": "Funguje AIP:Aero zcela offline?",
+    "faq1a": "Uložená letiště a stažené balíčky zemí fungují bez internetu; každá offline kopie zobrazuje banner s datem uložení. Živé počasí (METAR/TAF) vždy vyžaduje připojení.",
+    "faq2q": "Které země jsou k dispozici?",
+    "faq2a": "Všechny aktuálně dostupné země jsou uvedeny na úvodní stránce - pokrytí se průběžně rozšiřuje. Každá karta země ukazuje dostupné typy map.",
+    "faq3q": "Jsou mapy aktuální?",
+    "faq3a": "Odkazy na mapy vedou na oficiální národní publikace AIP včetně data AIRAC, pokud je zveřejněno. Před letem vždy ověřte oficiální zdroj."
   }
 }

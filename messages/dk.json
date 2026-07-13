@@ -336,6 +336,15 @@
     "customsTitle": "Told og grænsepassage",
     "customsText": "Detaljesider viser, om en plads tilbyder toldbehandling; hvor den nationale AIP angiver det i GEN 1.2, er værdien verificeret mod denne officielle kilde. Til grænseformaliteter linker lokationsboksen til de officielle formularer (f.eks. det britiske General Aviation Report), og kortet kan filtrere efter toldpladser. Regler ændrer sig - bekræft dem altid med den gældende AIP og den lokale myndighed.",
     "disclaimerTitle": "Sikkerhedsbemærkning",
-    "disclaimerText": "AIP:Aero linker til officielle AIP-publikationer, men er ikke en officiel kilde. Offline-kopier bærer deres downloaddato og kan forældes med hver AIRAC-cyklus - kontrollér kortenes gyldighed før hver flyvning, og indhent altid en officiel briefing."
+    "disclaimerText": "AIP:Aero linker til officielle AIP-publikationer, men er ikke en officiel kilde. Offline-kopier bærer deres downloaddato og kan forældes med hver AIRAC-cyklus - kontrollér kortenes gyldighed før hver flyvning, og indhent altid en officiel briefing.",
+    "installButton": "Installer nu",
+    "ctaTitle": "Prøv det nu",
+    "faqTitle": "Ofte stillede spørgsmål",
+    "faq1q": "Virker AIP:Aero helt offline?",
+    "faq1a": "Gemte pladser og downloadede landepakker virker uden internet; hver offline-kopi viser et banner med gemmedatoen. Live-vejr (METAR/TAF) kræver altid forbindelse.",
+    "faq2q": "Hvilke lande er dækket?",
+    "faq2a": "Alle aktuelt tilgængelige lande vises på forsiden - dækningen vokser løbende. Hvert landekort viser de tilgængelige korttyper.",
+    "faq3q": "Er kortene aktuelle?",
+    "faq3a": "Kortlinks peger på de officielle nationale AIP-publikationer, inklusive AIRAC-dato hvor offentliggjort. Kontroller altid den officielle kilde før flyvning."
   }
 }

@@ -371,6 +371,15 @@
     "customsTitle": "Zoll & Grenzübertritt",
     "customsText": "Detailseiten zeigen, ob ein Platz Zollabfertigung bietet; wo die nationale AIP das in GEN 1.2 listet, ist der Wert gegen diese amtliche Quelle verifiziert. Für die Grenzübertritts-Formalitäten verlinkt die Standort-Box die offiziellen Formulare (z.B. den UK General Aviation Report), und die Karte kann nach Zollflugplätzen filtern. Regeln ändern sich - bestätige sie immer mit der aktuellen AIP und der örtlichen Behörde.",
     "disclaimerTitle": "Sicherheitshinweis",
-    "disclaimerText": "AIP:Aero verlinkt offizielle AIP-Publikationen, ist aber keine offizielle Quelle. Offline-Kopien sind mit ihrem Download-Datum markiert und können mit jedem AIRAC-Zyklus veralten - prüfe die Kartenaktualität vor jedem Flug und hole immer ein offizielles Flugwetter- und NOTAM-Briefing ein."
+    "disclaimerText": "AIP:Aero verlinkt offizielle AIP-Publikationen, ist aber keine offizielle Quelle. Offline-Kopien sind mit ihrem Download-Datum markiert und können mit jedem AIRAC-Zyklus veralten - prüfe die Kartenaktualität vor jedem Flug und hole immer ein offizielles Flugwetter- und NOTAM-Briefing ein.",
+    "installButton": "Jetzt installieren",
+    "ctaTitle": "Probier es aus",
+    "faqTitle": "Häufige Fragen",
+    "faq1q": "Funktioniert AIP:Aero komplett offline?",
+    "faq1a": "Gespeicherte Plätze und heruntergeladene Länderpakete funktionieren ohne Internet; jede Offline-Kopie zeigt ein Banner mit ihrem Speicherdatum. Live-Wetter (METAR/TAF) braucht immer eine Verbindung.",
+    "faq2q": "Welche Länder sind verfügbar?",
+    "faq2a": "Alle aktuell verfügbaren Länder stehen auf der Startseite - die Abdeckung wächst laufend. Jede Länderkarte zeigt die verfügbaren Kartentypen.",
+    "faq3q": "Sind die Karten aktuell?",
+    "faq3a": "Karten-Links zeigen auf die offiziellen nationalen AIP-Veröffentlichungen, inklusive AIRAC-Datum wo veröffentlicht. Prüfe vor dem Flug immer die offizielle Quelle."
   }
 }

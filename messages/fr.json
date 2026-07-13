@@ -336,6 +336,15 @@
     "customsTitle": "Douane et passage de frontière",
     "customsText": "Les pages de détail indiquent si un terrain offre le dédouanement ; quand l'AIP nationale le liste en GEN 1.2, la valeur est vérifiée contre cette source officielle. Pour les formalités de passage de frontière, la boîte localisation renvoie aux formulaires officiels (p. ex. le General Aviation Report britannique), et la carte peut filtrer les terrains douaniers. Les règles changent - confirmez toujours avec l'AIP en vigueur et l'autorité locale.",
     "disclaimerTitle": "Avertissement de sécurité",
-    "disclaimerText": "AIP:Aero renvoie vers les publications AIP officielles mais n'est pas une source officielle. Les copies hors ligne portent leur date de téléchargement et peuvent devenir obsolètes à chaque cycle AIRAC - vérifiez la validité des cartes avant chaque vol et obtenez toujours un briefing officiel avant le départ."
+    "disclaimerText": "AIP:Aero renvoie vers les publications AIP officielles mais n'est pas une source officielle. Les copies hors ligne portent leur date de téléchargement et peuvent devenir obsolètes à chaque cycle AIRAC - vérifiez la validité des cartes avant chaque vol et obtenez toujours un briefing officiel avant le départ.",
+    "installButton": "Installer maintenant",
+    "ctaTitle": "Essayez maintenant",
+    "faqTitle": "Questions fréquentes",
+    "faq1q": "AIP:Aero fonctionne-t-il entièrement hors ligne ?",
+    "faq1a": "Les terrains enregistrés et les packs pays téléchargés fonctionnent sans internet ; chaque copie hors ligne affiche un bandeau avec sa date d'enregistrement. La météo en direct (METAR/TAF) nécessite toujours une connexion.",
+    "faq2q": "Quels pays sont couverts ?",
+    "faq2a": "Tous les pays actuellement disponibles figurent sur la page d'accueil - la couverture s'étend en continu. Chaque carte pays indique les types de cartes disponibles.",
+    "faq3q": "Les cartes sont-elles à jour ?",
+    "faq3a": "Les liens pointent vers les publications AIP nationales officielles, avec la date AIRAC lorsqu'elle est publiée. Vérifiez toujours la source officielle avant le vol."
   }
 }

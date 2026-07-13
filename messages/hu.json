@@ -306,6 +306,15 @@
     "customsTitle": "Vám és határátlépés",
     "customsText": "A részletoldalak mutatják, hogy egy repülőtér kínál-e vámkezelést; ahol a nemzeti AIP a GEN 1.2 fejezetben feltünteti, az érték ezzel a hivatalos forrással van ellenőrizve. A határátlépési ügyintézéshez a helyszíndoboz a hivatalos űrlapokra hivatkozik (pl. a brit General Aviation Report), a térkép pedig szűrhető a vámkezelést kínáló repülőterekre. A szabályok változnak - mindig ellenőrizd az aktuális AIP-ben és a helyi hatóságnál.",
     "disclaimerTitle": "Biztonsági figyelmeztetés",
-    "disclaimerText": "Az AIP:Aero hivatalos AIP-kiadványokra hivatkozik, de nem hivatalos forrás. Az offline másolatok a letöltésük dátumával vannak megjelölve, és minden AIRAC-ciklussal elavulhatnak - minden repülés előtt ellenőrizd a térképek érvényességét, és mindig kérj hivatalos repülés-előkészítő eligazítást."
+    "disclaimerText": "Az AIP:Aero hivatalos AIP-kiadványokra hivatkozik, de nem hivatalos forrás. Az offline másolatok a letöltésük dátumával vannak megjelölve, és minden AIRAC-ciklussal elavulhatnak - minden repülés előtt ellenőrizd a térképek érvényességét, és mindig kérj hivatalos repülés-előkészítő eligazítást.",
+    "installButton": "Telepítés most",
+    "ctaTitle": "Próbáld ki most",
+    "faqTitle": "Gyakori kérdések",
+    "faq1q": "Teljesen offline működik az AIP:Aero?",
+    "faq1a": "A mentett repülőterek és a letöltött országcsomagok internet nélkül működnek; minden offline másolat szalagon mutatja a mentés dátumát. Az élő időjárás (METAR/TAF) mindig kapcsolatot igényel.",
+    "faq2q": "Mely országok érhetők el?",
+    "faq2a": "Az összes elérhető ország a kezdőlapon található - a lefedettség folyamatosan bővül. Minden országkártya mutatja az elérhető térképtípusokat.",
+    "faq3q": "Naprakészek a térképek?",
+    "faq3a": "A térképlinkek a hivatalos nemzeti AIP-kiadványokra mutatnak, az AIRAC-dátummal együtt, ahol közzéteszik. Repülés előtt mindig ellenőrizd a hivatalos forrást."
   }
 }

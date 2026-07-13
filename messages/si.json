@@ -306,6 +306,15 @@
     "customsTitle": "Carina in prehod meje",
     "customsText": "Podrobne strani prikazujejo, ali letališče ponuja carinjenje; kadar ga nacionalni AIP navaja v GEN 1.2, je vrednost preverjena s tem uradnim virom. Za obmejne formalnosti okvirček z lokacijo ponuja povezave do uradnih obrazcev (npr. britanski General Aviation Report), zemljevid pa lahko filtrira letališča s carino. Pravila se spreminjajo - vedno jih potrdi z veljavnim AIP in lokalnim organom.",
     "disclaimerTitle": "Varnostno opozorilo",
-    "disclaimerText": "AIP:Aero povezuje na uradne publikacije AIP, vendar ni uraden vir. Kopije brez povezave so označene z datumom prenosa in lahko z vsakim ciklom AIRAC zastarijo - pred vsakim letom preveri veljavnost kart in vedno pridobi uraden briefing pred letom."
+    "disclaimerText": "AIP:Aero povezuje na uradne publikacije AIP, vendar ni uraden vir. Kopije brez povezave so označene z datumom prenosa in lahko z vsakim ciklom AIRAC zastarijo - pred vsakim letom preveri veljavnost kart in vedno pridobi uraden briefing pred letom.",
+    "installButton": "Namesti zdaj",
+    "ctaTitle": "Preizkusi zdaj",
+    "faqTitle": "Pogosta vprašanja",
+    "faq1q": "Ali AIP:Aero deluje popolnoma brez povezave?",
+    "faq1a": "Shranjena letališča in preneseni paketi držav delujejo brez interneta; vsaka kopija brez povezave prikazuje pasico z datumom shranjevanja. Vreme v živo (METAR/TAF) vedno potrebuje povezavo.",
+    "faq2q": "Katere države so na voljo?",
+    "faq2a": "Vse razpoložljive države so navedene na začetni strani - pokritost nenehno raste. Vsaka kartica države prikazuje razpoložljive vrste kart.",
+    "faq3q": "Ali so karte ažurne?",
+    "faq3a": "Povezave do kart vodijo na uradne nacionalne publikacije AIP, vključno z datumom AIRAC, kjer je objavljen. Pred letom vedno preveri uradni vir."
   }
 }

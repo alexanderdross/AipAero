@@ -306,6 +306,15 @@
     "customsTitle": "Tollafgreiðsla og för yfir landamæri",
     "customsText": "Flugvallasíðurnar sýna hvort flugvöllur býður upp á tollafgreiðslu; þegar landsbundin AIP tilgreinir það í GEN 1.2 er gildið sannreynt gagnvart þeirri opinberu heimild. Fyrir landamærapappíra tengir staðsetningarreiturinn á opinberu eyðublöðin (t.d. breska General Aviation Report) og kortið getur síað eftir flugvöllum með tollafgreiðslu. Reglur breytast - staðfestu þær alltaf með gildandi AIP og hjá staðaryfirvöldum.",
     "disclaimerTitle": "Öryggisathugasemd",
-    "disclaimerText": "AIP:Aero tengir á opinberar AIP-útgáfur en er ekki opinber heimild. Afrit án nettengingar eru merkt með dagsetningu niðurhalsins og geta úrelst með hverri AIRAC-lotu - athugaðu gildi kortanna fyrir hvert flug og fáðu þér alltaf opinberan flugundirbúning."
+    "disclaimerText": "AIP:Aero tengir á opinberar AIP-útgáfur en er ekki opinber heimild. Afrit án nettengingar eru merkt með dagsetningu niðurhalsins og geta úrelst með hverri AIRAC-lotu - athugaðu gildi kortanna fyrir hvert flug og fáðu þér alltaf opinberan flugundirbúning.",
+    "installButton": "Setja upp núna",
+    "ctaTitle": "Prófaðu núna",
+    "faqTitle": "Algengar spurningar",
+    "faq1q": "Virkar AIP:Aero alveg án nettengingar?",
+    "faq1a": "Vistaðir vellir og sóttir landspakkar virka án internets; hvert afrit án nettengingar sýnir borða með vistunardagsetningu. Lifandi veður (METAR/TAF) þarf alltaf tengingu.",
+    "faq2q": "Hvaða lönd eru í boði?",
+    "faq2a": "Öll tiltæk lönd eru talin upp á forsíðunni - umfangið vex stöðugt. Hvert landskort sýnir tiltækar kortategundir.",
+    "faq3q": "Eru kortin uppfærð?",
+    "faq3a": "Kortatenglar vísa á opinberar innlendar AIP-útgáfur, með AIRAC-dagsetningu þar sem hún er birt. Staðfestu alltaf opinberu heimildina fyrir flug."
   }
 }

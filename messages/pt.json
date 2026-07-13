@@ -306,6 +306,15 @@
     "customsTitle": "Alfândega e passagem de fronteira",
     "customsText": "As páginas de detalhe mostram se um aeródromo dispõe de despacho alfandegário; quando a AIP nacional o indica na secção GEN 1.2, o valor está verificado com essa fonte oficial. Para as formalidades de fronteira, a caixa de localização liga aos formulários oficiais (p. ex. o General Aviation Report britânico) e o mapa pode filtrar por aeródromos com alfândega. As regras mudam - confirma-as sempre com a AIP em vigor e a autoridade local.",
     "disclaimerTitle": "Aviso de segurança",
-    "disclaimerText": "O AIP:Aero liga a publicações AIP oficiais, mas não é uma fonte oficial. As cópias offline indicam a sua data de transferência e podem ficar desatualizadas a cada ciclo AIRAC - verifica a validade das cartas antes de cada voo e obtém sempre um briefing oficial."
+    "disclaimerText": "O AIP:Aero liga a publicações AIP oficiais, mas não é uma fonte oficial. As cópias offline indicam a sua data de transferência e podem ficar desatualizadas a cada ciclo AIRAC - verifica a validade das cartas antes de cada voo e obtém sempre um briefing oficial.",
+    "installButton": "Instalar agora",
+    "ctaTitle": "Experimenta já",
+    "faqTitle": "Perguntas frequentes",
+    "faq1q": "O AIP:Aero funciona totalmente offline?",
+    "faq1a": "Os aeródromos guardados e os pacotes de país descarregados funcionam sem internet; cada cópia offline mostra um aviso com a data de gravação. A meteorologia em direto (METAR/TAF) precisa sempre de ligação.",
+    "faq2q": "Que países estão cobertos?",
+    "faq2a": "Todos os países disponíveis constam na página inicial - a cobertura cresce continuamente. Cada cartão de país mostra os tipos de cartas disponíveis.",
+    "faq3q": "As cartas estão atualizadas?",
+    "faq3a": "As ligações apontam para as publicações AIP nacionais oficiais, incluindo a data AIRAC quando publicada. Verifica sempre a fonte oficial antes do voo."
   }
 }

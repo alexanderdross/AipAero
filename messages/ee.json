@@ -336,6 +336,15 @@
     "customsTitle": "Toll ja piiriületus",
     "customsText": "Detailvaate lehed näitavad, kas väljak pakub tolliteenust; kui riiklik AIP loetleb selle jaotises GEN 1.2, on väärtus kontrollitud selle ametliku allika vastu. Piiriületuse formaalsuste jaoks lingib asukohakast ametlikud vormid (nt Ühendkuningriigi General Aviation Report) ja kaardil saab filtreerida tolliväljakuid. Reeglid muutuvad - kinnita need alati kehtiva AIP ja kohaliku ametiasutusega.",
     "disclaimerTitle": "Ohutusmärkus",
-    "disclaimerText": "AIP:Aero lingib ametlikele AIP-väljaannetele, kuid ei ole ametlik allikas. Offline-koopiad kannavad oma allalaadimiskuupäeva ja võivad iga AIRAC-tsükliga aeguda - kontrolli kaartide kehtivust enne iga lendu ja hangi alati ametlik lennueelne briifing."
+    "disclaimerText": "AIP:Aero lingib ametlikele AIP-väljaannetele, kuid ei ole ametlik allikas. Offline-koopiad kannavad oma allalaadimiskuupäeva ja võivad iga AIRAC-tsükliga aeguda - kontrolli kaartide kehtivust enne iga lendu ja hangi alati ametlik lennueelne briifing.",
+    "installButton": "Installi kohe",
+    "ctaTitle": "Proovi järele",
+    "faqTitle": "Korduma kippuvad küsimused",
+    "faq1q": "Kas AIP:Aero töötab täielikult võrguühenduseta?",
+    "faq1a": "Salvestatud lennuväljad ja alla laaditud riigipaketid töötavad ilma internetita; iga võrguühenduseta koopia näitab salvestuskuupäevaga bännerit. Reaalajas ilm (METAR/TAF) vajab alati ühendust.",
+    "faq2q": "Millised riigid on kaetud?",
+    "faq2a": "Kõik saadaolevad riigid on loetletud avalehel - katvus kasvab pidevalt. Iga riigikaart näitab saadaolevaid kaarditüüpe.",
+    "faq3q": "Kas kaardid on ajakohased?",
+    "faq3a": "Kaardilingid viivad ametlikele riiklikele AIP-väljaannetele koos AIRAC-kuupäevaga, kui see on avaldatud. Enne lendu kontrolli alati ametlikku allikat."
   }
 }
