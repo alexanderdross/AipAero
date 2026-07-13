@@ -28,6 +28,14 @@ class EE(HttpEurocontrolBase):
     (same convention as NO/PL/SE), heliports fail-soft as "heliport".
     """
 
+    # Chart-PDF extraction (recon run 29264498572, crawlers/recon/
+    # pdf-recon-batch1.md): eurocontrol chart-type codes in the
+    # filenames, e.g. AD_2_EEKA_VAC_en.pdf / ..._ADC_en.pdf. Anchor
+    # texts are empty, so match on href; VAC preferred, LDG as the
+    # small-field fallback.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_VAC_en\.pdf$", r"_ADC_en\.pdf$", r"_LDG_en\.pdf$")
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
