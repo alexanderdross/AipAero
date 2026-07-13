@@ -29,6 +29,10 @@ export const routing = defineRouting({
     "ee-EN",
     "fi",
     "fi-EN",
+    "es",
+    "es-EN",
+    "lv",
+    "lv-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -46,6 +50,8 @@ export const routing = defineRouting({
       "se-EN": "/se/en",
       "ee-EN": "/ee/en",
       "fi-EN": "/fi/en",
+      "es-EN": "/es/en",
+      "lv-EN": "/lv/en",
     },
   },
   pathnames: {
@@ -85,6 +91,10 @@ export const routing = defineRouting({
       "ee-EN": "/airport-list-estonia",
       fi: "/lentopaikat-suomi",
       "fi-EN": "/airport-list-finland",
+      es: "/lista-de-aeropuertos-espana",
+      "es-EN": "/airport-list-spain",
+      lv: "/lidlauku-saraksts-latvija",
+      "lv-EN": "/airport-list-latvia",
     },
   },
   localeCookie: false,
@@ -139,6 +149,10 @@ export const localeLangMapping: Record<
   "ee-EN": "en",
   fi: "fi",
   "fi-EN": "en",
+  es: "es",
+  "es-EN": "en",
+  lv: "lv",
+  "lv-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -171,4 +185,8 @@ export const localeCountryMapping: Record<
   "ee-EN": "ee",
   fi: "fi",
   "fi-EN": "fi",
+  es: "es",
+  "es-EN": "es",
+  lv: "lv",
+  "lv-EN": "lv",
 };

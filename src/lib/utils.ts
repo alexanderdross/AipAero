@@ -66,6 +66,10 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   se: ["vfr", "heliport"],
   ee: ["vfr", "heliport"],
   fi: ["vfr", "heliport"],
+  // ES: the ENAIRE crawler covers the AD-2 aerodrome list only (type
+  // "vfr"); heliports are not part of the crawled AIP section.
+  es: ["vfr"],
+  lv: ["vfr", "heliport"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -129,4 +133,6 @@ export const countryMeta: Record<
   se: { lang: "sv", name: "Sweden", flag: "🇸🇪", nativeLang: "Swedish" },
   ee: { lang: "et", name: "Estonia", flag: "🇪🇪", nativeLang: "Estonian" },
   fi: { lang: "fi", name: "Finland", flag: "🇫🇮", nativeLang: "Finnish" },
+  es: { lang: "es", name: "Spain", flag: "🇪🇸", nativeLang: "Spanish" },
+  lv: { lang: "lv", name: "Latvia", flag: "🇱🇻", nativeLang: "Latvian" },
 };
