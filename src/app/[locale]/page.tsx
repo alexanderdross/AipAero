@@ -201,10 +201,15 @@ export default async function CountryPage(
           hydration below the fold, so the indexable content above is
           untouched (no LCP/CLS cost) - SEO pages stay byte-identical for
           crawlers and first-time visitors. */}
-      <FavoritesRecent
-        favoritesLabel={tCommon("favorites")}
-        recentLabel={tCommon("recentlyViewed")}
-      />
+      {/* Stable SSR anchor for the EFB guide's favorites deep link - the id
+          must live on this always-present wrapper because the component
+          renders nothing for first-time visitors. */}
+      <div id="favorites" className="scroll-mt-24">
+        <FavoritesRecent
+          favoritesLabel={tCommon("favorites")}
+          recentLabel={tCommon("recentlyViewed")}
+        />
+      </div>
 
       {/* Bottom breadcrumb: visible trail + BreadcrumbList JSON-LD from one
           data structure (root > country, the country is the current page). */}

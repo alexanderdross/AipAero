@@ -24,14 +24,29 @@ const INDEX_KEY = "aip-offline-bulk";
 // button label uses the same figure (see airport-list/page.tsx).
 const EST_BYTES_PER_PAGE = 75 * 1024;
 
-// Low deliberately: every detail page is a dynamic Worker render, so a country
-// pack must not hammer production with a request burst.
-const CONCURRENCY = 3;
+// STRICTLY sequential: every detail page is a dynamic Worker render, and on
+// the Workers Free plan (10 ms CPU/request, burst-tolerated) even 3 sustained
+// concurrent renders exhausted the burst budget - a single DE pack download
+// caused a sitewide exceededCpu storm (1,492 Error-1102s, observed live
+// 13.07.2026, Ray a1aaa7516b4dd2cb). Do not raise this above 1 while the
+// Worker runs on the Free plan.
+const CONCURRENCY = 1;
+
+// Breather between pages - keeps the pack download from being a continuous
+// CPU drain on the Worker (see the incident above).
+const PAGE_DELAY_MS = 250;
 
 // Per-page fetch timeout: without one, a single stalled connection hangs its
 // worker forever - three stalls froze the whole DE download at 126/793
 // (observed live 13.07.2026). One retry follows before the page is skipped.
 const PAGE_TIMEOUT_MS = 30_000;
+
+// Cooperative backoff: a 5xx means the Worker is struggling (usually the CPU
+// limit) - pause long before the single retry instead of piling on, and give
+// up on the whole download after this many consecutive failed pages rather
+// than hammering a degraded production for hundreds more requests.
+const SERVER_ERROR_BACKOFF_MS = 8_000;
+const MAX_CONSECUTIVE_FAILURES = 10;
 
 interface BulkEntry {
   url: string;
@@ -170,24 +185,49 @@ export function SaveCountryOfflineButton({
           controller.signal.removeEventListener("abort", onCancel);
         });
       };
+      const sleep = (ms: number) =>
+        new Promise((r) => {
+          const timer = setTimeout(r, ms);
+          // Cancel cuts the pause short too - no lingering busy state.
+          controller.signal.addEventListener(
+            "abort",
+            () => {
+              clearTimeout(timer);
+              r(undefined);
+            },
+            { once: true },
+          );
+        });
+      // Consecutive pages that ended in a 5xx or a network failure/timeout -
+      // the overload signal for the give-up guard (a 404 does not count: a
+      // removed airport is not server distress). Single worker, so no races.
+      let consecutiveFailures = 0;
+      let overloaded = false;
       const worker = async () => {
         for (;;) {
           const href = queue.shift();
-          if (href === undefined || cancelRef.current) return;
+          if (href === undefined || cancelRef.current || overloaded) return;
           try {
-            // One retry after a short pause: dynamic Worker renders can
-            // transiently fail/stall under the sustained pack burst.
+            // One retry per page: dynamic Worker renders can transiently
+            // fail/stall. A 5xx gets the LONG cooperative pause (the Worker
+            // is at its CPU limit); a plain network error a short one.
             let page: Response | undefined;
             for (let attempt = 0; attempt < 2; attempt++) {
               try {
                 page = await fetchWithTimeout(href);
-                break;
               } catch {
-                if (cancelRef.current || attempt === 1) break;
-                await new Promise((r) => setTimeout(r, 1000));
+                page = undefined;
+              }
+              if (cancelRef.current) return;
+              if (page && page.status < 500) break;
+              if (attempt === 0) {
+                await sleep(
+                  page && page.status >= 500 ? SERVER_ERROR_BACKOFF_MS : 1000,
+                );
               }
             }
             if (page?.ok) {
+              consecutiveFailures = 0;
               // Stamp the cache time so the SW's offline banner can date the
               // copy (aviation rule: cached content is never silently stale).
               const headers = new Headers(page.headers);
@@ -201,16 +241,35 @@ export function SaveCountryOfflineButton({
                 }),
               );
               savedCount++;
+            } else if (!page || page.status >= 500) {
+              consecutiveFailures++;
+              if (consecutiveFailures >= MAX_CONSECUTIVE_FAILURES) {
+                overloaded = true;
+              }
             }
           } catch {
             /* single page unreachable: skip, keep the rest */
           }
           done++;
           setProgress({ done, total: urls.length });
+          if (queue.length > 0 && !cancelRef.current && !overloaded) {
+            await sleep(PAGE_DELAY_MS);
+          }
         }
       };
       await Promise.all(Array.from({ length: CONCURRENCY }, worker));
       abortRef.current = null;
+
+      if (overloaded && !cancelRef.current) {
+        // Server-side overload abort: drop the partial pack (like cancel) and
+        // surface the generic error - retrying later is the right move.
+        await caches.delete(bulkCacheName(locale));
+        const index = readIndex();
+        delete index[locale];
+        writeIndex(index);
+        setSaved(null);
+        throw new Error("aborted: server overload");
+      }
 
       if (cancelRef.current) {
         // Cancel = no pack: drop the partial cache and its index entry.

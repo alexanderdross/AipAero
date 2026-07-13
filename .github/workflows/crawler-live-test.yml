@@ -123,6 +123,10 @@ jobs:
           PROBE: ${{ inputs.probe_eaip }}
           # For the 403 proxy-retry (SK/LT: datacenter-IP blocks).
           BRIGHTDATA_PROXY_URL: ${{ secrets.BRIGHTDATA_PROXY_URL }}
+          # Last-resort escalation: the Web Unlocker terminates TLS on the
+          # proxy side (IE's legacy-cipher-only server) and solves
+          # WAF/captcha gates the plain proxy cannot (SK/LT).
+          BRIGHTDATA_UNLOCKER_URL: ${{ secrets.BRIGHTDATA_UNLOCKER_URL }}
         run: |
           uv run python - <<'PY'
           import os
@@ -228,7 +232,7 @@ jobs:
                   for ln in lines[:14]:
                       print(f"{pad}  {ln[:160]}")
 
-          def render_probe(url: str, pad: str) -> None:
+          def render_probe(url: str, pad: str) -> bool:
               """JS-app fallback: render the page with headless Chromium
               (the runner has Playwright installed for DK) and dump the
               links from the rendered DOM - a 0-link static probe on a
@@ -244,11 +248,45 @@ jobs:
                       browser.close()
               except Exception as e:
                   print(f"{pad}[render] failed: {type(e).__name__}: {e}")
-                  return
+                  return False
               soup = BeautifulSoup(html, "html.parser")
               title = soup.title.get_text(strip=True) if soup.title else "-"
               print(f"{pad}[render] title: {title[:120]}")
               dump_links(soup, url, pad + "  ")
+              return True
+
+          def unlocker_dump(url: str, pad: str) -> None:
+              """Last resort: one fetch through the Bright Data Web
+              Unlocker zone (TLS terminated proxy-side, WAF/captcha
+              solving) and a link dump. verify=False is inherent to
+              unlocker-style proxies (they re-encrypt with their own CA);
+              this is recon of public AIP HTML, never a content pipeline.
+              """
+              unlocker = os.environ.get("BRIGHTDATA_UNLOCKER_URL", "").strip()
+              if not unlocker:
+                  print(f"{pad}[unlocker] no zone configured - skipping")
+                  return
+              if "://" not in unlocker:
+                  unlocker = f"http://{unlocker}"
+              print(f"{pad}[unlocker] via {unlocker.split('@')[-1]}")
+              try:
+                  c = httpx.Client(
+                      follow_redirects=True,
+                      timeout=60,
+                      headers=BROWSER_HEADERS,
+                      proxy=unlocker,
+                      verify=False,
+                  )
+                  r = c.get(url)
+                  print(f"{pad}[unlocker] {r.status_code} {str(r.url)[:140]}")
+                  r.raise_for_status()
+              except Exception as e:
+                  print(f"{pad}[unlocker] FAILED - {type(e).__name__}: {e}")
+                  return
+              soup = BeautifulSoup(r.text, "html.parser")
+              title = soup.title.get_text(strip=True) if soup.title else "-"
+              print(f"{pad}[unlocker] title: {title[:120]}")
+              dump_links(soup, str(r.url), pad + "  ")
 
           def probe(url: str, depth: int = 0, retried: bool = False) -> None:
               global client
@@ -282,14 +320,21 @@ jobs:
                   elif depth == 0 and retried:
                       # OpenSSL is out of options (IE answers every
                       # ClientHello with alert 40): Chromium brings its
-                      # own TLS stack/fingerprint - last resort, still a
-                      # read-only page render.
+                      # own TLS stack/fingerprint; if that is rejected
+                      # too, the Web Unlocker (proxy-side TLS) is the
+                      # final escalation.
                       print(f"{pad}[tls-retry] exhausted - trying Chromium")
-                      render_probe(url, pad)
+                      if not render_probe(url, pad):
+                          unlocker_dump(url, pad)
                   return
               except httpx.HTTPStatusError as e:
                   print(f"{pad}FAILED - HTTP {e.response.status_code}")
                   proxy = os.environ.get("BRIGHTDATA_PROXY_URL", "").strip()
+                  if e.response.status_code == 403 and depth == 0 and retried:
+                      # Direct AND plain-proxy both 403 (SK/LT: the block
+                      # is not IP-based) - escalate to the Web Unlocker.
+                      unlocker_dump(url, pad)
+                      return
                   if (
                       e.response.status_code == 403
                       and depth == 0
@@ -780,12 +825,15 @@ jobs:
                               print(f"       {len(pdfs)} pdf link(s)")
                               for text, href in pdfs[:12]:
                                   print(f"       [{text}] {href[:130]}")
-                              if not pdfs:
+                              if len(pdfs) <= 2:
                                   # Deep-recon aid (FI/IS): the mainline
                                   # charts are not anchor-linked on the
                                   # AD 2 page - list the links that SMELL
                                   # like a chart index / chart section so
                                   # the next navigation hop is visible.
+                                  # Gate <= 2, not 0: FI pages anchor two
+                                  # DATA pdfs (WPT_LIST/FAS_DB) and still
+                                  # hide the charts (run 29274747730).
                                   chart_re = _re.compile(
                                       r"chart|kartta|kort|VAC|ADC|2\.24"
                                       r"|WePub|Charts", _re.I,

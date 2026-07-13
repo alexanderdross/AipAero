@@ -146,7 +146,12 @@ async function AirportLists({ locale }: { locale: string }) {
   const t = await getTranslations("AirportsPage");
   const tCommon = await getTranslations("Common");
   const tWeather = await getTranslations("Weather");
+  const tFooter = await getTranslations("Footer");
   const country = locale.split("-")[0]!;
+  // "more info" target of the bulk-download scope note: the EFB guide
+  // explains packs, per-field saves and the offline behaviour in depth.
+  const efbPath = getPathname({ href: "/efb", locale });
+  const efbHref = efbPath.endsWith("/") ? efbPath : efbPath + "/";
 
   // One cached read for the whole country, partitioned by type in JS (the
   // rows are title-ordered, so each partition stays sorted). The former five
@@ -216,7 +221,14 @@ async function AirportLists({ locale }: { locale: string }) {
               crawlable), pulled up toward the button row above (its container
               carries pb-6). */}
           <p className="text-drossgray-dark mx-auto -mt-4 max-w-xl px-4 pb-6 text-center text-xs">
-            {tCommon("bulkScope")}
+            {tCommon("bulkScope")}{" "}
+            <a
+              href={efbHref}
+              title={tFooter("efb.hrefTitle")}
+              className="text-drossblue hover:underline"
+            >
+              {tCommon("moreInfo")}
+            </a>
           </p>
         </>
       )}
