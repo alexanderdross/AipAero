@@ -1,3 +1,4 @@
+import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport
@@ -68,6 +69,16 @@ class FI(HttpEurocontrolBase):
                 )
             except ValueError:
                 self.logger.info("FI: no AD 3 heliport section - skipping")
+
+            # Fintraffic menu anchors read "AD 2 EFET - ENONTEKIÖ
+            # AERONAUTICAL DATA", which the generic extractor turns into
+            # "- ENONTEKIÖ AERONAUTICAL DATA EFET" - strip the boilerplate
+            # so the title is "ENONTEKIÖ EFET" (live run 29257033060).
+            for airport in airports:
+                title = re.sub(
+                    r"\s*AERONAUTICAL DATA", "", airport.title, flags=re.I
+                )
+                airport.title = title.lstrip(" -").strip()
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
