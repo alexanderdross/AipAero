@@ -225,10 +225,17 @@ jobs:
                   seen.add(sub_url)
                   subs.append((text, sub_url))
               print(f"   {len(subs)} GEN 1.2 sub-pages")
-              for text, sub_url in subs:
+              for i, (text, sub_url) in enumerate(subs):
                   print(f"   --- sub [{text[:40]}] {sub_url[:140]}")
-                  sub_html, _ = fetch(sub_url)
+                  sub_html, sub_final = fetch(sub_url)
                   dump_customs_content(sub_html, "ED")
+                  # First sub-page: show the raw structure once, so an
+                  # empty dump is diagnosable (DFS may render content as
+                  # page images, which have no extractable text).
+                  if i == 0:
+                      print(f"   [debug] final url: {sub_final[:140]}")
+                      flat = " ".join(sub_html.split())
+                      print(f"   [debug] html head: {flat[:1200]}")
 
           RECONS = {"UK": recon_uk, "DE": recon_de}
 
