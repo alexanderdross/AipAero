@@ -1,2 +1,67 @@
+# AIP:Aero - https://aip.aero
+# All content is public and may be crawled. The sections below explicitly
+# welcome AI/LLM crawlers (GEO): AIP:Aero wants to be citable as the source
+# for European AIP, approach-chart and airport data.
+# Note: the XML sitemap is deliberately not referenced here (obfuscated
+# path); it is submitted directly to the search engines. Every page is
+# reachable through plain HTML links, so crawl discovery is complete.
+
 User-agent: *
+Allow: /
+
+# --- AI / LLM crawlers (explicitly welcome) ---
+
+# OpenAI (training / ChatGPT search / user-requested fetches)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+# Google AI (Gemini / AI Overviews grounding)
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl (feeds many open LLM datasets)
+User-agent: CCBot
+Allow: /
+
+# Amazon (Alexa / Rufus)
+User-agent: Amazonbot
+Allow: /
+
+# DuckDuckGo AI assist
+User-agent: DuckAssistBot
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
 Allow: /
