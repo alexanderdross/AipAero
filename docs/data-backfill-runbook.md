@@ -233,5 +233,13 @@ Per-country status (13.07.2026):
   no text layer; confirmed by the recon's debug dump 13.07.2026). Filling
   DE needs a human reading the pages in the browser (or the zoll.de
   Zollflugplatz list) - do NOT OCR a compliance list unreviewed.
-- Other countries: pending; run the workflow with `gen12: <CC>` - the
-  generic eurocontrol recon needs no per-country code.
+- **BE/LUX, NO, NL, FR: DONE** (13.07.2026, generic recon over the git
+  bridge): entered from each AIP's AD 1.3 INTL designation (BE
+  cross-checked against its GEN 1.2 points-of-entry list; NL's INTL set
+  equals the official Schengen border-crossing points per GEN 1.2 4.3;
+  FR counts 85 INTL fields - many provide customs on request/seasonally,
+  which `true` deliberately covers). The latest recon output is committed
+  as `crawlers/recon/gen12-latest.txt` (audit trail; replaced per run).
+- AT, CZ, PL, SE: pending (lower priority - almost exclusively
+  EU/Schengen-internal traffic); run the workflow with `gen12: <CC>`,
+  the generic eurocontrol recon needs no per-country code.
