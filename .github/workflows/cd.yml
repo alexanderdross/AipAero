@@ -110,6 +110,13 @@ jobs:
             "https://aip.aero/no/flyplasser-norge/"
             "https://aip.aero/pl/lotniska-polska/"
             "https://aip.aero/se/flygplatser-sverige/"
+            "https://aip.aero/ee/lennuvaljade-nimekiri-eesti/"
+            "https://aip.aero/fi/lentopaikat-suomi/"
+            "https://aip.aero/es/lista-de-aeropuertos-espana/"
+            "https://aip.aero/lv/lidlauku-saraksts-latvija/"
+            "https://aip.aero/is/flugvallalisti-island/"
+            "https://aip.aero/pt/lista-de-aerodromos-portugal/"
+            "https://aip.aero/hu/repuloterek-listaja-magyarorszag/"
           )
           for u in "${urls[@]}"; do
             code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000
