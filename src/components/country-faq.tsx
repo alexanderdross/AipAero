@@ -37,7 +37,9 @@ export async function CountryFaq({ locale }: { locale: string }) {
   };
 
   return (
-    <div className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+    // max-w-3xl: the card hugs its content instead of floating text inside a
+    // much wider box (owner feedback on padding).
+    <div className="mx-auto mt-16 max-w-3xl px-4 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJson) }}
@@ -46,11 +48,22 @@ export async function CountryFaq({ locale }: { locale: string }) {
         <SectionHeading className="text-center text-xl font-semibold tracking-tight">
           {t("title")}
         </SectionHeading>
-        <div className="mx-auto mt-6 flex max-w-3xl flex-col gap-5">
+        {/* Native <details> accordion: no client JS, SSR-collapsed (no CLS),
+            and the answers stay in the crawlable HTML - same pattern as the
+            METAR decode tab. */}
+        <div className="divide-drossgray-dark/10 mt-4 divide-y">
           {nums.map((i) => (
-            <div key={i}>
-              <h3 className="font-semibold">{t(`q${i}`)}</h3>
-              <p className="text-drossgray-dark mt-1">
+            <details key={i} className="group py-1">
+              <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-x-2 py-2 [&::-webkit-details-marker]:hidden">
+                <h3 className="font-semibold">{t(`q${i}`)}</h3>
+                <span
+                  aria-hidden="true"
+                  className="text-drossgray-dark shrink-0 transition-transform group-open:rotate-90"
+                >
+                  ›
+                </span>
+              </summary>
+              <p className="text-drossgray-dark pb-3">
                 {t.rich(`a${i}`, {
                   // Permanent underline: links in body copy must be
                   // recognizable without color (axe link-in-text-block).
@@ -65,7 +78,7 @@ export async function CountryFaq({ locale }: { locale: string }) {
                   ),
                 })}
               </p>
-            </div>
+            </details>
           ))}
         </div>
       </div>

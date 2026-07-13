@@ -35,16 +35,40 @@ wurde am 13.07.2026 entfernt (Soft-404, siehe `src/lib/efb-links.ts`).
 ## Phase 0 - Verifikation (VOR jedem Code; verified-only-Policy)
 
 Die Sandbox erreicht autorouter nicht (Proxy bekommt 403) - alle Checks
-laufen über den Runner (`crawler-live-test.yml`, neuer `dump_url`-Input):
+laufen über den Runner (`crawler-live-test.yml`, `dump_url`-Input).
 
-1. `dump_url: https://www.autorouter.aero/wiki/api/` - API-Doku dumpen:
-   Endpunkte (NOTAM, ggf. GRAMET), Auth-Flow, Response-Format.
-2. Nutzungsbedingungen + Attributionspflichten aus der Doku zitieren und in
-   dieses Dokument übernehmen. Unklar → Owner fragt beim Betreiber an
-   (autorouter ist ein kleines Team; eine kurze Mail klärt kommerzielle
-   Nutzung auf einer werbefinanzierten Seite).
-3. Test-Call vom Runner mit einem Owner-Account-Token: 1x Token holen, 1x
-   NOTAM-Abruf für EDDF/EDNY, Latenz + Payload-Größe notieren.
+**Stand 13.07.2026 (Run 29285972787, dump_url der API-Wiki-Root) -
+VERIFIZIERT:**
+
+- Die API existiert und ist dokumentiert: "The autorouter web interface
+  is built on top of a RESTful API exporting the complete autorouter
+  functionality. This application programming interface (API) is also
+  available to 3rd party applications."
+- Basis-URL: `https://api.autorouter.aero/v1.0/<group>/<request>`
+  (GET/POST/PUT/DELETE, JSON; Statuscodes 200/400/401/403/404/500
+  dokumentiert).
+- Entitäten laut Doku: Users, Aircraft, Routes, Flightplans, Navdata,
+  **Weather, Briefing, Documents, NOTAMs** - NOTAMs haben eine eigene
+  Doku-Seite (`/wiki/api/notams`), ebenso Authentication
+  (`/wiki/api/authentication/` - "Authentication via OAuth 2.0";
+  Session-Cookies gelten laut Doku als "not practical for API users").
+  GRAMET wird auf der Root-Seite NICHT erwähnt (ggf. unter Weather/
+  Briefing - klärt der nächste Dump).
+- Nebenbefund: `/airport/EDNY` ist server-seitig KEINE 404, sondern eine
+  reine JS-Shell ("Please enable JavaScript to continue using this
+  application.") - client-seitig zeigt das Routing dann "not found"
+  (Owner-Screenshot). Der entfernte Deep-Link bleibt draußen.
+
+**Noch offen:**
+
+1. Detail-Dump der Unterseiten `/wiki/api/notams`,
+   `/wiki/api/authentication/`, `/wiki/api/weather`,
+   `/wiki/api/briefing/` (Request-/Response-Formate, GRAMET ja/nein).
+2. Nutzungsbedingungen + Attributionspflichten zitieren; unklar → Owner
+   fragt beim Betreiber an (kommerzielle Nutzung auf werbefinanzierter
+   Seite).
+3. Test-Call vom Runner mit einem Owner-Account-Token: 1x Token holen,
+   1x NOTAM-Abruf für EDDF/EDNY, Latenz + Payload-Größe notieren.
 
 Abbruchkriterien: Terms verbieten Weiterveröffentlichung; kein
 account-loser Server-zu-Server-Flow möglich; Rate-Limits unter ~1 req/s.
