@@ -125,12 +125,14 @@ jobs:
           import httpx
           from bs4 import BeautifulSoup
 
+          # Browser-like fingerprint (same set the crawlers use against
+          # WAF'd sources - skeyes 403s a bare UA-only client).
+          from crawlers.http_base import BROWSER_HEADERS
+
           client = httpx.Client(
               follow_redirects=True,
               timeout=30,
-              headers={
-                  "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
-              },
+              headers=BROWSER_HEADERS,
           )
 
           META_REFRESH = re.compile(
@@ -152,18 +154,28 @@ jobs:
 
           KW = re.compile(r"customs|zoll|douane|entry|einreise|grenz", re.I)
 
-          def dump_customs_content(html: str, icao_prefix: str) -> None:
-              """Print tables and text lines that look customs/ICAO-relevant."""
+          def dump_customs_content(html: str, icao_prefix: str) -> int:
+              """Print tables/lines that look customs- or ICAO-relevant.
+
+              Every table's header row is printed (so list-style tables that
+              name aerodromes without keywords are still discoverable); full
+              rows only for matching tables. Returns the number of relevant
+              hits so callers can debug an empty page."""
               soup = BeautifulSoup(html, "html.parser")
               icao_re = re.compile(rf"\b{icao_prefix}[A-Z]{{2}}\b")
-              n = 0
-              for table in soup.find_all("table"):
+              hits = 0
+              for i, table in enumerate(soup.find_all("table"), 1):
+                  rows = table.find_all("tr")
+                  first = " | ".join(
+                      " ".join(c.get_text(" ", strip=True).split())
+                      for c in (rows[0].find_all(["td", "th"]) if rows else [])
+                  )
+                  print(f"   hdr table {i} ({len(rows)} rows): {first[:220]}")
                   ttext = table.get_text(" ", strip=True)
                   if not (icao_re.search(ttext) or KW.search(ttext)):
                       continue
-                  n += 1
-                  print(f"   --- table {n}:")
-                  for tr in table.find_all("tr"):
+                  hits += 1
+                  for tr in rows:
                       cells = [
                           " ".join(td.get_text(" ", strip=True).split())
                           for td in tr.find_all(["td", "th"])
@@ -175,35 +187,57 @@ jobs:
               for line in soup.get_text("\n").splitlines():
                   line = " ".join(line.split())
                   if line and icao_re.search(line):
+                      hits += 1
                       print(f"   TXT {line[:300]}")
+              if hits == 0:
+                  flat = " ".join(html.split())
+                  print(f"   [debug] no hits; html head: {flat[:700]}")
+              return hits
 
           def recon_generic(code: str) -> None:
-              """GEN 1.2 for any eurocontrol-eAIP country, zero per-country
-              code: run the country's crawler, take an AD-2 detail URL (which
-              embeds the current AIRAC edition path) and substitute the
-              section name - eurocontrol eAIPs serve GEN 1.2 as a sibling
-              (LK-AD-2.LKTB-en-GB.html -> LK-GEN-1.2-en-GB.html). Works for
-              NEW countries automatically as soon as their crawler works."""
+              """GEN 1.2 + AD 1.3 for any eurocontrol-eAIP country, zero
+              per-country code: run the country's crawler, take any detail
+              URL (it embeds the current AIRAC edition path) and construct
+              the sibling section files in the same eAIP folder. The
+              language suffix is read from the source filename (fr-FR,
+              en-GB, ...). AD 1.3 (aerodrome index) is fetched too - several
+              AIPs carry the customs/international designation there rather
+              than as a GEN 1.2 table. Works for NEW countries automatically
+              as soon as their crawler works."""
               from main import COUNTRY_CRAWLERS
 
               crawler = COUNTRY_CRAWLERS[code]()
               airports = crawler.crawl()
               src = next(
-                  (a.url for a in airports if re.search(r"AD-[23]", a.url)),
-                  None,
+                  (a.url for a in airports if "/eAIP/" in a.url), None
               )
               if not src:
                   for a in airports[:3]:
                       print(f"   sample url: {a.url[:120]}")
-                  print("   no eurocontrol AD-2 style URL - needs a country-specific recon")
+                  print("   no /eAIP/ style URL - needs a country-specific recon")
                   return
-              gen_url = re.sub(
-                  r"AD-[23](\.[A-Z0-9]{3,4})?", "GEN-1.2", src.split("#")[0]
-              )
+              src = src.split("#")[0]
+              folder, filename = src.rsplit("/", 1)
               prefix = (airports[0].icao or "??")[:2]
-              print(f"   GEN 1.2 page (derived): {gen_url[:160]}")
-              html, _ = fetch(gen_url)
-              dump_customs_content(html, prefix)
+              m = re.search(r"-([a-z]{2}-[A-Z]{2})\.html?$", filename)
+              langs = [m.group(1)] if m else []
+              if "en-GB" not in langs:
+                  langs.append("en-GB")
+              for section in ("GEN-1.2", "AD-1.3"):
+                  fetched = False
+                  for lang in langs:
+                      url = f"{folder}/{prefix}-{section}-{lang}.html"
+                      try:
+                          html, final = fetch(url)
+                      except Exception as e:
+                          print(f"   {section} ({lang}) failed: {type(e).__name__}: {e}")
+                          continue
+                      fetched = True
+                      print(f"   --- {section} page: {final[:160]}")
+                      dump_customs_content(html, prefix)
+                      break
+                  if not fetched:
+                      print(f"   {section}: no candidate URL worked")
 
           def recon_uk(code: str = "UK") -> None:
               from crawlers.uk import ROOT_URL, UK
