@@ -315,8 +315,8 @@
     "metaDescription": "Warunki korzystania z AIP:Aero, bezpłatnej wyszukiwarki AIP i map podejścia dla Polska i Europy: opis usługi, wyłączenie odpowiedzialności i źródła danych."
   },
   "EfbPage": {
-    "title": "AIP:Aero na twoim EFB",
-    "intro": "Jak zainstalować AIP:Aero na tablecie EFB, zapisać mapy podejścia offline, pobrać całe kraje i przekazać lotniska do narzędzi planowania - krok po kroku.",
+    "title": "AIP:Aero na twoim EFB (Electronic Flight Bag)",
+    "intro": "Jak zainstalować AIP:Aero na tablecie EFB (Electronic Flight Bag), zapisać mapy podejścia offline, pobrać całe kraje i przekazać lotniska do narzędzi planowania - krok po kroku.",
     "metaTitle": "Przewodnik EFB Polska - AIP i mapy podejścia na tablecie | AIP:Aero",
     "metaDescription": "Zainstaluj AIP:Aero jako aplikację na tablecie EFB, zapisuj mapy podejścia offline, pobieraj całe kraje i importuj PDF-y map do ForeFlight, SkyDemon i innych (Polska).",
     "installTitle": "Instalacja jako aplikacja (PWA)",

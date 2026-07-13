@@ -315,8 +315,8 @@
     "metaDescription": "AIP:Aero kasutustingimused - tasuta AIP ja lähenemiskaartide otsing Eesti ja Euroopa jaoks: teenuse kirjeldus, vastutuse välistamine ja andmeallikad."
   },
   "EfbPage": {
-    "title": "Kasuta AIP:Aero-t oma EFB-s",
-    "intro": "Kuidas paigaldada AIP:Aero oma EFB-tahvelarvutisse, salvestada lähenemiskaarte offline, laadida alla terveid riike ja saata väljad edasi oma planeerimistööriistadesse - samm-sammult.",
+    "title": "Kasuta AIP:Aero-t oma EFB (Electronic Flight Bag)-s",
+    "intro": "Kuidas paigaldada AIP:Aero oma EFB (Electronic Flight Bag)-tahvelarvutisse, salvestada lähenemiskaarte offline, laadida alla terveid riike ja saata väljad edasi oma planeerimistööriistadesse - samm-sammult.",
     "metaTitle": "EFB juhend Eesti - AIP ja lähenemiskaardid tahvelarvutis | AIP:Aero",
     "metaDescription": "Paigalda AIP:Aero rakendusena oma EFB-tahvelarvutisse, salvesta lähenemiskaarte offline, laadi alla terveid riike ja impordi kaardi-PDF-e ForeFlighti, SkyDemonisse jm (Eesti).",
     "installTitle": "Paigalda rakendusena (PWA)",

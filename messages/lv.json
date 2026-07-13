@@ -315,8 +315,8 @@
     "metaDescription": "AIP:Aero lietošanas noteikumi - bezmaksas AIP un pieejas karšu meklētājs Latvijai un Eiropai: pakalpojuma apraksts, atbildības atruna un datu avoti."
   },
   "EfbPage": {
-    "title": "Izmantojiet AIP:Aero savā EFB",
-    "intro": "Kā instalēt AIP:Aero savā EFB planšetē, saglabāt pieejas kartes bezsaistē, lejupielādēt veselas valstis un nodot lidlaukus saviem plānošanas rīkiem - soli pa solim.",
+    "title": "Izmantojiet AIP:Aero savā EFB (Electronic Flight Bag)",
+    "intro": "Kā instalēt AIP:Aero savā EFB (Electronic Flight Bag) planšetē, saglabāt pieejas kartes bezsaistē, lejupielādēt veselas valstis un nodot lidlaukus saviem plānošanas rīkiem - soli pa solim.",
     "metaTitle": "EFB ceļvedis Latvijai - AIP un pieejas kartes planšetē | AIP:Aero",
     "metaDescription": "Instalējiet AIP:Aero kā lietotni savā EFB planšetē, saglabājiet pieejas kartes bezsaistē, lejupielādējiet veselas valstis un importējiet karšu PDF failus ForeFlight, SkyDemon u.c. (Latvija).",
     "installTitle": "Instalēšana kā lietotne (PWA)",

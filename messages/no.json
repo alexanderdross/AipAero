@@ -315,8 +315,8 @@
     "metaDescription": "Vilkår for bruk av AIP:Aero, det gratis AIP- og innflygingskart-søket for Norge og Europa: tjenestebeskrivelse, ansvarsfraskrivelse og datakilder."
   },
   "EfbPage": {
-    "title": "Bruk AIP:Aero på din EFB",
-    "intro": "Slik installerer du AIP:Aero på EFB-nettbrettet, lagrer innflygingskart offline, laster ned hele land og sender plasser videre til planleggingsverktøyene dine - steg for steg.",
+    "title": "Bruk AIP:Aero på din EFB (Electronic Flight Bag)",
+    "intro": "Slik installerer du AIP:Aero på EFB (Electronic Flight Bag)-nettbrettet, lagrer innflygingskart offline, laster ned hele land og sender plasser videre til planleggingsverktøyene dine - steg for steg.",
     "metaTitle": "EFB-guide Norge - AIP og innflygingskart på nettbrettet | AIP:Aero",
     "metaDescription": "Installer AIP:Aero som app på EFB-nettbrettet, lagre innflygingskart offline, last ned hele land og importer kart-PDF-er i ForeFlight, SkyDemon m.fl (Norge).",
     "installTitle": "Installer som app (PWA)",

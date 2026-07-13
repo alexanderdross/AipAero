@@ -285,8 +285,8 @@
     "metaDescription": "Notkunarskilmálar AIP:Aero, ókeypis leitarvélarinnar fyrir AIP og aðflugskort fyrir Ísland og Evrópu: lýsing á þjónustunni, fyrirvari um ábyrgð og gagnaheimildir."
   },
   "EfbPage": {
-    "title": "Notaðu AIP:Aero á EFB-tækinu þínu",
-    "intro": "Hvernig þú setur AIP:Aero upp á EFB-spjaldtölvunni þinni, vistar aðflugskort án nettengingar, sækir heilu löndin og sendir flugvelli yfir í skipulagsverkfærin þín - skref fyrir skref.",
+    "title": "Notaðu AIP:Aero á EFB (Electronic Flight Bag)-tækinu þínu",
+    "intro": "Hvernig þú setur AIP:Aero upp á EFB (Electronic Flight Bag)-spjaldtölvunni þinni, vistar aðflugskort án nettengingar, sækir heilu löndin og sendir flugvelli yfir í skipulagsverkfærin þín - skref fyrir skref.",
     "metaTitle": "EFB-leiðbeiningar Ísland - AIP og aðflugskort í spjaldtölvunni þinni | AIP:Aero",
     "metaDescription": "Settu AIP:Aero upp sem app á EFB-spjaldtölvunni þinni, vistaðu aðflugskort án nettengingar, sæktu heilu löndin og fluttu PDF-kort inn í ForeFlight, SkyDemon og fleiri (Ísland).",
     "installTitle": "Setja upp sem app (PWA)",

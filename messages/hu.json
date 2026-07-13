@@ -285,8 +285,8 @@
     "metaDescription": "Az AIP:Aero, a Magyarországra és Európára vonatkozó ingyenes AIP- és megközelítésitérkép-kereső felhasználási feltételei: szolgáltatásleírás, felelősségkizárás és adatforrások."
   },
   "EfbPage": {
-    "title": "Használd az AIP:Aero-t az EFB-den",
-    "intro": "Így telepítheted az AIP:Aero-t az EFB tabletedre, menthetsz megközelítési térképeket offline, tölthetsz le teljes országokat, és adhatod át a repülőtereket a tervezőeszközeidnek - lépésről lépésre.",
+    "title": "Használd az AIP:Aero-t az EFB (Electronic Flight Bag)-den",
+    "intro": "Így telepítheted az AIP:Aero-t az EFB (Electronic Flight Bag) tabletedre, menthetsz megközelítési térképeket offline, tölthetsz le teljes országokat, és adhatod át a repülőtereket a tervezőeszközeidnek - lépésről lépésre.",
     "metaTitle": "EFB útmutató Magyarország - AIP és megközelítési térképek a tableteden | AIP:Aero",
     "metaDescription": "Telepítsd az AIP:Aero-t alkalmazásként az EFB tabletedre, ments megközelítési térképeket offline, tölts le teljes országokat, és importálj térkép PDF-eket a ForeFlight, SkyDemon és más alkalmazásokba (Magyarország).",
     "installTitle": "Telepítés alkalmazásként (PWA)",

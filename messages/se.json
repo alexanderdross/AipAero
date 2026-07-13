@@ -315,8 +315,8 @@
     "metaDescription": "Användarvillkor för AIP:Aero, den kostnadsfria AIP- och inflygningskartssökningen för Sverige och Europa: tjänstebeskrivning, ansvarsfriskrivning och datakällor."
   },
   "EfbPage": {
-    "title": "Använd AIP:Aero på din EFB",
-    "intro": "Så installerar du AIP:Aero på din EFB-platta, sparar inflygningskartor offline, laddar ner hela länder och skickar fält vidare till dina planeringsverktyg - steg för steg.",
+    "title": "Använd AIP:Aero på din EFB (Electronic Flight Bag)",
+    "intro": "Så installerar du AIP:Aero på din EFB (Electronic Flight Bag)-platta, sparar inflygningskartor offline, laddar ner hela länder och skickar fält vidare till dina planeringsverktyg - steg för steg.",
     "metaTitle": "EFB-guide Sverige - AIP och inflygningskartor på plattan | AIP:Aero",
     "metaDescription": "Installera AIP:Aero som app på din EFB-platta, spara inflygningskartor offline, ladda ner hela länder och importera kart-PDF:er i ForeFlight, SkyDemon m.fl (Sverige).",
     "installTitle": "Installera som app (PWA)",

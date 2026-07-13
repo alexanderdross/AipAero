@@ -315,8 +315,8 @@
     "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for Poland and Europe: service description, disclaimer of liability and data sources."
   },
   "EfbPage": {
-    "title": "Using AIP:Aero on your EFB",
-    "intro": "How to install AIP:Aero on your EFB tablet, save approach charts offline, download country packs and hand fields over to your planning tools - step by step.",
+    "title": "Using AIP:Aero on your EFB (Electronic Flight Bag)",
+    "intro": "How to install AIP:Aero on your EFB (Electronic Flight Bag) tablet, save approach charts offline, download country packs and hand fields over to your planning tools - step by step.",
     "metaTitle": "EFB Guide Poland - AIP & approach charts on your tablet | AIP:Aero",
     "metaDescription": "Install AIP:Aero as an app on your EFB tablet, save approach charts offline, download whole countries and import chart PDFs into ForeFlight, SkyDemon & Co (Poland).",
     "installTitle": "Install as an app (PWA)",

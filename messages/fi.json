@@ -315,8 +315,8 @@
     "metaDescription": "AIP:Aeron käyttöehdot - maksuton AIP- ja lähestymiskarttahaku Suomelle ja Euroopalle: palvelukuvaus, vastuuvapauslauseke ja tietolähteet."
   },
   "EfbPage": {
-    "title": "Käytä AIP:Aeroa EFB-laitteellasi",
-    "intro": "Näin asennat AIP:Aeron EFB-tabletillesi, tallennat lähestymiskartat offline-käyttöön, lataat kokonaisia maita ja siirrät kentät suunnittelutyökaluihisi - vaihe vaiheelta.",
+    "title": "Käytä AIP:Aeroa EFB (Electronic Flight Bag)-laitteellasi",
+    "intro": "Näin asennat AIP:Aeron EFB (Electronic Flight Bag)-tabletillesi, tallennat lähestymiskartat offline-käyttöön, lataat kokonaisia maita ja siirrät kentät suunnittelutyökaluihisi - vaihe vaiheelta.",
     "metaTitle": "EFB-opas Suomi - AIP ja lähestymiskartat tabletilla | AIP:Aero",
     "metaDescription": "Asenna AIP:Aero sovelluksena EFB-tabletillesi, tallenna lähestymiskartat offline-käyttöön, lataa kokonaisia maita ja tuo kartta-PDF:t ForeFlightiin, SkyDemoniin ym. (Suomi).",
     "installTitle": "Asenna sovelluksena (PWA)",

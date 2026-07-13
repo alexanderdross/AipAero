@@ -285,8 +285,8 @@
     "metaDescription": "Pogoji uporabe AIP:Aero, brezplačnega iskalnika AIP in kart prileta za Slovenijo in Evropo: opis storitve, izključitev odgovornosti in viri podatkov."
   },
   "EfbPage": {
-    "title": "Uporabljaj AIP:Aero na svojem EFB",
-    "intro": "Kako namestiti AIP:Aero na svojo tablico EFB, shraniti karte prileta brez povezave, prenesti celotne države in poslati letališča v svoja orodja za načrtovanje - korak za korakom.",
+    "title": "Uporabljaj AIP:Aero na svojem EFB (Electronic Flight Bag)",
+    "intro": "Kako namestiti AIP:Aero na svojo tablico EFB (Electronic Flight Bag), shraniti karte prileta brez povezave, prenesti celotne države in poslati letališča v svoja orodja za načrtovanje - korak za korakom.",
     "metaTitle": "Vodnik EFB Slovenija - AIP in karte prileta na tvoji tablici | AIP:Aero",
     "metaDescription": "Namesti AIP:Aero kot aplikacijo na svojo tablico EFB, shrani karte prileta brez povezave, prenesi celotne države in uvozi PDF-je kart v ForeFlight, SkyDemon in druge (Slovenija).",
     "installTitle": "Namesti kot aplikacijo (PWA)",

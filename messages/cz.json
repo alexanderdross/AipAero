@@ -280,8 +280,8 @@
     "metaDescription": "Podmínky použití AIP:Aero, bezplatného vyhledávání AIP a přibližovacích map pro Česko a Evropu: popis služby, vyloučení odpovědnosti a zdroje dat."
   },
   "EfbPage": {
-    "title": "AIP:Aero na vašem EFB",
-    "intro": "Jak nainstalovat AIP:Aero na EFB tablet, uložit přibližovací mapy offline, stáhnout celé země a předat letiště do plánovacích nástrojů - krok za krokem.",
+    "title": "AIP:Aero na vašem EFB (Electronic Flight Bag)",
+    "intro": "Jak nainstalovat AIP:Aero na EFB (Electronic Flight Bag) tablet, uložit přibližovací mapy offline, stáhnout celé země a předat letiště do plánovacích nástrojů - krok za krokem.",
     "metaTitle": "Průvodce EFB Česko - AIP a přibližovací mapy na tabletu | AIP:Aero",
     "metaDescription": "Nainstalujte AIP:Aero jako aplikaci na EFB tablet, ukládejte mapy offline, stahujte celé země a importujte PDF map do ForeFlight, SkyDemon a dalších (Česko).",
     "installTitle": "Instalace jako aplikace (PWA)",
