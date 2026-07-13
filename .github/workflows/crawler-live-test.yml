@@ -210,13 +210,25 @@ jobs:
                       return
                   print(f"   {pattern!r} -> [{match[0][:80]}] {match[1][:140]}")
                   html, url = fetch(match[1])
-              # GEN 1.2 level: list sub-links, then dump the page itself.
+              # GEN 1.2 level: the content lives in numbered sub-pages
+              # (GEN 1.2-1 ... GEN 1.2-N) - fetch and dump each of them.
               soup = BeautifulSoup(html, "html.parser")
+              subs: list[tuple[str, str]] = []
+              seen: set[str] = set()
               for a in soup.find_all("a", href=True):
                   text = " ".join(a.get_text(" ", strip=True).split())
-                  if text:
-                      print(f"   sub [{text[:80]}] {urljoin(url, a['href'])[:140]}")
-              dump_customs_content(html, "ED")
+                  if not re.match(r"GEN 1\.2-\d+", text):
+                      continue
+                  sub_url = urljoin(url, a["href"])
+                  if sub_url in seen:
+                      continue
+                  seen.add(sub_url)
+                  subs.append((text, sub_url))
+              print(f"   {len(subs)} GEN 1.2 sub-pages")
+              for text, sub_url in subs:
+                  print(f"   --- sub [{text[:40]}] {sub_url[:140]}")
+                  sub_html, _ = fetch(sub_url)
+                  dump_customs_content(sub_html, "ED")
 
           RECONS = {"UK": recon_uk, "DE": recon_de}
 
