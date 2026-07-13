@@ -171,10 +171,27 @@ export default async function EfbPage(
             url: sectionAnchor(section),
             position: idx + 1,
             name: t("installTitle"),
+            // The platform steps share their section's anchor - they have no
+            // own DOM ids, and the section is where all three are visible.
             itemListElement: [
-              { "@type": "HowToStep", position: 1, text: t("installIos") },
-              { "@type": "HowToStep", position: 2, text: t("installAndroid") },
-              { "@type": "HowToStep", position: 3, text: t("installDesktop") },
+              {
+                "@type": "HowToStep",
+                position: 1,
+                url: sectionAnchor(section),
+                text: t("installIos"),
+              },
+              {
+                "@type": "HowToStep",
+                position: 2,
+                url: sectionAnchor(section),
+                text: t("installAndroid"),
+              },
+              {
+                "@type": "HowToStep",
+                position: 3,
+                url: sectionAnchor(section),
+                text: t("installDesktop"),
+              },
             ],
           }
         : {
