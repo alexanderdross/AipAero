@@ -102,6 +102,16 @@ export const liveCountries: string[] = [
   "no",
   "pl",
   "se",
+  // Europe expansion batch 1 (13.07.2026): crawlers live-validated
+  // (runs 29257033060/29257457290/29258501240/29265643933), first data
+  // published via the manual crawl dispatch on launch day.
+  "ee",
+  "fi",
+  "es",
+  "lv",
+  "is",
+  "pt",
+  "hu",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source:
   // "dk",
   // "gr",
