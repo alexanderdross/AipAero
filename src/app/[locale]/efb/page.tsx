@@ -2,6 +2,7 @@ import {
   ArrowRightIcon,
   CheckIcon,
   DownloadIcon,
+  MonitorDownIcon,
   MoreVerticalIcon,
   ShareIcon,
   SquarePlusIcon,
@@ -9,6 +10,7 @@ import {
 } from "lucide-react";
 import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import Link from "next/link";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { InstallAppButton } from "~/components/install-app-button";
@@ -35,6 +37,7 @@ const SECTIONS = [
   "install",
   "offline",
   "bulk",
+  "favorites",
   "import",
   "tools",
   "weather",
@@ -107,11 +110,19 @@ export default async function EfbPage(
   setRequestLocale(locale);
   const t = await getTranslations("EfbPage");
   const tMenu = await getTranslations("Menu");
+  const tCommon = await getTranslations("Common");
 
   const airportListPath = getPathname({ href: "/airport-list", locale });
   const airportListHref = airportListPath.endsWith("/")
     ? airportListPath
     : airportListPath + "/";
+  // Deep link to the favorites/recently-viewed section at the bottom of the
+  // country landing page (stable SSR anchor id, see [locale]/page.tsx).
+  const countryPath = getPathname({ href: "/", locale });
+  const favoritesHref =
+    (countryPath.endsWith("/") ? countryPath : countryPath + "/") +
+    "#favorites";
+  const inlineLink = "text-drossblue hover:underline";
 
   // Decorative tap-sequence mockups for the install steps (which icon to
   // tap where): pure inline SVG chips, aria-hidden - the adjacent text is
@@ -119,6 +130,7 @@ export default async function EfbPage(
   const installSteps = [
     { icons: [ShareIcon, SquarePlusIcon], text: t("installIos") },
     { icons: [MoreVerticalIcon, DownloadIcon], text: t("installAndroid") },
+    { icons: [MonitorDownIcon, DownloadIcon], text: t("installDesktop") },
   ];
   const chip =
     "border-drossgray-dark/20 text-drossblue inline-flex size-8 shrink-0 items-center justify-center rounded-md border bg-white shadow-sm";
@@ -158,7 +170,11 @@ export default async function EfbPage(
     mainEntity: ([1, 2, 3] as const).map((i) => ({
       "@type": "Question",
       name: t(`faq${i}q`),
-      acceptedAnswer: { "@type": "Answer", text: t(`faq${i}a`) },
+      acceptedAnswer: {
+        "@type": "Answer",
+        // Strip the inline-link tag (faq2a's <home>) - JSON-LD carries text.
+        text: t.markup(`faq${i}a`, { home: (chunks) => chunks }),
+      },
     })),
   };
 
@@ -180,14 +196,26 @@ export default async function EfbPage(
               <SectionHeading className="text-xl font-semibold tracking-tight">
                 {t(`${section}Title`)}
               </SectionHeading>
-              {section === "bulk" ? (
+              {section === "bulk" || section === "favorites" ? (
+                // Sections whose copy carries an inline deep link: the bulk
+                // download lives on the airport-list page, the favorites /
+                // recently-viewed lists at the bottom of the country page.
                 <p className="mt-3">
-                  {t.rich("bulkText", {
+                  {t.rich(`${section}Text`, {
                     list: (chunks) => (
                       <a
                         href={airportListHref}
                         title={tMenu("airports.hrefTitle")}
-                        className="text-drossblue hover:underline"
+                        className={inlineLink}
+                      >
+                        {chunks}
+                      </a>
+                    ),
+                    country: (chunks) => (
+                      <a
+                        href={favoritesHref}
+                        title={tCommon("favorites")}
+                        className={inlineLink}
                       >
                         {chunks}
                       </a>
@@ -267,7 +295,20 @@ export default async function EfbPage(
               {([1, 2, 3] as const).map((i) => (
                 <div key={i}>
                   <h3 className="font-semibold">{t(`faq${i}q`)}</h3>
-                  <p className="mt-1">{t(`faq${i}a`)}</p>
+                  <p className="mt-1">
+                    {t.rich(`faq${i}a`, {
+                      // faq2a's country list lives on the GLOBAL homepage.
+                      home: (chunks) => (
+                        <Link
+                          href="/"
+                          title={tCommon("homeLink")}
+                          className={inlineLink}
+                        >
+                          {chunks}
+                        </Link>
+                      ),
+                    })}
+                  </p>
                 </div>
               ))}
             </div>
