@@ -120,6 +120,10 @@
     "navTitle": "Navigace",
     "legalTitle": "Právní informace & kontakt",
     "partnersTitle": "Partneři",
+    "aipHome": {
+      "title": "AIP Home",
+      "hrefTitle": "Domovská stránka AIP:Aero - AIP a přibližovací mapy pro Evropu"
+    },
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",
       "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
