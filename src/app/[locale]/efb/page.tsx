@@ -13,6 +13,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { BreadCrumbs } from "~/components/breadcrumbs";
+import { HashDetailsOpener } from "~/components/hash-details-opener";
 import { InstallAppButton } from "~/components/install-app-button";
 import { SectionHeading, slugify } from "~/components/section-heading";
 import { Title } from "~/components/title";
@@ -209,15 +210,23 @@ export default async function EfbPage(
     "@type": "FAQPage",
     "@id": `${currentUrl}#${slugify(t("faqTitle"))}`,
     url: currentUrl,
-    mainEntity: ([1, 2, 3] as const).map((i) => ({
-      "@type": "Question",
-      name: t(`faq${i}q`),
-      acceptedAnswer: {
-        "@type": "Answer",
-        // Strip the inline-link tag (faq2a's <home>) - JSON-LD carries text.
-        text: t.markup(`faq${i}a`, { home: (chunks) => chunks }),
-      },
-    })),
+    mainEntity: ([1, 2, 3] as const).map((i) => {
+      // @id/url per question = its accordion hash anchor (owner request:
+      // every schema node cites its real DOM anchor).
+      const anchor = `${currentUrl}#${slugify(t(`faq${i}q`))}`;
+      return {
+        "@type": "Question",
+        "@id": anchor,
+        url: anchor,
+        name: t(`faq${i}q`),
+        acceptedAnswer: {
+          "@type": "Answer",
+          // Strip the inline-link tag (faq2a's <home>) - JSON-LD carries
+          // text.
+          text: t.markup(`faq${i}a`, { home: (chunks) => chunks }),
+        },
+      };
+    }),
   };
 
   return (
@@ -328,16 +337,34 @@ export default async function EfbPage(
             </section>
           ))}
 
-          {/* FAQ - mirrored as FAQPage JSON-LD above. */}
+          {/* FAQ - project accordion convention (CLAUDE.md): native details
+              with hash ids matching the FAQPage JSON-LD @id/url above; the
+              HashDetailsOpener island binds hash <-> accordion two-way. */}
           <section>
+            <HashDetailsOpener />
             <SectionHeading className="text-xl font-semibold tracking-tight">
               {t("faqTitle")}
             </SectionHeading>
-            <div className="mt-3 flex flex-col gap-4">
+            <div className="divide-drossgray-dark/10 mt-2 divide-y">
               {([1, 2, 3] as const).map((i) => (
-                <div key={i}>
-                  <h3 className="font-semibold">{t(`faq${i}q`)}</h3>
-                  <p className="mt-1">
+                <details
+                  key={i}
+                  id={slugify(t(`faq${i}q`))}
+                  className="group scroll-mt-24 py-1"
+                >
+                  <summary
+                    title={t(`faq${i}q`)}
+                    className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-x-2 py-2 [&::-webkit-details-marker]:hidden"
+                  >
+                    <h3 className="font-semibold">{t(`faq${i}q`)}</h3>
+                    <span
+                      aria-hidden="true"
+                      className="text-drossgray-dark shrink-0 transition-transform group-open:rotate-90"
+                    >
+                      ›
+                    </span>
+                  </summary>
+                  <p className="pb-3">
                     {t.rich(`faq${i}a`, {
                       // faq2a's country list lives on the GLOBAL homepage.
                       home: (chunks) => (
@@ -351,7 +378,7 @@ export default async function EfbPage(
                       ),
                     })}
                   </p>
-                </div>
+                </details>
               ))}
             </div>
           </section>
