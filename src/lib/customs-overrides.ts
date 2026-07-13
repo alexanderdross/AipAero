@@ -18,8 +18,50 @@
  * Verification runbook: docs/data-backfill-runbook.md ("Customs overrides").
  */
 export const customsOverrides: Record<string, boolean> = {
-  // Seeded per country from the national AIP GEN 1.2 after live
-  // verification on the runner - intentionally empty until then.
+  // ---------------------------------------------------------------------
+  // UK - NATS eAIP GEN 1.2, AIRAC 2026-07-09 (verified on the runner
+  // 13.07.2026 via the crawler-live-test `gen12` recon): the Border Force
+  // port office table lists every designated customs port. Fields whose
+  // row says "refer to Border Force contact for <other airport>" are
+  // still designated ports (clearance is handled by that office; the
+  // pilot files the GAR as usual), so they are true like the rest.
+  EGPD: true, // Aberdeen
+  EGAA: true, // Belfast International
+  EGBB: true, // Birmingham
+  EGLK: true, // Blackbushe (via Farnborough office)
+  EGNH: true, // Blackpool
+  EGGD: true, // Bristol
+  EGSC: true, // Cambridge
+  EGFF: true, // Cardiff
+  EGLD: true, // Denham (via Farnborough office)
+  EGNX: true, // East Midlands
+  EGPH: true, // Edinburgh
+  EGTR: true, // Elstree (via Farnborough office)
+  EGTE: true, // Exeter
+  EGTF: true, // Fairoaks (via Farnborough office)
+  EGLF: true, // Farnborough
+  EGKK: true, // Gatwick
+  EGPF: true, // Glasgow
+  EGLL: true, // Heathrow
+  EGNJ: true, // Humberside
+  EGPE: true, // Inverness (via Aberdeen office)
+  EGNM: true, // Leeds Bradford
+  EGGP: true, // Liverpool
+  EGLC: true, // London City
+  EGGW: true, // Luton
+  EGCC: true, // Manchester
+  EGNT: true, // Newcastle
+  EGSH: true, // Norwich
+  EGTK: true, // Oxford (via RAF Brize Norton office)
+  EGPK: true, // Prestwick
+  EGVN: true, // RAF Brize Norton
+  EGWU: true, // RAF Northolt
+  EGHI: true, // Southampton
+  EGMC: true, // Southend
+  EGSS: true, // Stansted
+  EGNV: true, // Teesside International
+  EGLM: true, // White Waltham (via Farnborough office)
+  EGTB: true, // Wycombe Air Park / Booker (via Farnborough office)
 };
 
 /** Verified override for an ICAO, or undefined when none exists. */

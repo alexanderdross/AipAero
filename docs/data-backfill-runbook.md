@@ -217,3 +217,17 @@ Adding a country's entries:
 4. `pnpm check` + PR as usual. No importer run needed - the override applies
    at read time; the per-country cache revalidates on the next crawler POST
    or `/api/revalidate` call.
+
+Per-country status (13.07.2026):
+
+- **UK: DONE** - 37 entries from the NATS eAIP GEN 1.2 Border Force port
+  office table (AIRAC 2026-07-09, `gen12` recon run). "Refer to Border
+  Force contact for <airport>" rows are designated ports handled by that
+  office and are entered `true` like the rest.
+- **DE: NOT machine-readable** - DFS BasicIFR renders the GEN 1.2 content
+  as page images inside a Bootstrap shell (pages "GEN 1.2-1" ... "-18",
+  no text layer; confirmed by the recon's debug dump 13.07.2026). Filling
+  DE needs a human reading the pages in the browser (or the zoll.de
+  Zollflugplatz list) - do NOT OCR a compliance list unreviewed.
+- Other countries: pending; their eurocontrol eAIPs should work like UK
+  (add a `recon_<cc>` modeled on `recon_uk`).
