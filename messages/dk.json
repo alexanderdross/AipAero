@@ -24,6 +24,10 @@
     "/terms": {
       "title": "Vilkår for brug",
       "hrefTitle": "Vilkår for brug - AIP:Aero Danmark"
+    },
+    "/efb": {
+      "title": "EFB-guide",
+      "hrefTitle": "EFB-guide - AIP:Aero på tabletten"
     }
   },
   "Menu": {
@@ -197,6 +201,10 @@
     "terms": {
       "title": "Vilkår for brug",
       "hrefTitle": "Vilkår for brug - AIP:Aero Danmark"
+    },
+    "efb": {
+      "title": "EFB-guide",
+      "hrefTitle": "AIP:Aero på din EFB - installation, offline kort, import"
     }
   },
   "Error": {
@@ -304,5 +312,29 @@
     "srcOsm": "kort og adresser",
     "metaTitle": "Vilkår for brug - AIP:Aero Danmark",
     "metaDescription": "Vilkår for brug af AIP:Aero, den gratis AIP- og indflyvningskort-søgning for Danmark og Europa: beskrivelse af tjenesten, ansvarsfraskrivelse og datakilder."
+  },
+  "EfbPage": {
+    "title": "Brug AIP:Aero på din EFB",
+    "intro": "Sådan installerer du AIP:Aero på din EFB-tablet, gemmer indflyvningskort offline, downloader hele lande og sender pladser videre til dine planlægningsværktøjer - trin for trin.",
+    "metaTitle": "EFB-guide Danmark - AIP og indflyvningskort på tabletten | AIP:Aero",
+    "metaDescription": "Installer AIP:Aero som app på din EFB-tablet, gem indflyvningskort offline, download hele lande og importer kort-PDF'er i ForeFlight, SkyDemon m.fl (Danmark).",
+    "installTitle": "Installer som app (PWA)",
+    "installText": "AIP:Aero er en installerbar web-app: den åbner i fuld skærm som en native app, og alt gemt er tilgængeligt offline. Ingen app store nødvendig.",
+    "installIos": "iPad / iPhone (Safari): åbn aip.aero, tryk på del-ikonet og derefter \"Føj til hjemmeskærm\".",
+    "installAndroid": "Android (Chrome): åbn aip.aero, tryk på menuen og derefter \"Føj til startskærm\" / \"Installer app\".",
+    "offlineTitle": "Gem enkelte pladser offline",
+    "offlineText": "Hver detaljeside har en \"Gem offline\"-knap. Den gemmer siden og, hvor AIP'en udgiver et, indflyvningskortets PDF på din enhed; pladsen vises derefter under favoritter på landesiden. Gemte kopier viser deres downloaddato.",
+    "bulkTitle": "Download et helt land",
+    "bulkText": "På flyvepladslisten kan du downloade alle et lands detaljesider på én gang (kun sider, uden kort-PDF'er - dem gemmer du pr. plads). Pakken viser sin størrelse før download og kan altid opdateres eller fjernes.",
+    "importTitle": "Kort-PDF'er i ForeFlight, SkyDemon m.fl.",
+    "importText": "Hvor den nationale AIP udgiver kort-PDF'er, linker kortboksen på detaljesiden til den gældende PDF inklusive AIRAC-dato. Download den og importer den i din EFB-app som eget indhold, f.eks. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland udgiver HTML-sider i stedet for PDF'er - brug AIP-linket dér.",
+    "toolsTitle": "Videregivelse til planlægningsværktøjer",
+    "toolsText": "Lokationsboksen på hver detaljeside åbner samme plads direkte i SkyVector, Windy og autorouter - praktisk til ruteplanlægning, vejrmodeller og indsendelse af flyveplan.",
+    "weatherTitle": "Vejrbriefing på siden",
+    "weatherText": "Detaljesider viser live METAR/TAF med afkodning i klart sprog, flyvekategori-badge og pr. bane mod- og sidevindskomponenter - et hurtigt tjek, ikke en erstatning for din officielle briefing.",
+    "customsTitle": "Told og grænsepassage",
+    "customsText": "Detaljesider viser, om en plads tilbyder toldbehandling; hvor den nationale AIP angiver det i GEN 1.2, er værdien verificeret mod denne officielle kilde. Til grænseformaliteter linker lokationsboksen til de officielle formularer (f.eks. det britiske General Aviation Report), og kortet kan filtrere efter toldpladser. Regler ændrer sig - bekræft dem altid med den gældende AIP og den lokale myndighed.",
+    "disclaimerTitle": "Sikkerhedsbemærkning",
+    "disclaimerText": "AIP:Aero linker til officielle AIP-publikationer, men er ikke en officiel kilde. Offline-kopier bærer deres downloaddato og kan forældes med hver AIRAC-cyklus - kontrollér kortenes gyldighed før hver flyvning, og indhent altid en officiel briefing."
   }
 }

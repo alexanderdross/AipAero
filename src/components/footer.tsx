@@ -65,6 +65,13 @@ export default async function Footer({ global = false }: { global?: boolean }) {
             title: tMenu(`${item.key}.title`),
             titleAttr: tMenu(`${item.key}.hrefTitle`),
           })),
+        // The EFB usage guide (install, offline charts, PDF import).
+        {
+          key: "efb",
+          href: withSlash(getPathname({ href: "/efb", locale })),
+          title: t("efb.title"),
+          titleAttr: t("efb.hrefTitle"),
+        },
       ];
 
   const legalExternal = ["home", "imprint", "contact", "privacy"] as const;

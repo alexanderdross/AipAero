@@ -202,10 +202,13 @@ border-crossing form links.
 
 Adding a country's entries:
 
-1. Open the national eAIP's **GEN 1.2** section (reachable from the runner or
-   a normal browser - the sandboxed agent environment has no egress to the
-   AIP hosts; the `crawler-live-test.yml` workflow's `check_urls` input can
-   fetch and status-check URLs from the runner).
+1. Fetch the national eAIP's **GEN 1.2** section via the
+   `crawler-live-test.yml` workflow's **`gen12` input** (space-separated
+   country codes, e.g. `DE UK`): the run resolves the current AIRAC edition
+   on the runner and prints every customs-/ICAO-relevant table row of the
+   section - the sandboxed agent environment has no egress to the AIP hosts.
+   Countries without a recon function yet are listed in the step's `RECONS`
+   map (add one modeled on `recon_uk` for eurocontrol eAIPs).
 2. Note the designated customs aerodromes (including "on request" / "with
    prior notice" fields - those count as `true`; the pilot must still check
    the AIP entry for the notice period).

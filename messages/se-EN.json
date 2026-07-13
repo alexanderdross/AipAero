@@ -24,6 +24,10 @@
     "/terms": {
       "title": "Terms of Service",
       "hrefTitle": "Terms of Service - AIP:Aero Sweden"
+    },
+    "/efb": {
+      "title": "EFB Guide",
+      "hrefTitle": "EFB Guide - AIP:Aero on your tablet"
     }
   },
   "Menu": {
@@ -197,6 +201,10 @@
     "terms": {
       "title": "Terms of Service",
       "hrefTitle": "Terms of Service - AIP:Aero Sweden"
+    },
+    "efb": {
+      "title": "EFB Guide",
+      "hrefTitle": "AIP:Aero on your EFB - install, offline charts, import"
     }
   },
   "Error": {
@@ -304,5 +312,29 @@
     "srcOsm": "maps and addresses",
     "metaTitle": "Terms of Service - AIP:Aero Sweden",
     "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for Sweden and Europe: service description, disclaimer of liability and data sources."
+  },
+  "EfbPage": {
+    "title": "Using AIP:Aero on your EFB",
+    "intro": "How to install AIP:Aero on your EFB tablet, save approach charts offline, download country packs and hand fields over to your planning tools - step by step.",
+    "metaTitle": "EFB Guide Sweden - AIP & approach charts on your tablet | AIP:Aero",
+    "metaDescription": "Install AIP:Aero as an app on your EFB tablet, save approach charts offline, download whole countries and import chart PDFs into ForeFlight, SkyDemon & Co (Sweden).",
+    "installTitle": "Install as an app (PWA)",
+    "installText": "AIP:Aero is an installable web app: it opens full-screen like a native app and everything you save is available offline. No app store needed.",
+    "installIos": "iPad / iPhone (Safari): open aip.aero, tap the share icon, then \"Add to Home Screen\".",
+    "installAndroid": "Android (Chrome): open aip.aero, tap the menu, then \"Add to home screen\" / \"Install app\".",
+    "offlineTitle": "Save single airfields offline",
+    "offlineText": "Every airport detail page has a \"Save offline\" button. It stores the page and, where the AIP publishes one, the approach-chart PDF on your device; the field then appears under Favorites on the country page. Saved copies show their download date.",
+    "bulkTitle": "Download a whole country",
+    "bulkText": "On the airport list you can download all of a country's detail pages in one go (pages only, without chart PDFs - save those per field). The pack shows its size before downloading and can be updated or removed at any time.",
+    "importTitle": "Chart PDFs in ForeFlight, SkyDemon & Co.",
+    "importText": "Where the national AIP publishes chart PDFs, the chart box on the detail page links the current PDF including its AIRAC date. Download it and import it into your EFB app as custom content, e.g. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) or Garmin Pilot. Germany publishes HTML pages instead of PDFs - use the AIP link there.",
+    "toolsTitle": "Hand-offs to planning tools",
+    "toolsText": "The location box on every detail page opens the same field directly in SkyVector, Windy and autorouter - handy for route planning, weather models and flight-plan filing.",
+    "weatherTitle": "Weather briefing on the page",
+    "weatherText": "Detail pages show live METAR/TAF with plain-language decoding, the flight-category badge and a per-runway head- and crosswind breakdown - a quick cross-check, not a substitute for your official briefing.",
+    "customsTitle": "Customs & border crossing",
+    "customsText": "Detail pages show whether a field offers customs clearance; where a national AIP lists it in GEN 1.2, the value is verified against that official source. For border-crossing paperwork the location box links the official forms (e.g. the UK General Aviation Report), and the map can filter for customs airfields. Rules change - always confirm with the current AIP and the local authority.",
+    "disclaimerTitle": "Safety notice",
+    "disclaimerText": "AIP:Aero links official AIP publications but is not an official source. Offline copies are marked with their download date and can become outdated with every AIRAC cycle - verify chart currency before every flight and always obtain an official pre-flight briefing."
   }
 }

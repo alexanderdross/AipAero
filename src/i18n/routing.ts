@@ -45,6 +45,8 @@ export const routing = defineRouting({
   pathnames: {
     "/": "/",
     "/terms": "/terms",
+    // "EFB" is the term pilots search in every language - one slug for all.
+    "/efb": "/efb",
     "/vfr": "/vfr",
     "/ifr": "/ifr",
     "/heliports": "/heliports",

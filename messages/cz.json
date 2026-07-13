@@ -20,6 +20,10 @@
     "/terms": {
       "title": "Podmínky použití",
       "hrefTitle": "Podmínky použití - AIP:Aero Česko"
+    },
+    "/efb": {
+      "title": "Průvodce EFB",
+      "hrefTitle": "Průvodce EFB - AIP:Aero na tabletu"
     }
   },
   "Menu": {
@@ -162,6 +166,10 @@
     "terms": {
       "title": "Podmínky použití",
       "hrefTitle": "Podmínky použití - AIP:Aero Česko"
+    },
+    "efb": {
+      "title": "Průvodce EFB",
+      "hrefTitle": "AIP:Aero na EFB - instalace, offline mapy, import"
     }
   },
   "Error": {
@@ -269,5 +277,29 @@
     "srcOsm": "mapy a adresy",
     "metaTitle": "Podmínky použití - AIP:Aero Česko",
     "metaDescription": "Podmínky použití AIP:Aero, bezplatného vyhledávání AIP a přibližovacích map pro Česko a Evropu: popis služby, vyloučení odpovědnosti a zdroje dat."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero na vašem EFB",
+    "intro": "Jak nainstalovat AIP:Aero na EFB tablet, uložit přibližovací mapy offline, stáhnout celé země a předat letiště do plánovacích nástrojů - krok za krokem.",
+    "metaTitle": "Průvodce EFB Česko - AIP a přibližovací mapy na tabletu | AIP:Aero",
+    "metaDescription": "Nainstalujte AIP:Aero jako aplikaci na EFB tablet, ukládejte mapy offline, stahujte celé země a importujte PDF map do ForeFlight, SkyDemon a dalších (Česko).",
+    "installTitle": "Instalace jako aplikace (PWA)",
+    "installText": "AIP:Aero je instalovatelná webová aplikace: otevírá se na celou obrazovku jako nativní aplikace a vše uložené je dostupné offline. Není potřeba žádný app store.",
+    "installIos": "iPad / iPhone (Safari): otevřete aip.aero, klepněte na ikonu sdílení a poté \"Přidat na plochu\".",
+    "installAndroid": "Android (Chrome): otevřete aip.aero, klepněte na menu a poté \"Přidat na plochu\" / \"Instalovat aplikaci\".",
+    "offlineTitle": "Uložení jednotlivých letišť offline",
+    "offlineText": "Každá detailní stránka letiště má tlačítko \"Uložit offline\". Uloží stránku a, pokud ji AIP publikuje, i PDF přibližovací mapy do vašeho zařízení; letiště se pak objeví v oblíbených na stránce země. Uložené kopie zobrazují datum stažení.",
+    "bulkTitle": "Stažení celé země",
+    "bulkText": "Na seznamu letišť můžete stáhnout všechny detailní stránky země najednou (pouze stránky, bez PDF map - ty ukládejte po letištích). Balíček před stažením zobrazí svou velikost a lze jej kdykoli aktualizovat nebo odebrat.",
+    "importTitle": "PDF map ve ForeFlight, SkyDemon a dalších",
+    "importText": "Kde národní AIP publikuje PDF map, odkazuje box s mapami na detailní stránce na aktuální PDF včetně data AIRAC. Stáhněte jej a importujte do své EFB aplikace jako vlastní obsah, např. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) nebo Garmin Pilot. Německo publikuje HTML stránky místo PDF - použijte tam odkaz na AIP.",
+    "toolsTitle": "Předání do plánovacích nástrojů",
+    "toolsText": "Box s polohou na každé detailní stránce otevře stejné letiště přímo ve SkyVector, Windy a autorouter - užitečné pro plánování trati, meteorologické modely a podání letového plánu.",
+    "weatherTitle": "Meteorologický briefing na stránce",
+    "weatherText": "Detailní stránky zobrazují živé METAR/TAF s dekódováním do srozumitelného jazyka, odznak letové kategorie a pro každou dráhu složky protivětru a bočního větru - rychlá kontrola, ne náhrada oficiálního briefingu.",
+    "customsTitle": "Celní odbavení a překročení hranic",
+    "customsText": "Detailní stránky ukazují, zda letiště nabízí celní odbavení; kde to národní AIP uvádí v GEN 1.2, je hodnota ověřena proti tomuto oficiálnímu zdroji. Pro hraniční formality odkazuje box s polohou na oficiální formuláře (např. britský General Aviation Report) a mapa umí filtrovat celní letiště. Pravidla se mění - vždy je potvrďte s aktuálním AIP a místním úřadem.",
+    "disclaimerTitle": "Bezpečnostní upozornění",
+    "disclaimerText": "AIP:Aero odkazuje na oficiální publikace AIP, ale není oficiálním zdrojem. Offline kopie nesou datum stažení a mohou s každým cyklem AIRAC zastarat - před každým letem ověřte platnost map a vždy si vyžádejte oficiální předletový briefing."
   }
 }

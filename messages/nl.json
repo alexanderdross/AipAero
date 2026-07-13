@@ -24,6 +24,10 @@
     "/terms": {
       "title": "Gebruiksvoorwaarden",
       "hrefTitle": "Gebruiksvoorwaarden - AIP:Aero Nederland"
+    },
+    "/efb": {
+      "title": "EFB-gids",
+      "hrefTitle": "EFB-gids - AIP:Aero op je tablet"
     }
   },
   "Menu": {
@@ -197,6 +201,10 @@
     "terms": {
       "title": "Gebruiksvoorwaarden",
       "hrefTitle": "Gebruiksvoorwaarden - AIP:Aero Nederland"
+    },
+    "efb": {
+      "title": "EFB-gids",
+      "hrefTitle": "AIP:Aero op je EFB - installeren, offline kaarten, import"
     }
   },
   "Error": {
@@ -304,5 +312,29 @@
     "srcOsm": "kaarten en adressen",
     "metaTitle": "Gebruiksvoorwaarden - AIP:Aero Nederland",
     "metaDescription": "Gebruiksvoorwaarden van AIP:Aero, de gratis AIP- en naderingskaarten-zoekdienst voor Nederland en Europa: dienstbeschrijving, aansprakelijkheidsuitsluiting en databronnen."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero op je EFB gebruiken",
+    "intro": "Zo installeer je AIP:Aero op je EFB-tablet, sla je naderingskaarten offline op, download je hele landen en geef je velden door aan je planningstools - stap voor stap.",
+    "metaTitle": "EFB-gids Nederland - AIP en naderingskaarten op je tablet | AIP:Aero",
+    "metaDescription": "Installeer AIP:Aero als app op je EFB-tablet, sla naderingskaarten offline op, download hele landen en importeer kaart-PDF's in ForeFlight, SkyDemon en meer (Nederland).",
+    "installTitle": "Als app installeren (PWA)",
+    "installText": "AIP:Aero is een installeerbare web-app: hij opent op volledig scherm zoals een native app en alles wat je opslaat blijft offline beschikbaar. Geen app store nodig.",
+    "installIos": "iPad / iPhone (Safari): open aip.aero, tik op het deelpictogram en dan \"Zet op beginscherm\".",
+    "installAndroid": "Android (Chrome): open aip.aero, tik op het menu en dan \"Toevoegen aan startscherm\" / \"App installeren\".",
+    "offlineTitle": "Losse velden offline opslaan",
+    "offlineText": "Elke velddetailpagina heeft een knop \"Offline opslaan\". Die bewaart de pagina en, waar de AIP er een publiceert, de naderingskaart-PDF op je apparaat; het veld verschijnt daarna onder favorieten op de landpagina. Opgeslagen kopieën tonen hun downloaddatum.",
+    "bulkTitle": "Een heel land downloaden",
+    "bulkText": "Op de luchthavenlijst kun je alle detailpagina's van een land in één keer downloaden (alleen pagina's, zonder kaart-PDF's - die sla je per veld op). Het pakket toont vooraf zijn grootte en kan altijd worden bijgewerkt of verwijderd.",
+    "importTitle": "Kaart-PDF's in ForeFlight, SkyDemon en meer",
+    "importText": "Waar de nationale AIP kaart-PDF's publiceert, linkt de kaartenbox op de detailpagina naar de actuele PDF inclusief AIRAC-datum. Download hem en importeer hem in je EFB-app als eigen kaartmateriaal, bijv. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) of Garmin Pilot. Duitsland publiceert HTML-pagina's in plaats van PDF's - gebruik daar de AIP-link.",
+    "toolsTitle": "Doorgeven aan planningstools",
+    "toolsText": "De locatiebox op elke detailpagina opent hetzelfde veld direct in SkyVector, Windy en autorouter - handig voor routeplanning, weermodellen en het indienen van je vliegplan.",
+    "weatherTitle": "Weerbriefing op de pagina",
+    "weatherText": "Detailpagina's tonen live METAR/TAF met decodering in klare taal, de vluchtcategorie-badge en per baan de tegen- en dwarswindcomponenten - een snelle controle, geen vervanging van je officiële briefing.",
+    "customsTitle": "Douane en grensoverschrijding",
+    "customsText": "Detailpagina's tonen of een veld douaneafhandeling biedt; waar de nationale AIP dit in GEN 1.2 vermeldt, is de waarde geverifieerd tegen die officiële bron. Voor de grensformaliteiten linkt de locatiebox naar de officiële formulieren (bijv. het Britse General Aviation Report), en de kaart kan filteren op douanevelden. Regels veranderen - bevestig ze altijd met de actuele AIP en de lokale autoriteit.",
+    "disclaimerTitle": "Veiligheidsmelding",
+    "disclaimerText": "AIP:Aero linkt naar officiële AIP-publicaties maar is zelf geen officiële bron. Offline kopieën dragen hun downloaddatum en kunnen elke AIRAC-cyclus verouderen - controleer de actualiteit van kaarten voor elke vlucht en haal altijd een officiële briefing."
   }
 }
