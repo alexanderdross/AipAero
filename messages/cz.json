@@ -252,7 +252,9 @@
     "moreInfo": "Více informací",
     "pavedRunway": "Zpevněná dráha",
     "favorites": "Oblíbené",
+    "favoritesEmpty": "Zatím žádná oblíbená letiště - uložte letiště offline na jeho stránce a objeví se zde.",
     "recentlyViewed": "Nedávno zobrazené",
+    "recentlyViewedEmpty": "Otevřená letiště se zde automaticky zobrazí pro rychlý přístup.",
     "borderCrossing": "Překročení hranice",
     "alsoAvailable": "K dispozici také:"
   },

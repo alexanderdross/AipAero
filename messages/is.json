@@ -257,7 +257,9 @@
     "moreInfo": "Nánari upplýsingar",
     "pavedRunway": "Malbikuð flugbraut",
     "favorites": "Uppáhald",
+    "favoritesEmpty": "Engin uppáhalds enn - vistaðu flugvöll án nettengingar á síðu hans og hann birtist hér.",
     "recentlyViewed": "Nýlega skoðað",
+    "recentlyViewedEmpty": "Flugvellir sem þú opnar birtast hér sjálfkrafa fyrir skjótan aðgang.",
     "borderCrossing": "För yfir landamæri",
     "alsoAvailable": "Einnig í boði:"
   },

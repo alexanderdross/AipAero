@@ -257,8 +257,15 @@ class DK(PlaywrightCrawlerBase):
 
         try:
             # Render the shell so the JS-built navigation tree is present.
-            root_html = self.render_html(ROOT_URL)
+            # capture_network + settle time: the tree data arrives via XHR
+            # into an Angular treegrid (run 29284116589 saw only ONE anchor in
+            # the settled DOM) - the capture reveals the JSON endpoint the SPA
+            # calls, so the crawl can move to fetching that directly.
+            root_html = self.render_html(
+                ROOT_URL, wait_ms=5000, capture_network=True
+            )
             last_url, last_html = ROOT_URL, root_html
+            self.log_network_capture()
 
             # chapter "02. VFR Flight Guide Danmark"
             step = self._follow(root_html, ROOT_URL, "VFR Flight Guide")

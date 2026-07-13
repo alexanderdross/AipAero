@@ -82,14 +82,22 @@ class PlaywrightCrawlerBase(HttpCrawlerBase):
         *,
         wait_selector: str | None = None,
         wait_until: str = "networkidle",
+        wait_ms: int = 0,
+        capture_network: bool = False,
     ) -> str:
         """Load ``url`` in a headless browser and return the rendered DOM.
 
         ``wait_until`` is the Playwright navigation wait state
         ("load" | "domcontentloaded" | "networkidle"); ``wait_selector``, if
         given, additionally waits for that CSS selector to appear (use it when
-        the nav tree is injected after the initial network settles). Raises
-        :class:`PlaywrightUnavailable` if the browser is unusable.
+        the nav tree is injected after the initial network settles);
+        ``wait_ms`` adds a fixed settle time after that (SPAs that fire late
+        XHRs after networkidle). With ``capture_network=True`` every response
+        the page triggers is recorded in :attr:`last_network` (url, status,
+        content type, size, plus a body snippet for small JSON/text) - the
+        reconnaissance tool for SPAs whose data arrives via XHR instead of
+        anchors (DK/Naviair treegrid). Raises :class:`PlaywrightUnavailable`
+        if the browser is unusable.
         """
         browser = self._ensure_browser()
         context = browser.new_context(
@@ -97,16 +105,68 @@ class PlaywrightCrawlerBase(HttpCrawlerBase):
             locale="en-GB",
         )
         page = context.new_page()
+        self.last_network: list[dict] = []
+        if capture_network:
+
+            def _record(response) -> None:
+                try:
+                    ctype = response.headers.get("content-type", "")
+                    entry = {
+                        "url": response.url,
+                        "status": response.status,
+                        "ctype": ctype.split(";")[0],
+                        "body": "",
+                    }
+                    # Body snippets only for data-ish payloads - that is what
+                    # identifies the tree/data endpoint.
+                    if any(t in ctype for t in ("json", "xml", "text/plain")):
+                        body = response.text()
+                        entry["size"] = len(body)
+                        entry["body"] = " ".join(body[:400].split())
+                    self.last_network.append(entry)
+                except Exception:
+                    # Redirect bodies etc. are unreadable - keep the URL line.
+                    self.last_network.append(
+                        {"url": response.url, "status": response.status,
+                         "ctype": "?", "body": ""}
+                    )
+
+            page.on("response", _record)
         try:
             page.goto(url, wait_until=wait_until, timeout=self.render_timeout_ms)
             if wait_selector:
                 page.wait_for_selector(
                     wait_selector, timeout=self.render_timeout_ms
                 )
+            if wait_ms:
+                page.wait_for_timeout(wait_ms)
             self.logger.info(f"{self.country}: rendered {url}")
             return page.content()
         finally:
             context.close()
+
+    def log_network_capture(self, *, limit: int = 40) -> None:
+        """Log the responses captured by the last ``capture_network`` render -
+        data payloads (JSON/XML) first, static assets compressed to one line
+        each. Diagnostic output for the live-crawl test."""
+        entries = getattr(self, "last_network", [])
+        if not entries:
+            self.logger.warning(f"{self.country}: no network capture recorded")
+            return
+        data = [e for e in entries if e.get("body")]
+        other = [e for e in entries if not e.get("body")]
+        self.logger.warning(
+            f"{self.country}: network capture: {len(entries)} responses, "
+            f"{len(data)} with data payloads:"
+        )
+        for e in data[:limit]:
+            self.logger.warning(
+                f"  DATA {e['status']} {e['ctype']} "
+                f"({e.get('size', '?')} B) {e['url'][:140]}"
+            )
+            self.logger.warning(f"       body: {e['body'][:300]}")
+        for e in other[:limit]:
+            self.logger.warning(f"  {e['status']} {e['ctype']} {e['url'][:140]}")
 
     def close(self) -> None:
         """Tear down the browser (if launched) and the httpx client."""

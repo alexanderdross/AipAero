@@ -287,7 +287,9 @@
     "moreInfo": "Więcej informacji",
     "pavedRunway": "Utwardzony pas",
     "favorites": "Ulubione",
+    "favoritesEmpty": "Brak ulubionych - zapisz lotnisko offline na jego stronie, a pojawi się tutaj.",
     "recentlyViewed": "Ostatnio przeglądane",
+    "recentlyViewedEmpty": "Otwierane lotniska pojawią się tutaj automatycznie dla szybkiego dostępu.",
     "borderCrossing": "Przekroczenie granicy",
     "alsoAvailable": "Dostępne również:"
   },

@@ -287,7 +287,9 @@
     "moreInfo": "Lisätietoja",
     "pavedRunway": "Päällystetty kiitotie",
     "favorites": "Suosikit",
+    "favoritesEmpty": "Ei vielä suosikkeja - tallenna kenttä offline-tilaan sen sivulla, niin se ilmestyy tähän.",
     "recentlyViewed": "Viimeksi katsotut",
+    "recentlyViewedEmpty": "Avaamasi kentät ilmestyvät tähän automaattisesti nopeaa käyttöä varten.",
     "borderCrossing": "Rajanylitys",
     "alsoAvailable": "Myös saatavilla:"
   },

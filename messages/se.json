@@ -287,7 +287,9 @@
     "moreInfo": "Mer info",
     "pavedRunway": "Belagd bana",
     "favorites": "Favoriter",
+    "favoritesEmpty": "Inga favoriter ännu - spara ett fält offline på dess sida så visas det här.",
     "recentlyViewed": "Senast visade",
+    "recentlyViewedEmpty": "Fält du öppnar visas automatiskt här för snabb åtkomst.",
     "borderCrossing": "Gränspassage",
     "alsoAvailable": "Även tillgänglig:"
   },

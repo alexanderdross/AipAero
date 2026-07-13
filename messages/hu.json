@@ -257,7 +257,9 @@
     "moreInfo": "További információk",
     "pavedRunway": "Burkolt futópálya",
     "favorites": "Kedvencek",
+    "favoritesEmpty": "Még nincsenek kedvencek - mentsen el egy repülőteret offline a saját oldalán, és itt megjelenik.",
     "recentlyViewed": "Nemrég megtekintett",
+    "recentlyViewedEmpty": "A megnyitott repülőterek automatikusan megjelennek itt a gyors eléréshez.",
     "borderCrossing": "Határátlépés",
     "alsoAvailable": "Szintén elérhető:"
   },
