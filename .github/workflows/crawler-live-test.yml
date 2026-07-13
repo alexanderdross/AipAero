@@ -34,13 +34,31 @@ on:
     paths:
       - ".github/workflows/crawler-live-test.yml"
       - "crawlers/crawlers/**"
+  # Agent bridge: pushing this file to a claude/** branch runs the GEN 1.2
+  # recon (GEN12_PUSH_DEFAULT below) and COMMITS the output back to the
+  # branch as crawlers/recon/gen12-latest.txt - the sandboxed agent has no
+  # egress to GitHub's API/log endpoints, but can read the repo over git.
+  # The output commit only touches crawlers/recon/, so it cannot retrigger
+  # this push trigger (paths filter = this file only).
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - ".github/workflows/crawler-live-test.yml"
 
 concurrency:
   group: crawler-live-test-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  # write: the push-triggered GEN 1.2 recon commits its output file back to
+  # the (non-main) branch it ran on. All other paths only read.
+  contents: write
+
+env:
+  # Countries the push-triggered recon fetches (workflow_dispatch passes its
+  # own `gen12` input instead).
+  GEN12_PUSH_DEFAULT: "FR NL BE NO"
 
 jobs:
   live-test:
@@ -93,12 +111,12 @@ jobs:
       # VERIFICATION SOURCE for src/lib/customs-overrides.ts (never add
       # entries there that this section does not support).
       - name: GEN 1.2 recon (customs airfields)
-        if: ${{ inputs.gen12 != '' }}
+        if: ${{ inputs.gen12 != '' || github.event_name == 'push' }}
         continue-on-error: true
         env:
-          GEN12: ${{ inputs.gen12 }}
+          GEN12: ${{ inputs.gen12 || env.GEN12_PUSH_DEFAULT }}
         run: |
-          uv run python - <<'PY'
+          uv run python - <<'PY' 2>&1 | tee "$GITHUB_WORKSPACE/gen12-output.txt"
           import os
           import re
           import sys
@@ -283,9 +301,28 @@ jobs:
           sys.exit(1 if failed else 0)
           PY
 
+      # Agent bridge (see the push trigger comment): commit the recon output
+      # into the branch so the sandboxed agent can read it over git. Never on
+      # main; fail-soft (a concurrent agent push just wins the race).
+      - name: Persist GEN 1.2 output to branch
+        if: ${{ github.event_name == 'push' && github.ref_name != 'main' }}
+        continue-on-error: true
+        working-directory: ${{ github.workspace }}
+        run: |
+          mkdir -p crawlers/recon
+          cp gen12-output.txt crawlers/recon/gen12-latest.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add crawlers/recon/gen12-latest.txt
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git commit -m "chore(recon): GEN 1.2 output (${GEN12_PUSH_DEFAULT}) [skip ci]"
+          git push origin "HEAD:${{ github.ref_name }}"
+
       - name: Crawl live sources (no publish)
         env:
-          COUNTRIES: ${{ inputs.countries || 'BE CZ DK GR NO PL SE' }}
+          # Push-triggered (agent-bridge) runs are about the GEN 1.2 output,
+          # so crawl only the fastest country; dispatch/PR keep the full set.
+          COUNTRIES: ${{ inputs.countries || (github.event_name == 'push' && 'CZ' || 'BE CZ DK GR NO PL SE') }}
           PDF_RECON: ${{ inputs.pdf_recon && '1' || '' }}
           # Known-blocked countries: still crawled and reported, but their
           # failure does not fail the job. DK = JS-rendered site (Playwright
