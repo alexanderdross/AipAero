@@ -29,7 +29,7 @@ Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 | Land | Airports | Läufe |
 | --- | --- | --- |
 | EE | 8 | 29257033060; PDF-Muster VAC/ADC/LDG (29265643933) |
-| FI | 40 | 29257457290 (Titel bereinigt); keine PDF-Muster - AD-2-Seite verlinkt keine Charts |
+| FI | 40 | 29257457290 (Titel bereinigt); keine PDF-Muster - die AD-2-Seite anchor-verlinkt nur WPT_LIST/FAS_DB-Daten-PDFs (auch EFHK, Run 29278021225); Chart-Verzeichnis-Konvention `Root_WePub/ANSFI/Charts/AD/<ICAO>/` identifiziert, nächster Hop: AD-2.24-Markup dumpen |
 | ES | 51 | 29258501240 (Owner-Auftrag trotz Nicht-eurocontrol); PDF + gen12 brauchen bespoke Recon |
 | LV | 12 | 29259295508; PDF 12/12 via AD-2.24-Position (29265643933) |
 | IS | 53 | 29265643933 (AD-/LS-Kapitel, Dedupe by ICAO - 106 waren systematische Doppel) |
@@ -56,10 +56,10 @@ Noch offen: FI/IS/ES-Chart-PDF (tiefere Navigation nötig), ES-Customs
 
 | Land | Stand | Nächster Schritt |
 | --- | --- | --- |
-| IE | Auch Chromium scheitert (ERR_SSL_VERSION_OR_CIPHER_MISMATCH, Run 29274747730) - kein Fingerprint-Filter, der Server verlangt Legacy-Cipher, die nichts Modernes anbietet | Bright-Data-Unlocker (TLS auf Proxy-Seite) oder anderen IAA-Host recherchieren |
+| IE | GEPARKT: auch der Web-Unlocker scheitert ("502 Navigation failed"); jeder Handshake endet mit SSL-Alert 40 vor der Cipher-Wahl (openssl default/legacy/SECLEVEL=1, Chromium, Unlocker - Run 29278021225, `crawlers/recon/round4-unlocker-fi.md`) - vermutlich Client-Zertifikat / IP-Allowlist / Geo-Gate | Owner-Recherche: funktioniert iaip.iaa.ie im Browser? Anderen IAA-Host suchen |
 | HR | crocontrol.hr-Root ohne AIP-Links (JS-Menü) | direkte eAIP-URL recherchieren (Owner/Browser) |
-| SK | 403 auch via Bright-Data-Plain-Proxy (Run 29274747730, `crawlers/recon/probe-sk-lt.md`) - Sperre ist nicht IP-basiert | Web-Unlocker-Zone probieren; ggf. dedizierte eaip/ais-Subdomain suchen |
-| LT | wie SK (403 direkt UND via Proxy) | wie SK |
+| SK | GEPARKT: WAF lehnt auch die Unlocker-Exit-IPs ab ("502 response status was rejected", Run 29278021225) - Sperre weder IP- noch TLS-basiert | tiefere eAIP-URL statt der Root proben; andere lps.sk-Subdomain suchen |
+| LT | ZUGANG GELÖST: Web-Unlocker holt HTML (200, "AB Oro navigacija", Run 29278021225) - aber die Root verlinkt keinen eAIP-Einstieg | direkte eAIP-Kandidaten-URLs via Unlocker proben (z.B. `/en/aip`, ais-Subdomains) |
 
 ## Außerhalb des Auftrags (keine eurocontrol-Struktur / gated)
 
