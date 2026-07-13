@@ -49,9 +49,14 @@ NODES: dict[object, list[dict]] = {
     ],
     1: [_dir(10, "VFG Part 3 - FLYVEPLADSER (AD)")],
     10: [
+        # Decoy first: contains "HELIPORTS" but is the intro chapter - the
+        # matcher must prefer the node matching ALL needles (live regression,
+        # run 29291001169 extracted "heliports" from the AD 1 intro).
+        _dir(19, "AD 1 - AERODROMES_HELIPORTS - INTRODUCTION"),
         _dir(20, "AD 2 - PUBLIC AERODROMES"),
         _dir(21, "AD 3 - HELIPORTS"),
     ],
+    19: [_doc(210, "AD 1 intro", "/media/files/intro/EK_AD_1_intro_en.pdf")],
     20: [
         _dir(100, "Anholt - EKAT"),
         _dir(101, "Esbjerg - EKEB"),
