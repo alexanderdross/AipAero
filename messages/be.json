@@ -215,7 +215,7 @@
   },
   "About": {
     "title": "About this website",
-    "description": "The <aip>AIP of Belgium & Luxembourg</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by skeyes does not include a search mask. We are not liable for the correctness and accuracy of AIPs (Aeronautical Information Publication), as these are not operated by us. We merely provide convenient links to corresponding approach charts.",
+    "description": "The <aip>AIP of Belgium & Luxembourg</aip> is available as a free version. This website aims to simplify the search for airfields, as the basic version provided by skeyes does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only provide convenient links to the respective approach charts.",
     "aipUrl": "https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/index-en-GB.html",
     "aipTitle": "AIP of Belgium & Luxembourg"
   },

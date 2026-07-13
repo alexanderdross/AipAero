@@ -145,7 +145,7 @@
   },
   "About": {
     "title": "Hvad er formålet med denne hjemmeside?",
-    "description": "Den officielle <aip>Luftfartsinformationspublikation AIP Danmark</aip> udgives af Naviair. Vores side gør det lettere at finde flyvepladser, men vi påtager os intet ansvar for AIP'ens (Aeronautical Information Publication) rigtighed eller aktualitet, da den ikke drives af os. Vi linker udelukkende til de respektive indflyvningskort.",
+    "description": "Den officielle <aip>Luftfartsinformationspublikation AIP Danmark</aip> udgives af Naviair. Vores side gør det lettere at finde flyvepladser, men vi påtager os intet ansvar for AIP'ens (Aeronautical Information Publication) rigtighed eller aktualitet, da den ikke udgives af os. Vi linker udelukkende til de respektive indflyvningskort.",
     "aipUrl": "https://aim.naviair.dk/",
     "aipTitle": "Luftfartsinformationspublikation AIP Danmark"
   },

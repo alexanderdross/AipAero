@@ -145,7 +145,7 @@
   },
   "About": {
     "title": "Vad är den här webbplatsen till för?",
-    "description": "Den <aip>svenska luftfartspublikationen AIP</aip> finns tillgänglig som en gratisversion. Den här webbplatsen syftar till att förenkla sökandet efter flygplatser, eftersom LFV:s version saknar en sökfunktion. Vi tar inget ansvar för riktigheten eller aktualiteten hos AIP (Aeronautical Information Publication), eftersom den inte drivs av oss. Vi tillhandahåller endast praktiska länkar till respektive inflygningskartor.",
+    "description": "Den <aip>svenska luftfartspublikationen AIP</aip> finns tillgänglig som en gratisversion. Den här webbplatsen syftar till att förenkla sökandet efter flygplatser, eftersom LFV:s version saknar en sökfunktion. Vi tar inget ansvar för riktigheten eller aktualiteten hos AIP (Aeronautical Information Publication), eftersom den inte ges ut av oss. Vi tillhandahåller endast praktiska länkar till respektive inflygningskartor.",
     "aipUrl": "https://aro.lfv.se/",
     "aipTitle": "AIP Sverige"
   },

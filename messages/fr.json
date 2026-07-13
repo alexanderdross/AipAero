@@ -145,7 +145,7 @@
   },
   "About": {
     "title": "Pourquoi ce site web ?",
-    "description": "Le <aip>Manuel d'aviation AIP France</aip> gratuit est désormais disponible via la Direction des Service de l'information aéronautique en version de base, mais sans fonction de recherche. Notre site facilite la recherche d'aérodromes, mais nous ne garantissons pas l'exactitude ou l'actualité des informations AIP (Aeronautical Information Publication), car nous ne les gérons pas. Nous fournissons uniquement des liens vers les cartes d'approche correspondantes.",
+    "description": "Le <aip>Manuel d'aviation AIP France</aip> gratuit est désormais disponible via le Service de l'information aéronautique (SIA) en version de base, mais sans fonction de recherche. Notre site facilite la recherche d'aérodromes, mais nous ne garantissons pas l'exactitude ou l'actualité des informations AIP (Aeronautical Information Publication), car nous ne les gérons pas. Nous fournissons uniquement des liens vers les cartes d'approche correspondantes.",
     "aipUrl": "https://www.sia.aviation-civile.gouv.fr/plandesite",
     "aipTitle": "Manuel d'aviation AIP France"
   },

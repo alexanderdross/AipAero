@@ -115,7 +115,7 @@
   },
   "About": {
     "title": "Mire szolgál ez a weboldal?",
-    "description": "A <aip>magyar AIP légiforgalmi tájékoztató kiadvány</aip> ingyenesen elérhető. Ez a weboldal a repülőterek keresését hivatott egyszerűsíteni, mivel a HungaroControl változata nem tartalmaz keresőfunkciót. Nem vállalunk felelősséget az AIP (Aeronautical Information Publication) pontosságáért vagy naprakészségéért, mivel azt nem mi üzemeltetjük. Csupán kényelmes hivatkozásokat biztosítunk a megfelelő megközelítési térképekhez.",
+    "description": "A <aip>magyar AIP légiforgalmi tájékoztató kiadvány</aip> ingyenesen elérhető. Ez a weboldal a repülőterek keresését hivatott egyszerűsíteni, mivel a HungaroControl változata nem tartalmaz keresőfunkciót. Nem vállalunk felelősséget az AIP (Aeronautical Information Publication) pontosságáért vagy naprakészségéért, mivel azt nem mi adjuk ki. Csupán kényelmes hivatkozásokat biztosítunk a megfelelő megközelítési térképekhez.",
     "aipUrl": "https://ais-en.hungarocontrol.hu/",
     "aipTitle": "AIP Magyarország"
   },

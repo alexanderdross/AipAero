@@ -145,7 +145,7 @@
   },
   "About": {
     "title": "Hvorfor denne nettsiden?",
-    "description": "Den <aip>norske luftfartshåndboken AIP</aip> er tilgjengelig som en gratis versjon fra Avinor. Denne nettsiden har som mål å gjøre det enklere å finne flyplasser, ettersom grunnversjonen ikke har et søkefelt. Vi tar ikke ansvar for riktigheten eller aktualiteten til AIP (Aeronautical Information Publication), da den ikke driftes av oss. Vi lenker kun til de tilhørende innflygingskartene.",
+    "description": "Den <aip>norske luftfartshåndboken AIP</aip> er tilgjengelig som en gratis versjon fra Avinor. Denne nettsiden har som mål å gjøre det enklere å finne flyplasser, ettersom grunnversjonen ikke har et søkefelt. Vi tar ikke ansvar for riktigheten eller aktualiteten til AIP (Aeronautical Information Publication), da den ikke utgis av oss. Vi lenker kun til de tilhørende innflygingskartene.",
     "aipUrl": "https://www.ippc.no/",
     "aipTitle": "Luftfartshåndbok AIP Norge"
   },
