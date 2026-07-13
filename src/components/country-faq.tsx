@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { SectionHeading } from "~/components/section-heading";
 import { getPathname } from "~/i18n/routing";
 
 /**
@@ -42,9 +43,9 @@ export async function CountryFaq({ locale }: { locale: string }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJson) }}
       />
       <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
-        <h2 className="text-center text-xl font-semibold tracking-tight">
+        <SectionHeading className="text-center text-xl font-semibold tracking-tight">
           {t("title")}
-        </h2>
+        </SectionHeading>
         <div className="mx-auto mt-6 flex max-w-3xl flex-col gap-5">
           {nums.map((i) => (
             <div key={i}>

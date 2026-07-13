@@ -19,6 +19,7 @@ import {
   rootDescription,
   rootTitle,
 } from "~/lib/utils";
+import { SectionHeading } from "~/components/section-heading";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
@@ -390,9 +391,9 @@ export default async function RootPage() {
           />
           <div className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
-              <h2 className="text-center text-xl font-semibold tracking-tight">
+              <SectionHeading className="text-center text-xl font-semibold tracking-tight">
                 Frequently asked questions
-              </h2>
+              </SectionHeading>
               <div className="mx-auto mt-6 flex max-w-3xl flex-col gap-5">
                 {faq.map(({ q, a, link }) => (
                   <div key={q}>
