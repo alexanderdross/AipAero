@@ -330,7 +330,7 @@
     "bulkTitle": "Lataa kokonainen maa",
     "bulkText": "<list>Lentopaikkaluettelosta</list> voit ladata kaikki maan lentopaikkasivut kerralla (vain sivut, ilman kartta-PDF:iä - ne tallennat kenttäkohtaisesti). Paketti näyttää kokonsa ennen latausta, ja sen voi milloin tahansa päivittää tai poistaa.",
     "favoritesTitle": "Suosikit & viimeksi katsotut",
-    "favoritesText": "Offline-tilaan tallennetut kentät näkyvät automaattisesti suosikkeina, ja viimeksi avatut lentopaikat listataan kohdassa \"Viimeksi katsotut\" - molemmat tallennetaan vain laitteellesi, ei tiliä. Löydät molemmat listat <country>maasivun alareunasta</country>.",
+    "favoritesText": "Offline-tilaan tallennetut kentät näkyvät automaattisesti suosikkeina, ja viimeksi avatut lentopaikat listataan kohdassa \"Viimeksi katsotut\" - molemmat tallennetaan vain laitteellesi, ei tiliä. Löydät molemmat listat <country>maasivulta</country>.",
     "importTitle": "Kartta-PDF:t ForeFlightissa, SkyDemonissa ym.",
     "importText": "Kun kansallinen AIP julkaisee kartta-PDF:iä, lentopaikkasivun karttalaatikko linkittää voimassa olevaan PDF:ään AIRAC-päivämäärineen. Lataa se ja tuo se EFB-sovellukseesi omana sisältönä, esim. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) tai Garmin Pilot. Saksa julkaisee HTML-sivuja PDF:ien sijaan - käytä siellä AIP-linkkiä.",
     "toolsTitle": "Siirto suunnittelutyökaluihin",
@@ -356,9 +356,9 @@
     "q1": "Mikä on AIP Suomi?",
     "a1": "AIP (ilmailukäsikirja) on Suomen virallinen ilmailujulkaisu, jonka julkaisee Fintraffic ANS: lentopaikkatiedot, menetelmät ja lähestymiskartat, päivitetään 28 päivän AIRAC-syklissä. AIP:Aero vie suoraan viralliseen julkaisuun.",
     "q2": "Ovatko lähestymiskartat ilmaisia?",
-    "a2": "Kyllä - Fintraffic ANS julkaisee Suomen AIP:n lähestymiskarttoineen maksutta, ja myös AIP:Aero on ilmainen: ei tiliä, ei tilausta.",
+    "a2": "Kyllä - Fintraffic ANS julkaisee Suomen AIP:n <list>lähestymiskarttoineen</list> maksutta, ja myös AIP:Aero on ilmainen: ei tiliä, ei tilausta.",
     "q3": "Mitä karttoja ja lentopaikkoja Suomelle on saatavilla?",
-    "a3": "Suomelle löydät VFR-lentopaikat ja helikopterikentät - jokaisella suora linkki viralliseen karttaan, tulkittu sää (METAR/TAF) ja lentopaikan tiedot.",
+    "a3": "Suomelle löydät <vfr>VFR-lentopaikat</vfr> ja <heli>helikopterikentät</heli> - jokaisella suora linkki viralliseen karttaan, tulkittu sää (METAR/TAF) ja lentopaikan tiedot.",
     "q4": "Voinko käyttää AIP:Aeroa offline-tilassa tai EFB:lläni?",
     "a4": "Kyllä - AIP:Aero asennetaan sovelluksena (PWA), ja yksittäiset kentät tai koko maan voi tallentaa offline-käyttöön. Katso <efb>EFB-opas</efb>."
   }

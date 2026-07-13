@@ -330,7 +330,7 @@
     "bulkTitle": "Ladda ner ett helt land",
     "bulkText": "Från <list>flygplatslistan</list> kan du ladda ner alla ett lands detaljsidor på en gång (endast sidor, utan kart-PDF:er - dem sparar du per fält). Paketet visar sin storlek före nedladdning och kan när som helst uppdateras eller tas bort.",
     "favoritesTitle": "Favoriter & senast visade",
-    "favoritesText": "Fält sparade offline visas automatiskt som favoriter, och de senast öppnade flygplatserna listas under \"Senast visade\" - båda lagras endast på din enhet, inget konto behövs. Du hittar båda listorna <country>längst ner på landssidan</country>.",
+    "favoritesText": "Fält sparade offline visas automatiskt som favoriter, och de senast öppnade flygplatserna listas under \"Senast visade\" - båda lagras endast på din enhet, inget konto behövs. Du hittar båda listorna <country>på landssidan</country>.",
     "importTitle": "Kart-PDF:er i ForeFlight, SkyDemon m.fl.",
     "importText": "Där den nationella AIP:en publicerar kart-PDF:er länkar kartrutan på detaljsidan till gällande PDF inklusive AIRAC-datum. Ladda ner den och importera den i din EFB-app som eget innehåll, t.ex. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland publicerar HTML-sidor i stället för PDF:er - använd AIP-länken där.",
     "toolsTitle": "Överlämning till planeringsverktyg",
@@ -356,9 +356,9 @@
     "q1": "Vad är AIP Sverige?",
     "a1": "AIP (Aeronautical Information Publication) är Sveriges officiella luftfartspublikation, utgiven av LFV: flygplatsdata, procedurer och inflygningskartor, uppdaterade i den 28-dagars AIRAC-cykeln. AIP:Aero länkar direkt till den officiella publikationen.",
     "q2": "Är inflygningskartorna gratis?",
-    "a2": "Ja - LFV publicerar AIP Sverige inklusive inflygningskartor gratis, och AIP:Aero är också gratis: inget konto, ingen prenumeration.",
+    "a2": "Ja - LFV publicerar AIP Sverige inklusive <list>inflygningskartor</list> gratis, och AIP:Aero är också gratis: inget konto, ingen prenumeration.",
     "q3": "Vilka kartor och flygplatser finns för Sverige?",
-    "a3": "För Sverige hittar du VFR-flygplatser och helikopterflygplatser - var och en med direktlänk till den officiella kartan, avkodat väder (METAR/TAF) och flygplatsdata.",
+    "a3": "För Sverige hittar du <vfr>VFR-flygplatser</vfr> och <heli>helikopterflygplatser</heli> - var och en med direktlänk till den officiella kartan, avkodat väder (METAR/TAF) och flygplatsdata.",
     "q4": "Kan jag använda AIP:Aero offline eller på min EFB?",
     "a4": "Ja - AIP:Aero kan installeras som app (PWA), och enskilda fält eller hela landet kan sparas offline. Se <efb>EFB-guiden</efb>."
   }

@@ -295,7 +295,7 @@
     "bulkTitle": "Stažení celé země",
     "bulkText": "Na <list>seznamu letišť</list> můžete stáhnout všechny detailní stránky země najednou (pouze stránky, bez PDF map - ty ukládejte po letištích). Balíček před stažením zobrazí svou velikost a lze jej kdykoli aktualizovat nebo odebrat.",
     "favoritesTitle": "Oblíbené & naposledy zobrazené",
-    "favoritesText": "Letiště uložená offline se automaticky objeví jako oblíbená a naposledy otevřená letiště najdete v sekci \"Naposledy zobrazené\" - obojí je uloženo pouze ve vašem zařízení, bez účtu. Oba seznamy najdete <country>na konci stránky země</country>.",
+    "favoritesText": "Letiště uložená offline se automaticky objeví jako oblíbená a naposledy otevřená letiště najdete v sekci \"Naposledy zobrazené\" - obojí je uloženo pouze ve vašem zařízení, bez účtu. Oba seznamy najdete <country>na stránce země</country>.",
     "importTitle": "PDF map ve ForeFlight, SkyDemon a dalších",
     "importText": "Kde národní AIP publikuje PDF map, odkazuje box s mapami na detailní stránce na aktuální PDF včetně data AIRAC. Stáhněte jej a importujte do své EFB aplikace jako vlastní obsah, např. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) nebo Garmin Pilot. Německo publikuje HTML stránky místo PDF - použijte tam odkaz na AIP.",
     "toolsTitle": "Předání do plánovacích nástrojů",
@@ -321,9 +321,9 @@
     "q1": "Co je AIP Česko?",
     "a1": "AIP (letecká informační příručka) je oficiální letecká příručka Česka, vydávaná ANS CR: data letišť, postupy a přibližovací mapy, aktualizované v 28denním cyklu AIRAC. AIP:Aero odkazuje přímo na oficiální publikaci.",
     "q2": "Jsou přibližovací mapy zdarma?",
-    "a2": "Ano - ANS CR vydává AIP Česka včetně přibližovacích map zdarma a AIP:Aero je také zdarma: bez účtu, bez předplatného.",
+    "a2": "Ano - ANS CR vydává AIP Česka včetně <list>přibližovacích map</list> zdarma a AIP:Aero je také zdarma: bez účtu, bez předplatného.",
     "q3": "Jaké mapy a letiště jsou pro Česko k dispozici?",
-    "a3": "Pro Česko najdete IFR letiště - každé s přímým odkazem na oficiální mapu, dekódovaným počasím (METAR/TAF) a daty letiště.",
+    "a3": "Pro Česko najdete <ifr>IFR letiště</ifr> - každé s přímým odkazem na oficiální mapu, dekódovaným počasím (METAR/TAF) a daty letiště.",
     "q4": "Mohu AIP:Aero používat offline nebo na svém EFB?",
     "a4": "Ano - AIP:Aero lze nainstalovat jako aplikaci (PWA) a jednotlivá letiště nebo celou zemi lze uložit offline. Viz <efb>průvodce EFB</efb>."
   }

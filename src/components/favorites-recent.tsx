@@ -33,10 +33,12 @@ function readEntries(key: string): LinkEntry[] {
  * Personal "Favorites" (the offline-saved fields) and "Recently viewed" lists
  * from localStorage (pilot-wishlist item; no account needed). Client-only by
  * nature - the data is personal and must never be in the indexable SSR HTML.
- * Web-performance guard rails: rendered at the very bottom of the page
- * (below the about box), so the post-hydration appearance happens below the
- * fold for virtually all viewports (no LCP/CLS impact on the indexable
- * content above); renders nothing for first-time visitors.
+ * Web-performance guard rails: rendered below the country cards (above the
+ * about box - owner decision 13.07.2026: returning pilots reach their fields
+ * without scrolling past first-timer content), which is still below the
+ * initial fold for virtually all viewports, so the post-hydration appearance
+ * costs no LCP/CLS on the indexable content; renders nothing for first-time
+ * visitors.
  */
 export function FavoritesRecent({
   favoritesLabel,

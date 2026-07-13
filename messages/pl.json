@@ -330,7 +330,7 @@
     "bulkTitle": "Pobranie całego kraju",
     "bulkText": "Z <list>listy lotnisk</list> możesz pobrać wszystkie strony szczegółowe kraju naraz (tylko strony, bez PDF-ów map - te zapisujesz per lotnisko). Pakiet pokazuje rozmiar przed pobraniem i można go w każdej chwili zaktualizować lub usunąć.",
     "favoritesTitle": "Ulubione & ostatnio oglądane",
-    "favoritesText": "Lotniska zapisane offline automatycznie pojawiają się jako ulubione, a ostatnio otwarte znajdziesz w sekcji \"Ostatnio oglądane\" - obie listy są przechowywane tylko na Twoim urządzeniu, bez konta. Znajdziesz je <country>na dole strony kraju</country>.",
+    "favoritesText": "Lotniska zapisane offline automatycznie pojawiają się jako ulubione, a ostatnio otwarte znajdziesz w sekcji \"Ostatnio oglądane\" - obie listy są przechowywane tylko na Twoim urządzeniu, bez konta. Znajdziesz je <country>na stronie kraju</country>.",
     "importTitle": "PDF-y map w ForeFlight, SkyDemon i innych",
     "importText": "Tam gdzie krajowy AIP publikuje PDF-y map, ramka map na stronie lotniska linkuje do aktualnego PDF-a wraz z datą AIRAC. Pobierz go i zaimportuj do aplikacji EFB jako własne materiały, np. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) lub Garmin Pilot. Niemcy publikują strony HTML zamiast PDF-ów - użyj tam linku do AIP.",
     "toolsTitle": "Przekazanie do narzędzi planowania",
@@ -356,9 +356,9 @@
     "q1": "Czym jest AIP Polska?",
     "a1": "AIP (Zbiór Informacji Lotniczych) to oficjalny podręcznik lotniczy Polski, wydawany przez PAŻP (PANSA): dane lotnisk, procedury i mapy podejścia, aktualizowane w 28-dniowym cyklu AIRAC. AIP:Aero prowadzi bezpośrednio do oficjalnej publikacji.",
     "q2": "Czy mapy podejścia są bezpłatne?",
-    "a2": "Tak - PAŻP publikuje AIP Polski wraz z mapami podejścia bezpłatnie, a AIP:Aero również jest bezpłatne: bez konta, bez abonamentu.",
+    "a2": "Tak - PAŻP publikuje AIP Polski wraz z <list>mapami podejścia</list> bezpłatnie, a AIP:Aero również jest bezpłatne: bez konta, bez abonamentu.",
     "q3": "Jakie mapy i lotniska są dostępne dla Polski?",
-    "a3": "Dla Polski znajdziesz lotniska VFR i lądowiska śmigłowcowe - każde z bezpośrednim linkiem do oficjalnej mapy, odkodowaną pogodą (METAR/TAF) i danymi lotniska.",
+    "a3": "Dla Polski znajdziesz <vfr>lotniska VFR</vfr> i <heli>lądowiska śmigłowcowe</heli> - każde z bezpośrednim linkiem do oficjalnej mapy, odkodowaną pogodą (METAR/TAF) i danymi lotniska.",
     "q4": "Czy mogę korzystać z AIP:Aero offline lub na moim EFB?",
     "a4": "Tak - AIP:Aero można zainstalować jako aplikację (PWA), a pojedyncze lotniska lub cały kraj można zapisać offline. Zobacz <efb>przewodnik EFB</efb>."
   }

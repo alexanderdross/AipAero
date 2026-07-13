@@ -330,7 +330,7 @@
     "bulkTitle": "Ein ganzes Land herunterladen",
     "bulkText": "Auf der <list>Flughafen-Liste</list> kannst du alle Detailseiten eines Landes auf einmal herunterladen (nur Seiten, ohne Karten-PDFs - die speicherst du pro Platz). Das Paket zeigt vor dem Download seine Größe und lässt sich jederzeit aktualisieren oder entfernen.",
     "favoritesTitle": "Favoriten & zuletzt angesehen",
-    "favoritesText": "Offline gespeicherte Plätze erscheinen automatisch als Favoriten, und die zuletzt geöffneten Flugplätze stehen unter \"Zuletzt angesehen\" - beides liegt nur auf Ihrem Gerät, kein Konto nötig. Beide Listen finden Sie <country>am Ende der Länderseite</country>.",
+    "favoritesText": "Offline gespeicherte Plätze erscheinen automatisch als Favoriten, und die zuletzt geöffneten Flugplätze stehen unter \"Zuletzt angesehen\" - beides liegt nur auf Ihrem Gerät, kein Konto nötig. Beide Listen finden Sie <country>auf der Länderseite</country>.",
     "importTitle": "Karten-PDFs in ForeFlight, SkyDemon & Co.",
     "importText": "Wo die nationale AIP Karten-PDFs veröffentlicht, verlinkt die Karten-Box auf der Detailseite das aktuelle PDF inklusive AIRAC-Datum. Lade es herunter und importiere es in deine EFB-App als eigenes Kartenmaterial, z.B. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) oder Garmin Pilot. Deutschland veröffentlicht HTML-Seiten statt PDFs - nutze dort den AIP-Link.",
     "toolsTitle": "Übergabe an Planungstools",
@@ -356,9 +356,9 @@
     "q1": "Was ist die AIP Österreich?",
     "a1": "Die AIP (Aeronautical Information Publication) ist das offizielle Luftfahrthandbuch für Österreich, herausgegeben von Austro Control: Flugplatzdaten, Verfahren und Anflugkarten, aktualisiert im 28-Tage-AIRAC-Zyklus. AIP:Aero verlinkt direkt auf die offizielle Publikation.",
     "q2": "Sind die Anflugkarten kostenlos?",
-    "a2": "Ja - Austro Control veröffentlicht die AIP für Österreich einschließlich der Anflugkarten kostenlos, und auch AIP:Aero ist kostenlos: kein Konto, kein Abo.",
+    "a2": "Ja - Austro Control veröffentlicht die AIP für Österreich einschließlich der <list>Anflugkarten</list> kostenlos, und auch AIP:Aero ist kostenlos: kein Konto, kein Abo.",
     "q3": "Welche Karten und Flugplätze gibt es für Österreich?",
-    "a3": "Für Österreich finden Sie VFR-Flugplätze und Hubschrauberlandeplätze - jeweils mit direktem Link zur offiziellen Karte, entschlüsseltem Wetter (METAR/TAF) und Flugplatzdaten.",
+    "a3": "Für Österreich finden Sie <vfr>VFR-Flugplätze</vfr> und <heli>Hubschrauberlandeplätze</heli> - jeweils mit direktem Link zur offiziellen Karte, entschlüsseltem Wetter (METAR/TAF) und Flugplatzdaten.",
     "q4": "Kann ich AIP:Aero offline oder auf dem EFB nutzen?",
     "a4": "Ja - AIP:Aero lässt sich als App (PWA) installieren, und einzelne Plätze oder das ganze Land können offline gespeichert werden. Siehe <efb>EFB-Anleitung</efb>."
   }

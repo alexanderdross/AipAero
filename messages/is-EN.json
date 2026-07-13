@@ -300,7 +300,7 @@
     "bulkTitle": "Download a whole country",
     "bulkText": "On the <list>airport list</list> you can download all of a country's detail pages in one go (pages only, without chart PDFs - save those per field). The pack shows its size before downloading and can be updated or removed at any time.",
     "favoritesTitle": "Favorites & recently viewed",
-    "favoritesText": "Fields you save for offline use automatically appear as favorites, and the last airfields you opened are listed under \"Recently viewed\" - both are stored only on your device, no account needed. You will find both lists <country>at the bottom of the country page</country>.",
+    "favoritesText": "Fields you save for offline use automatically appear as favorites, and the last airfields you opened are listed under \"Recently viewed\" - both are stored only on your device, no account needed. You will find both lists <country>on the country page</country>.",
     "importTitle": "Chart PDFs in ForeFlight, SkyDemon & Co.",
     "importText": "Where the national AIP publishes chart PDFs, the chart box on the detail page links the current PDF including its AIRAC date. Download it and import it into your EFB app as custom content, e.g. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) or Garmin Pilot. Germany publishes HTML pages instead of PDFs - use the AIP link there.",
     "toolsTitle": "Hand-offs to planning tools",
@@ -326,9 +326,9 @@
     "q1": "What is the AIP Iceland?",
     "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Iceland, published by Isavia: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
     "q2": "Are the approach charts free?",
-    "a2": "Yes - Isavia publishes the AIP of Iceland including approach charts free of charge, and AIP:Aero is free too: no account, no subscription.",
+    "a2": "Yes - Isavia publishes the AIP of Iceland including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
     "q3": "Which charts and airfields are available for Iceland?",
-    "a3": "For Iceland you will find VFR airfields - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
+    "a3": "For Iceland you will find <vfr>VFR airfields</vfr> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
     "q4": "Can I use AIP:Aero offline or on my EFB?",
     "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
   }

@@ -300,7 +300,7 @@
     "bulkTitle": "Teljes ország letöltése",
     "bulkText": "A <list>repülőtérlistáról</list> egyszerre letöltheted egy ország összes részletoldalát (csak az oldalakat, a térkép PDF-ek nélkül - azokat repülőterenként mentheted). A csomag a letöltés előtt mutatja a méretét, és bármikor frissíthető vagy eltávolítható.",
     "favoritesTitle": "Kedvencek & legutóbb megtekintett",
-    "favoritesText": "Az offline mentett repülőterek automatikusan kedvencként jelennek meg, a legutóbb megnyitottak pedig a \"Legutóbb megtekintett\" listában - mindkettő csak az eszközén tárolódik, fiók nélkül. Mindkét listát <country>az országoldal alján</country> találja.",
+    "favoritesText": "Az offline mentett repülőterek automatikusan kedvencként jelennek meg, a legutóbb megnyitottak pedig a \"Legutóbb megtekintett\" listában - mindkettő csak az eszközén tárolódik, fiók nélkül. Mindkét listát <country>az országoldalon</country> találja.",
     "importTitle": "Térkép PDF-ek a ForeFlight, SkyDemon és más alkalmazásokban",
     "importText": "Ahol a nemzeti AIP térkép PDF-eket tesz közzé, a részletoldal térképdoboza az aktuális PDF-re hivatkozik, az AIRAC-dátummal együtt. Töltsd le, és importáld az EFB alkalmazásodba saját tartalomként, pl. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) vagy Garmin Pilot. Németország PDF-ek helyett HTML-oldalakat tesz közzé - ott az AIP-hivatkozást használd.",
     "toolsTitle": "Átadás a tervezőeszközöknek",
@@ -326,9 +326,9 @@
     "q1": "Mi az AIP Magyarország?",
     "a1": "Az AIP (légiforgalmi tájékoztató kiadvány) Magyarország hivatalos légiforgalmi kézikönyve, amelyet a HungaroControl ad ki: repülőtéri adatok, eljárások és megközelítési térképek, a 28 napos AIRAC-ciklusban frissítve. Az AIP:Aero közvetlenül a hivatalos kiadványra mutat.",
     "q2": "Ingyenesek a megközelítési térképek?",
-    "a2": "Igen - a HungaroControl ingyenesen teszi közzé Magyarország AIP-jét a megközelítési térképekkel együtt, és az AIP:Aero is ingyenes: fiók és előfizetés nélkül.",
+    "a2": "Igen - a HungaroControl ingyenesen teszi közzé Magyarország AIP-jét a <list>megközelítési térképekkel</list> együtt, és az AIP:Aero is ingyenes: fiók és előfizetés nélkül.",
     "q3": "Milyen térképek és repülőterek érhetők el Magyarországhoz?",
-    "a3": "Magyarországhoz VFR repülőtereket talál - mindegyikhez közvetlen link a hivatalos térképre, dekódolt időjárás (METAR/TAF) és repülőtéri adatok.",
+    "a3": "Magyarországhoz <vfr>VFR repülőtereket</vfr> talál - mindegyikhez közvetlen link a hivatalos térképre, dekódolt időjárás (METAR/TAF) és repülőtéri adatok.",
     "q4": "Használhatom az AIP:Aerót offline vagy az EFB-men?",
     "a4": "Igen - az AIP:Aero alkalmazásként (PWA) telepíthető, és egyes repülőterek vagy az egész ország offline is elmenthető. Lásd az <efb>EFB-útmutatót</efb>."
   }

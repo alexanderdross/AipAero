@@ -59,31 +59,69 @@ VERIFIZIERT:**
   application.") - client-seitig zeigt das Routing dann "not found"
   (Owner-Screenshot). Der entfernte Deep-Link bleibt draußen.
 
-**Noch offen:**
+**Stand 13.07.2026, Runde 2 (Run 29286529102, dump_url der vier
+Unterseiten) - ENDPUNKTE VERIFIZIERT:**
 
-1. Detail-Dump der Unterseiten `/wiki/api/notams`,
-   `/wiki/api/authentication/`, `/wiki/api/weather`,
-   `/wiki/api/briefing/` (Request-/Response-Formate, GRAMET ja/nein).
-2. Nutzungsbedingungen + Attributionspflichten zitieren; unklar → Owner
-   fragt beim Betreiber an (kommerzielle Nutzung auf werbefinanzierter
-   Seite).
-3. Test-Call vom Runner mit einem Owner-Account-Token: 1x Token holen,
-   1x NOTAM-Abruf für EDDF/EDNY, Latenz + Payload-Größe notieren.
+- **NOTAM-Suche** (genau unser Anwendungsfall, KEIN Route-Objekt nötig):
+  `GET https://api.autorouter.aero/v1.0/notam?itemas=["EDDS"]&offset=0&limit=10`
+  - `itemas` = JSON-Array von Item-A-Kennungen (ICAO-Airport ODER FIR),
+    `offset`/`limit` (max 100), `startvalidity`/`endvalidity`
+    (Unix-Sekunden). Response `{total, rows[]}` mit u.a. `iteme`
+    (NOTAM-Text), `itema`, `code23`/`code45` (Q-Code-Teile), `fir`,
+    `endvalidity`, `modified`, `lat`/`lon` (Garmin-Format, mal
+    `90 / 2^30`), `lower`/... - reicht für Kategorie-Badge, Gültigkeit
+    und Klartext.
+  - Datenquelle laut Doku: **Eurocontrol EAD / INO** - "the only
+    authoritative and trustworthy source of European NOTAMs". Für
+    Europa also BESSER als die FAA-Quelle.
+- **Auth**: OAuth 2.0 **client_credentials** - `POST
+  https://api.autorouter.aero/v1.0/oauth2/token` mit
+  `grant_type=client_credentials`, `client_id` = Account-E-Mail,
+  `client_secret` = Passwort; Access-Token ~1 h gültig (Token im
+  Incremental Cache mit TTL < 1 h wiederverwenden). WICHTIG: "your
+  account with autorouter has to be configured to allow for API access.
+  Please request this permission via the support ticket function" -
+  Owner-Schritt, siehe unten.
+- **METAR/TAF**: `GET /v1.0/met/metartaf/<icao>` (null wenn keine
+  Station) - möglicher Fallback/Vergleich zu AWC, kein Muss.
+- **GRAMET**: doch einzeln verfügbar - `GET /v1.0/met/gramet` mit `fpl`
+  (ICAO-FPL-String) ODER `waypoints` + `departuretime` + `totaleet` +
+  `altitude`; `format=pdf|png`; synchron, liefert eine Datei. Bleibt
+  ROUTE-basiert (braucht Wegpunkte + Zeiten) → bestätigt Phase 3
+  ("Route briefen"). **GAMET existiert in der API nicht** (Briefing-Items
+  decken sigwx/mslp/temsi ab, kein GAMET).
+- **Briefing-Pack** (`GET /v1.0/flightplan/<routeid>/briefing?...`, 19
+  Items inkl. `notam` + `gramet`, sync PDF oder non-blocking POST +
+  Poll-Token): braucht ein Route-Objekt - für die Detailseiten
+  irrelevant, relevant erst für ein Route-Feature.
+- **Terms/Limits**: kein explizites Rate-Limit dokumentiert (nur
+  `limit` max 100 + 1-h-Token); Footer verweist auf "autorouter AG
+  Terms and Conditions". Attributionspflicht nicht in der API-Doku
+  erwähnt.
 
-Abbruchkriterien: Terms verbieten Weiterveröffentlichung; kein
-account-loser Server-zu-Server-Flow möglich; Rate-Limits unter ~1 req/s.
+**Noch offen (Owner):**
+
+1. **API-Freischaltung per Support-Ticket beantragen** (dabei direkt
+   die Nutzung auf aip.aero ansprechen - klärt Terms/Attribution in
+   einem Schritt).
+2. Danach: Test-Call vom Runner (Token + 1x NOTAM-Abruf EDDF/EDNY,
+   Latenz + Payload notieren) - dann kann Phase 1 starten.
+
+Abbruchkriterien: Terms verbieten Weiterveröffentlichung; Freischaltung
+wird nicht erteilt; Rate-Limits unter ~1 req/s.
 
 ## Architektur (Workers/Next.js Best Practices)
 
 Gleiches Muster wie das Wetter (`src/lib/weather.ts`) - server-seitig,
 gecacht, fail-soft:
 
-- **`src/lib/autorouter.ts`**: Fetch-Client. OAuth2-Token (Credentials als
-  Worker-Secrets `AUTOROUTER_USER`/`AUTOROUTER_PASSWORD` bzw. Client-ID/
-  Secret, je nach Doku; in `src/env.js` validiert, `.env.example` +
-  `.dev.vars.example` ergänzt). Das ACCESS-TOKEN wird über den OpenNext
-  Incremental Cache wiederverwendet (TTL = Token-Lifetime minus Puffer),
-  damit nicht jeder Seitenaufruf den Token-Endpunkt trifft.
+- **`src/lib/autorouter.ts`**: Fetch-Client. OAuth2 client_credentials
+  (verifiziert): `client_id` = Account-E-Mail, `client_secret` =
+  Passwort als Worker-Secrets `AUTOROUTER_USER`/`AUTOROUTER_PASSWORD`
+  (in `src/env.js` validiert, `.env.example` + `.dev.vars.example`
+  ergänzt). Das ACCESS-TOKEN (~1 h) wird über den OpenNext Incremental
+  Cache wiederverwendet (TTL ~50 min), damit nicht jeder Seitenaufruf
+  den Token-Endpunkt trifft.
 - **`src/lib/notam-parse.ts`**: purer, dependency-freier Parser/Mapper
   (Q-Code-Kategorie, Gültigkeitsfenster von/bis, Text) - unit-testbar wie
   `openaip-parse.ts` / `metar-decode.ts`.

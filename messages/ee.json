@@ -330,7 +330,7 @@
     "bulkTitle": "Laadi alla terve riik",
     "bulkText": "<list>Lennuväljade nimekirjast</list> saad ühe korraga alla laadida kõik riigi detailvaate lehed (ainult lehed, ilma kaardi-PDF-ideta - need salvesta iga väljaku kohta eraldi). Pakett näitab enne allalaadimist oma suurust ning seda saab igal ajal uuendada või eemaldada.",
     "favoritesTitle": "Lemmikud & viimati vaadatud",
-    "favoritesText": "Offline salvestatud väljad ilmuvad automaatselt lemmikutena ja viimati avatud lennuväljad on loendis \"Viimati vaadatud\" - mõlemad on ainult sinu seadmes, kontot pole vaja. Mõlemad loendid leiad <country>riigilehe lõpust</country>.",
+    "favoritesText": "Offline salvestatud väljad ilmuvad automaatselt lemmikutena ja viimati avatud lennuväljad on loendis \"Viimati vaadatud\" - mõlemad on ainult sinu seadmes, kontot pole vaja. Mõlemad loendid leiad <country>riigilehelt</country>.",
     "importTitle": "Kaardi-PDF-id ForeFlightis, SkyDemonis jm",
     "importText": "Kui riiklik AIP avaldab kaardi-PDF-e, lingib detailvaate lehe kaardikast kehtiva PDF-i koos AIRAC-kuupäevaga. Laadi see alla ja impordi oma EFB-rakendusse oma sisuna, nt ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) või Garmin Pilot. Saksamaa avaldab PDF-ide asemel HTML-lehti - kasuta seal AIP-linki.",
     "toolsTitle": "Edastamine planeerimistööriistadesse",
@@ -356,9 +356,9 @@
     "q1": "Mis on AIP Eesti?",
     "a1": "AIP (aeronavigatsiooniteabe kogumik) on Eesti ametlik lennundusteatmik, mille annab välja EANS: lennuväljade andmed, protseduurid ja lähenemiskaardid, uuendatakse 28-päevases AIRAC-tsüklis. AIP:Aero viib otse ametliku väljaandeni.",
     "q2": "Kas lähenemiskaardid on tasuta?",
-    "a2": "Jah - EANS avaldab Eesti AIP koos lähenemiskaartidega tasuta ja ka AIP:Aero on tasuta: konto pole vaja, tellimust pole.",
+    "a2": "Jah - EANS avaldab Eesti AIP koos <list>lähenemiskaartidega</list> tasuta ja ka AIP:Aero on tasuta: konto pole vaja, tellimust pole.",
     "q3": "Millised kaardid ja lennuväljad on Eesti jaoks saadaval?",
-    "a3": "Eesti jaoks leiad VFR-lennuväljad ja kopteriväljakud - igaühel otselink ametlikule kaardile, dekodeeritud ilm (METAR/TAF) ja lennuvälja andmed.",
+    "a3": "Eesti jaoks leiad <vfr>VFR-lennuväljad</vfr> ja <heli>kopteriväljakud</heli> - igaühel otselink ametlikule kaardile, dekodeeritud ilm (METAR/TAF) ja lennuvälja andmed.",
     "q4": "Kas AIP:Aero't saab kasutada võrguühenduseta või EFB-l?",
     "a4": "Jah - AIP:Aero on installitav rakendusena (PWA) ning üksikuid väljakuid või kogu riiki saab salvestada võrguühenduseta kasutamiseks. Vaata <efb>EFB-juhendit</efb>."
   }

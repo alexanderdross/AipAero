@@ -19,7 +19,8 @@ import {
   rootDescription,
   rootTitle,
 } from "~/lib/utils";
-import { SectionHeading } from "~/components/section-heading";
+import { HashDetailsOpener } from "~/components/hash-details-opener";
+import { SectionHeading, slugify } from "~/components/section-heading";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
@@ -106,13 +107,12 @@ export default async function RootPage() {
   const modifiedDate = new Date(buildDate);
 
   // FAQ entries - ONE array drives the visible section AND the FAQPage
-  // JSON-LD below. Answers are plain quotable prose (GEO); the optional
-  // link renders only in the visible copy.
-  const faq: {
-    q: string;
-    a: string;
-    link?: { href: string; label: string; title: string };
-  }[] = [
+  // JSON-LD below. `a` is the plain quotable prose (GEO + JSON-LD); the
+  // optional `render` adds internal links to the VISIBLE copy only
+  // (accordion conventions in CLAUDE.md - links carry a permanent underline,
+  // axe link-in-text-block).
+  const inlineLink = "text-drossblue underline";
+  const faq: { q: string; a: string; render?: React.ReactNode }[] = [
     {
       q: "What is an AIP (Aeronautical Information Publication)?",
       a: "An AIP is the official aeronautical manual a state publishes for pilots: aerodrome data, operational procedures and approach charts, maintained by the national air navigation service provider (DFS in Germany, Austro Control in Austria, and so on) and amended in the 28-day AIRAC cycle. AIP:Aero links you straight to these official publications.",
@@ -120,10 +120,41 @@ export default async function RootPage() {
     {
       q: "Where can I get free VFR and IFR approach charts?",
       a: "Most European countries publish their AIP including approach charts free of charge - they are just hard to find and search. Pick a country above, choose VFR, IFR or heliports and open the aerodrome: AIP:Aero links the official chart (usually a PDF) for every listed field, no account needed.",
+      render: (
+        <>
+          Most European countries publish their AIP including approach charts
+          free of charge - they are just hard to find and search. Pick a{" "}
+          <a
+            href="#countries"
+            title="All covered countries on this page"
+            className={inlineLink}
+          >
+            country above
+          </a>
+          , choose VFR, IFR or heliports and open the aerodrome: AIP:Aero links
+          the official chart (usually a PDF) for every listed field, no account
+          needed.
+        </>
+      ),
     },
     {
       q: "How do I find an airport by its ICAO code, like EDDF or LFPG?",
       a: "Type the ICAO code or the airport name into the search box at the top - it searches all countries at once. Every aerodrome also has its own permanent page (for example aip.aero/de/vfr/?EDDF) with the approach chart, runways, frequencies and live weather.",
+      render: (
+        <>
+          Type the ICAO code or the airport name into the search box at the top
+          - it searches all countries at once. Every aerodrome also has its own
+          permanent page (for example{" "}
+          <Link
+            href="/de/vfr/?EDDF"
+            title="AIP VFR chart, weather and airport data for Frankfurt (EDDF)"
+            className={inlineLink}
+          >
+            aip.aero/de/vfr/?EDDF
+          </Link>
+          ) with the approach chart, runways, frequencies and live weather.
+        </>
+      ),
     },
     {
       q: "Are the charts up to date and official?",
@@ -132,15 +163,39 @@ export default async function RootPage() {
     {
       q: "Which countries are covered?",
       a: `AIP:Aero currently covers ${liveCountries.length} European countries, from Austria to the United Kingdom - the full list with all chart types is right on this page, and coverage keeps growing.`,
+      render: (
+        <>
+          AIP:Aero currently covers {liveCountries.length} European countries,
+          from Austria to the United Kingdom - the{" "}
+          <a
+            href="#countries"
+            title="All covered countries with their chart types"
+            className={inlineLink}
+          >
+            full list with all chart types
+          </a>{" "}
+          is right on this page, and coverage keeps growing.
+        </>
+      ),
     },
     {
       q: "Can I use AIP:Aero offline or on my EFB tablet?",
-      a: "Yes - AIP:Aero installs as an app (PWA) on iPad, Android and desktop, and you can save single aerodromes or whole country packs for offline use.",
-      link: {
-        href: "/uk/efb/",
-        label: "See the EFB guide",
-        title: "AIP:Aero on your EFB - install, offline charts, import",
-      },
+      a: "Yes - AIP:Aero installs as an app (PWA) on iPad, Android and desktop, and you can save single aerodromes or whole country packs for offline use. See the EFB guide.",
+      render: (
+        <>
+          Yes - AIP:Aero installs as an app (PWA) on iPad, Android and desktop,
+          and you can save single aerodromes or whole country packs for offline
+          use.{" "}
+          <Link
+            href="/uk/efb/"
+            title="AIP:Aero on your EFB - install, offline charts, import"
+            className={inlineLink}
+          >
+            See the EFB guide
+          </Link>
+          .
+        </>
+      ),
     },
   ];
 
@@ -323,8 +378,12 @@ export default async function RootPage() {
             </ul>
           </nav>
 
-          {/* Country Boxes */}
-          <div className="mx-auto mt-4 max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Country Boxes - id="countries": anchor target for the FAQ's
+              internal links and any external deep link to the country grid. */}
+          <div
+            id="countries"
+            className="mx-auto mt-4 max-w-7xl scroll-mt-24 px-4 sm:px-6 lg:px-8"
+          >
             <div
               className={"grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"}
             >
@@ -394,42 +453,38 @@ export default async function RootPage() {
               SSR-collapsed (no CLS), answers stay in the crawlable HTML. */}
           <div className="mx-auto mt-16 max-w-3xl px-4 sm:px-6 lg:px-8">
             <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
-              <SectionHeading className="text-center text-xl font-semibold tracking-tight">
+              <HashDetailsOpener />
+              <SectionHeading
+                linkTitle="Frequently asked questions about AIPs & approach charts in Europe"
+                className="text-center text-xl font-semibold tracking-tight"
+              >
                 Frequently asked questions
               </SectionHeading>
               <div className="divide-drossgray-dark/10 mt-4 divide-y">
-                {faq.map(({ q, a, link }) => (
-                  <details key={q} className="group py-1">
-                    <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-x-2 py-2 [&::-webkit-details-marker]:hidden">
-                      <h3 className="font-semibold">{q}</h3>
-                      <span
-                        aria-hidden="true"
-                        className="text-drossgray-dark shrink-0 transition-transform group-open:rotate-90"
+                {faq.map(({ q, a, render }) => {
+                  const slug = slugify(q);
+                  return (
+                    <details
+                      key={q}
+                      id={slug}
+                      className="group scroll-mt-24 py-1"
+                    >
+                      <summary
+                        title={q}
+                        className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-x-2 py-2 [&::-webkit-details-marker]:hidden"
                       >
-                        ›
-                      </span>
-                    </summary>
-                    <p className="text-drossgray-dark pb-3">
-                      {a}
-                      {link && (
-                        <>
-                          {" "}
-                          {/* Permanent underline: inside gray body copy the
-                              blue alone fails axe link-in-text-block (<3:1
-                              against the surrounding text). */}
-                          <a
-                            href={link.href}
-                            title={link.title}
-                            className="text-drossblue underline"
-                          >
-                            {link.label}
-                          </a>
-                          .
-                        </>
-                      )}
-                    </p>
-                  </details>
-                ))}
+                        <h3 className="font-semibold">{q}</h3>
+                        <span
+                          aria-hidden="true"
+                          className="text-drossgray-dark shrink-0 transition-transform group-open:rotate-90"
+                        >
+                          ›
+                        </span>
+                      </summary>
+                      <p className="text-drossgray-dark pb-3">{render ?? a}</p>
+                    </details>
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -330,7 +330,7 @@
     "bulkTitle": "Download et helt land",
     "bulkText": "På <list>flyvepladslisten</list> kan du downloade alle et lands detaljesider på én gang (kun sider, uden kort-PDF'er - dem gemmer du pr. plads). Pakken viser sin størrelse før download og kan altid opdateres eller fjernes.",
     "favoritesTitle": "Favoritter & senest viste",
-    "favoritesText": "Pladser gemt offline vises automatisk som favoritter, og de senest åbnede flyvepladser står under \"Senest viste\" - begge gemmes kun på din enhed, ingen konto nødvendig. Du finder begge lister <country>nederst på landesiden</country>.",
+    "favoritesText": "Pladser gemt offline vises automatisk som favoritter, og de senest åbnede flyvepladser står under \"Senest viste\" - begge gemmes kun på din enhed, ingen konto nødvendig. Du finder begge lister <country>på landesiden</country>.",
     "importTitle": "Kort-PDF'er i ForeFlight, SkyDemon m.fl.",
     "importText": "Hvor den nationale AIP udgiver kort-PDF'er, linker kortboksen på detaljesiden til den gældende PDF inklusive AIRAC-dato. Download den og importer den i din EFB-app som eget indhold, f.eks. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland udgiver HTML-sider i stedet for PDF'er - brug AIP-linket dér.",
     "toolsTitle": "Videregivelse til planlægningsværktøjer",
@@ -356,9 +356,9 @@
     "q1": "Hvad er AIP Danmark?",
     "a1": "AIP (Aeronautical Information Publication) er Danmarks officielle luftfartshåndbog, udgivet af Naviair: flyvepladsdata, procedurer og indflyvningskort, opdateret i den 28-dages AIRAC-cyklus. AIP:Aero linker direkte til den officielle publikation.",
     "q2": "Er indflyvningskortene gratis?",
-    "a2": "Ja - Naviair udgiver AIP Danmark inklusive indflyvningskort gratis, og AIP:Aero er også gratis: ingen konto, intet abonnement.",
+    "a2": "Ja - Naviair udgiver AIP Danmark inklusive <list>indflyvningskort</list> gratis, og AIP:Aero er også gratis: ingen konto, intet abonnement.",
     "q3": "Hvilke kort og flyvepladser findes for Danmark?",
-    "a3": "For Danmark finder du VFR-flyvepladser og helikopterlandingspladser - hver med direkte link til det officielle kort, afkodet vejr (METAR/TAF) og flyvepladsdata.",
+    "a3": "For Danmark finder du <vfr>VFR-flyvepladser</vfr> og <heli>helikopterlandingspladser</heli> - hver med direkte link til det officielle kort, afkodet vejr (METAR/TAF) og flyvepladsdata.",
     "q4": "Kan jeg bruge AIP:Aero offline eller på min EFB?",
     "a4": "Ja - AIP:Aero kan installeres som app (PWA), og enkelte pladser eller hele landet kan gemmes offline. Se <efb>EFB-guiden</efb>."
   }

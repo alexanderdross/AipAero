@@ -300,7 +300,7 @@
     "bulkTitle": "Sækja heilt land",
     "bulkText": "Af <list>flugvallalistanum</list> getur þú sótt allar flugvallasíður lands í einu (aðeins síður, án PDF-korta - þau vistast fyrir hvern flugvöll). Pakkinn sýnir stærð sína fyrir niðurhal og hægt er að uppfæra hann eða fjarlægja hvenær sem er.",
     "favoritesTitle": "Uppáhalds & nýlega skoðað",
-    "favoritesText": "Vellir vistaðir án nettengingar birtast sjálfkrafa sem uppáhalds, og síðast opnuðu flugvellirnir eru undir \"Nýlega skoðað\" - hvort tveggja er aðeins geymt í tækinu þínu, enginn aðgangur nauðsynlegur. Báða listana finnur þú <country>neðst á landssíðunni</country>.",
+    "favoritesText": "Vellir vistaðir án nettengingar birtast sjálfkrafa sem uppáhalds, og síðast opnuðu flugvellirnir eru undir \"Nýlega skoðað\" - hvort tveggja er aðeins geymt í tækinu þínu, enginn aðgangur nauðsynlegur. Báða listana finnur þú <country>á landssíðunni</country>.",
     "importTitle": "PDF-kort í ForeFlight, SkyDemon og fleiri",
     "importText": "Þegar landsbundin AIP gefur út PDF-kort tengir kortareiturinn á flugvallasíðunni á gildandi PDF ásamt AIRAC-dagsetningu þess. Sæktu það og fluttu það inn í EFB-appið þitt sem eigið efni, t.d. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eða Garmin Pilot. Þýskaland gefur út HTML-síður í stað PDF - notaðu þar AIP-hlekkinn.",
     "toolsTitle": "Tenging við skipulagsverkfæri",
@@ -326,9 +326,9 @@
     "q1": "Hvað er AIP Ísland?",
     "a1": "AIP (flugmálahandbókin) er opinber flughandbók Íslands, gefin út af Isavia: flugvallagögn, verklag og aðflugskort, uppfærð í 28 daga AIRAC-hringrásinni. AIP:Aero vísar beint á opinberu útgáfuna.",
     "q2": "Eru aðflugskortin ókeypis?",
-    "a2": "Já - Isavia gefur út AIP Íslands ásamt aðflugskortum án endurgjalds, og AIP:Aero er einnig ókeypis: enginn aðgangur, engin áskrift.",
+    "a2": "Já - Isavia gefur út AIP Íslands ásamt <list>aðflugskortum</list> án endurgjalds, og AIP:Aero er einnig ókeypis: enginn aðgangur, engin áskrift.",
     "q3": "Hvaða kort og flugvellir eru í boði fyrir Ísland?",
-    "a3": "Fyrir Ísland finnur þú VFR-flugvelli - hver með beinum tengli á opinbera kortið, afkóðað veður (METAR/TAF) og flugvallagögn.",
+    "a3": "Fyrir Ísland finnur þú <vfr>VFR-flugvelli</vfr> - hver með beinum tengli á opinbera kortið, afkóðað veður (METAR/TAF) og flugvallagögn.",
     "q4": "Get ég notað AIP:Aero án nettengingar eða á EFB?",
     "a4": "Já - AIP:Aero má setja upp sem app (PWA), og hægt er að vista einstaka velli eða allt landið til notkunar án nettengingar. Sjá <efb>EFB-leiðbeiningarnar</efb>."
   }
