@@ -222,6 +222,9 @@
     "buttonHrefTitle": "Trade:Aero - Europe's largest aircraft marketplace"
   },
   "Footer": {
+    "navTitle": "Navigation",
+    "legalTitle": "Legal & contact",
+    "partnersTitle": "Partners",
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",
       "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
@@ -239,17 +242,17 @@
     },
     "imprint": {
       "title": "Imprint",
-      "hrefTitle": "Imprint",
+      "hrefTitle": "Imprint - Dross:Network",
       "href": "https://dross.net/imprint"
     },
     "contact": {
       "title": "Contact",
-      "hrefTitle": "Contact",
+      "hrefTitle": "Contact - Dross:Network",
       "href": "https://dross.net/contact"
     },
     "privacy": {
       "title": "Privacy",
-      "hrefTitle": "Privacy Policy",
+      "hrefTitle": "Privacy Policy - Dross:Network",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {

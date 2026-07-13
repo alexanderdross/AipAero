@@ -152,6 +152,9 @@
     "buttonHrefTitle": "Trade:Aero - największy rynek samolotów w Europie"
   },
   "Footer": {
+    "navTitle": "Nawigacja",
+    "legalTitle": "Informacje prawne i kontakt",
+    "partnersTitle": "Partnerzy",
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",
       "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
@@ -169,17 +172,17 @@
     },
     "imprint": {
       "title": "Nota prawna",
-      "hrefTitle": "Nota prawna",
+      "hrefTitle": "Nota prawna - Dross:Network",
       "href": "https://dross.net/imprint"
     },
     "contact": {
       "title": "Kontakt",
-      "hrefTitle": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
       "href": "https://dross.net/contact"
     },
     "privacy": {
       "title": "Prywatność",
-      "hrefTitle": "Polityka prywatności",
+      "hrefTitle": "Polityka prywatności - Dross:Network",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {

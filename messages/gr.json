@@ -152,6 +152,9 @@
     "buttonHrefTitle": "Trade:Aero - η μεγαλύτερη αγορά αεροσκαφών στην Ευρώπη"
   },
   "Footer": {
+    "navTitle": "Πλοήγηση",
+    "legalTitle": "Νομικά & επικοινωνία",
+    "partnersTitle": "Συνεργάτες",
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",
       "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
@@ -169,17 +172,17 @@
     },
     "imprint": {
       "title": "Στοιχεία εκδότη",
-      "hrefTitle": "Στοιχεία εκδότη",
+      "hrefTitle": "Στοιχεία εκδότη - Dross:Network",
       "href": "https://dross.net/imprint"
     },
     "contact": {
       "title": "Επικοινωνία",
-      "hrefTitle": "Επικοινωνία",
+      "hrefTitle": "Επικοινωνία - Dross:Network",
       "href": "https://dross.net/contact"
     },
     "privacy": {
       "title": "Απόρρητο",
-      "hrefTitle": "Πολιτική απορρήτου",
+      "hrefTitle": "Πολιτική απορρήτου - Dross:Network",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {

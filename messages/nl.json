@@ -152,6 +152,9 @@
     "buttonHrefTitle": "Trade:Aero - de grootste vliegtuigmarktplaats van Europa"
   },
   "Footer": {
+    "navTitle": "Navigatie",
+    "legalTitle": "Juridisch & contact",
+    "partnersTitle": "Partners",
     "stratux": {
       "title": "📡 Stratux - Anti-Collision System",
       "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
@@ -169,17 +172,17 @@
     },
     "imprint": {
       "title": "Impressum",
-      "hrefTitle": "Impressum",
+      "hrefTitle": "Impressum - Dross:Network",
       "href": "https://dross.net/imprint"
     },
     "contact": {
       "title": "Kontakt",
-      "hrefTitle": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
       "href": "https://dross.net/contact"
     },
     "privacy": {
       "title": "Datenschutz",
-      "hrefTitle": "Privacybeleid",
+      "hrefTitle": "Privacybeleid - Dross:Network",
       "href": "https://dross.net/privacy-policy"
     },
     "madeBy": {
