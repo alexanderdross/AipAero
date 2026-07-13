@@ -9,7 +9,9 @@ from crawlers.be import BE
 from crawlers.cz import CZ
 from crawlers.de import DE
 from crawlers.ee import EE
+from crawlers.es import ES
 from crawlers.fi import FI
+from crawlers.lv import LV
 from crawlers.dk import DK
 from crawlers.fr import FR
 from crawlers.gr import GR
@@ -30,7 +32,9 @@ COUNTRY_CRAWLERS = {
     "AT": AT,
     "DE": DE,
     "EE": EE,
+    "ES": ES,
     "FI": FI,
+    "LV": LV,
     "FR": FR,
     "NL": NL,
     "UK": UK,
