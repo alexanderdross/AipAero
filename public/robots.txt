@@ -5,6 +5,7 @@
 # Note: the XML sitemap is deliberately not referenced here (obfuscated
 # path); it is submitted directly to the search engines. Every page is
 # reachable through plain HTML links, so crawl discovery is complete.
+# LLM-friendly site summary (llmstxt.org): https://aip.aero/llms.txt
 
 User-agent: *
 Allow: /

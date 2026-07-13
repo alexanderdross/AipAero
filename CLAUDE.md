@@ -318,6 +318,7 @@ All twelve active country crawlers run on httpx (DK via Playwright); none use Se
 - Extensive JSON-LD structured data: BreadcrumbList, Product, Airport, WebSite, SiteNavigationElement, WebPage, DigitalDocument (chart PDFs)
 - The site-navigation JSON-LD is one **multi-typed node** `"@type": ["SiteNavigationElement", "CollectionPage", "ItemList"]` carrying the nav entries directly via `itemListElement` (each entry a `SiteNavigationElement` with `position`) - on the global homepage inline and via `schema-sitenav.tsx` for the locale pages
 - Dynamic sitemaps per country at `/2d6a9a/sitemap/<country>.xml` (live countries only; dk/gr excluded until their crawlers are verified)
+- `/llms.txt` (llmstxt.org, GEO): LLM-friendly Markdown site summary served by `src/app/llms.txt/route.ts`, generated from `liveCountries` x `countryMeta` x `countryTypeAvailability` (launching a country updates it automatically); static, no DB. robots.txt explicitly welcomes the AI crawlers and mentions it (the obfuscated sitemap path deliberately stays out of robots.txt)
 - Sitemap index at `/2d6a9a/sitemap.xml` (rewritten from `/2d6a9a/index.xml`)
 - Canonical URLs, alternate language links + **`x-default`** (pointing at the English version) on the country/list/search pages and in the sitemap; single-locale countries (uk, be - `isSingleLocale()` in `routing.ts`) emit **no** alternates and hide the language switcher
 - `trailingSlash: true` in Next.js config
