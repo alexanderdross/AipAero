@@ -11,7 +11,11 @@ COUNTRY = "HU"
 # edition already in effect, then enter the eurocontrol frameset inside.
 ROOT_URL = "https://ais-en.hungarocontrol.hu/aip/"
 
-_EDITION_DATE_RE = re.compile(r"/aip/(\d{4})-(\d{2})-(\d{2})/?$")
+# Edition hrefs on the listing are RELATIVE ("2026-06-11/"), so the
+# pattern must not require the "/aip/" path prefix (live run 29259975942
+# found zero folders with the anchored variant). Matched against
+# href.rstrip("/"); urljoin below resolves relative and absolute alike.
+_EDITION_DATE_RE = re.compile(r"(?:^|/)(\d{4})-(\d{2})-(\d{2})$")
 _INDEX_CANDIDATES = [
     "index-en-GB.html",
     "index.html",

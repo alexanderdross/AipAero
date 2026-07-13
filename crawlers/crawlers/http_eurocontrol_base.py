@@ -10,6 +10,10 @@ __all__ = ["HttpEurocontrolBase"]
 
 AirportType = Literal["vfr", "ifr", "heliport", "mil", "aeroport"]
 
+# Per-chapter title anchors look like "AD 2.LKPR PRAHA/Ruzyně" - the
+# chapter prefix is stripped before the ICAO dedupe.
+_CHAPTER_TITLE_PREFIX_RE = re.compile(r"^AD\s*[23]\.[A-Z]{4}\s*", re.I)
+
 
 class HttpEurocontrolBase(HttpCrawlerBase):
     """Shared parser for the eurocontrol "eAIP" navigation HTML.
@@ -74,6 +78,85 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         if not airports:
             raise ValueError(
                 f"No airports found for section {id_in_menu!r} in {base_url}"
+            )
+        return airports
+
+    def extract_airports_per_chapter(
+        self,
+        html: str,
+        base_url: str,
+        section_re: re.Pattern[str],
+        category: AirportType,
+    ) -> list[Airport]:
+        """Parse per-aerodrome chapter sections (id like "AD-2.LPPTdetails").
+
+        Some eAIPs (CZ, PT) have NO aggregate "AD 2" menu section: every
+        aerodrome is its own top-level chapter. ``section_re`` runs against
+        the section div's id and must capture the ICAO code as group 1.
+        """
+        self.logger.info(
+            f"Extracting per-chapter airports from {base_url} "
+            f"(section id ~ {section_re.pattern!r})"
+        )
+        soup = self.soup(html)
+        airports: list[Airport] = []
+
+        for details in soup.find_all("div", attrs={"id": section_re}):
+            match = section_re.search(details["id"])
+            if not match:  # pragma: no cover - find_all already matched
+                continue
+            icao = match.group(1)
+
+            # Title lives in the sibling div right before the details div,
+            # e.g. <a>AD 2.LKPR PRAHA/Ruzyně</a>.
+            title = icao
+            title_div = details.find_previous_sibling("div")
+            if isinstance(title_div, Tag):
+                anchors = title_div.find_all("a")
+                if anchors:
+                    raw = anchors[-1].get_text(" ", strip=True)
+                    raw = re.sub(r"\s+", " ", raw).strip()
+                    # Drop hidden annotation tokens (contain ";") and the
+                    # chapter prefix, then de-duplicate a leading ICAO.
+                    raw = " ".join(t for t in raw.split() if ";" not in t)
+                    rest = _CHAPTER_TITLE_PREFIX_RE.sub("", raw).strip()
+                    tokens = rest.split()
+                    if tokens and tokens[0] == icao:
+                        tokens = tokens[1:]
+                    rest = " ".join(tokens).strip()
+                    if rest:
+                        title = f"{rest} {icao}"
+
+            charts_url = self._find_charts_url(details, base_url)
+            if charts_url is None:
+                self.logger.warning(
+                    f"{self.country}: no charts link for {icao}; skipping"
+                )
+                continue
+
+            airports.append(
+                Airport(
+                    country=self.country,
+                    icao=icao,
+                    title=title,
+                    url=charts_url,
+                    type=category,
+                )
+            )
+
+        if not airports:
+            # Diagnostic: list the ids that DO exist so a failed live run
+            # tells us the real chapter ids without needing the saved HTML.
+            candidates = sorted(
+                {
+                    el["id"]
+                    for el in soup.find_all(attrs={"id": True})
+                    if "details" in el["id"].lower()
+                }
+            )[:60]
+            raise ValueError(
+                f"No per-chapter sections matching {section_re.pattern!r} "
+                f"in {base_url}. Available *details ids: {candidates}"
             )
         return airports
 
