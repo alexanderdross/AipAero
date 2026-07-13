@@ -284,7 +284,7 @@
     "bulkError": "Nedlastingen mislyktes - prøv igjen",
     "bulkNoSpace": "Ikke nok ledig lagringsplass på denne enheten",
     "bulkScope": "Inkludert: alle flyplassider med flyplassdata. Ikke inkludert: PDF-er med innflygingskart (kan lagres per flyplass) og live-vær (krever tilkobling).",
-    "moreInfo": "mer info",
+    "moreInfo": "Mer info",
     "pavedRunway": "Rullebane med fast dekke",
     "favorites": "Favoritter",
     "recentlyViewed": "Nylig vist",
