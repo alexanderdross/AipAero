@@ -287,7 +287,9 @@
     "moreInfo": "Meer info",
     "pavedRunway": "Verharde baan",
     "favorites": "Favorieten",
+    "favoritesEmpty": "Nog geen favorieten - sla een vliegveld offline op via zijn detailpagina en het verschijnt hier.",
     "recentlyViewed": "Recent bekeken",
+    "recentlyViewedEmpty": "Vliegvelden die u opent verschijnen hier automatisch voor snelle toegang.",
     "borderCrossing": "Grensoverschrijding",
     "alsoAvailable": "Ook beschikbaar:"
   },

@@ -214,6 +214,8 @@ export default async function CountryPage(
         <FavoritesRecent
           favoritesLabel={tCommon("favorites")}
           recentLabel={tCommon("recentlyViewed")}
+          favoritesEmptyLabel={tCommon("favoritesEmpty")}
+          recentEmptyLabel={tCommon("recentlyViewedEmpty")}
         />
       </div>
 

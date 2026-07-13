@@ -322,7 +322,9 @@
     "moreInfo": "More info",
     "pavedRunway": "Paved runway",
     "favorites": "Favourites",
+    "favoritesEmpty": "No favorites yet - save an airfield offline on its detail page and it will appear here.",
     "recentlyViewed": "Recently viewed",
+    "recentlyViewedEmpty": "Airfields you open will appear here automatically for quick access.",
     "borderCrossing": "Border crossing",
     "alsoAvailable": "Also available:"
   },

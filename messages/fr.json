@@ -287,7 +287,9 @@
     "moreInfo": "Plus d'infos",
     "pavedRunway": "Piste revêtue",
     "favorites": "Favoris",
+    "favoritesEmpty": "Pas encore de favoris - enregistrez un terrain hors ligne sur sa page de détail et il apparaîtra ici.",
     "recentlyViewed": "Consultés récemment",
+    "recentlyViewedEmpty": "Les terrains que vous consultez apparaîtront ici automatiquement pour un accès rapide.",
     "borderCrossing": "Passage frontalier",
     "alsoAvailable": "Également disponible :"
   },

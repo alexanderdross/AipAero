@@ -257,7 +257,9 @@
     "moreInfo": "Más información",
     "pavedRunway": "Pista pavimentada",
     "favorites": "Favoritos",
+    "favoritesEmpty": "Aún no hay favoritos - guarda un aeródromo sin conexión en su página y aparecerá aquí.",
     "recentlyViewed": "Vistos recientemente",
+    "recentlyViewedEmpty": "Los aeródromos que abras aparecerán aquí automáticamente para un acceso rápido.",
     "borderCrossing": "Cruce de fronteras",
     "alsoAvailable": "También disponible:"
   },

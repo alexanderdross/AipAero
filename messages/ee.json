@@ -287,7 +287,9 @@
     "moreInfo": "Rohkem infot",
     "pavedRunway": "Kattega rada",
     "favorites": "Lemmikud",
+    "favoritesEmpty": "Lemmikuid veel pole - salvesta lennuväli tema lehel võrguühenduseta kasutamiseks ja see ilmub siia.",
     "recentlyViewed": "Hiljuti vaadatud",
+    "recentlyViewedEmpty": "Avatud lennuväljad ilmuvad siia automaatselt kiireks juurdepääsuks.",
     "borderCrossing": "Piiriületus",
     "alsoAvailable": "Samuti saadaval:"
   },

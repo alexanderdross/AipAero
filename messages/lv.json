@@ -287,7 +287,9 @@
     "moreInfo": "Vairāk informācijas",
     "pavedRunway": "Cietā seguma skrejceļš",
     "favorites": "Izlase",
+    "favoritesEmpty": "Vēl nav izlases - saglabājiet lidlauku bezsaistē tā lapā, un tas parādīsies šeit.",
     "recentlyViewed": "Nesen skatītie",
+    "recentlyViewedEmpty": "Atvērtie lidlauki šeit parādīsies automātiski ātrai piekļuvei.",
     "borderCrossing": "Robežšķērsošana",
     "alsoAvailable": "Pieejams arī:"
   },

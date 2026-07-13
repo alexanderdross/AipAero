@@ -287,7 +287,9 @@
     "moreInfo": "Mehr Infos",
     "pavedRunway": "Befestigte Piste",
     "favorites": "Favoriten",
+    "favoritesEmpty": "Noch keine Favoriten - speichere einen Flugplatz auf seiner Detailseite offline, dann erscheint er hier.",
     "recentlyViewed": "Zuletzt angesehen",
+    "recentlyViewedEmpty": "Geöffnete Flugplätze erscheinen hier automatisch für den schnellen Wiedereinstieg.",
     "borderCrossing": "Grenzübertritt",
     "alsoAvailable": "Auch verfügbar:"
   },

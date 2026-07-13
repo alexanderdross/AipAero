@@ -287,7 +287,9 @@
     "moreInfo": "Mer info",
     "pavedRunway": "Rullebane med fast dekke",
     "favorites": "Favoritter",
+    "favoritesEmpty": "Ingen favoritter ennå - lagre en flyplass offline på siden dens, så vises den her.",
     "recentlyViewed": "Nylig vist",
+    "recentlyViewedEmpty": "Flyplasser du åpner vises automatisk her for rask tilgang.",
     "borderCrossing": "Grensepassering",
     "alsoAvailable": "Også tilgjengelig:"
   },

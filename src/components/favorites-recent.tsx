@@ -31,22 +31,31 @@ function readEntries(key: string): LinkEntry[] {
 
 /**
  * Personal "Favorites" (the offline-saved fields) and "Recently viewed" lists
- * from localStorage (pilot-wishlist item; no account needed). Client-only by
- * nature - the data is personal and must never be in the indexable SSR HTML.
+ * from localStorage (pilot-wishlist item; no account needed), presented as a
+ * content card matching the page's card language (owner decision 13.07.2026).
+ * Client-only by nature - the data is personal and must never be in the
+ * indexable SSR HTML; the card mounts only after hydration (`loaded`), so the
+ * placeholder copy stays out of the crawlable HTML too. Empty sections show a
+ * feature-discovery placeholder instead of hiding (owner request 13.07.2026):
+ * first-time visitors learn that saving/opening fields populates these lists.
  * Web-performance guard rails: rendered below the country cards (above the
- * about box - owner decision 13.07.2026: returning pilots reach their fields
- * without scrolling past first-timer content), which is still below the
- * initial fold for virtually all viewports, so the post-hydration appearance
- * costs no LCP/CLS on the indexable content; renders nothing for first-time
- * visitors.
+ * about box - owner decision: returning pilots reach their fields without
+ * scrolling past first-timer content), which is still below the initial fold
+ * for virtually all viewports, so the post-hydration appearance costs no
+ * LCP/CLS on the indexable content.
  */
 export function FavoritesRecent({
   favoritesLabel,
   recentLabel,
+  favoritesEmptyLabel,
+  recentEmptyLabel,
 }: {
   favoritesLabel: string;
   recentLabel: string;
+  favoritesEmptyLabel: string;
+  recentEmptyLabel: string;
 }) {
+  const [loaded, setLoaded] = useState(false);
   const [favorites, setFavorites] = useState<LinkEntry[]>([]);
   const [recent, setRecent] = useState<LinkEntry[]>([]);
 
@@ -66,24 +75,27 @@ export function FavoritesRecent({
         )
         .slice(0, SHOW_MAX),
     );
+    setLoaded(true);
   }, []);
 
-  if (favorites.length === 0 && recent.length === 0) return null;
+  // No pre-hydration render: personal lists and the placeholder copy both
+  // stay out of the served SSR HTML (SEO pages remain byte-identical).
+  if (!loaded) return null;
 
   const section = (
     label: string,
     entries: LinkEntry[],
     icon: React.ReactNode,
-  ) =>
-    entries.length > 0 && (
-      // Full width on mobile so both stacked sections share one left edge
-      // (justify-center used to center each block by its own width - the
-      // two headlines did not align); side-by-side and centered from sm up.
-      <section className="w-full sm:w-auto">
-        <h2 className="inline-flex items-center gap-x-1 text-base font-medium">
-          {icon}
-          <span>{label}</span>
-        </h2>
+    emptyLabel: string,
+  ) => (
+    // Full width on mobile so both stacked sections share one left edge;
+    // side-by-side from sm up, capped so empty-state copy wraps nicely.
+    <section className="w-full sm:w-64">
+      <h2 className="inline-flex items-center gap-x-1 text-base font-medium">
+        {icon}
+        <span>{label}</span>
+      </h2>
+      {entries.length > 0 ? (
         <ul className="mt-1">
           {entries.map((e) => (
             <li key={e.url}>
@@ -97,22 +109,29 @@ export function FavoritesRecent({
             </li>
           ))}
         </ul>
-      </section>
-    );
+      ) : (
+        <p className="text-drossgray-dark mt-1">{emptyLabel}</p>
+      )}
+    </section>
+  );
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pt-8 pb-4 text-sm sm:px-6 lg:px-8">
-      <div className="flex flex-wrap justify-center gap-x-16 gap-y-6 text-left">
-        {section(
-          favoritesLabel,
-          favorites,
-          <StarIcon className="size-4 flex-shrink-0" aria-hidden="true" />,
-        )}
-        {section(
-          recentLabel,
-          recent,
-          <HistoryIcon className="size-4 flex-shrink-0" aria-hidden="true" />,
-        )}
+    <div className="mx-auto mt-16 max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 text-sm shadow-sm sm:p-8">
+        <div className="flex flex-wrap justify-center gap-x-16 gap-y-6 text-left">
+          {section(
+            favoritesLabel,
+            favorites,
+            <StarIcon className="size-4 flex-shrink-0" aria-hidden="true" />,
+            favoritesEmptyLabel,
+          )}
+          {section(
+            recentLabel,
+            recent,
+            <HistoryIcon className="size-4 flex-shrink-0" aria-hidden="true" />,
+            recentEmptyLabel,
+          )}
+        </div>
       </div>
     </div>
   );

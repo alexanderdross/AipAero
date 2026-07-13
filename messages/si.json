@@ -257,7 +257,9 @@
     "moreInfo": "Več informacij",
     "pavedRunway": "Utrjena steza",
     "favorites": "Priljubljene",
+    "favoritesEmpty": "Še ni priljubljenih - shranite letališče brez povezave na njegovi strani in prikazalo se bo tukaj.",
     "recentlyViewed": "Nedavno ogledano",
+    "recentlyViewedEmpty": "Odprta letališča se bodo tukaj samodejno prikazala za hiter dostop.",
     "borderCrossing": "Prehod meje",
     "alsoAvailable": "Na voljo tudi:"
   },

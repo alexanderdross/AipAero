@@ -287,7 +287,9 @@
     "moreInfo": "Mere info",
     "pavedRunway": "Befæstet bane",
     "favorites": "Favoritter",
+    "favoritesEmpty": "Ingen favoritter endnu - gem en flyveplads offline på dens side, så vises den her.",
     "recentlyViewed": "Senest viste",
+    "recentlyViewedEmpty": "Flyvepladser du åbner vises automatisk her for hurtig adgang.",
     "borderCrossing": "Grænsepassage",
     "alsoAvailable": "Også tilgængelig:"
   },
