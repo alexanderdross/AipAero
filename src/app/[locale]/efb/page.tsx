@@ -14,7 +14,7 @@ import Link from "next/link";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { InstallAppButton } from "~/components/install-app-button";
-import { SectionHeading } from "~/components/section-heading";
+import { SectionHeading, slugify } from "~/components/section-heading";
 import { Title } from "~/components/title";
 import {
   getPathname,
@@ -137,38 +137,78 @@ export default async function EfbPage(
   const chip =
     "border-drossgray-dark/20 text-drossblue inline-flex size-8 shrink-0 items-center justify-center rounded-md border bg-white shadow-sm";
 
-  // Install steps as schema.org/HowTo (rich-result candidate); the two
-  // platforms are HowToSections of the same procedure. FAQ block as
-  // FAQPage. This page is statically prerendered, so page-emitted JSON-LD
-  // is safe (the duplication artifact only hits dynamically rendered
-  // routes - see CLAUDE.md).
+  // The WHOLE guide as one schema.org/HowTo (owner request 13.07.2026):
+  // every chapter is a positioned HowToStep whose url is its section anchor
+  // (SectionHeading slug), so the steps are directly citable jump targets;
+  // the install chapter is a HowToSection grouping the three platform steps.
+  // Text comes from the SAME strings as the visible copy (inline-link tags
+  // stripped via t.markup - never markup-only). This page is statically
+  // prerendered, so page-emitted JSON-LD is safe (the duplication artifact
+  // only hits dynamically rendered routes - see CLAUDE.md).
+  const efbPath = getPathname({ href: "/efb", locale });
+  const currentUrl = new URL(
+    efbPath.endsWith("/") ? efbPath : efbPath + "/",
+    orgUrl,
+  ).toString();
+  const stripTags = {
+    list: (chunks: string) => chunks,
+    country: (chunks: string) => chunks,
+  };
+  const sectionAnchor = (section: (typeof SECTIONS)[number]) =>
+    `${currentUrl}#${slugify(t(`${section}Title`))}`;
   const howToJson = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: t("installTitle"),
-    description: t("installText"),
-    step: [
-      {
-        "@type": "HowToSection",
-        name: "iOS / iPadOS (Safari)",
-        position: 1,
-        itemListElement: [
-          { "@type": "HowToStep", position: 1, text: t("installIos") },
-        ],
-      },
-      {
-        "@type": "HowToSection",
-        name: "Android (Chrome)",
-        position: 2,
-        itemListElement: [
-          { "@type": "HowToStep", position: 1, text: t("installAndroid") },
-        ],
-      },
-    ],
+    "@id": `${currentUrl}#howto`,
+    url: currentUrl,
+    name: t("title"),
+    description: t("intro"),
+    step: SECTIONS.map((section, idx) =>
+      section === "install"
+        ? {
+            "@type": "HowToSection",
+            "@id": sectionAnchor(section),
+            url: sectionAnchor(section),
+            position: idx + 1,
+            name: t("installTitle"),
+            // The platform steps share their section's anchor - they have no
+            // own DOM ids, and the section is where all three are visible.
+            itemListElement: [
+              {
+                "@type": "HowToStep",
+                position: 1,
+                url: sectionAnchor(section),
+                text: t("installIos"),
+              },
+              {
+                "@type": "HowToStep",
+                position: 2,
+                url: sectionAnchor(section),
+                text: t("installAndroid"),
+              },
+              {
+                "@type": "HowToStep",
+                position: 3,
+                url: sectionAnchor(section),
+                text: t("installDesktop"),
+              },
+            ],
+          }
+        : {
+            "@type": "HowToStep",
+            "@id": sectionAnchor(section),
+            url: sectionAnchor(section),
+            position: idx + 1,
+            name: t(`${section}Title`),
+            text: t.markup(`${section}Text`, stripTags),
+          },
+    ),
   };
   const faqJson = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `${currentUrl}#${slugify(t("faqTitle"))}`,
+    url: currentUrl,
     mainEntity: ([1, 2, 3] as const).map((i) => ({
       "@type": "Question",
       name: t(`faq${i}q`),

@@ -440,11 +440,20 @@ export default async function RootPage() {
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
-                mainEntity: faq.map(({ q, a }) => ({
-                  "@type": "Question",
-                  name: q,
-                  acceptedAnswer: { "@type": "Answer", text: a },
-                })),
+                // @id/url per question = its hash deep link (the accordion
+                // ids) - a directly citable jump target for crawlers/LLMs.
+                "@id": `${orgUrl.toString()}#frequently-asked-questions`,
+                url: orgUrl.toString(),
+                mainEntity: faq.map(({ q, a }) => {
+                  const anchor = `${orgUrl.toString()}#${slugify(q)}`;
+                  return {
+                    "@type": "Question",
+                    "@id": anchor,
+                    url: anchor,
+                    name: q,
+                    acceptedAnswer: { "@type": "Answer", text: a },
+                  };
+                }),
               }),
             }}
           />
