@@ -70,6 +70,11 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // "vfr"); heliports are not part of the crawled AIP section.
   es: ["vfr"],
   lv: ["vfr", "heliport"],
+  // IS/PT/HU crawlers found no AD-3 heliport chapters on the live
+  // sources (run 29265643933) - vfr only, like ES.
+  is: ["vfr"],
+  pt: ["vfr"],
+  hu: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -135,4 +140,7 @@ export const countryMeta: Record<
   fi: { lang: "fi", name: "Finland", flag: "🇫🇮", nativeLang: "Finnish" },
   es: { lang: "es", name: "Spain", flag: "🇪🇸", nativeLang: "Spanish" },
   lv: { lang: "lv", name: "Latvia", flag: "🇱🇻", nativeLang: "Latvian" },
+  is: { lang: "is", name: "Iceland", flag: "🇮🇸", nativeLang: "Icelandic" },
+  pt: { lang: "pt", name: "Portugal", flag: "🇵🇹", nativeLang: "Portuguese" },
+  hu: { lang: "hu", name: "Hungary", flag: "🇭🇺", nativeLang: "Hungarian" },
 };
