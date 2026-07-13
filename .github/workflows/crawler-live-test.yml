@@ -125,7 +125,8 @@ jobs:
           uv run python - <<'PY'
           import os
           import re
-          from urllib.parse import urljoin
+          import subprocess
+          from urllib.parse import urljoin, urlsplit
 
           import httpx
           from bs4 import BeautifulSoup
@@ -142,12 +143,91 @@ jobs:
               r"eAIP|index-[a-z]{2}-[A-Z]{2}|AD[- ]2|menu|frameset|aip", re.I
           )
 
+          def dump_links(soup: BeautifulSoup, base: str, pad: str) -> int:
+              seen = set()
+              hits = 0
+              for a in soup.find_all("a", href=True):
+                  href = urljoin(base, a["href"])
+                  text = " ".join(a.get_text(" ", strip=True).split())[:60]
+                  if href in seen or not INTERESTING.search(href + " " + text):
+                      continue
+                  seen.add(href)
+                  hits += 1
+                  if hits <= 25:
+                      print(f"{pad}link [{text}] {href[:150]}")
+              print(f"{pad}({hits} interesting links total)")
+              return hits
+
+          def tls_diagnose(url: str, pad: str) -> None:
+              """On a connect/TLS failure, dump the server's certificate
+              chain (subjects/issuers/verify errors) via openssl so a
+              missing intermediate or a legacy handshake is identifiable
+              from the run log (SI: CERTIFICATE_VERIFY_FAILED; IE:
+              handshake failure on a legacy stack)."""
+              host = urlsplit(url).netloc.split("@")[-1].split(":")[0]
+              for label, extra in (
+                  ("default", []),
+                  ("legacy", ["-legacy_server_connect"]),
+                  ("seclevel1", ["-cipher", "DEFAULT@SECLEVEL=1"]),
+              ):
+                  cmd = [
+                      "openssl", "s_client", "-connect", f"{host}:443",
+                      "-servername", host, "-showcerts", *extra,
+                  ]
+                  try:
+                      out = subprocess.run(
+                          cmd, input=b"", capture_output=True, timeout=25
+                      )
+                  except Exception as e:
+                      print(f"{pad}[tls {label}] {type(e).__name__}: {e}")
+                      continue
+                  text = out.stdout.decode(errors="replace")
+                  err = out.stderr.decode(errors="replace")
+                  lines = [
+                      ln.strip()
+                      for ln in (text + "\n" + err).splitlines()
+                      if re.search(
+                          r"^\s*\d+ s:|^\s*i:|verify error|verify return"
+                          r"|alert |Cipher is|Verification", ln
+                      )
+                  ]
+                  print(f"{pad}[tls {label}] exit {out.returncode}")
+                  for ln in lines[:14]:
+                      print(f"{pad}  {ln[:160]}")
+
+          def render_probe(url: str, pad: str) -> None:
+              """JS-app fallback: render the page with headless Chromium
+              (the runner has Playwright installed for DK) and dump the
+              links from the rendered DOM - a 0-link static probe on a
+              JS shell (BG/b-flip) is useless without this."""
+              try:
+                  from playwright.sync_api import sync_playwright
+
+                  with sync_playwright() as p:
+                      browser = p.chromium.launch()
+                      page = browser.new_page()
+                      page.goto(url, wait_until="networkidle", timeout=45000)
+                      html = page.content()
+                      browser.close()
+              except Exception as e:
+                  print(f"{pad}[render] failed: {type(e).__name__}: {e}")
+                  return
+              soup = BeautifulSoup(html, "html.parser")
+              title = soup.title.get_text(strip=True) if soup.title else "-"
+              print(f"{pad}[render] title: {title[:120]}")
+              dump_links(soup, url, pad + "  ")
+
           def probe(url: str, depth: int = 0) -> None:
               pad = "   " + "  " * depth
               try:
                   r = client.get(url)
                   print(f"{pad}{r.status_code} {str(r.url)[:150]}")
                   r.raise_for_status()
+              except httpx.ConnectError as e:
+                  print(f"{pad}FAILED - ConnectError: {e}")
+                  if depth == 0:
+                      tls_diagnose(url, pad)
+                  return
               except Exception as e:
                   print(f"{pad}FAILED - {type(e).__name__}: {e}")
                   return
@@ -168,22 +248,16 @@ jobs:
               ]
               for f in frames[:4]:
                   print(f"{pad}frame: {f[:150]}")
-              seen = set()
-              hits = 0
-              for a in soup.find_all("a", href=True):
-                  href = urljoin(str(r.url), a["href"])
-                  text = " ".join(a.get_text(" ", strip=True).split())[:60]
-                  if href in seen or not INTERESTING.search(href + " " + text):
-                      continue
-                  seen.add(href)
-                  hits += 1
-                  if hits <= 25:
-                      print(f"{pad}link [{text}] {href[:150]}")
-              print(f"{pad}({hits} interesting links total)")
+              hits = dump_links(soup, str(r.url), pad)
               # One level deeper on the most promising frame (eurocontrol
               # framesets hide the nav behind index -> frameset -> menu).
               if depth < 2 and frames and hits == 0:
                   probe(frames[0], depth + 1)
+                  return
+              # No links and no frames on the entry page: likely a
+              # client-rendered JS app - retry with a real browser.
+              if depth == 0 and hits == 0 and not frames:
+                  render_probe(str(r.url), pad)
 
           for url in os.environ["PROBE"].split():
               print(f"\n===== PROBE {url[:120]} =====", flush=True)
