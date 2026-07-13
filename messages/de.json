@@ -385,5 +385,16 @@
     "faq2a": "Alle aktuell verfügbaren Länder stehen auf der <home>Startseite</home> - die Abdeckung wächst laufend. Jede Länderkarte zeigt die verfügbaren Kartentypen.",
     "faq3q": "Sind die Karten aktuell?",
     "faq3a": "Karten-Links zeigen auf die offiziellen nationalen AIP-Veröffentlichungen, inklusive AIRAC-Datum wo veröffentlicht. Prüfe vor dem Flug immer die offizielle Quelle."
+  },
+  "CountryFaq": {
+    "title": "Häufige Fragen",
+    "q1": "Was ist die AIP Deutschland?",
+    "a1": "Die AIP (Aeronautical Information Publication) ist das offizielle Luftfahrthandbuch für Deutschland, herausgegeben von DFS Deutsche Flugsicherung: Flugplatzdaten, Verfahren und Anflugkarten, aktualisiert im 28-Tage-AIRAC-Zyklus. AIP:Aero verlinkt direkt auf die offizielle Publikation.",
+    "q2": "Sind die Anflugkarten kostenlos?",
+    "a2": "Ja - DFS Deutsche Flugsicherung veröffentlicht die AIP für Deutschland einschließlich der Anflugkarten kostenlos, und auch AIP:Aero ist kostenlos: kein Konto, kein Abo.",
+    "q3": "Welche Karten und Flugplätze gibt es für Deutschland?",
+    "a3": "Für Deutschland finden Sie VFR-Flugplätze, IFR-Flughäfen und Hubschrauberlandeplätze - jeweils mit direktem Link zur offiziellen Karte, entschlüsseltem Wetter (METAR/TAF) und Flugplatzdaten.",
+    "q4": "Kann ich AIP:Aero offline oder auf dem EFB nutzen?",
+    "a4": "Ja - AIP:Aero lässt sich als App (PWA) installieren, und einzelne Plätze oder das ganze Land können offline gespeichert werden. Siehe <efb>EFB-Anleitung</efb>."
   }
 }

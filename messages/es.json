@@ -320,5 +320,16 @@
     "faq2a": "Todos los países disponibles aparecen en la <home>página de inicio</home> - la cobertura crece continuamente. Cada tarjeta de país muestra los tipos de cartas disponibles.",
     "faq3q": "¿Están actualizadas las cartas?",
     "faq3a": "Los enlaces apuntan a las publicaciones AIP nacionales oficiales, incluida la fecha AIRAC cuando se publica. Verifica siempre la fuente oficial antes del vuelo."
+  },
+  "CountryFaq": {
+    "title": "Preguntas frecuentes",
+    "q1": "¿Qué es el AIP España?",
+    "a1": "El AIP (publicación de información aeronáutica) es el manual aeronáutico oficial de España, publicado por ENAIRE: datos de aeródromos, procedimientos y cartas de aproximación, actualizados en el ciclo AIRAC de 28 días. AIP:Aero enlaza directamente con la publicación oficial.",
+    "q2": "¿Son gratuitas las cartas de aproximación?",
+    "a2": "Sí - ENAIRE publica el AIP de España, cartas de aproximación incluidas, de forma gratuita, y AIP:Aero también es gratuito: sin cuenta, sin suscripción.",
+    "q3": "¿Qué cartas y aeródromos hay disponibles para España?",
+    "a3": "Para España encontrarás aeródromos VFR - cada uno con enlace directo a la carta oficial, meteorología decodificada (METAR/TAF) y datos del aeródromo.",
+    "q4": "¿Puedo usar AIP:Aero sin conexión o en mi EFB?",
+    "a4": "Sí - AIP:Aero se instala como aplicación (PWA), y se pueden guardar aeródromos individuales o el país entero para su uso sin conexión. Consulta la <efb>guía EFB</efb>."
   }
 }

@@ -350,5 +350,16 @@
     "faq2a": "Alla tillgängliga länder listas på <home>startsidan</home> - täckningen växer kontinuerligt. Varje landskort visar tillgängliga korttyper.",
     "faq3q": "Är kartorna aktuella?",
     "faq3a": "Kartlänkar pekar på de officiella nationella AIP-publikationerna, inklusive AIRAC-datum där det publiceras. Verifiera alltid den officiella källan före flygning."
+  },
+  "CountryFaq": {
+    "title": "Vanliga frågor",
+    "q1": "Vad är AIP Sverige?",
+    "a1": "AIP (Aeronautical Information Publication) är Sveriges officiella luftfartspublikation, utgiven av LFV: flygplatsdata, procedurer och inflygningskartor, uppdaterade i den 28-dagars AIRAC-cykeln. AIP:Aero länkar direkt till den officiella publikationen.",
+    "q2": "Är inflygningskartorna gratis?",
+    "a2": "Ja - LFV publicerar AIP Sverige inklusive inflygningskartor gratis, och AIP:Aero är också gratis: inget konto, ingen prenumeration.",
+    "q3": "Vilka kartor och flygplatser finns för Sverige?",
+    "a3": "För Sverige hittar du VFR-flygplatser och helikopterflygplatser - var och en med direktlänk till den officiella kartan, avkodat väder (METAR/TAF) och flygplatsdata.",
+    "q4": "Kan jag använda AIP:Aero offline eller på min EFB?",
+    "a4": "Ja - AIP:Aero kan installeras som app (PWA), och enskilda fält eller hela landet kan sparas offline. Se <efb>EFB-guiden</efb>."
   }
 }

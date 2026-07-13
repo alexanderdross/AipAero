@@ -350,5 +350,16 @@
     "faq2a": "Tous les pays actuellement disponibles figurent sur la <home>page d'accueil</home> - la couverture s'étend en continu. Chaque carte pays indique les types de cartes disponibles.",
     "faq3q": "Les cartes sont-elles à jour ?",
     "faq3a": "Les liens pointent vers les publications AIP nationales officielles, avec la date AIRAC lorsqu'elle est publiée. Vérifiez toujours la source officielle avant le vol."
+  },
+  "CountryFaq": {
+    "title": "Questions fréquentes",
+    "q1": "Qu'est-ce que l'AIP France ?",
+    "a1": "L'AIP (publication d'information aéronautique) est le manuel aéronautique officiel de la France, publié par le SIA : données d'aérodromes, procédures et cartes d'approche, amendé selon le cycle AIRAC de 28 jours. AIP:Aero renvoie directement à la publication officielle.",
+    "q2": "Les cartes d'approche sont-elles gratuites ?",
+    "a2": "Oui - le SIA publie gratuitement l'AIP France, cartes d'approche (VAC) comprises, et AIP:Aero est également gratuit : sans compte, sans abonnement.",
+    "q3": "Quelles cartes et quels terrains sont disponibles pour la France ?",
+    "a3": "Pour la France, vous trouverez les aéroports et les aérodromes militaires - chacun avec un lien direct vers la carte officielle, la météo décodée (METAR/TAF) et les données d'aérodrome.",
+    "q4": "Puis-je utiliser AIP:Aero hors ligne ou sur mon EFB ?",
+    "a4": "Oui - AIP:Aero s'installe comme une application (PWA), et chaque terrain ou le pays entier peut être enregistré hors ligne. Voir le <efb>guide EFB</efb>."
   }
 }

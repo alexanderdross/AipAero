@@ -320,5 +320,16 @@
     "faq2a": "All countries currently live are listed on the <home>homepage</home> - the coverage grows continuously. Each country card shows the available chart types.",
     "faq3q": "Are the charts current?",
     "faq3a": "Chart links point to the official national AIP publications, including the AIRAC date where published. Always verify against the official source before flight."
+  },
+  "CountryFaq": {
+    "title": "Frequently asked questions",
+    "q1": "What is the AIP Portugal?",
+    "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Portugal, published by NAV Portugal: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
+    "q2": "Are the approach charts free?",
+    "a2": "Yes - NAV Portugal publishes the AIP of Portugal including approach charts free of charge, and AIP:Aero is free too: no account, no subscription.",
+    "q3": "Which charts and airfields are available for Portugal?",
+    "a3": "For Portugal you will find VFR airfields - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
+    "q4": "Can I use AIP:Aero offline or on my EFB?",
+    "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
   }
 }

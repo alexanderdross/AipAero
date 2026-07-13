@@ -34,6 +34,10 @@ on:
         description: "Space-separated URLs of candidate eAIP roots to structurally classify (eurocontrol markers, AD-2 links) - groundwork for new-country crawlers"
         required: false
         default: ""
+      dump_url:
+        description: "Space-separated URLs whose CONTENT to dump from the runner (status, title, text head, api/notam/gramet-ish links) - status-only checks let the autorouter soft-404 through"
+        required: false
+        default: ""
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
@@ -109,6 +113,49 @@ jobs:
             code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 -L -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" "$u" || echo "ERR")
             echo "URLCHECK $code $u"
           done
+
+      # Optional: dump the CONTENT of arbitrary URLs from the runner - title,
+      # text head and API-ish links. Complements the status-only check above:
+      # a soft-404 (HTTP 200 + "page not found" body, see the autorouter
+      # hand-off removal 13.07.2026) passes a status check but is obvious in
+      # the dump. Also the reading path for API docs the sandboxed agent
+      # cannot fetch (its proxy gets 403 from some hosts).
+      - name: Dump URL content
+        if: ${{ inputs.dump_url != '' }}
+        continue-on-error: true
+        env:
+          DUMP: ${{ inputs.dump_url }}
+        run: |
+          uv run --directory crawlers python - <<'PY'
+          import os, re
+          import httpx
+          from bs4 import BeautifulSoup
+
+          UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+          for url in os.environ["DUMP"].split():
+              print(f"\n===== DUMP {url} =====")
+              try:
+                  r = httpx.get(url, headers={"User-Agent": UA},
+                                follow_redirects=True, timeout=20)
+                  print(f"   status {r.status_code}  final {r.url}")
+                  soup = BeautifulSoup(r.text, "html.parser")
+                  title = soup.title.get_text(strip=True) if soup.title else "(no title)"
+                  print(f"   title: {title}")
+                  text = " ".join(soup.get_text(" ", strip=True).split())
+                  print(f"   text head: {text[:2500]}")
+                  api_re = re.compile(r"api|notam|gramet|token|oauth|metar|briefing|swagger|openapi", re.I)
+                  seen = set()
+                  for a in soup.find_all("a", href=True):
+                      label = " ".join(a.get_text(" ", strip=True).split())[:60]
+                      href = a["href"]
+                      if api_re.search(href + " " + label) and href not in seen:
+                          seen.add(href)
+                          print(f"   link [{label}] {href[:140]}")
+                      if len(seen) > 40:
+                          break
+              except Exception as e:
+                  print(f"   FAILED - {type(e).__name__}: {e}")
+          PY
 
       # Optional: structurally classify candidate eAIP roots for NEW
       # countries: does the URL lead to a eurocontrol-style eAIP (frameset /

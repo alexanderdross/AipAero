@@ -350,5 +350,16 @@
     "faq2a": "Alle aktuelt tilgængelige lande vises på <home>forsiden</home> - dækningen vokser løbende. Hvert landekort viser de tilgængelige korttyper.",
     "faq3q": "Er kortene aktuelle?",
     "faq3a": "Kortlinks peger på de officielle nationale AIP-publikationer, inklusive AIRAC-dato hvor offentliggjort. Kontroller altid den officielle kilde før flyvning."
+  },
+  "CountryFaq": {
+    "title": "Ofte stillede spørgsmål",
+    "q1": "Hvad er AIP Danmark?",
+    "a1": "AIP (Aeronautical Information Publication) er Danmarks officielle luftfartshåndbog, udgivet af Naviair: flyvepladsdata, procedurer og indflyvningskort, opdateret i den 28-dages AIRAC-cyklus. AIP:Aero linker direkte til den officielle publikation.",
+    "q2": "Er indflyvningskortene gratis?",
+    "a2": "Ja - Naviair udgiver AIP Danmark inklusive indflyvningskort gratis, og AIP:Aero er også gratis: ingen konto, intet abonnement.",
+    "q3": "Hvilke kort og flyvepladser findes for Danmark?",
+    "a3": "For Danmark finder du VFR-flyvepladser og helikopterlandingspladser - hver med direkte link til det officielle kort, afkodet vejr (METAR/TAF) og flyvepladsdata.",
+    "q4": "Kan jeg bruge AIP:Aero offline eller på min EFB?",
+    "a4": "Ja - AIP:Aero kan installeres som app (PWA), og enkelte pladser eller hele landet kan gemmes offline. Se <efb>EFB-guiden</efb>."
   }
 }

@@ -350,5 +350,16 @@
     "faq2a": "Kõik saadaolevad riigid on loetletud <home>avalehel</home> - katvus kasvab pidevalt. Iga riigikaart näitab saadaolevaid kaarditüüpe.",
     "faq3q": "Kas kaardid on ajakohased?",
     "faq3a": "Kaardilingid viivad ametlikele riiklikele AIP-väljaannetele koos AIRAC-kuupäevaga, kui see on avaldatud. Enne lendu kontrolli alati ametlikku allikat."
+  },
+  "CountryFaq": {
+    "title": "Korduma kippuvad küsimused",
+    "q1": "Mis on AIP Eesti?",
+    "a1": "AIP (aeronavigatsiooniteabe kogumik) on Eesti ametlik lennundusteatmik, mille annab välja EANS: lennuväljade andmed, protseduurid ja lähenemiskaardid, uuendatakse 28-päevases AIRAC-tsüklis. AIP:Aero viib otse ametliku väljaandeni.",
+    "q2": "Kas lähenemiskaardid on tasuta?",
+    "a2": "Jah - EANS avaldab Eesti AIP koos lähenemiskaartidega tasuta ja ka AIP:Aero on tasuta: konto pole vaja, tellimust pole.",
+    "q3": "Millised kaardid ja lennuväljad on Eesti jaoks saadaval?",
+    "a3": "Eesti jaoks leiad VFR-lennuväljad ja kopteriväljakud - igaühel otselink ametlikule kaardile, dekodeeritud ilm (METAR/TAF) ja lennuvälja andmed.",
+    "q4": "Kas AIP:Aero't saab kasutada võrguühenduseta või EFB-l?",
+    "a4": "Jah - AIP:Aero on installitav rakendusena (PWA) ning üksikuid väljakuid või kogu riiki saab salvestada võrguühenduseta kasutamiseks. Vaata <efb>EFB-juhendit</efb>."
   }
 }
