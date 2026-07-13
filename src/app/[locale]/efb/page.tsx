@@ -122,7 +122,9 @@ export default async function EfbPage(
   const favoritesHref =
     (countryPath.endsWith("/") ? countryPath : countryPath + "/") +
     "#favorites";
-  const inlineLink = "text-drossblue hover:underline";
+  // Permanent underline: inline links inside body copy must be recognizable
+  // without color (axe link-in-text-block + owner feedback).
+  const inlineLink = "text-drossblue underline";
 
   // Decorative tap-sequence mockups for the install steps (which icon to
   // tap where): pure inline SVG chips, aria-hidden - the adjacent text is

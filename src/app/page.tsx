@@ -104,6 +104,45 @@ export default async function RootPage() {
 
   const modifiedDate = new Date(buildDate);
 
+  // FAQ entries - ONE array drives the visible section AND the FAQPage
+  // JSON-LD below. Answers are plain quotable prose (GEO); the optional
+  // link renders only in the visible copy.
+  const faq: {
+    q: string;
+    a: string;
+    link?: { href: string; label: string; title: string };
+  }[] = [
+    {
+      q: "What is an AIP (Aeronautical Information Publication)?",
+      a: "An AIP is the official aeronautical manual a state publishes for pilots: aerodrome data, operational procedures and approach charts, maintained by the national air navigation service provider (DFS in Germany, Austro Control in Austria, and so on) and amended in the 28-day AIRAC cycle. AIP:Aero links you straight to these official publications.",
+    },
+    {
+      q: "Where can I get free VFR and IFR approach charts?",
+      a: "Most European countries publish their AIP including approach charts free of charge - they are just hard to find and search. Pick a country above, choose VFR, IFR or heliports and open the aerodrome: AIP:Aero links the official chart (usually a PDF) for every listed field, no account needed.",
+    },
+    {
+      q: "How do I find an airport by its ICAO code, like EDDF or LFPG?",
+      a: "Type the ICAO code or the airport name into the search box at the top - it searches all countries at once. Every aerodrome also has its own permanent page (for example aip.aero/de/vfr/?EDDF) with the approach chart, runways, frequencies and live weather.",
+    },
+    {
+      q: "Are the charts up to date and official?",
+      a: "Every chart link points to the current edition of the national AIP, which is amended in the AIRAC cycle; where the source publishes it, we show the chart's AIRAC date. AIP:Aero republishes nothing - and as with any briefing tool, always verify against the official publication before flight.",
+    },
+    {
+      q: "Which countries are covered?",
+      a: `AIP:Aero currently covers ${liveCountries.length} European countries, from Austria to the United Kingdom - the full list with all chart types is right on this page, and coverage keeps growing.`,
+    },
+    {
+      q: "Can I use AIP:Aero offline or on my EFB tablet?",
+      a: "Yes - AIP:Aero installs as an app (PWA) on iPad, Android and desktop, and you can save single aerodromes or whole country packs for offline use.",
+      link: {
+        href: "/uk/efb/",
+        label: "See the EFB guide",
+        title: "AIP:Aero on your EFB - install, offline charts, import",
+      },
+    },
+  ];
+
   // A-Z jump bar: letters with at least one live country link to the FIRST
   // card of that letter (the cards are sorted alphabetically, so the rest
   // follow right below); empty letters render muted. Plain #-anchors, zero
@@ -326,6 +365,60 @@ export default async function RootPage() {
                   }
                 />
               ))}
+            </div>
+          </div>
+
+          {/* FAQ: visible text + matching FAQPage JSON-LD from ONE array
+              (never markup-only - Google requires the schema to mirror
+              visible content). Questions distilled from the Search Console
+              query data (13.07.2026): the generic "aip" head term, the
+              free-VFR-charts cluster, the huge bare-ICAO / "<ICAO> charts"
+              cluster, per-country queries and the AIRAC/trust angle. */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                mainEntity: faq.map(({ q, a }) => ({
+                  "@type": "Question",
+                  name: q,
+                  acceptedAnswer: { "@type": "Answer", text: a },
+                })),
+              }),
+            }}
+          />
+          <div className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
+              <h2 className="text-center text-xl font-semibold tracking-tight">
+                Frequently asked questions
+              </h2>
+              <div className="mx-auto mt-6 flex max-w-3xl flex-col gap-5">
+                {faq.map(({ q, a, link }) => (
+                  <div key={q}>
+                    <h3 className="font-semibold">{q}</h3>
+                    <p className="text-drossgray-dark mt-1">
+                      {a}
+                      {link && (
+                        <>
+                          {" "}
+                          {/* Permanent underline: inside gray body copy the
+                              blue alone fails axe link-in-text-block (<3:1
+                              against the surrounding text). */}
+                          <a
+                            href={link.href}
+                            title={link.title}
+                            className="text-drossblue underline"
+                          >
+                            {link.label}
+                          </a>
+                          .
+                        </>
+                      )}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
