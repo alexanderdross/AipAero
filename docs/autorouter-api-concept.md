@@ -139,6 +139,17 @@ gecacht, fail-soft:
      servieren** ("Stand: 14:32z") - Luftfahrt-Regel: datiert stale ist
      ok, stillschweigend stale nie. Nur ohne jede Zeile rendert die Box
      nichts (fail-soft).
+  **Warum 15 min ROLLIEREND und keine ATIS-/METAR-Taktung (:20/:50) -
+  Owner-Rückfrage 13.07.2026:** NOTAMs haben keinen Veröffentlichungstakt,
+  sie sind ereignisgetrieben ("updated immediately as their status
+  changes") - eine Wanduhr-Synchronisation gewinnt nichts. 15 min =
+  Frische/Last-Kompromiss: max. 15 min Sichtbarkeitsverzögerung bei max.
+  4 Upstream-Calls/h/ICAO (10 oder 30 wären vertretbar; TTL ist ein
+  Einzeiler). Für METAR gilt die Taktung ebenfalls nicht: SPECI-
+  Sondermeldungen erscheinen JEDERZEIT zwischen den Routineterminen
+  (ein bis :50 fixierter Cache würde sie bis zu 30 min verschlucken),
+  die Ausgabeminuten variieren über unsere Länder/Stationen, und der
+  Incremental Cache arbeitet mit Dauern, nicht Wanduhr-Zeitpunkten.
   Warum D1 zusätzlich zum Cache: überlebt Deploys und Tag-/Cache-Busts,
   entkoppelt uns von autorouter-Ausfällen und -Rate-Limits (Schutz der
   Partner-API UND unserer p95-Latenz: D1-Read in Millisekunden statt
