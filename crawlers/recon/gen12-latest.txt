@@ -1,0 +1,42 @@
+
+===== GEN 1.2 FR =====
+   GEN 1.2 page (derived): https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_09_JUL_2026/FRANCE/AIRAC-2026-07-09/html/eAIP/FR-GEN-1.2-fr-FR.html
+   --- table 1:
+     1.2.1 | REGLEMENT CONCERNANT LES AÉRONEFS CIVILS QUI EFFECTU- ENT DES VOLS INTERNATIONAUX | 1.2.1 | REGULATION CONCERNING CIVIL AIRCRAFT WHICH CARRY OUT INTERNATIONAL FLIGHTS
+     GENERALITES | GENERAL
+     Tout survol du territoire Français avec ou sans escale, doit être effectué conformément à la réglementation de l’Aviation Civile applicable dans ce territoire. Tout aéronef en provenance de l’étranger qui pénètre sur le territoire français doit effectuer son premier atterrissage sur un aéroport disposant des contrôles de douane, de police et de santé. De même tout aéronef quittant le territoire fr
+     Même en régime de vol à vue, le dépôt d’un plan de vol est obligatoire pour tout vol devant franchir, en entrée ou en sortie, les frontières terrestres ou maritimes de la France métropolitaine. | Filing of a flight plan is mandatory for every flight crossing a maritime or land border into or out of Metropolitan France, even if flying according to visual flights rules.
+     Note : A GENEVE/Cointrin, par convention avec les autorités suisses, des bureaux de douane et de police français sont installés et les formalités d’entrée et de sortie de France doivent être effectuées auprès de ces services. | Remark : By agreement with the Swiss authorities, French customs and immigration offices are installed at GENEVE/Cointrin; all formalities for entry into and exit from Fran
+   --- table 2:
+     Documents exigés à l’arrivée et au départ des aéronefs : - Manifeste de marchandises : 3 exemplaires. | Documents required on arrival and departure of aircraft : - Goods manifest: in triplicate.
+     - Liste sommaire des provisions de bord, sauf lorsque les provisions de bord restent à bord des appareils sous la surveillance de la douane. | - Succint list of on board food stores, except when said stores remain on board the aircraft under customs surveillance.
+     - Mesures sanitaires applicables aux aéronefs : | - Health requirements applicable to aircrafts:
+     Aucune mesure sanitaire n’est applicable aux aéronefs en période sanitaire normale. | No health requirement applies to aircraft under normal health circums- tances.
+   --- table 3:
+     Régime douanier des aéronefs assurant des services non réguliers | Customs procedures applicable to aircraft flying unscheduted flights
+     Réglementation douanière applicable en matière d’admission temporaire des aéronefs : | Customs regulation applicable to temporary admission for aircraft:
+     Tout aéronef destiné à être utilisé temporairement, avant réexportation, sur le territoire douanier communautaire peut être placé sous le régime douanier de l’admission temporaire. Ce régime permet l’utilisation de l’aéronef en suspension des droits et taxes, sans que l’aéronef ne subisse de modifications. Il suppose que certaines conditions soient remplies. | Any aircraft destined to be temporari
+     - L’aéronef doit être immatriculé en dehors du territoire douanier communautaire, au nom d’une personne établie en dehors de ce territoire. | - The aircraft must be registered outside the community customs territory, in the name of a person established outside this territory.
+     - En principe, il doit être également utilisé par une personne établie en dehors de ce territoire. | - On paper, it must also be used by a person established outside this territory.
+     - En cas d’usage commercial, au sens du droit douanier communautaire (transport de personnes à titre onéreux, transport industriel ou commercial de marchandises à titre gratuit ou onéreux), l’aéronef doit être utilisé exclusivement pour un transport qui commence ou se termine en dehors du territoire douanier communautaire. Toutefois, il peut être utilisé en trafic interne, au sens du droit douanie
+     Formalités de placement : | Placement formalities:
+     Le placement de l’aéronef sous le régime de l’admission temporaire peut se faire de manière simplifiée. | The placement of the aircraft under the temporary admission system can be simplified.
+     L’aéronef est considéré comme présenté en douane lors du franchissement de la frontière. En l'absence d'intervention de la douane, la déclaration pour son placement sous le régime de l'admission temporaire est considérée comme acceptée et la mainlevée comme octroyée lors du franchissement de la frontière. | The aircraft is considered as introduced to customs when the border is crossed. If there is
+     La demande d'autorisation peut également être constituée par une déclaration en douane verbale d'admission temporaire, sous réserve de la présentation d'un inventaire en deux exemplaires. L'autorisation d'admission temporaire est octroyée par le visa de l'inventaire par les autorités douanières qui vaut acceptation de la déclaration en douane. | The authorization request can also be constituted by
+     Toutefois, les autorités douanières peuvent exiger une déclaration en douane écrite lorsque le montant des droits à l'importation est élevé ou lorsqu'il existe un risque sérieux de non-respect des obligations découlant du placement sous le régime. | However, the customs authority can demand a written customs declaration when the amount of import duties is high or when there is a serious possibilit
+     Hormis le cas dans lequel les autorités douanières exigent que le placement sous admission temporaire se fasse par une déclaration écrite, il n’y aura, en principe, pas de garantie à mettre en place. | Excluding the case in which the customs authority demands that the placement under temporary admission must be done through a written declaration, there will be, on paper, no warranty to give.
+     Délais d’utilisation : | Period of use:
+     En cas d’usage commercial, au sens douanier de cette notion (cf. ci-dessus), le délai de séjour sous admission temporaire est limité à la durée nécessaire pour effectuer les opérations de transport. | In the event of commercial use, according to the customs definition of this notion (ref. above), the allowed period of temporary admission is limited to the period needed to perform transportation op
+     En cas d’usage privé, c’est-à-dire à l’exclusion de tout usage commercial au sens précité de cette notion, le délai est de 6 mois. | In the event of private use, i.e. excluding all aforementioned commercial use, the period is fixed at 6 months.
+
+===== GEN 1.2 NL =====
+   GEN 1.2 page (derived): https://eaip.lvnl.nl/web/eaip/AIRAC AMDT 07-2026_2026_07_09/eAIP/EH-AD 2 EHAL 14-en-GB.html
+   TXT AD 2 EHAL 14 VAC
+
+===== GEN 1.2 BE =====
+   GEN 1.2 page (derived): https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/eAIP/EB-GEN-1.2-en-GB.html
+   FAILED - HTTPStatusError: Client error '403 Forbidden' for url 'https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/eAIP/EB-GEN-1.2-en-GB.html'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+
+===== GEN 1.2 NO =====
+   GEN 1.2 page (derived): https://aim-prod.avinor.no/no/AIP/View/Index/154/2026-06-11-AIRAC/html/eAIP/EN-GEN-1.2-en-GB.html
