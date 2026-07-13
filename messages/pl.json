@@ -330,7 +330,7 @@
     "bulkTitle": "Pobranie całego kraju",
     "bulkText": "Z <list>listy lotnisk</list> możesz pobrać wszystkie strony szczegółowe kraju naraz (tylko strony, bez PDF-ów map - te zapisujesz per lotnisko). Pakiet pokazuje rozmiar przed pobraniem i można go w każdej chwili zaktualizować lub usunąć.",
     "favoritesTitle": "Ulubione & ostatnio oglądane",
-    "favoritesText": "Lotniska zapisane offline automatycznie pojawiają się jako ulubione, a ostatnio otwarte znajdziesz w sekcji \"Ostatnio oglądane\" - obie listy są przechowywane tylko na Twoim urządzeniu, bez konta. Znajdziesz je <country>na dole strony kraju</country>.",
+    "favoritesText": "Lotniska zapisane offline automatycznie pojawiają się jako ulubione, a ostatnio otwarte znajdziesz w sekcji \"Ostatnio oglądane\" - obie listy są przechowywane tylko na Twoim urządzeniu, bez konta. Znajdziesz je <country>na stronie kraju</country>.",
     "importTitle": "PDF-y map w ForeFlight, SkyDemon i innych",
     "importText": "Tam gdzie krajowy AIP publikuje PDF-y map, ramka map na stronie lotniska linkuje do aktualnego PDF-a wraz z datą AIRAC. Pobierz go i zaimportuj do aplikacji EFB jako własne materiały, np. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) lub Garmin Pilot. Niemcy publikują strony HTML zamiast PDF-ów - użyj tam linku do AIP.",
     "toolsTitle": "Przekazanie do narzędzi planowania",

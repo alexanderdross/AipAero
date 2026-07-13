@@ -300,7 +300,7 @@
     "bulkTitle": "Sækja heilt land",
     "bulkText": "Af <list>flugvallalistanum</list> getur þú sótt allar flugvallasíður lands í einu (aðeins síður, án PDF-korta - þau vistast fyrir hvern flugvöll). Pakkinn sýnir stærð sína fyrir niðurhal og hægt er að uppfæra hann eða fjarlægja hvenær sem er.",
     "favoritesTitle": "Uppáhalds & nýlega skoðað",
-    "favoritesText": "Vellir vistaðir án nettengingar birtast sjálfkrafa sem uppáhalds, og síðast opnuðu flugvellirnir eru undir \"Nýlega skoðað\" - hvort tveggja er aðeins geymt í tækinu þínu, enginn aðgangur nauðsynlegur. Báða listana finnur þú <country>neðst á landssíðunni</country>.",
+    "favoritesText": "Vellir vistaðir án nettengingar birtast sjálfkrafa sem uppáhalds, og síðast opnuðu flugvellirnir eru undir \"Nýlega skoðað\" - hvort tveggja er aðeins geymt í tækinu þínu, enginn aðgangur nauðsynlegur. Báða listana finnur þú <country>á landssíðunni</country>.",
     "importTitle": "PDF-kort í ForeFlight, SkyDemon og fleiri",
     "importText": "Þegar landsbundin AIP gefur út PDF-kort tengir kortareiturinn á flugvallasíðunni á gildandi PDF ásamt AIRAC-dagsetningu þess. Sæktu það og fluttu það inn í EFB-appið þitt sem eigið efni, t.d. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eða Garmin Pilot. Þýskaland gefur út HTML-síður í stað PDF - notaðu þar AIP-hlekkinn.",
     "toolsTitle": "Tenging við skipulagsverkfæri",

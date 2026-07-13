@@ -330,7 +330,7 @@
     "bulkTitle": "Een heel land downloaden",
     "bulkText": "Op de <list>luchthavenlijst</list> kun je alle detailpagina's van een land in één keer downloaden (alleen pagina's, zonder kaart-PDF's - die sla je per veld op). Het pakket toont vooraf zijn grootte en kan altijd worden bijgewerkt of verwijderd.",
     "favoritesTitle": "Favorieten & laatst bekeken",
-    "favoritesText": "Offline opgeslagen velden verschijnen automatisch als favorieten, en de laatst geopende vliegvelden staan onder \"Laatst bekeken\" - beide staan alleen op uw apparaat, geen account nodig. U vindt beide lijsten <country>onderaan de landenpagina</country>.",
+    "favoritesText": "Offline opgeslagen velden verschijnen automatisch als favorieten, en de laatst geopende vliegvelden staan onder \"Laatst bekeken\" - beide staan alleen op uw apparaat, geen account nodig. U vindt beide lijsten <country>op de landenpagina</country>.",
     "importTitle": "Kaart-PDF's in ForeFlight, SkyDemon en meer",
     "importText": "Waar de nationale AIP kaart-PDF's publiceert, linkt de kaartenbox op de detailpagina naar de actuele PDF inclusief AIRAC-datum. Download hem en importeer hem in je EFB-app als eigen kaartmateriaal, bijv. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) of Garmin Pilot. Duitsland publiceert HTML-pagina's in plaats van PDF's - gebruik daar de AIP-link.",
     "toolsTitle": "Doorgeven aan planningstools",

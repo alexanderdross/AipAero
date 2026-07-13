@@ -365,7 +365,7 @@
     "bulkTitle": "Ein ganzes Land herunterladen",
     "bulkText": "Auf der <list>Flughafen-Liste</list> kannst du alle Detailseiten eines Landes auf einmal herunterladen (nur Seiten, ohne Karten-PDFs - die speicherst du pro Platz). Das Paket zeigt vor dem Download seine Größe und lässt sich jederzeit aktualisieren oder entfernen.",
     "favoritesTitle": "Favoriten & zuletzt angesehen",
-    "favoritesText": "Offline gespeicherte Plätze erscheinen automatisch als Favoriten, und die zuletzt geöffneten Flugplätze stehen unter \"Zuletzt angesehen\" - beides liegt nur auf Ihrem Gerät, kein Konto nötig. Beide Listen finden Sie <country>am Ende der Länderseite</country>.",
+    "favoritesText": "Offline gespeicherte Plätze erscheinen automatisch als Favoriten, und die zuletzt geöffneten Flugplätze stehen unter \"Zuletzt angesehen\" - beides liegt nur auf Ihrem Gerät, kein Konto nötig. Beide Listen finden Sie <country>auf der Länderseite</country>.",
     "importTitle": "Karten-PDFs in ForeFlight, SkyDemon & Co.",
     "importText": "Wo die nationale AIP Karten-PDFs veröffentlicht, verlinkt die Karten-Box auf der Detailseite das aktuelle PDF inklusive AIRAC-Datum. Lade es herunter und importiere es in deine EFB-App als eigenes Kartenmaterial, z.B. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) oder Garmin Pilot. Deutschland veröffentlicht HTML-Seiten statt PDFs - nutze dort den AIP-Link.",
     "toolsTitle": "Übergabe an Planungstools",

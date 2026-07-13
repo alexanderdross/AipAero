@@ -330,7 +330,7 @@
     "bulkTitle": "Télécharger un pays entier",
     "bulkText": "Depuis la <list>liste des aérodromes</list>, vous pouvez télécharger toutes les pages de détail d'un pays en une fois (pages seules, sans les PDF de cartes - enregistrez-les par terrain). Le pack affiche sa taille avant téléchargement et peut être mis à jour ou supprimé à tout moment.",
     "favoritesTitle": "Favoris & consultés récemment",
-    "favoritesText": "Les terrains enregistrés hors ligne apparaissent automatiquement comme favoris, et les derniers aérodromes ouverts figurent sous \"Consultés récemment\" - les deux listes restent uniquement sur votre appareil, sans compte. Vous les trouverez <country>en bas de la page pays</country>.",
+    "favoritesText": "Les terrains enregistrés hors ligne apparaissent automatiquement comme favoris, et les derniers aérodromes ouverts figurent sous \"Consultés récemment\" - les deux listes restent uniquement sur votre appareil, sans compte. Vous les trouverez <country>sur la page pays</country>.",
     "importTitle": "PDF de cartes dans ForeFlight, SkyDemon et autres",
     "importText": "Quand l'AIP nationale publie des PDF de cartes, la boîte cartes de la page de détail renvoie vers le PDF en vigueur avec sa date AIRAC. Téléchargez-le et importez-le dans votre application EFB comme contenu personnalisé, p. ex. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ou Garmin Pilot. L'Allemagne publie des pages HTML au lieu de PDF - utilisez-y le lien AIP.",
     "toolsTitle": "Transfert vers les outils de préparation",

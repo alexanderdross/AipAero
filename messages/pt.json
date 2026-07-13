@@ -300,7 +300,7 @@
     "bulkTitle": "Descarregar um país inteiro",
     "bulkText": "A partir da <list>lista de aeródromos</list> podes descarregar de uma só vez todas as páginas de detalhe de um país (apenas as páginas, sem os PDF das cartas - esses guardam-se por aeródromo). O pacote mostra o seu tamanho antes da transferência e pode ser atualizado ou removido em qualquer altura.",
     "favoritesTitle": "Favoritos & vistos recentemente",
-    "favoritesText": "Os campos guardados offline aparecem automaticamente como favoritos, e os últimos aeródromos abertos constam em \"Vistos recentemente\" - ambos ficam apenas no seu dispositivo, sem conta. Encontra ambas as listas <country>no fim da página do país</country>.",
+    "favoritesText": "Os campos guardados offline aparecem automaticamente como favoritos, e os últimos aeródromos abertos constam em \"Vistos recentemente\" - ambos ficam apenas no seu dispositivo, sem conta. Encontra ambas as listas <country>na página do país</country>.",
     "importTitle": "PDF de cartas no ForeFlight, SkyDemon e outros",
     "importText": "Quando a AIP nacional publica PDF de cartas, a caixa de cartas da página de detalhe liga ao PDF em vigor, incluindo a sua data AIRAC. Descarrega-o e importa-o na tua aplicação EFB como conteúdo próprio, p. ex. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ou Garmin Pilot. A Alemanha publica páginas HTML em vez de PDF - usa aí a ligação para a AIP.",
     "toolsTitle": "Ligação a ferramentas de planeamento",

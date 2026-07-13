@@ -198,19 +198,15 @@ export default async function CountryPage(
       {/* Trade:Aero cross-sell (locale + country aware) */}
       <TradeAeroCta />
 
-      {/* About AIP Box */}
-      <AboutCountryBox isH3={true} />
-
-      {/* Country-specific FAQ (visible text + FAQPage JSON-LD from the same
-          strings) - targets the "aip <country>" / free-charts / chart-type
-          query clusters from the Search Console data. */}
-      <CountryFaq locale={locale} />
-
       {/* Personal favorites (offline-saved fields) + recently viewed, from
-          localStorage. Client-only and at the very bottom: it appears after
-          hydration below the fold, so the indexable content above is
-          untouched (no LCP/CLS cost) - SEO pages stay byte-identical for
-          crawlers and first-time visitors. */}
+          localStorage. Client-only, placed ABOVE the about box (owner
+          decision 13.07.2026): returning pilots - the only visitors this
+          renders for - reach their fields without scrolling past the
+          first-timer content. Still below the initial fold on virtually all
+          viewports (hero + cards fill it), so the post-hydration appearance
+          costs no field CLS; the SSR HTML stays byte-identical for crawlers
+          and first-time visitors. Do NOT move it above the cards: there it
+          WOULD sit in the initial viewport and shift SEO content. */}
       {/* Stable SSR anchor for the EFB guide's favorites deep link - the id
           must live on this always-present wrapper because the component
           renders nothing for first-time visitors. */}
@@ -220,6 +216,14 @@ export default async function CountryPage(
           recentLabel={tCommon("recentlyViewed")}
         />
       </div>
+
+      {/* About AIP Box */}
+      <AboutCountryBox isH3={true} />
+
+      {/* Country-specific FAQ (visible text + FAQPage JSON-LD from the same
+          strings) - targets the "aip <country>" / free-charts / chart-type
+          query clusters from the Search Console data. */}
+      <CountryFaq locale={locale} />
 
       {/* Bottom breadcrumb: visible trail + BreadcrumbList JSON-LD from one
           data structure (root > country, the country is the current page). */}

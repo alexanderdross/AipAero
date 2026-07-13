@@ -330,7 +330,7 @@
     "bulkTitle": "Laadi alla terve riik",
     "bulkText": "<list>Lennuväljade nimekirjast</list> saad ühe korraga alla laadida kõik riigi detailvaate lehed (ainult lehed, ilma kaardi-PDF-ideta - need salvesta iga väljaku kohta eraldi). Pakett näitab enne allalaadimist oma suurust ning seda saab igal ajal uuendada või eemaldada.",
     "favoritesTitle": "Lemmikud & viimati vaadatud",
-    "favoritesText": "Offline salvestatud väljad ilmuvad automaatselt lemmikutena ja viimati avatud lennuväljad on loendis \"Viimati vaadatud\" - mõlemad on ainult sinu seadmes, kontot pole vaja. Mõlemad loendid leiad <country>riigilehe lõpust</country>.",
+    "favoritesText": "Offline salvestatud väljad ilmuvad automaatselt lemmikutena ja viimati avatud lennuväljad on loendis \"Viimati vaadatud\" - mõlemad on ainult sinu seadmes, kontot pole vaja. Mõlemad loendid leiad <country>riigilehelt</country>.",
     "importTitle": "Kaardi-PDF-id ForeFlightis, SkyDemonis jm",
     "importText": "Kui riiklik AIP avaldab kaardi-PDF-e, lingib detailvaate lehe kaardikast kehtiva PDF-i koos AIRAC-kuupäevaga. Laadi see alla ja impordi oma EFB-rakendusse oma sisuna, nt ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) või Garmin Pilot. Saksamaa avaldab PDF-ide asemel HTML-lehti - kasuta seal AIP-linki.",
     "toolsTitle": "Edastamine planeerimistööriistadesse",

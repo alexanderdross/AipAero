@@ -400,7 +400,7 @@
     "bulkTitle": "Download a whole country",
     "bulkText": "On the <list>airport list</list> you can download all of a country's detail pages in one go (pages only, without chart PDFs - save those per field). The pack shows its size before downloading and can be updated or removed at any time.",
     "favoritesTitle": "Favorites & recently viewed",
-    "favoritesText": "Fields you save for offline use automatically appear as favorites, and the last airfields you opened are listed under \"Recently viewed\" - both are stored only on your device, no account needed. You will find both lists <country>at the bottom of the country page</country>.",
+    "favoritesText": "Fields you save for offline use automatically appear as favorites, and the last airfields you opened are listed under \"Recently viewed\" - both are stored only on your device, no account needed. You will find both lists <country>on the country page</country>.",
     "importTitle": "Chart PDFs in ForeFlight, SkyDemon & Co.",
     "importText": "Where the national AIP publishes chart PDFs, the chart box on the detail page links the current PDF including its AIRAC date. Download it and import it into your EFB app as custom content, e.g. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) or Garmin Pilot. Germany publishes HTML pages instead of PDFs - use the AIP link there.",
     "toolsTitle": "Hand-offs to planning tools",

@@ -295,7 +295,7 @@
     "bulkTitle": "Stažení celé země",
     "bulkText": "Na <list>seznamu letišť</list> můžete stáhnout všechny detailní stránky země najednou (pouze stránky, bez PDF map - ty ukládejte po letištích). Balíček před stažením zobrazí svou velikost a lze jej kdykoli aktualizovat nebo odebrat.",
     "favoritesTitle": "Oblíbené & naposledy zobrazené",
-    "favoritesText": "Letiště uložená offline se automaticky objeví jako oblíbená a naposledy otevřená letiště najdete v sekci \"Naposledy zobrazené\" - obojí je uloženo pouze ve vašem zařízení, bez účtu. Oba seznamy najdete <country>na konci stránky země</country>.",
+    "favoritesText": "Letiště uložená offline se automaticky objeví jako oblíbená a naposledy otevřená letiště najdete v sekci \"Naposledy zobrazené\" - obojí je uloženo pouze ve vašem zařízení, bez účtu. Oba seznamy najdete <country>na stránce země</country>.",
     "importTitle": "PDF map ve ForeFlight, SkyDemon a dalších",
     "importText": "Kde národní AIP publikuje PDF map, odkazuje box s mapami na detailní stránce na aktuální PDF včetně data AIRAC. Stáhněte jej a importujte do své EFB aplikace jako vlastní obsah, např. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) nebo Garmin Pilot. Německo publikuje HTML stránky místo PDF - použijte tam odkaz na AIP.",
     "toolsTitle": "Předání do plánovacích nástrojů",

@@ -330,7 +330,7 @@
     "bulkTitle": "Last ned et helt land",
     "bulkText": "På <list>flyplasslisten</list> kan du laste ned alle detaljsidene til et land på én gang (kun sider, uten kart-PDF-er - de lagrer du per plass). Pakken viser størrelsen før nedlasting og kan når som helst oppdateres eller fjernes.",
     "favoritesTitle": "Favoritter & sist viste",
-    "favoritesText": "Plasser lagret offline vises automatisk som favoritter, og de sist åpnede flyplassene står under \"Sist viste\" - begge lagres kun på enheten din, ingen konto nødvendig. Du finner begge listene <country>nederst på landssiden</country>.",
+    "favoritesText": "Plasser lagret offline vises automatisk som favoritter, og de sist åpnede flyplassene står under \"Sist viste\" - begge lagres kun på enheten din, ingen konto nødvendig. Du finner begge listene <country>på landssiden</country>.",
     "importTitle": "Kart-PDF-er i ForeFlight, SkyDemon m.fl.",
     "importText": "Der den nasjonale AIP-en publiserer kart-PDF-er, lenker kartboksen på detaljsiden til gjeldende PDF inkludert AIRAC-dato. Last den ned og importer den i EFB-appen som eget innhold, f.eks. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland publiserer HTML-sider i stedet for PDF-er - bruk AIP-lenken der.",
     "toolsTitle": "Overlevering til planleggingsverktøy",

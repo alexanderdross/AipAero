@@ -330,7 +330,7 @@
     "bulkTitle": "Download et helt land",
     "bulkText": "På <list>flyvepladslisten</list> kan du downloade alle et lands detaljesider på én gang (kun sider, uden kort-PDF'er - dem gemmer du pr. plads). Pakken viser sin størrelse før download og kan altid opdateres eller fjernes.",
     "favoritesTitle": "Favoritter & senest viste",
-    "favoritesText": "Pladser gemt offline vises automatisk som favoritter, og de senest åbnede flyvepladser står under \"Senest viste\" - begge gemmes kun på din enhed, ingen konto nødvendig. Du finder begge lister <country>nederst på landesiden</country>.",
+    "favoritesText": "Pladser gemt offline vises automatisk som favoritter, og de senest åbnede flyvepladser står under \"Senest viste\" - begge gemmes kun på din enhed, ingen konto nødvendig. Du finder begge lister <country>på landesiden</country>.",
     "importTitle": "Kort-PDF'er i ForeFlight, SkyDemon m.fl.",
     "importText": "Hvor den nationale AIP udgiver kort-PDF'er, linker kortboksen på detaljesiden til den gældende PDF inklusive AIRAC-dato. Download den og importer den i din EFB-app som eget indhold, f.eks. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland udgiver HTML-sider i stedet for PDF'er - brug AIP-linket dér.",
     "toolsTitle": "Videregivelse til planlægningsværktøjer",
