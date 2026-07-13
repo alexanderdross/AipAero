@@ -240,6 +240,13 @@ Per-country status (13.07.2026):
   FR counts 85 INTL fields - many provide customs on request/seasonally,
   which `true` deliberately covers). The latest recon output is committed
   as `crawlers/recon/gen12-latest.txt` (audit trail; replaced per run).
-- AT, CZ, PL, SE: pending (lower priority - almost exclusively
-  EU/Schengen-internal traffic); run the workflow with `gen12: <CC>`,
-  the generic eurocontrol recon needs no per-country code.
+- **CZ, SE: DONE** (13.07.2026, generic recon): AD 1.3 INTL designations,
+  20 (CZ) + 34 (SE) entries.
+- **AT: needs a bespoke recon** - Austro Control serves its own page
+  structure (`.../lo/<edition>/ad_2_lowg.htm`, no /eAIP/ folder); a
+  candidate would be `.../lo/<edition>/gen_1_2.htm` (unverified).
+- **PL: blocked on source choice** - the crawler reads the VFR eAIP
+  (docs.pansa.pl/ais/eaipvfr), which carries no GEN 1.2 / AD 1.3; the
+  IFR eAIP (docs.pansa.pl/ais/eaip) does, but its AIRAC folder name
+  cannot be derived from the VFR crawl. Both are low priority (almost
+  exclusively EU/Schengen-internal traffic).
