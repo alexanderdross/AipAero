@@ -78,7 +78,11 @@ const airportListPages: TestPage[] = [
   { path: "/is/en/airport-list-iceland/", lang: "en", label: "list is-EN" },
   { path: "/pt/lista-de-aerodromos-portugal/", lang: "pt", label: "list pt" },
   { path: "/pt/en/airport-list-portugal/", lang: "en", label: "list pt-EN" },
-  { path: "/hu/repuloterek-listaja-magyarorszag/", lang: "hu", label: "list hu" },
+  {
+    path: "/hu/repuloterek-listaja-magyarorszag/",
+    lang: "hu",
+    label: "list hu",
+  },
   { path: "/hu/en/airport-list-hungary/", lang: "en", label: "list hu-EN" },
 ];
 
