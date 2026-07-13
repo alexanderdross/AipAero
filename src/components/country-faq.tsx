@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { HashDetailsOpener } from "~/components/hash-details-opener";
 import { SectionHeading, slugify } from "~/components/section-heading";
 import { getPathname } from "~/i18n/routing";
+import { orgUrl } from "~/lib/utils";
 
 /**
  * Country-specific FAQ for the locale landing pages: four questions distilled
@@ -67,17 +68,28 @@ export async function CountryFaq({ locale }: { locale: string }) {
   );
 
   const nums = [1, 2, 3, 4] as const;
+  // Canonical page URL for the schema @id/url values: each Question's @id is
+  // its hash deep link (the accordion ids), so crawlers/LLMs get a directly
+  // citable jump target per question.
+  const pageUrl = new URL(canonical("/"), orgUrl).toString();
   const faqJson = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: nums.map((i) => ({
-      "@type": "Question",
-      name: t(`q${i}`),
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: t.markup(`a${i}`, markupStrip),
-      },
-    })),
+    "@id": `${pageUrl}#${slugify(t("title"))}`,
+    url: pageUrl,
+    mainEntity: nums.map((i) => {
+      const anchor = `${pageUrl}#${slugify(t(`q${i}`))}`;
+      return {
+        "@type": "Question",
+        "@id": anchor,
+        url: anchor,
+        name: t(`q${i}`),
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: t.markup(`a${i}`, markupStrip),
+        },
+      };
+    }),
   };
 
   return (
