@@ -87,13 +87,18 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         base_url: str,
         section_re: re.Pattern[str],
         category: AirportType,
+        title_prefix_re: re.Pattern[str] | None = None,
     ) -> list[Airport]:
         """Parse per-aerodrome chapter sections (id like "AD-2.LPPTdetails").
 
-        Some eAIPs (CZ, PT) have NO aggregate "AD 2" menu section: every
-        aerodrome is its own top-level chapter. ``section_re`` runs against
-        the section div's id and must capture the ICAO code as group 1.
+        Some eAIPs (CZ, PT, HU, IS) have NO aggregate "AD 2" menu section:
+        every aerodrome is its own top-level chapter. ``section_re`` runs
+        against the section div's id and must capture the ICAO code as
+        group 1. ``title_prefix_re`` (default: the "AD 2.XXXX" chapter
+        prefix) is stripped from the title anchor's text.
         """
+        if title_prefix_re is None:
+            title_prefix_re = _CHAPTER_TITLE_PREFIX_RE
         self.logger.info(
             f"Extracting per-chapter airports from {base_url} "
             f"(section id ~ {section_re.pattern!r})"
@@ -119,7 +124,7 @@ class HttpEurocontrolBase(HttpCrawlerBase):
                     # Drop hidden annotation tokens (contain ";") and the
                     # chapter prefix, then de-duplicate a leading ICAO.
                     raw = " ".join(t for t in raw.split() if ";" not in t)
-                    rest = _CHAPTER_TITLE_PREFIX_RE.sub("", raw).strip()
+                    rest = title_prefix_re.sub("", raw).strip()
                     tokens = rest.split()
                     if tokens and tokens[0] == icao:
                         tokens = tokens[1:]
