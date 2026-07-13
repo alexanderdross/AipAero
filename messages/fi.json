@@ -1,0 +1,341 @@
+{
+  "BreadCrumbs": {
+    "label": "Murupolku",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Suomi (Suomeksi)",
+      "hrefTitle": "AIP Suomi"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Ilmailukäsikirja AIP VFR Suomi"
+    },
+    "/heliports": {
+      "title": "Helikopterilentopaikat",
+      "hrefTitle": "AIP VFR helikopterilentopaikat Suomi"
+    },
+    "/airport-list": {
+      "title": "Lentopaikkaluettelo",
+      "hrefTitle": "Luettelo Suomen lentopaikoista"
+    },
+    "/terms": {
+      "title": "Käyttöehdot",
+      "hrefTitle": "Käyttöehdot - AIP:Aero Suomi"
+    },
+    "/efb": {
+      "title": "EFB-opas",
+      "hrefTitle": "EFB-opas - AIP:Aero tabletilla"
+    }
+  },
+  "Menu": {
+    "label": "Valikko",
+    "home": {
+      "title": "AIP Suomi",
+      "hrefTitle": "AIP Suomi"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Ilmailukäsikirja AIP VFR Suomi"
+    },
+    "heliports": {
+      "title": "Helikopterilentopaikat",
+      "hrefTitle": "AIP VFR helikopterilentopaikat Suomi"
+    },
+    "airports": {
+      "title": "Lentopaikkaluettelo",
+      "hrefTitle": "Luettelo Suomen lentopaikoista"
+    }
+  },
+  "AirportsPage": {
+    "title": "Luettelo Suomen lentopaikoista",
+    "metaTitle": "🛩️ Luettelo Suomen lentopaikoista",
+    "description": "Kaikki Suomen lentopaikat ja lentoasemat yhdellä silmäyksellä",
+    "metaDescription": "Kaikki Suomen lentopaikat ja lentoasemat yhdellä silmäyksellä🗺️",
+    "vfrCard": {
+      "title": "VFR-lentopaikat",
+      "description": "VFR-lentopaikat Suomessa",
+      "linkTitle": "Katso ja lataa lentopaikan {airport} AIP VFR -kartat ja lähestymiskartta täältä."
+    },
+    "heliportCard": {
+      "title": "Helikopterilentopaikat",
+      "description": "Helikopterilentopaikat Suomessa",
+      "linkTitle": "Katso ja lataa helikopterilentopaikan {airport} AIP VFR -kartat ja lähestymiskartat täältä."
+    },
+    "breadcrumb": {
+      "name": "Luettelo Suomen lentopaikoista",
+      "alternateName": "Luettelo Suomen lentopaikoista",
+      "description": "Kaikki Suomen lentopaikat ja lentoasemat yhdellä silmäyksellä"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR HEL AD -lähestymiskarttojen haku - helikopterilentopaikat Suomessa",
+    "metaTitle": "🛩️ AIP VFR HEL AD -lähestymiskarttojen haku - helikopterilentopaikat Suomessa",
+    "description": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi Fintraffic ANS:n julkaisemiin helikopterilentopaikkojen VFR-lähestymiskarttoihin.",
+    "metaDescription": "Hae AIP VFR Suomi HEL AD helikopterilentopaikkoja ja lataa lähestymiskartat🗺️",
+    "searchTitle": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi helikopterilentopaikkojen VFR AIP -tietoihin",
+    "searchPlaceholder": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi helikopterilentopaikkojen VFR AIP -tietoihin",
+    "resultTitle": "Lentopaikan {airport} AIP VFR -helikopterikartat",
+    "resultDescription": "Katso ja lataa helikopterilentopaikan {airport} AIP VFR -helikopterikartat ja lähestymiskartat täältä.",
+    "breadcrumb": {
+      "name": "AIP VFR helikopterilentopaikat Suomi",
+      "alternateName": "AIP VFR HEL AD -lähestymiskarttojen haku - helikopterilentopaikat Suomessa",
+      "description": "Hae AIP VFR Suomi HEL AD helikopterilentopaikkoja ja lataa lähestymiskartat"
+    }
+  },
+  "VfrPage": {
+    "title": "AIP VFR -lähestymiskarttojen haku Suomi",
+    "metaTitle": "🛩️ AIP VFR -lähestymiskarttojen haku Suomi",
+    "description": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi Fintraffic ANS:n julkaisemiin VFR-lähestymiskarttoihin.",
+    "metaDescription": "Hae AIP VFR Suomi AD lentopaikkoja ja lataa lähestymiskartat🗺️",
+    "searchTitle": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi VFR AIP -tietoihin",
+    "searchPlaceholder": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi VFR AIP -tietoihin",
+    "resultTitle": "Lentopaikan {airport} AIP VFR -kartat",
+    "resultDescription": "Katso ja lataa lentopaikan {airport} AIP VFR -kartat ja lähestymiskartta täältä.",
+    "breadcrumb": {
+      "name": "Ilmailukäsikirja AIP VFR Suomi",
+      "alternateName": "AIP VFR -lähestymiskarttojen haku Suomi",
+      "description": "Hae AIP VFR Suomi AD lentopaikkoja ja lataa lähestymiskartat"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Vaihda kieltä",
+    "locale": "{locale, select, fi {🇫🇮 Suomi} en {🇬🇧 English} other {Tuntematon}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Suomen lähestymiskartat & ilmailukäsikirja AIP",
+    "alternateName": "AIP Suomi",
+    "description": "Täältä voit ladata kaikki Suomen AIP (Aeronautical Information Publication) -ilmailukäsikirjat ja lähestymiskartat",
+    "inLanguage": "fi",
+    "url": "https://aip.aero/fi/"
+  },
+  "CountryPage": {
+    "title": "Suomen lähestymiskartat & ilmailukäsikirja AIP",
+    "metaTitle": "🛩️ Suomen lähestymiskartat & ilmailukäsikirja AIP",
+    "description": "Täältä voit ladata kaikki Suomen AIP (Aeronautical Information Publication) -ilmailukäsikirjat ja lähestymiskartat",
+    "metaDescription": "Täältä voit ladata kaikki Suomen AIP (Aeronautical Information Publication) -ilmailukäsikirjat ja lähestymiskartat🗺️",
+    "vfrCard": {
+      "title": "Ilmailukäsikirja AIP VFR",
+      "description": "Hae AIP VFR Suomi AD lentopaikkoja ja lataa lähestymiskartat",
+      "buttonTitle": "Ilmailukäsikirja AIP VFR",
+      "buttonHref": "/fi/vfr/",
+      "buttonHrefTitle": "Ilmailukäsikirja AIP VFR Suomi"
+    },
+    "heliportCard": {
+      "title": "Helikopterilentopaikat",
+      "description": "Hae AIP VFR Suomi HEL AD helikopterilentopaikkoja ja lataa lähestymiskartat",
+      "buttonTitle": "AIP VFR helikopterilentopaikat",
+      "buttonHref": "/fi/heliports/",
+      "buttonHrefTitle": "AIP VFR helikopterilentopaikat Suomi"
+    },
+    "airportListCard": {
+      "title": "Lentopaikkaluettelo",
+      "description": "Kaikki Suomen lentopaikat yhdellä silmäyksellä - mukana offline-lataus sekä tulli- ja polttoainetiedot",
+      "buttonTitle": "Lentopaikkaluettelo",
+      "buttonHref": "/fi/lentopaikat-suomi/",
+      "buttonHrefTitle": "Luettelo Suomen lentopaikoista"
+    },
+    "breadcrumb": {
+      "name": "AIP Suomi",
+      "alternateName": "Suomen lähestymiskartat & ilmailukäsikirja AIP",
+      "description": "Täältä voit ladata kaikki Suomen AIP (Aeronautical Information Publication) -ilmailukäsikirjat ja lähestymiskartat"
+    }
+  },
+  "About": {
+    "title": "Mihin tämä sivusto on tarkoitettu?",
+    "description": "<aip>Suomen ilmailukäsikirja AIP</aip> on saatavilla maksuttomana versiona. Tämä sivusto pyrkii helpottamaan lentopaikkojen hakua, sillä Fintraffic ANS:n versiosta puuttuu hakutoiminto. Emme vastaa AIP:n (Aeronautical Information Publication) oikeellisuudesta tai ajantasaisuudesta, koska emme ylläpidä sitä. Tarjoamme ainoastaan kätevät linkit kuhunkin lähestymiskarttaan.",
+    "aipUrl": "https://www.ais.fi/",
+    "aipTitle": "AIP Suomi"
+  },
+  "TradeAero": {
+    "title": "Ostamassa tai myymässä lentokonetta?",
+    "description": "Tutustu Suomessa myytäviin lentokoneisiin Trade:Aerossa - lentokoneiden osto- ja myyntipaikalla.",
+    "buttonTitle": "Trade:Aero - Euroopan suurin lentokoneiden markkinapaikka",
+    "buttonHrefTitle": "Trade:Aero - Euroopan suurin lentokoneiden markkinapaikka"
+  },
+  "Footer": {
+    "navTitle": "Navigaatio",
+    "legalTitle": "Oikeudelliset tiedot & yhteystiedot",
+    "partnersTitle": "Kumppanit",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP:Aero-etusivu - Euroopan AIP:t & lähestymiskartat"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Etusivu",
+      "hrefTitle": "Etusivu - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Julkaisutiedot",
+      "hrefTitle": "Julkaisutiedot - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Yhteystiedot",
+      "hrefTitle": "Yhteystiedot - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Tietosuojakäytäntö",
+      "hrefTitle": "Tietosuojakäytäntö - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Sivuston tekijä Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Käyttöehdot",
+      "hrefTitle": "Käyttöehdot - AIP:Aero Suomi"
+    },
+    "efb": {
+      "title": "EFB-opas",
+      "hrefTitle": "AIP:Aero EFB-laitteellasi - asennus, offline-kartat, tuonti"
+    }
+  },
+  "Error": {
+    "description": "<p>Valitettavasti tapahtui virhe.</p><p>Voit yrittää <retry>ladata sivun uudelleen</retry>.</p>",
+    "title": "Jotain meni pieleen!"
+  },
+  "NotFound": {
+    "title": "404 - Sivua ei löytynyt",
+    "description": "Tätä sivua tai lentopaikkatunnusta ei ole olemassa. Kokeile hakea lentopaikkaa sen sijaan:",
+    "searchPlaceholder": "Hae lentopaikkaa nimellä tai ICAO-tunnuksella",
+    "home": "Takaisin etusivulle"
+  },
+  "Weather": {
+    "title": "Sää",
+    "observed": "Havaittu",
+    "forecast": "Ennuste",
+    "wind": "Tuuli",
+    "visibility": "Näkyvyys",
+    "clouds": "Pilvet",
+    "temperature": "Lämpötila",
+    "qnh": "QNH",
+    "source": "Lähde",
+    "elevation": "Korkeus merenpinnasta",
+    "sunrise": "Auringonnousu",
+    "sunset": "Auringonlasku",
+    "civilTwilight": "Porvarillinen hämärä",
+    "facts": "Lentopaikan tiedot",
+    "runways": "Kiitotiet",
+    "frequencies": "Taajuudet",
+    "decode": "Näytä selitettynä",
+    "openingHours": "Aukioloajat",
+    "fuel": "Polttoaine",
+    "ppr": "PPR",
+    "pprRequired": "Ennakkolupa vaaditaan",
+    "nearest": "Sää lähimmältä lentopaikalta {station} ({km} km päässä)",
+    "circuit": "Laskukierros",
+    "circuitLeft": "vasen",
+    "circuitRight": "oikea",
+    "windComponents": "Tuulikomponentit",
+    "headwind": "Vastatuuli",
+    "tailwind": "Myötätuuli",
+    "crosswind": "Sivutuuli",
+    "fromLeft": "vasemmalta",
+    "fromRight": "oikealta",
+    "landingDirection": "Todennäköinen laskusuunta",
+    "aerodromeType": "Lentopaikan tyyppi",
+    "surface": "Pinta"
+  },
+  "Common": {
+    "openIn": "Avaa palvelussa",
+    "homeLink": "AIP:Aero - Ilmailukäsikirjat (AIP) & lähestymiskartat Eurooppaan",
+    "lastUpdated": "Viimeksi päivitetty",
+    "viewOnMap": "Näytä Google Mapsissa",
+    "location": "Sijainti",
+    "website": "Verkkosivusto",
+    "address": "Osoite",
+    "coordinates": "Koordinaatit",
+    "phone": "Puhelin",
+    "map": "Kartta",
+    "locate": "Paikanna minut",
+    "locateError": "Sijaintiasi ei voitu määrittää",
+    "nearby": "Lähellä olevat lentopaikat",
+    "restaurant": "Ravintola",
+    "customs": "Tulli",
+    "yes": "Kyllä",
+    "no": "Ei",
+    "saveOffline": "Tallenna offline-käyttöön",
+    "savedOffline": "Tallennettu offline-käyttöön",
+    "installHint": "Asenna sovelluksena: valitse selaimen jakovalikosta 'Lisää Koti-valikkoon'. Avaa sitten sovellus kerran verkossa ja tallenna kenttäsi siellä uudelleen - sovelluksella on oma offline-tallennustila.",
+    "installHintMac": "Macilla: asenna Safarin jakovalikon kautta valitsemalla 'Lisää Dockiin'. Avaa sitten sovellus kerran verkossa ja tallenna kenttäsi siellä uudelleen - sovelluksella on oma offline-tallennustila.",
+    "bulkDownload": "Tallenna kaikki {count} sivua offline-käyttöön (noin {size} Mt)",
+    "bulkDownloaded": "Saatavilla offline-tilassa",
+    "bulkUpdate": "Päivitä",
+    "bulkRemove": "Poista",
+    "bulkProgress": "Tallennetaan sivuja",
+    "bulkCancel": "Peruuta",
+    "bulkError": "Lataus epäonnistui - yritä uudelleen",
+    "bulkNoSpace": "Laitteella ei ole tarpeeksi vapaata tallennustilaa",
+    "bulkScope": "Sisältyy: kaikki lentopaikkasivut lentopaikkatietoineen. Ei sisälly: lähestymiskarttojen PDF-tiedostot (voi tallentaa lentopaikkakohtaisesti) ja reaaliaikainen sää (vaatii yhteyden).",
+    "pavedRunway": "Päällystetty kiitotie",
+    "favorites": "Suosikit",
+    "recentlyViewed": "Viimeksi katsotut",
+    "borderCrossing": "Rajanylitys",
+    "alsoAvailable": "Myös saatavilla:"
+  },
+  "Chart": {
+    "allCharts": "Kaikki kartat ({count})",
+    "title": "Lähestymiskartta",
+    "openPdf": "Avaa kartta-PDF",
+    "preview": "Näytä esikatselu"
+  },
+  "TermsPage": {
+    "title": "Käyttöehdot",
+    "intro": "AIP:Aero on maksuton haku- ja hakemistopalvelu ilmailukäsikirjoille (AIP), lähestymiskartoille ja lentopaikkatiedoille Euroopassa.",
+    "servicesTitle": "Palvelumme",
+    "servicesText": "AIP:Aero löytää lentopaikat nimellä tai ICAO-tunnuksella ja ohjaa suoraan kyseisen maan viralliseen AIP-julkaisuun. Lisäksi lentopaikkasivumme näyttävät täydentäviä tietoja, kuten säätiedotteet (METAR/TAF), lentopaikan tiedot (kiitotiet, taajuudet, korkeus), kartat ja yhteystiedot; sivut voi myös tallentaa offline-käyttöön. Palvelu on maksuton eikä vaadi rekisteröitymistä.",
+    "disclaimerTitle": "Vastuuvapauslauseke",
+    "disclaimerText": "AIP:Aeroa ei voida missään olosuhteissa asettaa vastuuseen. Emme julkaise itse ilmailuasiakirjoja: linkitämme ainoastaan kunkin maan virallisen julkaisijan tarjoamaan uusimpaan AIP:hen (Aeronautical Information Publication). Sama koskee säätietoja (METAR/TAF) ja lentopaikkatietoja: nämä tiedot upotetaan sivuillemme, mutta ne ovat peräisin alla luetelluista ulkoisista lähteistä. Emme vastaa emmekä anna takuuta linkitetyn tai upotetun sisällön oikeellisuudesta, täydellisyydestä tai ajantasaisuudesta emmekä tämän sivuston saatavuudesta. Tämä sivusto ei korvaa virallista lennonvalmistelua: ilma-aluksen päällikkö on yksin vastuussa kaikkien lentoon tarvittavien tietojen hankkimisesta ja varmentamisesta.",
+    "sourcesTitle": "Tietolähteet",
+    "sourcesIntro": "Haemme linkitetyt ja upotetut tiedot seuraavista lähteistä (osoitteet pelkkänä tekstinä, tarkoituksella ei klikattavina):",
+    "sourcesAip": "Viralliset AIP-julkaisut, joihin linkitämme",
+    "sourcesData": "Upotetut ulkoiset tiedot",
+    "srcAwc": "sää METAR/TAF ja lentopaikkatiedot",
+    "srcOurAirports": "lentopaikkojen perustiedot",
+    "srcOpenAip": "laajennetut lentopaikkatiedot: kiitotiet, taajuudet, polttoaine",
+    "srcOsm": "kartat ja osoitteet",
+    "metaTitle": "Käyttöehdot - AIP:Aero Suomi",
+    "metaDescription": "AIP:Aeron käyttöehdot - maksuton AIP- ja lähestymiskarttahaku Suomelle ja Euroopalle: palvelukuvaus, vastuuvapauslauseke ja tietolähteet."
+  },
+  "EfbPage": {
+    "title": "Käytä AIP:Aeroa EFB-laitteellasi",
+    "intro": "Näin asennat AIP:Aeron EFB-tabletillesi, tallennat lähestymiskartat offline-käyttöön, lataat kokonaisia maita ja siirrät kentät suunnittelutyökaluihisi - vaihe vaiheelta.",
+    "metaTitle": "EFB-opas Suomi - AIP ja lähestymiskartat tabletilla | AIP:Aero",
+    "metaDescription": "Asenna AIP:Aero sovelluksena EFB-tabletillesi, tallenna lähestymiskartat offline-käyttöön, lataa kokonaisia maita ja tuo kartta-PDF:t ForeFlightiin, SkyDemoniin ym. (Suomi).",
+    "installTitle": "Asenna sovelluksena (PWA)",
+    "installText": "AIP:Aero on asennettava verkkosovellus: se avautuu koko näytölle kuten natiivisovellus, ja kaikki tallentamasi on käytettävissä offline-tilassa. Sovelluskauppaa ei tarvita.",
+    "installIos": "iPad / iPhone (Safari): avaa aip.aero, napauta jakokuvaketta ja sitten \"Lisää Koti-valikkoon\".",
+    "installAndroid": "Android (Chrome): avaa aip.aero, napauta valikkoa ja sitten \"Lisää aloitusnäyttöön\" / \"Asenna sovellus\".",
+    "offlineTitle": "Tallenna yksittäiset kentät offline-käyttöön",
+    "offlineText": "Jokaisella lentopaikkasivulla on \"Tallenna offline-käyttöön\" -painike. Se tallentaa sivun ja, jos AIP julkaisee sellaisen, lähestymiskartan PDF:n laitteellesi; kenttä näkyy sen jälkeen maasivun suosikeissa. Tallennetut kopiot näyttävät latauspäivämääränsä.",
+    "bulkTitle": "Lataa kokonainen maa",
+    "bulkText": "Lentopaikkaluettelosta voit ladata kaikki maan lentopaikkasivut kerralla (vain sivut, ilman kartta-PDF:iä - ne tallennat kenttäkohtaisesti). Paketti näyttää kokonsa ennen latausta, ja sen voi milloin tahansa päivittää tai poistaa.",
+    "importTitle": "Kartta-PDF:t ForeFlightissa, SkyDemonissa ym.",
+    "importText": "Kun kansallinen AIP julkaisee kartta-PDF:iä, lentopaikkasivun karttalaatikko linkittää voimassa olevaan PDF:ään AIRAC-päivämäärineen. Lataa se ja tuo se EFB-sovellukseesi omana sisältönä, esim. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) tai Garmin Pilot. Saksa julkaisee HTML-sivuja PDF:ien sijaan - käytä siellä AIP-linkkiä.",
+    "toolsTitle": "Siirto suunnittelutyökaluihin",
+    "toolsText": "Jokaisen lentopaikkasivun sijaintilaatikko avaa saman kentän suoraan SkyVectorissa, Windyssä ja autorouterissa - kätevää reittisuunnitteluun, säämalleihin ja lentosuunnitelman jättämiseen.",
+    "weatherTitle": "Sääbriiffaus sivulla",
+    "weatherText": "Lentopaikkasivut näyttävät reaaliaikaisen METAR/TAF:n selkokielisine selityksineen, lentokategoriamerkin sekä kiitotiekohtaiset vasta- ja sivutuulikomponentit - nopea ristiintarkistus, ei korvaa virallista sääbriiffaustasi.",
+    "customsTitle": "Tulli ja rajanylitys",
+    "customsText": "Lentopaikkasivut näyttävät, tarjoaako kenttä tulliselvityksen; kun kansallinen AIP listaa sen kohdassa GEN 1.2, arvo on varmennettu virallisesta lähteestä. Rajanylitysmuodollisuuksia varten sijaintilaatikko linkittää virallisiin lomakkeisiin (esim. Ison-Britannian General Aviation Report), ja kartta voi suodattaa tullikentät. Säännöt muuttuvat - varmista ne aina voimassa olevasta AIP:stä ja paikalliselta viranomaiselta.",
+    "disclaimerTitle": "Turvallisuushuomautus",
+    "disclaimerText": "AIP:Aero linkittää virallisiin AIP-julkaisuihin, mutta ei ole virallinen lähde. Offline-kopiot on merkitty latauspäivämäärällään ja voivat vanhentua jokaisen AIRAC-jakson myötä - tarkista karttojen voimassaolo ennen jokaista lentoa ja hanki aina virallinen lennonvalmistelubriiffaus."
+  }
+}

@@ -64,6 +64,8 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   no: ["vfr", "heliport"],
   pl: ["vfr", "heliport"],
   se: ["vfr", "heliport"],
+  ee: ["vfr", "heliport"],
+  fi: ["vfr", "heliport"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -125,4 +127,6 @@ export const countryMeta: Record<
   no: { lang: "no", name: "Norway", flag: "🇳🇴", nativeLang: "Norwegian" },
   pl: { lang: "pl", name: "Poland", flag: "🇵🇱", nativeLang: "Polish" },
   se: { lang: "sv", name: "Sweden", flag: "🇸🇪", nativeLang: "Swedish" },
+  ee: { lang: "et", name: "Estonia", flag: "🇪🇪", nativeLang: "Estonian" },
+  fi: { lang: "fi", name: "Finland", flag: "🇫🇮", nativeLang: "Finnish" },
 };
