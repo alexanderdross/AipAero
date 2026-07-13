@@ -1,0 +1,311 @@
+{
+  "BreadCrumbs": {
+    "label": "Drobtinična navigacija",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Slovenija (Slovenščina)",
+      "hrefTitle": "AIP Slovenija"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Zbornik letalskih informacij AIP VFR Slovenija"
+    },
+    "/airport-list": {
+      "title": "Seznam letališč",
+      "hrefTitle": "Seznam letališč v Sloveniji"
+    },
+    "/terms": {
+      "title": "Pogoji uporabe",
+      "hrefTitle": "Pogoji uporabe - AIP:Aero Slovenija"
+    },
+    "/efb": {
+      "title": "Vodnik EFB",
+      "hrefTitle": "Vodnik EFB - AIP:Aero na tvoji tablici"
+    }
+  },
+  "Menu": {
+    "label": "Meni",
+    "home": {
+      "title": "AIP Slovenija",
+      "hrefTitle": "AIP Slovenija"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Zbornik letalskih informacij AIP VFR Slovenija"
+    },
+    "airports": {
+      "title": "Seznam letališč",
+      "hrefTitle": "Seznam letališč v Sloveniji"
+    }
+  },
+  "AirportsPage": {
+    "title": "Seznam letališč v Sloveniji",
+    "metaTitle": "🛩️ Seznam letališč v Sloveniji",
+    "description": "Vsa letališča in vzletišča v Sloveniji na enem mestu",
+    "metaDescription": "Vsa letališča in vzletišča v Sloveniji na enem mestu🗺️",
+    "vfrCard": {
+      "title": "Letališča VFR",
+      "description": "Letališča in vzletišča VFR v Sloveniji",
+      "linkTitle": "Tukaj si oglej in prenesi karte AIP VFR ter karto vizualnega prileta za {airport}."
+    },
+    "heliportCard": {
+      "title": "Heliporti",
+      "description": "Heliporti v Sloveniji",
+      "linkTitle": "Tukaj si oglej in prenesi karte AIP VFR in karte prileta heliporta {airport}."
+    },
+    "breadcrumb": {
+      "name": "Seznam letališč v Sloveniji",
+      "alternateName": "Seznam letališč v Sloveniji",
+      "description": "Vsa letališča in vzletišča v Sloveniji na enem mestu"
+    }
+  },
+  "VfrPage": {
+    "title": "Iskalnik kart prileta AIP VFR Slovenija",
+    "metaTitle": "🛩️ Iskalnik kart prileta AIP VFR Slovenija",
+    "description": "Vnesi ime letališča ali njegovo kodo ICAO za dostop do kart prileta VFR, ki jih objavlja Kontrola zračnega prometa Slovenije.",
+    "metaDescription": "Poišči letališča AIP VFR Slovenija in brezplačno prenesi karte prileta🗺️",
+    "searchTitle": "Vnesi ime letališča ali njegovo kodo ICAO za dostop do AIP VFR",
+    "searchPlaceholder": "Vnesi ime letališča ali njegovo kodo ICAO za dostop do AIP VFR",
+    "resultTitle": "Karte AIP VFR za {airport}",
+    "resultDescription": "Tukaj si oglej in prenesi karte AIP VFR ter karto vizualnega prileta za {airport}.",
+    "breadcrumb": {
+      "name": "Zbornik letalskih informacij AIP VFR Slovenija",
+      "alternateName": "Iskalnik kart prileta AIP VFR Slovenija",
+      "description": "Poišči letališča AIP VFR Slovenija in brezplačno prenesi karte prileta"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Zamenjaj jezik",
+    "locale": "{locale, select, si {🇸🇮 Slovenščina} en {🇬🇧 English} other {Neznano}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Karte prileta in zbornik letalskih informacij AIP Slovenije",
+    "alternateName": "AIP Slovenija",
+    "description": "Tukaj lahko preneseš vse zbornike letalskih informacij AIP (Aeronautical Information Publication) in karte prileta za Slovenijo",
+    "inLanguage": "sl",
+    "url": "https://aip.aero/si/"
+  },
+  "CountryPage": {
+    "title": "Karte prileta in zbornik letalskih informacij AIP Slovenije",
+    "metaTitle": "🛩️ Karte prileta in zbornik letalskih informacij AIP Slovenije",
+    "description": "Tukaj lahko preneseš vse zbornike letalskih informacij AIP (Aeronautical Information Publication) in karte prileta za Slovenijo",
+    "metaDescription": "Tukaj lahko preneseš vse zbornike letalskih informacij AIP (Aeronautical Information Publication) in karte prileta za Slovenijo🗺️",
+    "vfrCard": {
+      "title": "Zbornik letalskih informacij AIP VFR",
+      "description": "Poišči letališča AIP VFR Slovenija in brezplačno prenesi karte prileta",
+      "buttonTitle": "Zbornik letalskih informacij AIP VFR",
+      "buttonHref": "/si/vfr/",
+      "buttonHrefTitle": "Zbornik letalskih informacij AIP VFR Slovenija"
+    },
+    "airportListCard": {
+      "title": "Seznam letališč",
+      "description": "Vsa letališča in vzletišča v Sloveniji na enem mestu - s prenosom za uporabo brez povezave ter informacijami o carini in gorivu",
+      "buttonTitle": "Seznam letališč",
+      "buttonHref": "/si/seznam-letalisc-slovenija/",
+      "buttonHrefTitle": "Seznam letališč v Sloveniji"
+    },
+    "breadcrumb": {
+      "name": "AIP Slovenija",
+      "alternateName": "Karte prileta in zbornik letalskih informacij AIP Slovenije",
+      "description": "Tukaj lahko preneseš vse zbornike letalskih informacij AIP (Aeronautical Information Publication) in karte prileta za Slovenijo"
+    }
+  },
+  "About": {
+    "title": "Čemu je namenjena ta spletna stran?",
+    "description": "Slovenski <aip>zbornik letalskih informacij AIP</aip> je na voljo v brezplačni različici. Ta spletna stran želi poenostaviti iskanje letališč, saj različica Kontrole zračnega prometa Slovenije ne vsebuje funkcije iskanja. Za točnost ali ažurnost AIP (Aeronautical Information Publication) ne prevzemamo nobene odgovornosti, saj z njim ne upravljamo mi. Zagotavljamo le priročne povezave do ustreznih kart prileta.",
+    "aipUrl": "https://aim.sloveniacontrol.si/",
+    "aipTitle": "AIP Slovenija"
+  },
+  "TradeAero": {
+    "title": "Želiš kupiti ali prodati letalo?",
+    "description": "Prebrskaj letala naprodaj v Sloveniji na Trade:Aero - tržnici za nakup in prodajo letal.",
+    "buttonTitle": "Trade:Aero - največja evropska tržnica letal",
+    "buttonHrefTitle": "Trade:Aero - največja evropska tržnica letal"
+  },
+  "Footer": {
+    "navTitle": "Navigacija",
+    "legalTitle": "Pravno in kontakt",
+    "partnersTitle": "Partnerji",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "Domača stran AIP:Aero - AIP in karte prileta za Evropo"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Domov",
+      "hrefTitle": "Domov - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impresum",
+      "hrefTitle": "Impresum - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Politika zasebnosti",
+      "hrefTitle": "Politika zasebnosti - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Spletna stran Alexandra Drossa",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Pogoji uporabe",
+      "hrefTitle": "Pogoji uporabe - AIP:Aero Slovenija"
+    },
+    "efb": {
+      "title": "Vodnik EFB",
+      "hrefTitle": "AIP:Aero na tvojem EFB - namestitev, karte brez povezave, uvoz"
+    }
+  },
+  "Error": {
+    "description": "<p>Žal je prišlo do napake.</p><p>Poskusiš lahko <retry>znova naložiti to stran</retry>.</p>",
+    "title": "Nekaj je šlo narobe!"
+  },
+  "NotFound": {
+    "title": "404 - Stran ni bila najdena",
+    "description": "Ta stran ali koda letališča ne obstaja. Poskusi poiskati letališče:",
+    "searchPlaceholder": "Poišči katero koli letališče po imenu ali kodi ICAO",
+    "home": "Nazaj na domačo stran"
+  },
+  "Weather": {
+    "title": "Vreme",
+    "observed": "Opazovano",
+    "forecast": "Napoved",
+    "wind": "Veter",
+    "visibility": "Vidljivost",
+    "clouds": "Oblačnost",
+    "temperature": "Temperatura",
+    "qnh": "QNH",
+    "source": "Vir",
+    "elevation": "Nadmorska višina",
+    "sunrise": "Sončni vzhod",
+    "sunset": "Sončni zahod",
+    "civilTwilight": "Civilni mrak",
+    "facts": "Podatki o letališču",
+    "runways": "Vzletno-pristajalne steze",
+    "frequencies": "Frekvence",
+    "decode": "Prikaži dekodirano",
+    "openingHours": "Odpiralni čas",
+    "fuel": "Gorivo",
+    "ppr": "PPR",
+    "pprRequired": "Potrebno je predhodno dovoljenje",
+    "nearest": "Vreme z najbližjega letališča {station} (oddaljeno {km} km)",
+    "circuit": "Šolski krog",
+    "circuitLeft": "levi",
+    "circuitRight": "desni",
+    "windComponents": "Komponente vetra",
+    "headwind": "Čelni veter",
+    "tailwind": "Hrbtni veter",
+    "crosswind": "Bočni veter",
+    "fromLeft": "z leve",
+    "fromRight": "z desne",
+    "landingDirection": "Verjetna smer pristajanja",
+    "aerodromeType": "Vrsta letališča",
+    "surface": "Površina"
+  },
+  "Common": {
+    "openIn": "Odpri v",
+    "homeLink": "AIP:Aero - Zborniki letalskih informacij (AIP) in karte prileta za Evropo",
+    "lastUpdated": "Zadnja posodobitev",
+    "viewOnMap": "Prikaži v Google Zemljevidih",
+    "location": "Lokacija",
+    "website": "Spletna stran",
+    "address": "Naslov",
+    "coordinates": "Koordinate",
+    "phone": "Telefon",
+    "map": "Zemljevid",
+    "locate": "Poišči mojo lokacijo",
+    "locateError": "Tvoje lokacije ni bilo mogoče določiti",
+    "nearby": "Letališča v bližini",
+    "restaurant": "Restavracija",
+    "customs": "Carina",
+    "yes": "Da",
+    "no": "Ne",
+    "saveOffline": "Shrani za uporabo brez povezave",
+    "savedOffline": "Shranjeno za uporabo brez povezave",
+    "installHint": "Namesti kot aplikacijo: odpri meni za deljenje v svojem brskalniku in izberi 'Dodaj na začetni zaslon'. Nato aplikacijo enkrat odpri s povezavo in tam znova shrani svoja letališča - aplikacija ima svojo lastno shrambo za uporabo brez povezave.",
+    "installHintMac": "Na Macu: namesti prek Safarijevega menija za deljenje z možnostjo 'Dodaj v Dock'. Nato aplikacijo enkrat odpri s povezavo in tam znova shrani svoja letališča - aplikacija ima svojo lastno shrambo za uporabo brez povezave.",
+    "bulkDownload": "Shrani vseh {count} strani brez povezave (pribl. {size} MB)",
+    "bulkDownloaded": "Na voljo brez povezave",
+    "bulkUpdate": "Posodobi",
+    "bulkRemove": "Odstrani",
+    "bulkProgress": "Shranjevanje strani",
+    "bulkCancel": "Prekliči",
+    "bulkError": "Prenos ni uspel - poskusi znova",
+    "bulkNoSpace": "Na tej napravi ni dovolj prostora za shranjevanje",
+    "bulkScope": "Vključeno: vse strani letališč s podatki o letališču. Ni vključeno: PDF-ji kart prileta (lahko jih shraniš za posamezno letališče) in vreme v živo (potrebuje povezavo).",
+    "pavedRunway": "Utrjena steza",
+    "favorites": "Priljubljene",
+    "recentlyViewed": "Nedavno ogledano",
+    "borderCrossing": "Prehod meje",
+    "alsoAvailable": "Na voljo tudi:"
+  },
+  "Chart": {
+    "allCharts": "Vse karte ({count})",
+    "title": "Karta prileta",
+    "openPdf": "Odpri PDF karte",
+    "preview": "Prikaži predogled"
+  },
+  "TermsPage": {
+    "title": "Pogoji uporabe",
+    "intro": "AIP:Aero je brezplačna storitev za iskanje in indeksiranje zbornikov letalskih informacij (AIP), kart prileta in podatkov o letališčih po Evropi.",
+    "servicesTitle": "Naša storitev",
+    "servicesText": "AIP:Aero omogoča iskanje letališč po imenu ali kodi ICAO in te pripelje neposredno do uradne publikacije AIP posamezne države. Poleg tega naše strani letališč vključujejo dodatne informacije, kot so vremenska poročila (METAR/TAF), podatki o letališču (steze, frekvence, nadmorska višina), zemljevidi in kontaktni podatki; strani je mogoče shraniti tudi za uporabo brez povezave. Storitev je brezplačna in ne zahteva registracije.",
+    "disclaimerTitle": "Izključitev odgovornosti",
+    "disclaimerText": "AIP:Aero v nobenem primeru ne prevzema odgovornosti. Letalskih dokumentov ne objavljamo sami: povezujemo le na najnovejši zbornik letalskih informacij (AIP), ki ga daje na voljo uradni ponudnik posamezne države. Enako velja za vremenske podatke (METAR/TAF) in podatke o letališčih: te informacije so vključene na naših straneh, vendar izvirajo iz zunanjih virov, navedenih spodaj. Ne prevzemamo nobene odgovornosti ali jamstva za točnost, popolnost ali ažurnost povezanih ali vključenih vsebin niti za razpoložljivost te spletne strani. Ta spletna stran ne nadomešča uradne priprave na let: vodja zrakoplova je edini odgovoren za pridobitev in preverjanje vseh informacij, potrebnih za let.",
+    "sourcesTitle": "Viri podatkov",
+    "sourcesIntro": "Povezane in vključene podatke pridobivamo iz naslednjih virov (naslovi so navedeni kot navadno besedilo, namenoma niso klikljivi):",
+    "sourcesAip": "Uradne publikacije AIP, na katere povezujemo",
+    "sourcesData": "Vključeni zunanji podatki",
+    "srcAwc": "vreme METAR/TAF in podatki o letališčih",
+    "srcOurAirports": "osnovni podatki o letališčih",
+    "srcOpenAip": "razširjeni podatki o letališčih: steze, frekvence, gorivo",
+    "srcOsm": "zemljevidi in naslovi",
+    "metaTitle": "Pogoji uporabe - AIP:Aero Slovenija",
+    "metaDescription": "Pogoji uporabe AIP:Aero, brezplačnega iskalnika AIP in kart prileta za Slovenijo in Evropo: opis storitve, izključitev odgovornosti in viri podatkov."
+  },
+  "EfbPage": {
+    "title": "Uporabljaj AIP:Aero na svojem EFB",
+    "intro": "Kako namestiti AIP:Aero na svojo tablico EFB, shraniti karte prileta brez povezave, prenesti celotne države in poslati letališča v svoja orodja za načrtovanje - korak za korakom.",
+    "metaTitle": "Vodnik EFB Slovenija - AIP in karte prileta na tvoji tablici | AIP:Aero",
+    "metaDescription": "Namesti AIP:Aero kot aplikacijo na svojo tablico EFB, shrani karte prileta brez povezave, prenesi celotne države in uvozi PDF-je kart v ForeFlight, SkyDemon in druge (Slovenija).",
+    "installTitle": "Namesti kot aplikacijo (PWA)",
+    "installText": "AIP:Aero je namestljiva spletna aplikacija: odpre se čez cel zaslon kot domorodna aplikacija in vse, kar shraniš, je na voljo brez povezave. Trgovina z aplikacijami ni potrebna.",
+    "installIos": "iPad / iPhone (Safari): odpri aip.aero, tapni ikono za deljenje in nato \"Dodaj na začetni zaslon\".",
+    "installAndroid": "Android (Chrome): odpri aip.aero, tapni meni in nato \"Dodaj na začetni zaslon\" / \"Namesti aplikacijo\".",
+    "offlineTitle": "Shrani posamezna letališča brez povezave",
+    "offlineText": "Vsaka podrobna stran letališča ima gumb \"Shrani za uporabo brez povezave\". Na tvojo napravo shrani stran in, kadar ga AIP objavi, tudi PDF karte prileta; letališče se nato pojavi med priljubljenimi na strani države. Shranjene kopije prikazujejo datum prenosa.",
+    "bulkTitle": "Prenesi celotno državo",
+    "bulkText": "S seznama letališč lahko naenkrat preneseš vse podrobne strani države (samo strani, brez PDF-jev kart - te shrani za posamezno letališče). Paket pred prenosom prikaže svojo velikost in ga je mogoče kadar koli posodobiti ali odstraniti.",
+    "importTitle": "PDF-ji kart v ForeFlight, SkyDemon in drugih",
+    "importText": "Kadar nacionalni AIP objavlja PDF-je kart, okvirček s kartami na podrobni strani ponuja povezavo do veljavnega PDF-ja vključno z njegovim datumom AIRAC. Prenesi ga in ga uvozi v svojo aplikacijo EFB kot lastno vsebino, npr. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ali Garmin Pilot. Nemčija namesto PDF-jev objavlja strani HTML - tam uporabi povezavo do AIP.",
+    "toolsTitle": "Povezava z orodji za načrtovanje",
+    "toolsText": "Okvirček z lokacijo na vsaki podrobni strani odpre isto letališče neposredno v SkyVector, Windy in autorouter - priročno za načrtovanje rut, vremenske modele in oddajo načrtov leta.",
+    "weatherTitle": "Vremenske informacije na strani",
+    "weatherText": "Podrobne strani prikazujejo METAR/TAF v živo z dekodiranjem v razumljiv jezik, značko kategorije leta ter razčlenitev čelnega in bočnega vetra po stezah - hitro dodatno preverjanje, ne nadomestilo za tvoj uradni briefing.",
+    "customsTitle": "Carina in prehod meje",
+    "customsText": "Podrobne strani prikazujejo, ali letališče ponuja carinjenje; kadar ga nacionalni AIP navaja v GEN 1.2, je vrednost preverjena s tem uradnim virom. Za obmejne formalnosti okvirček z lokacijo ponuja povezave do uradnih obrazcev (npr. britanski General Aviation Report), zemljevid pa lahko filtrira letališča s carino. Pravila se spreminjajo - vedno jih potrdi z veljavnim AIP in lokalnim organom.",
+    "disclaimerTitle": "Varnostno opozorilo",
+    "disclaimerText": "AIP:Aero povezuje na uradne publikacije AIP, vendar ni uraden vir. Kopije brez povezave so označene z datumom prenosa in lahko z vsakim ciklom AIRAC zastarijo - pred vsakim letom preveri veljavnost kart in vedno pridobi uraden briefing pred letom."
+  }
+}

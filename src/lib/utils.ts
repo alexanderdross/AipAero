@@ -87,6 +87,7 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   is: ["vfr"],
   pt: ["vfr"],
   hu: ["vfr"],
+  si: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -165,4 +166,5 @@ export const countryMeta: Record<
   is: { lang: "is", name: "Iceland", flag: "🇮🇸", nativeLang: "Icelandic" },
   pt: { lang: "pt", name: "Portugal", flag: "🇵🇹", nativeLang: "Portuguese" },
   hu: { lang: "hu", name: "Hungary", flag: "🇭🇺", nativeLang: "Hungarian" },
+  si: { lang: "sl", name: "Slovenia", flag: "🇸🇮", nativeLang: "Slovenian" },
 };
