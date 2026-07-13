@@ -26,6 +26,10 @@ on:
         description: "Space-separated external URLs to HTTP-check from the runner (e.g. EFB deep-link patterns; the sandboxed agent has no egress)"
         required: false
         default: ""
+      gen12:
+        description: "Space-separated country codes for AIP GEN 1.2 reconnaissance (customs/entry airfields - source data for src/lib/customs-overrides.ts)"
+        required: false
+        default: ""
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
@@ -82,6 +86,155 @@ jobs:
             code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 -L -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" "$u" || echo "ERR")
             echo "URLCHECK $code $u"
           done
+
+      # Optional: AIP GEN 1.2 reconnaissance - fetch each country's "Entry,
+      # transit and departure of aircraft" section and print every table row /
+      # text line naming an ICAO code or customs keyword. The output is the
+      # VERIFICATION SOURCE for src/lib/customs-overrides.ts (never add
+      # entries there that this section does not support).
+      - name: GEN 1.2 recon (customs airfields)
+        if: ${{ inputs.gen12 != '' }}
+        continue-on-error: true
+        env:
+          GEN12: ${{ inputs.gen12 }}
+        run: |
+          uv run python - <<'PY'
+          import os
+          import re
+          import sys
+          from urllib.parse import urljoin
+
+          import httpx
+          from bs4 import BeautifulSoup
+
+          client = httpx.Client(
+              follow_redirects=True,
+              timeout=30,
+              headers={
+                  "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+              },
+          )
+
+          META_REFRESH = re.compile(
+              r"""http-equiv=["']?refresh["']?[^>]*url=([^"'>\s]+)""", re.I
+          )
+
+          def fetch(url: str) -> tuple[str, str]:
+              """GET url, following one meta-refresh; returns (html, final_url)."""
+              r = client.get(url)
+              r.raise_for_status()
+              html = r.text
+              m = META_REFRESH.search(html)
+              if m:
+                  url = urljoin(str(r.url), m.group(1).strip())
+                  r = client.get(url)
+                  r.raise_for_status()
+                  html = r.text
+              return html, str(r.url)
+
+          KW = re.compile(r"customs|zoll|douane|entry|einreise|grenz", re.I)
+
+          def dump_customs_content(html: str, icao_prefix: str) -> None:
+              """Print tables and text lines that look customs/ICAO-relevant."""
+              soup = BeautifulSoup(html, "html.parser")
+              icao_re = re.compile(rf"\b{icao_prefix}[A-Z]{{2}}\b")
+              n = 0
+              for table in soup.find_all("table"):
+                  ttext = table.get_text(" ", strip=True)
+                  if not (icao_re.search(ttext) or KW.search(ttext)):
+                      continue
+                  n += 1
+                  print(f"   --- table {n}:")
+                  for tr in table.find_all("tr"):
+                      cells = [
+                          " ".join(td.get_text(" ", strip=True).split())
+                          for td in tr.find_all(["td", "th"])
+                      ]
+                      row = " | ".join(c for c in cells if c)
+                      if row:
+                          print(f"     {row[:400]}")
+              # Fallback/context: plain text lines with an ICAO code.
+              for line in soup.get_text("\n").splitlines():
+                  line = " ".join(line.split())
+                  if line and icao_re.search(line):
+                      print(f"   TXT {line[:300]}")
+
+          def recon_uk() -> None:
+              from crawlers.uk import ROOT_URL, UK
+
+              c = UK()
+              landing = c.fetch(ROOT_URL)
+              edition = c._resolve_current_edition_url(ROOT_URL, landing)
+              nav_url, nav_html = c.follow_frame_chain(
+                  edition, ["eAISNavigationBase", "eAISNavigation"]
+              )
+              soup = c.soup(nav_html)
+              hrefs = {
+                  a["href"].split("#")[0]
+                  for a in soup.find_all("a", href=True)
+                  if "GEN-1.2" in a["href"]
+              }
+              if not hrefs:
+                  print("   no GEN-1.2 link in nav; GEN links present:")
+                  for a in soup.find_all("a", href=True):
+                      if "GEN-1" in a["href"]:
+                          print(f"     {a['href'][:160]}")
+                  return
+              url = urljoin(nav_url, sorted(hrefs)[0])
+              print(f"   GEN 1.2 page: {url}")
+              html, _ = fetch(url)
+              dump_customs_content(html, "EG")
+
+          def recon_de() -> None:
+              from crawlers.de import IFR_BASE
+
+              # Walk the BasicIFR folder tree: root -> GEN -> GEN 1 -> GEN 1.2.
+              html, url = fetch(IFR_BASE)
+              for pattern in (r"^GEN\b", r"^GEN 1\b", r"^GEN 1\.2\b"):
+                  soup = BeautifulSoup(html, "html.parser")
+                  links = [
+                      (
+                          " ".join(a.get_text(" ", strip=True).split()),
+                          urljoin(url, a["href"]),
+                      )
+                      for a in soup.find_all("a", href=True)
+                      if a.get_text(strip=True)
+                  ]
+                  match = next(
+                      (l for l in links if re.search(pattern, l[0], re.I)), None
+                  )
+                  if not match:
+                      print(f"   no link matching {pattern!r} at {url}; links:")
+                      for text, href in links[:40]:
+                          print(f"     [{text[:60]}] {href[:120]}")
+                      return
+                  print(f"   {pattern!r} -> [{match[0][:80]}] {match[1][:140]}")
+                  html, url = fetch(match[1])
+              # GEN 1.2 level: list sub-links, then dump the page itself.
+              soup = BeautifulSoup(html, "html.parser")
+              for a in soup.find_all("a", href=True):
+                  text = " ".join(a.get_text(" ", strip=True).split())
+                  if text:
+                      print(f"   sub [{text[:80]}] {urljoin(url, a['href'])[:140]}")
+              dump_customs_content(html, "ED")
+
+          RECONS = {"UK": recon_uk, "DE": recon_de}
+
+          failed = []
+          for code in os.environ["GEN12"].split():
+              code = code.upper()
+              print(f"\n===== GEN 1.2 {code} =====", flush=True)
+              fn = RECONS.get(code)
+              if not fn:
+                  print(f"   no GEN 1.2 recon implemented for {code}")
+                  continue
+              try:
+                  fn()
+              except Exception as e:
+                  failed.append(code)
+                  print(f"   FAILED - {type(e).__name__}: {e}")
+          sys.exit(1 if failed else 0)
+          PY
 
       - name: Crawl live sources (no publish)
         env:
