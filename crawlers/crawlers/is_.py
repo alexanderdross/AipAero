@@ -18,6 +18,16 @@ _INDEX_CANDIDATES = ["index-en-GB.html", "index.html", "html/index-en-GB.html", 
 _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 _AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD-3details", "AD 3details"]
 
+# Run 29259975942: the aggregate "AD 2en-GBdetails" match yielded only
+# BITN + BITM - far short of Iceland's AD 2 (BIKF/BIRK/BIAR/BIEG/...).
+# Isavia most likely lists each aerodrome as its own chapter (like
+# CZ/PT); try that first, tolerant of space/hyphen and a locale infix
+# in the id ("AD 2.BIARdetails" / "AD-2.BIARen-GBdetails"). On a miss
+# the base's diagnostics print the real ids, and the aggregate parse
+# stays as fallback.
+_AD2_CHAPTER_RE = re.compile(r"AD[ -]2\.([A-Z]{4}).*details$")
+_AD3_CHAPTER_RE = re.compile(r"AD[ -]3\.([A-Z]{4}).*details$")
+
 _FRAME_CHAINS = (
     ["eAISNavigationBase", "eAISNavigation"],
     ["eAISNavigation"],
@@ -92,17 +102,30 @@ class IS(HttpEurocontrolBase):
             nav_url, nav_html = self._enter_nav(folder)
             last_url, last_html = nav_url, nav_html
 
-            airports.extend(
-                self._extract_section(nav_html, nav_url, _AD2_SECTION_IDS, "vfr")
-            )
             try:
                 airports.extend(
+                    self.extract_airports_per_chapter(
+                        nav_html, nav_url, _AD2_CHAPTER_RE, "vfr"
+                    )
+                )
+            except ValueError as e:
+                self.logger.warning(
+                    f"IS: per-chapter AD 2 parse failed ({e}); "
+                    "falling back to the aggregate section"
+                )
+                airports.extend(
                     self._extract_section(
-                        nav_html, nav_url, _AD3_SECTION_IDS, "heliport"
+                        nav_html, nav_url, _AD2_SECTION_IDS, "vfr"
+                    )
+                )
+            try:
+                airports.extend(
+                    self.extract_airports_per_chapter(
+                        nav_html, nav_url, _AD3_CHAPTER_RE, "heliport"
                     )
                 )
             except ValueError:
-                self.logger.info("IS: no AD 3 heliport section - skipping")
+                self.logger.info("IS: no AD 3 heliport chapters - skipping")
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
