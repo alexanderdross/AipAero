@@ -40,6 +40,12 @@ const countryPages: TestPage[] = [
   { path: "/es/en/", lang: "en", label: "country es-EN" },
   { path: "/lv/", lang: "lv", label: "country lv" },
   { path: "/lv/en/", lang: "en", label: "country lv-EN" },
+  { path: "/is/", lang: "is", label: "country is" },
+  { path: "/is/en/", lang: "en", label: "country is-EN" },
+  { path: "/pt/", lang: "pt", label: "country pt" },
+  { path: "/pt/en/", lang: "en", label: "country pt-EN" },
+  { path: "/hu/", lang: "hu", label: "country hu" },
+  { path: "/hu/en/", lang: "en", label: "country hu-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -68,6 +74,16 @@ const airportListPages: TestPage[] = [
   { path: "/es/en/airport-list-spain/", lang: "en", label: "list es-EN" },
   { path: "/lv/lidlauku-saraksts-latvija/", lang: "lv", label: "list lv" },
   { path: "/lv/en/airport-list-latvia/", lang: "en", label: "list lv-EN" },
+  { path: "/is/flugvallalisti-island/", lang: "is", label: "list is" },
+  { path: "/is/en/airport-list-iceland/", lang: "en", label: "list is-EN" },
+  { path: "/pt/lista-de-aerodromos-portugal/", lang: "pt", label: "list pt" },
+  { path: "/pt/en/airport-list-portugal/", lang: "en", label: "list pt-EN" },
+  {
+    path: "/hu/repuloterek-listaja-magyarorszag/",
+    lang: "hu",
+    label: "list hu",
+  },
+  { path: "/hu/en/airport-list-hungary/", lang: "en", label: "list hu-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -111,6 +127,12 @@ const searchPages: TestPage[] = [
   { path: "/es/en/vfr/", lang: "en", label: "vfr es-EN" },
   { path: "/lv/vfr/", lang: "lv", label: "vfr lv" },
   { path: "/lv/en/heliports/", lang: "en", label: "heliports lv-EN" },
+  { path: "/is/vfr/", lang: "is", label: "vfr is" },
+  { path: "/is/en/vfr/", lang: "en", label: "vfr is-EN" },
+  { path: "/pt/vfr/", lang: "pt", label: "vfr pt" },
+  { path: "/pt/en/vfr/", lang: "en", label: "vfr pt-EN" },
+  { path: "/hu/vfr/", lang: "hu", label: "vfr hu" },
+  { path: "/hu/en/vfr/", lang: "en", label: "vfr hu-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -145,6 +167,12 @@ const termsPages: TestPage[] = [
   { path: "/es/en/terms/", lang: "en", label: "terms es-EN" },
   { path: "/lv/terms/", lang: "lv", label: "terms lv" },
   { path: "/lv/en/terms/", lang: "en", label: "terms lv-EN" },
+  { path: "/is/terms/", lang: "is", label: "terms is" },
+  { path: "/is/en/terms/", lang: "en", label: "terms is-EN" },
+  { path: "/pt/terms/", lang: "pt", label: "terms pt" },
+  { path: "/pt/en/terms/", lang: "en", label: "terms pt-EN" },
+  { path: "/hu/terms/", lang: "hu", label: "terms hu" },
+  { path: "/hu/en/terms/", lang: "en", label: "terms hu-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).
@@ -179,6 +207,12 @@ const efbPages: TestPage[] = [
   { path: "/es/en/efb/", lang: "en", label: "efb es-EN" },
   { path: "/lv/efb/", lang: "lv", label: "efb lv" },
   { path: "/lv/en/efb/", lang: "en", label: "efb lv-EN" },
+  { path: "/is/efb/", lang: "is", label: "efb is" },
+  { path: "/is/en/efb/", lang: "en", label: "efb is-EN" },
+  { path: "/pt/efb/", lang: "pt", label: "efb pt" },
+  { path: "/pt/en/efb/", lang: "en", label: "efb pt-EN" },
+  { path: "/hu/efb/", lang: "hu", label: "efb hu" },
+  { path: "/hu/en/efb/", lang: "en", label: "efb hu-EN" },
 ];
 
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */

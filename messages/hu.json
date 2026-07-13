@@ -1,0 +1,311 @@
+{
+  "BreadCrumbs": {
+    "label": "Navigációs útvonal",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Magyarország (Magyar)",
+      "hrefTitle": "AIP Magyarország"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR légiforgalmi tájékoztató kiadvány Magyarország"
+    },
+    "/airport-list": {
+      "title": "Repülőterek listája",
+      "hrefTitle": "Magyarország repülőtereinek listája"
+    },
+    "/terms": {
+      "title": "Felhasználási feltételek",
+      "hrefTitle": "Felhasználási feltételek - AIP:Aero Magyarország"
+    },
+    "/efb": {
+      "title": "EFB útmutató",
+      "hrefTitle": "EFB útmutató - AIP:Aero a tableteden"
+    }
+  },
+  "Menu": {
+    "label": "Menü",
+    "home": {
+      "title": "AIP Magyarország",
+      "hrefTitle": "AIP Magyarország"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR légiforgalmi tájékoztató kiadvány Magyarország"
+    },
+    "airports": {
+      "title": "Repülőterek listája",
+      "hrefTitle": "Magyarország repülőtereinek listája"
+    }
+  },
+  "AirportsPage": {
+    "title": "Magyarország repülőtereinek listája",
+    "metaTitle": "🛩️ Magyarország repülőtereinek listája",
+    "description": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben",
+    "metaDescription": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben🗺️",
+    "vfrCard": {
+      "title": "VFR repülőterek",
+      "description": "VFR repülőterek Magyarországon",
+      "linkTitle": "Itt tekintheted meg és töltheted le a(z) {airport} AIP VFR térképeit és megközelítési térképét."
+    },
+    "heliportCard": {
+      "title": "Heliportok",
+      "description": "Heliportok Magyarországon",
+      "linkTitle": "Itt tekintheted meg és töltheted le a(z) {airport} heliport AIP VFR térképeit és megközelítési térképeit."
+    },
+    "breadcrumb": {
+      "name": "Magyarország repülőtereinek listája",
+      "alternateName": "Magyarország repülőtereinek listája",
+      "description": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben"
+    }
+  },
+  "VfrPage": {
+    "title": "Magyarországi AIP VFR megközelítési térképek keresője",
+    "metaTitle": "🛩️ Magyarországi AIP VFR megközelítési térképek keresője",
+    "description": "Add meg a repülőtér nevét vagy ICAO-kódját (pl. LHBP, LHDC, LHPP) a HungaroControl által közzétett VFR megközelítési térképek eléréséhez.",
+    "metaDescription": "Keress magyarországi AIP VFR repülőtereket és tölts le megközelítési térképeket ingyen🗺️",
+    "searchTitle": "Add meg a repülőtér nevét vagy ICAO-kódját az AIP VFR eléréséhez",
+    "searchPlaceholder": "Add meg a repülőtér nevét vagy ICAO-kódját az AIP VFR eléréséhez",
+    "resultTitle": "A(z) {airport} AIP VFR térképei",
+    "resultDescription": "Itt tekintheted meg és töltheted le a(z) {airport} AIP VFR térképeit és megközelítési térképét.",
+    "breadcrumb": {
+      "name": "AIP VFR légiforgalmi tájékoztató kiadvány Magyarország",
+      "alternateName": "Magyarországi AIP VFR megközelítési térképek keresője",
+      "description": "Keress magyarországi AIP VFR repülőtereket és tölts le megközelítési térképeket ingyen"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Nyelvváltás",
+    "locale": "{locale, select, hu {🇭🇺 Magyar} en {🇬🇧 English} other {Ismeretlen}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Magyarország AIP légiforgalmi tájékoztató kiadványa és megközelítési térképei",
+    "alternateName": "AIP Magyarország",
+    "description": "Itt töltheted le Magyarország összes AIP légiforgalmi tájékoztató kiadványát (Aeronautical Information Publication) és megközelítési térképét",
+    "inLanguage": "hu",
+    "url": "https://aip.aero/hu/"
+  },
+  "CountryPage": {
+    "title": "Magyarország AIP légiforgalmi tájékoztató kiadványa és megközelítési térképei",
+    "metaTitle": "🛩️ Magyarország AIP légiforgalmi tájékoztató kiadványa és megközelítési térképei",
+    "description": "Itt töltheted le Magyarország összes AIP légiforgalmi tájékoztató kiadványát (Aeronautical Information Publication) és megközelítési térképét",
+    "metaDescription": "Itt töltheted le Magyarország összes AIP légiforgalmi tájékoztató kiadványát (Aeronautical Information Publication) és megközelítési térképét🗺️",
+    "vfrCard": {
+      "title": "AIP VFR légiforgalmi tájékoztató kiadvány",
+      "description": "Keress magyarországi AIP VFR repülőtereket és tölts le megközelítési térképeket",
+      "buttonTitle": "AIP VFR légiforgalmi tájékoztató kiadvány",
+      "buttonHref": "/hu/vfr/",
+      "buttonHrefTitle": "AIP VFR légiforgalmi tájékoztató kiadvány Magyarország"
+    },
+    "airportListCard": {
+      "title": "Repülőterek listája",
+      "description": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben - offline letöltéssel, vám- és üzemanyag-információkkal",
+      "buttonTitle": "Repülőterek listája",
+      "buttonHref": "/hu/repuloterek-listaja-magyarorszag/",
+      "buttonHrefTitle": "Magyarország repülőtereinek listája"
+    },
+    "breadcrumb": {
+      "name": "AIP Magyarország",
+      "alternateName": "Magyarország AIP légiforgalmi tájékoztató kiadványa és megközelítési térképei",
+      "description": "Itt töltheted le Magyarország összes AIP légiforgalmi tájékoztató kiadványát (Aeronautical Information Publication) és megközelítési térképét"
+    }
+  },
+  "About": {
+    "title": "Mire szolgál ez a weboldal?",
+    "description": "A <aip>magyar AIP légiforgalmi tájékoztató kiadvány</aip> ingyenesen elérhető. Ez a weboldal a repülőterek keresését hivatott egyszerűsíteni, mivel a HungaroControl változata nem tartalmaz keresőfunkciót. Nem vállalunk felelősséget az AIP (Aeronautical Information Publication) pontosságáért vagy naprakészségéért, mivel azt nem mi üzemeltetjük. Csupán kényelmes hivatkozásokat biztosítunk a megfelelő megközelítési térképekhez.",
+    "aipUrl": "https://ais-en.hungarocontrol.hu/",
+    "aipTitle": "AIP Magyarország"
+  },
+  "TradeAero": {
+    "title": "Repülőgépet vennél vagy adnál el?",
+    "description": "Fedezd fel a Magyarországon eladó repülőgépeket a Trade:Aero oldalán - a repülőgépek adásvételének piacterén.",
+    "buttonTitle": "Trade:Aero - Európa legnagyobb repülőgép-piactere",
+    "buttonHrefTitle": "Trade:Aero - Európa legnagyobb repülőgép-piactere"
+  },
+  "Footer": {
+    "navTitle": "Navigáció",
+    "legalTitle": "Jogi információk és kapcsolat",
+    "partnersTitle": "Partnerek",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP:Aero kezdőlap - AIP-k és megközelítési térképek Európához"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Kezdőlap",
+      "hrefTitle": "Kezdőlap - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impresszum",
+      "hrefTitle": "Impresszum - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kapcsolat",
+      "hrefTitle": "Kapcsolat - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Adatvédelmi nyilatkozat",
+      "hrefTitle": "Adatvédelmi nyilatkozat - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Alexander Dross weboldala",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Felhasználási feltételek",
+      "hrefTitle": "Felhasználási feltételek - AIP:Aero Magyarország"
+    },
+    "efb": {
+      "title": "EFB útmutató",
+      "hrefTitle": "AIP:Aero az EFB-den - telepítés, offline térképek, importálás"
+    }
+  },
+  "Error": {
+    "description": "<p>Sajnáljuk, hiba történt.</p><p>Megpróbálhatod <retry>újratölteni ezt az oldalt</retry>.</p>",
+    "title": "Valami hiba történt!"
+  },
+  "NotFound": {
+    "title": "404 - Az oldal nem található",
+    "description": "Ez az oldal vagy repülőtérkód nem létezik. Próbáld meg inkább megkeresni a repülőteret:",
+    "searchPlaceholder": "Keress bármely repülőteret név vagy ICAO-kód alapján",
+    "home": "Vissza a kezdőlapra"
+  },
+  "Weather": {
+    "title": "Időjárás",
+    "observed": "Észlelt",
+    "forecast": "Előrejelzés",
+    "wind": "Szél",
+    "visibility": "Látástávolság",
+    "clouds": "Felhőzet",
+    "temperature": "Hőmérséklet",
+    "qnh": "QNH",
+    "source": "Forrás",
+    "elevation": "Tengerszint feletti magasság",
+    "sunrise": "Napkelte",
+    "sunset": "Napnyugta",
+    "civilTwilight": "Polgári szürkület",
+    "facts": "Repülőtéri adatok",
+    "runways": "Futópályák",
+    "frequencies": "Frekvenciák",
+    "decode": "Dekódolt nézet megjelenítése",
+    "openingHours": "Nyitvatartás",
+    "fuel": "Üzemanyag",
+    "ppr": "PPR",
+    "pprRequired": "Előzetes engedély szükséges",
+    "nearest": "Időjárás a legközelebbi repülőtérről: {station} ({km} km-re)",
+    "circuit": "Forgalmi kör",
+    "circuitLeft": "bal",
+    "circuitRight": "jobb",
+    "windComponents": "Szélösszetevők",
+    "headwind": "Szembeszél",
+    "tailwind": "Hátszél",
+    "crosswind": "Oldalszél",
+    "fromLeft": "balról",
+    "fromRight": "jobbról",
+    "landingDirection": "Valószínű leszállási irány",
+    "aerodromeType": "Repülőtér típusa",
+    "surface": "Burkolat"
+  },
+  "Common": {
+    "openIn": "Megnyitás itt:",
+    "homeLink": "AIP:Aero - Légiforgalmi tájékoztató kiadványok (AIP) és megközelítési térképek Európához",
+    "lastUpdated": "Utolsó frissítés",
+    "viewOnMap": "Megtekintés a Google Térképen",
+    "location": "Helyszín",
+    "website": "Weboldal",
+    "address": "Cím",
+    "coordinates": "Koordináták",
+    "phone": "Telefon",
+    "map": "Térkép",
+    "locate": "Saját helyzetem megkeresése",
+    "locateError": "Nem sikerült meghatározni a helyzetedet",
+    "nearby": "Közeli repülőterek",
+    "restaurant": "Étterem",
+    "customs": "Vám",
+    "yes": "Igen",
+    "no": "Nem",
+    "saveOffline": "Mentés offline használatra",
+    "savedOffline": "Offline elmentve",
+    "installHint": "Telepítsd alkalmazásként: nyisd meg a böngésző megosztás menüjét, és válaszd a 'Hozzáadás a kezdőképernyőhöz' lehetőséget. Ezután nyisd meg egyszer az alkalmazást internetkapcsolattal, és mentsd el ott újra a repülőtereidet - az alkalmazás saját offline tárhellyel rendelkezik.",
+    "installHintMac": "Mac gépen: telepítsd a Safari megosztás menüjéből a 'Hozzáadás a Dockhoz' lehetőséggel. Ezután nyisd meg egyszer az alkalmazást internetkapcsolattal, és mentsd el ott újra a repülőtereidet - az alkalmazás saját offline tárhellyel rendelkezik.",
+    "bulkDownload": "Mind a(z) {count} oldal mentése offline használatra (kb. {size} MB)",
+    "bulkDownloaded": "Offline elérhető",
+    "bulkUpdate": "Frissítés",
+    "bulkRemove": "Eltávolítás",
+    "bulkProgress": "Oldalak mentése",
+    "bulkCancel": "Mégse",
+    "bulkError": "A letöltés sikertelen - próbáld újra",
+    "bulkNoSpace": "Nincs elég szabad tárhely ezen az eszközön",
+    "bulkScope": "Tartalmazza: az összes repülőtéri oldalt a repülőtéri adatokkal. Nem tartalmazza: a megközelítési térképek PDF-jeit (repülőterenként menthetők) és az élő időjárást (internetkapcsolat szükséges).",
+    "pavedRunway": "Burkolt futópálya",
+    "favorites": "Kedvencek",
+    "recentlyViewed": "Nemrég megtekintett",
+    "borderCrossing": "Határátlépés",
+    "alsoAvailable": "Szintén elérhető:"
+  },
+  "Chart": {
+    "allCharts": "Összes térkép ({count})",
+    "title": "Megközelítési térkép",
+    "openPdf": "Térkép PDF megnyitása",
+    "preview": "Előnézet megjelenítése"
+  },
+  "TermsPage": {
+    "title": "Felhasználási feltételek",
+    "intro": "Az AIP:Aero ingyenes kereső- és indexszolgáltatás légiforgalmi tájékoztató kiadványokhoz (AIP), megközelítési térképekhez és repülőtéri adatokhoz Európa-szerte.",
+    "servicesTitle": "Szolgáltatásunk",
+    "servicesText": "Az AIP:Aero segítségével név vagy ICAO-kód alapján találhatsz repülőtereket, és közvetlenül az adott ország hivatalos AIP-kiadványához jutsz. Emellett repülőtéri oldalaink kiegészítő információkat is tartalmaznak, például időjárás-jelentéseket (METAR/TAF), repülőtéri adatokat (futópályák, frekvenciák, magasság), térképeket és elérhetőségeket; az oldalak offline használatra is elmenthetők. A szolgáltatás ingyenes, és nem igényel regisztrációt.",
+    "disclaimerTitle": "Felelősségkizárás",
+    "disclaimerText": "Az AIP:Aero semmilyen körülmények között nem vonható felelősségre. Nem teszünk közzé saját légiforgalmi dokumentumokat: csak az adott ország hivatalos szolgáltatója által elérhetővé tett legfrissebb AIP-re (Aeronautical Information Publication) hivatkozunk. Ugyanez vonatkozik az időjárási adatokra (METAR/TAF) és a repülőtéri adatokra is: ezeket az információkat beágyazzuk oldalainkba, de az alább felsorolt külső forrásokból származnak. Nem vállalunk felelősséget vagy garanciát a hivatkozott vagy beágyazott tartalmak pontosságáért, teljességéért vagy naprakészségéért, sem a weboldal elérhetőségéért. Ez a weboldal nem helyettesíti a hivatalos repülés-előkészítést: a légijármű parancsnoka kizárólagosan felelős a repüléshez szükséges összes információ beszerzéséért és ellenőrzéséért.",
+    "sourcesTitle": "Adatforrások",
+    "sourcesIntro": "A hivatkozott és beágyazott adatokat a következő forrásokból szerezzük be (a címek egyszerű szövegként, szándékosan nem kattinthatóan jelennek meg):",
+    "sourcesAip": "Hivatalos AIP-kiadványok, amelyekre hivatkozunk",
+    "sourcesData": "Beágyazott külső adatok",
+    "srcAwc": "METAR/TAF időjárás és repülőtéri adatok",
+    "srcOurAirports": "repülőtéri alapadatok",
+    "srcOpenAip": "bővített repülőtéri adatok: futópályák, frekvenciák, üzemanyag",
+    "srcOsm": "térképek és címek",
+    "metaTitle": "Felhasználási feltételek - AIP:Aero Magyarország",
+    "metaDescription": "Az AIP:Aero, a Magyarországra és Európára vonatkozó ingyenes AIP- és megközelítésitérkép-kereső felhasználási feltételei: szolgáltatásleírás, felelősségkizárás és adatforrások."
+  },
+  "EfbPage": {
+    "title": "Használd az AIP:Aero-t az EFB-den",
+    "intro": "Így telepítheted az AIP:Aero-t az EFB tabletedre, menthetsz megközelítési térképeket offline, tölthetsz le teljes országokat, és adhatod át a repülőtereket a tervezőeszközeidnek - lépésről lépésre.",
+    "metaTitle": "EFB útmutató Magyarország - AIP és megközelítési térképek a tableteden | AIP:Aero",
+    "metaDescription": "Telepítsd az AIP:Aero-t alkalmazásként az EFB tabletedre, ments megközelítési térképeket offline, tölts le teljes országokat, és importálj térkép PDF-eket a ForeFlight, SkyDemon és más alkalmazásokba (Magyarország).",
+    "installTitle": "Telepítés alkalmazásként (PWA)",
+    "installText": "Az AIP:Aero telepíthető webalkalmazás: teljes képernyőn nyílik meg, mint egy natív alkalmazás, és minden mentett tartalom offline is elérhető. Nincs szükség alkalmazásboltra.",
+    "installIos": "iPad / iPhone (Safari): nyisd meg az aip.aero oldalt, koppints a megosztás ikonra, majd a \"Hozzáadás a kezdőképernyőhöz\" lehetőségre.",
+    "installAndroid": "Android (Chrome): nyisd meg az aip.aero oldalt, koppints a menüre, majd a \"Hozzáadás a kezdőképernyőhöz\" / \"Alkalmazás telepítése\" lehetőségre.",
+    "offlineTitle": "Egyes repülőterek mentése offline használatra",
+    "offlineText": "Minden repülőtéri részletoldalon található egy \"Mentés offline használatra\" gomb. Ez elmenti az oldalt, és - ha az AIP közzétesz ilyet - a megközelítési térkép PDF-jét az eszközödre; a repülőtér ezután a kedvencek között jelenik meg az országoldalon. A mentett másolatok mutatják a letöltésük dátumát.",
+    "bulkTitle": "Teljes ország letöltése",
+    "bulkText": "A repülőtérlistáról egyszerre letöltheted egy ország összes részletoldalát (csak az oldalakat, a térkép PDF-ek nélkül - azokat repülőterenként mentheted). A csomag a letöltés előtt mutatja a méretét, és bármikor frissíthető vagy eltávolítható.",
+    "importTitle": "Térkép PDF-ek a ForeFlight, SkyDemon és más alkalmazásokban",
+    "importText": "Ahol a nemzeti AIP térkép PDF-eket tesz közzé, a részletoldal térképdoboza az aktuális PDF-re hivatkozik, az AIRAC-dátummal együtt. Töltsd le, és importáld az EFB alkalmazásodba saját tartalomként, pl. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) vagy Garmin Pilot. Németország PDF-ek helyett HTML-oldalakat tesz közzé - ott az AIP-hivatkozást használd.",
+    "toolsTitle": "Átadás a tervezőeszközöknek",
+    "toolsText": "Minden részletoldal helyszíndoboza közvetlenül megnyitja ugyanazt a repülőteret a SkyVector, a Windy és az autorouter felületén - praktikus útvonaltervezéshez, időjárási modellekhez és a repülési terv benyújtásához.",
+    "weatherTitle": "Időjárási tájékoztatás az oldalon",
+    "weatherText": "A részletoldalak élő METAR/TAF adatokat mutatnak közérthető dekódolással, a repülési kategória jelvényével, valamint futópályánkénti szembeszél- és oldalszél-bontással - gyors ellenőrzésként, nem a hivatalos eligazítás helyett.",
+    "customsTitle": "Vám és határátlépés",
+    "customsText": "A részletoldalak mutatják, hogy egy repülőtér kínál-e vámkezelést; ahol a nemzeti AIP a GEN 1.2 fejezetben feltünteti, az érték ezzel a hivatalos forrással van ellenőrizve. A határátlépési ügyintézéshez a helyszíndoboz a hivatalos űrlapokra hivatkozik (pl. a brit General Aviation Report), a térkép pedig szűrhető a vámkezelést kínáló repülőterekre. A szabályok változnak - mindig ellenőrizd az aktuális AIP-ben és a helyi hatóságnál.",
+    "disclaimerTitle": "Biztonsági figyelmeztetés",
+    "disclaimerText": "Az AIP:Aero hivatalos AIP-kiadványokra hivatkozik, de nem hivatalos forrás. Az offline másolatok a letöltésük dátumával vannak megjelölve, és minden AIRAC-ciklussal elavulhatnak - minden repülés előtt ellenőrizd a térképek érvényességét, és mindig kérj hivatalos repülés-előkészítő eligazítást."
+  }
+}

@@ -70,6 +70,11 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // "vfr"); heliports are not part of the crawled AIP section.
   es: ["vfr"],
   lv: ["vfr", "heliport"],
+  // IS/PT/HU crawlers found no AD-3 heliport chapters on the live
+  // sources (run 29265643933) - vfr only, like ES.
+  is: ["vfr"],
+  pt: ["vfr"],
+  hu: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -97,6 +102,16 @@ export const liveCountries: string[] = [
   "no",
   "pl",
   "se",
+  // Europe expansion batch 1 (13.07.2026): crawlers live-validated
+  // (runs 29257033060/29257457290/29258501240/29265643933), first data
+  // published via the manual crawl dispatch on launch day.
+  "ee",
+  "fi",
+  "es",
+  "lv",
+  "is",
+  "pt",
+  "hu",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source:
   // "dk",
   // "gr",
@@ -135,4 +150,7 @@ export const countryMeta: Record<
   fi: { lang: "fi", name: "Finland", flag: "🇫🇮", nativeLang: "Finnish" },
   es: { lang: "es", name: "Spain", flag: "🇪🇸", nativeLang: "Spanish" },
   lv: { lang: "lv", name: "Latvia", flag: "🇱🇻", nativeLang: "Latvian" },
+  is: { lang: "is", name: "Iceland", flag: "🇮🇸", nativeLang: "Icelandic" },
+  pt: { lang: "pt", name: "Portugal", flag: "🇵🇹", nativeLang: "Portuguese" },
+  hu: { lang: "hu", name: "Hungary", flag: "🇭🇺", nativeLang: "Hungarian" },
 };

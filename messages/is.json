@@ -1,0 +1,311 @@
+{
+  "BreadCrumbs": {
+    "label": "Brauðmolaslóð",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Ísland (Íslenska)",
+      "hrefTitle": "AIP Ísland"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Flugmálahandbók AIP VFR Ísland"
+    },
+    "/airport-list": {
+      "title": "Flugvallalisti",
+      "hrefTitle": "Listi yfir flugvelli á Íslandi"
+    },
+    "/terms": {
+      "title": "Notkunarskilmálar",
+      "hrefTitle": "Notkunarskilmálar - AIP:Aero Ísland"
+    },
+    "/efb": {
+      "title": "EFB-leiðbeiningar",
+      "hrefTitle": "EFB-leiðbeiningar - AIP:Aero í spjaldtölvunni þinni"
+    }
+  },
+  "Menu": {
+    "label": "Valmynd",
+    "home": {
+      "title": "AIP Ísland",
+      "hrefTitle": "AIP Ísland"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Flugmálahandbók AIP VFR Ísland"
+    },
+    "airports": {
+      "title": "Flugvallalisti",
+      "hrefTitle": "Listi yfir flugvelli á Íslandi"
+    }
+  },
+  "AirportsPage": {
+    "title": "Listi yfir flugvelli á Íslandi",
+    "metaTitle": "🛩️ Listi yfir flugvelli á Íslandi",
+    "description": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi",
+    "metaDescription": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi🗺️",
+    "vfrCard": {
+      "title": "VFR-flugvellir",
+      "description": "VFR-flugvellir á Íslandi",
+      "linkTitle": "Skoðaðu og sæktu hér AIP VFR kortin og sjónaðflugskortið fyrir {airport}."
+    },
+    "heliportCard": {
+      "title": "Þyrluvellir",
+      "description": "Þyrluvellir á Íslandi",
+      "linkTitle": "Skoðaðu og sæktu hér AIP VFR kortin og aðflugskort þyrluvallarins {airport}."
+    },
+    "breadcrumb": {
+      "name": "Listi yfir flugvelli á Íslandi",
+      "alternateName": "Listi yfir flugvelli á Íslandi",
+      "description": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi"
+    }
+  },
+  "VfrPage": {
+    "title": "Leit að AIP VFR aðflugskortum fyrir Ísland",
+    "metaTitle": "🛩️ Leit að AIP VFR aðflugskortum fyrir Ísland",
+    "description": "Sláðu inn nafn flugvallar eða ICAO-kóða hans (t.d. BIKF Keflavík, BIRK Reykjavík, BIAR Akureyri) til að opna VFR-aðflugskortin sem Isavia gefur út.",
+    "metaDescription": "Leitaðu að AIP VFR flugvöllum á Íslandi og sæktu aðflugskort ókeypis🗺️",
+    "searchTitle": "Sláðu inn nafn flugvallar eða ICAO-kóða hans til að opna AIP VFR",
+    "searchPlaceholder": "Sláðu inn nafn flugvallar eða ICAO-kóða hans til að opna AIP VFR",
+    "resultTitle": "AIP VFR kort fyrir {airport}",
+    "resultDescription": "Skoðaðu og sæktu hér AIP VFR kortin og sjónaðflugskortið fyrir {airport}.",
+    "breadcrumb": {
+      "name": "Flugmálahandbók AIP VFR Ísland",
+      "alternateName": "Leit að AIP VFR aðflugskortum fyrir Ísland",
+      "description": "Leitaðu að AIP VFR flugvöllum á Íslandi og sæktu aðflugskort ókeypis"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Skipta um tungumál",
+    "locale": "{locale, select, is {🇮🇸 Íslenska} en {🇬🇧 English} other {Óþekkt}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Aðflugskort og flugmálahandbók (AIP) Íslands",
+    "alternateName": "AIP Ísland",
+    "description": "Hér getur þú sótt allar flugmálahandbækur (AIP, Aeronautical Information Publication) og aðflugskort fyrir Ísland",
+    "inLanguage": "is",
+    "url": "https://aip.aero/is/"
+  },
+  "CountryPage": {
+    "title": "Aðflugskort og flugmálahandbók (AIP) Íslands",
+    "metaTitle": "🛩️ Aðflugskort og flugmálahandbók (AIP) Íslands",
+    "description": "Hér getur þú sótt allar flugmálahandbækur (AIP, Aeronautical Information Publication) og aðflugskort fyrir Ísland",
+    "metaDescription": "Hér getur þú sótt allar flugmálahandbækur (AIP, Aeronautical Information Publication) og aðflugskort fyrir Ísland🗺️",
+    "vfrCard": {
+      "title": "Flugmálahandbók AIP VFR",
+      "description": "Leitaðu að AIP VFR flugvöllum á Íslandi og sæktu aðflugskort ókeypis",
+      "buttonTitle": "Flugmálahandbók AIP VFR",
+      "buttonHref": "/is/vfr/",
+      "buttonHrefTitle": "Flugmálahandbók AIP VFR Ísland"
+    },
+    "airportListCard": {
+      "title": "Flugvallalisti",
+      "description": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi - með niðurhali án nettengingar og upplýsingum um tollafgreiðslu og eldsneyti",
+      "buttonTitle": "Flugvallalisti",
+      "buttonHref": "/is/flugvallalisti-island/",
+      "buttonHrefTitle": "Listi yfir flugvelli á Íslandi"
+    },
+    "breadcrumb": {
+      "name": "AIP Ísland",
+      "alternateName": "Aðflugskort og flugmálahandbók (AIP) Íslands",
+      "description": "Hér getur þú sótt allar flugmálahandbækur (AIP, Aeronautical Information Publication) og aðflugskort fyrir Ísland"
+    }
+  },
+  "About": {
+    "title": "Til hvers er þessi vefur?",
+    "description": "Íslenska <aip>flugmálahandbókin AIP</aip> er aðgengileg í ókeypis útgáfu. Þessi vefur einfaldar leitina að flugvöllum, þar sem útgáfa Isavia býður ekki upp á leitaraðgerð. Við berum enga ábyrgð á nákvæmni eða tímanleika AIP (Aeronautical Information Publication), enda er hún ekki rekin af okkur. Við bjóðum aðeins þægilega tengla á viðkomandi aðflugskort.",
+    "aipUrl": "https://eaip.isavia.is/",
+    "aipTitle": "AIP Ísland"
+  },
+  "TradeAero": {
+    "title": "Viltu kaupa eða selja loftfar?",
+    "description": "Skoðaðu loftför til sölu á Íslandi á Trade:Aero - markaðstorginu fyrir kaup og sölu loftfara.",
+    "buttonTitle": "Trade:Aero - stærsta loftfaramarkaðstorg Evrópu",
+    "buttonHrefTitle": "Trade:Aero - stærsta loftfaramarkaðstorg Evrópu"
+  },
+  "Footer": {
+    "navTitle": "Leiðsögn",
+    "legalTitle": "Lagaleg atriði og samband",
+    "partnersTitle": "Samstarfsaðilar",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "Heimasíða AIP:Aero - AIP og aðflugskort fyrir Evrópu"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Heim",
+      "hrefTitle": "Heim - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Útgáfuupplýsingar",
+      "hrefTitle": "Útgáfuupplýsingar - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Hafa samband",
+      "hrefTitle": "Hafa samband - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Persónuverndarstefna",
+      "hrefTitle": "Persónuverndarstefna - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Vefsíða Alexanders Dross",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Notkunarskilmálar",
+      "hrefTitle": "Notkunarskilmálar - AIP:Aero Ísland"
+    },
+    "efb": {
+      "title": "EFB-leiðbeiningar",
+      "hrefTitle": "AIP:Aero á EFB-tækinu þínu - uppsetning, kort án nettengingar, innflutningur"
+    }
+  },
+  "Error": {
+    "description": "<p>Því miður kom upp villa.</p><p>Þú getur reynt að <retry>endurhlaða þessa síðu</retry>.</p>",
+    "title": "Eitthvað fór úrskeiðis!"
+  },
+  "NotFound": {
+    "title": "404 - Síðan fannst ekki",
+    "description": "Þessi síða eða þessi flugvallarkóði er ekki til. Prófaðu að leita að flugvellinum:",
+    "searchPlaceholder": "Leitaðu að hvaða flugvelli sem er eftir nafni eða ICAO-kóða",
+    "home": "Aftur á forsíðuna"
+  },
+  "Weather": {
+    "title": "Veður",
+    "observed": "Athugað",
+    "forecast": "Spá",
+    "wind": "Vindur",
+    "visibility": "Skyggni",
+    "clouds": "Ský",
+    "temperature": "Hiti",
+    "qnh": "QNH",
+    "source": "Heimild",
+    "elevation": "Hæð yfir sjávarmáli",
+    "sunrise": "Sólarupprás",
+    "sunset": "Sólsetur",
+    "civilTwilight": "Borgaralegt rökkur",
+    "facts": "Flugvallarupplýsingar",
+    "runways": "Flugbrautir",
+    "frequencies": "Tíðnir",
+    "decode": "Sýna afkóðað",
+    "openingHours": "Opnunartími",
+    "fuel": "Eldsneyti",
+    "ppr": "PPR",
+    "pprRequired": "Fyrirframleyfi áskilið",
+    "nearest": "Veður frá næsta flugvelli {station} (í {km} km fjarlægð)",
+    "circuit": "Umferðarhringur",
+    "circuitLeft": "vinstri",
+    "circuitRight": "hægri",
+    "windComponents": "Vindþættir",
+    "headwind": "Mótvindur",
+    "tailwind": "Meðvindur",
+    "crosswind": "Hliðarvindur",
+    "fromLeft": "frá vinstri",
+    "fromRight": "frá hægri",
+    "landingDirection": "Líkleg lendingarstefna",
+    "aerodromeType": "Tegund flugvallar",
+    "surface": "Yfirborð"
+  },
+  "Common": {
+    "openIn": "Opna í",
+    "homeLink": "AIP:Aero - Flugmálahandbækur (AIP) og aðflugskort fyrir Evrópu",
+    "lastUpdated": "Síðast uppfært",
+    "viewOnMap": "Skoða á Google Maps",
+    "location": "Staðsetning",
+    "website": "Vefsíða",
+    "address": "Heimilisfang",
+    "coordinates": "Hnit",
+    "phone": "Sími",
+    "map": "Kort",
+    "locate": "Finna staðsetningu mína",
+    "locateError": "Ekki tókst að ákvarða staðsetningu þína",
+    "nearby": "Flugvellir í nágrenninu",
+    "restaurant": "Veitingastaður",
+    "customs": "Tollafgreiðsla",
+    "yes": "Já",
+    "no": "Nei",
+    "saveOffline": "Vista án nettengingar",
+    "savedOffline": "Vistað án nettengingar",
+    "installHint": "Settu upp sem app: opnaðu deilivalmynd vafrans og veldu 'Bæta á heimaskjá'. Opnaðu síðan appið einu sinni með nettengingu og vistaðu flugvellina þína þar aftur - appið hefur sína eigin geymslu án nettengingar.",
+    "installHintMac": "Á Mac: settu upp úr deilivalmynd Safari með 'Bæta í Dock'. Opnaðu síðan appið einu sinni með nettengingu og vistaðu flugvellina þína þar aftur - appið hefur sína eigin geymslu án nettengingar.",
+    "bulkDownload": "Vista allar {count} síðurnar án nettengingar (u.þ.b. {size} MB)",
+    "bulkDownloaded": "Aðgengilegt án nettengingar",
+    "bulkUpdate": "Uppfæra",
+    "bulkRemove": "Fjarlægja",
+    "bulkProgress": "Vista síður",
+    "bulkCancel": "Hætta við",
+    "bulkError": "Niðurhal mistókst - reyndu aftur",
+    "bulkNoSpace": "Ekki nægilegt laust geymslupláss á þessu tæki",
+    "bulkScope": "Innifalið: allar flugvallasíður með flugvallarupplýsingum. Ekki innifalið: PDF-aðflugskort (hægt að vista fyrir hvern flugvöll) og veður í rauntíma (krefst nettengingar).",
+    "pavedRunway": "Malbikuð flugbraut",
+    "favorites": "Uppáhald",
+    "recentlyViewed": "Nýlega skoðað",
+    "borderCrossing": "För yfir landamæri",
+    "alsoAvailable": "Einnig í boði:"
+  },
+  "Chart": {
+    "allCharts": "Öll kort ({count})",
+    "title": "Aðflugskort",
+    "openPdf": "Opna PDF-kort",
+    "preview": "Sýna forskoðun"
+  },
+  "TermsPage": {
+    "title": "Notkunarskilmálar",
+    "intro": "AIP:Aero er ókeypis leitar- og skráningarþjónusta fyrir flugmálahandbækur (AIP), aðflugskort og flugvallargögn í Evrópu.",
+    "servicesTitle": "Þjónustan okkar",
+    "servicesText": "AIP:Aero gerir þér kleift að finna flugvelli eftir nafni eða ICAO-kóða og vísar þér beint á opinbera AIP-útgáfu viðkomandi lands. Að auki birta flugvallasíðurnar okkar viðbótarupplýsingar á borð við veðurskeyti (METAR/TAF), flugvallarupplýsingar (flugbrautir, tíðnir, hæð yfir sjávarmáli), kort og tengiliðaupplýsingar; einnig má vista síðurnar til notkunar án nettengingar. Þjónustan er ókeypis og krefst engrar skráningar.",
+    "disclaimerTitle": "Fyrirvari um ábyrgð",
+    "disclaimerText": "AIP:Aero ber undir engum kringumstæðum ábyrgð. Við gefum ekki út flugmálaskjöl sjálf: við tengjum aðeins á nýjustu flugmálahandbókina (AIP, Aeronautical Information Publication) sem opinber útgefandi viðkomandi lands gerir aðgengilega. Hið sama gildir um veðurgögn (METAR/TAF) og flugvallargögn: þessar upplýsingar eru birtar á síðunum okkar en koma frá utanaðkomandi heimildum sem taldar eru upp hér að neðan. Við berum enga ábyrgð og veitum enga tryggingu fyrir nákvæmni, heild eða tímanleika tengds eða birts efnis, né fyrir aðgengi að þessum vef. Þessi vefur kemur ekki í stað opinbers flugundirbúnings: flugstjórinn ber einn ábyrgð á að afla og sannreyna allar upplýsingar sem flugið krefst.",
+    "sourcesTitle": "Gagnaheimildir",
+    "sourcesIntro": "Við sækjum tengd og birt gögn frá eftirfarandi heimildum (vefslóðir sýndar sem hreinn texti, vísvitandi ekki smellanlegar):",
+    "sourcesAip": "Opinberar AIP-útgáfur sem við tengjum á",
+    "sourcesData": "Birt utanaðkomandi gögn",
+    "srcAwc": "METAR/TAF-veður og flugvallargögn",
+    "srcOurAirports": "grunngögn flugvalla",
+    "srcOpenAip": "ítarlegri flugvallargögn: flugbrautir, tíðnir, eldsneyti",
+    "srcOsm": "kort og heimilisföng",
+    "metaTitle": "Notkunarskilmálar - AIP:Aero Ísland",
+    "metaDescription": "Notkunarskilmálar AIP:Aero, ókeypis leitarvélarinnar fyrir AIP og aðflugskort fyrir Ísland og Evrópu: lýsing á þjónustunni, fyrirvari um ábyrgð og gagnaheimildir."
+  },
+  "EfbPage": {
+    "title": "Notaðu AIP:Aero á EFB-tækinu þínu",
+    "intro": "Hvernig þú setur AIP:Aero upp á EFB-spjaldtölvunni þinni, vistar aðflugskort án nettengingar, sækir heilu löndin og sendir flugvelli yfir í skipulagsverkfærin þín - skref fyrir skref.",
+    "metaTitle": "EFB-leiðbeiningar Ísland - AIP og aðflugskort í spjaldtölvunni þinni | AIP:Aero",
+    "metaDescription": "Settu AIP:Aero upp sem app á EFB-spjaldtölvunni þinni, vistaðu aðflugskort án nettengingar, sæktu heilu löndin og fluttu PDF-kort inn í ForeFlight, SkyDemon og fleiri (Ísland).",
+    "installTitle": "Setja upp sem app (PWA)",
+    "installText": "AIP:Aero er vefapp sem hægt er að setja upp: það opnast á öllum skjánum eins og innbyggt app og allt sem þú vistar er aðgengilegt án nettengingar. Engin appverslun nauðsynleg.",
+    "installIos": "iPad / iPhone (Safari): opnaðu aip.aero, ýttu á deilitáknið og síðan \"Bæta á heimaskjá\".",
+    "installAndroid": "Android (Chrome): opnaðu aip.aero, ýttu á valmyndina og síðan \"Bæta á heimaskjá\" / \"Setja upp app\".",
+    "offlineTitle": "Vista einstaka flugvelli án nettengingar",
+    "offlineText": "Hver flugvallasíða hefur hnappinn \"Vista án nettengingar\". Hann geymir síðuna og, þegar AIP gefur það út, PDF-aðflugskortið á tækinu þínu; flugvöllurinn birtist síðan undir uppáhaldi á landssíðunni. Vistuð afrit sýna dagsetningu niðurhalsins.",
+    "bulkTitle": "Sækja heilt land",
+    "bulkText": "Af flugvallalistanum getur þú sótt allar flugvallasíður lands í einu (aðeins síður, án PDF-korta - þau vistast fyrir hvern flugvöll). Pakkinn sýnir stærð sína fyrir niðurhal og hægt er að uppfæra hann eða fjarlægja hvenær sem er.",
+    "importTitle": "PDF-kort í ForeFlight, SkyDemon og fleiri",
+    "importText": "Þegar landsbundin AIP gefur út PDF-kort tengir kortareiturinn á flugvallasíðunni á gildandi PDF ásamt AIRAC-dagsetningu þess. Sæktu það og fluttu það inn í EFB-appið þitt sem eigið efni, t.d. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eða Garmin Pilot. Þýskaland gefur út HTML-síður í stað PDF - notaðu þar AIP-hlekkinn.",
+    "toolsTitle": "Tenging við skipulagsverkfæri",
+    "toolsText": "Staðsetningarreiturinn á hverri flugvallasíðu opnar sama flugvöll beint í SkyVector, Windy og autorouter - hentugt fyrir leiðarskipulag, veðurlíkön og skil flugáætlana.",
+    "weatherTitle": "Veðurupplýsingar á síðunni",
+    "weatherText": "Flugvallasíðurnar sýna METAR/TAF í rauntíma með afkóðun á mannamáli, merki flugflokksins og mót- og hliðarvindsþætti fyrir hverja flugbraut - fljótleg athugun, ekki staðgengill opinbers veðurundirbúnings.",
+    "customsTitle": "Tollafgreiðsla og för yfir landamæri",
+    "customsText": "Flugvallasíðurnar sýna hvort flugvöllur býður upp á tollafgreiðslu; þegar landsbundin AIP tilgreinir það í GEN 1.2 er gildið sannreynt gagnvart þeirri opinberu heimild. Fyrir landamærapappíra tengir staðsetningarreiturinn á opinberu eyðublöðin (t.d. breska General Aviation Report) og kortið getur síað eftir flugvöllum með tollafgreiðslu. Reglur breytast - staðfestu þær alltaf með gildandi AIP og hjá staðaryfirvöldum.",
+    "disclaimerTitle": "Öryggisathugasemd",
+    "disclaimerText": "AIP:Aero tengir á opinberar AIP-útgáfur en er ekki opinber heimild. Afrit án nettengingar eru merkt með dagsetningu niðurhalsins og geta úrelst með hverri AIRAC-lotu - athugaðu gildi kortanna fyrir hvert flug og fáðu þér alltaf opinberan flugundirbúning."
+  }
+}
