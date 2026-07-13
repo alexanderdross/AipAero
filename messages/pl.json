@@ -287,7 +287,8 @@
     "pavedRunway": "Utwardzony pas",
     "favorites": "Ulubione",
     "recentlyViewed": "Ostatnio przeglądane",
-    "borderCrossing": "Przekroczenie granicy"
+    "borderCrossing": "Przekroczenie granicy",
+    "alsoAvailable": "Dostępne również:"
   },
   "Chart": {
     "allCharts": "Wszystkie mapy ({count})",

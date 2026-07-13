@@ -287,7 +287,8 @@
     "pavedRunway": "Belagd bana",
     "favorites": "Favoriter",
     "recentlyViewed": "Senast visade",
-    "borderCrossing": "Gränspassage"
+    "borderCrossing": "Gränspassage",
+    "alsoAvailable": "Även tillgänglig:"
   },
   "Chart": {
     "allCharts": "Alla kartor ({count})",

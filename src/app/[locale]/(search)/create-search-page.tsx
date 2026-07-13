@@ -21,7 +21,7 @@ import {
   routing,
   isSingleLocale,
 } from "~/i18n/routing";
-import { countryHasType, orgUrl } from "~/lib/utils";
+import { countryHasType, i18nPathMapping, orgUrl } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 import { type Airport } from "~/server/db/schema";
 
@@ -52,6 +52,82 @@ type PageProps = Readonly<{
   params: Promise<{ locale: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }>;
+
+// Cross-type link lookups: the i18n namespace carrying each sibling type's
+// SEO resultTitle, and its Menu entry for the short visible label.
+const TYPE_NAMESPACE: Record<Airport["type"], SearchPageConfig["namespace"]> = {
+  vfr: "VfrPage",
+  ifr: "IfrPage",
+  heliport: "HeliportPage",
+  mil: "MilitaryPage",
+  aeroport: "AeroportPage",
+};
+const TYPE_MENU_KEY: Record<Airport["type"], string> = {
+  vfr: "vfr",
+  ifr: "ifr",
+  heliport: "heliports",
+  mil: "military",
+  aeroport: "aeroports",
+};
+
+/** A sibling detail page of the same airport under another type. */
+export interface RelatedTypeLink {
+  type: Airport["type"];
+  /** Absolute canonical URL (".../ifr/?EDDF"). */
+  url: string;
+  /** Short visible label, e.g. "AIP IFR EDDF". */
+  label: string;
+  /** SEO title (the target page's resultTitle) for the title attribute. */
+  title: string;
+}
+
+/**
+ * The same airport's detail pages under OTHER types (many DE fields exist as
+ * VFR and IFR). One small cached read (country-tagged); fail-soft to [] - the
+ * visible links and the `isRelatedTo` schema nodes simply disappear when the
+ * DB is absent (build) or the field has no sibling.
+ */
+async function relatedTypeLinks(
+  data: Airport,
+  currentType: Airport["type"],
+  country: string,
+  locale: string,
+): Promise<RelatedTypeLink[]> {
+  const types = (await QUERIES.airportTypes(data.slug, country)).filter(
+    (t) => t !== currentType,
+  );
+  if (types.length === 0) return [];
+  const tMenu = await getTranslations("Menu");
+  return Promise.all(
+    types.map(async (siblingType) => {
+      const tOther = await getTranslations(TYPE_NAMESPACE[siblingType]);
+      const url = new URL(
+        getPathname({
+          href: {
+            pathname: i18nPathMapping[siblingType],
+            query: { [data.slug]: "" },
+          },
+          locale,
+        }),
+        orgUrl,
+      )
+        .toString()
+        .replace("=", "");
+      // Menu keys exist per country availability; fall back to the raw type
+      // if a locale file unexpectedly misses one (never crash a detail page).
+      const menuKey = `${TYPE_MENU_KEY[siblingType]}.title`;
+      const typeLabel = tMenu.has(menuKey)
+        ? tMenu(menuKey)
+        : siblingType.toUpperCase();
+      return {
+        type: siblingType,
+        url,
+        label: `${typeLabel} ${data.icao ?? ""}`.trim(),
+        title: tOther("resultTitle", { airport: data.title }),
+      };
+    }),
+  );
+}
 
 export function createSearchPage(config: SearchPageConfig) {
   const { type, namespace, href, schemaPrefix } = config;
@@ -182,6 +258,12 @@ export function createSearchPage(config: SearchPageConfig) {
 
     const modifiedDate = new Date(buildDate);
 
+    // Cross-type sibling pages ("also available as IFR/VFR"): visible links
+    // in the gadgets wrapper + isRelatedTo nodes in the Product JSON-LD.
+    const related = data
+      ? await relatedTypeLinks(data, type, country, locale)
+      : [];
+
     return (
       <>
         <Title
@@ -198,6 +280,7 @@ export function createSearchPage(config: SearchPageConfig) {
           description={schemaDescription}
           publishedDate={modifiedDate}
           currentUrl={currentUrl}
+          related={related.map((r) => ({ url: r.url, name: r.title }))}
         />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SearchInputField
@@ -240,6 +323,7 @@ export function createSearchPage(config: SearchPageConfig) {
                 airport: data.title,
               })}
               schemaUrl={currentUrl}
+              related={related}
             />
           </Suspense>
         )}

@@ -159,7 +159,35 @@ jobs:
                   if line and icao_re.search(line):
                       print(f"   TXT {line[:300]}")
 
-          def recon_uk() -> None:
+          def recon_generic(code: str) -> None:
+              """GEN 1.2 for any eurocontrol-eAIP country, zero per-country
+              code: run the country's crawler, take an AD-2 detail URL (which
+              embeds the current AIRAC edition path) and substitute the
+              section name - eurocontrol eAIPs serve GEN 1.2 as a sibling
+              (LK-AD-2.LKTB-en-GB.html -> LK-GEN-1.2-en-GB.html). Works for
+              NEW countries automatically as soon as their crawler works."""
+              from main import COUNTRY_CRAWLERS
+
+              crawler = COUNTRY_CRAWLERS[code]()
+              airports = crawler.crawl()
+              src = next(
+                  (a.url for a in airports if re.search(r"AD-[23]", a.url)),
+                  None,
+              )
+              if not src:
+                  for a in airports[:3]:
+                      print(f"   sample url: {a.url[:120]}")
+                  print("   no eurocontrol AD-2 style URL - needs a country-specific recon")
+                  return
+              gen_url = re.sub(
+                  r"AD-[23](\.[A-Z0-9]{3,4})?", "GEN-1.2", src.split("#")[0]
+              )
+              prefix = (airports[0].icao or "??")[:2]
+              print(f"   GEN 1.2 page (derived): {gen_url[:160]}")
+              html, _ = fetch(gen_url)
+              dump_customs_content(html, prefix)
+
+          def recon_uk(code: str = "UK") -> None:
               from crawlers.uk import ROOT_URL, UK
 
               c = UK()
@@ -185,7 +213,7 @@ jobs:
               html, _ = fetch(url)
               dump_customs_content(html, "EG")
 
-          def recon_de() -> None:
+          def recon_de(code: str = "DE") -> None:
               from crawlers.de import IFR_BASE
 
               # Walk the BasicIFR folder tree: root -> GEN -> GEN 1 -> GEN 1.2.
@@ -237,18 +265,18 @@ jobs:
                       flat = " ".join(sub_html.split())
                       print(f"   [debug] html head: {flat[:1200]}")
 
+          # UK/DE have bespoke walks; every other (and future) country falls
+          # through to the generic eurocontrol recon - no code needed when
+          # adding a country whose source is a eurocontrol eAIP.
           RECONS = {"UK": recon_uk, "DE": recon_de}
 
           failed = []
           for code in os.environ["GEN12"].split():
               code = code.upper()
               print(f"\n===== GEN 1.2 {code} =====", flush=True)
-              fn = RECONS.get(code)
-              if not fn:
-                  print(f"   no GEN 1.2 recon implemented for {code}")
-                  continue
+              fn = RECONS.get(code, recon_generic)
               try:
-                  fn()
+                  fn(code)
               except Exception as e:
                   failed.append(code)
                   print(f"   FAILED - {type(e).__name__}: {e}")

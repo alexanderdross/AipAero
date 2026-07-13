@@ -252,7 +252,8 @@
     "pavedRunway": "Paved runway",
     "favorites": "Favourites",
     "recentlyViewed": "Recently viewed",
-    "borderCrossing": "Border crossing"
+    "borderCrossing": "Border crossing",
+    "alsoAvailable": "Also available:"
   },
   "Chart": {
     "allCharts": "All charts ({count})",

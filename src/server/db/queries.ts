@@ -149,6 +149,33 @@ export const QUERIES = {
       undefined,
     );
   }),
+  /**
+   * Every type under which a slug exists in a country - backs the cross-type
+   * "also available as IFR/VFR" links on the detail pages. Cached per
+   * (slug, country) with the country tag, same bounded cardinality as the
+   * per-airport `airport` read above (one entry per detail page).
+   */
+  airportTypes: cache(function (slug: string, country: string) {
+    country = country.toUpperCase();
+    return cachedRead<Airport["type"][]>(
+      "airportTypes",
+      ["airportTypes", slug.toUpperCase(), country],
+      ["airportTypes", countryTag(country)],
+      async (db) =>
+        (
+          await db
+            .select({ type: airports.type })
+            .from(airports)
+            .where(
+              and(
+                sql`${airports.slug} = ${slug} COLLATE NOCASE`,
+                eq(airports.country, country),
+              ),
+            )
+        ).map((r) => r.type),
+      [],
+    );
+  }),
   airports: async function (
     search: string,
     country: string,

@@ -287,7 +287,8 @@
     "pavedRunway": "Verharde baan",
     "favorites": "Favorieten",
     "recentlyViewed": "Recent bekeken",
-    "borderCrossing": "Grensoverschrijding"
+    "borderCrossing": "Grensoverschrijding",
+    "alsoAvailable": "Ook beschikbaar:"
   },
   "Chart": {
     "allCharts": "Alle kaarten ({count})",

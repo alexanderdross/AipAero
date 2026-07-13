@@ -322,7 +322,8 @@
     "pavedRunway": "Befestigte Piste",
     "favorites": "Favoriten",
     "recentlyViewed": "Zuletzt angesehen",
-    "borderCrossing": "Grenzübertritt"
+    "borderCrossing": "Grenzübertritt",
+    "alsoAvailable": "Auch verfügbar:"
   },
   "Chart": {
     "allCharts": "Alle Karten ({count})",
