@@ -361,7 +361,7 @@
     "offlineTitle": "Save single airfields offline",
     "offlineText": "Every airport detail page has a \"Save offline\" button. It stores the page and, where the AIP publishes one, the approach-chart PDF on your device; the field then appears under Favorites on the country page. Saved copies show their download date.",
     "bulkTitle": "Download a whole country",
-    "bulkText": "On the airport list you can download all of a country's detail pages in one go (pages only, without chart PDFs - save those per field). The pack shows its size before downloading and can be updated or removed at any time.",
+    "bulkText": "On the <list>airport list</list> you can download all of a country's detail pages in one go (pages only, without chart PDFs - save those per field). The pack shows its size before downloading and can be updated or removed at any time.",
     "importTitle": "Chart PDFs in ForeFlight, SkyDemon & Co.",
     "importText": "Where the national AIP publishes chart PDFs, the chart box on the detail page links the current PDF including its AIRAC date. Download it and import it into your EFB app as custom content, e.g. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) or Garmin Pilot. Germany publishes HTML pages instead of PDFs - use the AIP link there.",
     "toolsTitle": "Hand-offs to planning tools",

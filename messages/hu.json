@@ -296,7 +296,7 @@
     "offlineTitle": "Egyes repülőterek mentése offline használatra",
     "offlineText": "Minden repülőtéri részletoldalon található egy \"Mentés offline használatra\" gomb. Ez elmenti az oldalt, és - ha az AIP közzétesz ilyet - a megközelítési térkép PDF-jét az eszközödre; a repülőtér ezután a kedvencek között jelenik meg az országoldalon. A mentett másolatok mutatják a letöltésük dátumát.",
     "bulkTitle": "Teljes ország letöltése",
-    "bulkText": "A repülőtérlistáról egyszerre letöltheted egy ország összes részletoldalát (csak az oldalakat, a térkép PDF-ek nélkül - azokat repülőterenként mentheted). A csomag a letöltés előtt mutatja a méretét, és bármikor frissíthető vagy eltávolítható.",
+    "bulkText": "A <list>repülőtérlistáról</list> egyszerre letöltheted egy ország összes részletoldalát (csak az oldalakat, a térkép PDF-ek nélkül - azokat repülőterenként mentheted). A csomag a letöltés előtt mutatja a méretét, és bármikor frissíthető vagy eltávolítható.",
     "importTitle": "Térkép PDF-ek a ForeFlight, SkyDemon és más alkalmazásokban",
     "importText": "Ahol a nemzeti AIP térkép PDF-eket tesz közzé, a részletoldal térképdoboza az aktuális PDF-re hivatkozik, az AIRAC-dátummal együtt. Töltsd le, és importáld az EFB alkalmazásodba saját tartalomként, pl. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) vagy Garmin Pilot. Németország PDF-ek helyett HTML-oldalakat tesz közzé - ott az AIP-hivatkozást használd.",
     "toolsTitle": "Átadás a tervezőeszközöknek",

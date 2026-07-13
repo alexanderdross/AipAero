@@ -296,7 +296,7 @@
     "offlineTitle": "Vista einstaka flugvelli án nettengingar",
     "offlineText": "Hver flugvallasíða hefur hnappinn \"Vista án nettengingar\". Hann geymir síðuna og, þegar AIP gefur það út, PDF-aðflugskortið á tækinu þínu; flugvöllurinn birtist síðan undir uppáhaldi á landssíðunni. Vistuð afrit sýna dagsetningu niðurhalsins.",
     "bulkTitle": "Sækja heilt land",
-    "bulkText": "Af flugvallalistanum getur þú sótt allar flugvallasíður lands í einu (aðeins síður, án PDF-korta - þau vistast fyrir hvern flugvöll). Pakkinn sýnir stærð sína fyrir niðurhal og hægt er að uppfæra hann eða fjarlægja hvenær sem er.",
+    "bulkText": "Af <list>flugvallalistanum</list> getur þú sótt allar flugvallasíður lands í einu (aðeins síður, án PDF-korta - þau vistast fyrir hvern flugvöll). Pakkinn sýnir stærð sína fyrir niðurhal og hægt er að uppfæra hann eða fjarlægja hvenær sem er.",
     "importTitle": "PDF-kort í ForeFlight, SkyDemon og fleiri",
     "importText": "Þegar landsbundin AIP gefur út PDF-kort tengir kortareiturinn á flugvallasíðunni á gildandi PDF ásamt AIRAC-dagsetningu þess. Sæktu það og fluttu það inn í EFB-appið þitt sem eigið efni, t.d. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eða Garmin Pilot. Þýskaland gefur út HTML-síður í stað PDF - notaðu þar AIP-hlekkinn.",
     "toolsTitle": "Tenging við skipulagsverkfæri",

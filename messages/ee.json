@@ -326,7 +326,7 @@
     "offlineTitle": "Salvesta üksikuid väljakuid offline",
     "offlineText": "Igal detailvaate lehel on nupp \"Salvesta offline\". See salvestab lehe ja, kui AIP selle avaldab, lähenemiskaardi PDF-i sinu seadmesse; väljak ilmub seejärel riigi lehel lemmikute alla. Salvestatud koopiad näitavad oma allalaadimiskuupäeva.",
     "bulkTitle": "Laadi alla terve riik",
-    "bulkText": "Lennuväljade nimekirjast saad ühe korraga alla laadida kõik riigi detailvaate lehed (ainult lehed, ilma kaardi-PDF-ideta - need salvesta iga väljaku kohta eraldi). Pakett näitab enne allalaadimist oma suurust ning seda saab igal ajal uuendada või eemaldada.",
+    "bulkText": "<list>Lennuväljade nimekirjast</list> saad ühe korraga alla laadida kõik riigi detailvaate lehed (ainult lehed, ilma kaardi-PDF-ideta - need salvesta iga väljaku kohta eraldi). Pakett näitab enne allalaadimist oma suurust ning seda saab igal ajal uuendada või eemaldada.",
     "importTitle": "Kaardi-PDF-id ForeFlightis, SkyDemonis jm",
     "importText": "Kui riiklik AIP avaldab kaardi-PDF-e, lingib detailvaate lehe kaardikast kehtiva PDF-i koos AIRAC-kuupäevaga. Laadi see alla ja impordi oma EFB-rakendusse oma sisuna, nt ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) või Garmin Pilot. Saksamaa avaldab PDF-ide asemel HTML-lehti - kasuta seal AIP-linki.",
     "toolsTitle": "Edastamine planeerimistööriistadesse",

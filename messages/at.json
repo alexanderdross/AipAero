@@ -326,7 +326,7 @@
     "offlineTitle": "Einzelne Plätze offline speichern",
     "offlineText": "Jede Flugplatz-Detailseite hat einen \"Offline speichern\"-Button. Er legt die Seite und, wo die AIP eines veröffentlicht, das Anflugkarten-PDF auf deinem Gerät ab; der Platz erscheint danach unter Favoriten auf der Länderseite. Gespeicherte Kopien zeigen ihr Download-Datum.",
     "bulkTitle": "Ein ganzes Land herunterladen",
-    "bulkText": "Auf der Flughafen-Liste kannst du alle Detailseiten eines Landes auf einmal herunterladen (nur Seiten, ohne Karten-PDFs - die speicherst du pro Platz). Das Paket zeigt vor dem Download seine Größe und lässt sich jederzeit aktualisieren oder entfernen.",
+    "bulkText": "Auf der <list>Flughafen-Liste</list> kannst du alle Detailseiten eines Landes auf einmal herunterladen (nur Seiten, ohne Karten-PDFs - die speicherst du pro Platz). Das Paket zeigt vor dem Download seine Größe und lässt sich jederzeit aktualisieren oder entfernen.",
     "importTitle": "Karten-PDFs in ForeFlight, SkyDemon & Co.",
     "importText": "Wo die nationale AIP Karten-PDFs veröffentlicht, verlinkt die Karten-Box auf der Detailseite das aktuelle PDF inklusive AIRAC-Datum. Lade es herunter und importiere es in deine EFB-App als eigenes Kartenmaterial, z.B. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) oder Garmin Pilot. Deutschland veröffentlicht HTML-Seiten statt PDFs - nutze dort den AIP-Link.",
     "toolsTitle": "Übergabe an Planungstools",

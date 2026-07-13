@@ -326,7 +326,7 @@
     "offlineTitle": "Lagre enkeltplasser offline",
     "offlineText": "Hver detaljside har en \"Lagre offline\"-knapp. Den lagrer siden og, der AIP-en publiserer et, innflygingskartets PDF på enheten din; plassen vises deretter under favoritter på landssiden. Lagrede kopier viser nedlastingsdatoen sin.",
     "bulkTitle": "Last ned et helt land",
-    "bulkText": "På flyplasslisten kan du laste ned alle detaljsidene til et land på én gang (kun sider, uten kart-PDF-er - de lagrer du per plass). Pakken viser størrelsen før nedlasting og kan når som helst oppdateres eller fjernes.",
+    "bulkText": "På <list>flyplasslisten</list> kan du laste ned alle detaljsidene til et land på én gang (kun sider, uten kart-PDF-er - de lagrer du per plass). Pakken viser størrelsen før nedlasting og kan når som helst oppdateres eller fjernes.",
     "importTitle": "Kart-PDF-er i ForeFlight, SkyDemon m.fl.",
     "importText": "Der den nasjonale AIP-en publiserer kart-PDF-er, lenker kartboksen på detaljsiden til gjeldende PDF inkludert AIRAC-dato. Last den ned og importer den i EFB-appen som eget innhold, f.eks. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland publiserer HTML-sider i stedet for PDF-er - bruk AIP-lenken der.",
     "toolsTitle": "Overlevering til planleggingsverktøy",

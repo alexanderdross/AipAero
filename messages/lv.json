@@ -326,7 +326,7 @@
     "offlineTitle": "Saglabājiet atsevišķus lidlaukus bezsaistē",
     "offlineText": "Katrai lidlauka detaļu lapai ir poga \"Saglabāt bezsaistei\". Tā jūsu ierīcē saglabā lapu un, ja AIP tādu publicē, arī pieejas kartes PDF; lidlauks pēc tam parādās izlasē valsts lapā. Saglabātās kopijas rāda savu lejupielādes datumu.",
     "bulkTitle": "Lejupielādējiet veselu valsti",
-    "bulkText": "No lidlauku saraksta varat vienā reizē lejupielādēt visas valsts detaļu lapas (tikai lapas, bez karšu PDF failiem - tos saglabājiet katram lidlaukam atsevišķi). Pakotne pirms lejupielādes parāda savu izmēru, un to jebkurā brīdī var atjaunināt vai noņemt.",
+    "bulkText": "No <list>lidlauku saraksta</list> varat vienā reizē lejupielādēt visas valsts detaļu lapas (tikai lapas, bez karšu PDF failiem - tos saglabājiet katram lidlaukam atsevišķi). Pakotne pirms lejupielādes parāda savu izmēru, un to jebkurā brīdī var atjaunināt vai noņemt.",
     "importTitle": "Karšu PDF faili ForeFlight, SkyDemon u.c.",
     "importText": "Ja nacionālā AIP publicē karšu PDF failus, kartes lodziņš detaļu lapā norāda saiti uz aktuālo PDF ar tā AIRAC datumu. Lejupielādējiet to un importējiet savā EFB lietotnē kā pielāgotu saturu, piemēram, ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) vai Garmin Pilot. Vācija PDF vietā publicē HTML lapas - tur izmantojiet AIP saiti.",
     "toolsTitle": "Nodošana plānošanas rīkiem",

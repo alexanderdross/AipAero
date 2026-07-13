@@ -326,7 +326,7 @@
     "offlineTitle": "Zapisywanie pojedynczych lotnisk offline",
     "offlineText": "Każda strona lotniska ma przycisk \"Zapisz offline\". Zapisuje on stronę oraz, gdy AIP go publikuje, PDF mapy podejścia na twoim urządzeniu; lotnisko pojawia się potem w ulubionych na stronie kraju. Zapisane kopie pokazują datę pobrania.",
     "bulkTitle": "Pobranie całego kraju",
-    "bulkText": "Z listy lotnisk możesz pobrać wszystkie strony szczegółowe kraju naraz (tylko strony, bez PDF-ów map - te zapisujesz per lotnisko). Pakiet pokazuje rozmiar przed pobraniem i można go w każdej chwili zaktualizować lub usunąć.",
+    "bulkText": "Z <list>listy lotnisk</list> możesz pobrać wszystkie strony szczegółowe kraju naraz (tylko strony, bez PDF-ów map - te zapisujesz per lotnisko). Pakiet pokazuje rozmiar przed pobraniem i można go w każdej chwili zaktualizować lub usunąć.",
     "importTitle": "PDF-y map w ForeFlight, SkyDemon i innych",
     "importText": "Tam gdzie krajowy AIP publikuje PDF-y map, ramka map na stronie lotniska linkuje do aktualnego PDF-a wraz z datą AIRAC. Pobierz go i zaimportuj do aplikacji EFB jako własne materiały, np. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) lub Garmin Pilot. Niemcy publikują strony HTML zamiast PDF-ów - użyj tam linku do AIP.",
     "toolsTitle": "Przekazanie do narzędzi planowania",

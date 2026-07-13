@@ -296,7 +296,7 @@
     "offlineTitle": "Guardar aeródromos individuales sin conexión",
     "offlineText": "Cada página de detalle tiene un botón \"Guardar sin conexión\". Almacena la página y, cuando la AIP publica uno, el PDF de la carta de aproximación en tu dispositivo; el aeródromo aparece después en favoritos en la página del país. Las copias guardadas muestran su fecha de descarga.",
     "bulkTitle": "Descargar un país entero",
-    "bulkText": "Desde la lista de aeropuertos puedes descargar de una vez todas las páginas de detalle de un país (solo páginas, sin los PDF de cartas - esos se guardan por aeródromo). El paquete muestra su tamaño antes de la descarga y puede actualizarse o eliminarse en cualquier momento.",
+    "bulkText": "Desde la <list>lista de aeropuertos</list> puedes descargar de una vez todas las páginas de detalle de un país (solo páginas, sin los PDF de cartas - esos se guardan por aeródromo). El paquete muestra su tamaño antes de la descarga y puede actualizarse o eliminarse en cualquier momento.",
     "importTitle": "PDF de cartas en ForeFlight, SkyDemon y más",
     "importText": "Cuando la AIP nacional publica PDF de cartas, el recuadro de cartas de la página de detalle enlaza al PDF vigente incluida su fecha AIRAC. Descárgalo e impórtalo en tu aplicación EFB como contenido propio, p. ej. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) o Garmin Pilot. Alemania publica páginas HTML en lugar de PDF - usa allí el enlace a la AIP.",
     "toolsTitle": "Enlace con herramientas de planificación",

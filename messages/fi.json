@@ -326,7 +326,7 @@
     "offlineTitle": "Tallenna yksittäiset kentät offline-käyttöön",
     "offlineText": "Jokaisella lentopaikkasivulla on \"Tallenna offline-käyttöön\" -painike. Se tallentaa sivun ja, jos AIP julkaisee sellaisen, lähestymiskartan PDF:n laitteellesi; kenttä näkyy sen jälkeen maasivun suosikeissa. Tallennetut kopiot näyttävät latauspäivämääränsä.",
     "bulkTitle": "Lataa kokonainen maa",
-    "bulkText": "Lentopaikkaluettelosta voit ladata kaikki maan lentopaikkasivut kerralla (vain sivut, ilman kartta-PDF:iä - ne tallennat kenttäkohtaisesti). Paketti näyttää kokonsa ennen latausta, ja sen voi milloin tahansa päivittää tai poistaa.",
+    "bulkText": "<list>Lentopaikkaluettelosta</list> voit ladata kaikki maan lentopaikkasivut kerralla (vain sivut, ilman kartta-PDF:iä - ne tallennat kenttäkohtaisesti). Paketti näyttää kokonsa ennen latausta, ja sen voi milloin tahansa päivittää tai poistaa.",
     "importTitle": "Kartta-PDF:t ForeFlightissa, SkyDemonissa ym.",
     "importText": "Kun kansallinen AIP julkaisee kartta-PDF:iä, lentopaikkasivun karttalaatikko linkittää voimassa olevaan PDF:ään AIRAC-päivämäärineen. Lataa se ja tuo se EFB-sovellukseesi omana sisältönä, esim. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) tai Garmin Pilot. Saksa julkaisee HTML-sivuja PDF:ien sijaan - käytä siellä AIP-linkkiä.",
     "toolsTitle": "Siirto suunnittelutyökaluihin",

@@ -296,7 +296,7 @@
     "offlineTitle": "Shrani posamezna letališča brez povezave",
     "offlineText": "Vsaka podrobna stran letališča ima gumb \"Shrani za uporabo brez povezave\". Na tvojo napravo shrani stran in, kadar ga AIP objavi, tudi PDF karte prileta; letališče se nato pojavi med priljubljenimi na strani države. Shranjene kopije prikazujejo datum prenosa.",
     "bulkTitle": "Prenesi celotno državo",
-    "bulkText": "S seznama letališč lahko naenkrat preneseš vse podrobne strani države (samo strani, brez PDF-jev kart - te shrani za posamezno letališče). Paket pred prenosom prikaže svojo velikost in ga je mogoče kadar koli posodobiti ali odstraniti.",
+    "bulkText": "S <list>seznama letališč</list> lahko naenkrat preneseš vse podrobne strani države (samo strani, brez PDF-jev kart - te shrani za posamezno letališče). Paket pred prenosom prikaže svojo velikost in ga je mogoče kadar koli posodobiti ali odstraniti.",
     "importTitle": "PDF-ji kart v ForeFlight, SkyDemon in drugih",
     "importText": "Kadar nacionalni AIP objavlja PDF-je kart, okvirček s kartami na podrobni strani ponuja povezavo do veljavnega PDF-ja vključno z njegovim datumom AIRAC. Prenesi ga in ga uvozi v svojo aplikacijo EFB kot lastno vsebino, npr. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ali Garmin Pilot. Nemčija namesto PDF-jev objavlja strani HTML - tam uporabi povezavo do AIP.",
     "toolsTitle": "Povezava z orodji za načrtovanje",

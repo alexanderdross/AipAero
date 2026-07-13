@@ -1,3 +1,10 @@
+import {
+  ArrowRightIcon,
+  DownloadIcon,
+  MoreVerticalIcon,
+  ShareIcon,
+  SquarePlusIcon,
+} from "lucide-react";
 import type { Metadata, ResolvingMetadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
@@ -95,6 +102,22 @@ export default async function EfbPage(
   // Enable static rendering (MUST precede getTranslations - see CLAUDE.md).
   setRequestLocale(locale);
   const t = await getTranslations("EfbPage");
+  const tMenu = await getTranslations("Menu");
+
+  const airportListPath = getPathname({ href: "/airport-list", locale });
+  const airportListHref = airportListPath.endsWith("/")
+    ? airportListPath
+    : airportListPath + "/";
+
+  // Decorative tap-sequence mockups for the install steps (which icon to
+  // tap where): pure inline SVG chips, aria-hidden - the adjacent text is
+  // the accessible instruction.
+  const installSteps = [
+    { icons: [ShareIcon, SquarePlusIcon], text: t("installIos") },
+    { icons: [MoreVerticalIcon, DownloadIcon], text: t("installAndroid") },
+  ];
+  const chip =
+    "border-drossgray-dark/20 text-drossblue inline-flex size-8 shrink-0 items-center justify-center rounded-md border bg-white shadow-sm";
 
   return (
     <>
@@ -106,12 +129,46 @@ export default async function EfbPage(
               <h2 className="text-xl font-semibold tracking-tight">
                 {t(`${section}Title`)}
               </h2>
-              <p className="mt-3">{t(`${section}Text`)}</p>
+              {section === "bulk" ? (
+                <p className="mt-3">
+                  {t.rich("bulkText", {
+                    list: (chunks) => (
+                      <a
+                        href={airportListHref}
+                        title={tMenu("airports.hrefTitle")}
+                        className="text-drossblue hover:underline"
+                      >
+                        {chunks}
+                      </a>
+                    ),
+                  })}
+                </p>
+              ) : (
+                <p className="mt-3">{t(`${section}Text`)}</p>
+              )}
               {section === "install" && (
-                <ul className="mt-3 flex list-disc flex-col gap-y-2 pl-5">
-                  <li>{t("installIos")}</li>
-                  <li>{t("installAndroid")}</li>
-                </ul>
+                <div className="mt-3 flex flex-col gap-3">
+                  {installSteps.map(({ icons: [First, Second], text }) => (
+                    <div
+                      key={text}
+                      className="border-drossgray-dark/15 bg-drossgray/50 flex items-center gap-3 rounded-lg border p-3"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="flex shrink-0 items-center gap-1"
+                      >
+                        <span className={chip}>
+                          {First && <First className="size-4" />}
+                        </span>
+                        <ArrowRightIcon className="text-drossgray-dark size-3" />
+                        <span className={chip}>
+                          {Second && <Second className="size-4" />}
+                        </span>
+                      </span>
+                      <span>{text}</span>
+                    </div>
+                  ))}
+                </div>
               )}
             </section>
           ))}
