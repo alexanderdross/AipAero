@@ -52,10 +52,16 @@ export function FavoritesRecent({
     const favs = readEntries(SAVED_KEY).slice(0, SHOW_MAX);
     const favUrls = new Set(favs.map((f) => f.url));
     setFavorites(favs);
-    // Recents exclude fields already shown as favorites - one row per field.
+    // Recents exclude fields already shown as favorites, and dedupe on the
+    // title: the tracker keys on the full URL, so the same field viewed via
+    // its native AND English locale URL is stored twice - one row per field.
+    const seenTitles = new Set<string>();
     setRecent(
       readEntries(RECENT_KEY)
         .filter((e) => !favUrls.has(e.url))
+        .filter((e) =>
+          seenTitles.has(e.title) ? false : (seenTitles.add(e.title), true),
+        )
         .slice(0, SHOW_MAX),
     );
   }, []);
@@ -68,7 +74,10 @@ export function FavoritesRecent({
     icon: React.ReactNode,
   ) =>
     entries.length > 0 && (
-      <section>
+      // Full width on mobile so both stacked sections share one left edge
+      // (justify-center used to center each block by its own width - the
+      // two headlines did not align); side-by-side and centered from sm up.
+      <section className="w-full sm:w-auto">
         <h2 className="inline-flex items-center gap-x-1 text-base font-medium">
           {icon}
           <span>{label}</span>

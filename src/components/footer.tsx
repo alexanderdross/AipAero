@@ -31,26 +31,41 @@ export default async function Footer({ global = false }: { global?: boolean }) {
   const locale = await getLocale();
   const tMenu = await getTranslations("Menu");
 
+  // getPathname emits the trailing slash for sub-paths but not for a locale
+  // root - normalize instead of blindly appending (a "//" link costs every
+  // internal footer click a 308 redirect hop).
+  const withSlash = (p: string) => (p.endsWith("/") ? p : p + "/");
+
   const navLinks = global
     ? liveCountries.map((cc) => {
         const meta = countryMeta[cc];
         return {
           key: cc,
-          href: getPathname({ href: "/", locale: cc as Locale }) + "/",
+          href: withSlash(getPathname({ href: "/", locale: cc as Locale })),
           title: `${meta?.flag ?? ""} ${meta?.name ?? cc.toUpperCase()}`.trim(),
           // Same keyword-rich pattern as the homepage about-box links.
           titleAttr: `Aeronautical Information Publication (AIP) of ${meta?.name ?? cc.toUpperCase()}`,
         };
       })
-    : navItems
-        .filter((item) => tMenu.has(`${item.key}.title`))
-        .map((item) => ({
-          key: item.key,
-          href:
-            getPathname({ href: item.href, locale: locale as Locale }) + "/",
-          title: tMenu(`${item.key}.title`),
-          titleAttr: tMenu(`${item.key}.hrefTitle`),
-        }));
+    : [
+        // Root entry: back to the global country index.
+        {
+          key: "aipHome",
+          href: "/",
+          title: t("aipHome.title"),
+          titleAttr: t("aipHome.hrefTitle"),
+        },
+        ...navItems
+          .filter((item) => tMenu.has(`${item.key}.title`))
+          .map((item) => ({
+            key: item.key,
+            href: withSlash(
+              getPathname({ href: item.href, locale: locale as Locale }),
+            ),
+            title: tMenu(`${item.key}.title`),
+            titleAttr: tMenu(`${item.key}.hrefTitle`),
+          })),
+      ];
 
   const legalExternal = ["home", "imprint", "contact", "privacy"] as const;
 
@@ -100,7 +115,7 @@ export default async function Footer({ global = false }: { global?: boolean }) {
                 <li>
                   {/* Our own localized page: plain followed same-tab link. */}
                   <a
-                    href={getPathname({ href: "/terms", locale }) + "/"}
+                    href={withSlash(getPathname({ href: "/terms", locale }))}
                     title={t("terms.hrefTitle")}
                     className={linkRow}
                   >

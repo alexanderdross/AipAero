@@ -155,6 +155,10 @@
     "navTitle": "Navigation",
     "legalTitle": "Mentions légales & contact",
     "partnersTitle": "Partenaires",
+    "aipHome": {
+      "title": "AIP Home",
+      "hrefTitle": "Accueil AIP:Aero - AIP et cartes d'approche pour l'Europe"
+    },
     "stratux": {
       "title": "📡 Stratux - Système anti-collision",
       "hrefTitle": "Stratux - Système anti-collision pour l'aviation privée et les planeurs",
