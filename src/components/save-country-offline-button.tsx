@@ -28,6 +28,11 @@ const EST_BYTES_PER_PAGE = 75 * 1024;
 // pack must not hammer production with a request burst.
 const CONCURRENCY = 3;
 
+// Per-page fetch timeout: without one, a single stalled connection hangs its
+// worker forever - three stalls froze the whole DE download at 126/793
+// (observed live 13.07.2026). One retry follows before the page is skipped.
+const PAGE_TIMEOUT_MS = 30_000;
+
 interface BulkEntry {
   url: string;
   title: string;
@@ -98,6 +103,9 @@ export function SaveCountryOfflineButton({
   const [saved, setSaved] = useState<BulkEntry | null>(null);
   const [error, setError] = useState<"failed" | "nospace" | null>(null);
   const cancelRef = useRef(false);
+  // Cancel must ABORT in-flight requests, not just stop the queue - a hung
+  // fetch would otherwise keep its worker (and the busy state) alive.
+  const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (!("caches" in window)) return;
@@ -147,13 +155,39 @@ export function SaveCountryOfflineButton({
       let done = 0;
       let savedCount = 0;
       const queue = [...urls];
+      const controller = new AbortController();
+      abortRef.current = controller;
+      // Timeout per request AND linked to the cancel controller - a stalled
+      // connection is aborted after PAGE_TIMEOUT_MS instead of hanging its
+      // worker (broad-support variant of AbortSignal.any/timeout).
+      const fetchWithTimeout = (href: string) => {
+        const ctl = new AbortController();
+        const onCancel = () => ctl.abort();
+        controller.signal.addEventListener("abort", onCancel, { once: true });
+        const timer = setTimeout(() => ctl.abort(), PAGE_TIMEOUT_MS);
+        return fetch(href, { signal: ctl.signal }).finally(() => {
+          clearTimeout(timer);
+          controller.signal.removeEventListener("abort", onCancel);
+        });
+      };
       const worker = async () => {
         for (;;) {
           const href = queue.shift();
           if (href === undefined || cancelRef.current) return;
           try {
-            const page = await fetch(href);
-            if (page.ok) {
+            // One retry after a short pause: dynamic Worker renders can
+            // transiently fail/stall under the sustained pack burst.
+            let page: Response | undefined;
+            for (let attempt = 0; attempt < 2; attempt++) {
+              try {
+                page = await fetchWithTimeout(href);
+                break;
+              } catch {
+                if (cancelRef.current || attempt === 1) break;
+                await new Promise((r) => setTimeout(r, 1000));
+              }
+            }
+            if (page?.ok) {
               // Stamp the cache time so the SW's offline banner can date the
               // copy (aviation rule: cached content is never silently stale).
               const headers = new Headers(page.headers);
@@ -176,6 +210,7 @@ export function SaveCountryOfflineButton({
         }
       };
       await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+      abortRef.current = null;
 
       if (cancelRef.current) {
         // Cancel = no pack: drop the partial cache and its index entry.
@@ -245,6 +280,7 @@ export function SaveCountryOfflineButton({
             type="button"
             onClick={() => {
               cancelRef.current = true;
+              abortRef.current?.abort();
             }}
             title={cancelLabel}
             className="text-drossblue inline-flex items-center gap-x-1 hover:underline"
