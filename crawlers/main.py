@@ -15,9 +15,12 @@ from crawlers.lv import LV
 from crawlers.dk import DK
 from crawlers.fr import FR
 from crawlers.gr import GR
+from crawlers.hu import HU
+from crawlers.is_ import IS
 from crawlers.nl import NL
 from crawlers.no import NO
 from crawlers.pl import PL
+from crawlers.pt import PT
 from crawlers.se import SE
 from crawlers.uk import UK
 from output_handler import OutputHandler
@@ -42,8 +45,11 @@ COUNTRY_CRAWLERS = {
     "CZ": CZ,
     "DK": DK,
     "GR": GR,
+    "HU": HU,
+    "IS": IS,
     "NO": NO,
     "PL": PL,
+    "PT": PT,
     "SE": SE,
 }
 
