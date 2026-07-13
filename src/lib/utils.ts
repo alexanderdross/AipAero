@@ -125,6 +125,10 @@ export const liveCountries: string[] = [
   "is",
   "pt",
   "hu",
+  // Slovenia (13.07.2026): crawler live-validated (run 29272420058,
+  // 4 airports) behind the pinned-intermediate TLS fix; first data
+  // published via the manual crawl dispatch on launch day.
+  "si",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source:
   // "dk",
   // "gr",
