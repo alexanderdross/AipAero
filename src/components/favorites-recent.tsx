@@ -116,7 +116,11 @@ export function FavoritesRecent({
   );
 
   return (
-    <div className="mx-auto mt-16 max-w-3xl px-4 sm:px-6 lg:px-8">
+    // mt-6, not mt-16: the Trade:Aero CTA above already carries py-10, so a
+    // full section margin stacked to ~104px while the about box below sits at
+    // 64px (owner-spotted imbalance) - 24px + the CTA's 40px restores the
+    // page's uniform ~64px section rhythm.
+    <div className="mx-auto mt-6 max-w-3xl px-4 sm:px-6 lg:px-8">
       <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 text-sm shadow-sm sm:p-8">
         <div className="flex flex-wrap justify-center gap-x-16 gap-y-6 text-left">
           {section(
