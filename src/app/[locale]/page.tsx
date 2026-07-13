@@ -146,7 +146,11 @@ export default async function CountryPage(
 
   const modifiedDate = new Date(buildDate);
 
-  const cardLang = locale.replace("-EN", "");
+  // BCP-47 language of the card copy (hyphens-auto + screen readers). Must be
+  // the ISO code from localeLangMapping, NOT the URL locale prefix - "at",
+  // "cz", "se" etc. are no languages (Lighthouse a11y: "[lang] attributes do
+  // not have a valid value", seen live on /at/ 13.07.2026).
+  const cardLang = localeLangMapping[locale]!;
 
   return (
     <>
