@@ -2,6 +2,7 @@ import datetime
 import html as html_module
 import logging
 import re
+import ssl
 import time
 from pathlib import Path
 from urllib.parse import unquote, urljoin
@@ -117,6 +118,56 @@ class HttpCrawlerBase:
                 f"{self.country}: proxy URL has no scheme; assuming http://"
             )
             proxy_url = f"http://{proxy_url}"
+        self._rebuild_client(proxy=proxy_url, verify=False)
+        # Log without credentials.
+        safe = proxy_url.split("@")[-1]
+        self.logger.info(f"{self.country}: routing via proxy {safe}")
+
+    def use_extra_ca(self, pem_url: str) -> None:
+        """Verify TLS against the default bundle PLUS a pinned intermediate.
+
+        For sources whose server sends a wrong or incomplete certificate
+        chain (SI: aim.sloveniacontrol.si presents the wrong RapidSSL
+        intermediate - see crawlers/recon/probe-si.md). The missing
+        intermediate is fetched over a normally VERIFIED connection from
+        its issuer's public repository (e.g.
+        https://cacerts.digicert.com/RapidSSLTLSRSACAG1.crt.pem) and added
+        to the trust store. Verification stays fully enabled - this is the
+        sanctioned alternative to ``verify=False`` for broken-chain hosts.
+        """
+        r = httpx.get(pem_url, timeout=self.timeout, follow_redirects=True)
+        r.raise_for_status()
+        pem = r.text
+        if "BEGIN CERTIFICATE" not in pem:
+            raise ValueError(f"Not a PEM certificate: {pem_url}")
+        ctx = ssl.create_default_context()
+        ctx.load_verify_locations(cadata=pem)
+        self._rebuild_client(verify=ctx)
+        self.logger.info(
+            f"{self.country}: TLS trust extended with "
+            f"{pem_url.rsplit('/', 1)[-1]}"
+        )
+
+    def use_legacy_tls(self) -> None:
+        """Allow a legacy TLS handshake for ancient server stacks.
+
+        IE (iaip.iaa.ie) answers every modern ClientHello with a fatal
+        alert 40 before certificates are exchanged (see
+        crawlers/recon/probe-ie-bg.md): TLSv1 minimum, SECLEVEL=0 cipher
+        list and legacy renegotiation give the handshake a chance.
+        Certificate verification STAYS enabled.
+        """
+        ctx = ssl.create_default_context()
+        ctx.minimum_version = ssl.TLSVersion.TLSv1
+        ctx.set_ciphers("DEFAULT@SECLEVEL=0")
+        ctx.options |= getattr(ssl, "OP_LEGACY_SERVER_CONNECT", 0)
+        self._rebuild_client(verify=ctx)
+        self.logger.info(
+            f"{self.country}: legacy TLS handshake enabled (verification on)"
+        )
+
+    def _rebuild_client(self, **kwargs) -> None:
+        """Swap self.client, carrying the accumulated headers over."""
         headers = dict(self.client.headers)
         self.client.close()
         self.client = httpx.Client(
@@ -124,12 +175,8 @@ class HttpCrawlerBase:
             timeout=self.timeout,
             headers=headers,
             http2=False,
-            proxy=proxy_url,
-            verify=False,
+            **kwargs,
         )
-        # Log without credentials.
-        safe = proxy_url.split("@")[-1]
-        self.logger.info(f"{self.country}: routing via proxy {safe}")
 
     def log_candidate_links(
         self,

@@ -41,22 +41,23 @@ Der CZ-Stil "ein Kapitel pro Aerodrom" ist jetzt generisch:
 Section-id-Regex, Titel-Präfix überschreibbar - IS nutzt `AD BIAR ...`
 statt `AD 2.XXXX`).
 
-Erledigt (13.07.2026): Website-Integration EE + FI (PR #228),
-Customs-Overrides EE/FI/LV/IS/PT/HU (45 Einträge, Quelle
-`crawlers/recon/gen12-batch1.md`), Chart-PDF-Muster EE/LV/PT/HU.
-Noch offen: Website-Integration ES/LV/IS/PT/HU (Locales, Routing,
-Meta, E2E), FI/IS/ES-Chart-PDF (tiefere Navigation nötig), ES-Customs
-(bespoke Recon), Launch via `liveCountries` je Land nach komplettem
-Paket.
+**GELAUNCHT 13.07.2026** (PR #228/#229/#230): alle 7 Länder sind in
+`liveCountries`, der Erst-Publish lief (Run 29268659725, 191 Airports)
+und die Live-Verifikation nach dem CD-Deploy war grün - alle 19
+geprüften URLs (Landing, Listen, Sitemaps, ?ICAO-Detail) liefern 200
+(Run 29270333630). Customs-Overrides EE/FI/LV/IS/PT/HU (45 Einträge,
+Quelle `crawlers/recon/gen12-batch1.md`), Chart-PDF-Muster EE/LV/PT/HU.
+Noch offen: FI/IS/ES-Chart-PDF (tiefere Navigation nötig), ES-Customs
+(bespoke Recon), gen12-Läufe der neuen Länder ins EFB-/Customs-Doku
+übernehmen.
 
 ## Batch 2 - Zugang/URL klären (je eine Folge-Probe)
 
 | Land | Stand | Nächster Schritt |
 | --- | --- | --- |
-| BG | b-flip.bulatsa.com ist eine JS-App (0 Links im HTML) | Playwright-Crawler wie DK |
-| IE | iaip.iaa.ie: TLS-Handshake-Failure (Legacy-Stack) | eigener SSL-Kontext (niedrigeres Security-Level) im Crawler |
+| SI | Server sendet FALSCHES Intermediate ("RapidSSL Global TLS RSA4096 SHA256 2022 CA1" statt "RapidSSL TLS RSA CA G1"; TLS-Diagnose Run 29270333630, `crawlers/recon/probe-si.md`) | Crawler-SSL-Kontext mit gepinntem RapidSSL-TLS-RSA-CA-G1-Intermediate (öffentliches DigiCert-Zertifikat), dann Re-Probe |
+| IE | iaip.iaa.ie: fatal alert 40 (handshake_failure) VOR Zertifikataustausch, identisch bei default/legacy/SECLEVEL=1 (`crawlers/recon/probe-ie-bg.md`) | SSLContext-Versuch mit TLSv1-Minimum + SECLEVEL=0; sonst Playwright (Chromium-TLS) oder Bright-Data-Proxy |
 | HR | crocontrol.hr-Root ohne AIP-Links (JS-Menü) | direkte eAIP-URL recherchieren (Owner/Browser) |
-| SI | aim.sloveniacontrol.si: TLS-Kette ohne Intermediate (Probe 29264498572, `crawlers/recon/probe-si.md`) | eigener SSL-Kontext (wie IE), dann Re-Probe |
 | SK | aim.lps.sk 403 trotz Browser-Headern | evtl. GEO/IP-Sperre; ggf. Bright-Data-Proxy wie GR |
 | LT | ans.lt 403 trotz Browser-Headern | wie SK |
 
@@ -69,6 +70,10 @@ Paket.
 - **RO** (aisro.ro): altes Frameset, Inhalte vermutlich hinter
   Registrierung.
 - **CH** (skybriefing): eAIP hinter Login-Portal.
+- **BG** (b-flip.bulatsa.com): der Playwright-Render (Run 29270333630,
+  `crawlers/recon/probe-ie-bg.md`) zeigt eine LOGIN-WALL ("Sign in to
+  BULATSA Flight Information Portal") - kein öffentlicher eAIP-Pfad,
+  bis ein session-freier Einstieg gefunden ist.
 
 ## Reihenfolge
 
