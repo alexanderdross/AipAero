@@ -400,6 +400,62 @@ export const customsOverrides: Record<string, boolean> = {
   LJLJ: true, // Ljubljana / Brnik
   LJMB: true, // Maribor / Orehova vas
   LJPZ: true, // Portoroz / Secovlje
+
+  // ---------------------------------------------------------------------
+  // ES - ENAIRE AIP AD 1.3 (verified on the runner 13.07.2026, gen12
+  // recon_es run 29274747730; verbatim table in
+  // crawlers/recon/gen12-es.md): Spain's AD 1.3 index carries an
+  // explicit "AIR BORDER" (Si/Yes / No) column - these fields are the
+  // designated air border crossing points (customs/immigration
+  // available). Deliberately absent: LETO (Torrejon - air border yes
+  // but military exclusive use), LECU/LEVS (Cuatro Vientos - air
+  // border yes but INTL community "No", verify on the live page
+  // first), the 24 explicit "No" rows and the restricted/private
+  // field indexes (no customs data).
+  LECO: true, // A Coruna
+  LEAB: true, // Albacete
+  LEAL: true, // Alicante-Elche Miguel Hernandez
+  LEAM: true, // Almeria
+  LEAS: true, // Asturias
+  LEBZ: true, // Badajoz / Talavera La Real
+  LEBL: true, // Barcelona / Josep Tarradellas El Prat (IFR only)
+  LEBB: true, // Bilbao
+  LEBG: true, // Burgos / Villafria
+  LECH: true, // Castellon
+  LERL: true, // Ciudad Real (VFR only)
+  GCFV: true, // Fuerteventura
+  LEGE: true, // Girona
+  GCLP: true, // Gran Canaria
+  LEGR: true, // Granada / Federico Garcia Lorca
+  LEIB: true, // Ibiza
+  LEJR: true, // Jerez
+  GCLA: true, // La Palma
+  GCRR: true, // Lanzarote / Cesar Manrique
+  LELN: true, // Leon
+  LEDA: true, // Lleida / Alguaire
+  LERJ: true, // Logrono
+  LEMD: true, // Madrid / Adolfo Suarez Madrid-Barajas (IFR only)
+  LEMG: true, // Malaga / Costa del Sol
+  LEMH: true, // Menorca
+  LEMI: true, // Murcia / Region de Murcia
+  LELC: true, // Murcia / San Javier
+  LEPA: true, // Palma de Mallorca
+  LESJ: true, // Palma de Mallorca (Son Sant Joan joint designator)
+  LEPP: true, // Pamplona
+  LERS: true, // Reus
+  LESA: true, // Salamanca / Matacan
+  LESO: true, // San Sebastian
+  LEXJ: true, // Santander / Seve Ballesteros
+  LEST: true, // Santiago / Rosalia de Castro
+  LEZL: true, // Sevilla
+  GCXO: true, // Tenerife Norte / Ciudad de La Laguna
+  GCTS: true, // Tenerife Sur
+  LETL: true, // Teruel (VFR only)
+  LEVC: true, // Valencia
+  LEVD: true, // Valladolid / Villanubla
+  LEVX: true, // Vigo
+  LEVT: true, // Vitoria
+  LEZG: true, // Zaragoza
 };
 
 /** Verified override for an ICAO, or undefined when none exists. */

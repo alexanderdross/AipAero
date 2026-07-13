@@ -56,10 +56,10 @@ Noch offen: FI/IS/ES-Chart-PDF (tiefere Navigation nötig), ES-Customs
 
 | Land | Stand | Nächster Schritt |
 | --- | --- | --- |
-| IE | iaip.iaa.ie: fatal alert 40 (handshake_failure) VOR Zertifikataustausch, identisch bei default/legacy/SECLEVEL=1 (`crawlers/recon/probe-ie-bg.md`) | SSLContext-Versuch mit TLSv1-Minimum + SECLEVEL=0; sonst Playwright (Chromium-TLS) oder Bright-Data-Proxy |
+| IE | Auch Chromium scheitert (ERR_SSL_VERSION_OR_CIPHER_MISMATCH, Run 29274747730) - kein Fingerprint-Filter, der Server verlangt Legacy-Cipher, die nichts Modernes anbietet | Bright-Data-Unlocker (TLS auf Proxy-Seite) oder anderen IAA-Host recherchieren |
 | HR | crocontrol.hr-Root ohne AIP-Links (JS-Menü) | direkte eAIP-URL recherchieren (Owner/Browser) |
-| SK | aim.lps.sk 403 trotz Browser-Headern | evtl. GEO/IP-Sperre; ggf. Bright-Data-Proxy wie GR |
-| LT | ans.lt 403 trotz Browser-Headern | wie SK |
+| SK | 403 auch via Bright-Data-Plain-Proxy (Run 29274747730, `crawlers/recon/probe-sk-lt.md`) - Sperre ist nicht IP-basiert | Web-Unlocker-Zone probieren; ggf. dedizierte eaip/ais-Subdomain suchen |
+| LT | wie SK (403 direkt UND via Proxy) | wie SK |
 
 ## Außerhalb des Auftrags (keine eurocontrol-Struktur / gated)
 

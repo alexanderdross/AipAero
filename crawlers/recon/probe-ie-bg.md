@@ -61,6 +61,42 @@ Source: GitHub Actions run 29271294861 ("Crawler live test", job 86889363428), "
 
 This exhausts the OpenSSL-side workarounds available to httpx: the rejection is not about protocol version or cipher security level that our client can loosen, so the server is most likely filtering on some other ClientHello property (TLS fingerprint / extensions / required legacy cipher that OpenSSL 3 no longer offers even at SECLEVEL=0 without the legacy provider). **Next step is Playwright and/or the Bright Data proxy, not further ssl.SSLContext tuning**: retry `https://iaip.iaa.ie/` with a `render_html()` Playwright fetch (Chromium ships its own TLS stack, BoringSSL, with a browser ClientHello fingerprint) and, if that also fails, through `use_proxy()` with `BRIGHTDATA_PROXY_URL` / `BRIGHTDATA_UNLOCKER_URL` (the unlocker negotiates TLS on Bright Data's side). Until one of those returns HTTP bytes, no IE eAIP entry URL can be identified.
 
+### Chromium fallback probe (run 29274747730)
+
+Source: GitHub Actions run 29274747730 ("Crawler live test", job 86900957481), "Probe candidate eAIP roots" step, 2026-07-13. The probe now escalates to a Playwright (headless Chromium) render when BOTH OpenSSL TLS retries are exhausted (`[tls-retry] exhausted - trying Chromium`).
+
+#### Raw output (verbatim, complete)
+
+```
+===== PROBE https://iaip.iaa.ie/ =====
+<stdin>:33: DeprecationWarning: ssl.TLSVersion.TLSv1 is deprecated
+   FAILED - ConnectError: [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1010)
+   [tls default] exit 1
+     Verification: OK
+     New, (NONE), Cipher is (NONE)
+     401730400F730000:error:0A000410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure:../ssl/record/rec_layer_s3.c:1599:SSL alert number 40
+   [tls legacy] exit 1
+     Verification: OK
+     New, (NONE), Cipher is (NONE)
+     40D755DA37720000:error:0A000410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure:../ssl/record/rec_layer_s3.c:1599:SSL alert number 40
+   [tls seclevel1] exit 1
+     Verification: OK
+     New, (NONE), Cipher is (NONE)
+     40C74DD75D740000:error:0A000410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure:../ssl/record/rec_layer_s3.c:1599:SSL alert number 40
+   [tls-retry] rebuilding client: legacy
+   FAILED - ConnectError: [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1010)
+   [tls-retry] exhausted - trying Chromium
+   [render] failed: Error: Page.goto: net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH at https://iaip.iaa.ie/
+Call log:
+  - navigating to "https://iaip.iaa.ie/", waiting until "networkidle"
+```
+
+#### Conclusion
+
+**NO - the Playwright/Chromium render does NOT connect either.** No title, no links: the `[render]` attempt died at the TLS layer with **`net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH`** before any page content existed. Chromium's own TLS stack (BoringSSL, browser ClientHello fingerprint) is rejected by the server just like every OpenSSL variant - which rules out the "server filters on OpenSSL-style client fingerprint" theory from the TLS-retry probe. The server genuinely requires a protocol/cipher combination that neither OpenSSL 3 (even at `SECLEVEL=0` / TLSv1 minimum) nor current Chromium will offer - i.e. something in the removed-everywhere legacy set (e.g. RC4/3DES-only or export-grade ciphers, or SSLv3-era negotiation).
+
+That exhausts both local TLS stacks available to the crawler subsystem. **The only remaining path is the Bright Data proxy/unlocker** (`use_proxy()` with `BRIGHTDATA_PROXY_URL` or `BRIGHTDATA_UNLOCKER_URL` - Bright Data terminates TLS to the origin on their side, with whatever legacy support their fleet has), or finding a different IAA host that serves the eAIP over sane TLS. Until one of those returns HTTP bytes, no IE eAIP entry URL can be identified.
+
 ## BG - b-flip.bulatsa.com
 
 ### Raw output (verbatim, complete)
