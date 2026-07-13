@@ -220,6 +220,70 @@ export const customsOverrides: Record<string, boolean> = {
   LFOT: true, // Tours Val De Loire
   LFAV: true, // Valenciennes Denain
   LFLV: true, // Vichy Charmeil
+  // ---------------------------------------------------------------------
+  // CZ - ANS CR eAIP AD 1.3 (verified on the runner 13.07.2026, gen12
+  // recon): fields designated INTL-NTL; the ~136 NTL fields carry no
+  // entry. Includes the VFR-manual fields with INTL designation (customs
+  // on request - check the VFR manual entry).
+  LKBE: true, // Benešov
+  LKCH: true, // Chomutov
+  LKCS: true, // České Budějovice
+  LKHB: true, // Havlíčkův Brod
+  LKHK: true, // Hradec Králové
+  LKKU: true, // Kunovice
+  LKKV: true, // Karlovy Vary
+  LKLB: true, // Liberec
+  LKLN: true, // Plzeň / Líně
+  LKLT: true, // Letňany
+  LKMH: true, // Mnichovo Hradiště
+  LKMT: true, // Ostrava / Mošnov
+  LKPD: true, // Pardubice
+  LKPO: true, // Přerov
+  LKPR: true, // Praha / Ruzyně
+  LKRO: true, // Roudnice
+  LKTB: true, // Brno / Tuřany
+  LKTC: true, // Točná
+  LKVM: true, // Vysoké Mýto
+  LKVO: true, // Praha / Vodochody
+
+  // ---------------------------------------------------------------------
+  // SE - LFV eAIP AD 1.3 (verified on the runner 13.07.2026, gen12
+  // recon, AIRAC AMDT 4-2026): fields designated INTL-NTL; the ~146 NTL
+  // fields carry no entry.
+  ESCM: true, // Uppsala
+  ESDF: true, // Ronneby
+  ESGG: true, // Göteborg / Landvetter
+  ESGJ: true, // Jönköping
+  ESGP: true, // Göteborg / Säve
+  ESGT: true, // Göteborg / Stallbacka
+  ESKN: true, // Stockholm / Skavsta
+  ESKS: true, // Sälen / Scandinavian Mountains
+  ESMK: true, // Kristianstad
+  ESMQ: true, // Kalmar
+  ESMS: true, // Malmö
+  ESMT: true, // Halmstad
+  ESMX: true, // Växjö / Kronoberg
+  ESNF: true, // Åviken / Åviken Fly Camp
+  ESNN: true, // Sundsvall-timrå
+  ESNO: true, // Örnsköldsvik
+  ESNQ: true, // Kiruna
+  ESNS: true, // Skellefteå
+  ESNU: true, // Umeå
+  ESNX: true, // Arvidsjaur
+  ESNZ: true, // Åre Östersund
+  ESOE: true, // Örebro
+  ESOK: true, // Karlstad
+  ESOW: true, // Stockholm / Västerås
+  ESPA: true, // Luleå / Kallax
+  ESSA: true, // Stockholm / Arlanda
+  ESSB: true, // Stockholm / Bromma
+  ESSD: true, // Borlänge
+  ESSL: true, // Linköping / Saab
+  ESSP: true, // Norrköping / Kungsängen
+  ESSU: true, // Eskilstuna
+  ESSV: true, // Visby
+  ESTA: true, // Ängelholm
+  ESUP: true, // Pajala
 };
 
 /** Verified override for an ICAO, or undefined when none exists. */
