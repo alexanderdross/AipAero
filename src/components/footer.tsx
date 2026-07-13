@@ -74,7 +74,9 @@ export default async function Footer({ global = false }: { global?: boolean }) {
         },
       ];
 
-  const legalExternal = ["home", "imprint", "contact", "privacy"] as const;
+  // Owner-requested order: our own terms first, the dross.net links after
+  // (privacy/imprint/contact), the external home last.
+  const legalExternal = ["privacy", "imprint", "contact", "home"] as const;
 
   const groupLabel =
     "text-drossgray-dark text-xs font-semibold tracking-wider uppercase";
@@ -86,10 +88,18 @@ export default async function Footer({ global = false }: { global?: boolean }) {
       <footer className="border-drossgray-dark/10 border-t">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           <div className="grid gap-x-8 gap-y-8 sm:grid-cols-3">
-            {/* Site navigation: internal, followed, same tab. */}
+            {/* Site navigation: internal, followed, same tab. The global
+                variant lists every live country - two columns keep the
+                group from growing a full row per launched country. */}
             <nav aria-label={t("navTitle")}>
               <p className={groupLabel}>{t("navTitle")}</p>
-              <ul className="mt-2 flex flex-col">
+              <ul
+                className={
+                  global
+                    ? "mt-2 grid grid-cols-2 gap-x-4"
+                    : "mt-2 flex flex-col"
+                }
+              >
                 {navLinks.map((link) => (
                   <li key={link.key}>
                     <a
@@ -108,6 +118,16 @@ export default async function Footer({ global = false }: { global?: boolean }) {
             <div>
               <p className={groupLabel}>{t("legalTitle")}</p>
               <ul className="mt-2 flex flex-col">
+                <li>
+                  {/* Our own localized page: plain followed same-tab link. */}
+                  <a
+                    href={withSlash(getPathname({ href: "/terms", locale }))}
+                    title={t("terms.hrefTitle")}
+                    className={linkRow}
+                  >
+                    {t("terms.title")}
+                  </a>
+                </li>
                 {legalExternal.map((key) => (
                   <li key={key}>
                     <ExternalLink
@@ -119,16 +139,6 @@ export default async function Footer({ global = false }: { global?: boolean }) {
                     </ExternalLink>
                   </li>
                 ))}
-                <li>
-                  {/* Our own localized page: plain followed same-tab link. */}
-                  <a
-                    href={withSlash(getPathname({ href: "/terms", locale }))}
-                    title={t("terms.hrefTitle")}
-                    className={linkRow}
-                  >
-                    {t("terms.title")}
-                  </a>
-                </li>
               </ul>
             </div>
 

@@ -46,6 +46,8 @@ const countryPages: TestPage[] = [
   { path: "/pt/en/", lang: "en", label: "country pt-EN" },
   { path: "/hu/", lang: "hu", label: "country hu" },
   { path: "/hu/en/", lang: "en", label: "country hu-EN" },
+  { path: "/si/", lang: "sl", label: "country si" },
+  { path: "/si/en/", lang: "en", label: "country si-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -84,6 +86,8 @@ const airportListPages: TestPage[] = [
     label: "list hu",
   },
   { path: "/hu/en/airport-list-hungary/", lang: "en", label: "list hu-EN" },
+  { path: "/si/seznam-letalisc-slovenija/", lang: "sl", label: "list si" },
+  { path: "/si/en/airport-list-slovenia/", lang: "en", label: "list si-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -133,6 +137,8 @@ const searchPages: TestPage[] = [
   { path: "/pt/en/vfr/", lang: "en", label: "vfr pt-EN" },
   { path: "/hu/vfr/", lang: "hu", label: "vfr hu" },
   { path: "/hu/en/vfr/", lang: "en", label: "vfr hu-EN" },
+  { path: "/si/vfr/", lang: "sl", label: "vfr si" },
+  { path: "/si/en/vfr/", lang: "en", label: "vfr si-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -173,6 +179,8 @@ const termsPages: TestPage[] = [
   { path: "/pt/en/terms/", lang: "en", label: "terms pt-EN" },
   { path: "/hu/terms/", lang: "hu", label: "terms hu" },
   { path: "/hu/en/terms/", lang: "en", label: "terms hu-EN" },
+  { path: "/si/terms/", lang: "sl", label: "terms si" },
+  { path: "/si/en/terms/", lang: "en", label: "terms si-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).
@@ -213,6 +221,8 @@ const efbPages: TestPage[] = [
   { path: "/pt/en/efb/", lang: "en", label: "efb pt-EN" },
   { path: "/hu/efb/", lang: "hu", label: "efb hu" },
   { path: "/hu/en/efb/", lang: "en", label: "efb hu-EN" },
+  { path: "/si/efb/", lang: "sl", label: "efb si" },
+  { path: "/si/en/efb/", lang: "en", label: "efb si-EN" },
 ];
 
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */

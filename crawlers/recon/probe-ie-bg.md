@@ -29,6 +29,38 @@ This is NOT a certificate/trust problem - it is the **server aborting the handsh
 
 What an httpx/ssl workaround needs: a custom `ssl.SSLContext` that goes further than SECLEVEL=1 - lower `minimum_version` to `ssl.TLSVersion.TLSv1` and set a wide legacy cipher string (e.g. `ctx.set_ciphers("DEFAULT@SECLEVEL=0")` or an explicit legacy list), passed as `httpx.Client(verify=ctx)`; if OpenSSL 3 on the runner still refuses (legacy provider needed for the oldest ciphers) or the server also filters on client fingerprint, fall back to a Playwright fetch (Chromium negotiates its own TLS stack) or the Bright Data proxy/unlocker path via `use_proxy()`. Until one of these succeeds, no IE eAIP entry URL can be identified - the probe never got an HTTP byte back.
 
+### TLS-retry probe (run 29271294861)
+
+Source: GitHub Actions run 29271294861 ("Crawler live test", job 86889363428), "Probe candidate eAIP roots" step, 2026-07-13. The probe now carries a TLS-retry mechanism: after a ConnectError it rebuilds the httpx client (`[tls-retry] rebuilding client: ca` = default CA bundle plus the pinned RapidSSL intermediate; `legacy` = TLSv1 minimum + `SECLEVEL=0`) and retries once. For IE the retry chose the `legacy` client.
+
+#### Raw output (verbatim, complete)
+
+```
+===== PROBE https://iaip.iaa.ie/ =====
+<stdin>:33: DeprecationWarning: ssl.TLSVersion.TLSv1 is deprecated
+   FAILED - ConnectError: [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1010)
+   [tls default] exit 1
+     Verification: OK
+     New, (NONE), Cipher is (NONE)
+     40A74B6C1D770000:error:0A000410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure:../ssl/record/rec_layer_s3.c:1599:SSL alert number 40
+   [tls legacy] exit 1
+     Verification: OK
+     New, (NONE), Cipher is (NONE)
+     40372E43A6710000:error:0A000410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure:../ssl/record/rec_layer_s3.c:1599:SSL alert number 40
+   [tls seclevel1] exit 1
+     Verification: OK
+     New, (NONE), Cipher is (NONE)
+     40B7950FCA7E0000:error:0A000410:SSL routines:ssl3_read_bytes:sslv3 alert handshake failure:../ssl/record/rec_layer_s3.c:1599:SSL alert number 40
+   [tls-retry] rebuilding client: legacy
+   FAILED - ConnectError: [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1010)
+```
+
+#### Conclusion
+
+**NO - `use_legacy_tls()` does not connect.** The `[tls-retry] rebuilding client: legacy` retry (TLSv1 minimum + `SECLEVEL=0`, i.e. strictly wider than the earlier `SECLEVEL=1` openssl variant) fails with the exact same fatal **`SSL alert number 40` (handshake_failure)** as the initial httpx attempt and all three openssl variants - the server aborts the ClientHello before any certificate is exchanged, regardless of how permissive the OpenSSL-side protocol/cipher settings are. (The `DeprecationWarning: ssl.TLSVersion.TLSv1 is deprecated` line just confirms the legacy context was really built.)
+
+This exhausts the OpenSSL-side workarounds available to httpx: the rejection is not about protocol version or cipher security level that our client can loosen, so the server is most likely filtering on some other ClientHello property (TLS fingerprint / extensions / required legacy cipher that OpenSSL 3 no longer offers even at SECLEVEL=0 without the legacy provider). **Next step is Playwright and/or the Bright Data proxy, not further ssl.SSLContext tuning**: retry `https://iaip.iaa.ie/` with a `render_html()` Playwright fetch (Chromium ships its own TLS stack, BoringSSL, with a browser ClientHello fingerprint) and, if that also fails, through `use_proxy()` with `BRIGHTDATA_PROXY_URL` / `BRIGHTDATA_UNLOCKER_URL` (the unlocker negotiates TLS on Bright Data's side). Until one of those returns HTTP bytes, no IE eAIP entry URL can be identified.
+
 ## BG - b-flip.bulatsa.com
 
 ### Raw output (verbatim, complete)

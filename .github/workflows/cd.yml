@@ -117,6 +117,7 @@ jobs:
             "https://aip.aero/is/flugvallalisti-island/"
             "https://aip.aero/pt/lista-de-aerodromos-portugal/"
             "https://aip.aero/hu/repuloterek-listaja-magyarorszag/"
+            "https://aip.aero/si/seznam-letalisc-slovenija/"
           )
           for u in "${urls[@]}"; do
             code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000

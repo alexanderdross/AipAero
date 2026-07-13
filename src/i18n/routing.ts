@@ -39,6 +39,8 @@ export const routing = defineRouting({
     "pt-EN",
     "hu",
     "hu-EN",
+    "si",
+    "si-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -61,6 +63,7 @@ export const routing = defineRouting({
       "is-EN": "/is/en",
       "pt-EN": "/pt/en",
       "hu-EN": "/hu/en",
+      "si-EN": "/si/en",
     },
   },
   pathnames: {
@@ -110,6 +113,8 @@ export const routing = defineRouting({
       "pt-EN": "/airport-list-portugal",
       hu: "/repuloterek-listaja-magyarorszag",
       "hu-EN": "/airport-list-hungary",
+      si: "/seznam-letalisc-slovenija",
+      "si-EN": "/airport-list-slovenia",
     },
   },
   localeCookie: false,
@@ -174,6 +179,10 @@ export const localeLangMapping: Record<
   "pt-EN": "en",
   hu: "hu",
   "hu-EN": "en",
+  // Slovenia: prefix "si", ISO language code "sl" (the LocaleSwitcher ICU
+  // branches key on the PREFIX - see the gotcha in CLAUDE.md).
+  si: "sl",
+  "si-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -216,4 +225,6 @@ export const localeCountryMapping: Record<
   "pt-EN": "pt",
   hu: "hu",
   "hu-EN": "hu",
+  si: "si",
+  "si-EN": "si",
 };

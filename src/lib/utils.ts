@@ -17,6 +17,18 @@ export function isPdfUrl(url: string | null | undefined): boolean {
   }
 }
 
+/**
+ * URL-safe anchor slug of a country's English name ("Belgium & Luxembourg"
+ * -> "belgium-luxembourg"). Used for the homepage card anchors (/#germany),
+ * the A-Z jump bar and the /germany short-URL redirects in middleware.ts.
+ */
+export function countryAnchorSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export const orgUrl = new URL("https://aip.aero/");
 export const orgLogoUrl = new URL("/aip-logo-446x319.jpg", orgUrl);
 export const orgLogoSquareUrl = new URL("/aip-logo-450x450.jpg", orgUrl);
@@ -75,6 +87,7 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   is: ["vfr"],
   pt: ["vfr"],
   hu: ["vfr"],
+  si: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -112,6 +125,10 @@ export const liveCountries: string[] = [
   "is",
   "pt",
   "hu",
+  // Slovenia (13.07.2026): crawler live-validated (run 29272420058,
+  // 4 airports) behind the pinned-intermediate TLS fix; first data
+  // published via the manual crawl dispatch on launch day.
+  "si",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source:
   // "dk",
   // "gr",
@@ -153,4 +170,5 @@ export const countryMeta: Record<
   is: { lang: "is", name: "Iceland", flag: "🇮🇸", nativeLang: "Icelandic" },
   pt: { lang: "pt", name: "Portugal", flag: "🇵🇹", nativeLang: "Portuguese" },
   hu: { lang: "hu", name: "Hungary", flag: "🇭🇺", nativeLang: "Hungarian" },
+  si: { lang: "sl", name: "Slovenia", flag: "🇸🇮", nativeLang: "Slovenian" },
 };
