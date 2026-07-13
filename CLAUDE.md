@@ -64,7 +64,7 @@ Notes:
 - **The OpenNext build is now gated in CI** (`pnpm cf-build`). It no longer needs a database: DB reads go through the `DB` D1 binding, which at build time is a local empty D1, so reads fail-soft to empty results and revalidate at runtime. Vercel no longer builds PRs.
 - **E2E tests run against `next start`** (production Node build), which is the only local server that reproduces production streaming-metadata `<head>` placement - the exact behaviour the `htmlLimitedBots` fix guards. The tests are black-box (`e2e/`), the page matrix in `e2e/pages.ts` mirrors `src/i18n/routing.ts`, and the DB is absent (reads fail-soft) so airport-row-dependent happy paths (`?ICAO` detail, sitemap airport entries) are left to the deployed Lighthouse run. Locally, point Playwright at a pre-installed Chromium with `PW_EXECUTABLE_PATH=/opt/pw-browsers/chromium pnpm test:e2e`.
 - **`lighthouse.yml`** stays a manual `workflow_dispatch` run against any deployed URL (`base_url` input) - e.g. a `workers.dev` preview or `aip.aero`; it shares the `.lighthouserc.cjs` budgets. PR-time Lighthouse gating is the `lighthouse` job in `ci.yml` against a local server.
-- **All 12 active crawlers are covered by the import smoke test.** They run on httpx/BeautifulSoup (DK on Playwright); Selenium is gone - the legacy `crawler_base.py` / `eurocontrol_base.py` bases, the experimental crawlers (belgium / car_sam_nam / pac_n / pac_p / run) and the `cache_warmer.py` script were removed along with the `selenium` / `webdriver-manager` deps.
+- **All 12 active crawlers are covered by the import smoke test.** They run on httpx/BeautifulSoup (DK walks the Naviair Umbraco JSON API with httpx; its Playwright render remains only as a self-diagnosing fallback); Selenium is gone - the legacy `crawler_base.py` / `eurocontrol_base.py` bases, the experimental crawlers (belgium / car_sam_nam / pac_n / pac_p / run) and the `cache_warmer.py` script were removed along with the `selenium` / `webdriver-manager` deps.
 
 To gate merges on these checks, enable branch protection on `main` in repo settings → *Branches* → *Branch protection rules* (or *Rules → Rulesets*), and mark `Website (Next.js)`, `Crawlers (Python)`, `E2E & rendered output (Playwright)` and `Lighthouse budgets (local)` as required status checks.
 
@@ -274,7 +274,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 | United Kingdom    | UK   | `UK`          | `HttpEurocontrolBase` | no              | NATS eAIP             |
 | Belgium/Luxembourg| BE   | `BE`          | `HttpEurocontrolBase` | no              | skeyes eAIP           |
 | Czechia           | CZ   | `CZ`          | `HttpEurocontrolBase` | no              | ANS CR (rlp.cz) eAIP  |
-| Denmark           | DK   | `DK`          | `PlaywrightCrawlerBase` | yes (headless)  | Naviair (JS app)      |
+| Denmark           | DK   | `DK`          | `PlaywrightCrawlerBase` | no (JSON API; render = diagnostic fallback only) | Naviair Umbraco JSON API |
 | Greece            | GR   | `GR`          | `HttpEurocontrolBase` | via Web Unlocker | HANSP (aisgr) eAIP    |
 | Norway            | NO   | `NO`          | `HttpEurocontrolBase` | no              | Avinor eAIP           |
 | Poland            | PL   | `PL`          | `HttpEurocontrolBase` | no              | PANSA eAIP            |
@@ -317,7 +317,7 @@ All twelve active country crawlers run on httpx (DK via Playwright); none use Se
 
 - Extensive JSON-LD structured data: BreadcrumbList, Product, Airport, WebSite, SiteNavigationElement, WebPage, DigitalDocument (chart PDFs)
 - The site-navigation JSON-LD is one **multi-typed node** `"@type": ["SiteNavigationElement", "CollectionPage", "ItemList"]` carrying the nav entries directly via `itemListElement` (each entry a `SiteNavigationElement` with `position`) - on the global homepage inline and via `schema-sitenav.tsx` for the locale pages
-- Dynamic sitemaps per country at `/2d6a9a/sitemap/<country>.xml` (live countries only; dk/gr excluded until their crawlers are verified)
+- Dynamic sitemaps per country at `/2d6a9a/sitemap/<country>.xml` (live countries only; gr excluded until its crawler is verified - dk launched 14.07.2026 on the Naviair Umbraco JSON API)
 - `/llms.txt` (llmstxt.org, GEO): LLM-friendly Markdown site summary served by `src/app/llms.txt/route.ts`, generated from `liveCountries` x `countryMeta` x `countryTypeAvailability` (launching a country updates it automatically); static, no DB. robots.txt explicitly welcomes the AI crawlers and mentions it (the obfuscated sitemap path deliberately stays out of robots.txt)
 - Sitemap index at `/2d6a9a/sitemap.xml` (rewritten from `/2d6a9a/index.xml`)
 - Canonical URLs, alternate language links + **`x-default`** (pointing at the English version) on the country/list/search pages and in the sitemap; single-locale countries (uk, be - `isSingleLocale()` in `routing.ts`) emit **no** alternates and hide the language switcher

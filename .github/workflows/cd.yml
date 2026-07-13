@@ -107,6 +107,7 @@ jobs:
             "https://aip.aero/uk/airport-list-uk/"
             "https://aip.aero/be/airport-list-belgium/"
             "https://aip.aero/cz/letiste-cesko/"
+            "https://aip.aero/dk/flyvepladser-danmark/"
             "https://aip.aero/no/flyplasser-norge/"
             "https://aip.aero/pl/lotniska-polska/"
             "https://aip.aero/se/flygplatser-sverige/"
