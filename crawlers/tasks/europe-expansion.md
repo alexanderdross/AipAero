@@ -24,15 +24,27 @@ zwei Locale-Dateien (nativ + `-EN`; Sprachen et/fi/is/pt/hu),
 Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 (`liveCountries` bleibt bis dahin unkommentiert).
 
+## Status Crawler (live-validiert 13.07.2026)
+
+| Land | Airports | Läufe |
+| --- | --- | --- |
+| EE | 8 | 29257033060 |
+| FI | 40 | 29257457290 (Titel bereinigt) |
+| ES | 51 | 29258501240 (Owner-Auftrag trotz Nicht-eurocontrol) |
+| LV | 12 | 29259295508 (öffentlich; einstufiges Frameset) |
+
+Noch offen pro Land: Website-Integration (Locales, Routing, Meta, E2E),
+gen12-Customs-Lauf, Chart-PDF-Prioritäten per pdf_recon (Coverage aktuell
+0 - Stage-2-Muster fehlen noch). IS/PT/HU-Crawler als Nächstes.
+
 ## Batch 2 - Zugang/URL klären (je eine Folge-Probe)
 
 | Land | Stand | Nächster Schritt |
 | --- | --- | --- |
-| BG | Portal https://b-flip.bulatsa.com/publications/aip/home gefunden | probe_eaip auf b-flip (JS-App? ggf. Playwright wie DK) |
-| LV | ais.lgs.lv leitet auf `/user/login`; Link `\/aiseaip` existiert | probe_eaip auf https://ais.lgs.lv/aiseaip |
-| IE | iaip.iaa.ie antwortet 409 (Session/WAF?) | probe mit Cookie-Flow; IAA-iAIP ist eurocontrol-basiert |
-| HR | crocontrol.hr-Pfad 404 | richtige eAIP-URL recherchieren (Owner/Browser) |
-| SI | sloveniacontrol.si-Pfad 404 | richtige eAIP-URL recherchieren (Owner/Browser) |
+| BG | b-flip.bulatsa.com ist eine JS-App (0 Links im HTML) | Playwright-Crawler wie DK |
+| IE | iaip.iaa.ie: TLS-Handshake-Failure (Legacy-Stack) | eigener SSL-Kontext (niedrigeres Security-Level) im Crawler |
+| HR | crocontrol.hr-Root ohne AIP-Links (JS-Menü) | direkte eAIP-URL recherchieren (Owner/Browser) |
+| SI | Spur: https://aim.sloveniacontrol.si/aim/sl/products/ | probe_eaip auf den AIM-Portal-Pfad |
 | SK | aim.lps.sk 403 trotz Browser-Headern | evtl. GEO/IP-Sperre; ggf. Bright-Data-Proxy wie GR |
 | LT | ans.lt 403 trotz Browser-Headern | wie SK |
 
