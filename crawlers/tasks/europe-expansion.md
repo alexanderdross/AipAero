@@ -24,7 +24,7 @@ zwei Locale-Dateien (nativ + `-EN`; Sprachen et/fi/is/pt/hu),
 Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 (`liveCountries` bleibt bis dahin unkommentiert).
 
-## Status Crawler (live-validiert 13.07.2026)
+## Status Crawler (live-validiert 13.07.2026) - Batch 1 KOMPLETT
 
 | Land | Airports | Läufe |
 | --- | --- | --- |
@@ -32,10 +32,18 @@ Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 | FI | 40 | 29257457290 (Titel bereinigt) |
 | ES | 51 | 29258501240 (Owner-Auftrag trotz Nicht-eurocontrol) |
 | LV | 12 | 29259295508 (öffentlich; einstufiges Frameset) |
+| IS | 106 | 29261291680 (AD- + LS-Kapitel pro Feld, en-GB, Sub-Seiten gefiltert) |
+| PT | 19 | 29261291680 (per-Airport-Kapitel `AD-2.LPxxdetails` wie CZ) |
+| HU | 8 | 29261291680 (per-Airport-Kapitel `AD-2.LHxxdetails`; relative Editions-hrefs) |
+
+Der CZ-Stil "ein Kapitel pro Aerodrom" ist jetzt generisch:
+`HttpEurocontrolBase.extract_airports_per_chapter()` (ICAO aus der
+Section-id-Regex, Titel-Präfix überschreibbar - IS nutzt `AD BIAR ...`
+statt `AD 2.XXXX`).
 
 Noch offen pro Land: Website-Integration (Locales, Routing, Meta, E2E),
 gen12-Customs-Lauf, Chart-PDF-Prioritäten per pdf_recon (Coverage aktuell
-0 - Stage-2-Muster fehlen noch). IS/PT/HU-Crawler als Nächstes.
+0 - Stage-2-Muster fehlen noch).
 
 ## Batch 2 - Zugang/URL klären (je eine Folge-Probe)
 
