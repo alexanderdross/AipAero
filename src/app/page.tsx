@@ -10,6 +10,7 @@ import { Hero } from "~/components/hero";
 import { Header } from "~/components/header";
 import { ValueProps } from "~/components/value-props";
 import {
+  countryAnchorSlug,
   countryMeta,
   countryTypeAvailability,
   liveCountries,
@@ -103,8 +104,33 @@ export default async function RootPage() {
 
   const modifiedDate = new Date(buildDate);
 
+  // A-Z jump bar: letters with at least one live country link to the FIRST
+  // card of that letter (the cards are sorted alphabetically, so the rest
+  // follow right below); empty letters render muted. Plain #-anchors, zero
+  // client JS - the fragment shows in the URL bar, and /germany-style short
+  // URLs 308-redirect to /#germany in middleware.ts.
+  const alphabet = Array.from({ length: 26 }, (_, i) =>
+    String.fromCharCode(65 + i),
+  );
+  const firstCountryByLetter = new Map<
+    string,
+    { slug: string; names: string[] }
+  >();
+  for (const c of countries) {
+    const letter = c.name[0]!.toUpperCase();
+    const entry = firstCountryByLetter.get(letter);
+    if (entry) {
+      entry.names.push(c.name);
+    } else {
+      firstCountryByLetter.set(letter, {
+        slug: countryAnchorSlug(c.name),
+        names: [c.name],
+      });
+    }
+  }
+
   return (
-    <html className={`h-full ${inter.variable}`} lang="en">
+    <html className={`h-full scroll-smooth ${inter.variable}`} lang="en">
       {/* We cant set the alternate links via metadata api, since it disallows the use of duplicate hrefLang */}
       <head>
         {countries.map((e) => (
@@ -225,14 +251,47 @@ export default async function RootPage() {
           {/* Trust strip */}
           <ValueProps />
 
+          {/* A-Z country jump bar */}
+          <nav
+            aria-label="Jump to a country by letter"
+            className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8"
+          >
+            <ul className="flex flex-wrap justify-center gap-1">
+              {alphabet.map((letter) => {
+                const entry = firstCountryByLetter.get(letter);
+                return (
+                  <li key={letter}>
+                    {entry ? (
+                      <a
+                        href={`#${entry.slug}`}
+                        title={`Jump to AIP ${entry.names.join(", ")}`}
+                        className="text-drossblue inline-flex min-h-10 min-w-10 items-center justify-center rounded-md font-semibold hover:bg-white hover:underline"
+                      >
+                        {letter}
+                      </a>
+                    ) : (
+                      <span
+                        aria-hidden="true"
+                        className="text-drossgray-dark/40 inline-flex min-h-10 min-w-10 items-center justify-center"
+                      >
+                        {letter}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
           {/* Country Boxes */}
-          <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mt-4 max-w-7xl px-4 sm:px-6 lg:px-8">
             <div
               className={"grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"}
             >
               {countries.map((e) => (
                 <Box
                   key={e.name}
+                  id={countryAnchorSlug(e.name)}
                   lang="en"
                   icon={<span className="text-3xl">{e.flag}</span>}
                   title={`AIP ${e.name}`}

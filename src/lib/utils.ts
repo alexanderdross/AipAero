@@ -17,6 +17,18 @@ export function isPdfUrl(url: string | null | undefined): boolean {
   }
 }
 
+/**
+ * URL-safe anchor slug of a country's English name ("Belgium & Luxembourg"
+ * -> "belgium-luxembourg"). Used for the homepage card anchors (/#germany),
+ * the A-Z jump bar and the /germany short-URL redirects in middleware.ts.
+ */
+export function countryAnchorSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export const orgUrl = new URL("https://aip.aero/");
 export const orgLogoUrl = new URL("/aip-logo-446x319.jpg", orgUrl);
 export const orgLogoSquareUrl = new URL("/aip-logo-450x450.jpg", orgUrl);

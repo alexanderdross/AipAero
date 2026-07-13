@@ -22,6 +22,11 @@ interface Props {
    * the right dictionary. Defaults to unset (browser guesses from the document).
    */
   lang?: string;
+  /**
+   * Optional anchor id (deep-linkable card, e.g. /#germany). Adds a scroll
+   * margin so the sticky header never covers the jump target.
+   */
+  id?: string;
 }
 
 const buttonBase =
@@ -40,9 +45,16 @@ export function Box({
   icon,
   badges,
   lang,
+  id,
 }: Props) {
   return (
-    <div className="group border-drossgray-dark/15 hover:border-drossblue/40 flex flex-col rounded-xl border bg-white p-6 shadow-sm transition-[box-shadow,border-color,transform] duration-200 hover:-translate-y-0.5 hover:shadow-md">
+    <div
+      id={id}
+      className={cn(
+        "group border-drossgray-dark/15 hover:border-drossblue/40 flex flex-col rounded-xl border bg-white p-6 shadow-sm transition-[box-shadow,border-color,transform] duration-200 hover:-translate-y-0.5 hover:shadow-md",
+        id && "scroll-mt-24",
+      )}
+    >
       <div
         className="flex h-full flex-col justify-between break-words hyphens-auto"
         lang={lang}

@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import LinkHeader from "http-link-header";
 import { localeLangMapping, routing } from "./i18n/routing";
+import { countryAnchorSlug, countryMeta, liveCountries } from "./lib/utils";
 
 const handleI18nRouting = createMiddleware(routing);
 
@@ -16,6 +17,24 @@ export default function middleware(request: NextRequest) {
   }
 
   const { pathname } = request.nextUrl;
+
+  // Country short URLs: /germany -> /#germany (the homepage card anchor).
+  // Derived from liveCountries x countryMeta, so a launched country gets its
+  // short URL automatically. Locale prefixes ('/de') never collide - the
+  // slugs are full English names ('germany').
+  const slugMatch = /^\/([a-z0-9-]+)\/?$/.exec(pathname);
+  if (slugMatch) {
+    const slug = slugMatch[1]!;
+    const isCountrySlug = liveCountries.some(
+      (cc) => countryAnchorSlug(countryMeta[cc]?.name ?? "") === slug,
+    );
+    if (isCountrySlug) {
+      const url = new URL(request.url);
+      url.pathname = "/";
+      url.hash = slug;
+      return NextResponse.redirect(url, 308);
+    }
+  }
 
   // Matches '/', as well as all paths that start with a locale like '/en'
   const shouldHandle =

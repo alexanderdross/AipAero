@@ -85,3 +85,73 @@ The hypothesis from the first probe is confirmed and now precisely diagnosed as 
 - **Neither `-legacy_server_connect` nor `SECLEVEL=1` helps** - all three variants produce byte-identical output and connect fine at the protocol level (exit 0, TLSv1.2, `ECDHE-RSA-AES256-GCM-SHA384`). This is purely a trust-path problem, not a protocol/cipher problem.
 
 What a crawler-side SSL context needs: an `httpx.Client(verify=<ssl.SSLContext>)` whose context loads the default CA bundle **plus the pinned "RapidSSL TLS RSA CA G1" intermediate** (public DigiCert cert, downloadable from DigiCert's CA repository, or extractable via AIA from the leaf). Do NOT disable verification. With that context in place, re-probe `https://aim.sloveniacontrol.si/aim/sl/products/` (and English/eAIP variants) to finally classify the SI eAIP structure and pick a ROOT_URL.
+
+## TLS-retry probe (run 29271294861)
+
+Source: GitHub Actions run 29271294861 ("Crawler live test", job 86889363428), "Probe candidate eAIP roots" step, 2026-07-13. The probe now carries a TLS-retry mechanism: after a ConnectError it rebuilds the httpx client (`[tls-retry] rebuilding client: ca` = default CA bundle plus the pinned "RapidSSL TLS RSA CA G1" intermediate; `legacy` = TLSv1 minimum + `SECLEVEL=0`) and retries once.
+
+### Raw output (verbatim, complete)
+
+```
+===== PROBE https://aim.sloveniacontrol.si/aim/sl/products/ =====
+   FAILED - ConnectError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)
+   [tls default] exit 0
+     0 s:CN = *.sloveniacontrol.si
+     i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = RapidSSL TLS RSA CA G1
+     1 s:C = US, O = "DigiCert, Inc.", CN = RapidSSL Global TLS RSA4096 SHA256 2022 CA1
+     i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA
+     Verification error: unable to verify the first certificate
+     New, TLSv1.2, Cipher is ECDHE-RSA-AES256-GCM-SHA384
+     verify error:num=20:unable to get local issuer certificate
+     verify return:1
+     verify error:num=21:unable to verify the first certificate
+     verify return:1
+     verify return:1
+   [tls legacy] exit 0
+     0 s:CN = *.sloveniacontrol.si
+     i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = RapidSSL TLS RSA CA G1
+     1 s:C = US, O = "DigiCert, Inc.", CN = RapidSSL Global TLS RSA4096 SHA256 2022 CA1
+     i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA
+     Verification error: unable to verify the first certificate
+     New, TLSv1.2, Cipher is ECDHE-RSA-AES256-GCM-SHA384
+     verify error:num=20:unable to get local issuer certificate
+     verify return:1
+     verify error:num=21:unable to verify the first certificate
+     verify return:1
+     verify return:1
+   [tls seclevel1] exit 0
+     0 s:CN = *.sloveniacontrol.si
+     i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = RapidSSL TLS RSA CA G1
+     1 s:C = US, O = "DigiCert, Inc.", CN = RapidSSL Global TLS RSA4096 SHA256 2022 CA1
+     i:C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA
+     Verification error: unable to verify the first certificate
+     New, TLSv1.2, Cipher is ECDHE-RSA-AES256-GCM-SHA384
+     verify error:num=20:unable to get local issuer certificate
+     verify return:1
+     verify error:num=21:unable to verify the first certificate
+     verify return:1
+     verify return:1
+   [tls-retry] rebuilding client: ca
+   200 https://aim.sloveniacontrol.si/aim/sl/products/
+   title: Products â sloveniacontrol.si
+   link [AIRAC AMDT 06/09 JUL 2026] https://aim.sloveniacontrol.si/aim/eAIP/Operations/history-en-GB.html
+   link [] https://aim.sloveniacontrol.si/aim/sl/eAIP/Operations/history-en-GB.html/
+   link [] https://aim.sloveniacontrol.si/aim/sl/products/aip/
+   link [] https://aim.sloveniacontrol.si/aim/sl/products/eAIP-CD-Content/
+   link [New AIP SUP 001/2026] https://aim.sloveniacontrol.si/aim/sl/new-aip-sup-001-2026/
+   link [Objava AIP AMDT 031/2025 in AIP SUP 003/2025] https://aim.sloveniacontrol.si/aim/sl/new-aip-amdt-031-2025-and-aip-sup-003-2025/
+   link [Objava AIP AMDT 030/2025 in AIC A 003/2025] https://aim.sloveniacontrol.si/aim/sl/new-aip-amdt-030-2025-and-aic-a003-2025/
+   (7 interesting links total)
+```
+
+### Conclusion
+
+**YES - `use_extra_ca()` with the pinned "RapidSSL TLS RSA CA G1" intermediate (https://cacerts.digicert.com/RapidSSLTLSRSACAG1.crt.pem) unlocks SI.** The initial httpx fetch fails with the known `CERTIFICATE_VERIFY_FAILED` (server sends the wrong intermediate, per the run 29270333630 diagnosis), the `[tls-retry] rebuilding client: ca` retry then gets **HTTP 200** and a real page (title `Products â sloveniacontrol.si` - the mojibake is an encoding artifact in the probe output, not a page problem).
+
+The revealed links confirm a eurocontrol-style eAIP behind the products page:
+
+- `https://aim.sloveniacontrol.si/aim/eAIP/Operations/history-en-GB.html` (link text "AIRAC AMDT 06/09 JUL 2026") - a classic eurocontrol eAIP `history-en-GB.html`, i.e. the edition history page of the current eAIP. Its sibling pages should be the standard frameset (`index-en-GB.html` / `toc-frameset-en-GB.html` / `eAIP/SI-menu-en-GB.html` with `AD-2details` sections), exactly what `HttpEurocontrolBase` parses.
+- `https://aim.sloveniacontrol.si/aim/sl/eAIP/Operations/history-en-GB.html/` - the same page under the `sl` locale path.
+- `https://aim.sloveniacontrol.si/aim/sl/products/aip/` and `.../products/eAIP-CD-Content/` - the AIP product page and the eAIP CD-content listing, both candidate hop pages if the `Operations` path is not directly navigable.
+
+**Candidate ROOT_URL: `https://aim.sloveniacontrol.si/aim/eAIP/Operations/history-en-GB.html`** (or its parent `https://aim.sloveniacontrol.si/aim/eAIP/Operations/`), with `https://aim.sloveniacontrol.si/aim/sl/products/aip/` as the fallback entry hop. Next navigation step: with the `ca` client, fetch the `Operations/history-en-GB.html` page and locate the standard eurocontrol entry (`index-en-GB.html` -> `toc-frameset-en-GB.html` -> `eAIP/SI-menu-en-GB.html`), then verify the `AD 2` section ids so an SI crawler can be a plain `HttpEurocontrolBase` subclass that calls `use_extra_ca("https://cacerts.digicert.com/RapidSSLTLSRSACAG1.crt.pem")` (pinned intermediate + default bundle; verification stays ON).
