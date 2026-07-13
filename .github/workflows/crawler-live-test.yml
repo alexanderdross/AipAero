@@ -329,6 +329,7 @@ jobs:
           uv run python - <<'PY' 2>&1 | tee "$GITHUB_WORKSPACE/gen12-output.txt"
           import os
           import re
+          import ssl
           import sys
           from urllib.parse import urljoin
 
@@ -339,10 +340,27 @@ jobs:
           # WAF'd sources - skeyes 403s a bare UA-only client).
           from crawlers.http_base import BROWSER_HEADERS
 
+          # Default bundle + pinned public intermediates for hosts with a
+          # broken chain (SI - see use_extra_ca in http_base.py). Fail-soft
+          # so a cert-repo hiccup never kills recon for other countries.
+          def _trusting_ctx() -> ssl.SSLContext:
+              ctx = ssl.create_default_context()
+              for u in [
+                  "https://cacerts.digicert.com/RapidSSLTLSRSACAG1.crt.pem",
+              ]:
+                  try:
+                      r = httpx.get(u, timeout=30, follow_redirects=True)
+                      r.raise_for_status()
+                      ctx.load_verify_locations(cadata=r.text)
+                  except Exception as e:
+                      print(f"   [extra-ca] {u} failed: {e}")
+              return ctx
+
           client = httpx.Client(
               follow_redirects=True,
               timeout=30,
               headers=BROWSER_HEADERS,
+              verify=_trusting_ctx(),
           )
 
           META_REFRESH = re.compile(
@@ -633,13 +651,27 @@ jobs:
                   # reachable from the sandboxed agent environment).
                   if os.environ.get("PDF_RECON"):
                       import re as _re
+                      import ssl as _ssl
                       import httpx as _httpx
                       from urllib.parse import urljoin as _urljoin
                       # Fresh client: crawl() closes the crawler's own client.
+                      # Trust the pinned intermediates for broken-chain hosts
+                      # (SI) - fail-soft, like the GEN 1.2 recon client.
+                      _ctx = _ssl.create_default_context()
+                      for _u in [
+                          "https://cacerts.digicert.com/RapidSSLTLSRSACAG1.crt.pem",
+                      ]:
+                          try:
+                              _r = _httpx.get(_u, timeout=30, follow_redirects=True)
+                              _r.raise_for_status()
+                              _ctx.load_verify_locations(cadata=_r.text)
+                          except Exception as _e:
+                              print(f"   [extra-ca] {_u} failed: {_e}")
                       recon_client = _httpx.Client(
                           follow_redirects=True,
                           timeout=30,
                           headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"},
+                          verify=_ctx,
                       )
                       def _fetch_text(u):
                           r = recon_client.get(u)

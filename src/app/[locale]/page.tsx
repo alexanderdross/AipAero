@@ -130,6 +130,17 @@ export default async function CountryPage(
   ] as const;
   const keys = allCardKeys.filter((k) => t.has(`${k}.title`));
 
+  // Language-neutral anchor ids per card (deep-linkable, e.g. /de/#ifr) -
+  // named after the routes they link to, stable across locales.
+  const cardAnchor: Record<(typeof allCardKeys)[number], string> = {
+    vfrCard: "vfr",
+    ifrCard: "ifr",
+    heliportCard: "heliports",
+    aeroportCard: "aeroports",
+    militaryCard: "military",
+    airportListCard: "airport-list",
+  };
+
   const currentUrl =
     new URL(getPathname({ href: "/", locale }), orgUrl).toString() + "/";
 
@@ -161,6 +172,7 @@ export default async function CountryPage(
           {keys.map((key) => (
             <Box
               key={key}
+              id={cardAnchor[key]}
               lang={cardLang}
               icon={cardIcons[key]}
               title={t(`${key}.title`)}

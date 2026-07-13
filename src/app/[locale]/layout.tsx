@@ -35,7 +35,7 @@ export default async function LocaleLayout(
 
   return (
     <html
-      className={`h-full ${inter.variable}`}
+      className={`h-full scroll-smooth ${inter.variable}`}
       lang={localeLangMapping[locale]}
     >
       <body className={"bg-drossgray font-sans"}>

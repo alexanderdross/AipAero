@@ -42,6 +42,14 @@ class SI(HttpEurocontrolBase):
     are "vfr" (new-country convention), heliports fail-soft.
     """
 
+    # Chart-PDF extraction (recon run 29273393673, crawlers/recon/
+    # pdf-recon-si.md): positional AD 2.24 numbering like PT, e.g.
+    # LJ_AD_2_LJLJ_01-1_en.pdf - chart 01 is the aerodrome chart on all
+    # sampled fields. Add a VAC-number pattern IN FRONT once the VAC's
+    # chart number is verified by opening one PDF.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_01-1_en\.pdf$",)
+
     def __init__(self) -> None:
         # No network in __init__ (same rule as the lazy Playwright import):
         # the CA fetch happens at the start of crawl(), so importing /

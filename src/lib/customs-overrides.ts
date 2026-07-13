@@ -389,6 +389,17 @@ export const customsOverrides: Record<string, boolean> = {
   LHPP: true, // Pécs / Pogány
   LHSM: true, // Hévíz / Balaton
   LHUD: true, // Szeged
+
+  // ---------------------------------------------------------------------
+  // SI - Slovenia Control eAIP GEN 1.2 + AD 1.3 (verified on the runner
+  // 13.07.2026, gen12 recon run 29273393673, AIRAC 2026-07-09; verbatim
+  // rows in crawlers/recon/gen12-si.md): GEN 1.2 names exactly LJLJ,
+  // LJMB and LJPZ; AD 1.3 designates the same three INTL-NTL. LJCE
+  // (Cerklje ob Krki, MIL) and every other field/heliport are NTL and
+  // deliberately absent.
+  LJLJ: true, // Ljubljana / Brnik
+  LJMB: true, // Maribor / Orehova vas
+  LJPZ: true, // Portoroz / Secovlje
 };
 
 /** Verified override for an ICAO, or undefined when none exists. */
