@@ -35,6 +35,7 @@ Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 | IS | 53 | 29265643933 (AD-/LS-Kapitel, Dedupe by ICAO - 106 waren systematische Doppel) |
 | PT | 19 | 29265643933; PDF 19/19 (`_01-1_en.pdf` = ADC) |
 | HU | 8 | 29265643933; PDF 8/8 (VAC bevorzugt) |
+| SI | 4 | 29272420058 (TLS via gepinntem Intermediate, use_extra_ca); Customs LJLJ/LJMB/LJPZ + PDF-Muster wie PT (29273393673); GELAUNCHT 13.07.2026 |
 
 Der CZ-Stil "ein Kapitel pro Aerodrom" ist jetzt generisch:
 `HttpEurocontrolBase.extract_airports_per_chapter()` (ICAO aus der
@@ -55,7 +56,6 @@ Noch offen: FI/IS/ES-Chart-PDF (tiefere Navigation nötig), ES-Customs
 
 | Land | Stand | Nächster Schritt |
 | --- | --- | --- |
-| SI | Server sendet FALSCHES Intermediate ("RapidSSL Global TLS RSA4096 SHA256 2022 CA1" statt "RapidSSL TLS RSA CA G1"; TLS-Diagnose Run 29270333630, `crawlers/recon/probe-si.md`) | Crawler-SSL-Kontext mit gepinntem RapidSSL-TLS-RSA-CA-G1-Intermediate (öffentliches DigiCert-Zertifikat), dann Re-Probe |
 | IE | iaip.iaa.ie: fatal alert 40 (handshake_failure) VOR Zertifikataustausch, identisch bei default/legacy/SECLEVEL=1 (`crawlers/recon/probe-ie-bg.md`) | SSLContext-Versuch mit TLSv1-Minimum + SECLEVEL=0; sonst Playwright (Chromium-TLS) oder Bright-Data-Proxy |
 | HR | crocontrol.hr-Root ohne AIP-Links (JS-Menü) | direkte eAIP-URL recherchieren (Owner/Browser) |
 | SK | aim.lps.sk 403 trotz Browser-Headern | evtl. GEO/IP-Sperre; ggf. Bright-Data-Proxy wie GR |
