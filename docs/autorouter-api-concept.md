@@ -125,8 +125,26 @@ gecacht, fail-soft:
 - **`src/lib/notam-parse.ts`**: purer, dependency-freier Parser/Mapper
   (Q-Code-Kategorie, Gültigkeitsfenster von/bis, Text) - unit-testbar wie
   `openaip-parse.ts` / `metar-decode.ts`.
-- **Caching**: NOTAMs pro ICAO ~15 min TTL (zeitkritisch - kurz, aber nicht
-  pro Request; Muster Wetterbox). NIE im Service Worker cachen (wie
+- **Caching: ZWEISTUFIG - Incremental Cache + D1-Persistenz (Owner-Vorgabe
+  13.07.2026).** Lesepfad pro ICAO:
+  1. `unstable_cache` (OpenNext Incremental Cache, TTL ~15 min) - fängt
+     die Masse der Requests ab, kein D1-/Upstream-Roundtrip.
+  2. Cache-Miss → D1-Tabelle `aip_aero_v4_notam_cache` lesen
+     (`icao` PK, `payload` JSON, `fetched_at`): Zeile frischer als
+     15 min → direkt servieren (kein Upstream-Call).
+  3. Erst dann autorouter fetchen (5 s Timeout) und die Zeile
+     upserten - Writes damit auf max. 1 pro ICAO pro 15 min begrenzt
+     (kein Request-Path-Schreibsturm; D1-Batch nicht nötig, Einzelzeile).
+  4. **Upstream-Fehler → letzte D1-Zeile MIT `fetched_at`-Zeitstempel
+     servieren** ("Stand: 14:32z") - Luftfahrt-Regel: datiert stale ist
+     ok, stillschweigend stale nie. Nur ohne jede Zeile rendert die Box
+     nichts (fail-soft).
+  Warum D1 zusätzlich zum Cache: überlebt Deploys und Tag-/Cache-Busts,
+  entkoppelt uns von autorouter-Ausfällen und -Rate-Limits (Schutz der
+  Partner-API UND unserer p95-Latenz: D1-Read in Millisekunden statt
+  Upstream-Roundtrip), und der Bestand ist abfragbar (Monitoring,
+  künftige Features). Migration via `pnpm db:generate` (Drizzle,
+  `aip_aero_v4_`-Präfix). NIE im Service Worker cachen (wie
   `/api/airport-weather`: kein staler Sicherheitsinhalt offline).
 - **UI `src/components/airport-notams.tsx`**: SSR-Box im Gadgets-Wrapper
   (vierte Box neben Kontakt/Wetter/Daten), lazy/Suspense wie die Wetterbox
@@ -137,18 +155,32 @@ gecacht, fail-soft:
 - **Fail-soft**: kein Token / Timeout (5 s) / Fehler → Box rendert nichts.
   Kein neues Error-1102-Risiko: eine Upstream-Anfrage pro Cache-Miss,
   gestreamt außerhalb des kritischen Pfads.
-- **SEO**: NOTAMs sind flüchtig → NICHT in Metadaten oder JSON-LD, kein
-  eigener Index-Content (Duplicate-/Thin-Content-Risiko), reine
-  Nutzwert-Box unterhalb des indexierbaren Inhalts.
+- **SEO + Web-Performance first (Owner-Vorgabe - die Detailseiten sind
+  der Traffic-Treiber):** NOTAMs sind flüchtig → NICHT in Metadaten
+  oder JSON-LD, kein eigener Index-Content (Duplicate-/Thin-Content-
+  Risiko), reine Nutzwert-Box UNTERHALB des indexierbaren Inhalts. Kein
+  Beitrag zum kritischen Renderpfad: die Box streamt hinter Suspense
+  innerhalb der bestehenden `min-h`-Reserve des Gadgets-Wrappers (kein
+  CLS, kein TTFB-Aufschlag auf den SEO-Content), null Client-JS (SSR +
+  `<details>` für Roh-NOTAMs). Dank D1-Stufe trifft die große Mehrheit
+  der Requests nie den Upstream - p95 bleibt auf heutigem Niveau.
+- **Terms-of-Service-Seite aktualisieren (Owner-Vorgabe, Teil von
+  Phase 2):** autorouter wird als eingebundene Datenquelle im
+  Quellen-Abschnitt der Terms ergänzt - ein Eintrag im code-seitigen
+  Quellen-Array (`src/app/[locale]/terms/page.tsx`, Muster srcAwc/
+  srcOpenAip) + neuer i18n-Key `TermsPage.srcAutorouter` in allen 38
+  Locale-Dateien ("NOTAMs via autorouter / Eurocontrol EAD"), plus
+  etwaige von autorouter geforderte Attribution aus der
+  Ticket-Antwort.
 
 ## Phasen
 
 | Phase | Inhalt | Gate |
 | --- | --- | --- |
-| 0 | dump_url-Recon der API-Doku, Terms zitieren, Test-Call vom Runner | Terms erlauben die Nutzung |
-| 1 | `autorouter.ts` (Auth+Fetch, gecacht) + `notam-parse.ts` + Unit-Tests | Live-Test-Lauf grün |
-| 2 | NOTAM-Box hinter Env-Flag (`AUTOROUTER_USER` gesetzt = an), i18n-Keys in allen 38 Dateien, e2e unverändert grün | Owner-Review auf 2-3 Live-Plätzen |
-| 3 | GRAMET-Evaluation (nur falls Route-Feature gewünscht) | eigenes Konzept |
+| 0 | dump_url-Recon der API-Doku (ERLEDIGT), API-Freischaltung + Terms per Support-Ticket (Owner), Test-Call vom Runner | Freischaltung + Terms erlauben die Nutzung |
+| 1 | `autorouter.ts` (Auth+Fetch) + `notam-parse.ts` + D1-Tabelle `aip_aero_v4_notam_cache` (Migration) + Unit-Tests | Live-Test-Lauf grün |
+| 2 | NOTAM-Box hinter Env-Flag (`AUTOROUTER_USER` gesetzt = an), i18n-Keys in allen 38 Dateien, **Terms-Quelleneintrag `srcAutorouter`**, e2e unverändert grün | Owner-Review auf 2-3 Live-Plätzen |
+| 3 | GRAMET-Evaluation (nur falls Route-Feature gewünscht; GAMET existiert nicht in der API) | eigenes Konzept |
 
 ## Offene Punkte (Owner)
 
