@@ -332,6 +332,8 @@
     "toolsText": "Ramka lokalizacji na każdej stronie otwiera to samo lotnisko bezpośrednio w SkyVector, Windy i autorouter - przydatne do planowania trasy, modeli pogody i składania planu lotu.",
     "weatherTitle": "Briefing pogodowy na stronie",
     "weatherText": "Strony szczegółowe pokazują METAR/TAF na żywo z dekodowaniem na zrozumiały język, odznakę kategorii lotu oraz dla każdej drogi startowej składowe wiatru czołowego i bocznego - szybka kontrola, nie zastępstwo oficjalnego briefingu.",
+    "customsTitle": "Odprawa celna i przekraczanie granicy",
+    "customsText": "Strony szczegółowe pokazują, czy lotnisko oferuje odprawę celną; tam gdzie krajowy AIP wymienia to w GEN 1.2, wartość jest zweryfikowana z tym oficjalnym źródłem. Do formalności granicznych ramka lokalizacji linkuje oficjalne formularze (np. brytyjski General Aviation Report), a mapa może filtrować lotniska celne. Przepisy się zmieniają - zawsze potwierdzaj je z aktualnym AIP i lokalnym urzędem.",
     "disclaimerTitle": "Uwaga dotycząca bezpieczeństwa",
     "disclaimerText": "AIP:Aero linkuje do oficjalnych publikacji AIP, ale sam nie jest oficjalnym źródłem. Kopie offline noszą datę pobrania i mogą się dezaktualizować z każdym cyklem AIRAC - sprawdzaj aktualność map przed każdym lotem i zawsze uzyskaj oficjalny briefing przedlotowy."
   }

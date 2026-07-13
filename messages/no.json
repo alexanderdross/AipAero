@@ -332,6 +332,8 @@
     "toolsText": "Posisjonsboksen på hver detaljside åpner samme plass direkte i SkyVector, Windy og autorouter - nyttig for ruteplanlegging, værmodeller og innsending av reiseplan.",
     "weatherTitle": "Værbriefing på siden",
     "weatherText": "Detaljsider viser live METAR/TAF med avkoding i klartekst, flykategori-merket og per rullebane mot- og sidevindkomponenter - en rask sjekk, ikke en erstatning for din offisielle briefing.",
+    "customsTitle": "Toll og grensepassering",
+    "customsText": "Detaljsider viser om en plass tilbyr tollbehandling; der den nasjonale AIP-en lister det i GEN 1.2, er verdien verifisert mot denne offisielle kilden. For grenseformaliteter lenker posisjonsboksen til de offisielle skjemaene (f.eks. det britiske General Aviation Report), og kartet kan filtrere etter tollplasser. Regler endres - bekreft dem alltid med gjeldende AIP og lokal myndighet.",
     "disclaimerTitle": "Sikkerhetsmerknad",
     "disclaimerText": "AIP:Aero lenker til offisielle AIP-publikasjoner, men er ikke en offisiell kilde. Offline-kopier bærer nedlastingsdatoen sin og kan bli utdatert med hver AIRAC-syklus - kontroller kartenes gyldighet før hver flyging og innhent alltid en offisiell briefing."
   }

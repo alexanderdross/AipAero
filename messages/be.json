@@ -402,6 +402,8 @@
     "toolsText": "The location box on every detail page opens the same field directly in SkyVector, Windy and autorouter - handy for route planning, weather models and flight-plan filing.",
     "weatherTitle": "Weather briefing on the page",
     "weatherText": "Detail pages show live METAR/TAF with plain-language decoding, the flight-category badge and a per-runway head- and crosswind breakdown - a quick cross-check, not a substitute for your official briefing.",
+    "customsTitle": "Customs & border crossing",
+    "customsText": "Detail pages show whether a field offers customs clearance; where a national AIP lists it in GEN 1.2, the value is verified against that official source. For border-crossing paperwork the location box links the official forms (e.g. the UK General Aviation Report), and the map can filter for customs airfields. Rules change - always confirm with the current AIP and the local authority.",
     "disclaimerTitle": "Safety notice",
     "disclaimerText": "AIP:Aero links official AIP publications but is not an official source. Offline copies are marked with their download date and can become outdated with every AIRAC cycle - verify chart currency before every flight and always obtain an official pre-flight briefing."
   }

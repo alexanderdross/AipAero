@@ -332,6 +332,8 @@
     "toolsText": "La boîte localisation de chaque page de détail ouvre le même terrain directement dans SkyVector, Windy et autorouter - pratique pour la préparation de route, les modèles météo et le dépôt de plan de vol.",
     "weatherTitle": "Briefing météo sur la page",
     "weatherText": "Les pages de détail affichent METAR/TAF en direct avec décodage en clair, le badge de catégorie de vol et, par piste, les composantes de vent de face et traversier - une vérification rapide, pas un substitut à votre briefing officiel.",
+    "customsTitle": "Douane et passage de frontière",
+    "customsText": "Les pages de détail indiquent si un terrain offre le dédouanement ; quand l'AIP nationale le liste en GEN 1.2, la valeur est vérifiée contre cette source officielle. Pour les formalités de passage de frontière, la boîte localisation renvoie aux formulaires officiels (p. ex. le General Aviation Report britannique), et la carte peut filtrer les terrains douaniers. Les règles changent - confirmez toujours avec l'AIP en vigueur et l'autorité locale.",
     "disclaimerTitle": "Avertissement de sécurité",
     "disclaimerText": "AIP:Aero renvoie vers les publications AIP officielles mais n'est pas une source officielle. Les copies hors ligne portent leur date de téléchargement et peuvent devenir obsolètes à chaque cycle AIRAC - vérifiez la validité des cartes avant chaque vol et obtenez toujours un briefing officiel avant le départ."
   }

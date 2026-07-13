@@ -27,6 +27,7 @@ const SECTIONS = [
   "import",
   "tools",
   "weather",
+  "customs",
   "disclaimer",
 ] as const;
 

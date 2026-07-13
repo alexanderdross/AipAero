@@ -332,6 +332,8 @@
     "toolsText": "Platsrutan på varje detaljsida öppnar samma fält direkt i SkyVector, Windy och autorouter - praktiskt för ruttplanering, vädermodeller och inlämning av färdplan.",
     "weatherTitle": "Väderbriefing på sidan",
     "weatherText": "Detaljsidor visar live METAR/TAF med avkodning i klartext, flygkategorimärket och per bana mot- och sidvindskomponenter - en snabb kontroll, ingen ersättning för din officiella briefing.",
+    "customsTitle": "Tull och gränspassage",
+    "customsText": "Detaljsidor visar om ett fält erbjuder tullklarering; där den nationella AIP:en listar det i GEN 1.2 är värdet verifierat mot den officiella källan. För gränsformaliteter länkar platsrutan till de officiella formulären (t.ex. brittiska General Aviation Report), och kartan kan filtrera på tullfält. Regler ändras - bekräfta dem alltid med gällande AIP och den lokala myndigheten.",
     "disclaimerTitle": "Säkerhetsanmärkning",
     "disclaimerText": "AIP:Aero länkar till officiella AIP-publikationer men är ingen officiell källa. Offline-kopior bär sitt nedladdningsdatum och kan bli inaktuella med varje AIRAC-cykel - kontrollera kartornas giltighet före varje flygning och inhämta alltid en officiell briefing."
   }

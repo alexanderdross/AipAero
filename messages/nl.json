@@ -332,6 +332,8 @@
     "toolsText": "De locatiebox op elke detailpagina opent hetzelfde veld direct in SkyVector, Windy en autorouter - handig voor routeplanning, weermodellen en het indienen van je vliegplan.",
     "weatherTitle": "Weerbriefing op de pagina",
     "weatherText": "Detailpagina's tonen live METAR/TAF met decodering in klare taal, de vluchtcategorie-badge en per baan de tegen- en dwarswindcomponenten - een snelle controle, geen vervanging van je officiële briefing.",
+    "customsTitle": "Douane en grensoverschrijding",
+    "customsText": "Detailpagina's tonen of een veld douaneafhandeling biedt; waar de nationale AIP dit in GEN 1.2 vermeldt, is de waarde geverifieerd tegen die officiële bron. Voor de grensformaliteiten linkt de locatiebox naar de officiële formulieren (bijv. het Britse General Aviation Report), en de kaart kan filteren op douanevelden. Regels veranderen - bevestig ze altijd met de actuele AIP en de lokale autoriteit.",
     "disclaimerTitle": "Veiligheidsmelding",
     "disclaimerText": "AIP:Aero linkt naar officiële AIP-publicaties maar is zelf geen officiële bron. Offline kopieën dragen hun downloaddatum en kunnen elke AIRAC-cyclus verouderen - controleer de actualiteit van kaarten voor elke vlucht en haal altijd een officiële briefing."
   }

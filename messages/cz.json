@@ -297,6 +297,8 @@
     "toolsText": "Box s polohou na každé detailní stránce otevře stejné letiště přímo ve SkyVector, Windy a autorouter - užitečné pro plánování trati, meteorologické modely a podání letového plánu.",
     "weatherTitle": "Meteorologický briefing na stránce",
     "weatherText": "Detailní stránky zobrazují živé METAR/TAF s dekódováním do srozumitelného jazyka, odznak letové kategorie a pro každou dráhu složky protivětru a bočního větru - rychlá kontrola, ne náhrada oficiálního briefingu.",
+    "customsTitle": "Celní odbavení a překročení hranic",
+    "customsText": "Detailní stránky ukazují, zda letiště nabízí celní odbavení; kde to národní AIP uvádí v GEN 1.2, je hodnota ověřena proti tomuto oficiálnímu zdroji. Pro hraniční formality odkazuje box s polohou na oficiální formuláře (např. britský General Aviation Report) a mapa umí filtrovat celní letiště. Pravidla se mění - vždy je potvrďte s aktuálním AIP a místním úřadem.",
     "disclaimerTitle": "Bezpečnostní upozornění",
     "disclaimerText": "AIP:Aero odkazuje na oficiální publikace AIP, ale není oficiálním zdrojem. Offline kopie nesou datum stažení a mohou s každým cyklem AIRAC zastarat - před každým letem ověřte platnost map a vždy si vyžádejte oficiální předletový briefing."
   }

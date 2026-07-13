@@ -332,6 +332,8 @@
     "toolsText": "Die Standort-Box auf jeder Detailseite öffnet denselben Platz direkt in SkyVector, Windy und autorouter - praktisch für Routenplanung, Wettermodelle und Flugplanaufgabe.",
     "weatherTitle": "Wetter-Briefing auf der Seite",
     "weatherText": "Detailseiten zeigen live METAR/TAF mit Klartext-Dekodierung, das Flugkategorie-Badge und pro Bahn die Gegen- und Seitenwindkomponenten - ein schneller Gegencheck, kein Ersatz für dein offizielles Briefing.",
+    "customsTitle": "Zoll & Grenzübertritt",
+    "customsText": "Detailseiten zeigen, ob ein Platz Zollabfertigung bietet; wo die nationale AIP das in GEN 1.2 listet, ist der Wert gegen diese amtliche Quelle verifiziert. Für die Grenzübertritts-Formalitäten verlinkt die Standort-Box die offiziellen Formulare (z.B. den UK General Aviation Report), und die Karte kann nach Zollflugplätzen filtern. Regeln ändern sich - bestätige sie immer mit der aktuellen AIP und der örtlichen Behörde.",
     "disclaimerTitle": "Sicherheitshinweis",
     "disclaimerText": "AIP:Aero verlinkt offizielle AIP-Publikationen, ist aber keine offizielle Quelle. Offline-Kopien sind mit ihrem Download-Datum markiert und können mit jedem AIRAC-Zyklus veralten - prüfe die Kartenaktualität vor jedem Flug und hole immer ein offizielles Flugwetter- und NOTAM-Briefing ein."
   }
