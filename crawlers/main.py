@@ -8,6 +8,8 @@ from crawlers.at import AT
 from crawlers.be import BE
 from crawlers.cz import CZ
 from crawlers.de import DE
+from crawlers.ee import EE
+from crawlers.fi import FI
 from crawlers.dk import DK
 from crawlers.fr import FR
 from crawlers.gr import GR
@@ -27,6 +29,8 @@ logger = logging.getLogger()
 COUNTRY_CRAWLERS = {
     "AT": AT,
     "DE": DE,
+    "EE": EE,
+    "FI": FI,
     "FR": FR,
     "NL": NL,
     "UK": UK,
