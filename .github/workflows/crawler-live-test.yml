@@ -30,6 +30,10 @@ on:
         description: "Space-separated country codes for AIP GEN 1.2 reconnaissance (customs/entry airfields - source data for src/lib/customs-overrides.ts)"
         required: false
         default: ""
+      probe_eaip:
+        description: "Space-separated URLs of candidate eAIP roots to structurally classify (eurocontrol markers, AD-2 links) - groundwork for new-country crawlers"
+        required: false
+        default: ""
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
@@ -56,9 +60,10 @@ permissions:
   contents: write
 
 env:
-  # Countries the push-triggered recon fetches (workflow_dispatch passes its
-  # own `gen12` input instead).
-  GEN12_PUSH_DEFAULT: "FR NL"
+  # Countries the push-triggered agent-bridge recon fetches (workflow_dispatch
+  # passes its own `gen12` input instead). Empty = the push trigger runs
+  # nothing heavy; set a country list here (and push) to use the bridge.
+  GEN12_PUSH_DEFAULT: ""
 
 jobs:
   live-test:
@@ -105,13 +110,93 @@ jobs:
             echo "URLCHECK $code $u"
           done
 
+      # Optional: structurally classify candidate eAIP roots for NEW
+      # countries: does the URL lead to a eurocontrol-style eAIP (frameset /
+      # index-<lang>.html / eAIP folder with XX-AD-2.YYYY pages)? Prints the
+      # page title, meta-refresh/frame targets and every link that smells
+      # like an eAIP entry or AD-2 section, so a crawler can be written
+      # without guessing.
+      - name: Probe candidate eAIP roots
+        if: ${{ inputs.probe_eaip != '' }}
+        continue-on-error: true
+        env:
+          PROBE: ${{ inputs.probe_eaip }}
+        run: |
+          uv run python - <<'PY'
+          import os
+          import re
+          from urllib.parse import urljoin
+
+          import httpx
+          from bs4 import BeautifulSoup
+
+          from crawlers.http_base import BROWSER_HEADERS
+
+          client = httpx.Client(
+              follow_redirects=True, timeout=30, headers=BROWSER_HEADERS
+          )
+          META_REFRESH = re.compile(
+              r"""http-equiv=["']?refresh["']?[^>]*url=([^"'>\s]+)""", re.I
+          )
+          INTERESTING = re.compile(
+              r"eAIP|index-[a-z]{2}-[A-Z]{2}|AD[- ]2|menu|frameset|aip", re.I
+          )
+
+          def probe(url: str, depth: int = 0) -> None:
+              pad = "   " + "  " * depth
+              try:
+                  r = client.get(url)
+                  print(f"{pad}{r.status_code} {str(r.url)[:150]}")
+                  r.raise_for_status()
+              except Exception as e:
+                  print(f"{pad}FAILED - {type(e).__name__}: {e}")
+                  return
+              html = r.text
+              soup = BeautifulSoup(html, "html.parser")
+              title = soup.title.get_text(strip=True) if soup.title else "-"
+              print(f"{pad}title: {title[:120]}")
+              m = META_REFRESH.search(html)
+              if m and depth < 2:
+                  target = urljoin(str(r.url), m.group(1).strip())
+                  print(f"{pad}meta-refresh -> {target[:150]}")
+                  probe(target, depth + 1)
+                  return
+              frames = [
+                  urljoin(str(r.url), f.get("src"))
+                  for f in soup.find_all(["frame", "iframe"])
+                  if f.get("src")
+              ]
+              for f in frames[:4]:
+                  print(f"{pad}frame: {f[:150]}")
+              seen = set()
+              hits = 0
+              for a in soup.find_all("a", href=True):
+                  href = urljoin(str(r.url), a["href"])
+                  text = " ".join(a.get_text(" ", strip=True).split())[:60]
+                  if href in seen or not INTERESTING.search(href + " " + text):
+                      continue
+                  seen.add(href)
+                  hits += 1
+                  if hits <= 25:
+                      print(f"{pad}link [{text}] {href[:150]}")
+              print(f"{pad}({hits} interesting links total)")
+              # One level deeper on the most promising frame (eurocontrol
+              # framesets hide the nav behind index -> frameset -> menu).
+              if depth < 2 and frames and hits == 0:
+                  probe(frames[0], depth + 1)
+
+          for url in os.environ["PROBE"].split():
+              print(f"\n===== PROBE {url[:120]} =====", flush=True)
+              probe(url)
+          PY
+
       # Optional: AIP GEN 1.2 reconnaissance - fetch each country's "Entry,
       # transit and departure of aircraft" section and print every table row /
       # text line naming an ICAO code or customs keyword. The output is the
       # VERIFICATION SOURCE for src/lib/customs-overrides.ts (never add
       # entries there that this section does not support).
       - name: GEN 1.2 recon (customs airfields)
-        if: ${{ inputs.gen12 != '' || github.event_name == 'push' }}
+        if: ${{ inputs.gen12 != '' || (github.event_name == 'push' && env.GEN12_PUSH_DEFAULT != '') }}
         continue-on-error: true
         env:
           GEN12: ${{ inputs.gen12 || env.GEN12_PUSH_DEFAULT }}
