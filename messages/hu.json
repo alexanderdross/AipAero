@@ -285,8 +285,8 @@
     "metaDescription": "Az AIP:Aero, a Magyarországra és Európára vonatkozó ingyenes AIP- és megközelítésitérkép-kereső felhasználási feltételei: szolgáltatásleírás, felelősségkizárás és adatforrások."
   },
   "EfbPage": {
-    "title": "Használd az AIP:Aero-t az EFB-den",
-    "intro": "Így telepítheted az AIP:Aero-t az EFB tabletedre, menthetsz megközelítési térképeket offline, tölthetsz le teljes országokat, és adhatod át a repülőtereket a tervezőeszközeidnek - lépésről lépésre.",
+    "title": "Használd az AIP:Aero-t az EFB (Electronic Flight Bag)-den",
+    "intro": "Így telepítheted az AIP:Aero-t az EFB (Electronic Flight Bag) tabletedre, menthetsz megközelítési térképeket offline, tölthetsz le teljes országokat, és adhatod át a repülőtereket a tervezőeszközeidnek - lépésről lépésre.",
     "metaTitle": "EFB útmutató Magyarország - AIP és megközelítési térképek a tableteden | AIP:Aero",
     "metaDescription": "Telepítsd az AIP:Aero-t alkalmazásként az EFB tabletedre, ments megközelítési térképeket offline, tölts le teljes országokat, és importálj térkép PDF-eket a ForeFlight, SkyDemon és más alkalmazásokba (Magyarország).",
     "installTitle": "Telepítés alkalmazásként (PWA)",
@@ -296,7 +296,7 @@
     "offlineTitle": "Egyes repülőterek mentése offline használatra",
     "offlineText": "Minden repülőtéri részletoldalon található egy \"Mentés offline használatra\" gomb. Ez elmenti az oldalt, és - ha az AIP közzétesz ilyet - a megközelítési térkép PDF-jét az eszközödre; a repülőtér ezután a kedvencek között jelenik meg az országoldalon. A mentett másolatok mutatják a letöltésük dátumát.",
     "bulkTitle": "Teljes ország letöltése",
-    "bulkText": "A repülőtérlistáról egyszerre letöltheted egy ország összes részletoldalát (csak az oldalakat, a térkép PDF-ek nélkül - azokat repülőterenként mentheted). A csomag a letöltés előtt mutatja a méretét, és bármikor frissíthető vagy eltávolítható.",
+    "bulkText": "A <list>repülőtérlistáról</list> egyszerre letöltheted egy ország összes részletoldalát (csak az oldalakat, a térkép PDF-ek nélkül - azokat repülőterenként mentheted). A csomag a letöltés előtt mutatja a méretét, és bármikor frissíthető vagy eltávolítható.",
     "importTitle": "Térkép PDF-ek a ForeFlight, SkyDemon és más alkalmazásokban",
     "importText": "Ahol a nemzeti AIP térkép PDF-eket tesz közzé, a részletoldal térképdoboza az aktuális PDF-re hivatkozik, az AIRAC-dátummal együtt. Töltsd le, és importáld az EFB alkalmazásodba saját tartalomként, pl. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) vagy Garmin Pilot. Németország PDF-ek helyett HTML-oldalakat tesz közzé - ott az AIP-hivatkozást használd.",
     "toolsTitle": "Átadás a tervezőeszközöknek",
@@ -306,6 +306,15 @@
     "customsTitle": "Vám és határátlépés",
     "customsText": "A részletoldalak mutatják, hogy egy repülőtér kínál-e vámkezelést; ahol a nemzeti AIP a GEN 1.2 fejezetben feltünteti, az érték ezzel a hivatalos forrással van ellenőrizve. A határátlépési ügyintézéshez a helyszíndoboz a hivatalos űrlapokra hivatkozik (pl. a brit General Aviation Report), a térkép pedig szűrhető a vámkezelést kínáló repülőterekre. A szabályok változnak - mindig ellenőrizd az aktuális AIP-ben és a helyi hatóságnál.",
     "disclaimerTitle": "Biztonsági figyelmeztetés",
-    "disclaimerText": "Az AIP:Aero hivatalos AIP-kiadványokra hivatkozik, de nem hivatalos forrás. Az offline másolatok a letöltésük dátumával vannak megjelölve, és minden AIRAC-ciklussal elavulhatnak - minden repülés előtt ellenőrizd a térképek érvényességét, és mindig kérj hivatalos repülés-előkészítő eligazítást."
+    "disclaimerText": "Az AIP:Aero hivatalos AIP-kiadványokra hivatkozik, de nem hivatalos forrás. Az offline másolatok a letöltésük dátumával vannak megjelölve, és minden AIRAC-ciklussal elavulhatnak - minden repülés előtt ellenőrizd a térképek érvényességét, és mindig kérj hivatalos repülés-előkészítő eligazítást.",
+    "installButton": "Telepítés most",
+    "ctaTitle": "Próbáld ki most",
+    "faqTitle": "Gyakori kérdések",
+    "faq1q": "Teljesen offline működik az AIP:Aero?",
+    "faq1a": "A mentett repülőterek és a letöltött országcsomagok internet nélkül működnek; minden offline másolat szalagon mutatja a mentés dátumát. Az élő időjárás (METAR/TAF) mindig kapcsolatot igényel.",
+    "faq2q": "Mely országok érhetők el?",
+    "faq2a": "Az összes elérhető ország a kezdőlapon található - a lefedettség folyamatosan bővül. Minden országkártya mutatja az elérhető térképtípusokat.",
+    "faq3q": "Naprakészek a térképek?",
+    "faq3a": "A térképlinkek a hivatalos nemzeti AIP-kiadványokra mutatnak, az AIRAC-dátummal együtt, ahol közzéteszik. Repülés előtt mindig ellenőrizd a hivatalos forrást."
   }
 }

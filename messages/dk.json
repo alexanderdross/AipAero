@@ -315,8 +315,8 @@
     "metaDescription": "Vilkår for brug af AIP:Aero, den gratis AIP- og indflyvningskort-søgning for Danmark og Europa: beskrivelse af tjenesten, ansvarsfraskrivelse og datakilder."
   },
   "EfbPage": {
-    "title": "Brug AIP:Aero på din EFB",
-    "intro": "Sådan installerer du AIP:Aero på din EFB-tablet, gemmer indflyvningskort offline, downloader hele lande og sender pladser videre til dine planlægningsværktøjer - trin for trin.",
+    "title": "Brug AIP:Aero på din EFB (Electronic Flight Bag)",
+    "intro": "Sådan installerer du AIP:Aero på din EFB (Electronic Flight Bag)-tablet, gemmer indflyvningskort offline, downloader hele lande og sender pladser videre til dine planlægningsværktøjer - trin for trin.",
     "metaTitle": "EFB-guide Danmark - AIP og indflyvningskort på tabletten | AIP:Aero",
     "metaDescription": "Installer AIP:Aero som app på din EFB-tablet, gem indflyvningskort offline, download hele lande og importer kort-PDF'er i ForeFlight, SkyDemon m.fl (Danmark).",
     "installTitle": "Installer som app (PWA)",
@@ -326,7 +326,7 @@
     "offlineTitle": "Gem enkelte pladser offline",
     "offlineText": "Hver detaljeside har en \"Gem offline\"-knap. Den gemmer siden og, hvor AIP'en udgiver et, indflyvningskortets PDF på din enhed; pladsen vises derefter under favoritter på landesiden. Gemte kopier viser deres downloaddato.",
     "bulkTitle": "Download et helt land",
-    "bulkText": "På flyvepladslisten kan du downloade alle et lands detaljesider på én gang (kun sider, uden kort-PDF'er - dem gemmer du pr. plads). Pakken viser sin størrelse før download og kan altid opdateres eller fjernes.",
+    "bulkText": "På <list>flyvepladslisten</list> kan du downloade alle et lands detaljesider på én gang (kun sider, uden kort-PDF'er - dem gemmer du pr. plads). Pakken viser sin størrelse før download og kan altid opdateres eller fjernes.",
     "importTitle": "Kort-PDF'er i ForeFlight, SkyDemon m.fl.",
     "importText": "Hvor den nationale AIP udgiver kort-PDF'er, linker kortboksen på detaljesiden til den gældende PDF inklusive AIRAC-dato. Download den og importer den i din EFB-app som eget indhold, f.eks. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland udgiver HTML-sider i stedet for PDF'er - brug AIP-linket dér.",
     "toolsTitle": "Videregivelse til planlægningsværktøjer",
@@ -336,6 +336,15 @@
     "customsTitle": "Told og grænsepassage",
     "customsText": "Detaljesider viser, om en plads tilbyder toldbehandling; hvor den nationale AIP angiver det i GEN 1.2, er værdien verificeret mod denne officielle kilde. Til grænseformaliteter linker lokationsboksen til de officielle formularer (f.eks. det britiske General Aviation Report), og kortet kan filtrere efter toldpladser. Regler ændrer sig - bekræft dem altid med den gældende AIP og den lokale myndighed.",
     "disclaimerTitle": "Sikkerhedsbemærkning",
-    "disclaimerText": "AIP:Aero linker til officielle AIP-publikationer, men er ikke en officiel kilde. Offline-kopier bærer deres downloaddato og kan forældes med hver AIRAC-cyklus - kontrollér kortenes gyldighed før hver flyvning, og indhent altid en officiel briefing."
+    "disclaimerText": "AIP:Aero linker til officielle AIP-publikationer, men er ikke en officiel kilde. Offline-kopier bærer deres downloaddato og kan forældes med hver AIRAC-cyklus - kontrollér kortenes gyldighed før hver flyvning, og indhent altid en officiel briefing.",
+    "installButton": "Installer nu",
+    "ctaTitle": "Prøv det nu",
+    "faqTitle": "Ofte stillede spørgsmål",
+    "faq1q": "Virker AIP:Aero helt offline?",
+    "faq1a": "Gemte pladser og downloadede landepakker virker uden internet; hver offline-kopi viser et banner med gemmedatoen. Live-vejr (METAR/TAF) kræver altid forbindelse.",
+    "faq2q": "Hvilke lande er dækket?",
+    "faq2a": "Alle aktuelt tilgængelige lande vises på forsiden - dækningen vokser løbende. Hvert landekort viser de tilgængelige korttyper.",
+    "faq3q": "Er kortene aktuelle?",
+    "faq3a": "Kortlinks peger på de officielle nationale AIP-publikationer, inklusive AIRAC-dato hvor offentliggjort. Kontroller altid den officielle kilde før flyvning."
   }
 }

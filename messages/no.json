@@ -315,8 +315,8 @@
     "metaDescription": "Vilkår for bruk av AIP:Aero, det gratis AIP- og innflygingskart-søket for Norge og Europa: tjenestebeskrivelse, ansvarsfraskrivelse og datakilder."
   },
   "EfbPage": {
-    "title": "Bruk AIP:Aero på din EFB",
-    "intro": "Slik installerer du AIP:Aero på EFB-nettbrettet, lagrer innflygingskart offline, laster ned hele land og sender plasser videre til planleggingsverktøyene dine - steg for steg.",
+    "title": "Bruk AIP:Aero på din EFB (Electronic Flight Bag)",
+    "intro": "Slik installerer du AIP:Aero på EFB (Electronic Flight Bag)-nettbrettet, lagrer innflygingskart offline, laster ned hele land og sender plasser videre til planleggingsverktøyene dine - steg for steg.",
     "metaTitle": "EFB-guide Norge - AIP og innflygingskart på nettbrettet | AIP:Aero",
     "metaDescription": "Installer AIP:Aero som app på EFB-nettbrettet, lagre innflygingskart offline, last ned hele land og importer kart-PDF-er i ForeFlight, SkyDemon m.fl (Norge).",
     "installTitle": "Installer som app (PWA)",
@@ -326,7 +326,7 @@
     "offlineTitle": "Lagre enkeltplasser offline",
     "offlineText": "Hver detaljside har en \"Lagre offline\"-knapp. Den lagrer siden og, der AIP-en publiserer et, innflygingskartets PDF på enheten din; plassen vises deretter under favoritter på landssiden. Lagrede kopier viser nedlastingsdatoen sin.",
     "bulkTitle": "Last ned et helt land",
-    "bulkText": "På flyplasslisten kan du laste ned alle detaljsidene til et land på én gang (kun sider, uten kart-PDF-er - de lagrer du per plass). Pakken viser størrelsen før nedlasting og kan når som helst oppdateres eller fjernes.",
+    "bulkText": "På <list>flyplasslisten</list> kan du laste ned alle detaljsidene til et land på én gang (kun sider, uten kart-PDF-er - de lagrer du per plass). Pakken viser størrelsen før nedlasting og kan når som helst oppdateres eller fjernes.",
     "importTitle": "Kart-PDF-er i ForeFlight, SkyDemon m.fl.",
     "importText": "Der den nasjonale AIP-en publiserer kart-PDF-er, lenker kartboksen på detaljsiden til gjeldende PDF inkludert AIRAC-dato. Last den ned og importer den i EFB-appen som eget innhold, f.eks. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland publiserer HTML-sider i stedet for PDF-er - bruk AIP-lenken der.",
     "toolsTitle": "Overlevering til planleggingsverktøy",
@@ -336,6 +336,15 @@
     "customsTitle": "Toll og grensepassering",
     "customsText": "Detaljsider viser om en plass tilbyr tollbehandling; der den nasjonale AIP-en lister det i GEN 1.2, er verdien verifisert mot denne offisielle kilden. For grenseformaliteter lenker posisjonsboksen til de offisielle skjemaene (f.eks. det britiske General Aviation Report), og kartet kan filtrere etter tollplasser. Regler endres - bekreft dem alltid med gjeldende AIP og lokal myndighet.",
     "disclaimerTitle": "Sikkerhetsmerknad",
-    "disclaimerText": "AIP:Aero lenker til offisielle AIP-publikasjoner, men er ikke en offisiell kilde. Offline-kopier bærer nedlastingsdatoen sin og kan bli utdatert med hver AIRAC-syklus - kontroller kartenes gyldighet før hver flyging og innhent alltid en offisiell briefing."
+    "disclaimerText": "AIP:Aero lenker til offisielle AIP-publikasjoner, men er ikke en offisiell kilde. Offline-kopier bærer nedlastingsdatoen sin og kan bli utdatert med hver AIRAC-syklus - kontroller kartenes gyldighet før hver flyging og innhent alltid en offisiell briefing.",
+    "installButton": "Installer nå",
+    "ctaTitle": "Prøv det nå",
+    "faqTitle": "Ofte stilte spørsmål",
+    "faq1q": "Fungerer AIP:Aero helt offline?",
+    "faq1a": "Lagrede plasser og nedlastede landpakker fungerer uten internett; hver offline-kopi viser et banner med lagringsdatoen. Live-vær (METAR/TAF) krever alltid tilkobling.",
+    "faq2q": "Hvilke land er dekket?",
+    "faq2a": "Alle tilgjengelige land vises på forsiden - dekningen vokser stadig. Hvert landkort viser de tilgjengelige karttypene.",
+    "faq3q": "Er kartene oppdaterte?",
+    "faq3a": "Kartlenker peker til de offisielle nasjonale AIP-publikasjonene, inkludert AIRAC-dato der det er publisert. Kontroller alltid den offisielle kilden før flyging."
   }
 }

@@ -315,8 +315,8 @@
     "metaDescription": "AIP:Aero lietošanas noteikumi - bezmaksas AIP un pieejas karšu meklētājs Latvijai un Eiropai: pakalpojuma apraksts, atbildības atruna un datu avoti."
   },
   "EfbPage": {
-    "title": "Izmantojiet AIP:Aero savā EFB",
-    "intro": "Kā instalēt AIP:Aero savā EFB planšetē, saglabāt pieejas kartes bezsaistē, lejupielādēt veselas valstis un nodot lidlaukus saviem plānošanas rīkiem - soli pa solim.",
+    "title": "Izmantojiet AIP:Aero savā EFB (Electronic Flight Bag)",
+    "intro": "Kā instalēt AIP:Aero savā EFB (Electronic Flight Bag) planšetē, saglabāt pieejas kartes bezsaistē, lejupielādēt veselas valstis un nodot lidlaukus saviem plānošanas rīkiem - soli pa solim.",
     "metaTitle": "EFB ceļvedis Latvijai - AIP un pieejas kartes planšetē | AIP:Aero",
     "metaDescription": "Instalējiet AIP:Aero kā lietotni savā EFB planšetē, saglabājiet pieejas kartes bezsaistē, lejupielādējiet veselas valstis un importējiet karšu PDF failus ForeFlight, SkyDemon u.c. (Latvija).",
     "installTitle": "Instalēšana kā lietotne (PWA)",
@@ -326,7 +326,7 @@
     "offlineTitle": "Saglabājiet atsevišķus lidlaukus bezsaistē",
     "offlineText": "Katrai lidlauka detaļu lapai ir poga \"Saglabāt bezsaistei\". Tā jūsu ierīcē saglabā lapu un, ja AIP tādu publicē, arī pieejas kartes PDF; lidlauks pēc tam parādās izlasē valsts lapā. Saglabātās kopijas rāda savu lejupielādes datumu.",
     "bulkTitle": "Lejupielādējiet veselu valsti",
-    "bulkText": "No lidlauku saraksta varat vienā reizē lejupielādēt visas valsts detaļu lapas (tikai lapas, bez karšu PDF failiem - tos saglabājiet katram lidlaukam atsevišķi). Pakotne pirms lejupielādes parāda savu izmēru, un to jebkurā brīdī var atjaunināt vai noņemt.",
+    "bulkText": "No <list>lidlauku saraksta</list> varat vienā reizē lejupielādēt visas valsts detaļu lapas (tikai lapas, bez karšu PDF failiem - tos saglabājiet katram lidlaukam atsevišķi). Pakotne pirms lejupielādes parāda savu izmēru, un to jebkurā brīdī var atjaunināt vai noņemt.",
     "importTitle": "Karšu PDF faili ForeFlight, SkyDemon u.c.",
     "importText": "Ja nacionālā AIP publicē karšu PDF failus, kartes lodziņš detaļu lapā norāda saiti uz aktuālo PDF ar tā AIRAC datumu. Lejupielādējiet to un importējiet savā EFB lietotnē kā pielāgotu saturu, piemēram, ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) vai Garmin Pilot. Vācija PDF vietā publicē HTML lapas - tur izmantojiet AIP saiti.",
     "toolsTitle": "Nodošana plānošanas rīkiem",
@@ -336,6 +336,15 @@
     "customsTitle": "Muita un robežšķērsošana",
     "customsText": "Detaļu lapas rāda, vai lidlaukā ir pieejama muitas kontrole; ja nacionālā AIP to norāda GEN 1.2 sadaļā, vērtība ir pārbaudīta pret šo oficiālo avotu. Robežšķērsošanas formalitātēm atrašanās vietas lodziņš norāda saites uz oficiālajām veidlapām (piemēram, Apvienotās Karalistes General Aviation Report), un kartē var filtrēt muitas lidlaukus. Noteikumi mainās - vienmēr pārliecinieties aktuālajā AIP un pie vietējās iestādes.",
     "disclaimerTitle": "Drošības piezīme",
-    "disclaimerText": "AIP:Aero norāda saites uz oficiālajām AIP publikācijām, bet pats nav oficiāls avots. Bezsaistes kopijas ir marķētas ar to lejupielādes datumu un var novecot ar katru AIRAC ciklu - pirms katra lidojuma pārbaudiet karšu aktualitāti un vienmēr saņemiet oficiālu pirmslidojuma pārskatu."
+    "disclaimerText": "AIP:Aero norāda saites uz oficiālajām AIP publikācijām, bet pats nav oficiāls avots. Bezsaistes kopijas ir marķētas ar to lejupielādes datumu un var novecot ar katru AIRAC ciklu - pirms katra lidojuma pārbaudiet karšu aktualitāti un vienmēr saņemiet oficiālu pirmslidojuma pārskatu.",
+    "installButton": "Instalēt tūlīt",
+    "ctaTitle": "Izmēģini tagad",
+    "faqTitle": "Biežāk uzdotie jautājumi",
+    "faq1q": "Vai AIP:Aero darbojas pilnībā bezsaistē?",
+    "faq1a": "Saglabātie lidlauki un lejupielādētās valstu pakotnes darbojas bez interneta; katra bezsaistes kopija rāda joslu ar saglabāšanas datumu. Tiešsaistes laikapstākļiem (METAR/TAF) vienmēr nepieciešams savienojums.",
+    "faq2q": "Kuras valstis ir iekļautas?",
+    "faq2a": "Visas pieejamās valstis ir uzskaitītas sākumlapā - pārklājums nepārtraukti aug. Katra valsts kartīte rāda pieejamos karšu veidus.",
+    "faq3q": "Vai kartes ir aktuālas?",
+    "faq3a": "Karšu saites ved uz oficiālajām nacionālajām AIP publikācijām, ieskaitot AIRAC datumu, ja tas ir publicēts. Pirms lidojuma vienmēr pārbaudi oficiālo avotu."
   }
 }

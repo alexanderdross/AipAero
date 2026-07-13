@@ -315,8 +315,8 @@
     "metaDescription": "AIP:Aero kasutustingimused - tasuta AIP ja lähenemiskaartide otsing Eesti ja Euroopa jaoks: teenuse kirjeldus, vastutuse välistamine ja andmeallikad."
   },
   "EfbPage": {
-    "title": "Kasuta AIP:Aero-t oma EFB-s",
-    "intro": "Kuidas paigaldada AIP:Aero oma EFB-tahvelarvutisse, salvestada lähenemiskaarte offline, laadida alla terveid riike ja saata väljad edasi oma planeerimistööriistadesse - samm-sammult.",
+    "title": "Kasuta AIP:Aero-t oma EFB (Electronic Flight Bag)-s",
+    "intro": "Kuidas paigaldada AIP:Aero oma EFB (Electronic Flight Bag)-tahvelarvutisse, salvestada lähenemiskaarte offline, laadida alla terveid riike ja saata väljad edasi oma planeerimistööriistadesse - samm-sammult.",
     "metaTitle": "EFB juhend Eesti - AIP ja lähenemiskaardid tahvelarvutis | AIP:Aero",
     "metaDescription": "Paigalda AIP:Aero rakendusena oma EFB-tahvelarvutisse, salvesta lähenemiskaarte offline, laadi alla terveid riike ja impordi kaardi-PDF-e ForeFlighti, SkyDemonisse jm (Eesti).",
     "installTitle": "Paigalda rakendusena (PWA)",
@@ -326,7 +326,7 @@
     "offlineTitle": "Salvesta üksikuid väljakuid offline",
     "offlineText": "Igal detailvaate lehel on nupp \"Salvesta offline\". See salvestab lehe ja, kui AIP selle avaldab, lähenemiskaardi PDF-i sinu seadmesse; väljak ilmub seejärel riigi lehel lemmikute alla. Salvestatud koopiad näitavad oma allalaadimiskuupäeva.",
     "bulkTitle": "Laadi alla terve riik",
-    "bulkText": "Lennuväljade nimekirjast saad ühe korraga alla laadida kõik riigi detailvaate lehed (ainult lehed, ilma kaardi-PDF-ideta - need salvesta iga väljaku kohta eraldi). Pakett näitab enne allalaadimist oma suurust ning seda saab igal ajal uuendada või eemaldada.",
+    "bulkText": "<list>Lennuväljade nimekirjast</list> saad ühe korraga alla laadida kõik riigi detailvaate lehed (ainult lehed, ilma kaardi-PDF-ideta - need salvesta iga väljaku kohta eraldi). Pakett näitab enne allalaadimist oma suurust ning seda saab igal ajal uuendada või eemaldada.",
     "importTitle": "Kaardi-PDF-id ForeFlightis, SkyDemonis jm",
     "importText": "Kui riiklik AIP avaldab kaardi-PDF-e, lingib detailvaate lehe kaardikast kehtiva PDF-i koos AIRAC-kuupäevaga. Laadi see alla ja impordi oma EFB-rakendusse oma sisuna, nt ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) või Garmin Pilot. Saksamaa avaldab PDF-ide asemel HTML-lehti - kasuta seal AIP-linki.",
     "toolsTitle": "Edastamine planeerimistööriistadesse",
@@ -336,6 +336,15 @@
     "customsTitle": "Toll ja piiriületus",
     "customsText": "Detailvaate lehed näitavad, kas väljak pakub tolliteenust; kui riiklik AIP loetleb selle jaotises GEN 1.2, on väärtus kontrollitud selle ametliku allika vastu. Piiriületuse formaalsuste jaoks lingib asukohakast ametlikud vormid (nt Ühendkuningriigi General Aviation Report) ja kaardil saab filtreerida tolliväljakuid. Reeglid muutuvad - kinnita need alati kehtiva AIP ja kohaliku ametiasutusega.",
     "disclaimerTitle": "Ohutusmärkus",
-    "disclaimerText": "AIP:Aero lingib ametlikele AIP-väljaannetele, kuid ei ole ametlik allikas. Offline-koopiad kannavad oma allalaadimiskuupäeva ja võivad iga AIRAC-tsükliga aeguda - kontrolli kaartide kehtivust enne iga lendu ja hangi alati ametlik lennueelne briifing."
+    "disclaimerText": "AIP:Aero lingib ametlikele AIP-väljaannetele, kuid ei ole ametlik allikas. Offline-koopiad kannavad oma allalaadimiskuupäeva ja võivad iga AIRAC-tsükliga aeguda - kontrolli kaartide kehtivust enne iga lendu ja hangi alati ametlik lennueelne briifing.",
+    "installButton": "Installi kohe",
+    "ctaTitle": "Proovi järele",
+    "faqTitle": "Korduma kippuvad küsimused",
+    "faq1q": "Kas AIP:Aero töötab täielikult võrguühenduseta?",
+    "faq1a": "Salvestatud lennuväljad ja alla laaditud riigipaketid töötavad ilma internetita; iga võrguühenduseta koopia näitab salvestuskuupäevaga bännerit. Reaalajas ilm (METAR/TAF) vajab alati ühendust.",
+    "faq2q": "Millised riigid on kaetud?",
+    "faq2a": "Kõik saadaolevad riigid on loetletud avalehel - katvus kasvab pidevalt. Iga riigikaart näitab saadaolevaid kaarditüüpe.",
+    "faq3q": "Kas kaardid on ajakohased?",
+    "faq3a": "Kaardilingid viivad ametlikele riiklikele AIP-väljaannetele koos AIRAC-kuupäevaga, kui see on avaldatud. Enne lendu kontrolli alati ametlikku allikat."
   }
 }

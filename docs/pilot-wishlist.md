@@ -196,5 +196,14 @@ coordinates (facts row, else the METAR station), shown in the aerodrome-data box
   on the contact box; verified form links via `border-crossing.ts`, UK GAR first.)** Still open:
   verify + add form links for further countries.
 - ~~**Favorites / recently viewed** (localStorage).~~ **(shipped.)**
-- **More countries** (CH, IT, ES, ...).
+- **More countries** (CH, IT, ...). ES shipped 13.07.2026 with Europe expansion batch 1.
 - ~~**Enforce CSP**.~~ **(shipped - enforcing `Content-Security-Policy` in `next.config.mjs`.)**
+- **Real screenshots on the EFB guide** (postponed 13.07.2026, owner decision): compressed WebP
+  captures of the save button, offline banner and country download once the UI is stable - the
+  schematic icon mockups cover the need until then.
+- **NOTAMs on the detail pages via the autorouter API** (owner request 13.07.2026). autorouter is
+  the only one of our EFB hand-off partners with a documented free API (account/OAuth) that serves
+  NOTAMs - the one briefing datum we are missing entirely. Before building: verify the API's terms
+  of use and attribution requirements from the runner (same verified-only policy as the
+  border-crossing links), then design auth flow, caching (NOTAMs are time-critical - short TTL,
+  never silently stale, like the weather box) and fail-soft rendering.

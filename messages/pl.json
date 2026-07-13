@@ -315,8 +315,8 @@
     "metaDescription": "Warunki korzystania z AIP:Aero, bezpłatnej wyszukiwarki AIP i map podejścia dla Polska i Europy: opis usługi, wyłączenie odpowiedzialności i źródła danych."
   },
   "EfbPage": {
-    "title": "AIP:Aero na twoim EFB",
-    "intro": "Jak zainstalować AIP:Aero na tablecie EFB, zapisać mapy podejścia offline, pobrać całe kraje i przekazać lotniska do narzędzi planowania - krok po kroku.",
+    "title": "AIP:Aero na twoim EFB (Electronic Flight Bag)",
+    "intro": "Jak zainstalować AIP:Aero na tablecie EFB (Electronic Flight Bag), zapisać mapy podejścia offline, pobrać całe kraje i przekazać lotniska do narzędzi planowania - krok po kroku.",
     "metaTitle": "Przewodnik EFB Polska - AIP i mapy podejścia na tablecie | AIP:Aero",
     "metaDescription": "Zainstaluj AIP:Aero jako aplikację na tablecie EFB, zapisuj mapy podejścia offline, pobieraj całe kraje i importuj PDF-y map do ForeFlight, SkyDemon i innych (Polska).",
     "installTitle": "Instalacja jako aplikacja (PWA)",
@@ -326,7 +326,7 @@
     "offlineTitle": "Zapisywanie pojedynczych lotnisk offline",
     "offlineText": "Każda strona lotniska ma przycisk \"Zapisz offline\". Zapisuje on stronę oraz, gdy AIP go publikuje, PDF mapy podejścia na twoim urządzeniu; lotnisko pojawia się potem w ulubionych na stronie kraju. Zapisane kopie pokazują datę pobrania.",
     "bulkTitle": "Pobranie całego kraju",
-    "bulkText": "Z listy lotnisk możesz pobrać wszystkie strony szczegółowe kraju naraz (tylko strony, bez PDF-ów map - te zapisujesz per lotnisko). Pakiet pokazuje rozmiar przed pobraniem i można go w każdej chwili zaktualizować lub usunąć.",
+    "bulkText": "Z <list>listy lotnisk</list> możesz pobrać wszystkie strony szczegółowe kraju naraz (tylko strony, bez PDF-ów map - te zapisujesz per lotnisko). Pakiet pokazuje rozmiar przed pobraniem i można go w każdej chwili zaktualizować lub usunąć.",
     "importTitle": "PDF-y map w ForeFlight, SkyDemon i innych",
     "importText": "Tam gdzie krajowy AIP publikuje PDF-y map, ramka map na stronie lotniska linkuje do aktualnego PDF-a wraz z datą AIRAC. Pobierz go i zaimportuj do aplikacji EFB jako własne materiały, np. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) lub Garmin Pilot. Niemcy publikują strony HTML zamiast PDF-ów - użyj tam linku do AIP.",
     "toolsTitle": "Przekazanie do narzędzi planowania",
@@ -336,6 +336,15 @@
     "customsTitle": "Odprawa celna i przekraczanie granicy",
     "customsText": "Strony szczegółowe pokazują, czy lotnisko oferuje odprawę celną; tam gdzie krajowy AIP wymienia to w GEN 1.2, wartość jest zweryfikowana z tym oficjalnym źródłem. Do formalności granicznych ramka lokalizacji linkuje oficjalne formularze (np. brytyjski General Aviation Report), a mapa może filtrować lotniska celne. Przepisy się zmieniają - zawsze potwierdzaj je z aktualnym AIP i lokalnym urzędem.",
     "disclaimerTitle": "Uwaga dotycząca bezpieczeństwa",
-    "disclaimerText": "AIP:Aero linkuje do oficjalnych publikacji AIP, ale sam nie jest oficjalnym źródłem. Kopie offline noszą datę pobrania i mogą się dezaktualizować z każdym cyklem AIRAC - sprawdzaj aktualność map przed każdym lotem i zawsze uzyskaj oficjalny briefing przedlotowy."
+    "disclaimerText": "AIP:Aero linkuje do oficjalnych publikacji AIP, ale sam nie jest oficjalnym źródłem. Kopie offline noszą datę pobrania i mogą się dezaktualizować z każdym cyklem AIRAC - sprawdzaj aktualność map przed każdym lotem i zawsze uzyskaj oficjalny briefing przedlotowy.",
+    "installButton": "Zainstaluj teraz",
+    "ctaTitle": "Wypróbuj teraz",
+    "faqTitle": "Częste pytania",
+    "faq1q": "Czy AIP:Aero działa całkowicie offline?",
+    "faq1a": "Zapisane lotniska i pobrane pakiety krajów działają bez internetu; każda kopia offline pokazuje baner z datą zapisu. Pogoda na żywo (METAR/TAF) zawsze wymaga połączenia.",
+    "faq2q": "Które kraje są objęte?",
+    "faq2a": "Wszystkie dostępne kraje są wymienione na stronie głównej - zasięg stale rośnie. Każda karta kraju pokazuje dostępne typy map.",
+    "faq3q": "Czy mapy są aktualne?",
+    "faq3a": "Linki do map prowadzą do oficjalnych krajowych publikacji AIP, wraz z datą AIRAC tam, gdzie jest publikowana. Przed lotem zawsze sprawdź oficjalne źródło."
   }
 }

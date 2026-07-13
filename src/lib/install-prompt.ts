@@ -24,6 +24,15 @@ if (typeof window !== "undefined") {
 }
 
 /**
+ * Is a captured (not yet consumed) install prompt waiting? Lets UI decide
+ * whether to render an "install now" button without consuming the single-use
+ * prompt event (EFB guide's install section).
+ */
+export function hasInstallPrompt(): boolean {
+  return deferredPrompt !== null;
+}
+
+/**
  * Show the native install dialog (Chromium only). Must be called from a user
  * gesture. Resolves with the user's choice, or "unavailable" when no deferred
  * prompt exists (already installed, unsupported browser, or criteria not met).

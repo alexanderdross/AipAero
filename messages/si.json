@@ -285,8 +285,8 @@
     "metaDescription": "Pogoji uporabe AIP:Aero, brezplačnega iskalnika AIP in kart prileta za Slovenijo in Evropo: opis storitve, izključitev odgovornosti in viri podatkov."
   },
   "EfbPage": {
-    "title": "Uporabljaj AIP:Aero na svojem EFB",
-    "intro": "Kako namestiti AIP:Aero na svojo tablico EFB, shraniti karte prileta brez povezave, prenesti celotne države in poslati letališča v svoja orodja za načrtovanje - korak za korakom.",
+    "title": "Uporabljaj AIP:Aero na svojem EFB (Electronic Flight Bag)",
+    "intro": "Kako namestiti AIP:Aero na svojo tablico EFB (Electronic Flight Bag), shraniti karte prileta brez povezave, prenesti celotne države in poslati letališča v svoja orodja za načrtovanje - korak za korakom.",
     "metaTitle": "Vodnik EFB Slovenija - AIP in karte prileta na tvoji tablici | AIP:Aero",
     "metaDescription": "Namesti AIP:Aero kot aplikacijo na svojo tablico EFB, shrani karte prileta brez povezave, prenesi celotne države in uvozi PDF-je kart v ForeFlight, SkyDemon in druge (Slovenija).",
     "installTitle": "Namesti kot aplikacijo (PWA)",
@@ -296,7 +296,7 @@
     "offlineTitle": "Shrani posamezna letališča brez povezave",
     "offlineText": "Vsaka podrobna stran letališča ima gumb \"Shrani za uporabo brez povezave\". Na tvojo napravo shrani stran in, kadar ga AIP objavi, tudi PDF karte prileta; letališče se nato pojavi med priljubljenimi na strani države. Shranjene kopije prikazujejo datum prenosa.",
     "bulkTitle": "Prenesi celotno državo",
-    "bulkText": "S seznama letališč lahko naenkrat preneseš vse podrobne strani države (samo strani, brez PDF-jev kart - te shrani za posamezno letališče). Paket pred prenosom prikaže svojo velikost in ga je mogoče kadar koli posodobiti ali odstraniti.",
+    "bulkText": "S <list>seznama letališč</list> lahko naenkrat preneseš vse podrobne strani države (samo strani, brez PDF-jev kart - te shrani za posamezno letališče). Paket pred prenosom prikaže svojo velikost in ga je mogoče kadar koli posodobiti ali odstraniti.",
     "importTitle": "PDF-ji kart v ForeFlight, SkyDemon in drugih",
     "importText": "Kadar nacionalni AIP objavlja PDF-je kart, okvirček s kartami na podrobni strani ponuja povezavo do veljavnega PDF-ja vključno z njegovim datumom AIRAC. Prenesi ga in ga uvozi v svojo aplikacijo EFB kot lastno vsebino, npr. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ali Garmin Pilot. Nemčija namesto PDF-jev objavlja strani HTML - tam uporabi povezavo do AIP.",
     "toolsTitle": "Povezava z orodji za načrtovanje",
@@ -306,6 +306,15 @@
     "customsTitle": "Carina in prehod meje",
     "customsText": "Podrobne strani prikazujejo, ali letališče ponuja carinjenje; kadar ga nacionalni AIP navaja v GEN 1.2, je vrednost preverjena s tem uradnim virom. Za obmejne formalnosti okvirček z lokacijo ponuja povezave do uradnih obrazcev (npr. britanski General Aviation Report), zemljevid pa lahko filtrira letališča s carino. Pravila se spreminjajo - vedno jih potrdi z veljavnim AIP in lokalnim organom.",
     "disclaimerTitle": "Varnostno opozorilo",
-    "disclaimerText": "AIP:Aero povezuje na uradne publikacije AIP, vendar ni uraden vir. Kopije brez povezave so označene z datumom prenosa in lahko z vsakim ciklom AIRAC zastarijo - pred vsakim letom preveri veljavnost kart in vedno pridobi uraden briefing pred letom."
+    "disclaimerText": "AIP:Aero povezuje na uradne publikacije AIP, vendar ni uraden vir. Kopije brez povezave so označene z datumom prenosa in lahko z vsakim ciklom AIRAC zastarijo - pred vsakim letom preveri veljavnost kart in vedno pridobi uraden briefing pred letom.",
+    "installButton": "Namesti zdaj",
+    "ctaTitle": "Preizkusi zdaj",
+    "faqTitle": "Pogosta vprašanja",
+    "faq1q": "Ali AIP:Aero deluje popolnoma brez povezave?",
+    "faq1a": "Shranjena letališča in preneseni paketi držav delujejo brez interneta; vsaka kopija brez povezave prikazuje pasico z datumom shranjevanja. Vreme v živo (METAR/TAF) vedno potrebuje povezavo.",
+    "faq2q": "Katere države so na voljo?",
+    "faq2a": "Vse razpoložljive države so navedene na začetni strani - pokritost nenehno raste. Vsaka kartica države prikazuje razpoložljive vrste kart.",
+    "faq3q": "Ali so karte ažurne?",
+    "faq3a": "Povezave do kart vodijo na uradne nacionalne publikacije AIP, vključno z datumom AIRAC, kjer je objavljen. Pred letom vedno preveri uradni vir."
   }
 }

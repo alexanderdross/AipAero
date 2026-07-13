@@ -315,8 +315,8 @@
     "metaDescription": "Användarvillkor för AIP:Aero, den kostnadsfria AIP- och inflygningskartssökningen för Sverige och Europa: tjänstebeskrivning, ansvarsfriskrivning och datakällor."
   },
   "EfbPage": {
-    "title": "Använd AIP:Aero på din EFB",
-    "intro": "Så installerar du AIP:Aero på din EFB-platta, sparar inflygningskartor offline, laddar ner hela länder och skickar fält vidare till dina planeringsverktyg - steg för steg.",
+    "title": "Använd AIP:Aero på din EFB (Electronic Flight Bag)",
+    "intro": "Så installerar du AIP:Aero på din EFB (Electronic Flight Bag)-platta, sparar inflygningskartor offline, laddar ner hela länder och skickar fält vidare till dina planeringsverktyg - steg för steg.",
     "metaTitle": "EFB-guide Sverige - AIP och inflygningskartor på plattan | AIP:Aero",
     "metaDescription": "Installera AIP:Aero som app på din EFB-platta, spara inflygningskartor offline, ladda ner hela länder och importera kart-PDF:er i ForeFlight, SkyDemon m.fl (Sverige).",
     "installTitle": "Installera som app (PWA)",
@@ -326,7 +326,7 @@
     "offlineTitle": "Spara enskilda fält offline",
     "offlineText": "Varje detaljsida har en \"Spara offline\"-knapp. Den lagrar sidan och, där AIP:en publicerar en, inflygningskartans PDF på din enhet; fältet visas sedan under favoriter på landssidan. Sparade kopior visar sitt nedladdningsdatum.",
     "bulkTitle": "Ladda ner ett helt land",
-    "bulkText": "Från flygplatslistan kan du ladda ner alla ett lands detaljsidor på en gång (endast sidor, utan kart-PDF:er - dem sparar du per fält). Paketet visar sin storlek före nedladdning och kan när som helst uppdateras eller tas bort.",
+    "bulkText": "Från <list>flygplatslistan</list> kan du ladda ner alla ett lands detaljsidor på en gång (endast sidor, utan kart-PDF:er - dem sparar du per fält). Paketet visar sin storlek före nedladdning och kan när som helst uppdateras eller tas bort.",
     "importTitle": "Kart-PDF:er i ForeFlight, SkyDemon m.fl.",
     "importText": "Där den nationella AIP:en publicerar kart-PDF:er länkar kartrutan på detaljsidan till gällande PDF inklusive AIRAC-datum. Ladda ner den och importera den i din EFB-app som eget innehåll, t.ex. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland publicerar HTML-sidor i stället för PDF:er - använd AIP-länken där.",
     "toolsTitle": "Överlämning till planeringsverktyg",
@@ -336,6 +336,15 @@
     "customsTitle": "Tull och gränspassage",
     "customsText": "Detaljsidor visar om ett fält erbjuder tullklarering; där den nationella AIP:en listar det i GEN 1.2 är värdet verifierat mot den officiella källan. För gränsformaliteter länkar platsrutan till de officiella formulären (t.ex. brittiska General Aviation Report), och kartan kan filtrera på tullfält. Regler ändras - bekräfta dem alltid med gällande AIP och den lokala myndigheten.",
     "disclaimerTitle": "Säkerhetsanmärkning",
-    "disclaimerText": "AIP:Aero länkar till officiella AIP-publikationer men är ingen officiell källa. Offline-kopior bär sitt nedladdningsdatum och kan bli inaktuella med varje AIRAC-cykel - kontrollera kartornas giltighet före varje flygning och inhämta alltid en officiell briefing."
+    "disclaimerText": "AIP:Aero länkar till officiella AIP-publikationer men är ingen officiell källa. Offline-kopior bär sitt nedladdningsdatum och kan bli inaktuella med varje AIRAC-cykel - kontrollera kartornas giltighet före varje flygning och inhämta alltid en officiell briefing.",
+    "installButton": "Installera nu",
+    "ctaTitle": "Prova nu",
+    "faqTitle": "Vanliga frågor",
+    "faq1q": "Fungerar AIP:Aero helt offline?",
+    "faq1a": "Sparade fält och nedladdade landspaket fungerar utan internet; varje offlinekopia visar en banner med spardatumet. Live-väder (METAR/TAF) kräver alltid uppkoppling.",
+    "faq2q": "Vilka länder täcks?",
+    "faq2a": "Alla tillgängliga länder listas på startsidan - täckningen växer kontinuerligt. Varje landskort visar tillgängliga korttyper.",
+    "faq3q": "Är kartorna aktuella?",
+    "faq3a": "Kartlänkar pekar på de officiella nationella AIP-publikationerna, inklusive AIRAC-datum där det publiceras. Verifiera alltid den officiella källan före flygning."
   }
 }

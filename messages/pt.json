@@ -285,8 +285,8 @@
     "metaDescription": "Termos de utilização do AIP:Aero, o serviço gratuito de pesquisa de AIP e cartas de aproximação para Portugal e a Europa: descrição do serviço, exclusão de responsabilidade e fontes de dados."
   },
   "EfbPage": {
-    "title": "Usa o AIP:Aero no teu EFB",
-    "intro": "Como instalar o AIP:Aero no teu tablet EFB, guardar cartas de aproximação offline, descarregar países inteiros e enviar aeródromos para as tuas ferramentas de planeamento - passo a passo.",
+    "title": "Usa o AIP:Aero no teu EFB (Electronic Flight Bag)",
+    "intro": "Como instalar o AIP:Aero no teu tablet EFB (Electronic Flight Bag), guardar cartas de aproximação offline, descarregar países inteiros e enviar aeródromos para as tuas ferramentas de planeamento - passo a passo.",
     "metaTitle": "Guia EFB Portugal - AIP e cartas de aproximação no teu tablet | AIP:Aero",
     "metaDescription": "Instala o AIP:Aero como aplicação no teu tablet EFB, guarda cartas de aproximação offline, descarrega países inteiros e importa PDF de cartas no ForeFlight, SkyDemon e outros (Portugal).",
     "installTitle": "Instalar como aplicação (PWA)",
@@ -296,7 +296,7 @@
     "offlineTitle": "Guardar aeródromos individuais offline",
     "offlineText": "Cada página de detalhe tem um botão \"Guardar offline\". Guarda a página e, quando a AIP o publica, o PDF da carta de aproximação no teu dispositivo; o aeródromo aparece depois nos favoritos na página do país. As cópias guardadas mostram a data de transferência.",
     "bulkTitle": "Descarregar um país inteiro",
-    "bulkText": "A partir da lista de aeródromos podes descarregar de uma só vez todas as páginas de detalhe de um país (apenas as páginas, sem os PDF das cartas - esses guardam-se por aeródromo). O pacote mostra o seu tamanho antes da transferência e pode ser atualizado ou removido em qualquer altura.",
+    "bulkText": "A partir da <list>lista de aeródromos</list> podes descarregar de uma só vez todas as páginas de detalhe de um país (apenas as páginas, sem os PDF das cartas - esses guardam-se por aeródromo). O pacote mostra o seu tamanho antes da transferência e pode ser atualizado ou removido em qualquer altura.",
     "importTitle": "PDF de cartas no ForeFlight, SkyDemon e outros",
     "importText": "Quando a AIP nacional publica PDF de cartas, a caixa de cartas da página de detalhe liga ao PDF em vigor, incluindo a sua data AIRAC. Descarrega-o e importa-o na tua aplicação EFB como conteúdo próprio, p. ex. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ou Garmin Pilot. A Alemanha publica páginas HTML em vez de PDF - usa aí a ligação para a AIP.",
     "toolsTitle": "Ligação a ferramentas de planeamento",
@@ -306,6 +306,15 @@
     "customsTitle": "Alfândega e passagem de fronteira",
     "customsText": "As páginas de detalhe mostram se um aeródromo dispõe de despacho alfandegário; quando a AIP nacional o indica na secção GEN 1.2, o valor está verificado com essa fonte oficial. Para as formalidades de fronteira, a caixa de localização liga aos formulários oficiais (p. ex. o General Aviation Report britânico) e o mapa pode filtrar por aeródromos com alfândega. As regras mudam - confirma-as sempre com a AIP em vigor e a autoridade local.",
     "disclaimerTitle": "Aviso de segurança",
-    "disclaimerText": "O AIP:Aero liga a publicações AIP oficiais, mas não é uma fonte oficial. As cópias offline indicam a sua data de transferência e podem ficar desatualizadas a cada ciclo AIRAC - verifica a validade das cartas antes de cada voo e obtém sempre um briefing oficial."
+    "disclaimerText": "O AIP:Aero liga a publicações AIP oficiais, mas não é uma fonte oficial. As cópias offline indicam a sua data de transferência e podem ficar desatualizadas a cada ciclo AIRAC - verifica a validade das cartas antes de cada voo e obtém sempre um briefing oficial.",
+    "installButton": "Instalar agora",
+    "ctaTitle": "Experimenta já",
+    "faqTitle": "Perguntas frequentes",
+    "faq1q": "O AIP:Aero funciona totalmente offline?",
+    "faq1a": "Os aeródromos guardados e os pacotes de país descarregados funcionam sem internet; cada cópia offline mostra um aviso com a data de gravação. A meteorologia em direto (METAR/TAF) precisa sempre de ligação.",
+    "faq2q": "Que países estão cobertos?",
+    "faq2a": "Todos os países disponíveis constam na página inicial - a cobertura cresce continuamente. Cada cartão de país mostra os tipos de cartas disponíveis.",
+    "faq3q": "As cartas estão atualizadas?",
+    "faq3a": "As ligações apontam para as publicações AIP nacionais oficiais, incluindo a data AIRAC quando publicada. Verifica sempre a fonte oficial antes do voo."
   }
 }

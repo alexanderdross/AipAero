@@ -350,8 +350,8 @@
     "metaDescription": "Nutzungsbedingungen von AIP:Aero, der kostenlosen AIP- und Anflugkarten-Suche für Deutschland und Europa: Servicebeschreibung, Haftungsausschluss und Datenquellen."
   },
   "EfbPage": {
-    "title": "AIP:Aero auf dem EFB nutzen",
-    "intro": "So installierst du AIP:Aero auf deinem EFB-Tablet, speicherst Anflugkarten offline, lädst ganze Länder herunter und übergibst Plätze an deine Planungstools - Schritt für Schritt.",
+    "title": "AIP:Aero auf dem EFB (Electronic Flight Bag) nutzen",
+    "intro": "So installierst du AIP:Aero auf deinem EFB (Electronic Flight Bag)-Tablet, speicherst Anflugkarten offline, lädst ganze Länder herunter und übergibst Plätze an deine Planungstools - Schritt für Schritt.",
     "metaTitle": "EFB-Anleitung Deutschland - AIP & Anflugkarten auf dem Tablet | AIP:Aero",
     "metaDescription": "AIP:Aero als App auf dem EFB-Tablet installieren, Anflugkarten offline speichern, ganze Länder herunterladen und Karten-PDFs in ForeFlight, SkyDemon & Co. importieren (Deutschland).",
     "installTitle": "Als App installieren (PWA)",
@@ -361,7 +361,7 @@
     "offlineTitle": "Einzelne Plätze offline speichern",
     "offlineText": "Jede Flugplatz-Detailseite hat einen \"Offline speichern\"-Button. Er legt die Seite und, wo die AIP eines veröffentlicht, das Anflugkarten-PDF auf deinem Gerät ab; der Platz erscheint danach unter Favoriten auf der Länderseite. Gespeicherte Kopien zeigen ihr Download-Datum.",
     "bulkTitle": "Ein ganzes Land herunterladen",
-    "bulkText": "Auf der Flughafen-Liste kannst du alle Detailseiten eines Landes auf einmal herunterladen (nur Seiten, ohne Karten-PDFs - die speicherst du pro Platz). Das Paket zeigt vor dem Download seine Größe und lässt sich jederzeit aktualisieren oder entfernen.",
+    "bulkText": "Auf der <list>Flughafen-Liste</list> kannst du alle Detailseiten eines Landes auf einmal herunterladen (nur Seiten, ohne Karten-PDFs - die speicherst du pro Platz). Das Paket zeigt vor dem Download seine Größe und lässt sich jederzeit aktualisieren oder entfernen.",
     "importTitle": "Karten-PDFs in ForeFlight, SkyDemon & Co.",
     "importText": "Wo die nationale AIP Karten-PDFs veröffentlicht, verlinkt die Karten-Box auf der Detailseite das aktuelle PDF inklusive AIRAC-Datum. Lade es herunter und importiere es in deine EFB-App als eigenes Kartenmaterial, z.B. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) oder Garmin Pilot. Deutschland veröffentlicht HTML-Seiten statt PDFs - nutze dort den AIP-Link.",
     "toolsTitle": "Übergabe an Planungstools",
@@ -371,6 +371,15 @@
     "customsTitle": "Zoll & Grenzübertritt",
     "customsText": "Detailseiten zeigen, ob ein Platz Zollabfertigung bietet; wo die nationale AIP das in GEN 1.2 listet, ist der Wert gegen diese amtliche Quelle verifiziert. Für die Grenzübertritts-Formalitäten verlinkt die Standort-Box die offiziellen Formulare (z.B. den UK General Aviation Report), und die Karte kann nach Zollflugplätzen filtern. Regeln ändern sich - bestätige sie immer mit der aktuellen AIP und der örtlichen Behörde.",
     "disclaimerTitle": "Sicherheitshinweis",
-    "disclaimerText": "AIP:Aero verlinkt offizielle AIP-Publikationen, ist aber keine offizielle Quelle. Offline-Kopien sind mit ihrem Download-Datum markiert und können mit jedem AIRAC-Zyklus veralten - prüfe die Kartenaktualität vor jedem Flug und hole immer ein offizielles Flugwetter- und NOTAM-Briefing ein."
+    "disclaimerText": "AIP:Aero verlinkt offizielle AIP-Publikationen, ist aber keine offizielle Quelle. Offline-Kopien sind mit ihrem Download-Datum markiert und können mit jedem AIRAC-Zyklus veralten - prüfe die Kartenaktualität vor jedem Flug und hole immer ein offizielles Flugwetter- und NOTAM-Briefing ein.",
+    "installButton": "Jetzt installieren",
+    "ctaTitle": "Probier es aus",
+    "faqTitle": "Häufige Fragen",
+    "faq1q": "Funktioniert AIP:Aero komplett offline?",
+    "faq1a": "Gespeicherte Plätze und heruntergeladene Länderpakete funktionieren ohne Internet; jede Offline-Kopie zeigt ein Banner mit ihrem Speicherdatum. Live-Wetter (METAR/TAF) braucht immer eine Verbindung.",
+    "faq2q": "Welche Länder sind verfügbar?",
+    "faq2a": "Alle aktuell verfügbaren Länder stehen auf der Startseite - die Abdeckung wächst laufend. Jede Länderkarte zeigt die verfügbaren Kartentypen.",
+    "faq3q": "Sind die Karten aktuell?",
+    "faq3a": "Karten-Links zeigen auf die offiziellen nationalen AIP-Veröffentlichungen, inklusive AIRAC-Datum wo veröffentlicht. Prüfe vor dem Flug immer die offizielle Quelle."
   }
 }

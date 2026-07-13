@@ -315,8 +315,8 @@
     "metaDescription": "AIP:Aeron käyttöehdot - maksuton AIP- ja lähestymiskarttahaku Suomelle ja Euroopalle: palvelukuvaus, vastuuvapauslauseke ja tietolähteet."
   },
   "EfbPage": {
-    "title": "Käytä AIP:Aeroa EFB-laitteellasi",
-    "intro": "Näin asennat AIP:Aeron EFB-tabletillesi, tallennat lähestymiskartat offline-käyttöön, lataat kokonaisia maita ja siirrät kentät suunnittelutyökaluihisi - vaihe vaiheelta.",
+    "title": "Käytä AIP:Aeroa EFB (Electronic Flight Bag)-laitteellasi",
+    "intro": "Näin asennat AIP:Aeron EFB (Electronic Flight Bag)-tabletillesi, tallennat lähestymiskartat offline-käyttöön, lataat kokonaisia maita ja siirrät kentät suunnittelutyökaluihisi - vaihe vaiheelta.",
     "metaTitle": "EFB-opas Suomi - AIP ja lähestymiskartat tabletilla | AIP:Aero",
     "metaDescription": "Asenna AIP:Aero sovelluksena EFB-tabletillesi, tallenna lähestymiskartat offline-käyttöön, lataa kokonaisia maita ja tuo kartta-PDF:t ForeFlightiin, SkyDemoniin ym. (Suomi).",
     "installTitle": "Asenna sovelluksena (PWA)",
@@ -326,7 +326,7 @@
     "offlineTitle": "Tallenna yksittäiset kentät offline-käyttöön",
     "offlineText": "Jokaisella lentopaikkasivulla on \"Tallenna offline-käyttöön\" -painike. Se tallentaa sivun ja, jos AIP julkaisee sellaisen, lähestymiskartan PDF:n laitteellesi; kenttä näkyy sen jälkeen maasivun suosikeissa. Tallennetut kopiot näyttävät latauspäivämääränsä.",
     "bulkTitle": "Lataa kokonainen maa",
-    "bulkText": "Lentopaikkaluettelosta voit ladata kaikki maan lentopaikkasivut kerralla (vain sivut, ilman kartta-PDF:iä - ne tallennat kenttäkohtaisesti). Paketti näyttää kokonsa ennen latausta, ja sen voi milloin tahansa päivittää tai poistaa.",
+    "bulkText": "<list>Lentopaikkaluettelosta</list> voit ladata kaikki maan lentopaikkasivut kerralla (vain sivut, ilman kartta-PDF:iä - ne tallennat kenttäkohtaisesti). Paketti näyttää kokonsa ennen latausta, ja sen voi milloin tahansa päivittää tai poistaa.",
     "importTitle": "Kartta-PDF:t ForeFlightissa, SkyDemonissa ym.",
     "importText": "Kun kansallinen AIP julkaisee kartta-PDF:iä, lentopaikkasivun karttalaatikko linkittää voimassa olevaan PDF:ään AIRAC-päivämäärineen. Lataa se ja tuo se EFB-sovellukseesi omana sisältönä, esim. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) tai Garmin Pilot. Saksa julkaisee HTML-sivuja PDF:ien sijaan - käytä siellä AIP-linkkiä.",
     "toolsTitle": "Siirto suunnittelutyökaluihin",
@@ -336,6 +336,15 @@
     "customsTitle": "Tulli ja rajanylitys",
     "customsText": "Lentopaikkasivut näyttävät, tarjoaako kenttä tulliselvityksen; kun kansallinen AIP listaa sen kohdassa GEN 1.2, arvo on varmennettu virallisesta lähteestä. Rajanylitysmuodollisuuksia varten sijaintilaatikko linkittää virallisiin lomakkeisiin (esim. Ison-Britannian General Aviation Report), ja kartta voi suodattaa tullikentät. Säännöt muuttuvat - varmista ne aina voimassa olevasta AIP:stä ja paikalliselta viranomaiselta.",
     "disclaimerTitle": "Turvallisuushuomautus",
-    "disclaimerText": "AIP:Aero linkittää virallisiin AIP-julkaisuihin, mutta ei ole virallinen lähde. Offline-kopiot on merkitty latauspäivämäärällään ja voivat vanhentua jokaisen AIRAC-jakson myötä - tarkista karttojen voimassaolo ennen jokaista lentoa ja hanki aina virallinen lennonvalmistelubriiffaus."
+    "disclaimerText": "AIP:Aero linkittää virallisiin AIP-julkaisuihin, mutta ei ole virallinen lähde. Offline-kopiot on merkitty latauspäivämäärällään ja voivat vanhentua jokaisen AIRAC-jakson myötä - tarkista karttojen voimassaolo ennen jokaista lentoa ja hanki aina virallinen lennonvalmistelubriiffaus.",
+    "installButton": "Asenna nyt",
+    "ctaTitle": "Kokeile nyt",
+    "faqTitle": "Usein kysytyt kysymykset",
+    "faq1q": "Toimiiko AIP:Aero täysin offline-tilassa?",
+    "faq1a": "Tallennetut lentopaikat ja ladatut maapaketit toimivat ilman internetiä; jokainen offline-kopio näyttää bannerin tallennuspäivämäärällä. Reaaliaikainen sää (METAR/TAF) vaatii aina yhteyden.",
+    "faq2q": "Mitkä maat ovat mukana?",
+    "faq2a": "Kaikki saatavilla olevat maat on lueteltu etusivulla - kattavuus kasvaa jatkuvasti. Jokainen maakortti näyttää saatavilla olevat karttatyypit.",
+    "faq3q": "Ovatko kartat ajan tasalla?",
+    "faq3a": "Karttalinkit osoittavat virallisiin kansallisiin AIP-julkaisuihin, mukaan lukien AIRAC-päivämäärä, jos se on julkaistu. Varmista aina virallinen lähde ennen lentoa."
   }
 }
