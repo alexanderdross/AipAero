@@ -1,0 +1,341 @@
+{
+  "BreadCrumbs": {
+    "label": "Navigācijas ceļš",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Latvija (Latviski)",
+      "hrefTitle": "AIP Latvija"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Aeronavigācijas informācijas publikācija AIP VFR Latvija"
+    },
+    "/heliports": {
+      "title": "Helikopteru lidlauki",
+      "hrefTitle": "AIP VFR helikopteru lidlauki Latvijā"
+    },
+    "/airport-list": {
+      "title": "Lidlauku saraksts",
+      "hrefTitle": "Latvijas lidlauku saraksts"
+    },
+    "/terms": {
+      "title": "Lietošanas noteikumi",
+      "hrefTitle": "Lietošanas noteikumi - AIP:Aero Latvija"
+    },
+    "/efb": {
+      "title": "EFB ceļvedis",
+      "hrefTitle": "EFB ceļvedis - AIP:Aero jūsu planšetē"
+    }
+  },
+  "Menu": {
+    "label": "Izvēlne",
+    "home": {
+      "title": "AIP Latvija",
+      "hrefTitle": "AIP Latvija"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Aeronavigācijas informācijas publikācija AIP VFR Latvija"
+    },
+    "heliports": {
+      "title": "Helikopteru lidlauki",
+      "hrefTitle": "AIP VFR helikopteru lidlauki Latvijā"
+    },
+    "airports": {
+      "title": "Lidlauku saraksts",
+      "hrefTitle": "Latvijas lidlauku saraksts"
+    }
+  },
+  "AirportsPage": {
+    "title": "Latvijas lidlauku saraksts",
+    "metaTitle": "🛩️ Latvijas lidlauku saraksts",
+    "description": "Visi Latvijas lidlauki un lidostas vienuviet",
+    "metaDescription": "Visi Latvijas lidlauki un lidostas vienuviet🗺️",
+    "vfrCard": {
+      "title": "VFR lidlauki",
+      "description": "VFR lidlauki Latvijā",
+      "linkTitle": "Šeit apskatiet un lejupielādējiet AIP VFR kartes un pieejas karti lidlaukam {airport}."
+    },
+    "heliportCard": {
+      "title": "Helikopteru lidlauki",
+      "description": "Helikopteru lidlauki Latvijā",
+      "linkTitle": "Šeit apskatiet un lejupielādējiet AIP VFR kartes un pieejas kartes helikopteru lidlaukam {airport}."
+    },
+    "breadcrumb": {
+      "name": "Latvijas lidlauku saraksts",
+      "alternateName": "Latvijas lidlauku saraksts",
+      "description": "Visi Latvijas lidlauki un lidostas vienuviet"
+    }
+  },
+  "HeliportPage": {
+    "title": "AIP VFR HEL AD pieejas karšu meklētājs Latvijas helikopteru lidlaukiem",
+    "metaTitle": "🛩️ AIP VFR HEL AD pieejas karšu meklētājs Latvijas helikopteru lidlaukiem",
+    "description": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu LGS publicētajām helikopteru lidlauku VFR pieejas kartēm.",
+    "metaDescription": "Meklējiet AIP VFR Latvija HEL AD helikopteru lidlaukus un lejupielādējiet pieejas kartes🗺️",
+    "searchTitle": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu helikopteru lidlauku VFR AIP",
+    "searchPlaceholder": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu helikopteru lidlauku VFR AIP",
+    "resultTitle": "AIP VFR helikopteru kartes lidlaukam {airport}",
+    "resultDescription": "Šeit apskatiet un lejupielādējiet AIP VFR helikopteru kartes un pieejas kartes lidlaukam {airport}.",
+    "breadcrumb": {
+      "name": "AIP VFR helikopteru lidlauki Latvijā",
+      "alternateName": "AIP VFR HEL AD pieejas karšu meklētājs Latvijas helikopteru lidlaukiem",
+      "description": "Meklējiet AIP VFR Latvija HEL AD helikopteru lidlaukus un lejupielādējiet pieejas kartes"
+    }
+  },
+  "VfrPage": {
+    "title": "AIP VFR pieejas karšu meklētājs Latvijai",
+    "metaTitle": "🛩️ AIP VFR pieejas karšu meklētājs Latvijai",
+    "description": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu LGS publicētajām VFR pieejas kartēm.",
+    "metaDescription": "Meklējiet AIP VFR Latvija AD lidlaukus un lejupielādējiet pieejas kartes🗺️",
+    "searchTitle": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu VFR AIP",
+    "searchPlaceholder": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu VFR AIP",
+    "resultTitle": "AIP VFR kartes lidlaukam {airport}",
+    "resultDescription": "Šeit apskatiet un lejupielādējiet AIP VFR kartes un pieejas karti lidlaukam {airport}.",
+    "breadcrumb": {
+      "name": "Aeronavigācijas informācijas publikācija AIP VFR Latvija",
+      "alternateName": "AIP VFR pieejas karšu meklētājs Latvijai",
+      "description": "Meklējiet AIP VFR Latvija AD lidlaukus un lejupielādējiet pieejas kartes"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Mainīt valodu",
+    "locale": "{locale, select, lv {🇱🇻 Latviešu} en {🇬🇧 English} other {Nezināms}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Pieejas kartes & aeronavigācijas informācijas publikācija AIP Latvijai",
+    "alternateName": "AIP Latvija",
+    "description": "Šeit varat lejupielādēt visas Latvijas AIP (Aeronautical Information Publication) aeronavigācijas publikācijas un pieejas kartes",
+    "inLanguage": "lv",
+    "url": "https://aip.aero/lv/"
+  },
+  "CountryPage": {
+    "title": "Pieejas kartes & aeronavigācijas informācijas publikācija AIP Latvijai",
+    "metaTitle": "🛩️ Pieejas kartes & aeronavigācijas informācijas publikācija AIP Latvijai",
+    "description": "Šeit varat lejupielādēt visas Latvijas AIP (Aeronautical Information Publication) aeronavigācijas publikācijas un pieejas kartes",
+    "metaDescription": "Šeit varat lejupielādēt visas Latvijas AIP (Aeronautical Information Publication) aeronavigācijas publikācijas un pieejas kartes🗺️",
+    "vfrCard": {
+      "title": "Aeronavigācijas publikācija AIP VFR",
+      "description": "Meklējiet AIP VFR Latvija AD lidlaukus un lejupielādējiet pieejas kartes",
+      "buttonTitle": "Aeronavigācijas publikācija AIP VFR",
+      "buttonHref": "/lv/vfr/",
+      "buttonHrefTitle": "Aeronavigācijas informācijas publikācija AIP VFR Latvija"
+    },
+    "heliportCard": {
+      "title": "Helikopteru lidlauki",
+      "description": "Meklējiet AIP VFR Latvija HEL AD helikopteru lidlaukus un lejupielādējiet pieejas kartes",
+      "buttonTitle": "AIP VFR helikopteru lidlauki",
+      "buttonHref": "/lv/heliports/",
+      "buttonHrefTitle": "AIP VFR helikopteru lidlauki Latvijā"
+    },
+    "airportListCard": {
+      "title": "Lidlauku saraksts",
+      "description": "Visi Latvijas lidlauki un lidostas vienuviet - ar bezsaistes lejupielādi, muitas un degvielas informāciju",
+      "buttonTitle": "Lidlauku saraksts",
+      "buttonHref": "/lv/lidlauku-saraksts-latvija/",
+      "buttonHrefTitle": "Latvijas lidlauku saraksts"
+    },
+    "breadcrumb": {
+      "name": "AIP Latvija",
+      "alternateName": "Pieejas kartes & aeronavigācijas informācijas publikācija AIP Latvijai",
+      "description": "Šeit varat lejupielādēt visas Latvijas AIP (Aeronautical Information Publication) aeronavigācijas publikācijas un pieejas kartes"
+    }
+  },
+  "About": {
+    "title": "Kam paredzēta šī vietne?",
+    "description": "Latvijas <aip>aeronavigācijas informācijas publikācija AIP</aip> ir pieejama bezmaksas versijā. Šīs vietnes mērķis ir vienkāršot lidlauku meklēšanu, jo LGS versijai nav meklēšanas funkcijas. Mēs neuzņemamies atbildību par AIP (Aeronautical Information Publication) precizitāti vai aktualitāti, jo to neuzturam mēs. Mēs tikai nodrošinām ērtas saites uz attiecīgajām pieejas kartēm.",
+    "aipUrl": "https://ais.lgs.lv/aiseaip",
+    "aipTitle": "AIP Latvija"
+  },
+  "TradeAero": {
+    "title": "Pērkat vai pārdodat gaisa kuģi?",
+    "description": "Atklājiet gaisa kuģus Latvijā vietnē Trade:Aero - tirdzniecības vietā gaisa kuģu pirkšanai un pārdošanai.",
+    "buttonTitle": "Trade:Aero - Eiropas lielākā gaisa kuģu tirdzniecības vieta",
+    "buttonHrefTitle": "Trade:Aero - Eiropas lielākā gaisa kuģu tirdzniecības vieta"
+  },
+  "Footer": {
+    "navTitle": "Navigācija",
+    "legalTitle": "Juridiskā informācija un kontakti",
+    "partnersTitle": "Partneri",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP:Aero sākumlapa - AIP un pieejas kartes Eiropai"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Sākums",
+      "hrefTitle": "Sākums - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Juridiskā informācija",
+      "hrefTitle": "Juridiskā informācija - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakti",
+      "hrefTitle": "Kontakti - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privātuma politika",
+      "hrefTitle": "Privātuma politika - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Vietnes autors Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Lietošanas noteikumi",
+      "hrefTitle": "Lietošanas noteikumi - AIP:Aero Latvija"
+    },
+    "efb": {
+      "title": "EFB ceļvedis",
+      "hrefTitle": "AIP:Aero jūsu EFB - instalēšana, bezsaistes kartes, imports"
+    }
+  },
+  "Error": {
+    "description": "<p>Diemžēl radās kļūda.</p><p>Varat mēģināt <retry>pārlādēt šo lapu</retry>.</p>",
+    "title": "Kaut kas nogāja greizi!"
+  },
+  "NotFound": {
+    "title": "404 - Lapa nav atrasta",
+    "description": "Šāda lapa vai lidlauka kods neeksistē. Tā vietā mēģiniet meklēt lidlauku:",
+    "searchPlaceholder": "Meklējiet jebkuru lidlauku pēc nosaukuma vai ICAO koda",
+    "home": "Atpakaļ uz sākumlapu"
+  },
+  "Weather": {
+    "title": "Laikapstākļi",
+    "observed": "Novērots",
+    "forecast": "Prognoze",
+    "wind": "Vējš",
+    "visibility": "Redzamība",
+    "clouds": "Mākoņi",
+    "temperature": "Temperatūra",
+    "qnh": "QNH",
+    "source": "Avots",
+    "elevation": "Augstums virs jūras līmeņa",
+    "sunrise": "Saullēkts",
+    "sunset": "Saulriets",
+    "civilTwilight": "Civilā krēsla",
+    "facts": "Lidlauka dati",
+    "runways": "Skrejceļi",
+    "frequencies": "Frekvences",
+    "decode": "Rādīt atšifrējumu",
+    "openingHours": "Darba laiks",
+    "fuel": "Degviela",
+    "ppr": "PPR",
+    "pprRequired": "Nepieciešama iepriekšēja atļauja",
+    "nearest": "Laikapstākļi no tuvākā lidlauka {station} ({km} km attālumā)",
+    "circuit": "Lidojumu aplis",
+    "circuitLeft": "pa kreisi",
+    "circuitRight": "pa labi",
+    "windComponents": "Vēja komponentes",
+    "headwind": "Pretvējš",
+    "tailwind": "Ceļavējš",
+    "crosswind": "Sānvējš",
+    "fromLeft": "no kreisās puses",
+    "fromRight": "no labās puses",
+    "landingDirection": "Iespējamais nosēšanās virziens",
+    "aerodromeType": "Lidlauka tips",
+    "surface": "Segums"
+  },
+  "Common": {
+    "openIn": "Atvērt vietnē",
+    "homeLink": "AIP:Aero - Aeronavigācijas informācijas publikācijas (AIP) & pieejas kartes Eiropai",
+    "lastUpdated": "Pēdējoreiz atjaunināts",
+    "viewOnMap": "Skatīt Google Maps kartē",
+    "location": "Atrašanās vieta",
+    "website": "Tīmekļa vietne",
+    "address": "Adrese",
+    "coordinates": "Koordinātas",
+    "phone": "Tālrunis",
+    "map": "Karte",
+    "locate": "Noteikt manu atrašanās vietu",
+    "locateError": "Neizdevās noteikt jūsu atrašanās vietu",
+    "nearby": "Tuvējie lidlauki",
+    "restaurant": "Restorāns",
+    "customs": "Muita",
+    "yes": "Jā",
+    "no": "Nē",
+    "saveOffline": "Saglabāt bezsaistei",
+    "savedOffline": "Saglabāts bezsaistē",
+    "installHint": "Instalējiet kā lietotni: pārlūka koplietošanas izvēlnē izvēlieties 'Pievienot sākuma ekrānam'. Pēc tam vienreiz atveriet lietotni tiešsaistē un vēlreiz saglabājiet tajā savus lidlaukus - lietotnei ir sava bezsaistes krātuve.",
+    "installHintMac": "Mac datorā: instalējiet caur Safari koplietošanas izvēlni ar 'Pievienot Dock joslai'. Pēc tam vienreiz atveriet lietotni tiešsaistē un vēlreiz saglabājiet tajā savus lidlaukus - lietotnei ir sava bezsaistes krātuve.",
+    "bulkDownload": "Saglabāt visas {count} lapas bezsaistei (apm. {size} MB)",
+    "bulkDownloaded": "Pieejams bezsaistē",
+    "bulkUpdate": "Atjaunināt",
+    "bulkRemove": "Noņemt",
+    "bulkProgress": "Saglabā lapas",
+    "bulkCancel": "Atcelt",
+    "bulkError": "Lejupielāde neizdevās - mēģiniet vēlreiz",
+    "bulkNoSpace": "Šajā ierīcē nepietiek brīvas krātuves vietas",
+    "bulkScope": "Iekļauts: visas lidlauku lapas ar lidlauka datiem. Nav iekļauts: pieejas karšu PDF faili (tos var saglabāt katram lidlaukam atsevišķi) un laikapstākļi reāllaikā (nepieciešams savienojums).",
+    "pavedRunway": "Cietā seguma skrejceļš",
+    "favorites": "Izlase",
+    "recentlyViewed": "Nesen skatītie",
+    "borderCrossing": "Robežšķērsošana",
+    "alsoAvailable": "Pieejams arī:"
+  },
+  "Chart": {
+    "allCharts": "Visas kartes ({count})",
+    "title": "Pieejas karte",
+    "openPdf": "Atvērt kartes PDF",
+    "preview": "Rādīt priekšskatījumu"
+  },
+  "TermsPage": {
+    "title": "Lietošanas noteikumi",
+    "intro": "AIP:Aero ir bezmaksas meklēšanas un indeksēšanas pakalpojums aeronavigācijas informācijas publikācijām (AIP), pieejas kartēm un lidlauku datiem Eiropā.",
+    "servicesTitle": "Mūsu pakalpojums",
+    "servicesText": "AIP:Aero ļauj atrast lidlaukus pēc nosaukuma vai ICAO koda un aizved tieši uz attiecīgās valsts oficiālo AIP publikāciju. Turklāt mūsu lidlauku lapās ir iegulta papildinformācija, piemēram, laikapstākļu ziņojumi (METAR/TAF), lidlauka dati (skrejceļi, frekvences, augstums), kartes un kontaktinformācija; lapas var saglabāt arī lietošanai bezsaistē. Pakalpojums ir bez maksas, un reģistrācija nav nepieciešama.",
+    "disclaimerTitle": "Atbildības atruna",
+    "disclaimerText": "AIP:Aero nekādos apstākļos nevar tikt saukts pie atbildības. Mēs paši nepublicējam aeronavigācijas dokumentus: mēs tikai norādām saites uz jaunāko AIP (Aeronautical Information Publication), ko nodrošina attiecīgās valsts oficiālais izdevējs. Tas pats attiecas uz laikapstākļu datiem (METAR/TAF) un lidlauku datiem: šī informācija ir iegulta mūsu lapās, bet tā nāk no tālāk norādītajiem ārējiem avotiem. Mēs neuzņemamies nekādu atbildību un nesniedzam nekādas garantijas par saistītā vai iegultā satura precizitāti, pilnīgumu vai aktualitāti, kā arī par šīs vietnes pieejamību. Šī vietne neaizstāj oficiālo pirmslidojuma sagatavošanos: gaisa kuģa kapteinis ir vienpersoniski atbildīgs par visas lidojumam nepieciešamās informācijas iegūšanu un pārbaudi.",
+    "sourcesTitle": "Datu avoti",
+    "sourcesIntro": "Saistītos un iegultos datus mēs iegūstam no šādiem avotiem (adreses norādītas kā vienkāršs teksts, apzināti bez saitēm):",
+    "sourcesAip": "Oficiālās AIP publikācijas, uz kurām mēs norādām saites",
+    "sourcesData": "Iegultie ārējie dati",
+    "srcAwc": "laikapstākļi METAR/TAF un lidlauku dati",
+    "srcOurAirports": "lidlauku pamatdati",
+    "srcOpenAip": "paplašinātie lidlauku dati: skrejceļi, frekvences, degviela",
+    "srcOsm": "kartes un adreses",
+    "metaTitle": "Lietošanas noteikumi - AIP:Aero Latvija",
+    "metaDescription": "AIP:Aero lietošanas noteikumi - bezmaksas AIP un pieejas karšu meklētājs Latvijai un Eiropai: pakalpojuma apraksts, atbildības atruna un datu avoti."
+  },
+  "EfbPage": {
+    "title": "Izmantojiet AIP:Aero savā EFB",
+    "intro": "Kā instalēt AIP:Aero savā EFB planšetē, saglabāt pieejas kartes bezsaistē, lejupielādēt veselas valstis un nodot lidlaukus saviem plānošanas rīkiem - soli pa solim.",
+    "metaTitle": "EFB ceļvedis Latvijai - AIP un pieejas kartes planšetē | AIP:Aero",
+    "metaDescription": "Instalējiet AIP:Aero kā lietotni savā EFB planšetē, saglabājiet pieejas kartes bezsaistē, lejupielādējiet veselas valstis un importējiet karšu PDF failus ForeFlight, SkyDemon u.c. (Latvija).",
+    "installTitle": "Instalēšana kā lietotne (PWA)",
+    "installText": "AIP:Aero ir instalējama tīmekļa lietotne: tā atveras pilnekrāna režīmā kā parasta lietotne, un viss saglabātais ir pieejams bezsaistē. Lietotņu veikals nav vajadzīgs.",
+    "installIos": "iPad / iPhone (Safari): atveriet aip.aero, pieskarieties koplietošanas ikonai un pēc tam \"Pievienot sākuma ekrānam\".",
+    "installAndroid": "Android (Chrome): atveriet aip.aero, pieskarieties izvēlnei un pēc tam \"Pievienot sākuma ekrānam\" / \"Instalēt lietotni\".",
+    "offlineTitle": "Saglabājiet atsevišķus lidlaukus bezsaistē",
+    "offlineText": "Katrai lidlauka detaļu lapai ir poga \"Saglabāt bezsaistei\". Tā jūsu ierīcē saglabā lapu un, ja AIP tādu publicē, arī pieejas kartes PDF; lidlauks pēc tam parādās izlasē valsts lapā. Saglabātās kopijas rāda savu lejupielādes datumu.",
+    "bulkTitle": "Lejupielādējiet veselu valsti",
+    "bulkText": "No lidlauku saraksta varat vienā reizē lejupielādēt visas valsts detaļu lapas (tikai lapas, bez karšu PDF failiem - tos saglabājiet katram lidlaukam atsevišķi). Pakotne pirms lejupielādes parāda savu izmēru, un to jebkurā brīdī var atjaunināt vai noņemt.",
+    "importTitle": "Karšu PDF faili ForeFlight, SkyDemon u.c.",
+    "importText": "Ja nacionālā AIP publicē karšu PDF failus, kartes lodziņš detaļu lapā norāda saiti uz aktuālo PDF ar tā AIRAC datumu. Lejupielādējiet to un importējiet savā EFB lietotnē kā pielāgotu saturu, piemēram, ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) vai Garmin Pilot. Vācija PDF vietā publicē HTML lapas - tur izmantojiet AIP saiti.",
+    "toolsTitle": "Nodošana plānošanas rīkiem",
+    "toolsText": "Atrašanās vietas lodziņš katrā detaļu lapā atver to pašu lidlauku tieši SkyVector, Windy un autorouter - ērti maršruta plānošanai, laikapstākļu modeļiem un lidojuma plāna iesniegšanai.",
+    "weatherTitle": "Laikapstākļu pārskats lapā",
+    "weatherText": "Detaļu lapas rāda aktuālo METAR/TAF ar atšifrējumu vienkāršā valodā, lidojumu kategorijas nozīmīti un pretvēja un sānvēja komponenšu sadalījumu katram skrejceļam - ātra pārbaude, ne aizstājējs jūsu oficiālajam pirmslidojuma pārskatam.",
+    "customsTitle": "Muita un robežšķērsošana",
+    "customsText": "Detaļu lapas rāda, vai lidlaukā ir pieejama muitas kontrole; ja nacionālā AIP to norāda GEN 1.2 sadaļā, vērtība ir pārbaudīta pret šo oficiālo avotu. Robežšķērsošanas formalitātēm atrašanās vietas lodziņš norāda saites uz oficiālajām veidlapām (piemēram, Apvienotās Karalistes General Aviation Report), un kartē var filtrēt muitas lidlaukus. Noteikumi mainās - vienmēr pārliecinieties aktuālajā AIP un pie vietējās iestādes.",
+    "disclaimerTitle": "Drošības piezīme",
+    "disclaimerText": "AIP:Aero norāda saites uz oficiālajām AIP publikācijām, bet pats nav oficiāls avots. Bezsaistes kopijas ir marķētas ar to lejupielādes datumu un var novecot ar katru AIRAC ciklu - pirms katra lidojuma pārbaudiet karšu aktualitāti un vienmēr saņemiet oficiālu pirmslidojuma pārskatu."
+  }
+}

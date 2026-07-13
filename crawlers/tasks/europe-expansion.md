@@ -28,22 +28,26 @@ Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 
 | Land | Airports | Läufe |
 | --- | --- | --- |
-| EE | 8 | 29257033060 |
-| FI | 40 | 29257457290 (Titel bereinigt) |
-| ES | 51 | 29258501240 (Owner-Auftrag trotz Nicht-eurocontrol) |
-| LV | 12 | 29259295508 (öffentlich; einstufiges Frameset) |
-| IS | 106 | 29261291680 (AD- + LS-Kapitel pro Feld, en-GB, Sub-Seiten gefiltert) |
-| PT | 19 | 29261291680 (per-Airport-Kapitel `AD-2.LPxxdetails` wie CZ) |
-| HU | 8 | 29261291680 (per-Airport-Kapitel `AD-2.LHxxdetails`; relative Editions-hrefs) |
+| EE | 8 | 29257033060; PDF-Muster VAC/ADC/LDG (29265643933) |
+| FI | 40 | 29257457290 (Titel bereinigt); keine PDF-Muster - AD-2-Seite verlinkt keine Charts |
+| ES | 51 | 29258501240 (Owner-Auftrag trotz Nicht-eurocontrol); PDF + gen12 brauchen bespoke Recon |
+| LV | 12 | 29259295508; PDF 12/12 via AD-2.24-Position (29265643933) |
+| IS | 53 | 29265643933 (AD-/LS-Kapitel, Dedupe by ICAO - 106 waren systematische Doppel) |
+| PT | 19 | 29265643933; PDF 19/19 (`_01-1_en.pdf` = ADC) |
+| HU | 8 | 29265643933; PDF 8/8 (VAC bevorzugt) |
 
 Der CZ-Stil "ein Kapitel pro Aerodrom" ist jetzt generisch:
 `HttpEurocontrolBase.extract_airports_per_chapter()` (ICAO aus der
 Section-id-Regex, Titel-Präfix überschreibbar - IS nutzt `AD BIAR ...`
 statt `AD 2.XXXX`).
 
-Noch offen pro Land: Website-Integration (Locales, Routing, Meta, E2E),
-gen12-Customs-Lauf, Chart-PDF-Prioritäten per pdf_recon (Coverage aktuell
-0 - Stage-2-Muster fehlen noch).
+Erledigt (13.07.2026): Website-Integration EE + FI (PR #228),
+Customs-Overrides EE/FI/LV/IS/PT/HU (45 Einträge, Quelle
+`crawlers/recon/gen12-batch1.md`), Chart-PDF-Muster EE/LV/PT/HU.
+Noch offen: Website-Integration ES/LV/IS/PT/HU (Locales, Routing,
+Meta, E2E), FI/IS/ES-Chart-PDF (tiefere Navigation nötig), ES-Customs
+(bespoke Recon), Launch via `liveCountries` je Land nach komplettem
+Paket.
 
 ## Batch 2 - Zugang/URL klären (je eine Folge-Probe)
 
@@ -52,7 +56,7 @@ gen12-Customs-Lauf, Chart-PDF-Prioritäten per pdf_recon (Coverage aktuell
 | BG | b-flip.bulatsa.com ist eine JS-App (0 Links im HTML) | Playwright-Crawler wie DK |
 | IE | iaip.iaa.ie: TLS-Handshake-Failure (Legacy-Stack) | eigener SSL-Kontext (niedrigeres Security-Level) im Crawler |
 | HR | crocontrol.hr-Root ohne AIP-Links (JS-Menü) | direkte eAIP-URL recherchieren (Owner/Browser) |
-| SI | Spur: https://aim.sloveniacontrol.si/aim/sl/products/ | probe_eaip auf den AIM-Portal-Pfad |
+| SI | aim.sloveniacontrol.si: TLS-Kette ohne Intermediate (Probe 29264498572, `crawlers/recon/probe-si.md`) | eigener SSL-Kontext (wie IE), dann Re-Probe |
 | SK | aim.lps.sk 403 trotz Browser-Headern | evtl. GEO/IP-Sperre; ggf. Bright-Data-Proxy wie GR |
 | LT | ans.lt 403 trotz Browser-Headern | wie SK |
 

@@ -35,6 +35,14 @@ class PT(HttpEurocontrolBase):
     heliport chapters fail-soft.
     """
 
+    # Chart-PDF extraction (recon run 29264498572, crawlers/recon/
+    # pdf-recon-batch1.md): positional AD 2.24 numbering, e.g.
+    # LP_AD_2_LPBJ_01-1_en.pdf - 01 is the aerodrome chart on every
+    # sampled field. Add a VAC-number pattern IN FRONT once the VAC's
+    # chart number (12 or 13?) is verified by opening one PDF.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_01-1_en\.pdf$",)
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 

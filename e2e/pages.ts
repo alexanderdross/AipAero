@@ -36,6 +36,10 @@ const countryPages: TestPage[] = [
   { path: "/ee/en/", lang: "en", label: "country ee-EN" },
   { path: "/fi/", lang: "fi", label: "country fi" },
   { path: "/fi/en/", lang: "en", label: "country fi-EN" },
+  { path: "/es/", lang: "es", label: "country es" },
+  { path: "/es/en/", lang: "en", label: "country es-EN" },
+  { path: "/lv/", lang: "lv", label: "country lv" },
+  { path: "/lv/en/", lang: "en", label: "country lv-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -60,6 +64,10 @@ const airportListPages: TestPage[] = [
   { path: "/ee/en/airport-list-estonia/", lang: "en", label: "list ee-EN" },
   { path: "/fi/lentopaikat-suomi/", lang: "fi", label: "list fi" },
   { path: "/fi/en/airport-list-finland/", lang: "en", label: "list fi-EN" },
+  { path: "/es/lista-de-aeropuertos-espana/", lang: "es", label: "list es" },
+  { path: "/es/en/airport-list-spain/", lang: "en", label: "list es-EN" },
+  { path: "/lv/lidlauku-saraksts-latvija/", lang: "lv", label: "list lv" },
+  { path: "/lv/en/airport-list-latvia/", lang: "en", label: "list lv-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -99,6 +107,10 @@ const searchPages: TestPage[] = [
   { path: "/ee/en/heliports/", lang: "en", label: "heliports ee-EN" },
   { path: "/fi/vfr/", lang: "fi", label: "vfr fi" },
   { path: "/fi/en/heliports/", lang: "en", label: "heliports fi-EN" },
+  { path: "/es/vfr/", lang: "es", label: "vfr es" },
+  { path: "/es/en/vfr/", lang: "en", label: "vfr es-EN" },
+  { path: "/lv/vfr/", lang: "lv", label: "vfr lv" },
+  { path: "/lv/en/heliports/", lang: "en", label: "heliports lv-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -129,6 +141,10 @@ const termsPages: TestPage[] = [
   { path: "/ee/en/terms/", lang: "en", label: "terms ee-EN" },
   { path: "/fi/terms/", lang: "fi", label: "terms fi" },
   { path: "/fi/en/terms/", lang: "en", label: "terms fi-EN" },
+  { path: "/es/terms/", lang: "es", label: "terms es" },
+  { path: "/es/en/terms/", lang: "en", label: "terms es-EN" },
+  { path: "/lv/terms/", lang: "lv", label: "terms lv" },
+  { path: "/lv/en/terms/", lang: "en", label: "terms lv-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).
@@ -159,6 +175,10 @@ const efbPages: TestPage[] = [
   { path: "/ee/en/efb/", lang: "en", label: "efb ee-EN" },
   { path: "/fi/efb/", lang: "fi", label: "efb fi" },
   { path: "/fi/en/efb/", lang: "en", label: "efb fi-EN" },
+  { path: "/es/efb/", lang: "es", label: "efb es" },
+  { path: "/es/en/efb/", lang: "en", label: "efb es-EN" },
+  { path: "/lv/efb/", lang: "lv", label: "efb lv" },
+  { path: "/lv/en/efb/", lang: "en", label: "efb lv-EN" },
 ];
 
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */

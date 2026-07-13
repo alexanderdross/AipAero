@@ -25,11 +25,11 @@ _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 # Landing sites use an "LS" prefix ("BI-LS BITM ..." page URLs). Match
 # only the English top-level chapters: no digit right before "en-GB".
 # The aggregate "AD 2en-GBdetails" section stays as fallback (it held
-# just BITN + BITM on the live menu).
-_CHAPTER_RE = re.compile(r"^(?:AD|LS) ([A-Z]{4}) .*(?<!\d)en-GBdetails$")
-# Titles look like "AD BIAR AKUREYRI - AKUREYRI" - strip the "AD BIAR "
-# prefix (the base default expects the "AD 2.XXXX" style instead).
-_TITLE_PREFIX_RE = re.compile(r"^(?:AD|LS)\s+[A-Z]{4}\s*", re.I)
+# just BITN + BITM on the live menu). Some fields match TWICE (run
+# 29264498572 emitted "BIAR | BIAR" and "BIAR | AKUREYRI - AKUREYRI 8
+# BIAR"), so extraction dedupes by ICAO and takes the title from the
+# id itself (group 2) instead of the sibling title div.
+_CHAPTER_RE = re.compile(r"^(?:AD|LS) ([A-Z]{4}) (.*?)(?<!\d)en-GBdetails$")
 
 _FRAME_CHAINS = (
     ["eAISNavigationBase", "eAISNavigation"],
@@ -80,6 +80,51 @@ class IS(HttpEurocontrolBase):
         self.logger.info(f"IS edition (effective {effective}): {folder}")
         return folder
 
+    def _extract_chapters(self, nav_html: str, nav_url: str) -> list[Airport]:
+        """One airport per AD/LS chapter, deduped by ICAO.
+
+        The title comes from the chapter id itself ("AD BIAR AKUREYRI -
+        AKUREYRI..." -> "AKUREYRI - AKUREYRI BIAR") - the sibling title
+        div is unreliable here (empty for parents, sub-page labels for
+        the nested duplicates). The first div per ICAO that carries a
+        charts link wins (document order: the parent chapter).
+        """
+        soup = self.soup(nav_html)
+        by_icao: dict[str, Airport] = {}
+        for details in soup.find_all("div", attrs={"id": _CHAPTER_RE}):
+            match = _CHAPTER_RE.search(details["id"])
+            if not match:  # pragma: no cover - find_all already matched
+                continue
+            icao = match.group(1)
+            if icao in by_icao:
+                continue
+            charts_url = self._find_charts_url(details, nav_url)
+            if charts_url is None:
+                # A nested duplicate may still carry the link - only
+                # warn once no div for this ICAO produced one.
+                continue
+            name = " ".join(match.group(2).split())
+            by_icao[icao] = Airport(
+                country=self.country,
+                icao=icao,
+                title=f"{name} {icao}".strip() if name else icao,
+                url=charts_url,
+                type="vfr",
+            )
+        if not by_icao:
+            candidates = sorted(
+                {
+                    el["id"]
+                    for el in soup.find_all(attrs={"id": True})
+                    if "details" in el["id"].lower()
+                }
+            )[:60]
+            raise ValueError(
+                f"No AD/LS chapters matching {_CHAPTER_RE.pattern!r} in "
+                f"{nav_url}. Available *details ids: {candidates}"
+            )
+        return list(by_icao.values())
+
     def _enter_nav(self, folder: str) -> tuple[str, str]:
         last_error: Exception | None = None
         for candidate in _INDEX_CANDIDATES:
@@ -107,15 +152,7 @@ class IS(HttpEurocontrolBase):
             last_url, last_html = nav_url, nav_html
 
             try:
-                airports.extend(
-                    self.extract_airports_per_chapter(
-                        nav_html,
-                        nav_url,
-                        _CHAPTER_RE,
-                        "vfr",
-                        title_prefix_re=_TITLE_PREFIX_RE,
-                    )
-                )
+                airports.extend(self._extract_chapters(nav_html, nav_url))
             except ValueError as e:
                 self.logger.warning(
                     f"IS: per-chapter parse failed ({e}); "

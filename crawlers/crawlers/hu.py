@@ -48,6 +48,13 @@ class HU(HttpEurocontrolBase):
     "vfr" (NO/PL/SE convention), heliport chapters fail-soft.
     """
 
+    # Chart-PDF extraction (recon run 29264498572, crawlers/recon/
+    # pdf-recon-batch1.md): explicit chart-type codes in the filenames,
+    # e.g. LH_AD_2_LHBC_VAC_en.pdf / ..._ADC_en.pdf. Anchor texts are
+    # hrefs, so match on href; VAC (visual approach) preferred.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_VAC_en\.pdf$", r"_ADC_en\.pdf$")
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 

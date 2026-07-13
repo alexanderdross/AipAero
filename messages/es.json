@@ -1,0 +1,311 @@
+{
+  "BreadCrumbs": {
+    "label": "Ruta de navegación",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "España (Español)",
+      "hrefTitle": "AIP España"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Publicación de información aeronáutica AIP VFR España"
+    },
+    "/airport-list": {
+      "title": "Lista de aeropuertos",
+      "hrefTitle": "Lista de aeropuertos de España"
+    },
+    "/terms": {
+      "title": "Condiciones de uso",
+      "hrefTitle": "Condiciones de uso - AIP:Aero España"
+    },
+    "/efb": {
+      "title": "Guía EFB",
+      "hrefTitle": "Guía EFB - AIP:Aero en tu tableta"
+    }
+  },
+  "Menu": {
+    "label": "Menú",
+    "home": {
+      "title": "AIP España",
+      "hrefTitle": "AIP España"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Publicación de información aeronáutica AIP VFR España"
+    },
+    "airports": {
+      "title": "Lista de aeropuertos",
+      "hrefTitle": "Lista de aeropuertos de España"
+    }
+  },
+  "AirportsPage": {
+    "title": "Lista de aeropuertos de España",
+    "metaTitle": "🛩️ Lista de aeropuertos de España",
+    "description": "Todos los aeropuertos y aeródromos de España de un vistazo",
+    "metaDescription": "Todos los aeropuertos y aeródromos de España de un vistazo🗺️",
+    "vfrCard": {
+      "title": "Aeródromos VFR",
+      "description": "Aeródromos VFR en España",
+      "linkTitle": "Consulta y descarga aquí las cartas AIP VFR y la carta de aproximación visual de {airport}."
+    },
+    "heliportCard": {
+      "title": "Helipuertos",
+      "description": "Helipuertos en España",
+      "linkTitle": "Consulta y descarga aquí las cartas AIP VFR y las cartas de aproximación del helipuerto {airport}."
+    },
+    "breadcrumb": {
+      "name": "Lista de aeropuertos de España",
+      "alternateName": "Lista de aeropuertos de España",
+      "description": "Todos los aeropuertos y aeródromos de España de un vistazo"
+    }
+  },
+  "VfrPage": {
+    "title": "Buscador de cartas de aproximación AIP VFR España",
+    "metaTitle": "🛩️ Buscador de cartas de aproximación AIP VFR España",
+    "description": "Introduce el nombre del aeródromo o su código OACI para acceder a las cartas de aproximación VFR publicadas por ENAIRE.",
+    "metaDescription": "Busca aeródromos AIP VFR España AD y descarga cartas de aproximación🗺️",
+    "searchTitle": "Introduce el nombre del aeródromo o su código OACI para acceder al AIP VFR",
+    "searchPlaceholder": "Introduce el nombre del aeródromo o su código OACI para acceder al AIP VFR",
+    "resultTitle": "Cartas AIP VFR de {airport}",
+    "resultDescription": "Consulta y descarga aquí las cartas AIP VFR y la carta de aproximación visual de {airport}.",
+    "breadcrumb": {
+      "name": "Publicación de información aeronáutica AIP VFR España",
+      "alternateName": "Buscador de cartas de aproximación AIP VFR España",
+      "description": "Busca aeródromos AIP VFR España AD y descarga cartas de aproximación"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Cambiar idioma",
+    "locale": "{locale, select, es {🇪🇸 Español} en {🇬🇧 English} other {Desconocido}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Cartas de aproximación y publicación de información aeronáutica AIP de España",
+    "alternateName": "AIP España",
+    "description": "Aquí puedes descargar todas las publicaciones de información aeronáutica AIP (Aeronautical Information Publication) y cartas de aproximación de España",
+    "inLanguage": "es",
+    "url": "https://aip.aero/es/"
+  },
+  "CountryPage": {
+    "title": "Cartas de aproximación y publicación de información aeronáutica AIP de España",
+    "metaTitle": "🛩️ Cartas de aproximación y publicación de información aeronáutica AIP de España",
+    "description": "Aquí puedes descargar todas las publicaciones de información aeronáutica AIP (Aeronautical Information Publication) y cartas de aproximación de España",
+    "metaDescription": "Aquí puedes descargar todas las publicaciones de información aeronáutica AIP (Aeronautical Information Publication) y cartas de aproximación de España🗺️",
+    "vfrCard": {
+      "title": "Publicación de información aeronáutica AIP VFR",
+      "description": "Busca aeródromos AIP VFR España AD y descarga cartas de aproximación",
+      "buttonTitle": "Publicación de información aeronáutica AIP VFR",
+      "buttonHref": "/es/vfr/",
+      "buttonHrefTitle": "Publicación de información aeronáutica AIP VFR España"
+    },
+    "airportListCard": {
+      "title": "Lista de aeropuertos",
+      "description": "Todos los aeropuertos y aeródromos de España de un vistazo - con descarga sin conexión e información de aduanas y combustible",
+      "buttonTitle": "Lista de aeropuertos",
+      "buttonHref": "/es/lista-de-aeropuertos-espana/",
+      "buttonHrefTitle": "Lista de aeropuertos de España"
+    },
+    "breadcrumb": {
+      "name": "AIP España",
+      "alternateName": "Cartas de aproximación y publicación de información aeronáutica AIP de España",
+      "description": "Aquí puedes descargar todas las publicaciones de información aeronáutica AIP (Aeronautical Information Publication) y cartas de aproximación de España"
+    }
+  },
+  "About": {
+    "title": "¿Para qué sirve esta web?",
+    "description": "La <aip>publicación de información aeronáutica AIP de España</aip> está disponible en versión gratuita. Esta web tiene como objetivo simplificar la búsqueda de aeródromos, ya que la versión de ENAIRE no incluye una función de búsqueda. No asumimos ninguna responsabilidad por la exactitud o la actualidad de la AIP (Aeronautical Information Publication), ya que no la gestionamos nosotros. Solo proporcionamos enlaces prácticos a las cartas de aproximación correspondientes.",
+    "aipUrl": "https://aip.enaire.es/AIP/",
+    "aipTitle": "AIP España"
+  },
+  "TradeAero": {
+    "title": "¿Quieres comprar o vender una aeronave?",
+    "description": "Descubre aeronaves en venta en España en Trade:Aero - el mercado para comprar y vender aeronaves.",
+    "buttonTitle": "Trade:Aero - el mayor mercado de aeronaves de Europa",
+    "buttonHrefTitle": "Trade:Aero - el mayor mercado de aeronaves de Europa"
+  },
+  "Footer": {
+    "navTitle": "Navegación",
+    "legalTitle": "Legal y contacto",
+    "partnersTitle": "Socios",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "Página de inicio de AIP:Aero - AIP y cartas de aproximación para Europa"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Inicio",
+      "hrefTitle": "Inicio - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Aviso legal",
+      "hrefTitle": "Aviso legal - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contacto",
+      "hrefTitle": "Contacto - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Política de privacidad",
+      "hrefTitle": "Política de privacidad - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Web de Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Condiciones de uso",
+      "hrefTitle": "Condiciones de uso - AIP:Aero España"
+    },
+    "efb": {
+      "title": "Guía EFB",
+      "hrefTitle": "AIP:Aero en tu EFB - instalación, cartas sin conexión, importación"
+    }
+  },
+  "Error": {
+    "description": "<p>Lo sentimos, se ha producido un error.</p><p>Puedes intentar <retry>recargar esta página</retry>.</p>",
+    "title": "¡Algo ha salido mal!"
+  },
+  "NotFound": {
+    "title": "404 - Página no encontrada",
+    "description": "Esta página o este código de aeropuerto no existe. Prueba a buscar el aeródromo:",
+    "searchPlaceholder": "Busca cualquier aeródromo por nombre o código OACI",
+    "home": "Volver a la página de inicio"
+  },
+  "Weather": {
+    "title": "Meteorología",
+    "observed": "Observado",
+    "forecast": "Pronóstico",
+    "wind": "Viento",
+    "visibility": "Visibilidad",
+    "clouds": "Nubes",
+    "temperature": "Temperatura",
+    "qnh": "QNH",
+    "source": "Fuente",
+    "elevation": "Elevación",
+    "sunrise": "Salida del sol",
+    "sunset": "Puesta del sol",
+    "civilTwilight": "Crepúsculo civil",
+    "facts": "Datos del aeródromo",
+    "runways": "Pistas",
+    "frequencies": "Frecuencias",
+    "decode": "Mostrar descodificado",
+    "openingHours": "Horario",
+    "fuel": "Combustible",
+    "ppr": "PPR",
+    "pprRequired": "Se requiere permiso previo",
+    "nearest": "Meteorología del aeródromo más cercano {station} (a {km} km)",
+    "circuit": "Circuito de tráfico",
+    "circuitLeft": "izquierda",
+    "circuitRight": "derecha",
+    "windComponents": "Componentes del viento",
+    "headwind": "Viento de cara",
+    "tailwind": "Viento de cola",
+    "crosswind": "Viento cruzado",
+    "fromLeft": "desde la izquierda",
+    "fromRight": "desde la derecha",
+    "landingDirection": "Dirección de aterrizaje probable",
+    "aerodromeType": "Tipo de aeródromo",
+    "surface": "Superficie"
+  },
+  "Common": {
+    "openIn": "Abrir en",
+    "homeLink": "AIP:Aero - Publicaciones de información aeronáutica (AIP) y cartas de aproximación para Europa",
+    "lastUpdated": "Última actualización",
+    "viewOnMap": "Ver en Google Maps",
+    "location": "Ubicación",
+    "website": "Sitio web",
+    "address": "Dirección",
+    "coordinates": "Coordenadas",
+    "phone": "Teléfono",
+    "map": "Mapa",
+    "locate": "Encontrar mi ubicación",
+    "locateError": "No se ha podido determinar tu ubicación",
+    "nearby": "Aeródromos cercanos",
+    "restaurant": "Restaurante",
+    "customs": "Aduanas",
+    "yes": "Sí",
+    "no": "No",
+    "saveOffline": "Guardar sin conexión",
+    "savedOffline": "Guardado sin conexión",
+    "installHint": "Instala como aplicación: abre el menú de compartir de tu navegador y elige 'Añadir a pantalla de inicio'. Después abre la aplicación una vez con conexión y vuelve a guardar tus aeródromos allí - la aplicación tiene su propio almacenamiento sin conexión.",
+    "installHintMac": "En Mac: instala desde el menú de compartir de Safari con 'Añadir al Dock'. Después abre la aplicación una vez con conexión y vuelve a guardar tus aeródromos allí - la aplicación tiene su propio almacenamiento sin conexión.",
+    "bulkDownload": "Guardar las {count} páginas sin conexión (aprox. {size} MB)",
+    "bulkDownloaded": "Disponible sin conexión",
+    "bulkUpdate": "Actualizar",
+    "bulkRemove": "Eliminar",
+    "bulkProgress": "Guardando páginas",
+    "bulkCancel": "Cancelar",
+    "bulkError": "La descarga ha fallado - inténtalo de nuevo",
+    "bulkNoSpace": "No hay suficiente espacio de almacenamiento libre en este dispositivo",
+    "bulkScope": "Incluye: todas las páginas de aeródromos con sus datos. No incluye: los PDF de cartas de aproximación (pueden guardarse por aeródromo) ni la meteorología en vivo (requiere conexión).",
+    "pavedRunway": "Pista pavimentada",
+    "favorites": "Favoritos",
+    "recentlyViewed": "Vistos recientemente",
+    "borderCrossing": "Cruce de fronteras",
+    "alsoAvailable": "También disponible:"
+  },
+  "Chart": {
+    "allCharts": "Todas las cartas ({count})",
+    "title": "Carta de aproximación",
+    "openPdf": "Abrir PDF de la carta",
+    "preview": "Mostrar vista previa"
+  },
+  "TermsPage": {
+    "title": "Condiciones de uso",
+    "intro": "AIP:Aero es un servicio gratuito de búsqueda e indexación de publicaciones de información aeronáutica (AIP), cartas de aproximación y datos de aeropuertos en Europa.",
+    "servicesTitle": "Nuestro servicio",
+    "servicesText": "AIP:Aero permite encontrar aeródromos por nombre o código OACI y lleva directamente a la publicación AIP oficial del país correspondiente. Además, nuestras páginas de aeródromos incorporan información complementaria como informes meteorológicos (METAR/TAF), datos del aeródromo (pistas, frecuencias, elevación), mapas y datos de contacto; las páginas también pueden guardarse para su uso sin conexión. El servicio es gratuito y no requiere registro.",
+    "disclaimerTitle": "Exención de responsabilidad",
+    "disclaimerText": "AIP:Aero no puede ser considerado responsable en ningún caso. No publicamos documentos aeronáuticos por nuestra cuenta: solo enlazamos a la última AIP (Aeronautical Information Publication) puesta a disposición por el proveedor oficial del país correspondiente. Lo mismo se aplica a los datos meteorológicos (METAR/TAF) y a los datos de aeropuertos: esta información se incorpora en nuestras páginas, pero procede de las fuentes externas indicadas a continuación. No asumimos ninguna responsabilidad ni garantía por la exactitud, integridad o actualidad del contenido enlazado o incorporado, ni por la disponibilidad de esta web. Esta web no sustituye la preparación oficial del vuelo: el piloto al mando es el único responsable de obtener y verificar toda la información necesaria para un vuelo.",
+    "sourcesTitle": "Fuentes de datos",
+    "sourcesIntro": "Obtenemos los datos enlazados e incorporados de las siguientes fuentes (direcciones en texto plano, deliberadamente no clicables):",
+    "sourcesAip": "Publicaciones AIP oficiales a las que enlazamos",
+    "sourcesData": "Datos externos incorporados",
+    "srcAwc": "meteorología METAR/TAF y datos de aeropuertos",
+    "srcOurAirports": "datos básicos de aeropuertos",
+    "srcOpenAip": "datos ampliados de aeródromos: pistas, frecuencias, combustible",
+    "srcOsm": "mapas y direcciones",
+    "metaTitle": "Condiciones de uso - AIP:Aero España",
+    "metaDescription": "Condiciones de uso de AIP:Aero, el buscador gratuito de AIP y cartas de aproximación para España y Europa: descripción del servicio, exención de responsabilidad y fuentes de datos."
+  },
+  "EfbPage": {
+    "title": "Usa AIP:Aero en tu EFB",
+    "intro": "Cómo instalar AIP:Aero en tu tableta EFB, guardar cartas de aproximación sin conexión, descargar países enteros y enviar aeródromos a tus herramientas de planificación - paso a paso.",
+    "metaTitle": "Guía EFB España - AIP y cartas de aproximación en tu tableta | AIP:Aero",
+    "metaDescription": "Instala AIP:Aero como aplicación en tu tableta EFB, guarda cartas de aproximación sin conexión, descarga países enteros e importa PDF de cartas en ForeFlight, SkyDemon y más (España).",
+    "installTitle": "Instalar como aplicación (PWA)",
+    "installText": "AIP:Aero es una aplicación web instalable: se abre a pantalla completa como una aplicación nativa y todo lo que guardes queda disponible sin conexión. No necesitas ninguna tienda de aplicaciones.",
+    "installIos": "iPad / iPhone (Safari): abre aip.aero, pulsa el icono de compartir y luego \"Añadir a pantalla de inicio\".",
+    "installAndroid": "Android (Chrome): abre aip.aero, pulsa el menú y luego \"Añadir a pantalla de inicio\" / \"Instalar aplicación\".",
+    "offlineTitle": "Guardar aeródromos individuales sin conexión",
+    "offlineText": "Cada página de detalle tiene un botón \"Guardar sin conexión\". Almacena la página y, cuando la AIP publica uno, el PDF de la carta de aproximación en tu dispositivo; el aeródromo aparece después en favoritos en la página del país. Las copias guardadas muestran su fecha de descarga.",
+    "bulkTitle": "Descargar un país entero",
+    "bulkText": "Desde la lista de aeropuertos puedes descargar de una vez todas las páginas de detalle de un país (solo páginas, sin los PDF de cartas - esos se guardan por aeródromo). El paquete muestra su tamaño antes de la descarga y puede actualizarse o eliminarse en cualquier momento.",
+    "importTitle": "PDF de cartas en ForeFlight, SkyDemon y más",
+    "importText": "Cuando la AIP nacional publica PDF de cartas, el recuadro de cartas de la página de detalle enlaza al PDF vigente incluida su fecha AIRAC. Descárgalo e impórtalo en tu aplicación EFB como contenido propio, p. ej. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) o Garmin Pilot. Alemania publica páginas HTML en lugar de PDF - usa allí el enlace a la AIP.",
+    "toolsTitle": "Enlace con herramientas de planificación",
+    "toolsText": "El recuadro de ubicación de cada página de detalle abre el mismo aeródromo directamente en SkyVector, Windy y autorouter - práctico para planificar rutas, consultar modelos meteorológicos y presentar planes de vuelo.",
+    "weatherTitle": "Información meteorológica en la página",
+    "weatherText": "Las páginas de detalle muestran METAR/TAF en vivo con descodificación en lenguaje claro, la insignia de categoría de vuelo y las componentes de viento de cara y cruzado por pista - una comprobación rápida, no un sustituto de tu briefing oficial.",
+    "customsTitle": "Aduanas y cruce de fronteras",
+    "customsText": "Las páginas de detalle muestran si un aeródromo ofrece despacho de aduanas; cuando la AIP nacional lo recoge en GEN 1.2, el valor está verificado con esa fuente oficial. Para los trámites fronterizos, el recuadro de ubicación enlaza a los formularios oficiales (p. ej. el General Aviation Report británico), y el mapa puede filtrar por aeródromos con aduanas. Las normas cambian - confírmalas siempre con la AIP vigente y la autoridad local.",
+    "disclaimerTitle": "Aviso de seguridad",
+    "disclaimerText": "AIP:Aero enlaza a publicaciones AIP oficiales, pero no es una fuente oficial. Las copias sin conexión llevan su fecha de descarga y pueden quedar obsoletas con cada ciclo AIRAC - comprueba la vigencia de las cartas antes de cada vuelo y obtén siempre un briefing oficial."
+  }
+}

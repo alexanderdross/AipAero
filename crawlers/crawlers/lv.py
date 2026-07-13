@@ -27,6 +27,14 @@ class LV(HttpEurocontrolBase):
     (NO/PL/SE convention), heliports fail-soft as "heliport".
     """
 
+    # Chart-PDF extraction (recon run 29264498572, crawlers/recon/
+    # pdf-recon-batch1.md): positional AD 2.24 numbering, e.g.
+    # 1616_EVAD_2_24_1_20250710.pdf - chart 24_1 is the aerodrome
+    # chart on every sampled field, 24_14 the VAC candidate (present
+    # on EVAD/EVCA/EVGA; promote it to the front once verified).
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_2_24_1_\d{8}\.pdf$", r"_2_24_14_\d{8}\.pdf$")
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
