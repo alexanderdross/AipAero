@@ -350,5 +350,16 @@
     "faq2a": "Alle tilgjengelige land vises på <home>forsiden</home> - dekningen vokser stadig. Hvert landkort viser de tilgjengelige karttypene.",
     "faq3q": "Er kartene oppdaterte?",
     "faq3a": "Kartlenker peker til de offisielle nasjonale AIP-publikasjonene, inkludert AIRAC-dato der det er publisert. Kontroller alltid den offisielle kilden før flyging."
+  },
+  "CountryFaq": {
+    "title": "Ofte stilte spørsmål",
+    "q1": "Hva er AIP Norge?",
+    "a1": "AIP (Aeronautical Information Publication) er Norges offisielle luftfartshåndbok, utgitt av Avinor: flyplassdata, prosedyrer og innflygingskart, oppdatert i den 28-dagers AIRAC-syklusen. AIP:Aero lenker direkte til den offisielle publikasjonen.",
+    "q2": "Er innflygingskartene gratis?",
+    "a2": "Ja - Avinor utgir AIP Norge inkludert innflygingskart gratis, og AIP:Aero er også gratis: ingen konto, intet abonnement.",
+    "q3": "Hvilke kart og flyplasser finnes for Norge?",
+    "a3": "For Norge finner du VFR-flyplasser og helikopterplasser - hver med direkte lenke til det offisielle kartet, dekodet vær (METAR/TAF) og flyplassdata.",
+    "q4": "Kan jeg bruke AIP:Aero offline eller på min EFB?",
+    "a4": "Ja - AIP:Aero kan installeres som app (PWA), og enkeltplasser eller hele landet kan lagres offline. Se <efb>EFB-guiden</efb>."
   }
 }

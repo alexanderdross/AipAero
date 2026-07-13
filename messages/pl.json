@@ -350,5 +350,16 @@
     "faq2a": "Wszystkie dostępne kraje są wymienione na <home>stronie głównej</home> - zasięg stale rośnie. Każda karta kraju pokazuje dostępne typy map.",
     "faq3q": "Czy mapy są aktualne?",
     "faq3a": "Linki do map prowadzą do oficjalnych krajowych publikacji AIP, wraz z datą AIRAC tam, gdzie jest publikowana. Przed lotem zawsze sprawdź oficjalne źródło."
+  },
+  "CountryFaq": {
+    "title": "Często zadawane pytania",
+    "q1": "Czym jest AIP Polska?",
+    "a1": "AIP (Zbiór Informacji Lotniczych) to oficjalny podręcznik lotniczy Polski, wydawany przez PAŻP (PANSA): dane lotnisk, procedury i mapy podejścia, aktualizowane w 28-dniowym cyklu AIRAC. AIP:Aero prowadzi bezpośrednio do oficjalnej publikacji.",
+    "q2": "Czy mapy podejścia są bezpłatne?",
+    "a2": "Tak - PAŻP publikuje AIP Polski wraz z mapami podejścia bezpłatnie, a AIP:Aero również jest bezpłatne: bez konta, bez abonamentu.",
+    "q3": "Jakie mapy i lotniska są dostępne dla Polski?",
+    "a3": "Dla Polski znajdziesz lotniska VFR i lądowiska śmigłowcowe - każde z bezpośrednim linkiem do oficjalnej mapy, odkodowaną pogodą (METAR/TAF) i danymi lotniska.",
+    "q4": "Czy mogę korzystać z AIP:Aero offline lub na moim EFB?",
+    "a4": "Tak - AIP:Aero można zainstalować jako aplikację (PWA), a pojedyncze lotniska lub cały kraj można zapisać offline. Zobacz <efb>przewodnik EFB</efb>."
   }
 }

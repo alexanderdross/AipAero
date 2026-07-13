@@ -320,5 +320,16 @@
     "faq2a": "Vse razpoložljive države so navedene na <home>začetni strani</home> - pokritost nenehno raste. Vsaka kartica države prikazuje razpoložljive vrste kart.",
     "faq3q": "Ali so karte ažurne?",
     "faq3a": "Povezave do kart vodijo na uradne nacionalne publikacije AIP, vključno z datumom AIRAC, kjer je objavljen. Pred letom vedno preveri uradni vir."
+  },
+  "CountryFaq": {
+    "title": "Pogosta vprašanja",
+    "q1": "Kaj je AIP Slovenija?",
+    "a1": "AIP (zbornik letalskih informacij) je uradni letalski priročnik Slovenije, ki ga izdaja Slovenia Control: podatki o letališčih, postopki in karte prileta, posodobljeni v 28-dnevnem ciklu AIRAC. AIP:Aero vodi neposredno do uradne publikacije.",
+    "q2": "So karte prileta brezplačne?",
+    "a2": "Da - Slovenia Control objavlja AIP Slovenije skupaj s kartami prileta brezplačno, in tudi AIP:Aero je brezplačen: brez računa, brez naročnine.",
+    "q3": "Katere karte in letališča so na voljo za Slovenijo?",
+    "a3": "Za Slovenijo najdete letališča VFR - vsako z neposredno povezavo do uradne karte, dekodiranim vremenom (METAR/TAF) in podatki o letališču.",
+    "q4": "Ali lahko AIP:Aero uporabljam brez povezave ali na svojem EFB?",
+    "a4": "Da - AIP:Aero se namesti kot aplikacija (PWA), posamezna letališča ali celotno državo pa lahko shranite za uporabo brez povezave. Glejte <efb>vodnik EFB</efb>."
   }
 }

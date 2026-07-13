@@ -19,6 +19,7 @@ import {
   rootDescription,
   rootTitle,
 } from "~/lib/utils";
+import { SectionHeading } from "~/components/section-heading";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
@@ -388,16 +389,27 @@ export default async function RootPage() {
               }),
             }}
           />
-          <div className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* max-w-3xl: the card hugs its content instead of floating text in
+              a much wider box; native <details> accordion: no client JS,
+              SSR-collapsed (no CLS), answers stay in the crawlable HTML. */}
+          <div className="mx-auto mt-16 max-w-3xl px-4 sm:px-6 lg:px-8">
             <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
-              <h2 className="text-center text-xl font-semibold tracking-tight">
+              <SectionHeading className="text-center text-xl font-semibold tracking-tight">
                 Frequently asked questions
-              </h2>
-              <div className="mx-auto mt-6 flex max-w-3xl flex-col gap-5">
+              </SectionHeading>
+              <div className="divide-drossgray-dark/10 mt-4 divide-y">
                 {faq.map(({ q, a, link }) => (
-                  <div key={q}>
-                    <h3 className="font-semibold">{q}</h3>
-                    <p className="text-drossgray-dark mt-1">
+                  <details key={q} className="group py-1">
+                    <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between gap-x-2 py-2 [&::-webkit-details-marker]:hidden">
+                      <h3 className="font-semibold">{q}</h3>
+                      <span
+                        aria-hidden="true"
+                        className="text-drossgray-dark shrink-0 transition-transform group-open:rotate-90"
+                      >
+                        ›
+                      </span>
+                    </summary>
+                    <p className="text-drossgray-dark pb-3">
                       {a}
                       {link && (
                         <>
@@ -416,7 +428,7 @@ export default async function RootPage() {
                         </>
                       )}
                     </p>
-                  </div>
+                  </details>
                 ))}
               </div>
             </div>

@@ -13,6 +13,7 @@ import {
 import { AboutCountryBox } from "~/components/about-country-box";
 import { Box } from "~/components/box";
 import { BreadCrumbs } from "~/components/breadcrumbs";
+import { CountryFaq } from "~/components/country-faq";
 import { FavoritesRecent } from "~/components/favorites-recent";
 import { Hero } from "~/components/hero";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
@@ -199,6 +200,11 @@ export default async function CountryPage(
 
       {/* About AIP Box */}
       <AboutCountryBox isH3={true} />
+
+      {/* Country-specific FAQ (visible text + FAQPage JSON-LD from the same
+          strings) - targets the "aip <country>" / free-charts / chart-type
+          query clusters from the Search Console data. */}
+      <CountryFaq locale={locale} />
 
       {/* Personal favorites (offline-saved fields) + recently viewed, from
           localStorage. Client-only and at the very bottom: it appears after

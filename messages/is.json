@@ -320,5 +320,16 @@
     "faq2a": "Öll tiltæk lönd eru talin upp á <home>forsíðunni</home> - umfangið vex stöðugt. Hvert landskort sýnir tiltækar kortategundir.",
     "faq3q": "Eru kortin uppfærð?",
     "faq3a": "Kortatenglar vísa á opinberar innlendar AIP-útgáfur, með AIRAC-dagsetningu þar sem hún er birt. Staðfestu alltaf opinberu heimildina fyrir flug."
+  },
+  "CountryFaq": {
+    "title": "Algengar spurningar",
+    "q1": "Hvað er AIP Ísland?",
+    "a1": "AIP (flugmálahandbókin) er opinber flughandbók Íslands, gefin út af Isavia: flugvallagögn, verklag og aðflugskort, uppfærð í 28 daga AIRAC-hringrásinni. AIP:Aero vísar beint á opinberu útgáfuna.",
+    "q2": "Eru aðflugskortin ókeypis?",
+    "a2": "Já - Isavia gefur út AIP Íslands ásamt aðflugskortum án endurgjalds, og AIP:Aero er einnig ókeypis: enginn aðgangur, engin áskrift.",
+    "q3": "Hvaða kort og flugvellir eru í boði fyrir Ísland?",
+    "a3": "Fyrir Ísland finnur þú VFR-flugvelli - hver með beinum tengli á opinbera kortið, afkóðað veður (METAR/TAF) og flugvallagögn.",
+    "q4": "Get ég notað AIP:Aero án nettengingar eða á EFB?",
+    "a4": "Já - AIP:Aero má setja upp sem app (PWA), og hægt er að vista einstaka velli eða allt landið til notkunar án nettengingar. Sjá <efb>EFB-leiðbeiningarnar</efb>."
   }
 }
