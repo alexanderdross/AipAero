@@ -356,9 +356,9 @@
     "q1": "Kas ir AIP Latvija?",
     "a1": "AIP (aeronavigācijas informācijas publikācija) ir Latvijas oficiālā aviācijas rokasgrāmata, ko izdod LGS: lidlauku dati, procedūras un pieejas kartes, atjauninātas 28 dienu AIRAC ciklā. AIP:Aero ved tieši uz oficiālo publikāciju.",
     "q2": "Vai pieejas kartes ir bez maksas?",
-    "a2": "Jā - LGS publicē Latvijas AIP kopā ar pieejas kartēm bez maksas, un arī AIP:Aero ir bezmaksas: bez konta, bez abonementa.",
+    "a2": "Jā - LGS publicē Latvijas AIP kopā ar <list>pieejas kartēm</list> bez maksas, un arī AIP:Aero ir bezmaksas: bez konta, bez abonementa.",
     "q3": "Kādas kartes un lidlauki ir pieejami Latvijai?",
-    "a3": "Latvijai atradīsiet VFR lidlaukus un helikopteru nosēšanās laukumus - katram ir tieša saite uz oficiālo karti, dekodēti laikapstākļi (METAR/TAF) un lidlauka dati.",
+    "a3": "Latvijai atradīsiet <vfr>VFR lidlaukus</vfr> un <heli>helikopteru nosēšanās laukumus</heli> - katram ir tieša saite uz oficiālo karti, dekodēti laikapstākļi (METAR/TAF) un lidlauka dati.",
     "q4": "Vai varu izmantot AIP:Aero bezsaistē vai savā EFB?",
     "a4": "Jā - AIP:Aero var instalēt kā lietotni (PWA), un atsevišķus lidlaukus vai visu valsti var saglabāt bezsaistē. Skatiet <efb>EFB ceļvedi</efb>."
   }

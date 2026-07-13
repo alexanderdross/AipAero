@@ -4,7 +4,7 @@
  * so the hash reads naturally per locale ("Wetter" -> #wetter, "Weather" ->
  * #weather, "In der Naehe" -> #in-der-nahe).
  */
-function slugify(text: string): string {
+export function slugify(text: string): string {
   return text
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -22,15 +22,19 @@ function slugify(text: string): string {
 export function SectionHeading({
   children,
   className,
+  linkTitle,
 }: {
   children: string;
   className?: string;
+  /** Optional SEO/discovery title attribute for the self-anchor link. */
+  linkTitle?: string;
 }) {
   const slug = slugify(children);
   return (
     <h2 id={slug} className={className}>
       <a
         href={`#${slug}`}
+        title={linkTitle}
         className="group inline-flex items-center gap-x-1.5 hover:underline"
       >
         {children}

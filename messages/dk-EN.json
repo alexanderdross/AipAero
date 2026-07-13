@@ -356,9 +356,9 @@
     "q1": "What is the AIP Denmark?",
     "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Denmark, published by Naviair: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
     "q2": "Are the approach charts free?",
-    "a2": "Yes - Naviair publishes the AIP of Denmark including approach charts free of charge, and AIP:Aero is free too: no account, no subscription.",
+    "a2": "Yes - Naviair publishes the AIP of Denmark including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
     "q3": "Which charts and airfields are available for Denmark?",
-    "a3": "For Denmark you will find VFR airfields and heliports - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
+    "a3": "For Denmark you will find <vfr>VFR airfields</vfr> and <heli>heliports</heli> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
     "q4": "Can I use AIP:Aero offline or on my EFB?",
     "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
   }

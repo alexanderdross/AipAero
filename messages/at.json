@@ -356,9 +356,9 @@
     "q1": "Was ist die AIP Österreich?",
     "a1": "Die AIP (Aeronautical Information Publication) ist das offizielle Luftfahrthandbuch für Österreich, herausgegeben von Austro Control: Flugplatzdaten, Verfahren und Anflugkarten, aktualisiert im 28-Tage-AIRAC-Zyklus. AIP:Aero verlinkt direkt auf die offizielle Publikation.",
     "q2": "Sind die Anflugkarten kostenlos?",
-    "a2": "Ja - Austro Control veröffentlicht die AIP für Österreich einschließlich der Anflugkarten kostenlos, und auch AIP:Aero ist kostenlos: kein Konto, kein Abo.",
+    "a2": "Ja - Austro Control veröffentlicht die AIP für Österreich einschließlich der <list>Anflugkarten</list> kostenlos, und auch AIP:Aero ist kostenlos: kein Konto, kein Abo.",
     "q3": "Welche Karten und Flugplätze gibt es für Österreich?",
-    "a3": "Für Österreich finden Sie VFR-Flugplätze und Hubschrauberlandeplätze - jeweils mit direktem Link zur offiziellen Karte, entschlüsseltem Wetter (METAR/TAF) und Flugplatzdaten.",
+    "a3": "Für Österreich finden Sie <vfr>VFR-Flugplätze</vfr> und <heli>Hubschrauberlandeplätze</heli> - jeweils mit direktem Link zur offiziellen Karte, entschlüsseltem Wetter (METAR/TAF) und Flugplatzdaten.",
     "q4": "Kann ich AIP:Aero offline oder auf dem EFB nutzen?",
     "a4": "Ja - AIP:Aero lässt sich als App (PWA) installieren, und einzelne Plätze oder das ganze Land können offline gespeichert werden. Siehe <efb>EFB-Anleitung</efb>."
   }

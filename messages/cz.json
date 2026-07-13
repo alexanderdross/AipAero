@@ -321,9 +321,9 @@
     "q1": "Co je AIP Česko?",
     "a1": "AIP (letecká informační příručka) je oficiální letecká příručka Česka, vydávaná ANS CR: data letišť, postupy a přibližovací mapy, aktualizované v 28denním cyklu AIRAC. AIP:Aero odkazuje přímo na oficiální publikaci.",
     "q2": "Jsou přibližovací mapy zdarma?",
-    "a2": "Ano - ANS CR vydává AIP Česka včetně přibližovacích map zdarma a AIP:Aero je také zdarma: bez účtu, bez předplatného.",
+    "a2": "Ano - ANS CR vydává AIP Česka včetně <list>přibližovacích map</list> zdarma a AIP:Aero je také zdarma: bez účtu, bez předplatného.",
     "q3": "Jaké mapy a letiště jsou pro Česko k dispozici?",
-    "a3": "Pro Česko najdete IFR letiště - každé s přímým odkazem na oficiální mapu, dekódovaným počasím (METAR/TAF) a daty letiště.",
+    "a3": "Pro Česko najdete <ifr>IFR letiště</ifr> - každé s přímým odkazem na oficiální mapu, dekódovaným počasím (METAR/TAF) a daty letiště.",
     "q4": "Mohu AIP:Aero používat offline nebo na svém EFB?",
     "a4": "Ano - AIP:Aero lze nainstalovat jako aplikaci (PWA) a jednotlivá letiště nebo celou zemi lze uložit offline. Viz <efb>průvodce EFB</efb>."
   }

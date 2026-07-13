@@ -326,9 +326,9 @@
     "q1": "What is the AIP Hungary?",
     "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Hungary, published by HungaroControl: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
     "q2": "Are the approach charts free?",
-    "a2": "Yes - HungaroControl publishes the AIP of Hungary including approach charts free of charge, and AIP:Aero is free too: no account, no subscription.",
+    "a2": "Yes - HungaroControl publishes the AIP of Hungary including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
     "q3": "Which charts and airfields are available for Hungary?",
-    "a3": "For Hungary you will find VFR airfields - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
+    "a3": "For Hungary you will find <vfr>VFR airfields</vfr> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
     "q4": "Can I use AIP:Aero offline or on my EFB?",
     "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
   }

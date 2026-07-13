@@ -326,9 +326,9 @@
     "q1": "O que é o AIP Portugal?",
     "a1": "O AIP (publicação de informação aeronáutica) é o manual aeronáutico oficial de Portugal, publicado pela NAV Portugal: dados de aeródromos, procedimentos e cartas de aproximação, atualizados no ciclo AIRAC de 28 dias. O AIP:Aero remete diretamente para a publicação oficial.",
     "q2": "As cartas de aproximação são gratuitas?",
-    "a2": "Sim - a NAV Portugal publica o AIP de Portugal, cartas de aproximação incluídas, gratuitamente, e o AIP:Aero também é gratuito: sem conta, sem subscrição.",
+    "a2": "Sim - a NAV Portugal publica o AIP de Portugal, <list>cartas de aproximação</list> incluídas, gratuitamente, e o AIP:Aero também é gratuito: sem conta, sem subscrição.",
     "q3": "Que cartas e aeródromos estão disponíveis para Portugal?",
-    "a3": "Para Portugal encontra aeródromos VFR - cada um com ligação direta à carta oficial, meteorologia descodificada (METAR/TAF) e dados do aeródromo.",
+    "a3": "Para Portugal encontra <vfr>aeródromos VFR</vfr> - cada um com ligação direta à carta oficial, meteorologia descodificada (METAR/TAF) e dados do aeródromo.",
     "q4": "Posso usar o AIP:Aero offline ou no meu EFB?",
     "a4": "Sim - o AIP:Aero instala-se como aplicação (PWA), e aeródromos individuais ou o país inteiro podem ser guardados offline. Consulte o <efb>guia EFB</efb>."
   }

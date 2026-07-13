@@ -356,9 +356,9 @@
     "q1": "Wat is de AIP Nederland?",
     "a1": "De AIP (Aeronautical Information Publication) is het officiële luchtvaarthandboek van Nederland, uitgegeven door LVNL: vliegvelddata, procedures en naderingskaarten, bijgewerkt in de 28-daagse AIRAC-cyclus. AIP:Aero linkt rechtstreeks naar de officiële publicatie.",
     "q2": "Zijn de naderingskaarten gratis?",
-    "a2": "Ja - LVNL publiceert de AIP van Nederland inclusief naderingskaarten gratis, en ook AIP:Aero is gratis: geen account, geen abonnement.",
+    "a2": "Ja - LVNL publiceert de AIP van Nederland inclusief <list>naderingskaarten</list> gratis, en ook AIP:Aero is gratis: geen account, geen abonnement.",
     "q3": "Welke kaarten en vliegvelden zijn er voor Nederland?",
-    "a3": "Voor Nederland vindt u VFR-vliegvelden en helihavens - elk met een directe link naar de officiële kaart, gedecodeerd weer (METAR/TAF) en vliegvelddata.",
+    "a3": "Voor Nederland vindt u <vfr>VFR-vliegvelden</vfr> en <heli>helihavens</heli> - elk met een directe link naar de officiële kaart, gedecodeerd weer (METAR/TAF) en vliegvelddata.",
     "q4": "Kan ik AIP:Aero offline of op mijn EFB gebruiken?",
     "a4": "Ja - AIP:Aero is te installeren als app (PWA), en losse velden of het hele land kunnen offline worden opgeslagen. Zie de <efb>EFB-gids</efb>."
   }

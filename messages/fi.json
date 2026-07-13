@@ -356,9 +356,9 @@
     "q1": "Mikä on AIP Suomi?",
     "a1": "AIP (ilmailukäsikirja) on Suomen virallinen ilmailujulkaisu, jonka julkaisee Fintraffic ANS: lentopaikkatiedot, menetelmät ja lähestymiskartat, päivitetään 28 päivän AIRAC-syklissä. AIP:Aero vie suoraan viralliseen julkaisuun.",
     "q2": "Ovatko lähestymiskartat ilmaisia?",
-    "a2": "Kyllä - Fintraffic ANS julkaisee Suomen AIP:n lähestymiskarttoineen maksutta, ja myös AIP:Aero on ilmainen: ei tiliä, ei tilausta.",
+    "a2": "Kyllä - Fintraffic ANS julkaisee Suomen AIP:n <list>lähestymiskarttoineen</list> maksutta, ja myös AIP:Aero on ilmainen: ei tiliä, ei tilausta.",
     "q3": "Mitä karttoja ja lentopaikkoja Suomelle on saatavilla?",
-    "a3": "Suomelle löydät VFR-lentopaikat ja helikopterikentät - jokaisella suora linkki viralliseen karttaan, tulkittu sää (METAR/TAF) ja lentopaikan tiedot.",
+    "a3": "Suomelle löydät <vfr>VFR-lentopaikat</vfr> ja <heli>helikopterikentät</heli> - jokaisella suora linkki viralliseen karttaan, tulkittu sää (METAR/TAF) ja lentopaikan tiedot.",
     "q4": "Voinko käyttää AIP:Aeroa offline-tilassa tai EFB:lläni?",
     "a4": "Kyllä - AIP:Aero asennetaan sovelluksena (PWA), ja yksittäiset kentät tai koko maan voi tallentaa offline-käyttöön. Katso <efb>EFB-opas</efb>."
   }

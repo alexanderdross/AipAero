@@ -356,9 +356,9 @@
     "q1": "What is the AIP Greece?",
     "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Greece, published by HANSP: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
     "q2": "Are the approach charts free?",
-    "a2": "Yes - HANSP publishes the AIP of Greece including approach charts free of charge, and AIP:Aero is free too: no account, no subscription.",
+    "a2": "Yes - HANSP publishes the AIP of Greece including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
     "q3": "Which charts and airfields are available for Greece?",
-    "a3": "For Greece you will find VFR airfields and heliports - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
+    "a3": "For Greece you will find <vfr>VFR airfields</vfr> and <heli>heliports</heli> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
     "q4": "Can I use AIP:Aero offline or on my EFB?",
     "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
   }
