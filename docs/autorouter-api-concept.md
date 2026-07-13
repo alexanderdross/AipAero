@@ -150,6 +150,17 @@ gecacht, fail-soft:
   (ein bis :50 fixierter Cache würde sie bis zu 30 min verschlucken),
   die Ausgabeminuten variieren über unsere Länder/Stationen, und der
   Incremental Cache arbeitet mit Dauern, nicht Wanduhr-Zeitpunkten.
+  **Kein If-Modified-Since für einen längeren TTL (Owner-Rückfrage
+  13.07.2026):** Der TTL steuert die PRÜFFREQUENZ; ein Conditional
+  Request macht nur die einzelne Prüfung billiger (304 spart
+  Response-Bytes, nicht den Request) - unsere Kostengröße ist aber
+  Request-Anzahl/Latenz, nicht Bandbreite (wenige KB JSON). Zudem ist
+  `/v1.0/notam` ein Such-Endpunkt; die Doku erwähnt weder ETag noch
+  Last-Modified (der Phase-0-Test-Call loggt die Response-Header zur
+  Sicherheit mit). Falls je Frische unter ~5 min bei geringerer Last
+  nötig wird, ist der richtige Hebel die autorouter
+  **Message-Queue-Facility** (`/wiki/api/message-queue/`, Push statt
+  Poll) - nicht Conditional GETs.
   Warum D1 zusätzlich zum Cache: überlebt Deploys und Tag-/Cache-Busts,
   entkoppelt uns von autorouter-Ausfällen und -Rate-Limits (Schutz der
   Partner-API UND unserer p95-Latenz: D1-Read in Millisekunden statt
