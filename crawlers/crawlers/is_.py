@@ -16,17 +16,20 @@ _EDITION_DATE_RE = re.compile(r"_(\d{4})_(\d{2})_(\d{2})/?$")
 _INDEX_CANDIDATES = ["index-en-GB.html", "index.html", "html/index-en-GB.html", "html/index.html"]
 
 _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
-_AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD-3details", "AD 3details"]
 
-# Run 29259975942: the aggregate "AD 2en-GBdetails" match yielded only
-# BITN + BITM - far short of Iceland's AD 2 (BIKF/BIRK/BIAR/BIEG/...).
-# Isavia most likely lists each aerodrome as its own chapter (like
-# CZ/PT); try that first, tolerant of space/hyphen and a locale infix
-# in the id ("AD 2.BIARdetails" / "AD-2.BIARen-GBdetails"). On a miss
-# the base's diagnostics print the real ids, and the aggregate parse
-# stays as fallback.
-_AD2_CHAPTER_RE = re.compile(r"AD[ -]2\.([A-Z]{4}).*details$")
-_AD3_CHAPTER_RE = re.compile(r"AD[ -]3\.([A-Z]{4}).*details$")
+# Isavia lists each field as its own top-level chapter, in BOTH
+# languages and split into numbered sub-pages (live run 29260894039):
+#   "AD BIAR AKUREYRI - AKUREYRIen-GBdetails"      <- chapter (wanted)
+#   "AD BIAR AKUREYRI - AKUREYRI 1en-GBdetails"    <- sub-page (skip)
+#   "AD BIAR AKUREYRI - AKUREYRIis-ISdetails"      <- Icelandic twin (skip)
+# Landing sites use an "LS" prefix ("BI-LS BITM ..." page URLs). Match
+# only the English top-level chapters: no digit right before "en-GB".
+# The aggregate "AD 2en-GBdetails" section stays as fallback (it held
+# just BITN + BITM on the live menu).
+_CHAPTER_RE = re.compile(r"^(?:AD|LS) ([A-Z]{4}) .*(?<!\d)en-GBdetails$")
+# Titles look like "AD BIAR AKUREYRI - AKUREYRI" - strip the "AD BIAR "
+# prefix (the base default expects the "AD 2.XXXX" style instead).
+_TITLE_PREFIX_RE = re.compile(r"^(?:AD|LS)\s+[A-Z]{4}\s*", re.I)
 
 _FRAME_CHAINS = (
     ["eAISNavigationBase", "eAISNavigation"],
@@ -40,8 +43,9 @@ class IS(HttpEurocontrolBase):
     Root lists dated AIRAC edition folders; the edition is picked by its
     embedded effective date (latest on/before today, like NL/UK). Frameset
     entry and frame-chain layout are resolved from candidate lists - the
-    base's diagnostics print the real ids on a miss. Aerodromes are "vfr"
-    (NO/PL/SE convention), heliports fail-soft.
+    base's diagnostics print the real ids on a miss. Every aerodrome (AD)
+    and landing site (LS) is its own top-level menu chapter; all are
+    emitted as "vfr" (NO/PL/SE convention).
     """
 
     def __init__(self) -> None:
@@ -105,12 +109,16 @@ class IS(HttpEurocontrolBase):
             try:
                 airports.extend(
                     self.extract_airports_per_chapter(
-                        nav_html, nav_url, _AD2_CHAPTER_RE, "vfr"
+                        nav_html,
+                        nav_url,
+                        _CHAPTER_RE,
+                        "vfr",
+                        title_prefix_re=_TITLE_PREFIX_RE,
                     )
                 )
             except ValueError as e:
                 self.logger.warning(
-                    f"IS: per-chapter AD 2 parse failed ({e}); "
+                    f"IS: per-chapter parse failed ({e}); "
                     "falling back to the aggregate section"
                 )
                 airports.extend(
@@ -118,14 +126,6 @@ class IS(HttpEurocontrolBase):
                         nav_html, nav_url, _AD2_SECTION_IDS, "vfr"
                     )
                 )
-            try:
-                airports.extend(
-                    self.extract_airports_per_chapter(
-                        nav_html, nav_url, _AD3_CHAPTER_RE, "heliport"
-                    )
-                )
-            except ValueError:
-                self.logger.info("IS: no AD 3 heliport chapters - skipping")
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)

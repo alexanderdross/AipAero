@@ -24,8 +24,11 @@ _INDEX_CANDIDATES = [
     "eAIP/html/index.html",
 ]
 
-_AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
-_AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD-3details", "AD 3details"]
+# The HU menu has NO aggregate "AD 2" section: every aerodrome is its
+# own top-level chapter with an id like "AD-2.LHBPdetails" (live run
+# 29260894039 listed 8 such ids). Same layout as CZ/PT.
+_AD2_CHAPTER_RE = re.compile(r"AD-2\.([A-Z]{4})details$")
+_AD3_CHAPTER_RE = re.compile(r"AD-3\.([A-Z]{4})details$")
 
 _FRAME_CHAINS = (
     ["eAISNavigationBase", "eAISNavigation"],
@@ -40,8 +43,9 @@ class HU(HttpEurocontrolBase):
     The English AIS portal lists dated AIRAC edition folders; the edition
     is picked by date (latest on/before today, like UK). The frameset
     entry inside the folder is resolved from candidates - a live-run miss
-    prints the folder's real links via the saved error response.
-    Aerodromes are "vfr" (NO/PL/SE convention), heliports fail-soft.
+    prints the folder's real links via the saved error response. The menu
+    lists each aerodrome as its own chapter (like CZ/PT). Aerodromes are
+    "vfr" (NO/PL/SE convention), heliport chapters fail-soft.
     """
 
     def __init__(self) -> None:
@@ -103,16 +107,18 @@ class HU(HttpEurocontrolBase):
             last_url, last_html = nav_url, nav_html
 
             airports.extend(
-                self._extract_section(nav_html, nav_url, _AD2_SECTION_IDS, "vfr")
+                self.extract_airports_per_chapter(
+                    nav_html, nav_url, _AD2_CHAPTER_RE, "vfr"
+                )
             )
             try:
                 airports.extend(
-                    self._extract_section(
-                        nav_html, nav_url, _AD3_SECTION_IDS, "heliport"
+                    self.extract_airports_per_chapter(
+                        nav_html, nav_url, _AD3_CHAPTER_RE, "heliport"
                     )
                 )
             except ValueError:
-                self.logger.info("HU: no AD 3 heliport section - skipping")
+                self.logger.info("HU: no AD 3 heliport chapters - skipping")
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
@@ -126,22 +132,3 @@ class HU(HttpEurocontrolBase):
 
         self.logger.info(f"Found {len(airports)} airports for {self.country}.")
         return airports
-
-    def _extract_section(
-        self,
-        nav_html: str,
-        nav_url: str,
-        id_candidates: list[str],
-        category: str,
-    ) -> list[Airport]:
-        """Extract a menu section, trying each candidate id format in turn."""
-        last_error: Exception | None = None
-        for menu_id in id_candidates:
-            try:
-                return self.extract_airports_from_html(
-                    nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
-                )
-            except ValueError as e:
-                last_error = e
-        assert last_error is not None
-        raise last_error
