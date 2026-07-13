@@ -24,6 +24,10 @@
     "/terms": {
       "title": "Vilkår for bruk",
       "hrefTitle": "Vilkår for bruk - AIP:Aero Norge"
+    },
+    "/efb": {
+      "title": "EFB-guide",
+      "hrefTitle": "EFB-guide - AIP:Aero på nettbrettet"
     }
   },
   "Menu": {
@@ -197,6 +201,10 @@
     "terms": {
       "title": "Vilkår for bruk",
       "hrefTitle": "Vilkår for bruk - AIP:Aero Norge"
+    },
+    "efb": {
+      "title": "EFB-guide",
+      "hrefTitle": "AIP:Aero på din EFB - installasjon, offline kart, import"
     }
   },
   "Error": {
@@ -304,5 +312,27 @@
     "srcOsm": "kart og adresser",
     "metaTitle": "Vilkår for bruk - AIP:Aero Norge",
     "metaDescription": "Vilkår for bruk av AIP:Aero, det gratis AIP- og innflygingskart-søket for Norge og Europa: tjenestebeskrivelse, ansvarsfraskrivelse og datakilder."
+  },
+  "EfbPage": {
+    "title": "Bruk AIP:Aero på din EFB",
+    "intro": "Slik installerer du AIP:Aero på EFB-nettbrettet, lagrer innflygingskart offline, laster ned hele land og sender plasser videre til planleggingsverktøyene dine - steg for steg.",
+    "metaTitle": "EFB-guide Norge - AIP og innflygingskart på nettbrettet | AIP:Aero",
+    "metaDescription": "Installer AIP:Aero som app på EFB-nettbrettet, lagre innflygingskart offline, last ned hele land og importer kart-PDF-er i ForeFlight, SkyDemon m.fl (Norge).",
+    "installTitle": "Installer som app (PWA)",
+    "installText": "AIP:Aero er en installerbar web-app: den åpner i fullskjerm som en native app, og alt du lagrer er tilgjengelig offline. Ingen app store nødvendig.",
+    "installIos": "iPad / iPhone (Safari): åpne aip.aero, trykk på dele-ikonet og deretter \"Legg til på Hjem-skjerm\".",
+    "installAndroid": "Android (Chrome): åpne aip.aero, trykk på menyen og deretter \"Legg til på startsiden\" / \"Installer app\".",
+    "offlineTitle": "Lagre enkeltplasser offline",
+    "offlineText": "Hver detaljside har en \"Lagre offline\"-knapp. Den lagrer siden og, der AIP-en publiserer et, innflygingskartets PDF på enheten din; plassen vises deretter under favoritter på landssiden. Lagrede kopier viser nedlastingsdatoen sin.",
+    "bulkTitle": "Last ned et helt land",
+    "bulkText": "På flyplasslisten kan du laste ned alle detaljsidene til et land på én gang (kun sider, uten kart-PDF-er - de lagrer du per plass). Pakken viser størrelsen før nedlasting og kan når som helst oppdateres eller fjernes.",
+    "importTitle": "Kart-PDF-er i ForeFlight, SkyDemon m.fl.",
+    "importText": "Der den nasjonale AIP-en publiserer kart-PDF-er, lenker kartboksen på detaljsiden til gjeldende PDF inkludert AIRAC-dato. Last den ned og importer den i EFB-appen som eget innhold, f.eks. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) eller Garmin Pilot. Tyskland publiserer HTML-sider i stedet for PDF-er - bruk AIP-lenken der.",
+    "toolsTitle": "Overlevering til planleggingsverktøy",
+    "toolsText": "Posisjonsboksen på hver detaljside åpner samme plass direkte i SkyVector, Windy og autorouter - nyttig for ruteplanlegging, værmodeller og innsending av reiseplan.",
+    "weatherTitle": "Værbriefing på siden",
+    "weatherText": "Detaljsider viser live METAR/TAF med avkoding i klartekst, flykategori-merket og per rullebane mot- og sidevindkomponenter - en rask sjekk, ikke en erstatning for din offisielle briefing.",
+    "disclaimerTitle": "Sikkerhetsmerknad",
+    "disclaimerText": "AIP:Aero lenker til offisielle AIP-publikasjoner, men er ikke en offisiell kilde. Offline-kopier bærer nedlastingsdatoen sin og kan bli utdatert med hver AIRAC-syklus - kontroller kartenes gyldighet før hver flyging og innhent alltid en offisiell briefing."
   }
 }

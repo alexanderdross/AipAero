@@ -24,6 +24,10 @@
     "/terms": {
       "title": "Warunki korzystania",
       "hrefTitle": "Warunki korzystania - AIP:Aero Polska"
+    },
+    "/efb": {
+      "title": "Przewodnik EFB",
+      "hrefTitle": "Przewodnik EFB - AIP:Aero na tablecie"
     }
   },
   "Menu": {
@@ -197,6 +201,10 @@
     "terms": {
       "title": "Warunki korzystania",
       "hrefTitle": "Warunki korzystania - AIP:Aero Polska"
+    },
+    "efb": {
+      "title": "Przewodnik EFB",
+      "hrefTitle": "AIP:Aero na EFB - instalacja, mapy offline, import"
     }
   },
   "Error": {
@@ -304,5 +312,27 @@
     "srcOsm": "mapy i adresy",
     "metaTitle": "Warunki korzystania - AIP:Aero Polska",
     "metaDescription": "Warunki korzystania z AIP:Aero, bezpłatnej wyszukiwarki AIP i map podejścia dla Polska i Europy: opis usługi, wyłączenie odpowiedzialności i źródła danych."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero na twoim EFB",
+    "intro": "Jak zainstalować AIP:Aero na tablecie EFB, zapisać mapy podejścia offline, pobrać całe kraje i przekazać lotniska do narzędzi planowania - krok po kroku.",
+    "metaTitle": "Przewodnik EFB Polska - AIP i mapy podejścia na tablecie | AIP:Aero",
+    "metaDescription": "Zainstaluj AIP:Aero jako aplikację na tablecie EFB, zapisuj mapy podejścia offline, pobieraj całe kraje i importuj PDF-y map do ForeFlight, SkyDemon i innych (Polska).",
+    "installTitle": "Instalacja jako aplikacja (PWA)",
+    "installText": "AIP:Aero to instalowalna aplikacja webowa: otwiera się na pełnym ekranie jak aplikacja natywna, a wszystko co zapiszesz jest dostępne offline. App store nie jest potrzebny.",
+    "installIos": "iPad / iPhone (Safari): otwórz aip.aero, stuknij ikonę udostępniania, potem \"Do ekranu początkowego\".",
+    "installAndroid": "Android (Chrome): otwórz aip.aero, stuknij menu, potem \"Dodaj do ekranu głównego\" / \"Zainstaluj aplikację\".",
+    "offlineTitle": "Zapisywanie pojedynczych lotnisk offline",
+    "offlineText": "Każda strona lotniska ma przycisk \"Zapisz offline\". Zapisuje on stronę oraz, gdy AIP go publikuje, PDF mapy podejścia na twoim urządzeniu; lotnisko pojawia się potem w ulubionych na stronie kraju. Zapisane kopie pokazują datę pobrania.",
+    "bulkTitle": "Pobranie całego kraju",
+    "bulkText": "Z listy lotnisk możesz pobrać wszystkie strony szczegółowe kraju naraz (tylko strony, bez PDF-ów map - te zapisujesz per lotnisko). Pakiet pokazuje rozmiar przed pobraniem i można go w każdej chwili zaktualizować lub usunąć.",
+    "importTitle": "PDF-y map w ForeFlight, SkyDemon i innych",
+    "importText": "Tam gdzie krajowy AIP publikuje PDF-y map, ramka map na stronie lotniska linkuje do aktualnego PDF-a wraz z datą AIRAC. Pobierz go i zaimportuj do aplikacji EFB jako własne materiały, np. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) lub Garmin Pilot. Niemcy publikują strony HTML zamiast PDF-ów - użyj tam linku do AIP.",
+    "toolsTitle": "Przekazanie do narzędzi planowania",
+    "toolsText": "Ramka lokalizacji na każdej stronie otwiera to samo lotnisko bezpośrednio w SkyVector, Windy i autorouter - przydatne do planowania trasy, modeli pogody i składania planu lotu.",
+    "weatherTitle": "Briefing pogodowy na stronie",
+    "weatherText": "Strony szczegółowe pokazują METAR/TAF na żywo z dekodowaniem na zrozumiały język, odznakę kategorii lotu oraz dla każdej drogi startowej składowe wiatru czołowego i bocznego - szybka kontrola, nie zastępstwo oficjalnego briefingu.",
+    "disclaimerTitle": "Uwaga dotycząca bezpieczeństwa",
+    "disclaimerText": "AIP:Aero linkuje do oficjalnych publikacji AIP, ale sam nie jest oficjalnym źródłem. Kopie offline noszą datę pobrania i mogą się dezaktualizować z każdym cyklem AIRAC - sprawdzaj aktualność map przed każdym lotem i zawsze uzyskaj oficjalny briefing przedlotowy."
   }
 }

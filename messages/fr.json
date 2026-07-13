@@ -24,6 +24,10 @@
     "/terms": {
       "title": "Conditions d'utilisation",
       "hrefTitle": "Conditions d'utilisation - AIP:Aero France"
+    },
+    "/efb": {
+      "title": "Guide EFB",
+      "hrefTitle": "Guide EFB - AIP:Aero sur votre tablette"
     }
   },
   "Menu": {
@@ -197,6 +201,10 @@
     "terms": {
       "title": "Conditions d'utilisation",
       "hrefTitle": "Conditions d'utilisation - AIP:Aero France"
+    },
+    "efb": {
+      "title": "Guide EFB",
+      "hrefTitle": "AIP:Aero sur votre EFB - installation, cartes hors ligne, import"
     }
   },
   "Error": {
@@ -304,5 +312,27 @@
     "srcOsm": "cartes et adresses",
     "metaTitle": "Conditions d'utilisation - AIP:Aero France",
     "metaDescription": "Conditions d'utilisation d'AIP:Aero, la recherche gratuite d'AIP et de cartes d'approche pour France et l'Europe : description du service, clause de non-responsabilité et sources de données."
+  },
+  "EfbPage": {
+    "title": "Utiliser AIP:Aero sur votre EFB",
+    "intro": "Comment installer AIP:Aero sur votre tablette EFB, enregistrer des cartes d'approche hors ligne, télécharger des pays entiers et transférer des terrains vers vos outils de préparation - pas à pas.",
+    "metaTitle": "Guide EFB France - AIP et cartes d'approche sur tablette | AIP:Aero",
+    "metaDescription": "Installez AIP:Aero comme application sur votre tablette EFB, enregistrez des cartes hors ligne, téléchargez des pays entiers et importez les PDF dans ForeFlight, SkyDemon et autres (France).",
+    "installTitle": "Installer comme application (PWA)",
+    "installText": "AIP:Aero est une application web installable : elle s'ouvre en plein écran comme une application native et tout ce que vous enregistrez reste disponible hors ligne. Aucun app store nécessaire.",
+    "installIos": "iPad / iPhone (Safari) : ouvrez aip.aero, touchez l'icône de partage, puis \"Sur l'écran d'accueil\".",
+    "installAndroid": "Android (Chrome) : ouvrez aip.aero, touchez le menu, puis \"Ajouter à l'écran d'accueil\" / \"Installer l'application\".",
+    "offlineTitle": "Enregistrer des terrains hors ligne",
+    "offlineText": "Chaque page de terrain possède un bouton \"Enregistrer hors ligne\". Il stocke la page et, quand l'AIP en publie un, le PDF de la carte d'approche sur votre appareil ; le terrain apparaît ensuite dans les favoris de la page pays. Les copies enregistrées affichent leur date de téléchargement.",
+    "bulkTitle": "Télécharger un pays entier",
+    "bulkText": "Depuis la liste des aérodromes, vous pouvez télécharger toutes les pages de détail d'un pays en une fois (pages seules, sans les PDF de cartes - enregistrez-les par terrain). Le pack affiche sa taille avant téléchargement et peut être mis à jour ou supprimé à tout moment.",
+    "importTitle": "PDF de cartes dans ForeFlight, SkyDemon et autres",
+    "importText": "Quand l'AIP nationale publie des PDF de cartes, la boîte cartes de la page de détail renvoie vers le PDF en vigueur avec sa date AIRAC. Téléchargez-le et importez-le dans votre application EFB comme contenu personnalisé, p. ex. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ou Garmin Pilot. L'Allemagne publie des pages HTML au lieu de PDF - utilisez-y le lien AIP.",
+    "toolsTitle": "Transfert vers les outils de préparation",
+    "toolsText": "La boîte localisation de chaque page de détail ouvre le même terrain directement dans SkyVector, Windy et autorouter - pratique pour la préparation de route, les modèles météo et le dépôt de plan de vol.",
+    "weatherTitle": "Briefing météo sur la page",
+    "weatherText": "Les pages de détail affichent METAR/TAF en direct avec décodage en clair, le badge de catégorie de vol et, par piste, les composantes de vent de face et traversier - une vérification rapide, pas un substitut à votre briefing officiel.",
+    "disclaimerTitle": "Avertissement de sécurité",
+    "disclaimerText": "AIP:Aero renvoie vers les publications AIP officielles mais n'est pas une source officielle. Les copies hors ligne portent leur date de téléchargement et peuvent devenir obsolètes à chaque cycle AIRAC - vérifiez la validité des cartes avant chaque vol et obtenez toujours un briefing officiel avant le départ."
   }
 }

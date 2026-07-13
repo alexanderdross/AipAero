@@ -251,6 +251,9 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 | /military  | N  | N  | Y  | N  | N   |
 | /aeroports | N  | N  | Y  | N  | N   |
 | /airport-list | Y | Y | Y | Y  | Y   |
+| /efb       | Y  | Y  | Y  | Y  | Y   |
+
+`/efb` (like `/terms`) exists for **every** locale with a uniform slug: the EFB guide (`src/app/[locale]/efb/page.tsx`, i18n namespace `EfbPage`) explains PWA install, offline saves, country packs, chart-PDF import into ForeFlight/SkyDemon & Co., the open-in hand-offs and the on-page weather briefing. Static, SSR-only, linked from the footer nav group and included in the sitemap automatically (it iterates `routing.pathnames`). Per-locale meta title/description carry the country name for uniqueness - the e2e SEO test enforces global meta-description uniqueness across the whole page matrix.
 
 ### Localized Pathnames
 - `/airport-list` has country-specific slugs:

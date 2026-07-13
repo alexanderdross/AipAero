@@ -115,6 +115,32 @@ const termsPages: TestPage[] = [
   { path: "/se/en/terms/", lang: "en", label: "terms se-EN" },
 ];
 
+// EFB guide pages - every locale (single uniform slug /efb).
+const efbPages: TestPage[] = [
+  { path: "/uk/efb/", lang: "en", label: "efb uk" },
+  { path: "/de/efb/", lang: "de", label: "efb de" },
+  { path: "/de/en/efb/", lang: "en", label: "efb de-EN" },
+  { path: "/fr/efb/", lang: "fr", label: "efb fr" },
+  { path: "/fr/en/efb/", lang: "en", label: "efb fr-EN" },
+  { path: "/nl/efb/", lang: "nl", label: "efb nl" },
+  { path: "/nl/en/efb/", lang: "en", label: "efb nl-EN" },
+  { path: "/at/efb/", lang: "de", label: "efb at" },
+  { path: "/at/en/efb/", lang: "en", label: "efb at-EN" },
+  { path: "/be/efb/", lang: "en", label: "efb be" },
+  { path: "/cz/efb/", lang: "cs", label: "efb cz" },
+  { path: "/cz/en/efb/", lang: "en", label: "efb cz-EN" },
+  { path: "/dk/efb/", lang: "da", label: "efb dk" },
+  { path: "/dk/en/efb/", lang: "en", label: "efb dk-EN" },
+  { path: "/gr/efb/", lang: "el", label: "efb gr" },
+  { path: "/gr/en/efb/", lang: "en", label: "efb gr-EN" },
+  { path: "/no/efb/", lang: "nb", label: "efb no" },
+  { path: "/no/en/efb/", lang: "en", label: "efb no-EN" },
+  { path: "/pl/efb/", lang: "pl", label: "efb pl" },
+  { path: "/pl/en/efb/", lang: "en", label: "efb pl-EN" },
+  { path: "/se/efb/", lang: "sv", label: "efb se" },
+  { path: "/se/en/efb/", lang: "en", label: "efb se-EN" },
+];
+
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */
 export const rootPage: TestPage = { path: "/", lang: "en", label: "root" };
 
@@ -125,6 +151,7 @@ export const allPages: TestPage[] = [
   ...airportListPages,
   ...searchPages,
   ...termsPages,
+  ...efbPages,
 ];
 
 /** A representative subset for the (slower) accessibility sweep. */
@@ -134,4 +161,5 @@ export const a11yPages: TestPage[] = [
   { path: "/de/flughafen-liste-deutschland/", lang: "de", label: "list de" },
   { path: "/de/vfr/", lang: "de", label: "vfr de" },
   { path: "/fr/military/", lang: "fr", label: "military fr" },
+  { path: "/de/efb/", lang: "de", label: "efb de" },
 ];
