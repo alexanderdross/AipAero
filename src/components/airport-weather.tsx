@@ -66,9 +66,13 @@ export function AirportWeather({
         }).format(new Date(metar.obsTime)) + " UTC"
       : null;
 
+  // The degree sign only makes sense for a numeric direction - NOAA reports
+  // "VRB" (variable) as a string, which must render without it ("VRB 3 kt").
+  const wdir =
+    typeof metar?.wdir === "number" ? `${metar.wdir}°` : (metar?.wdir ?? "---");
   const wind =
     metar?.wspd != null
-      ? `${metar.wdir ?? "---"}° ${metar.wspd} kt${metar.wgst ? ` (G ${metar.wgst})` : ""}`
+      ? `${wdir} ${metar.wspd} kt${metar.wgst ? ` (G ${metar.wgst})` : ""}`
       : null;
   const clouds = metar ? formatClouds(metar.clouds) : null;
   const temp =
