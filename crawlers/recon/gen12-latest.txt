@@ -1,42 +1,715 @@
 
 ===== GEN 1.2 FR =====
-   GEN 1.2 page (derived): https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_09_JUL_2026/FRANCE/AIRAC-2026-07-09/html/eAIP/FR-GEN-1.2-fr-FR.html
-   --- table 1:
-     1.2.1 | REGLEMENT CONCERNANT LES AÉRONEFS CIVILS QUI EFFECTU- ENT DES VOLS INTERNATIONAUX | 1.2.1 | REGULATION CONCERNING CIVIL AIRCRAFT WHICH CARRY OUT INTERNATIONAL FLIGHTS
-     GENERALITES | GENERAL
-     Tout survol du territoire Français avec ou sans escale, doit être effectué conformément à la réglementation de l’Aviation Civile applicable dans ce territoire. Tout aéronef en provenance de l’étranger qui pénètre sur le territoire français doit effectuer son premier atterrissage sur un aéroport disposant des contrôles de douane, de police et de santé. De même tout aéronef quittant le territoire fr
-     Même en régime de vol à vue, le dépôt d’un plan de vol est obligatoire pour tout vol devant franchir, en entrée ou en sortie, les frontières terrestres ou maritimes de la France métropolitaine. | Filing of a flight plan is mandatory for every flight crossing a maritime or land border into or out of Metropolitan France, even if flying according to visual flights rules.
-     Note : A GENEVE/Cointrin, par convention avec les autorités suisses, des bureaux de douane et de police français sont installés et les formalités d’entrée et de sortie de France doivent être effectuées auprès de ces services. | Remark : By agreement with the Swiss authorities, French customs and immigration offices are installed at GENEVE/Cointrin; all formalities for entry into and exit from Fran
-   --- table 2:
-     Documents exigés à l’arrivée et au départ des aéronefs : - Manifeste de marchandises : 3 exemplaires. | Documents required on arrival and departure of aircraft : - Goods manifest: in triplicate.
-     - Liste sommaire des provisions de bord, sauf lorsque les provisions de bord restent à bord des appareils sous la surveillance de la douane. | - Succint list of on board food stores, except when said stores remain on board the aircraft under customs surveillance.
-     - Mesures sanitaires applicables aux aéronefs : | - Health requirements applicable to aircrafts:
-     Aucune mesure sanitaire n’est applicable aux aéronefs en période sanitaire normale. | No health requirement applies to aircraft under normal health circums- tances.
-   --- table 3:
-     Régime douanier des aéronefs assurant des services non réguliers | Customs procedures applicable to aircraft flying unscheduted flights
-     Réglementation douanière applicable en matière d’admission temporaire des aéronefs : | Customs regulation applicable to temporary admission for aircraft:
-     Tout aéronef destiné à être utilisé temporairement, avant réexportation, sur le territoire douanier communautaire peut être placé sous le régime douanier de l’admission temporaire. Ce régime permet l’utilisation de l’aéronef en suspension des droits et taxes, sans que l’aéronef ne subisse de modifications. Il suppose que certaines conditions soient remplies. | Any aircraft destined to be temporari
-     - L’aéronef doit être immatriculé en dehors du territoire douanier communautaire, au nom d’une personne établie en dehors de ce territoire. | - The aircraft must be registered outside the community customs territory, in the name of a person established outside this territory.
-     - En principe, il doit être également utilisé par une personne établie en dehors de ce territoire. | - On paper, it must also be used by a person established outside this territory.
-     - En cas d’usage commercial, au sens du droit douanier communautaire (transport de personnes à titre onéreux, transport industriel ou commercial de marchandises à titre gratuit ou onéreux), l’aéronef doit être utilisé exclusivement pour un transport qui commence ou se termine en dehors du territoire douanier communautaire. Toutefois, il peut être utilisé en trafic interne, au sens du droit douanie
-     Formalités de placement : | Placement formalities:
-     Le placement de l’aéronef sous le régime de l’admission temporaire peut se faire de manière simplifiée. | The placement of the aircraft under the temporary admission system can be simplified.
-     L’aéronef est considéré comme présenté en douane lors du franchissement de la frontière. En l'absence d'intervention de la douane, la déclaration pour son placement sous le régime de l'admission temporaire est considérée comme acceptée et la mainlevée comme octroyée lors du franchissement de la frontière. | The aircraft is considered as introduced to customs when the border is crossed. If there is
-     La demande d'autorisation peut également être constituée par une déclaration en douane verbale d'admission temporaire, sous réserve de la présentation d'un inventaire en deux exemplaires. L'autorisation d'admission temporaire est octroyée par le visa de l'inventaire par les autorités douanières qui vaut acceptation de la déclaration en douane. | The authorization request can also be constituted by
-     Toutefois, les autorités douanières peuvent exiger une déclaration en douane écrite lorsque le montant des droits à l'importation est élevé ou lorsqu'il existe un risque sérieux de non-respect des obligations découlant du placement sous le régime. | However, the customs authority can demand a written customs declaration when the amount of import duties is high or when there is a serious possibilit
-     Hormis le cas dans lequel les autorités douanières exigent que le placement sous admission temporaire se fasse par une déclaration écrite, il n’y aura, en principe, pas de garantie à mettre en place. | Excluding the case in which the customs authority demands that the placement under temporary admission must be done through a written declaration, there will be, on paper, no warranty to give.
-     Délais d’utilisation : | Period of use:
-     En cas d’usage commercial, au sens douanier de cette notion (cf. ci-dessus), le délai de séjour sous admission temporaire est limité à la durée nécessaire pour effectuer les opérations de transport. | In the event of commercial use, according to the customs definition of this notion (ref. above), the allowed period of temporary admission is limited to the period needed to perform transportation op
-     En cas d’usage privé, c’est-à-dire à l’exclusion de tout usage commercial au sens précité de cette notion, le délai est de 6 mois. | In the event of private use, i.e. excluding all aforementioned commercial use, the period is fixed at 6 months.
+   GEN-1.2 (fr-FR) failed: HTTPStatusError: Client error '404 Not Found' for url 'https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_09_JUL_2026/FRANCE/AIRAC-2026-07-09/html/eAIP/LF-GEN-1.2-fr-FR.html'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+   GEN-1.2 (en-GB) failed: HTTPStatusError: Client error '404 Not Found' for url 'https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_09_JUL_2026/FRANCE/AIRAC-2026-07-09/html/eAIP/LF-GEN-1.2-en-GB.html'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+   GEN-1.2: no candidate URL worked
+   AD-1.3 (fr-FR) failed: HTTPStatusError: Client error '404 Not Found' for url 'https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_09_JUL_2026/FRANCE/AIRAC-2026-07-09/html/eAIP/LF-AD-1.3-fr-FR.html'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+   AD-1.3 (en-GB) failed: HTTPStatusError: Client error '404 Not Found' for url 'https://www.sia.aviation-civile.gouv.fr/media/dvd/eAIP_09_JUL_2026/FRANCE/AIRAC-2026-07-09/html/eAIP/LF-AD-1.3-en-GB.html'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+   AD-1.3: no candidate URL worked
 
 ===== GEN 1.2 NL =====
-   GEN 1.2 page (derived): https://eaip.lvnl.nl/web/eaip/AIRAC AMDT 07-2026_2026_07_09/eAIP/EH-AD 2 EHAL 14-en-GB.html
-   TXT AD 2 EHAL 14 VAC
+   GEN-1.2 (en-GB) failed: HTTPStatusError: Client error '404 Not Found' for url 'https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2007-2026_2026_07_09/eAIP/EH-GEN-1.2-en-GB.html'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+   GEN-1.2: no candidate URL worked
+   AD-1.3 (en-GB) failed: HTTPStatusError: Client error '404 Not Found' for url 'https://eaip.lvnl.nl/web/eaip/AIRAC%20AMDT%2007-2026_2026_07_09/eAIP/EH-AD-1.3-en-GB.html'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404
+   AD-1.3: no candidate URL worked
 
 ===== GEN 1.2 BE =====
-   GEN 1.2 page (derived): https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/eAIP/EB-GEN-1.2-en-GB.html
-   FAILED - HTTPStatusError: Client error '403 Forbidden' for url 'https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/eAIP/EB-GEN-1.2-en-GB.html'
-For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+   --- GEN-1.2 page: https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/eAIP/EB-GEN-1.2-en-GB.html
+   hdr table 1 (6 rows): Austria | Belgium | Bulgaria | Croatia | Czech Republic
+   TXT EBAW
+   TXT EBBR
+   TXT EBCI
+   TXT EBKT
+   TXT EBLG
+   TXT EBOS
+   TXT EBMB (for VIP flights).
+   TXT EBBR
+   TXT EBBR
+   TXT EBBR
+   --- AD-1.3 page: https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/eAIP/EB-AD-1.3-en-GB.html
+   hdr table 1 (182 rows): Aerodrome / heliport name location indicator | Type of traffic permitted to use the aerodrome / heliport | Reference to aerodrome section and remarks
+     Aerodrome / heliport name location indicator | Type of traffic permitted to use the aerodrome / heliport | Reference to aerodrome section and remarks
+     INTL - NTL | IFR - VFR | S: Scheduled
+     NS: Non-scheduled
+     P: Private
+     1 | 2 | 3 | 4 | 5
+     PUBLIC AERODROMES
+     ANTWERPEN / Deurne EBAW | INTL - NTL | IFR - VFR | S - NS - P | AD 2.EBAW
+     BRUSSELS / Brussels-National EBBR | INTL - NTL | IFR - VFR | S - NS - P | AD 2.EBBR
+     CHARLEROI / Brussels South EBCI | INTL - NTL | IFR - VFR | S - NS - P | AD 2.EBCI
+     KORTRIJK / Wevelgem EBKT | INTL - NTL | IFR - VFR | NS - P | AD 2.EBKT
+     LIÈGE / Liège EBLG | INTL - NTL | IFR - VFR | S - NS - P | AD 2.EBLG
+     LUXEMBOURG / Luxembourg ELLX | INTL - NTL | IFR - VFR | S - NS - P | AD 2.ELLX
+     OOSTENDE-BRUGGE / Oostende EBOS | INTL - NTL | IFR - VFR | S - NS - P | AD 2.EBOS
+     MILITARY AERODROMES
+     BEAUVECHAIN EBBE | - | IFR - VFR | NS | AD 2.MIL-EBBE
+     BERTRIX / Jehonville EBBX* | - | VFR | NS | AD 2.MIL-EBBX
+     BRUSSELS / Melsbroek EBMB | - | IFR - VFR | NS | AD 2.MIL-EBMB
+     CHIÈVRES EBCV* | - | IFR - VFR | NS | AD 2.MIL-EBCV
+     DIEST / Schaffen EBDT | - | VFR | NS | AD 2.MIL-EBDT
+     FLORENNES EBFS | - | IFR - VFR | NS | AD 2.MIL-EBFS
+     KLEINE-BROGEL EBBL | - | IFR - VFR | NS | AD 2.MIL-EBBL
+     KOKSIJDE EBFN | - | IFR - VFR | NS | AD 2.MIL-EBFN
+     SAINT-HUBERT EBSU* | - | VFR | NS | AD 2.MIL-EBSU
+     URSEL EBUL* | - | VFR | NS | AD 2.MIL-EBUL
+     WEELDE EBWE* | - | VFR | NS | AD 2.MIL-EBWE
+     PRIVATE AERODROMES
+     AMOUGIES EBAM* | NTL | VFR | P | AD 2.PVT-EBAM
+     BALEN / Keiheuvel EBKH* | NTL | VFR | P | AD 2.PVT-EBKH
+     BRASSCHAAT EBBT* | NTL | VFR | P | AD 2.PVT-EBBT
+     CERFONTAINE EBCF | NTL | VFR | P | AD 2.PVT-EBCF
+     GENK / Zwartberg EBZW* | NTL | VFR | P | AD 2.PVT-EBZW
+     GERAARDSBERGEN / Overboelare EBGG* | NTL | VFR | P | AD 2.PVT-EBGG
+     GOETSENHOVEN EBTN* | NTL | VFR | P | AD 2.PVT-EBTN
+     GRIMBERGEN/Lint EBGB* | NTL | VFR | P | AD 2.PVT-EBGB
+     HASSELT / Kiewit EBZH* | NTL | VFR | P | AD 2.PVT-EBZH
+     HOEVENEN EBHN* | NTL | VFR | P | AD 2.PVT-EBHN
+     HYDROBASE DE L’EAU D’HEURE EBEH* | NTL | VFR | P | AD 2.PVT-EBEH
+     LEOPOLDSBURG / Beverlo EBLE* | NTL | VFR | P | AD 2.PVT-EBLE
+     MOORSELE EBMO* | NTL | VFR | P | AD 2.PVT-EBMO
+     NAMUR / Suarlée EBNM* | NTL | VFR | P | AD 2.PVT-EBNM
+     NOERTRANGE ELNT* | NTL | VFR | P | AD 2.PVT-ELNT
+     SAINT-GHISLAIN EBSG* | NTL | VFR | P | AD 2.PVT-EBSG
+     SAINT-HUBERT / Saint-Hubert EBSH | NTL | VFR | P | AD 2.PVT-EBSH
+     SINT-TRUIDEN / Brustem EBST* | NTL | VFR | P | AD 2.PVT-EBST
+     SPA / La Sauvenière EBSP | NTL | VFR | P | AD 2.PVT-EBSP
+     TOURNAI / Maubray EBTY* | NTL | VFR | P | AD 2.PVT-EBTY
+     USELDANGE ELUS* | NTL | VFR | P | AD 2.PVT-ELUS
+     VERVIERS / Theux EBTX* | NTL | VFR | P | AD 2.PVT-EBTX
+     ZOERSEL / Oostmalle EBZR* | NTL | VFR | P | AD 2.PVT-EBZR
+     ZUTENDAAL EBSL* | NTL | VFR | P | AD 2.PVT-EBSL
+     ULM AERODROMES
+     ARLON / Sterpenich EBAR* | NTL | VFR | P | AD 2.ULM-EBAR
+     ASSESSE / Maillen EBML* | NTL | VFR | P | AD 2.ULM-EBML
+     ATH / Isières EBIS* | NTL | VFR | P | AD 2.ULM-EBIS
+     BÜLLINGEN EBBN* | NTL | VFR | P | AD 2.ULM-EBBN
+     DOISCHE / Matagne-la-Petite EBMG* | NTL | VFR | P | AD 2.ULM-EBMG
+     GENAPPE / Baisy-Thy EBBY* | NTL | VFR | P | AD 2.ULM-EBBY
+     HANNUT / Avernas-le-Bauduin EBAV* | NTL | VFR | P | AD 2.ULM-EBAV
+     PONT-À-CELLES / Buzet EBBZ* | NTL | VFR | P | AD 2.ULM-EBBZ
+     VRESSE-SUR-SEMOIS / Orchimont EBOR* | NTL | VFR | P | AD 2.ULM-EBOR
+     ZUIENKERKE EBZU* | NTL | VFR | P | AD 2.ULM-EBZU
+     PERSONAL AERODROMES
+     VERREBROEK EBSM* | NTL | VFR | P | AD 2.PERS-EBSM
+     MILITARY HELIPORTS
+     CASTEAU / SHAPE EBCT* | - | VFR | NS | AD 3.MIL-EBCT
+     HOSPITAL HELIPORTS
+     AALST / Onze-Lieve-Vrouwziekenhuis EBAL* | NTL | VFR | P | AD 3.HOSP-EBAL
+     ANTWERPEN / AZ Middelheim EBMD* | NTL | VFR | P | AD 3.HOSP-EBMD
+     BRUGGE / AZ Sint-Jan EBSJ* | NTL | VFR | P | AD 3.HOSP-EBSJ
+     BRUGGE / Sint-Lucas EBSS* | NTL | VFR | P | AD 3.HOSP-EBSS
+     BRUSSELS / UCL EBUC* | NTL | VFR | P | AD 3.HOSP-EBUC
+     EDEGEM / UZA EBEU* | NTL | VFR | P | AD 3.HOSP-EBEU
+     EEKLO / AZ Alma EBEA* | NTL | VFR | P | AD 3.HOSP-EBEA
+     ESCH-SUR-ALZETTE / Centre Hospitalier Emile Mayrisch ELEA* | NTL | VFR | P | AD 3.HOSP-ELEA
+     ETTELBRUCK / Centre Hospitalier du Nord CHdN ELET* | NTL | VFR | P | AD 3.HOSP-ELET
+     GENT / UZ Gent EBGT* | NTL | VFR | P | AD 3.HOSP-EBGT
+     GILLY / Grand Hôpital de Charleroi EBGH* | NTL | VFR | P | AD 3.HOSP-EBGH
+     IEPER / Jan Yperman EBYP* | NTL | VFR | P | AD 3.HOSP-EBYP
+     KNOKKE / AZ Zeno EBKZ* | NTL | VFR | P | AD 3.HOSP-EBKZ
+     KORTRIJK / AZ Groeninge EBKG* | NTL | VFR | P | AD 3.HOSP-EBKG
+     LIÈGE / Citadelle EBLC* | NTL | VFR | P | AD 3.HOSP-EBLC
+     LIEGE / Clinique Montlegia CHC EBCH* | NTL | VFR | P | AD 3.HOSP-EBCH
+     LIÈGE / Sart Tilman EBLS* | NTL | VFR | P | AD 3.HOSP-EBLS
+     LIERNEUX / Centre Hospitalier Spécial l'Accueil EBLX* | NTL | VFR | P | AD 3.HOSP-EBLX
+     LODELINSART / Marie-Curie EBMC* | NTL | VFR | P | AD 3.HOSP-EBMC
+     LUXEMBOURG / Centre Hospitalier de Luxembourg (CHL) ELLC* | NTL | VFR | P | AD 3.HOSP-ELLC
+     LUXEMBOURG / ZITHAKLINIK S.A. Hôpitaux Robert Schuman ELLZ* | NTL | VFR | P | AD 3.HOSP-ELLZ
+     LUXEMBOURG / Hôpital Kirchberg ELLK* | NTL | VFR | P | AD 3.HOSP-ELLK
+     MONTIGNY-LE-TILLEUL EBMT* | NTL | VFR | P | AD 3.HOSP-EBMT
+     NAMUR / Bouge EBNB* | NTL | VFR | P | AD 3.HOSP-EBNB
+     NAMUR / CHU UCL Godinne EBNG* | NTL | VFR | P | AD 3.HOSP-EBNG
+     ROESELARE / AZ Delta EBAD* | NTL | VFR | P | AD 3.HOSP-EBAD
+     VEURNE / Sint-Augustinus EBVS* | NTL | VFR | P | AD 3.HOSP-EBVS
+     PRIVATE HELIPORTS
+     ATH / Ghislenghien EBJS* | NTL | VFR | P | AD 3.PVT-EBJS
+     BRAKEL / Michelbeke EBBM* | NTL | VFR | P | AD 3.PVT-EBBM
+     BRECHT / Vochten EBBV* | NTL | VFR | P | AD 3.PVT-EBBV
+     BRUSSELS / Groot-Bijgaarden EBOK* | NTL | VFR | P | AD 3.PVT-EBOK
+     DIKSMUIDE / Leke EBDV* | NTL | VFR | P | AD 3.PVT-EBDV
+     EVERGEM / Belzele EBEB* | NTL | VFR | P | AD 3.PVT-EBEB
+     FRANCORCHAMPS EBFR* | NTL | VFR | P | AD 3.PVT-EBFR
+     GRACE-HOLLOGNE / Agusta Aerospace Services EBAG* | NTL | VFR | P | AD 3.PVT-EBAG
+     HASSELT / Maasland EBHM* | NTL | VFR | P | AD 3.PVT-EBHM
+     HOLSBEEK EBHO* | NTL | VFR | P | AD 3.PVT-EBHO
+     HOLSBEEK / Kortrijk-Dutsel EBKD* | NTL | VFR | P | AD 3.PVT-EBKD
+     HOUTHALEN EBHT* | NTL | VFR | P | AD 3.PVT-EBHT
+     KALLO EBHF* | NTL | VFR | P | AD 3.PVT-EBHF
+     KIELDRECHT / De Kreek EBTW* | NTL | VFR | P | AD 3.PVT-EBTW
+     KNOKKE / Fort Isabella EBFI* | NTL | VFR | P | AD 3.PVT-EBFI
+     KNOKKE-HEIST / Westkapelle EBKW* | NTL | VFR | P | AD 3.PVT-EBKW
+     KONINGSHOOIKT EBSA* | NTL | VFR | P | AD 3.PVT-EBSA
+     KORTRIJK / Bellegem EBBG* | NTL | VFR | P | AD 3.PVT-EBBG
+     KRUISEM / Hof Van Cleve EBHC* | NTL | VFR | P | AD 3.PVT-EBHC
+     KRUISEM / Sons EBKR* | NTL | VFR | P | AD 3.PVT-EBKR
+     KRUISEM / Wijkhuizenstraat EBKL | NTL | VFR | P | AD 3.PVT-EBKL
+     LIERNEUX / Bra EBMS* | NTL | VFR | P | AD 3.PVT-EBMS
+     LINT EBLT* | NTL | VFR | P | AD 3.PVT-EBLT
+     LO-RENINGE EBRE* | NTL | VFR | P | AD 3.PVT-EBRE
+     LOCHRISTI EBLO* | NTL | VFR | P | AD 3.PVT-EBLO
+     LUMMEN EBLU* | NTL | VFR | P | AD 3.PVT-EBLU
+     MAASMECHELEN EBMM* | NTL | VFR | P | AD 3.PVT-EBMM
+     MALDEGEM / Huysman EBMH* | NTL | VFR | P | AD 3.PVT-EBMH
+     MEERBEEK EBME* | NTL | VFR | P | AD 3.PVT-EBME
+     MEETKERKE / Nachtegaele EBMN* | NTL | VFR | P | AD 3.PVT-EBMN
+     MERCHTEM / Stephex EBCM* | NTL | VFR | P | AD 3.PVT-EBCM
+     MEULEBEKE EBLM* | NTL | VFR | P | AD 3.PVT-EBLM
+     MOERKERKE / Den Hoorn EBTM* | NTL | VFR | P | AD 3.PVT-EBTM
+     NEVELE EBGU* | NTL | VFR | P | AD 3.PVT-EBGU
+     NIVELLES / Dynali EBDY* | NTL | VFR | P | AD 3.PVT-EBDY
+     NOKERE / Suys EBNK* | NTL | VFR | P | AD 3.PVT-EBNK
+     OOSTDIJCKBANK EBOO* | NTL | VFR | P | AD 3.PVT-EBOO
+     OOSTENDE EBNH* | NTL | VFR | P | AD 3.PVT-EBNH
+     OUD-HEVERLEE / Blanden EBOB* | NTL | VFR | P | AD 3.PVT-EBOB
+     PECQ / Warcoing EBPW* | NTL | VFR | P | AD 3.PVT-EBPW
+     PELT / Tilburgs EBNP* | NTL | VFR | P | AD 3.PVT-EBNP
+     RANST / Engels EBEN* | NTL | VFR | P | AD 3.PVT-EBEN
+     RANST / Lymar EBLY* | NTL | VFR | P | AD 3.PVT-EBLY
+     RANST / Van Den Bosch EBRO* | NTL | VFR | P | AD 3.PVT-EBRO
+     ROESELARE / Boury EBTB* | NTL | VFR | P | AD 3.PVT-EBTB
+     ROESELARE / Nuytten EBNR* | NTL | VFR | P | AD 3.PVT-EBNR
+     ROESELARE / Rumbeke EBRR* | NTL | VFR | P | AD 3.PVT-EBRR
+     ROOSDAAL EBRD* | NTL | VFR | P | AD 3.PVT-EBRD
+     SCHILDE / ‘s Gravenwezel EBAS* | NTL | VFR | P | AD 3.PVT-EBAS
+     SINT-ELOOIS-WINKEL / Monte Marcella EBMA* | NTL | VFR | P | AD 3.PVT-EBMA
+     SINT-PIETERS-LEEUW EBSW* | NTL | VFR | P | AD 3.PVT-EBSW
+     SPA / Francorchamps EBSF* | NTL | VFR | P | AD 3.PVT-EBSF
+     SPIERE-HELKIJN EBSB* | NTL | VFR | P | AD 3.PVT-EBSB
+     TESSENDERLO EBPC* | NTL | VFR | P | AD 3.PVT-EBPC
+     TIELEN / Kasterlee EBTK* | NTL | VFR | P | AD 3.PVT-EBTK
+     VEURNE EBVE* | NTL | VFR | P | AD 3.PVT-EBVE
+     VLIMMEREN EBVN* | NTL | VFR | P | AD 3.PVT-EBVN
+     WAASMUNSTER EBWA* | NTL | VFR | P | AD 3.PVT-EBWA
+     WERVIK EBWK* | NTL | VFR | P | AD 3.PVT-EBWK
+     WINGENE / Hemelrijk EBWH* | NTL | VFR | P | AD 3.PVT-EBWH
+     WINGENE / Scherrens EBWS* | NTL | VFR | P | AD 3.PVT-EBWS
+     WINGENE / Zwevezele EBWZ* | NTL | VFR | P | AD 3.PVT-EBWZ
+     ZEDELGEM / Aartrijke EBZA* | NTL | VFR | P | AD 3.PVT-EBZA
+     ZELE EBZE* | NTL | VFR | P | AD 3.PVT-EBZE
+     ZOMERGEM EBZM* | NTL | VFR | P | AD 3.PVT-EBZM
+     ZONNEBEKE / Zandvoorde EBZO* | NTL | VFR | P | AD 3.PVT-EBZO
+     PERSONAL HELIPORTS
+     AFFLIGEM EBAF* | NTL | VFR | P | AD 3.PERS-EBAF
+     BEKKEVOORT EBRU* | NTL | VFR | P | AD 3.PERS-EBRU
+     BEVEREN / Casteleyn EBBC* | NTL | VFR | P | AD 3.PERS-EBBC
+     DEINZE / De Groote EBDZ* | NTL | VFR | P | AD 3.PERS-EBDZ
+     DEINZE / Piens EBPP* | NTL | VFR | P | AD 3.PERS-EBPP
+     ENGIS EBGJ* | NTL | VFR | P | AD 3.PERS-EBGJ
+     GESVES EBPL* | NTL | VFR | P | AD 3.PERS-EBPL
+     GREMBERGEN / Dendermonde EBYC* | NTL | VFR | P | AD 3.PERS-EBYC
+     HULSHOUT EBHH* | NTL | VFR | P | AD 3.PERS-EBHH
+     ICHTEGEM EBWV* | NTL | VFR | P | AD 3.PERS-EBWV
+     KAMPENHOUT EBRL* | NTL | VFR | P | AD 3.PERS-EBRL
+     KORTEMARK EBLV* | NTL | VFR | P | AD 3.PERS-EBLV
+     LOKEREN / Janssens EBLJ* | NTL | VFR | P | AD 3.PERS-EBLJ
+     LOTENHULLE EBLH* | NTL | VFR | P | AD 3.PERS-EBLH
+     MAARKEDAL / Nukerke EBMK* | NTL | VFR | P | AD 3.PERS-EBMK
+     OTTERGEM / Erpe-Mere EBSV* | NTL | VFR | P | AD 3.PERS-EBSV
+     RANST / De Vijver EBLD* | NTL | VFR | P | AD 3.PERS-EBLD
+     ROTSELAAR EBVU* | NTL | VFR | P | AD 3.PERS-EBVU
+     SINT-JORIS-WINGE EBEM* | NTL | VFR | P | AD 3.PERS-EBEM
+     WAASMUNSTER / Raemdonck EBLR* | NTL | VFR | P | AD 3.PERS-EBLR
+     WORTEGEM-PETEGEM EBWP* | NTL | VFR | P | AD 3.PERS-EBWP
+   hdr table 2 (1 rows): BRUSSEL Post: Militair Hospitaal Bruynstraat 1120 Brussel BELGIUM TEL: +32 (0) 2 268 48 48 TEL: +32 (0) 2 443 21 75 TEL: +32 (0) 2 443 22 14 Coordinates: 505419N 0042322E Remark: PPR only
+   hdr table 3 (17 rows): AMAY Post: 4 Gn - S2 Camp Adjt Brasseur 4540 Amay BELGIUM TEL: + 32 (0) 2 442 90 16 ( CIV ) TEL: + 32 (0) 2 442 91 75 ( CIV ) TEL: 9 6321 extension 29016, 29175 ( MIL ) Coordinates: 503210N 0051807E Remark: PPR only | LE
+   TXT EBAW
+   TXT AD 2.EBAW
+   TXT EBBR
+   TXT AD 2.EBBR
+   TXT EBCI
+   TXT AD 2.EBCI
+   TXT EBKT
+   TXT AD 2.EBKT
+   TXT EBLG
+   TXT AD 2.EBLG
+   TXT EBOS
+   TXT AD 2.EBOS
+   TXT EBBE
+   TXT AD 2.MIL-EBBE
+   TXT EBBX*
+   TXT AD 2.MIL-EBBX
+   TXT EBMB
+   TXT AD 2.MIL-EBMB
+   TXT EBCV*
+   TXT AD 2.MIL-EBCV
+   TXT EBDT
+   TXT AD 2.MIL-EBDT
+   TXT EBFS
+   TXT AD 2.MIL-EBFS
+   TXT EBBL
+   TXT AD 2.MIL-EBBL
+   TXT EBFN
+   TXT AD 2.MIL-EBFN
+   TXT EBSU*
+   TXT AD 2.MIL-EBSU
+   TXT EBUL*
+   TXT AD 2.MIL-EBUL
+   TXT EBWE*
+   TXT AD 2.MIL-EBWE
+   TXT EBAM*
+   TXT AD 2.PVT-EBAM
+   TXT EBKH*
+   TXT AD 2.PVT-EBKH
+   TXT EBBT*
+   TXT AD 2.PVT-EBBT
+   TXT EBCF
+   TXT AD 2.PVT-EBCF
+   TXT EBZW*
+   TXT AD 2.PVT-EBZW
+   TXT EBGG*
+   TXT AD 2.PVT-EBGG
+   TXT EBTN*
+   TXT AD 2.PVT-EBTN
+   TXT EBGB*
+   TXT AD 2.PVT-EBGB
+   TXT EBZH*
+   TXT AD 2.PVT-EBZH
+   TXT EBHN*
+   TXT AD 2.PVT-EBHN
+   TXT EBEH*
+   TXT AD 2.PVT-EBEH
+   TXT EBLE*
+   TXT AD 2.PVT-EBLE
+   TXT EBMO*
+   TXT AD 2.PVT-EBMO
+   TXT EBNM*
+   TXT AD 2.PVT-EBNM
+   TXT EBSG*
+   TXT AD 2.PVT-EBSG
+   TXT EBSH
+   TXT AD 2.PVT-EBSH
+   TXT EBST*
+   TXT AD 2.PVT-EBST
+   TXT EBSP
+   TXT AD 2.PVT-EBSP
+   TXT EBTY*
+   TXT AD 2.PVT-EBTY
+   TXT EBTX*
+   TXT AD 2.PVT-EBTX
+   TXT EBZR*
+   TXT AD 2.PVT-EBZR
+   TXT EBSL*
+   TXT AD 2.PVT-EBSL
+   TXT EBAR*
+   TXT AD 2.ULM-EBAR
+   TXT EBML*
+   TXT AD 2.ULM-EBML
+   TXT EBIS*
+   TXT AD 2.ULM-EBIS
+   TXT EBBN*
+   TXT AD 2.ULM-EBBN
+   TXT EBMG*
+   TXT AD 2.ULM-EBMG
+   TXT EBBY*
+   TXT AD 2.ULM-EBBY
+   TXT EBAV*
+   TXT AD 2.ULM-EBAV
+   TXT EBBZ*
+   TXT AD 2.ULM-EBBZ
+   TXT EBOR*
+   TXT AD 2.ULM-EBOR
+   TXT EBZU*
+   TXT AD 2.ULM-EBZU
+   TXT EBSM*
+   TXT AD 2.PERS-EBSM
+   TXT EBCT*
+   TXT AD 3.MIL-EBCT
+   TXT EBAL*
+   TXT AD 3.HOSP-EBAL
+   TXT EBMD*
+   TXT AD 3.HOSP-EBMD
+   TXT EBSJ*
+   TXT AD 3.HOSP-EBSJ
+   TXT EBSS*
+   TXT AD 3.HOSP-EBSS
+   TXT EBUC*
+   TXT AD 3.HOSP-EBUC
+   TXT EBEU*
+   TXT AD 3.HOSP-EBEU
+   TXT EBEA*
+   TXT AD 3.HOSP-EBEA
+   TXT EBGT*
+   TXT AD 3.HOSP-EBGT
+   TXT EBGH*
+   TXT AD 3.HOSP-EBGH
+   TXT EBYP*
+   TXT AD 3.HOSP-EBYP
+   TXT EBKZ*
+   TXT AD 3.HOSP-EBKZ
+   TXT EBKG*
+   TXT AD 3.HOSP-EBKG
+   TXT EBLC*
+   TXT AD 3.HOSP-EBLC
+   TXT EBCH*
+   TXT AD 3.HOSP-EBCH
+   TXT EBLS*
+   TXT AD 3.HOSP-EBLS
+   TXT EBLX*
+   TXT AD 3.HOSP-EBLX
+   TXT EBMC*
+   TXT AD 3.HOSP-EBMC
+   TXT EBMT*
+   TXT AD 3.HOSP-EBMT
+   TXT EBNB*
+   TXT AD 3.HOSP-EBNB
+   TXT EBNG*
+   TXT AD 3.HOSP-EBNG
+   TXT EBAD*
+   TXT AD 3.HOSP-EBAD
+   TXT EBVS*
+   TXT AD 3.HOSP-EBVS
+   TXT EBJS*
+   TXT AD 3.PVT-EBJS
+   TXT EBBM*
+   TXT AD 3.PVT-EBBM
+   TXT EBBV*
+   TXT AD 3.PVT-EBBV
+   TXT EBOK*
+   TXT AD 3.PVT-EBOK
+   TXT EBDV*
+   TXT AD 3.PVT-EBDV
+   TXT EBEB*
+   TXT AD 3.PVT-EBEB
+   TXT EBFR*
+   TXT AD 3.PVT-EBFR
+   TXT EBAG*
+   TXT AD 3.PVT-EBAG
+   TXT EBHM*
+   TXT AD 3.PVT-EBHM
+   TXT EBHO*
+   TXT AD 3.PVT-EBHO
+   TXT EBKD*
+   TXT AD 3.PVT-EBKD
+   TXT EBHT*
+   TXT AD 3.PVT-EBHT
+   TXT EBHF*
+   TXT AD 3.PVT-EBHF
+   TXT EBTW*
+   TXT AD 3.PVT-EBTW
+   TXT EBFI*
+   TXT AD 3.PVT-EBFI
+   TXT EBKW*
+   TXT AD 3.PVT-EBKW
+   TXT EBSA*
+   TXT AD 3.PVT-EBSA
+   TXT EBBG*
+   TXT AD 3.PVT-EBBG
+   TXT EBHC*
+   TXT AD 3.PVT-EBHC
+   TXT EBKR*
+   TXT AD 3.PVT-EBKR
+   TXT EBKL
+   TXT AD 3.PVT-EBKL
+   TXT EBMS*
+   TXT AD 3.PVT-EBMS
+   TXT EBLT*
+   TXT AD 3.PVT-EBLT
+   TXT EBRE*
+   TXT AD 3.PVT-EBRE
+   TXT EBLO*
+   TXT AD 3.PVT-EBLO
+   TXT EBLU*
+   TXT AD 3.PVT-EBLU
+   TXT EBMM*
+   TXT AD 3.PVT-EBMM
+   TXT EBMH*
+   TXT AD 3.PVT-EBMH
+   TXT EBME*
+   TXT AD 3.PVT-EBME
+   TXT EBMN*
+   TXT AD 3.PVT-EBMN
+   TXT EBCM*
+   TXT AD 3.PVT-EBCM
+   TXT EBLM*
+   TXT AD 3.PVT-EBLM
+   TXT EBTM*
+   TXT AD 3.PVT-EBTM
+   TXT EBGU*
+   TXT AD 3.PVT-EBGU
+   TXT EBDY*
+   TXT AD 3.PVT-EBDY
+   TXT EBNK*
+   TXT AD 3.PVT-EBNK
+   TXT EBOO*
+   TXT AD 3.PVT-EBOO
+   TXT EBNH*
+   TXT AD 3.PVT-EBNH
+   TXT EBOB*
+   TXT AD 3.PVT-EBOB
+   TXT EBPW*
+   TXT AD 3.PVT-EBPW
+   TXT EBNP*
+   TXT AD 3.PVT-EBNP
+   TXT EBEN*
+   TXT AD 3.PVT-EBEN
+   TXT EBLY*
+   TXT AD 3.PVT-EBLY
+   TXT EBRO*
+   TXT AD 3.PVT-EBRO
+   TXT EBTB*
+   TXT AD 3.PVT-EBTB
+   TXT EBNR*
+   TXT AD 3.PVT-EBNR
+   TXT EBRR*
+   TXT AD 3.PVT-EBRR
+   TXT EBRD*
+   TXT AD 3.PVT-EBRD
+   TXT EBAS*
+   TXT AD 3.PVT-EBAS
+   TXT EBMA*
+   TXT AD 3.PVT-EBMA
+   TXT EBSW*
+   TXT AD 3.PVT-EBSW
+   TXT EBSF*
+   TXT AD 3.PVT-EBSF
+   TXT EBSB*
+   TXT AD 3.PVT-EBSB
+   TXT EBPC*
+   TXT AD 3.PVT-EBPC
+   TXT EBTK*
+   TXT AD 3.PVT-EBTK
+   TXT EBVE*
+   TXT AD 3.PVT-EBVE
+   TXT EBVN*
+   TXT AD 3.PVT-EBVN
+   TXT EBWA*
+   TXT AD 3.PVT-EBWA
+   TXT EBWK*
+   TXT AD 3.PVT-EBWK
+   TXT EBWH*
+   TXT AD 3.PVT-EBWH
+   TXT EBWS*
+   TXT AD 3.PVT-EBWS
+   TXT EBWZ*
+   TXT AD 3.PVT-EBWZ
+   TXT EBZA*
+   TXT AD 3.PVT-EBZA
+   TXT EBZE*
+   TXT AD 3.PVT-EBZE
+   TXT EBZM*
+   TXT AD 3.PVT-EBZM
+   TXT EBZO*
+   TXT AD 3.PVT-EBZO
+   TXT EBAF*
+   TXT AD 3.PERS-EBAF
+   TXT EBRU*
+   TXT AD 3.PERS-EBRU
+   TXT EBBC*
+   TXT AD 3.PERS-EBBC
+   TXT EBDZ*
+   TXT AD 3.PERS-EBDZ
+   TXT EBPP*
+   TXT AD 3.PERS-EBPP
+   TXT EBGJ*
+   TXT AD 3.PERS-EBGJ
+   TXT EBPL*
+   TXT AD 3.PERS-EBPL
+   TXT EBYC*
+   TXT AD 3.PERS-EBYC
+   TXT EBHH*
+   TXT AD 3.PERS-EBHH
+   TXT EBWV*
+   TXT AD 3.PERS-EBWV
+   TXT EBRL*
+   TXT AD 3.PERS-EBRL
+   TXT EBLV*
+   TXT AD 3.PERS-EBLV
+   TXT EBLJ*
+   TXT AD 3.PERS-EBLJ
+   TXT EBLH*
+   TXT AD 3.PERS-EBLH
+   TXT EBMK*
+   TXT AD 3.PERS-EBMK
+   TXT EBSV*
+   TXT AD 3.PERS-EBSV
+   TXT EBLD*
+   TXT AD 3.PERS-EBLD
+   TXT EBVU*
+   TXT AD 3.PERS-EBVU
+   TXT EBEM*
+   TXT AD 3.PERS-EBEM
+   TXT EBLR*
+   TXT AD 3.PERS-EBLR
+   TXT EBWP*
+   TXT AD 3.PERS-EBWP
 
 ===== GEN 1.2 NO =====
-   GEN 1.2 page (derived): https://aim-prod.avinor.no/no/AIP/View/Index/154/2026-06-11-AIRAC/html/eAIP/EN-GEN-1.2-en-GB.html
+   --- GEN-1.2 page: https://aim-prod.avinor.no/no/AIP/View/Index/154/2026-06-11-AIRAC/html/eAIP/EN-GEN-1.2-en-GB.html
+   hdr table 1 (7 rows): Maximum take off mass of the aircraft (Kg/kgs) | Sum covering pers, injury (Kroner/NOK) | Sum covering damage to property (Kroner/NOK)
+   [debug] no hits; html head: <?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head><meta http-equiv="Content-type" content="text/html; charset=UTF-8"/><title>Entry, transit and departure of aircraft</title><meta name="generator" content="Eurocontrol MakeAIP; using Eurocontrol eAIP toolbox version 2.0"/><link href="http://purl.org/dc/elements/1.1/" rel="schema.DC"/><meta content="Entry, transit and departure of aircraft" name="DC.title"/><meta content="en-GB" name="DC.language"/><meta name="DC.publisher" content="Avinor"/><meta name="DC.c
+   --- AD-1.3 page: https://aim-prod.avinor.no/no/AIP/View/Index/154/2026-06-11-AIRAC/html/eAIP/EN-AD-1.3-en-GB.html
+   hdr table 1 (58 rows): Aerodrome/heliport name Location indicator | Type of traffic permitted to use the aerodrome/heliport | Reference to AD Section and remarks
+     Aerodrome/heliport name Location indicator | Type of traffic permitted to use the aerodrome/heliport | Reference to AD Section and remarks
+     International - National (INTL - NTL) | IFR-VFR | S = Scheduled NS = Non-scheduled GA = General aviation MIL = Military O = Other
+     1 | 2 | 3 | 4 | 5
+     ALTA TCITY;CUSTOM_ATT7;175 | ENAT TAD_HP;CODE_ICAO;472 | INTL - NTL | IFR - VFR | S - NS - GA | AD 2 ENAT TAD_HP;CODE_ICAO;472
+     ANDØYA TCITY;CUSTOM_ATT7;170 / Andenes TAD_HP;CUSTOM_ATT24;457 | ENAN TAD_HP;CODE_ICAO;457 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENAN TAD_HP;CODE_ICAO;457
+     ARENDAL TCITY;CUSTOM_ATT7;224 / Gullknapp TAD_HP;CUSTOM_ATT24;452 | ENGK TAD_HP;CODE_ICAO;452 | NTL | VFR | GA - MIL - O | AD 2 ENGK TAD_HP;CODE_ICAO;452
+     BARDUFOSS TCITY;CUSTOM_ATT7;214 | ENDU TAD_HP;CODE_ICAO;461 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENDU TAD_HP;CODE_ICAO;461
+     BERGEN TCITY;CUSTOM_ATT7;233 / Flesland TAD_HP;CUSTOM_ATT24;471 | ENBR TAD_HP;CODE_ICAO;471 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENBR TAD_HP;CODE_ICAO;471
+     BERLEVÅG TCITY;CUSTOM_ATT7;215 | ENBV TAD_HP;CODE_ICAO;431 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENBV TAD_HP;CODE_ICAO;431
+     BODØ TCITY;CUSTOM_ATT7;206 | ENBO TAD_HP;CODE_ICAO;459 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENBO TAD_HP;CODE_ICAO;459
+     BRØNNØYSUND TCITY;CUSTOM_ATT7;223 / Brønnøy TAD_HP;CUSTOM_ATT24;458 | ENBN TAD_HP;CODE_ICAO;458 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENBN TAD_HP;CODE_ICAO;458
+     BÅTSFJORD TCITY;CUSTOM_ATT7;263 | ENBS TAD_HP;CODE_ICAO;402 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENBS TAD_HP;CODE_ICAO;402
+     FLORØ TCITY;CUSTOM_ATT7;222 | ENFL TAD_HP;CODE_ICAO;451 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENFL TAD_HP;CODE_ICAO;451
+     FØRDE TCITY;CUSTOM_ATT7;148 / Bringeland TAD_HP;CUSTOM_ATT24;442 | ENBL TAD_HP;CODE_ICAO;442 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENBL TAD_HP;CODE_ICAO;442
+     HAAKONSVERN TCITY;CUSTOM_ATT7;1567 (Heliport) | ENBH TAD_HP;CODE_ICAO;604 | NTL | VFR | MIL | AD 3 ENBH TAD_HP;CODE_ICAO;604
+     HAMMERFEST TCITY;CUSTOM_ATT7;264 | ENHF TAD_HP;CODE_ICAO;447 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENHF TAD_HP;CODE_ICAO;447
+     HARSTAD/NARVIK TCITY;CUSTOM_ATT7;226 / Evenes TAD_HP;CUSTOM_ATT24;453 | ENEV TAD_HP;CODE_ICAO;453 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENEV TAD_HP;CODE_ICAO;453
+     HASVIK TCITY;CUSTOM_ATT7;171 | ENHK TAD_HP;CODE_ICAO;427 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENHK TAD_HP;CODE_ICAO;427
+     HAUGESUND TCITY;CUSTOM_ATT7;166 / Karmøy TAD_HP;CUSTOM_ATT24;450 | ENHD TAD_HP;CODE_ICAO;450 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENHD TAD_HP;CODE_ICAO;450
+     HONNINGSVÅG TCITY;CUSTOM_ATT7;199 / Valan TAD_HP;CUSTOM_ATT24;424 | ENHV TAD_HP;CODE_ICAO;424 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENHV TAD_HP;CODE_ICAO;424
+     HØNEFOSS TCITY;CUSTOM_ATT7;196 / Eggemoen TAD_HP;CUSTOM_ATT24;512 | ENEG TAD_HP;CODE_ICAO;512 | INTL - NTL | IFR - VFR | NS | AD 2 ENEG TAD_HP;CODE_ICAO;512
+     KIRKENES TCITY;CUSTOM_ATT7;216 / Høybuktmoen TAD_HP;CUSTOM_ATT24;466 | ENKR TAD_HP;CODE_ICAO;466 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENKR TAD_HP;CODE_ICAO;466
+     KRISTIANSAND TCITY;CUSTOM_ATT7;179 / Kjevik TAD_HP;CUSTOM_ATT24;473 | ENCN TAD_HP;CODE_ICAO;473 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENCN TAD_HP;CODE_ICAO;473
+     KRISTIANSUND TCITY;CUSTOM_ATT7;198 / Kvernberget TAD_HP;CUSTOM_ATT24;455 | ENKB TAD_HP;CODE_ICAO;455 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENKB TAD_HP;CODE_ICAO;455
+     LAKSELV TCITY;CUSTOM_ATT7;208 / Banak TAD_HP;CUSTOM_ATT24;432 | ENNA TAD_HP;CODE_ICAO;432 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENNA TAD_HP;CODE_ICAO;432
+     LANDSØRKJE TCITY;CUSTOM_ATT7;152 / Rena TAD_HP;CUSTOM_ATT24;526 | ENRE TAD_HP;CODE_ICAO;526 | NTL | VFR | MIL | AD 2 ENRE TAD_HP;CODE_ICAO;526
+     LEKNES TCITY;CUSTOM_ATT7;231 | ENLK TAD_HP;CODE_ICAO;422 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENLK TAD_HP;CODE_ICAO;422
+     LILLESTRØM TCITY;CUSTOM_ATT7;261 / Kjeller TAD_HP;CUSTOM_ATT24;417 | ENKJ TAD_HP;CODE_ICAO;417 | NTL | VFR | NS - GA - MIL | AD 2 ENKJ TAD_HP;CODE_ICAO;417
+     MEHAMN TCITY;CUSTOM_ATT7;200 | ENMH TAD_HP;CODE_ICAO;429 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENMH TAD_HP;CODE_ICAO;429
+     MO I RANA TCITY;CUSTOM_ATT7;174 / Røssvoll TAD_HP;CUSTOM_ATT24;445 | ENRA TAD_HP;CODE_ICAO;445 | NTL | IFR - VFR | S - NS - GA | AD 2 ENRA TAD_HP;CODE_ICAO;445
+     MOLDE TCITY;CUSTOM_ATT7;180 / Årø TAD_HP;CUSTOM_ATT24;444 | ENML TAD_HP;CODE_ICAO;444 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENML TAD_HP;CODE_ICAO;444
+     MOSJØEN TCITY;CUSTOM_ATT7;204 / Kjærstad TAD_HP;CUSTOM_ATT24;475 | ENMS TAD_HP;CODE_ICAO;475 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENMS TAD_HP;CODE_ICAO;475
+     NAMSOS TCITY;CUSTOM_ATT7;229 | ENNM TAD_HP;CODE_ICAO;448 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENNM TAD_HP;CODE_ICAO;448
+     NOTODDEN TCITY;CUSTOM_ATT7;256 | ENNO TAD_HP;CODE_ICAO;470 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENNO TAD_HP;CODE_ICAO;470
+     NY-ÅLESUND TCITY;CUSTOM_ATT7;262 / Hamnerabben TAD_HP;CUSTOM_ATT24;418 | ENAS TAD_HP;CODE_ICAO;418 | - | IFR - VFR | - | AD 2 ENAS TAD_HP;CODE_ICAO;418
+     OSLO TCITY;CUSTOM_ATT7;210 / Gardermoen TAD_HP;CUSTOM_ATT24;462 | ENGM TAD_HP;CODE_ICAO;462 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENGM TAD_HP;CODE_ICAO;462
+     RYGGE TCITY;CUSTOM_ATT7;207 | ENRY TAD_HP;CODE_ICAO;426 | INTL - NTL | IFR - VFR | MIL | AD 2 ENRY TAD_HP;CODE_ICAO;426
+     RØROS TCITY;CUSTOM_ATT7;172 | ENRO TAD_HP;CODE_ICAO;460 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENRO TAD_HP;CODE_ICAO;460
+     RØRVIK TCITY;CUSTOM_ATT7;209 / Ryum TAD_HP;CUSTOM_ATT24;468 | ENRM TAD_HP;CODE_ICAO;468 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENRM TAD_HP;CODE_ICAO;468
+     RØST TCITY;CUSTOM_ATT7;237 | ENRS TAD_HP;CODE_ICAO;456 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENRS TAD_HP;CODE_ICAO;456
+     SANDANE TCITY;CUSTOM_ATT7;205 / Anda TAD_HP;CUSTOM_ATT24;423 | ENSD TAD_HP;CODE_ICAO;423 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENSD TAD_HP;CODE_ICAO;423
+     SANDEFJORD TCITY;CUSTOM_ATT7;156 / Torp TAD_HP;CUSTOM_ATT24;449 | ENTO TAD_HP;CODE_ICAO;449 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENTO TAD_HP;CODE_ICAO;449
+     SANDNESSJØEN TCITY;CUSTOM_ATT7;201 / Stokka TAD_HP;CUSTOM_ATT24;469 | ENST TAD_HP;CODE_ICAO;469 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENST TAD_HP;CODE_ICAO;469
+     SOGNDAL TCITY;CUSTOM_ATT7;192 / Haukåsen TAD_HP;CUSTOM_ATT24;435 | ENSG TAD_HP;CODE_ICAO;435 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENSG TAD_HP;CODE_ICAO;435
+     STAVANGER TCITY;CUSTOM_ATT7;185 / Sola TAD_HP;CUSTOM_ATT24;465 | ENZV TAD_HP;CODE_ICAO;465 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENZV TAD_HP;CODE_ICAO;465
+     STOKMARKNES TCITY;CUSTOM_ATT7;234 / Skagen TAD_HP;CUSTOM_ATT24;464 | ENSK TAD_HP;CODE_ICAO;464 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENSK TAD_HP;CODE_ICAO;464
+     STORD TCITY;CUSTOM_ATT7;242 / Sørstokken TAD_HP;CUSTOM_ATT24;433 | ENSO TAD_HP;CODE_ICAO;433 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENSO TAD_HP;CODE_ICAO;433
+     SVALBARD TCITY;CUSTOM_ATT7;217 / Longyear TAD_HP;CUSTOM_ATT24;438 | ENSB TAD_HP;CODE_ICAO;438 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENSB TAD_HP;CODE_ICAO;438
+     SVOLVÆR TCITY;CUSTOM_ATT7;211 / Helle TAD_HP;CUSTOM_ATT24;400 | ENSH TAD_HP;CODE_ICAO;400 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENSH TAD_HP;CODE_ICAO;400
+     SØRKJOSEN TCITY;CUSTOM_ATT7;927 | ENSR TAD_HP;CODE_ICAO;474 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENSR TAD_HP;CODE_ICAO;474
+     TROMSØ TCITY;CUSTOM_ATT7;212 / Langnes TAD_HP;CUSTOM_ATT24;437 | ENTC TAD_HP;CODE_ICAO;437 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENTC TAD_HP;CODE_ICAO;437
+     TRONDHEIM TCITY;CUSTOM_ATT7;162 / Værnes TAD_HP;CUSTOM_ATT24;454 | ENVA TAD_HP;CODE_ICAO;454 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENVA TAD_HP;CODE_ICAO;454
+     VADSØ TCITY;CUSTOM_ATT7;247 | ENVD TAD_HP;CODE_ICAO;439 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENVD TAD_HP;CODE_ICAO;439
+     VARDØ TCITY;CUSTOM_ATT7;168 / Svartnes TAD_HP;CUSTOM_ATT24;434 | ENSS TAD_HP;CODE_ICAO;434 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENSS TAD_HP;CODE_ICAO;434
+     VÆRØY TCITY;CUSTOM_ATT7;154 / Tabbisodden TAD_HP;CUSTOM_ATT24;425 (Heliport) | ENVR TAD_HP;CODE_ICAO;425 | NTL | VFR | S - NS - GA - MIL | AD 3 ENVR TAD_HP;CODE_ICAO;425
+     ØRLAND TCITY;CUSTOM_ATT7;232 | ENOL TAD_HP;CODE_ICAO;467 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENOL TAD_HP;CODE_ICAO;467
+     ØRSTA-VOLDA TCITY;CUSTOM_ATT7;197 / Hovden TAD_HP;CUSTOM_ATT24;463 | ENOV TAD_HP;CODE_ICAO;463 | NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENOV TAD_HP;CODE_ICAO;463
+     ÅLESUND TCITY;CUSTOM_ATT7;191 / Vigra TAD_HP;CUSTOM_ATT24;440 | ENAL TAD_HP;CODE_ICAO;440 | INTL - NTL | IFR - VFR | S - NS - GA - MIL | AD 2 ENAL TAD_HP;CODE_ICAO;440
+   TXT ENAT
+   TXT ENAT
+   TXT ENAN
+   TXT ENAN
+   TXT ENGK
+   TXT ENGK
+   TXT ENDU
+   TXT ENDU
+   TXT ENBR
+   TXT ENBR
+   TXT ENBV
+   TXT ENBV
+   TXT ENBO
+   TXT ENBO
+   TXT ENBN
+   TXT ENBN
+   TXT ENBS
+   TXT ENBS
+   TXT ENFL
+   TXT ENFL
+   TXT ENBL
+   TXT ENBL
+   TXT ENBH
+   TXT ENBH
+   TXT ENHF
+   TXT ENHF
+   TXT ENEV
+   TXT ENEV
+   TXT ENHK
+   TXT ENHK
+   TXT ENHD
+   TXT ENHD
+   TXT ENHV
+   TXT ENHV
+   TXT ENEG
+   TXT ENEG
+   TXT ENKR
+   TXT ENKR
+   TXT ENCN
+   TXT ENCN
+   TXT ENKB
+   TXT ENKB
+   TXT ENNA
+   TXT ENNA
+   TXT ENRE
+   TXT ENRE
+   TXT ENLK
+   TXT ENLK
+   TXT ENKJ
+   TXT ENKJ
+   TXT ENMH
+   TXT ENMH
+   TXT ENRA
+   TXT ENRA
+   TXT ENML
+   TXT ENML
+   TXT ENMS
+   TXT ENMS
+   TXT ENNM
+   TXT ENNM
+   TXT ENNO
+   TXT ENNO
+   TXT ENAS
+   TXT ENAS
+   TXT ENGM
+   TXT ENGM
+   TXT ENRY
+   TXT ENRY
+   TXT ENRO
+   TXT ENRO
+   TXT ENRM
+   TXT ENRM
+   TXT ENRS
+   TXT ENRS
+   TXT ENSD
+   TXT ENSD
+   TXT ENTO
+   TXT ENTO
+   TXT ENST
+   TXT ENST
+   TXT ENSG
+   TXT ENSG
+   TXT ENZV
+   TXT ENZV
+   TXT ENSK
+   TXT ENSK
+   TXT ENSO
+   TXT ENSO
+   TXT ENSB
+   TXT ENSB
+   TXT ENSH
+   TXT ENSH
+   TXT ENSR
+   TXT ENSR
+   TXT ENTC
+   TXT ENTC
+   TXT ENVA
+   TXT ENVA
+   TXT ENVD
+   TXT ENVD
+   TXT ENSS
+   TXT ENSS
+   TXT ENVR
+   TXT ENVR
+   TXT ENOL
+   TXT ENOL
+   TXT ENOV
+   TXT ENOV
+   TXT ENAL
+   TXT ENAL
