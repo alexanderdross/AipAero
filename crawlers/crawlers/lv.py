@@ -70,9 +70,26 @@ class LV(HttpEurocontrolBase):
             last_html = listing_html
             edition_url = self._resolve_edition_url(listing_html)
 
-            nav_url, nav_html = self.follow_frame_chain(
-                edition_url, ["eAISNavigationBase", "eAISNavigation"]
-            )
+            # The edition's bare index.html is a language chooser, not the
+            # frameset (live run: Frame 'eAISNavigationBase' not found) -
+            # prefer the English frameset sibling, fall back to the bare
+            # index for a future layout change.
+            nav_url = nav_html = None
+            frame_error: Exception | None = None
+            for entry in (
+                urljoin(edition_url, "index-en-GB.html"),
+                edition_url,
+            ):
+                try:
+                    nav_url, nav_html = self.follow_frame_chain(
+                        entry, ["eAISNavigationBase", "eAISNavigation"]
+                    )
+                    break
+                except Exception as e:  # 404 or missing frame - next entry
+                    frame_error = e
+            if nav_html is None:
+                assert frame_error is not None
+                raise frame_error
             last_url, last_html = nav_url, nav_html
 
             airports.extend(
