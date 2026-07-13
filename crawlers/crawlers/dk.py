@@ -77,11 +77,22 @@ class DK(PlaywrightCrawlerBase):
         return str(node.get("name") or node.get("title") or "").strip()
 
     def _child_by_text(self, nodes: list[dict], *needles: str) -> dict | None:
-        """First node whose name/title contains any needle (case-insensitive);
-        logs the available labels when nothing matches."""
+        """Node whose name/title matches the needles (case-insensitive).
+
+        A node containing ALL needles wins over one containing ANY - with
+        any-first, ("AD 3", "HELIPORTS") grabbed "AD 1 -
+        AERODROMES_HELIPORTS - INTRODUCTION" before the real AD 3 chapter
+        (run 29291001169). Logs the available labels when nothing matches.
+        """
         wanted = [n.lower() for n in needles]
-        for node in nodes:
-            text = f"{node.get('name', '')} {node.get('title', '')}".lower()
+        texts = [
+            f"{node.get('name', '')} {node.get('title', '')}".lower()
+            for node in nodes
+        ]
+        for node, text in zip(nodes, texts):
+            if all(n in text for n in wanted):
+                return node
+        for node, text in zip(nodes, texts):
             if any(n in text for n in wanted):
                 return node
         self.logger.warning(
@@ -213,7 +224,16 @@ class DK(PlaywrightCrawlerBase):
 
             ad3 = self._child_by_text(part3_children, "AD 3", "HELIPORTS")
             if ad3 is not None:
-                airports.extend(self._extract_section(ad3, "heliport"))
+                heliports = self._extract_section(ad3, "heliport")
+                # Few entries and a history of grabbing the wrong chapter
+                # (AD 1 intro) - log them all so the live run verifies the
+                # section pick at a glance.
+                for airport in heliports:
+                    self.logger.info(
+                        f"DK heliport: {airport.icao} | {airport.title} "
+                        f"-> {airport.url}"
+                    )
+                airports.extend(heliports)
         except Exception as e:
             self.logger.error(f"DK crawl failed: {e}")
         finally:
