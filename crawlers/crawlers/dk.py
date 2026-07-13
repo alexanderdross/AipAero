@@ -1,36 +1,38 @@
 """Denmark AIP crawler.
 
-Source: Naviair AIM (https://aim.naviair.dk/). Unlike NL/UK/FR this is a
-custom, **client-rendered JS** navigation UI - a plain HTTP fetch returns a
-near-empty shell with no links (verified via the live-crawl test). It
-therefore inherits :class:`PlaywrightCrawlerBase` and renders each page in a
-headless browser before walking the menu by link text; the BeautifulSoup
-extraction below runs on the rendered DOM.
+Source: Naviair AIM (https://aim.naviair.dk/). The site is a client-rendered
+Angular treegrid whose rendered DOM carries no anchors - but the tree data
+comes from an OPEN Umbraco JSON API, identified via the Playwright network
+capture (run 29289869395):
 
-Navigation path (per the task spec in
-``crawlers/tasks/crawler_denmark.md``):
+    GET https://aim.naviair.dk/umbraco/api/naviairapi/getnodesforparent?parentId=<id>
 
-    aim.naviair.dk
-        └─ chapter "02. VFR Flight Guide Danmark"
-            └─ "VFG Part 3 - FLYVEPLADSER (AD)"
-                ├─ "AD 2 - PUBLIC AERODROMES"  → type "vfr"
-                └─ "AD 3 - HELIPORTS"          → type "heliport"
+Empty ``parentId`` returns the root nodes (e.g. ``{"id": 295, "name": "AIP
+Danmark", ...}``, ``{"id": 1, "name": "VFR Flight Guide Danmark", ...}``);
+each node carries ``id``, ``name``/``title``, ``isDir``/``hasChildren`` and -
+on leaf documents - an ``href``/``link``. The crawl therefore walks the JSON
+tree directly with plain httpx (no browser in the happy path):
 
-For each airfield:
+    root └─ "VFR Flight Guide Danmark"
+             └─ "VFG Part 3 - FLYVEPLADSER (AD)"
+                 ├─ "AD 2 - PUBLIC AERODROMES"  → type "vfr"
+                 └─ "AD 3 - HELIPORTS"          → type "heliport"
+
+For each airfield node below AD 2/AD 3:
   - title: the listed label with the ICAO moved to the end and the " - "
     separator dropped, e.g. "Anholt - EKAT" → "Anholt EKAT".
   - icao:  the trailing 4-letter code (e.g. "EKAT"); may be None.
-  - url:   the ADC (Aerodrome Chart) link — the href whose target contains
-    "ADC", e.g. ``EK_AD_2_EKEB_ADC_en.pdf``.
+  - url:   the ADC (Aerodrome Chart) document, e.g.
+    ``EK_AD_2_EKEB_ADC_en.pdf`` - with every other chart document of the
+    airfield collected into ``charts`` (Stage-2 chart list) and the ADC as
+    ``pdf_url``.
 
-IMPORTANT — the exact rendered DOM of aim.naviair.dk is **unverified**: the
-host is unreachable from the build/CI environment, so the structure encoded
-below is the best-effort interpretation of the task spec and has NOT been
-validated against live HTML. The parser is therefore written defensively and
-fails soft: every navigation/parse step is wrapped so a layout mismatch (or a
-missing browser) logs a warning and returns whatever airports were
-recoverable rather than raising. The live-crawl test reveals the real
-rendered structure and we iterate from there.
+The exact node layout below AD 2 is still best-effort (folders per airfield
+vs. direct documents) - the walker handles both, recurses at most two levels
+deep, and logs the node names it saw whenever a navigation step comes up
+empty, so the next live run pinpoints any mismatch. The Playwright base stays
+as the diagnostic fallback: if the JSON walk fails, the root is rendered with
+network capture to reveal what changed.
 """
 
 from __future__ import annotations
@@ -38,134 +40,79 @@ from __future__ import annotations
 import re
 from urllib.parse import urljoin
 
-from bs4 import Tag
-
 from crawlers.http_base import Airport
+from crawlers.models import ChartLink
 from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
 
 COUNTRY = "DK"
 ROOT_URL = "https://aim.naviair.dk/"
+API_URL = "https://aim.naviair.dk/umbraco/api/naviairapi/getnodesforparent"
 
 # Trailing 4-letter ICAO in a label ("Anholt - EKAT" → "EKAT"). Danish codes
 # start with "EK" but we keep the match generic to 4 uppercase letters.
 _ICAO_TRAILING = re.compile(r"([A-Z]{4})\s*$")
 # ICAO embedded in an ADC filename (…_EKEB_ADC_en.pdf → "EKEB").
 _ICAO_IN_HREF = re.compile(r"([A-Z]{4})[_-]?ADC", re.I)
+# Cap mirrors attach_pdf_urls (see http_base): keep payloads bounded.
+_MAX_CHARTS = 50
 
 
 class DK(PlaywrightCrawlerBase):
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
-    # ----- navigation helpers -------------------------------------------------
+    # ----- JSON tree walking ----------------------------------------------
 
-    def _find_link_by_text(
-        self, html: str, base_url: str, *needles: str
-    ) -> str | None:
-        """Return the absolute href of the first `<a>` whose visible text
-        contains any of ``needles`` (case-insensitive), or None."""
-        soup = self.soup(html)
-        wanted = [n.lower() for n in needles]
-        for a in soup.find_all("a", href=True):
-            text = self.clean_text(a.get_text()).lower()
-            if any(n in text for n in wanted):
-                return urljoin(base_url, a["href"])
-        return None
-
-    def _follow(
-        self, html: str, base_url: str, *needles: str
-    ) -> tuple[str, str] | None:
-        """Find a link by text (see :meth:`_find_link_by_text`), render it,
-        and return (url, html). Returns None (logging a warning) if the link
-        is missing or the render fails — the caller decides how to proceed."""
-        url = self._find_link_by_text(html, base_url, *needles)
-        if url is None:
-            self.logger.warning(
-                f"DK: no nav link matching {needles!r} under {base_url}"
-            )
-            # Diagnostic for the live-crawl test: show what links the RENDERED
-            # page exposes (an empty list means even the browser found none -
-            # the tree is likely built via non-anchor click handlers).
-            self.log_candidate_links(
-                html, base_url, limit=40, contains=r"aip|vfg|vfr|dokument|doc"
-            )
-            # The Naviair tree has no <a href> nodes (verified live: 1 anchor
-            # total). Log the INTERACTIVE elements so the next run reveals how
-            # the tree is built (clickable divs/treeitems, an iframe, or a
-            # JSON/API endpoint) - then the click-navigation can be written
-            # precisely instead of guessed.
-            self._log_rendered_structure(html, base_url)
-            return None
-        try:
-            return url, self.render_html(url)
-        except Exception as e:
-            self.logger.warning(f"DK: failed to render nav link {url}: {e}")
-            return None
-
-    def _log_rendered_structure(self, html: str, base_url: str) -> None:
-        """Log the interactive/structural elements of the rendered page.
-
-        The Naviair nav tree is built without <a href> nodes, so the plain
-        link diagnostic comes up almost empty. This surfaces the elements that
-        DO drive navigation - tree items / buttons (click handlers), iframes
-        (the tree may live in one), and script-embedded URLs (a JSON/API the
-        SPA calls) - so the next live run reveals the real structure.
-        """
-        try:
-            soup = self.soup(html)
-
-            # 1. Clickable non-anchor nodes: role=treeitem/button/menuitem/tab,
-            #    <button>, and anything carrying a data-* nav hint.
-            interactive = soup.select(
-                "[role=treeitem], [role=button], [role=menuitem], [role=tab], "
-                "button, [data-href], [data-url], [data-node], [data-id]"
-            )
-            self.logger.warning(
-                f"DK: {len(interactive)} interactive elements on {base_url}; "
-                f"first 30:"
-            )
-            for el in interactive[:30]:
-                text = self.clean_text(el.get_text())[:50]
-                attrs = {
-                    k: v
-                    for k, v in el.attrs.items()
-                    if k in ("role", "data-href", "data-url", "data-node",
-                             "data-id", "class")
-                }
-                self.logger.warning(f"  <{el.name} {attrs}> {text!r}")
-
-            # 2. Iframes - the tree/content may be nested in one.
-            frames = [f.get("src") for f in soup.find_all("iframe") if f.get("src")]
-            if frames:
-                self.logger.warning(f"DK: iframes: {frames[:10]}")
-
-            # 3. Script-embedded URLs (a JSON tree / API endpoint the SPA hits).
-            urls = sorted(
-                set(
-                    re.findall(
-                        r"""["']([^"'<>\s]{3,120}?"""
-                        r"""(?:\.json|/api/|/tree|/nav|/document)[^"'<>\s]{0,60})["']""",
-                        html,
-                        re.I,
-                    )
-                )
-            )
-            if urls:
-                self.logger.warning(f"DK: candidate data URLs: {urls[:20]}")
-        except Exception as e:
-            self.logger.warning(f"DK: structure diagnostics failed: {e}")
-
-    # ----- extraction ---------------------------------------------------------
+    def _nodes(self, parent_id: int | str = "") -> list[dict]:
+        """Children of ``parent_id`` from the Umbraco tree API ([] on any
+        mismatch - the caller logs context)."""
+        response = self.fetch_response(f"{API_URL}?parentId={parent_id}")
+        data = response.json()
+        return data if isinstance(data, list) else []
 
     @staticmethod
-    def _adc_href(container: Tag) -> str | None:
-        """First href in ``container`` that points at an ADC chart."""
-        for a in container.find_all("a", href=True):
-            href = a["href"]
-            title = a.get("title", "") or ""
-            if "ADC" in href.upper() or "ADC" in title.upper():
-                return href
+    def _label(node: dict) -> str:
+        """Human-readable node label (``name`` preferred, ``title`` kept as
+        fallback - the title carries chapter numbering like "01. ...")."""
+        return str(node.get("name") or node.get("title") or "").strip()
+
+    def _child_by_text(self, nodes: list[dict], *needles: str) -> dict | None:
+        """First node whose name/title contains any needle (case-insensitive);
+        logs the available labels when nothing matches."""
+        wanted = [n.lower() for n in needles]
+        for node in nodes:
+            text = f"{node.get('name', '')} {node.get('title', '')}".lower()
+            if any(n in text for n in wanted):
+                return node
+        self.logger.warning(
+            f"DK: no tree node matching {needles!r}; "
+            f"available: {[self._label(n) for n in nodes][:20]}"
+        )
         return None
+
+    @staticmethod
+    def _doc_href(node: dict) -> str | None:
+        """A leaf document's target, wherever the API carries it."""
+        for key in ("href", "link"):
+            value = node.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+        return None
+
+    def _collect_documents(self, node: dict, depth: int = 0) -> list[dict]:
+        """All leaf documents under ``node`` (the node itself if it already
+        is one), recursing at most two folder levels."""
+        href = self._doc_href(node)
+        if href is not None:
+            return [node]
+        if depth >= 2 or not (node.get("isDir") or node.get("hasChildren")):
+            return []
+        docs: list[dict] = []
+        for child in self._nodes(node.get("id", "")):
+            docs.extend(self._collect_documents(child, depth + 1))
+        return docs
+
+    # ----- extraction ------------------------------------------------------
 
     def _title_and_icao(self, label: str) -> tuple[str, str | None]:
         """Normalise a listed label into (title, icao).
@@ -174,137 +121,115 @@ class DK(PlaywrightCrawlerBase):
         dropped and the ICAO kept at the end. ICAO may be None.
         """
         label = self.clean_text(label)
-        # Drop the "-" separator between name and ICAO ("Anholt - EKAT").
         normalised = re.sub(r"\s*-\s*", " ", label).strip()
         match = _ICAO_TRAILING.search(normalised)
         icao = match.group(1) if match else None
         return normalised, icao
 
-    def _extract_section(
-        self, html: str, base_url: str, category: str
-    ) -> list[Airport]:
-        """Best-effort parse of an AD-section listing into airports.
+    def _airport_from_node(self, node: dict, category: str) -> Airport | None:
+        """One airfield node (folder or document) → one Airport, anchored on
+        its ADC chart; every PDF document becomes a charts entry."""
+        title, icao = self._title_and_icao(self._label(node))
+        docs = self._collect_documents(node)
+        if not docs:
+            self.logger.debug(f"DK: no documents under {self._label(node)!r}")
+            return None
 
-        The DOM is unverified, so we anchor on the one signal the spec is
-        explicit about: the ADC chart link. For every anchor whose target is
-        an ADC chart we walk up to the nearest container that also carries a
-        human-readable label, derive title + ICAO from that label (falling
-        back to the ICAO embedded in the ADC filename), and emit one Airport.
-        Anything that doesn't fit is skipped with a debug log — never raised.
-        """
+        charts: list[ChartLink] = []
+        adc_url: str | None = None
+        for doc in docs:
+            href = self._doc_href(doc)
+            if href is None:
+                continue
+            url = urljoin(ROOT_URL, href)
+            name = self._label(doc) or url.rsplit("/", 1)[-1]
+            if len(charts) < _MAX_CHARTS:
+                charts.append(ChartLink(name=name, url=url))
+            if adc_url is None and (
+                "ADC" in href.upper() or "ADC" in name.upper()
+            ):
+                adc_url = url
+
+        if not charts:
+            return None
+        # The ADC is the agreed main link (task spec); fall back to the first
+        # document so an airfield without a dedicated ADC still lists.
+        main_url = adc_url or charts[0].url
+
+        if icao is None:
+            href_match = _ICAO_IN_HREF.search(main_url)
+            if href_match:
+                icao = href_match.group(1).upper()
+                title = title or icao
+        if not title:
+            return None
+
+        return Airport(
+            country=COUNTRY,
+            icao=icao,
+            title=title,
+            url=main_url,
+            pdf_url=main_url if main_url.lower().endswith(".pdf") else None,
+            charts=charts or None,
+            type=category,
+        )
+
+    def _extract_section(self, section: dict, category: str) -> list[Airport]:
         airports: list[Airport] = []
-        seen_urls: set[str] = set()
-        soup = self.soup(html)
-
-        for a in soup.find_all("a", href=True):
-            href = a["href"]
-            title_attr = a.get("title", "") or ""
-            if "ADC" not in href.upper() and "ADC" not in title_attr.upper():
-                continue
-
-            chart_url = urljoin(base_url, href)
-            if chart_url in seen_urls:
-                continue
-
-            # Find a label: climb ancestors until one yields a "…- ICAO" text.
-            label = ""
-            node: Tag | None = a
-            for _ in range(5):
-                node = node.parent if isinstance(node, Tag) else None
-                if node is None:
-                    break
-                candidate = self.clean_text(node.get_text(separator=" "))
-                if _ICAO_TRAILING.search(re.sub(r"\s*-\s*", " ", candidate)):
-                    label = candidate
-                    break
-
-            title, icao = self._title_and_icao(label) if label else ("", None)
-
-            if icao is None:
-                href_match = _ICAO_IN_HREF.search(href)
-                if href_match:
-                    icao = href_match.group(1).upper()
-                    if not title:
-                        title = icao
-
-            if not title:
-                self.logger.debug(f"DK: skipping ADC link without label: {href}")
-                continue
-
-            seen_urls.add(chart_url)
-            airports.append(
-                Airport(
-                    country=COUNTRY,
-                    icao=icao,
-                    title=title,
-                    url=chart_url,
-                    type=category,
-                )
-            )
-
+        for node in self._nodes(section.get("id", "")):
+            airport = self._airport_from_node(node, category)
+            if airport is not None:
+                airports.append(airport)
         self.logger.info(
-            f"DK: extracted {len(airports)} '{category}' airports from {base_url}"
+            f"DK: extracted {len(airports)} '{category}' airports from "
+            f"{self._label(section)!r}"
         )
         return airports
 
-    # ----- entry point --------------------------------------------------------
+    # ----- entry point -----------------------------------------------------
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
-        last_url = ROOT_URL
-        last_html: str | None = None
 
         try:
-            # Render the shell so the JS-built navigation tree is present.
-            # capture_network + settle time: the tree data arrives via XHR
-            # into an Angular treegrid (run 29284116589 saw only ONE anchor in
-            # the settled DOM) - the capture reveals the JSON endpoint the SPA
-            # calls, so the crawl can move to fetching that directly.
-            root_html = self.render_html(
-                ROOT_URL, wait_ms=5000, capture_network=True
-            )
-            last_url, last_html = ROOT_URL, root_html
-            self.log_network_capture()
-
-            # chapter "02. VFR Flight Guide Danmark"
-            step = self._follow(root_html, ROOT_URL, "VFR Flight Guide")
-            if step is None:
+            self.use_browser_headers()
+            root = self._nodes("")
+            vfg = self._child_by_text(root, "VFR Flight Guide")
+            if vfg is None:
+                self._render_diagnostics()
                 return airports
-            last_url, last_html = step
 
-            # "VFG Part 3 - FLYVEPLADSER (AD)"
-            step = self._follow(last_html, last_url, "Part 3", "FLYVEPLADSER")
-            if step is None:
-                return airports
-            part3_url, part3_html = step
-            last_url, last_html = part3_url, part3_html
-
-            # AD 2 - PUBLIC AERODROMES → vfr
-            step = self._follow(part3_html, part3_url, "AD 2", "PUBLIC AERODROMES")
-            if step is not None:
-                ad2_url, ad2_html = step
-                airports.extend(self._extract_section(ad2_html, ad2_url, "vfr"))
-
-            # AD 3 - HELIPORTS → heliport
-            step = self._follow(part3_html, part3_url, "AD 3", "HELIPORTS")
-            if step is not None:
-                ad3_url, ad3_html = step
-                airports.extend(
-                    self._extract_section(ad3_html, ad3_url, "heliport")
-                )
-        except PlaywrightUnavailable as e:
-            # No browser on this host - DK stays unavailable, but the run must
-            # not crash (the other countries still publish).
-            self.logger.error(
-                f"DK skipped - headless browser unavailable: {e}"
+            part3 = self._child_by_text(
+                self._nodes(vfg["id"]), "Part 3", "FLYVEPLADSER"
             )
+            if part3 is None:
+                return airports
+            part3_children = self._nodes(part3["id"])
+
+            ad2 = self._child_by_text(part3_children, "AD 2", "PUBLIC AERODROMES")
+            if ad2 is not None:
+                airports.extend(self._extract_section(ad2, "vfr"))
+
+            ad3 = self._child_by_text(part3_children, "AD 3", "HELIPORTS")
+            if ad3 is not None:
+                airports.extend(self._extract_section(ad3, "heliport"))
         except Exception as e:
             self.logger.error(f"DK crawl failed: {e}")
-            if last_html is not None:
-                self.save_response(last_url, last_html, prefix="crawl_error")
         finally:
             self.close()
 
         self.logger.info(f"Found {len(airports)} airports for {self.country}.")
         return airports
+
+    def _render_diagnostics(self) -> None:
+        """Fallback reconnaissance when the JSON walk finds nothing: render
+        the SPA with network capture so the live-test log shows what the
+        source now calls (endpoint moved/renamed)."""
+        try:
+            self.render_html(ROOT_URL, wait_ms=5000, capture_network=True)
+            self.log_network_capture()
+        except PlaywrightUnavailable as e:
+            self.logger.warning(f"DK: render diagnostics unavailable: {e}")
+        except Exception as e:
+            self.logger.warning(f"DK: render diagnostics failed: {e}")

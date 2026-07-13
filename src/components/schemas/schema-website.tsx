@@ -1,22 +1,33 @@
-"use client";
+import { orgUrl, rootTitle } from "~/lib/utils";
 
-import { usePathname } from "next/navigation";
-import { orgUrl } from "~/lib/utils";
-
+/**
+ * Site-level WebSite node with the Sitelinks-SearchBox action. IDENTICAL on
+ * every page (same @id as the global homepage's inline copy, so crawlers
+ * dedupe it into one entity): WebSite.url is the SITE root, and the
+ * SearchAction target is the ONE URL that actually executes a search - the
+ * global homepage, whose GlobalSearchInputField picks up the valueless query
+ * key (https://aip.aero/?EDNY) and searches across all countries. It must
+ * NEVER be built from the current pathname: /de/efb/?{term} executes nothing,
+ * and /de/vfr/?{term} is the ?ICAO DETAIL scheme, not a search (owner-found
+ * markup bug, 14.07.2026). Server component - no client JS.
+ */
 export function SchemaWebsite() {
-  const pathname = usePathname();
-  const url = new URL(pathname, orgUrl).toString();
-  const target = new URL(`${pathname}?{query}`, orgUrl).toString();
-
   const schema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    url: url,
+    "@id": `${orgUrl.toString()}#website`,
+    url: orgUrl.toString(),
+    name: "AIP:Aero",
+    alternateName: rootTitle,
     potentialAction: {
       "@type": "SearchAction",
-      target: target,
-      query: "required",
-      "query-input": "required maxlength=50 name=query",
+      target: {
+        "@type": "EntryPoint",
+        // orgUrl carries the trailing slash: https://aip.aero/?...
+        urlTemplate: `${orgUrl.toString()}?{search_term_string}`,
+      },
+      // maxlength mirrors the server action's search validation.
+      "query-input": "required maxlength=50 name=search_term_string",
     },
   };
 
