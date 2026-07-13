@@ -284,6 +284,111 @@ export const customsOverrides: Record<string, boolean> = {
   ESSV: true, // Visby
   ESTA: true, // Ängelholm
   ESUP: true, // Pajala
+
+  // ---------------------------------------------------------------------
+  // EE - EANS eAIP GEN 1.2 + AD 1.3 (verified on the runner 13.07.2026,
+  // gen12 recon run 29264498572, AIRAC 2026-07-09; verbatim rows in
+  // crawlers/recon/gen12-batch1.md): the GEN 1.2 customs table (H24,
+  // smaller fields with 1 HR prior notice - the filed FPL counts as the
+  // notice) matches the AD 1.3 INTL designations 1:1. EEEI (Ämari) is
+  // INTL but MIL-only traffic - no GA entry here. All other EE fields
+  // are NTL.
+  EETN: true, // Lennart Meri Tallinn (customs H24)
+  EEKA: true, // Kärdla (H24, 1 HR PN - FPL accepted)
+  EEKE: true, // Kuressaare (H24, 1 HR PN - FPL accepted)
+  EEPU: true, // Pärnu (H24, 1 HR PN - FPL accepted)
+  EETU: true, // Tartu (H24, 1 HR PN - FPL accepted)
+
+  // ---------------------------------------------------------------------
+  // FI - Fintraffic ANS eAIP GEN 1.2 + AD 1.3 (verified on the runner
+  // 13.07.2026, gen12 recon run 29264498572): GEN 1.2 names the statutory
+  // border crossing points for air traffic (Decree 901/2006) where customs
+  // and border control are available on a regular basis; AD 1.3 designates
+  // the same set INTL. EFHA/EFMI/EFUT are INTL with customs strictly on
+  // prior permission (48/24/48 HR per the GEN 1.2 permission table) -
+  // still true per the "possibly on request" semantics above. EFVR is
+  // INTL per AD 1.3 (the GEN 1.2 quote was recon-truncated before its
+  // position). EFTV (hospital heliport, AD 3) deliberately absent.
+  EFET: true, // Enontekiö
+  EFHK: true, // Helsinki-Vantaa
+  EFIV: true, // Ivalo
+  EFJO: true, // Joensuu
+  EFJY: true, // Jyväskylä
+  EFKI: true, // Kajaani
+  EFKE: true, // Kemi-Tornio
+  EFKT: true, // Kittilä
+  EFKK: true, // Kokkola-Pietarsaari
+  EFKU: true, // Kuopio
+  EFKS: true, // Kuusamo
+  EFLP: true, // Lappeenranta
+  EFMA: true, // Mariehamn
+  EFOU: true, // Oulu
+  EFPO: true, // Pori
+  EFRO: true, // Rovaniemi
+  EFSA: true, // Savonlinna
+  EFSI: true, // Seinäjoki
+  EFTP: true, // Tampere-Pirkkala
+  EFTU: true, // Turku
+  EFVA: true, // Vaasa
+  EFVR: true, // Varkaus (INTL per AD 1.3)
+  EFHA: true, // Halli (customs PPR 48 HR)
+  EFMI: true, // Mikkeli (customs PPR 24 HR)
+  EFUT: true, // Utti (MIL AD; customs PPR 48 HR)
+
+  // ---------------------------------------------------------------------
+  // LV - LGS eAIP AD 1.3 (verified on the runner 13.07.2026, gen12 recon
+  // run 29264498572, AMDT 005/2026): GEN 1.2 has no per-aerodrome customs
+  // table, so the AD 1.3 INTL designation is the source. EVGA (Lielvarde)
+  // is INTL but MIL - no entry. The remaining fields/heliports are NTL.
+  EVRA: true, // Riga
+  EVLA: true, // Liepaja
+  EVVA: true, // Ventspils (VFR only)
+
+  // ---------------------------------------------------------------------
+  // IS - Isavia eAIP GEN 1.2 + AD 1.3 (verified on the runner 13.07.2026,
+  // gen12 recon run 29264498572, edition A 06-2026): GEN 1.2 designates
+  // exactly these four as international aerodromes (first landing / final
+  // departure), AD 1.3 agrees. Iceland is outside the EU customs union,
+  // so this is the point-of-entry list; all other ~50 fields are NTL.
+  BIKF: true, // Keflavik
+  BIRK: true, // Reykjavik
+  BIEG: true, // Egilsstadir
+  BIAR: true, // Akureyri
+
+  // ---------------------------------------------------------------------
+  // PT - NAV Portugal eAIP GEN 1.2 + AD 1.3 (verified on the runner
+  // 13.07.2026, gen12 recon run 29264498572): GEN 1.2 lists the class IV
+  // international airports; AD 1.3 designates them INTL. LPHR (Horta) is
+  // in the GEN 1.2 class-IV list but its AD 1.3 row is NTL - conflicting
+  // sources, deliberately NO entry until AD 2 LPHR is checked. LPBJ
+  // (Beja, "NTL / INTL" mixed MIL air base) also stays absent. LPLA
+  // (Lajes) is a MIL air base but INTL with civil scheduled traffic.
+  // The Extra-EU authorisation fields (LPCS/LPFL/LPPI/LPGR/LPSJ) are NOT
+  // designated customs airports - entry needs ANAC/PSP/customs
+  // authorisation per flight - and stay absent.
+  LPPT: true, // Lisboa
+  LPPR: true, // Porto
+  LPFR: true, // Faro
+  LPMA: true, // Madeira
+  LPPS: true, // Porto Santo
+  LPPD: true, // Ponta Delgada
+  LPAZ: true, // Santa Maria
+  LPLA: true, // Lajes (MIL air base, INTL civil traffic)
+
+  // ---------------------------------------------------------------------
+  // HU - HungaroControl eAIP AD 1.3 (verified on the runner 13.07.2026,
+  // gen12 recon run 29264498572, AIRAC 2026-06-11): GEN 1.2 carries no
+  // customs table; AD 1.3 designates ALL eight AD-2 aerodromes INTL - NTL.
+  // Hungary is Schengen, so customs matters for extra-EU traffic;
+  // operating hours differ per field (see AD 2).
+  LHBC: true, // Békéscsaba
+  LHBP: true, // Budapest / Liszt Ferenc
+  LHDC: true, // Debrecen
+  LHPR: true, // Győr / Pér
+  LHNY: true, // Nyíregyháza
+  LHPP: true, // Pécs / Pogány
+  LHSM: true, // Hévíz / Balaton
+  LHUD: true, // Szeged
 };
 
 /** Verified override for an ICAO, or undefined when none exists. */
