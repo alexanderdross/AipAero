@@ -91,6 +91,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // LT: the ANS eAIP crawler covers the AD-2 aerodrome list (type "vfr");
   // Lithuania's four international aerodromes, no AD-3 heliport chapter.
   lt: ["vfr"],
+  // RS: the SMATSA public VFR AIP lists aerodromes AND helidromes as one
+  // AD-2 set (~35 fields); the crawler classifies them all as "vfr".
+  rs: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -143,6 +146,13 @@ export const liveCountries: string[] = [
   // chart coverage); first data published via the manual crawl dispatch on
   // launch day.
   "lt",
+  // Serbia (14.07.2026): SMATSA public VFR AIP (the IFR eAIP is paywalled).
+  // The AD page is JS-rendered, so the crawler uses PlaywrightCrawlerBase
+  // (like DK); live-validated (run 29325083251 - 35 aerodromes, 35/35 chart
+  // PDF coverage, 99 charts), names from the AD 1.3 index. The joint
+  // Serbia/Montenegro AIP includes a few Montenegrin fields. First data
+  // published via the manual crawl dispatch on launch day.
+  "rs",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source
   // (HASP rejects even the Web Unlocker, see crawlers/recon/):
   // "gr",
@@ -186,4 +196,5 @@ export const countryMeta: Record<
   hu: { lang: "hu", name: "Hungary", flag: "🇭🇺", nativeLang: "Hungarian" },
   si: { lang: "sl", name: "Slovenia", flag: "🇸🇮", nativeLang: "Slovenian" },
   lt: { lang: "lt", name: "Lithuania", flag: "🇱🇹", nativeLang: "Lithuanian" },
+  rs: { lang: "sr", name: "Serbia", flag: "🇷🇸", nativeLang: "Serbian" },
 };
