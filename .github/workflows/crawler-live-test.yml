@@ -305,7 +305,7 @@ jobs:
                   print(f"   title: {title}")
                   text = " ".join(soup.get_text(" ", strip=True).split())
                   print(f"   text head: {text[:2500]}")
-                  api_re = re.compile(r"api|notam|gramet|token|oauth|metar|briefing|swagger|openapi|chart|kartta|kort|vac|adc|iac|2\.24|Charts|WePub", re.I)
+                  api_re = re.compile(r"api|notam|gramet|token|oauth|metar|briefing|swagger|openapi|chart|kartta|kort|vac|adc|iac|2\.24|Charts|WePub|aip|eaip|AD-|AD_|index|start|html|login|prijava|subscribe", re.I)
                   seen = set()
                   for a in soup.find_all("a", href=True):
                       label = " ".join(a.get_text(" ", strip=True).split())[:60]
