@@ -5,6 +5,7 @@ import { SectionHeading } from "~/components/section-heading";
 import {
   airacDateFromUrl,
   chartDisplayName,
+  cleanChartName,
   type ChartLink,
 } from "~/lib/charts";
 import { localeLangMapping } from "~/i18n/routing";
@@ -86,7 +87,7 @@ export async function AirportChart({
               <li key={chart.url}>
                 <ExternalLink
                   href={chart.url}
-                  hrefTitle={`${chart.name} (PDF)`}
+                  hrefTitle={`${cleanChartName(chart.name)} (PDF)`}
                   className="text-drossblue break-words hover:underline"
                 >
                   {chartDisplayName(chart.name, lang)}

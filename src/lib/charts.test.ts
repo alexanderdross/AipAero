@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { airacDateFromUrl, chartTypeLabel, parseCharts } from "./charts";
+import {
+  airacDateFromUrl,
+  chartDisplayName,
+  chartTypeLabel,
+  cleanChartName,
+  parseCharts,
+} from "./charts";
 
 describe("parseCharts", () => {
   it("parses a valid chart list", () => {
@@ -103,5 +109,45 @@ describe("chartTypeLabel", () => {
     expect(chartTypeLabel("AD 2.EGPD-2-1", "en")).toBeNull();
     expect(chartTypeLabel("", "en")).toBeNull();
     expect(chartTypeLabel(null, "en")).toBeNull();
+  });
+
+  it("matches a designator glued to its number (BE-style filenames)", () => {
+    expect(chartTypeLabel("EBAW_ADC01_v48.pdf", "en")).toBe("Aerodrome Chart");
+    expect(chartTypeLabel("../graphics/eAIP/EBAW_ADC02_v06.pdf", "en")).toBe(
+      "Aerodrome Chart",
+    );
+    expect(chartTypeLabel("ESNX_VAC1", "en")).toBe("Visual Approach Chart");
+  });
+});
+
+describe("cleanChartName", () => {
+  it("strips a leading path and a trailing .pdf", () => {
+    expect(cleanChartName("../graphics/eAIP/EBAW_ADC01_v48.pdf")).toBe(
+      "EBAW_ADC01_v48",
+    );
+    expect(cleanChartName("../graphics/eAIP/LP_AD_2_LPBJ_01-1_en.pdf")).toBe(
+      "LP_AD_2_LPBJ_01-1_en",
+    );
+  });
+
+  it("leaves already-clean names untouched", () => {
+    expect(cleanChartName("ADC 1")).toBe("ADC 1");
+    expect(cleanChartName("ESNX VAC")).toBe("ESNX VAC");
+    expect(cleanChartName("AD 2-LKTB-2-1")).toBe("AD 2-LKTB-2-1");
+  });
+});
+
+describe("chartDisplayName", () => {
+  it("shows the cleaned code plus its localized meaning", () => {
+    // A raw href name (BE) becomes a readable code + spelled-out type.
+    expect(chartDisplayName("../graphics/eAIP/EBAW_ADC01_v48.pdf", "en")).toBe(
+      "EBAW_ADC01_v48 - Aerodrome Chart",
+    );
+    // A clean designator keeps its existing behaviour.
+    expect(chartDisplayName("IAC 7", "de")).toBe(
+      "IAC 7 - Instrumentenanflugkarte",
+    );
+    // No known designator: just the cleaned code.
+    expect(chartDisplayName("AD 2-LKTB-2-1", "en")).toBe("AD 2-LKTB-2-1");
   });
 });

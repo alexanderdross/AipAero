@@ -211,6 +211,22 @@ const CHART_TYPES: Record<
 const CHART_TOKEN_SPLIT = /[\s_.\-/]+/;
 
 /**
+ * Some sources put the chart's relative href (or bare filename) as the link
+ * text, so the stored `name` can be a URL fragment like
+ * "../graphics/eAIP/EBAW_ADC01_v48.pdf" (BE/PT/SI). Strip any leading path
+ * segments and a trailing ".pdf" so the box shows a readable code instead of a
+ * path. Clean names ("ADC 1", "ESNX VAC", "AD 2-LKTB-2-1") have no slash and no
+ * ".pdf", so they pass through untouched.
+ */
+export function cleanChartName(name: string): string {
+  let out = name.trim();
+  const slash = out.lastIndexOf("/");
+  if (slash !== -1) out = out.slice(slash + 1).trim();
+  if (/\.pdf$/i.test(out)) out = out.slice(0, -4).trim();
+  return out || name.trim();
+}
+
+/**
  * The full, localized name of the chart type encoded in a chart designation
  * ("IAC 7" -> "Instrument Approach Chart"), or null when the name carries no
  * known standard designator. Pure; used to enrich the raw code shown to the
@@ -221,8 +237,11 @@ export function chartTypeLabel(
   lang: string,
 ): string | null {
   if (!name) return null;
-  for (const token of name.split(CHART_TOKEN_SPLIT)) {
-    const entry = CHART_TYPES[token.toUpperCase()];
+  for (const token of cleanChartName(name).split(CHART_TOKEN_SPLIT)) {
+    // Match the token, and also the token with any trailing digits removed so a
+    // designator glued to its number ("ADC01", "VAC1", "SID12") still resolves.
+    const key = token.toUpperCase().replace(/\d+$/, "");
+    const entry = CHART_TYPES[key];
     if (entry) return entry[lang] ?? entry.en;
   }
   return null;
@@ -236,6 +255,7 @@ export function chartTypeLabel(
  * chart box and the DigitalDocument JSON-LD so both read identically.
  */
 export function chartDisplayName(name: string, lang: string): string {
+  const clean = cleanChartName(name);
   const full = chartTypeLabel(name, lang);
-  return full ? `${name} - ${full}` : name;
+  return full ? `${clean} - ${full}` : clean;
 }
