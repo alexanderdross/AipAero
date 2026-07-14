@@ -1,6 +1,42 @@
-# AIP:Aero - Offene Aufgaben (Stand: 12.07.2026)
+# AIP:Aero - Offene Aufgaben (Stand: 14.07.2026)
 
 Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional · ✅ erledigt
+
+## 🔴 0. OpenAIP-Coord-Backfill freischalten (Owner + Claude, 14.07.2026)
+
+**Ziel:** die ~65 Felder mit ICAO aber ohne `airport_facts`-Zeile (Kranken­haus-
+Heliports + kleine ULM/Privatplätze, die OurAirports nicht führt) auf die Karte
+bringen. Code steht (Branch `claude/markdown-wishlist-import-9ao7tb`, Commit
+`7b2d19d`): `crawlers/import_openaip_backfill.py` + `GET /api/airport-facts`
+(Missing-Liste) + `facts-import.yml` `backfill`-Modus (Dry-run-Default). Details:
+`docs/data-backfill-runbook.md` Abschnitt C.
+
+**Blocker:** der Dry-run (Run `29364775295`) zeigt `OPENAIP_API_KEY:` **leer** im
+Runner - ein **Repository**-Secret mit exakt diesem Namen fehlt (Environment-
+Secret zählt nicht; der Job nutzt kein `environment:`). Ein vorhandenes Secret
+erschiene als `***`.
+
+- **Owner:** `OPENAIP_API_KEY` als **Repository**-Secret setzen (gleicher Wert
+  wie das Worker-Secret), Name exakt.
+- **Dann Claude:** denselben Dry-run erneut feuern → aufgelöste Coords prüfen →
+  `apply`-Lauf → Karte verifizieren. Danach ggf. in den Wochenplan aufnehmen.
+- Website-Teil (`GET /api/airport-facts`) muss nach `main` deployt sein, damit
+  der Nicht-Explicit-Lauf die Missing-Liste ziehen kann (Dry-run mit `icaos:`
+  geht auch ohne Deploy).
+
+## ✅ 0a. Chart-Namen ausgeschrieben (PDC/TRAN) - ERLEDIGT (14.07.2026, gemergt)
+
+`chartDisplayName` schreibt Standard-ICAO-Chart-Codes lokalisiert aus. `PDC` und
+`TRAN` (ENAIRE/ES) waren roh; per PDF-Text-Recon der AD-2-LEBL-Charts verifiziert
+(PDC = Aircraft Parking/Docking, TRAN = Approach Transition) und ins
+`charts.ts`-Glossar aufgenommen (en/de/fr/nl). Merged via PR #264.
+
+## ✅ 0b. Chart-PDF-Abdeckungs-Audit - ERLEDIGT (14.07.2026)
+
+Live gegen alle Live-Länder geprüft: **keine 0-Länder, keine Extraktions-Lücke.**
+100% auf CZ/DK/NO/PL/SE/EE/LV/PT/SI/HU/UK/FR/NL/AT/ES (ES 50/51). Die zwei
+niedrigen (BE 22/167, IS 7/53) sind quellseitig korrekt (nur öffentliche
+Aerodrome bzw. Hauptflugplätze gechartet), kein Fix nötig. DE bewusst ohne.
 
 ## ✅ 1. `CRON_SECRET` als GitHub-Actions-Secret anlegen (Owner) - ERLEDIGT
 

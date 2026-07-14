@@ -62,6 +62,13 @@ stays future scope.
 
 ## Current state
 
+> **Coverage status 14.07.2026 (Stage 2 largely done):** a live audit found no
+> 0-coverage live country and no extraction gap. 100% (relative to what each
+> source publishes) on CZ/DK/NO/PL/SE/EE/LV/PT/SI/HU/UK/FR/NL/AT/ES; BE 22/167
+> and IS 7/53 are correct-by-source (only public/major aerodromes are charted).
+> DE is HTML-only by design. Chart names are spelled out via `chartDisplayName`
+> (`src/lib/charts.ts`); verified state codes incl. ENAIRE `PDC`/`TRAN`.
+
 Per airport we store a single `url` (crawler output, `airports.url`). What it
 points at **varies by country/source**:
 
