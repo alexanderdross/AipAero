@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { airacDateFromUrl, parseCharts } from "./charts";
+import { airacDateFromUrl, chartTypeLabel, parseCharts } from "./charts";
 
 describe("parseCharts", () => {
   it("parses a valid chart list", () => {
@@ -62,5 +62,34 @@ describe("airacDateFromUrl", () => {
       airacDateFromUrl("https://aim.rlp.cz/eaip/graphics/a2-tb-adc.pdf"),
     ).toBeNull();
     expect(airacDateFromUrl(null)).toBeNull();
+  });
+});
+
+describe("chartTypeLabel", () => {
+  it("expands a leading designator token (ES-style names)", () => {
+    expect(chartTypeLabel("IAC 7", "en")).toBe("Instrument Approach Chart");
+    expect(chartTypeLabel("AOC 1", "en")).toBe("Aerodrome Obstacle Chart");
+    expect(chartTypeLabel("SID 5", "en")).toBe("Standard Instrument Departure");
+  });
+
+  it("localises to the request language, with English fallback", () => {
+    expect(chartTypeLabel("VAC 1", "de")).toBe("Sichtanflugkarte");
+    expect(chartTypeLabel("VAC 1", "fr")).toBe("Carte d'approche à vue");
+    // A locale with no dedicated entry falls back to English.
+    expect(chartTypeLabel("VAC 1", "is")).toBe("Visual Approach Chart");
+  });
+
+  it("matches a designator as a whole token anywhere in the name", () => {
+    // Space-separated (SE ESNX style) and underscore/filename (IS) forms.
+    expect(chartTypeLabel("ESNX VAC", "en")).toBe("Visual Approach Chart");
+    expect(chartTypeLabel("BIKF_8_VFR_RWY_01", "en")).toBe("VFR Chart");
+  });
+
+  it("returns null for an unknown or non-standard designation", () => {
+    // "PDC" is not a standard ICAO designator - kept as the raw code.
+    expect(chartTypeLabel("PDC 1", "en")).toBeNull();
+    expect(chartTypeLabel("AD 2.EGPD-2-1", "en")).toBeNull();
+    expect(chartTypeLabel("", "en")).toBeNull();
+    expect(chartTypeLabel(null, "en")).toBeNull();
   });
 });
