@@ -26,8 +26,35 @@ class FI(HttpEurocontrolBase):
     convention as NO/PL/SE), heliports fail-soft as "heliport".
     """
 
+    # Stage 2: the eurocontrol menu points each airport at a numbered AD 2
+    # sub-page (the base's fallback picks the last one, the waypoints section
+    # "15-en-GB", which only links the WPT_LIST/FAS_DB data PDFs). The AD 2.24
+    # charts, however, all live on the single full-aerodrome document page,
+    # numbered "1-fi-FI" for EVERY airfield (verified in the menu, dump run
+    # 29316929661) - that page links every ADC / VAC / IAC / approach chart as
+    # ../documents/Root_WePub/ANSFI/Charts/AD/<ICAO>/EF_AD_2_<ICAO>_<TYPE>.pdf.
+    # crawl() rewrites each url to that page before attach_pdf_urls runs. The
+    # link text is empty (icon links), so prefer the VFR visual approach chart
+    # (VAC) then the aerodrome chart (ADC) for the primary pdf_url by HREF.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_VAC\.pdf", r"_ADC\.pdf")
+
+    # `<sep><N>-<lang>.html[#anchor]` -> `<sep>1-fi-FI.html` (the full-doc
+    # chart page). `<sep>` is the space before the section number, kept as-is
+    # so a literal-space OR %20-encoded url is rewritten in kind.
+    _CHART_PAGE_RE = re.compile(
+        r"(\s+|(?:%20)+)\d+-[A-Za-z]{2}-[A-Za-z]{2}\.html(?:#.*)?$"
+    )
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
+
+    def _chart_index_url(self, url: str) -> str:
+        """Rewrite an AD 2 sub-page url to the full-aerodrome document page
+        (section "1-fi-FI"), which carries every chart PDF link. Unchanged if
+        the url does not match the expected pattern (fail-soft)."""
+        rewritten, n = self._CHART_PAGE_RE.subn(r"\g<1>1-fi-FI.html", url)
+        return rewritten if n else url
 
     def _resolve_index(self) -> str:
         last_error: Exception | None = None
@@ -79,6 +106,10 @@ class FI(HttpEurocontrolBase):
                     r"\s*AERONAUTICAL DATA", "", airport.title, flags=re.I
                 )
                 airport.title = title.lstrip(" -").strip()
+                # Point the url at the full-aerodrome document page so it (and
+                # attach_pdf_urls below) sees the AD 2.24 chart links, not just
+                # the waypoints sub-page.
+                airport.url = self._chart_index_url(airport.url)
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
