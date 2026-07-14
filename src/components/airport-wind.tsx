@@ -86,6 +86,31 @@ export function AirportWind({
 
   const ends = runwayEnds(runways);
   const lines = runwayLines(ends);
+  // Recommended-landing runway decoration: a green threshold bar at the landing
+  // threshold and a green arrow running along the runway in the landing
+  // direction (threshold -> far/rollout end), so the diagram reads like the
+  // real runway (land toward the designator's heading).
+  const recRunway = rec
+    ? (() => {
+        const h = rec.heading;
+        const [fx, fy] = compassPoint(C, C, R - 20, h); // far (rollout) end
+        const [tx, ty] = compassPoint(C, C, R - 20, (h + 180) % 360); // threshold
+        const rad = (h * Math.PI) / 180;
+        const px = Math.cos(rad); // unit vector perpendicular to the runway
+        const py = Math.sin(rad);
+        const half = 8;
+        return {
+          fx,
+          fy,
+          tx,
+          ty,
+          bx1: tx - half * px,
+          by1: ty - half * py,
+          bx2: tx + half * px,
+          by2: ty + half * py,
+        };
+      })()
+    : null;
   // Arrow geometry is only meaningful for a fixed vector.
   const [ax, ay] = hasVector ? compassPoint(C, C, R - 1, wdir) : [0, 0];
   const [hx, hy] = hasVector ? compassPoint(C, C, 34, wdir) : [0, 0];
@@ -129,6 +154,16 @@ export function AirportWind({
               orient="auto"
             >
               <path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6a9a" />
+            </marker>
+            <marker
+              id="rwy-dir"
+              markerWidth="7"
+              markerHeight="7"
+              refX="4.5"
+              refY="3.5"
+              orient="auto"
+            >
+              <path d="M0,0 L7,3.5 L0,7 Z" fill="#16a34a" />
             </marker>
           </defs>
 
@@ -182,9 +217,38 @@ export function AirportWind({
             />
           ))}
 
-          {/* runway end designators; the recommended landing end is highlighted */}
+          {/* Recommended landing runway: green threshold bar + a green arrow in
+              the landing direction (threshold -> rollout end). */}
+          {recRunway && (
+            <>
+              <line
+                x1={recRunway.tx}
+                y1={recRunway.ty}
+                x2={recRunway.fx}
+                y2={recRunway.fy}
+                stroke="#16a34a"
+                strokeWidth="4"
+                markerEnd="url(#rwy-dir)"
+              />
+              <line
+                x1={recRunway.bx1}
+                y1={recRunway.by1}
+                x2={recRunway.bx2}
+                y2={recRunway.by2}
+                stroke="#16a34a"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+            </>
+          )}
+
+          {/* Runway end designators, placed at their PHYSICAL THRESHOLD - the
+              reciprocal end. When you land on 06 you touch down at the SW end,
+              where the "06" numbers are painted on the pavement, so "06" sits SW
+              (bearing 240), not at its heading bearing 060 (ICAO Annex 14 runway
+              markings). The recommended landing end is highlighted green. */}
           {ends.map((e) => {
-            const [x, y] = compassPoint(C, C, R - 34, e.heading);
+            const [x, y] = compassPoint(C, C, R - 34, (e.heading + 180) % 360);
             const isRec = rec?.heading === e.heading;
             return (
               <g key={e.heading}>

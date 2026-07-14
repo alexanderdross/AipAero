@@ -2,27 +2,24 @@
 
 Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional · ✅ erledigt
 
-## 🔴 0. OpenAIP-Coord-Backfill freischalten (Owner + Claude, 14.07.2026)
+## ✅ 0. OpenAIP-Coord-Backfill - ERLEDIGT + APPLY GELAUFEN (14.07.2026)
 
-**Ziel:** die ~65 Felder mit ICAO aber ohne `airport_facts`-Zeile (Kranken­haus-
-Heliports + kleine ULM/Privatplätze, die OurAirports nicht führt) auf die Karte
-bringen. Code steht (Branch `claude/markdown-wishlist-import-9ao7tb`, Commit
-`7b2d19d`): `crawlers/import_openaip_backfill.py` + `GET /api/airport-facts`
-(Missing-Liste) + `facts-import.yml` `backfill`-Modus (Dry-run-Default). Details:
+**Ziel:** Felder mit ICAO aber ohne `airport_facts`-Zeile (Krankenhaus-Heliports
++ kleine ULM/Privatplätze, die OurAirports nicht führt) auf die Karte bringen.
+Code: `crawlers/import_openaip_backfill.py` + `GET /api/airport-facts`
+(Missing-Liste) + `facts-import.yml` `backfill`-Modus. Doku:
 `docs/data-backfill-runbook.md` Abschnitt C.
 
-**Blocker:** der Dry-run (Run `29364775295`) zeigt `OPENAIP_API_KEY:` **leer** im
-Runner - ein **Repository**-Secret mit exakt diesem Namen fehlt (Environment-
-Secret zählt nicht; der Job nutzt kein `environment:`). Ein vorhandenes Secret
-erschiene als `***`.
-
-- **Owner:** `OPENAIP_API_KEY` als **Repository**-Secret setzen (gleicher Wert
-  wie das Worker-Secret), Name exakt.
-- **Dann Claude:** denselben Dry-run erneut feuern → aufgelöste Coords prüfen →
-  `apply`-Lauf → Karte verifizieren. Danach ggf. in den Wochenplan aufnehmen.
-- Website-Teil (`GET /api/airport-facts`) muss nach `main` deployt sein, damit
-  der Nicht-Explicit-Lauf die Missing-Liste ziehen kann (Dry-run mit `icaos:`
-  geht auch ohne Deploy).
+- `OPENAIP_API_KEY` als Repo-Secret gesetzt (Owner), Dry-run grün (Run
+  `29368528625`: 6/8 Beispiele aufgelöst), **`apply` gelaufen** (Run
+  `29368834237`).
+- **Ergebnis (D1-verifiziert): 34 Zeilen `source='openaip-backfill'`
+  geschrieben, Lücke 65 → 30.** Die restlichen 30 kennt auch OpenAIP nicht
+  (Hospital-HLPs wie LPLR, Kleinstplätze wie EBAF) - erwarteter Boden; sie
+  heilen sich per on-read-Write-back beim Seitenbesuch.
+- **Optional (🟢):** den `backfill`-Schritt in den Wochenplan von
+  `facts-import.yml` aufnehmen, damit künftige neue Felder automatisch coords
+  bekommen (aktuell manuell).
 
 ## ✅ 0a. Chart-Namen ausgeschrieben (PDC/TRAN) - ERLEDIGT (14.07.2026, gemergt)
 
@@ -37,6 +34,57 @@ Live gegen alle Live-Länder geprüft: **keine 0-Länder, keine Extraktions-Lüc
 100% auf CZ/DK/NO/PL/SE/EE/LV/PT/SI/HU/UK/FR/NL/AT/ES (ES 50/51). Die zwei
 niedrigen (BE 22/167, IS 7/53) sind quellseitig korrekt (nur öffentliche
 Aerodrome bzw. Hauptflugplätze gechartet), kein Fix nötig. DE bewusst ohne.
+
+## ✅ 0c. Chart-Namen bereinigt (Pfad/Dateiname) - ERLEDIGT (14.07.2026)
+
+BE/PT/SI speicherten den relativen Chart-Href als Name (z.B.
+`../graphics/eAIP/EBAW_ADC01_v48.pdf`) - stand roh in der Chart-Box.
+`cleanChartName` (Pfad + `.pdf` strippen) in `charts.ts`, plus Designator-Match
+auch bei angeklebter Zahl (`ADC01`→ADC). Reine Anzeige-Schicht, unit-getestet.
+
+## ✅ 0d. Windkomponenten-Diagramm korrigiert - ERLEDIGT (14.07.2026)
+
+Owner-Hinweis: die aktive Landerichtung (grün) saß auf der falschen Seite. Fix
+(`airport-wind.tsx`): jede Bahn-Bezeichnung sitzt jetzt an ihrer **physischen
+Schwelle** (Reziprok-Peilung) - bei Landung 06 setzt man an der SW-Schwelle auf,
+wo die "06" gemalt ist (ICAO Annex 14). Für die empfohlene Bahn zusätzlich grüne
+Schwellenmarkierung + grüner Pfeil in Landerichtung.
+
+## 🟢 0e. ES 50/51 - LECU/LEVS ohne Chart (minor, 14.07.2026)
+
+Einziges ES-Feld ohne `pdf_url`: **LECU/LEVS** (Madrid/Cuatro Vientos), ein
+Doppel-ICAO-Aerodrom unter `LECU_LEVS/`. Die Chart-Dateinamen tragen den
+Doppel-Key (`LE_AD_2_LECU_LEVS_<TYPE>_<N>_en.pdf`), den `_CHART_HREF_RE` in
+`es.py` (`LE_AD_2_<ICAO>_<TYPE>_<N>`) nicht matcht. Fix: Regex um ein optionales
+zweites ICAO-Segment erweitern (`([A-Z]{4})(?:_[A-Z]{4})?_...`) + kurzer
+`check_urls`/`pdf_recon` gegen den echten Dateinamen + Re-Crawl. Niedriger Wert
+(1 Feld), daher zurückgestellt.
+
+## 🟡 8. Gated-Länder via OpenAIP sichtbar machen (IT/HR/IE/SK) - SCOPING + BLOCKER
+
+**Idee (Owner-Wunsch):** Länder mit paywall-/blockiertem AIP (Italien ENAV,
+Kroatien, Irland IAA, Slowakei LPS) mit **Grundabdeckung aus OpenAIP** zeigen
+statt gar nicht - Flugplatzliste + Coords + Detailseite ohne Portal-Login.
+
+**🔴 Blocker (Owner-Entscheidung nötig, vor jeder Umsetzung):**
+**Lizenz.** OpenAIP ist **CC BY-NC-SA (nicht-kommerziell)**. Die aktuelle Nutzung
+ist eine *per-Feld-Anreicherung als Fallback*; OpenAIP als **primäre
+Ganzland-Datenquelle** (die komplette Aerodrom-Liste eines Landes) ist eine
+andere, deutlich weitergehende Nutzung - und die Site schaltet AdSense
+(kommerziell). Das muss lizenzrechtlich geklärt werden (bezahlte OpenAIP-Lizenz,
+oder Verzicht auf Ads für diese Länder, oder alternative Quelle), **bevor** ein
+gated-Land so onboardet wird. Siehe auch den Lizenz-Hinweis im Backfill-Runbook.
+
+**Umfang, falls Lizenz geklärt (pro Land):** OpenAIP-basierter "Crawler" (Aerodrom-
+Liste des Landes via OpenAIP-Country-Query) → `/api/airports` (neuer
+Quell-Typ/`source`) → Locales/Prefix/Slug in `routing.ts` → `countryTypeAvailability`
++ `countryMeta` → zwei Übersetzungsdateien → E2E → Launch-Flag in `liveCountries`.
+Kein AIP-Chart-Link (nur OpenAIP-Daten + ggf. Deep-Link zu OpenAIP). Alternativ
+**Italien**: ENAV Self-Briefing ist login-only, kein offener eAIP - hier ist
+OpenAIP ohnehin die einzige Option (recon 14.07., run 29352948630).
+
+**Empfehlung:** erst die Lizenzfrage entscheiden; dann ein Land als Piloten
+(z.B. IE oder HR) durchziehen, bevor der Rest folgt.
 
 ## ✅ 1. `CRON_SECRET` als GitHub-Actions-Secret anlegen (Owner) - ERLEDIGT
 
