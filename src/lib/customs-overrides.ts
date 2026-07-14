@@ -495,6 +495,21 @@ export const customsOverrides: Record<string, boolean> = {
   EKST: true, // Taasinge / Elvira Madigan Airport
   EKVH: true, // Vesthimmerland
   EKAE: true, // AEroe
+
+  // ---------------------------------------------------------------------
+  // LT - ANS Lithuania eAIP AD 1.3 (verified on the runner 14.07.2026 via
+  // the gen12 recon through the Bright Data Web Unlocker, run 29351725602,
+  // AIRAC 2026-06-11; verbatim rows in crawlers/recon/gen12-lt.md): GEN 1.2
+  // carries no per-aerodrome customs table (only the authorities + the
+  // declaration-forms table), so the AD 1.3 "Type of traffic permitted"
+  // column is the source - it designates all four Lithuanian aerodromes
+  // INTL. EYSA (Šiauliai) is INTL-NTL-MIL (joint civil/military,
+  // non-scheduled) - customs available, so included (contrast EE EEEI /
+  // DK EKSP, which are MIL-only and absent).
+  EYKA: true, // Kaunas
+  EYPA: true, // Palanga
+  EYSA: true, // Šiauliai (joint civil/MIL, INTL)
+  EYVI: true, // Vilnius
 };
 
 /** Verified override for an ICAO, or undefined when none exists. */
