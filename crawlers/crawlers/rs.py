@@ -53,12 +53,47 @@ _AD2_PDF_RE = re.compile(
 _ICAO_RE = re.compile(r"^LY[A-Z]{2}$")
 _MAX_CHARTS = 50
 
-# Serbian VFR aerodromes/airfields with a confirmed name. An unmapped KEY
-# still lists (ICAO/KEY as its title), so a newly published field is caught;
-# the website enriches the name/facts by ICAO (OpenAIP/OurAirports) anyway.
+# Aerodrome names from the SMATSA VFR AIP AD 1.3 "Index of Aerodromes and
+# Heliports" (the source is the joint Serbia / Montenegro VFR AIP, so a few
+# fields are Montenegrin - Podgorica/Tivat/Nikšić). Official Serbian-Latin
+# names. An unmapped KEY still lists (ICAO/KEY as its title), so a newly
+# published field is caught; the website also enriches by ICAO (OurAirports).
 _NAMES = {
-    "LYBE": "Beograd / Belgrade Nikola Tesla",
-    "LYNI": "Niš Constantine the Great",
+    "LYBE": "Beograd Nikola Tesla",
+    "LYBJ": "Beograd Lisičiji Jarak",
+    "LYCA": "Čačak Ravan",
+    "LYCU": "Ćuprija",
+    "LYVA": "Divci",
+    "LYKT": "Kostolac",
+    "LYKG": "Kragujevac",
+    "LYKA": "Kraljevo Brege",
+    "LYKV": "Kraljevo Morava",
+    "LYKS": "Kruševac Rosulje",
+    "LYKU": "Kula",
+    "LYNK": "Nikšić Kapino polje",
+    "LYNI": "Niš Konstantin Veliki",
+    "LYVJ": "Nova Pazova Vojka",
+    "LYNS": "Novi Sad Čenej",
+    "LYPA": "Pančevo",
+    "LYPN": "Paraćin Davidovac",
+    "LYPG": "Podgorica",
+    "LYPO": "Podgorica Ćemovsko polje",
+    "LYPJ": "Pranjani Galovića polje",
+    "LYPR": "Priština",
+    "LYPT": "Priština Batlava",
+    "LYSD": "Smederevo Radinac",
+    "LYSP": "Smederevska Palanka Rudine",
+    "LYSM": "Sremska Mitrovica Veliki Radinci",
+    "LYSU": "Subotica",
+    "LYTV": "Tivat",
+    "LYTR": "Trstenik",
+    "LYUZ": "Užice Ponikve",
+    "LYVR": "Vršac",
+    "LYZP": "Zemun Polje",
+    "LYZR": "Zrenjanin Ečka",
+    "BLACE": "Blace",
+    "BOGATIC": "Bogatić",
+    "ZABREZJE": "Zabrežje",
 }
 
 
