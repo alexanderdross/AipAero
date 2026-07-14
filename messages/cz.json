@@ -216,7 +216,9 @@
     "fromRight": "zprava",
     "landingDirection": "Pravděpodobný směr přistání",
     "aerodromeType": "Typ letiště",
-    "surface": "Povrch"
+    "surface": "Povrch",
+    "variable": "proměnlivý",
+    "calm": "bezvětří"
   },
   "Common": {
     "openIn": "Otevřít v",

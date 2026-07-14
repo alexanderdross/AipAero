@@ -251,7 +251,9 @@
     "fromRight": "από δεξιά",
     "landingDirection": "Πιθανή κατεύθυνση προσγείωσης",
     "aerodromeType": "Τύπος αεροδρομίου",
-    "surface": "Επιφάνεια"
+    "surface": "Επιφάνεια",
+    "variable": "μεταβλητός",
+    "calm": "άπνοια"
   },
   "Common": {
     "openIn": "Άνοιγμα σε",

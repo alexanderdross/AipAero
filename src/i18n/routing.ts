@@ -41,6 +41,8 @@ export const routing = defineRouting({
     "hu-EN",
     "si",
     "si-EN",
+    "lt",
+    "lt-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -64,6 +66,7 @@ export const routing = defineRouting({
       "pt-EN": "/pt/en",
       "hu-EN": "/hu/en",
       "si-EN": "/si/en",
+      "lt-EN": "/lt/en",
     },
   },
   pathnames: {
@@ -115,6 +118,8 @@ export const routing = defineRouting({
       "hu-EN": "/airport-list-hungary",
       si: "/seznam-letalisc-slovenija",
       "si-EN": "/airport-list-slovenia",
+      lt: "/oro-uostu-sarasas-lietuva",
+      "lt-EN": "/airport-list-lithuania",
     },
   },
   localeCookie: false,
@@ -183,6 +188,10 @@ export const localeLangMapping: Record<
   // branches key on the PREFIX - see the gotcha in CLAUDE.md).
   si: "sl",
   "si-EN": "en",
+  // Lithuania: prefix "lt" == ISO language code "lt", so the LocaleSwitcher
+  // ICU branch keys match without the si/cz/dk/gr caveat.
+  lt: "lt",
+  "lt-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -227,4 +236,6 @@ export const localeCountryMapping: Record<
   "hu-EN": "hu",
   si: "si",
   "si-EN": "si",
+  lt: "lt",
+  "lt-EN": "lt",
 };

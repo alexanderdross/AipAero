@@ -221,7 +221,9 @@
     "fromRight": "frá hægri",
     "landingDirection": "Líkleg lendingarstefna",
     "aerodromeType": "Tegund flugvallar",
-    "surface": "Yfirborð"
+    "surface": "Yfirborð",
+    "variable": "breytilegur",
+    "calm": "logn"
   },
   "Common": {
     "openIn": "Opna í",

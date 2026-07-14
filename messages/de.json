@@ -286,7 +286,9 @@
     "fromRight": "von rechts",
     "landingDirection": "Voraussichtliche Landerichtung",
     "aerodromeType": "Platzart",
-    "surface": "Belag"
+    "surface": "Belag",
+    "variable": "variabel",
+    "calm": "windstill"
   },
   "Common": {
     "openIn": "Öffnen in",

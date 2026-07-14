@@ -221,7 +221,9 @@
     "fromRight": "jobbról",
     "landingDirection": "Valószínű leszállási irány",
     "aerodromeType": "Repülőtér típusa",
-    "surface": "Burkolat"
+    "surface": "Burkolat",
+    "variable": "változó",
+    "calm": "szélcsend"
   },
   "Common": {
     "openIn": "Megnyitás itt:",

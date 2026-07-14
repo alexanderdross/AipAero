@@ -6,24 +6,20 @@
       "hrefTitle": "AIP Index"
     },
     "/": {
-      "title": "Austria (English)",
-      "hrefTitle": "AIP Austria"
+      "title": "Lithuania (English)",
+      "hrefTitle": "AIP Lithuania"
     },
     "/vfr": {
       "title": "VFR",
-      "hrefTitle": "AIP VFR Austria"
-    },
-    "/heliports": {
-      "title": "Heliports",
-      "hrefTitle": "AIP VFR Heliports Austria"
+      "hrefTitle": "AIP VFR Lithuania"
     },
     "/airport-list": {
       "title": "Airport List",
-      "hrefTitle": "List of Airfields/ Airports Austria"
+      "hrefTitle": "List of Airfields/ Airports Lithuania"
     },
     "/terms": {
       "title": "Terms of Service",
-      "hrefTitle": "Terms of Service - AIP:Aero Austria"
+      "hrefTitle": "Terms of Service - AIP:Aero Lithuania"
     },
     "/efb": {
       "title": "EFB Guide",
@@ -33,125 +29,99 @@
   "Menu": {
     "label": "Menu",
     "home": {
-      "title": "AIP Austria",
-      "hrefTitle": "AIP Austria"
+      "title": "AIP Lithuania",
+      "hrefTitle": "AIP Lithuania"
     },
     "vfr": {
       "title": "AIP VFR",
-      "hrefTitle": "AIP VFR Austria"
-    },
-    "heliports": {
-      "title": "Heliports",
-      "hrefTitle": "AIP VFR Heliports Austria"
+      "hrefTitle": "AIP VFR Lithuania"
     },
     "airports": {
       "title": "Airport List",
-      "hrefTitle": "List of Airfields/ Airports Austria"
+      "hrefTitle": "List of Airfields/ Airports Lithuania"
     }
   },
   "AirportsPage": {
-    "title": "List of Airfields in Austria",
-    "metaTitle": "🛩️ List of Airfields in Austria",
-    "description": "Overview of all airfields/ airports in Austria",
-    "metaDescription": "Overview of all airfields/ airports in Austria🗺️",
+    "title": "List of Airfields in Lithuania",
+    "metaTitle": "🛩️ List of Airfields in Lithuania",
+    "description": "Overview of all airfields/ airports in Lithuania",
+    "metaDescription": "Overview of all airfields/ airports in Lithuania🗺️",
     "vfrCard": {
       "title": "VFR Airports",
-      "description": "VFR airfields/ airports in Austria",
+      "description": "VFR airfields/ airports in Lithuania",
       "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
     },
     "heliportCard": {
       "title": "Helicopter Aerodromes",
-      "description": "Helicopter Aerodromes in Austria",
+      "description": "Helicopter Aerodromes in Lithuania",
       "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
     },
     "breadcrumb": {
-      "name": "List of Airfields/ Airports Austria",
-      "alternateName": "List of Airfields in Austria",
-      "description": "Overview of all airfields/ airports in Austria"
-    }
-  },
-  "HeliportPage": {
-    "title": "AIP VFR Charts for Helicopter Aerodromes in Austria",
-    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Austria",
-    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
-    "metaDescription": "Browse AIP VFR Helicopter Aerodromes Austria and download airport approach charts for free🗺️",
-    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
-    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
-    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
-    "breadcrumb": {
-      "name": "AIP VFR Heliports Austria",
-      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Austria",
-      "description": "Browse AIP VFR Helicopter Aerodromes Austria and download airport approach charts for free"
+      "name": "List of Airfields/ Airports Lithuania",
+      "alternateName": "List of Airfields in Lithuania",
+      "description": "Overview of all airfields/ airports in Lithuania"
     }
   },
   "VfrPage": {
-    "title": "Index of AIP VFR and visual approach charts Austria",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Austria",
-    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
-    "metaDescription": "Browse AIP VFR Austria and download airport approach charts for free🗺️",
+    "title": "Index of AIP VFR and visual approach charts Lithuania",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Lithuania",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by Oro navigacija.",
+    "metaDescription": "Browse AIP VFR Lithuania and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
     "resultTitle": "AIP VFR Charts of {airport}",
-    "resultDescription": "Click on the link below to access AIP IFR and visual approach chart of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
     "breadcrumb": {
-      "name": "AIP VFR Austria",
-      "alternateName": "Index of AIP VFR and visual approach charts Austria",
-      "description": "Browse AIP VFR Austria and download airport approach charts for free"
+      "name": "AIP VFR Lithuania",
+      "alternateName": "Index of AIP VFR and visual approach charts Lithuania",
+      "description": "Browse AIP VFR Lithuania and download airport approach charts for free"
     }
   },
   "LocaleSwitcher": {
     "label": "Switch language",
-    "locale": "{locale, select, at {🇦🇹 Deutsch} en {🇬🇧 English} other {Unknown}}"
+    "locale": "{locale, select, lt {🇱🇹 Lietuvių} en {🇬🇧 English} other {Unknown}}"
   },
   "CountrySiteNavElement": {
-    "name": "AIP and approach charts of Austria",
-    "alternateName": "AIP Austria",
-    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria",
+    "name": "AIP and approach charts of Lithuania",
+    "alternateName": "AIP Lithuania",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Lithuania",
     "inLanguage": "en",
-    "url": "https://aip.aero/at/en/"
+    "url": "https://aip.aero/lt/en/"
   },
   "CountryPage": {
-    "title": "AIP and approach charts of Austria",
-    "metaTitle": "🛩️ AIP and approach charts of Austria",
-    "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria",
-    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria🗺️",
+    "title": "AIP and approach charts of Lithuania",
+    "metaTitle": "🛩️ AIP and approach charts of Lithuania",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Lithuania",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Lithuania🗺️",
     "vfrCard": {
-      "title": "AIP VFR Austria",
-      "description": "Browse AIP VFR Austria and download airport approach charts for free",
+      "title": "AIP VFR Lithuania",
+      "description": "Browse AIP VFR Lithuania and download airport approach charts for free",
       "buttonTitle": "AIP VFR approach charts",
-      "buttonHref": "/at/en/vfr/",
-      "buttonHrefTitle": "AIP VFR Austria"
-    },
-    "heliportCard": {
-      "title": "Helicopter Aerodromes Austria",
-      "description": "Browse AIP VFR Helicopter Aerodromes Austria and download airport approach charts for free",
-      "buttonTitle": "AIP VFR Helicopter Aerodromes",
-      "buttonHref": "/at/en/heliports/",
-      "buttonHrefTitle": "AIP VFR Heliports Austria"
+      "buttonHref": "/lt/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Lithuania"
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Austria - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Lithuania - with offline download, customs and fuel info",
       "buttonTitle": "Airport List",
-      "buttonHref": "/at/en/airport-list-austria/",
-      "buttonHrefTitle": "List of Airfields/ Airports Austria"
+      "buttonHref": "/lt/en/airport-list-lithuania/",
+      "buttonHrefTitle": "List of Airfields/ Airports Lithuania"
     },
     "breadcrumb": {
-      "name": "AIP Austria",
-      "alternateName": "AIP and approach charts of Austria",
-      "description": "Search Index of aeronautical information publication (AIP) VFR, IFR and helicopter aerodromes in Austria"
+      "name": "AIP Lithuania",
+      "alternateName": "AIP and approach charts of Lithuania",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Lithuania"
     }
   },
   "About": {
-    "title": "About this website",
-    "description": "The <aip>AIP Austria</aip> is available as a free basic version. This website aims to simplify the search for airfields, as the basic version provided by Austro Control does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only provide convenient links to the respective approach charts.",
-    "aipUrl": "https://eaip.austrocontrol.at",
-    "aipTitle": "AIP Austria"
+    "title": "What is this website for?",
+    "description": "The <aip>Lithuanian Aeronautical Information Publication AIP</aip> is available as a free version. This website aims to simplify the search for airfields, as the version from Oro navigacija does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only provide convenient links to the respective approach charts.",
+    "aipUrl": "https://www.ans.lt/en/information-publications/aip-aip-supplements",
+    "aipTitle": "AIP Lithuania"
   },
   "TradeAero": {
     "title": "Buying or selling an aircraft?",
-    "description": "Browse aircraft for sale in Austria on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "description": "Browse aircraft for sale in Lithuania on Trade:Aero - the marketplace for buying and selling aircraft.",
     "buttonTitle": "Trade:Aero - Europe's largest aircraft marketplace",
     "buttonHrefTitle": "Trade:Aero - Europe's largest aircraft marketplace"
   },
@@ -200,7 +170,7 @@
     },
     "terms": {
       "title": "Terms of Service",
-      "hrefTitle": "Terms of Service - AIP:Aero Austria"
+      "hrefTitle": "Terms of Service - AIP:Aero Lithuania"
     },
     "efb": {
       "title": "EFB Guide",
@@ -316,14 +286,14 @@
     "srcOurAirports": "airport base data",
     "srcOpenAip": "extended aerodrome data: runways, frequencies, fuel",
     "srcOsm": "maps and addresses",
-    "metaTitle": "Terms of Service - AIP:Aero Austria",
-    "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for Austria and Europe: service description, disclaimer of liability and data sources."
+    "metaTitle": "Terms of Service - AIP:Aero Lithuania",
+    "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for Lithuania and Europe: service description, disclaimer of liability and data sources."
   },
   "EfbPage": {
     "title": "Using AIP:Aero on your EFB (Electronic Flight Bag)",
     "intro": "How to install AIP:Aero on your EFB (Electronic Flight Bag) tablet, save approach charts offline, download country packs and hand fields over to your planning tools - step by step.",
-    "metaTitle": "EFB Guide Austria - AIP & approach charts on your tablet | AIP:Aero",
-    "metaDescription": "Install AIP:Aero as an app on your EFB tablet, save approach charts offline, download whole countries and import chart PDFs into ForeFlight, SkyDemon & Co (Austria).",
+    "metaTitle": "EFB Guide Lithuania - AIP & approach charts on your tablet | AIP:Aero",
+    "metaDescription": "Install AIP:Aero as an app on your EFB tablet, save approach charts offline, download whole countries and import chart PDFs into ForeFlight, SkyDemon & Co (Lithuania).",
     "installTitle": "Install as an app (PWA)",
     "installText": "AIP:Aero is an installable web app: it opens full-screen like a native app and everything you save is available offline. No app store needed.",
     "installIos": "iPad / iPhone (Safari): open aip.aero, tap the share icon, then \"Add to Home Screen\".",
@@ -357,12 +327,12 @@
   },
   "CountryFaq": {
     "title": "Frequently asked questions",
-    "q1": "What is the AIP Austria?",
-    "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Austria, published by Austro Control: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
+    "q1": "What is the AIP Lithuania?",
+    "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Lithuania, published by Oro navigacija: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
     "q2": "Are the approach charts free?",
-    "a2": "Yes - Austro Control publishes the AIP of Austria including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
-    "q3": "Which charts and airfields are available for Austria?",
-    "a3": "For Austria you will find <vfr>VFR airfields</vfr> and <heli>heliports</heli> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
+    "a2": "Yes - Oro navigacija publishes the AIP of Lithuania including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
+    "q3": "Which charts and airfields are available for Lithuania?",
+    "a3": "For Lithuania you will find <vfr>VFR airfields</vfr> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
     "q4": "Can I use AIP:Aero offline or on my EFB?",
     "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
   }

@@ -251,7 +251,9 @@
     "fromRight": "fra højre",
     "landingDirection": "Sandsynlig landingsretning",
     "aerodromeType": "Flyvepladstype",
-    "surface": "Belægning"
+    "surface": "Belægning",
+    "variable": "variabel",
+    "calm": "vindstille"
   },
   "Common": {
     "openIn": "Åbn i",

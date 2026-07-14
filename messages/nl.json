@@ -251,7 +251,9 @@
     "fromRight": "van rechts",
     "landingDirection": "Waarschijnlijke landingsrichting",
     "aerodromeType": "Type luchthaven",
-    "surface": "Ondergrond"
+    "surface": "Ondergrond",
+    "variable": "variabel",
+    "calm": "windstil"
   },
   "Common": {
     "openIn": "Openen in",

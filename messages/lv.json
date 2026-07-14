@@ -251,7 +251,9 @@
     "fromRight": "no labās puses",
     "landingDirection": "Iespējamais nosēšanās virziens",
     "aerodromeType": "Lidlauka tips",
-    "surface": "Segums"
+    "surface": "Segums",
+    "variable": "mainīgs",
+    "calm": "bezvējš"
   },
   "Common": {
     "openIn": "Atvērt vietnē",

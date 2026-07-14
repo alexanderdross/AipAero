@@ -8,7 +8,6 @@ import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { inter } from "~/lib/fonts";
-import { Suspense } from "react";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -40,16 +39,17 @@ export default async function LocaleLayout(
     >
       <body className={"bg-drossgray font-sans"}>
         {/* Site-wide JSON-LD lives in the layout (not the individual pages) so
-            it renders exactly once. On the dynamic search pages, schemas emitted
-            directly by the page were duplicated by the Cloudflare/OpenNext
-            render, while schemas rendered from the layout inside a Suspense
-            boundary (like the locale-switcher's WebPage, and the airport
-            gadgets' Airport node) appear once - so WebSite + SiteNavigation are
-            rendered here, inside a Suspense boundary, to match that pattern. */}
-        <Suspense fallback={null}>
-          <SchemaWebsite />
-          <SchemaSitenav locale={locale} />
-        </Suspense>
+            it renders once. These are SYNCHRONOUS server components, so they
+            are rendered DIRECTLY (no Suspense): a Suspense boundary here made
+            OpenNext stream the schema as a late chunk that client hydration
+            re-inserted as a second <script> in the rendered DOM (the validator
+            showed WebSite/SearchAction twice, owner-reported 14.07.2026), and
+            SchemaDedupe's timed pass could miss that late insertion. Rendered
+            inline they hydrate in place, once. SchemaDedupe (below) still runs,
+            now with a MutationObserver, as the belt for the page-emitted nodes
+            (BreadcrumbList/Product) that OpenNext can still double. */}
+        <SchemaWebsite />
+        <SchemaSitenav locale={locale} />
         <Header withLangSwitcher />
         {/* min-h-screen: the footer must START below the initial viewport on
             every page. The dynamic search/detail routes stream the page into

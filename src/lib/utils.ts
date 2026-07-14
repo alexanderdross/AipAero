@@ -88,6 +88,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   pt: ["vfr"],
   hu: ["vfr"],
   si: ["vfr"],
+  // LT: the ANS eAIP crawler covers the AD-2 aerodrome list (type "vfr");
+  // Lithuania's four international aerodromes, no AD-3 heliport chapter.
+  lt: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -134,6 +137,12 @@ export const liveCountries: string[] = [
   // EKRB/EKRH hospital heliports, 100% chart coverage); first data
   // published via the manual crawl dispatch on launch day.
   "dk",
+  // Lithuania (14.07.2026): custom ANS eAIP crawler via the Bright Data Web
+  // Unlocker (ans.lt WAFs datacenter IPs), edition auto-resolved,
+  // live-validated (run 29319... - 4 aerodromes EYKA/EYPA/EYSA/EYVI, 4/4 VAC
+  // chart coverage); first data published via the manual crawl dispatch on
+  // launch day.
+  "lt",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source
   // (HASP rejects even the Web Unlocker, see crawlers/recon/):
   // "gr",
@@ -176,4 +185,5 @@ export const countryMeta: Record<
   pt: { lang: "pt", name: "Portugal", flag: "🇵🇹", nativeLang: "Portuguese" },
   hu: { lang: "hu", name: "Hungary", flag: "🇭🇺", nativeLang: "Hungarian" },
   si: { lang: "sl", name: "Slovenia", flag: "🇸🇮", nativeLang: "Slovenian" },
+  lt: { lang: "lt", name: "Lithuania", flag: "🇱🇹", nativeLang: "Lithuanian" },
 };

@@ -139,18 +139,18 @@ export default async function RootPage() {
     },
     {
       q: "How do I find an airport by its ICAO code, like EDDF or LFPG?",
-      a: "Type the ICAO code or the airport name into the search box at the top - it searches all countries at once. Every aerodrome also has its own permanent page (for example aip.aero/de/vfr/?EDDF) with the approach chart, runways, frequencies and live weather.",
+      a: "Type the ICAO code or the airport name into the search box at the top - it searches all countries at once. Every aerodrome also has its own permanent page (for example aip.aero/de/en/vfr/?EDDF) with the approach chart, runways, frequencies and live weather.",
       render: (
         <>
           Type the ICAO code or the airport name into the search box at the top
           - it searches all countries at once. Every aerodrome also has its own
           permanent page (for example{" "}
           <Link
-            href="/de/vfr/?EDDF"
+            href="/de/en/vfr/?EDDF"
             title="AIP VFR chart, weather and airport data for Frankfurt (EDDF)"
             className={inlineLink}
           >
-            aip.aero/de/vfr/?EDDF
+            aip.aero/de/en/vfr/?EDDF
           </Link>
           ) with the approach chart, runways, frequencies and live weather.
         </>
