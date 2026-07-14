@@ -456,6 +456,45 @@ export const customsOverrides: Record<string, boolean> = {
   LEVX: true, // Vigo
   LEVT: true, // Vitoria
   LEZG: true, // Zaragoza
+
+  // ---------------------------------------------------------------------
+  // DK - Naviair AIP Danmark GEN 1.2 + AD 1.3 (verified on the runner
+  // 14.07.2026 via the naviair_gen12 recon run 29316322474: the Umbraco
+  // JSON tree has no eurocontrol AD 1.3 HTML table, so the recon walked to
+  // the EK_GEN_1_2_en.pdf / EK_AD_1_3_en.pdf documents and extracted their
+  // text with pypdf). GEN 1.2 ("Entry, Transit and Departure of Aircraft",
+  // AIRAC AMDT 05/22) delegates the list to AD 1.3 "Index to Aerodromes"
+  // (AIRAC AMDT 07/24, 11 JUL 24), whose INTL/NTL column marks the
+  // international/customs entry aerodromes. Only the FULL-INTL fields are
+  // customs entry points and appear here. Deliberately ABSENT (no override,
+  // merged OpenAIP/D1 value applies): the six INTL fields footnoted "1) To/
+  // from Schengen States only" (EKAT Anholt, EKLS Laeso, EKRD Randers,
+  // EKRS Ringsted, EKTD Toender, EKVB Viborg - they cannot clear
+  // third-country customs, same treatment as the NL Schengen-only fields);
+  // the four National-only fields (EKKL Kalundborg, EKPB Krusaa-Padborg,
+  // EKNM Morso, EKSS Samso); and EKSP Vojens/Skrydstrup (MIL air base, no
+  // GA point-of-entry, same policy as EE EEEI Aemari).
+  EKYT: true, // Aalborg (CIV/MIL)
+  EKAH: true, // Aarhus
+  EKBI: true, // Billund
+  EKRN: true, // Bornholm / Roenne
+  EKEB: true, // Esbjerg
+  EKHG: true, // Herning
+  EKKA: true, // Karup / Midtjyllands Lufthavn (MIL/CIV)
+  EKVD: true, // Kolding / Vamdrup
+  EKCH: true, // Koebenhavn / Kastrup
+  EKRK: true, // Koebenhavn / Roskilde
+  EKLV: true, // Lemvig
+  EKMB: true, // Lolland Falster / Maribo
+  EKOD: true, // Odense / Hans Christian Andersen Airport
+  EKSN: true, // Sindal
+  EKSV: true, // Skive
+  EKVJ: true, // Stauning
+  EKSB: true, // Soenderborg
+  EKTS: true, // Thisted
+  EKST: true, // Taasinge / Elvira Madigan Airport
+  EKVH: true, // Vesthimmerland
+  EKAE: true, // AEroe
 };
 
 /** Verified override for an ICAO, or undefined when none exists. */
