@@ -201,12 +201,33 @@ coordinates (facts row, else the METAR station), shown in the aerodrome-data box
 - **Real screenshots on the EFB guide** (postponed 13.07.2026, owner decision): compressed WebP
   captures of the save button, offline banner and country download once the UI is stable - the
   schematic icon mockups cover the need until then.
-- **NOTAMs on the detail pages via the autorouter API** (owner request 13.07.2026). autorouter is
-  the only one of our EFB hand-off partners with a documented free API (account/OAuth) that serves
-  NOTAMs - the one briefing datum we are missing entirely. Before building: verify the API's terms
-  of use and attribution requirements from the runner (same verified-only policy as the
-  border-crossing links), then design auth flow, caching (NOTAMs are time-critical - short TTL,
-  never silently stale, like the weather box) and fail-soft rendering. NOTE: the autorouter
-  hand-off LINK was removed 13.07.2026 - `/airport/<ICAO>` renders "page not found" even
-  logged-in (a soft-404 that a status-code check had let through); a deep link may return
-  alongside the API integration once a content-verified pattern exists.
+- **NOTAMs on the detail pages via the autorouter API** (owner request 13.07.2026) - **BLOCKED on
+  licensing, parked 14.07.2026.** The API works exactly as we need (verified: `GET /v1.0/notam?itemas=["EDDS"]`,
+  OAuth2, Eurocontrol-EAD-sourced; see `docs/autorouter-api-concept.md`), BUT autorouter's written
+  answer (14.07.2026): NOTAM data is **commercial data licensed from Eurocontrol EAD**. autorouter
+  may serve it to us, but we are **NOT allowed to pass it on to third parties (our website
+  visitors)**. Since Eurocontrol EAD is the only valid source for European NOTAMs, there are only
+  two legal paths, both poor fits for a free, no-account, SEO-driven site:
+
+  - **Option 1 - our own commercial Eurocontrol EAD license.**
+    - Pro: the ideal UX - server-rendered NOTAM box on every detail page like the weather box
+      (our whole cached D1/incremental-cache design applies), no per-user friction, works for all
+      visitors and for search/LLM indexing.
+    - Con: a commercial EAD license is aimed at businesses and almost certainly costs a
+      significant annual fee - hard to justify for a free, ad-supported site; contractual +
+      compliance overhead.
+  - **Option 2 - each user connects their OWN autorouter account via OAuth2 Authorization Code.**
+    - Pro: no licensing cost to us; legally clean (every user is licensed through their own
+      autorouter account).
+    - Con: destroys the core "no account needed" value prop - a visitor would need an autorouter
+      account AND an OAuth connect just to see NOTAMs; only a tiny fraction of visitors have one;
+      it is a per-user client-side flow, so it breaks the server-rendered + centrally-cached model
+      (the data is the user's, cannot be persisted in D1 or shown to crawlers); wrong fit for our
+      SEO/GEO traffic model.
+
+  **Recommendation: park it.** Neither path fits a free SEO site today. Revisit only if (a) the
+  owner decides an EAD commercial license is worth the cost, or (b) a future power-user/pro tier
+  makes the per-user OAuth flow (Option 2) worthwhile for that segment. A no-data alternative that
+  stays legal + free: a plain **hand-off LINK** to the user's own autorouter NOTAM view (like the
+  SkyVector/Windy links) - but the earlier `/airport/<ICAO>` link was a soft-404, so it needs a
+  content-verified NOTAM deep-link pattern first.
