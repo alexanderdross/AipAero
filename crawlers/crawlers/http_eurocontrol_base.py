@@ -267,7 +267,7 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         if title_name_looks_bad(title_rest):
             self.logger.warning(
                 f"{self.country}: suspicious title {title!r} (name "
-                f"{title_rest!r}); title_div: {title_div.decode()[:400]}"
+                f"{title_rest!r}); title_div: {title_div.decode()[:2000]}"
             )
         return Airport(
             country=self.country,

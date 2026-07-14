@@ -63,8 +63,33 @@ class FI(HttpEurocontrolBase):
         r"(\s+|(?:%20)+)\d+-[A-Za-z]{2}-[A-Za-z]{2}\.html(?:#.*)?$"
     )
 
+    # The Fintraffic menu anchor ids ALWAYS carry the field name as
+    # "AD <2|3> <ICAO> - <NAME><locale>[plus]" (e.g.
+    # id="AD 3 EFMH - AHVENANMAAN KESKUSSAIRAALAen-GBplus"), even when the
+    # visible heading text is the chart-section title ("AD 3.23 ... KARTAT",
+    # AD 3 heliports) or "... AERONAUTICAL DATA" (AD 2). We read the name from
+    # the id so every field gets a real "<name> <ICAO>" title. (verified: live
+    # run 29333549853.)
+    _NAME_ID_RE = re.compile(
+        r"^AD [23] ([A-Z]{4}) - (.+?)(?:en-GB|fi-FI)(?:plus)?$"
+    )
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
+
+    def _names_from_nav(self, nav_html: str) -> dict[str, str]:
+        """ICAO -> field name from the menu anchor ids (first id per ICAO)."""
+        names: dict[str, str] = {}
+        for a in self.soup(nav_html).find_all("a", id=self._NAME_ID_RE):
+            match = self._NAME_ID_RE.match(a["id"])
+            if not match:
+                continue
+            # Some id variants keep the trailing section number ("KELLONIEMI
+            # 1-"); the "+" toggle id (seen first) is clean, but strip it
+            # defensively so the section number never leaks into the name.
+            name = re.sub(r"\s+\d+-?$", "", " ".join(match.group(2).split()))
+            names.setdefault(match.group(1), name.strip())
+        return names
 
     def _chart_index_url(self, url: str) -> str:
         """Rewrite an AD 2 sub-page url to the full-aerodrome document page
@@ -110,15 +135,8 @@ class FI(HttpEurocontrolBase):
             last_url, last_html = nav_url, nav_html
 
             # AD 2 aerodromes (required); AD 3 heliports optional (fail-soft).
-            # KNOWN ISSUE (owner directive 14.07.2026: keep heliports, fix the
-            # names "like every other page"): 12 of 16 AD 3 entries came
-            # through titled with the chart-section heading "AD 3.23
-            # HELIKOPTERILENTOPAIKKAA KOSKEVAT KARTAT <ICAO>" instead of the
-            # heliport name (prod D1 audit), while 4 (EFHY/EFFH/EFPJ/EFPT) had
-            # real names - the menu DOES carry names, the generic anchors[-1]
-            # pick just grabs the wrong anchor for most entries. The base's
-            # title guard dumps the title_div markup for those on the next
-            # live run; the anchor selection gets fixed from that markup.
+            # Both get their real titles re-derived from the menu anchor ids
+            # below (the generic heading text is unreliable for FI).
             airports.extend(
                 self._extract_section(nav_html, nav_url, _AD2_SECTION_IDS, "vfr")
             )
@@ -131,17 +149,22 @@ class FI(HttpEurocontrolBase):
             except ValueError:
                 self.logger.info("FI: no AD 3 heliport section - skipping")
 
-            # Fintraffic menu anchors read "AD 2 EFET - ENONTEKIÖ
-            # AERONAUTICAL DATA", which the generic extractor turns into
-            # "- ENONTEKIÖ AERONAUTICAL DATA EFET" - strip the boilerplate
-            # so the title is "ENONTEKIÖ EFET" (live run 29257033060).
+            # The generic extractor's title is unreliable for FI: AD 2 anchors
+            # read "... AERONAUTICAL DATA" and AD 3 heliports read the chart
+            # heading "AD 3.23 ... KARTAT". Re-derive every title from the menu
+            # anchor id ("AD <N> <ICAO> - <NAME>"), which always carries the
+            # real name; fall back to the old AERONAUTICAL-DATA strip only when
+            # no id name is found.
+            names = self._names_from_nav(nav_html)
             for airport in airports:
-                # Drop the "AERONAUTICAL DATA" boilerplate + leading "- " so the
-                # title collapses to "<place name> <ICAO>".
-                title = re.sub(
-                    r"\s*AERONAUTICAL DATA", "", airport.title, flags=re.I
-                )
-                airport.title = title.lstrip(" -").strip()
+                canonical = names.get(airport.icao or "")
+                if canonical:
+                    airport.title = f"{canonical} {airport.icao}".strip()
+                else:
+                    title = re.sub(
+                        r"\s*AERONAUTICAL DATA", "", airport.title, flags=re.I
+                    )
+                    airport.title = title.lstrip(" -").strip()
                 # Point the url at the full-aerodrome document page so it (and
                 # attach_pdf_urls below) sees the AD 2.24 chart links, not just
                 # the waypoints sub-page.
