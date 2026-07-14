@@ -315,6 +315,13 @@ jobs:
                           print(f"   link [{label}] {href[:140]}")
                       if len(seen) > 40:
                           break
+                  # Chart section pages often EMBED the PDF rather than <a>
+                  # link it - report object/embed/iframe/img sources too.
+                  for tag in soup.find_all(["object", "embed", "iframe", "img"]):
+                      src = tag.get("data") or tag.get("src") or ""
+                      if src and (".pdf" in src.lower() or "chart" in src.lower()
+                                  or "wepub" in src.lower()):
+                          print(f"   embed <{tag.name}> {src[:140]}")
               except Exception as e:
                   print(f"   FAILED - {type(e).__name__}: {e}")
           PY
