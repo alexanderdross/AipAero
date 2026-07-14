@@ -76,14 +76,15 @@ an IndexNow - dieselbe Stelle, dieselbe Praezision wie die Cache-Invalidierung.
   jedem Limit. Detailseiten aendern ihren Inhalt taeglich kaum (gleicher
   Chart-Link), deshalb hier bewusst NICHT pauschal alle ~1.000 mitsenden
   (Spam-Signal, unnoetig).
-- **Detailseiten (Phase 2, optional, diff-basiert):** nur URLs von Plaetzen,
-  die seit dem letzten Crawl NEU hinzukamen oder WEGFIELEN, wirklich
-  submitten. Der Diff muss berechnet werden: entweder in `insertAirports`
-  (vorhandene ICAOs vor dem Delete lesen - ein zusaetzlicher Read) oder im
-  Crawler/OutputHandler (er kennt die vorige Liste bereits ueber
-  `last_run_counts.json`, muesste sie auf ICAO-Ebene erweitern). Entfallene
-  Plaetze sind wichtig (Engine soll den 404 sehen). Erst bauen, wenn Phase 1
-  live und verifiziert ist.
+- **Detailseiten (Phase 2, GEBAUT 14.07.2026, diff-basiert):** `insertAirports`
+  liest die vorhandenen (type, slug) VOR dem atomaren Delete
+  (`existingKeys`, `snapshotOk`), vergleicht mit der neuen Liste und uebergibt
+  `submitCountryToIndexNow` die NEU hinzugekommenen + WEGGEFALLENEN Plaetze als
+  `changedDetails`. Deren Detail-URLs (nativ + EN, im Sitemap-Schema
+  `${path}?${slug}`) landen im selben Ping. `snapshotOk=false` (Snapshot-Read
+  fehlgeschlagen) unterdrueckt den Detail-Ping, damit ein transienter Fehler
+  nie das ganze Land flutet; ein echter Erst-Publish (leerer Snapshot) sendet
+  bewusst alle Detailseiten EINMAL (deckt den Neues-Land-Launch mit ab).
 
 ## Neues-Land-Launch (Ergaenzung)
 
@@ -123,7 +124,7 @@ Bing/Google Webmaster Tools.
 | --- | --- | --- |
 | 0 | Key + Hosting + Bing-Registrierung (ERLEDIGT 14.07.2026) | Bing bestaetigt den Key |
 | 1 | `indexnow.ts` + `INDEXNOW_KEY` var + Hook in `insertAirports` (Landing + Liste, nativ + EN, via waitUntil, fail-soft) - **GEBAUT 14.07.2026** | Live-Crawl-POST loest sichtbaren Submit aus (WMT IndexNow-Report) |
-| 2 | Diff-basierte Detailseiten-Submits (neu/entfallen) | Owner-Wunsch nach Phase-1-Verifikation |
+| 2 | Diff-basierte Detailseiten-Submits (neu/entfallen) - **GEBAUT 14.07.2026** | Live-Crawl mit tatsaechlichem Diff |
 
 **Phase-1-Umsetzung (14.07.2026):** `src/lib/indexnow.ts`
 (`submitCountryToIndexNow`), `INDEXNOW_KEY` als `var` in `wrangler.jsonc`

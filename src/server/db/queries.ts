@@ -402,6 +402,22 @@ export const MUTATIONS = {
     }
     const country = input[0].country;
 
+    // IndexNow Phase 2 groundwork: snapshot the existing (type, slug) BEFORE
+    // the atomic delete, so we can tell IndexNow exactly which detail pages
+    // appeared or disappeared this crawl. `snapshotOk` distinguishes a genuine
+    // first publish (empty result) from a read failure (skip the detail ping
+    // then, so a transient error never floods IndexNow with the whole country).
+    let existingKeys: { type: Airport["type"]; slug: string }[] = [];
+    let snapshotOk = true;
+    try {
+      existingKeys = await db
+        .select({ type: airports.type, slug: airports.slug })
+        .from(airports)
+        .where(eq(airports.country, country));
+    } catch {
+      snapshotOk = false;
+    }
+
     // Atomic delete-then-insert via D1's batch (D1 has no interactive
     // transactions). Without atomicity a crash between the delete and the
     // insert would leave the country with zero airports until the next crawl.
@@ -436,13 +452,25 @@ export const MUTATIONS = {
     // across every country on every run.)
     revalidateTag(countryTag(country));
 
-    // Ping IndexNow (Bing + partners) that this country's landing + list
-    // pages changed - off the response path via waitUntil, so the crawler
-    // POST returns immediately, and fully fail-soft (no-op without
-    // INDEXNOW_KEY; see src/lib/indexnow.ts + docs/indexnow-concept.md).
+    // Ping IndexNow (Bing + partners): always the landing + list pages, plus
+    // the detail pages of airfields that appeared/disappeared vs the snapshot
+    // (added: index now; removed: re-crawl to see the 404). Off the response
+    // path via waitUntil, so the crawler POST returns immediately, and fully
+    // fail-soft (no-op without INDEXNOW_KEY; see src/lib/indexnow.ts +
+    // docs/indexnow-concept.md).
+    const key = (a: { type: Airport["type"]; slug: string }) =>
+      `${a.type}:${a.slug}`;
+    const oldKeys = new Set(existingKeys.map(key));
+    const newKeys = new Set(input.map(key));
+    const changedDetails = snapshotOk
+      ? [
+          ...input.filter((a) => !oldKeys.has(key(a))),
+          ...existingKeys.filter((a) => !newKeys.has(key(a))),
+        ].map((a) => ({ type: a.type, slug: a.slug }))
+      : [];
     try {
       const { ctx } = await getCloudflareContext({ async: true });
-      ctx.waitUntil(submitCountryToIndexNow(country));
+      ctx.waitUntil(submitCountryToIndexNow(country, changedDetails));
     } catch {
       // No Cloudflare context (build/test) - skip the ping.
     }
