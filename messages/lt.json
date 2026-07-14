@@ -1,0 +1,337 @@
+{
+  "BreadCrumbs": {
+    "label": "Naršymo kelias",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Lietuva (Lietuvių)",
+      "hrefTitle": "AIP Lietuva"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Lietuva"
+    },
+    "/airport-list": {
+      "title": "Oro uostų sąrašas",
+      "hrefTitle": "Oro uostų sąrašas Lietuvoje"
+    },
+    "/terms": {
+      "title": "Naudojimo sąlygos",
+      "hrefTitle": "Naudojimo sąlygos - AIP:Aero Lietuva"
+    },
+    "/efb": {
+      "title": "EFB vadovas",
+      "hrefTitle": "EFB vadovas - AIP:Aero jūsų planšetėje"
+    }
+  },
+  "Menu": {
+    "label": "Meniu",
+    "home": {
+      "title": "AIP Lietuva",
+      "hrefTitle": "AIP Lietuva"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Lietuva"
+    },
+    "airports": {
+      "title": "Oro uostų sąrašas",
+      "hrefTitle": "Oro uostų sąrašas Lietuvoje"
+    }
+  },
+  "AirportsPage": {
+    "title": "Oro uostų sąrašas Lietuvoje",
+    "metaTitle": "🛩️ Oro uostų sąrašas Lietuvoje",
+    "description": "Visų Lietuvos oro uostų ir aerodromų apžvalga",
+    "metaDescription": "Visų Lietuvos oro uostų ir aerodromų apžvalga🗺️",
+    "vfrCard": {
+      "title": "VFR oro uostai",
+      "description": "VFR oro uostai ir aerodromai Lietuvoje",
+      "linkTitle": "Spustelėkite žemiau esančią nuorodą, kad pasiektumėte {airport} AIP VFR ir vizualaus artėjimo kortelę"
+    },
+    "heliportCard": {
+      "title": "Sraigtasparnių aerodromai",
+      "description": "Sraigtasparnių aerodromai Lietuvoje",
+      "linkTitle": "Spustelėkite žemiau esančią nuorodą, kad pasiektumėte {airport} AIP VFR sraigtasparnių aerodromų ir vizualaus artėjimo kortelę"
+    },
+    "breadcrumb": {
+      "name": "Oro uostų sąrašas Lietuvoje",
+      "alternateName": "Oro uostų sąrašas Lietuvoje",
+      "description": "Visų Lietuvos oro uostų ir aerodromų apžvalga"
+    }
+  },
+  "VfrPage": {
+    "title": "AIP VFR ir vizualaus artėjimo kortelių rodyklė Lietuva",
+    "metaTitle": "🛩️ AIP VFR ir vizualaus artėjimo kortelių rodyklė Lietuva",
+    "description": "Įveskite oro uosto pavadinimą arba ICAO kodą, kad pasiektumėte AIP VFR artėjimo korteles, kurias teikia Oro navigacija.",
+    "metaDescription": "Naršykite AIP VFR Lietuva ir nemokamai atsisiųskite oro uostų artėjimo korteles🗺️",
+    "searchTitle": "Įveskite oro uosto pavadinimą arba jo ICAO kodą, kad pasiektumėte AIP VFR",
+    "searchPlaceholder": "Įveskite oro uosto pavadinimą arba jo ICAO kodą, kad pasiektumėte AIP VFR",
+    "resultTitle": "{airport} AIP VFR kortelės",
+    "resultDescription": "Spustelėkite žemiau esančią nuorodą, kad pasiektumėte {airport} AIP VFR ir vizualaus artėjimo kortelę",
+    "breadcrumb": {
+      "name": "AIP VFR Lietuva",
+      "alternateName": "AIP VFR ir vizualaus artėjimo kortelių rodyklė Lietuva",
+      "description": "Naršykite AIP VFR Lietuva ir nemokamai atsisiųskite oro uostų artėjimo korteles"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Keisti kalbą",
+    "locale": "{locale, select, lt {🇱🇹 Lietuvių} en {🇬🇧 English} other {Nežinoma}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Lietuvos AIP ir artėjimo kortelės",
+    "alternateName": "AIP Lietuva",
+    "description": "Ieškokite aeronautikos informacijos rinkinio (AIP) VFR ir sraigtasparnių aerodromų rodyklės Lietuvoje",
+    "inLanguage": "lt",
+    "url": "https://aip.aero/lt/"
+  },
+  "CountryPage": {
+    "title": "Lietuvos AIP ir artėjimo kortelės",
+    "metaTitle": "🛩️ Lietuvos AIP ir artėjimo kortelės",
+    "description": "Ieškokite aeronautikos informacijos rinkinio (AIP) VFR ir sraigtasparnių aerodromų rodyklės Lietuvoje",
+    "metaDescription": "Ieškokite aeronautikos informacijos rinkinio (AIP) VFR ir sraigtasparnių aerodromų rodyklės Lietuvoje🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Lietuva",
+      "description": "Naršykite AIP VFR Lietuva ir nemokamai atsisiųskite oro uostų artėjimo korteles",
+      "buttonTitle": "AIP VFR artėjimo kortelės",
+      "buttonHref": "/lt/vfr/",
+      "buttonHrefTitle": "AIP VFR Lietuva"
+    },
+    "airportListCard": {
+      "title": "Oro uostų sąrašas",
+      "description": "Visų Lietuvos oro uostų ir aerodromų apžvalga - su atsisiuntimu naudojimui neprisijungus, muitinės ir kuro informacija",
+      "buttonTitle": "Oro uostų sąrašas",
+      "buttonHref": "/lt/oro-uostu-sarasas-lietuva/",
+      "buttonHrefTitle": "Oro uostų sąrašas Lietuvoje"
+    },
+    "breadcrumb": {
+      "name": "AIP Lietuva",
+      "alternateName": "Lietuvos AIP ir artėjimo kortelės",
+      "description": "Ieškokite aeronautikos informacijos rinkinio (AIP) VFR ir sraigtasparnių aerodromų rodyklės Lietuvoje"
+    }
+  },
+  "About": {
+    "title": "Kam skirta ši svetainė?",
+    "description": "<aip>Lietuvos oro navigacijos informacijos rinkinys AIP</aip> yra prieinamas nemokamai. Ši svetainė siekia supaprastinti oro uostų paiešką, nes Oro navigacijos versijoje nėra paieškos funkcijos. Neprisiimame jokios atsakomybės už AIP (Aeronautical Information Publication) tikslumą ar aktualumą, nes jį skelbiame ne mes. Mes tik pateikiame patogias nuorodas į atitinkamas artėjimo korteles.",
+    "aipUrl": "https://www.ans.lt/en/information-publications/aip-aip-supplements",
+    "aipTitle": "AIP Lietuva"
+  },
+  "TradeAero": {
+    "title": "Perkate ar parduodate orlaivį?",
+    "description": "Naršykite Lietuvoje parduodamus orlaivius Trade:Aero - orlaivių pirkimo ir pardavimo prekyvietėje.",
+    "buttonTitle": "Trade:Aero - didžiausia Europoje orlaivių prekyvietė",
+    "buttonHrefTitle": "Trade:Aero - didžiausia Europoje orlaivių prekyvietė"
+  },
+  "Footer": {
+    "navTitle": "Navigacija",
+    "legalTitle": "Teisinė informacija ir kontaktai",
+    "partnersTitle": "Partneriai",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP:Aero pradžia - AIP ir artėjimo kortelės Europai"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Pradžia",
+      "hrefTitle": "Pradžia - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Rekvizitai",
+      "hrefTitle": "Rekvizitai - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontaktai",
+      "hrefTitle": "Kontaktai - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privatumas",
+      "hrefTitle": "Privatumo politika - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Alexander Dross svetainė",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Naudojimo sąlygos",
+      "hrefTitle": "Naudojimo sąlygos - AIP:Aero Lietuva"
+    },
+    "efb": {
+      "title": "EFB vadovas",
+      "hrefTitle": "AIP:Aero jūsų EFB - įdiegimas, kortelės neprisijungus, importas"
+    }
+  },
+  "Error": {
+    "description": "<p>Deja, įvyko klaida.</p><p>Galite pabandyti <retry>iš naujo įkelti šį puslapį</retry>.</p>",
+    "title": "Kažkas nutiko!"
+  },
+  "NotFound": {
+    "title": "404 - Puslapis nerastas",
+    "description": "Šis puslapis arba oro uosto kodas neegzistuoja. Pabandykite ieškoti oro uosto:",
+    "searchPlaceholder": "Ieškokite bet kurio oro uosto pagal pavadinimą arba ICAO kodą",
+    "home": "Grįžti į pradžios puslapį"
+  },
+  "Weather": {
+    "title": "Orai",
+    "observed": "Stebėta",
+    "forecast": "Prognozė",
+    "wind": "Vėjas",
+    "visibility": "Matomumas",
+    "clouds": "Debesuotumas",
+    "temperature": "Temperatūra",
+    "qnh": "QNH",
+    "source": "Šaltinis",
+    "elevation": "Aukštis virš jūros lygio",
+    "sunrise": "Saulėtekis",
+    "sunset": "Saulėlydis",
+    "civilTwilight": "Civilinė prieblanda",
+    "facts": "Oro uosto duomenys",
+    "runways": "Kilimo ir tūpimo takai",
+    "frequencies": "Dažniai",
+    "decode": "Rodyti iššifruotą",
+    "openingHours": "Darbo laikas",
+    "fuel": "Kuras",
+    "ppr": "PPR",
+    "pprRequired": "Reikalingas išankstinis leidimas",
+    "nearest": "Orai iš artimiausio oro uosto {station} (nutolęs {km} km)",
+    "circuit": "Skrydžių ratas",
+    "circuitLeft": "kairysis",
+    "circuitRight": "dešinysis",
+    "windComponents": "Vėjo komponentės",
+    "headwind": "Priešpriešinis vėjas",
+    "tailwind": "Pavėjinis vėjas",
+    "crosswind": "Šoninis vėjas",
+    "fromLeft": "iš kairės",
+    "fromRight": "iš dešinės",
+    "landingDirection": "Tikėtina tūpimo kryptis",
+    "aerodromeType": "Aerodromo tipas",
+    "surface": "Danga"
+  },
+  "Common": {
+    "openIn": "Atidaryti su",
+    "homeLink": "AIP:Aero - Aeronautikos informacijos rinkiniai (AIP) ir artėjimo kortelės Europai",
+    "lastUpdated": "Paskutinį kartą atnaujinta",
+    "viewOnMap": "Žiūrėti Google žemėlapiuose",
+    "location": "Vieta",
+    "website": "Svetainė",
+    "address": "Adresas",
+    "coordinates": "Koordinatės",
+    "phone": "Telefonas",
+    "map": "Žemėlapis",
+    "locate": "Rasti mano vietą",
+    "locateError": "Nepavyko nustatyti jūsų vietos",
+    "nearby": "Netoliese esantys aerodromai",
+    "restaurant": "Restoranas",
+    "customs": "Muitinė",
+    "yes": "Taip",
+    "no": "Ne",
+    "saveOffline": "Išsaugoti naudojimui neprisijungus",
+    "savedOffline": "Išsaugota naudojimui neprisijungus",
+    "installHint": "Įdiekite kaip programėlę: atidarykite naršyklės bendrinimo meniu ir pasirinkite 'Pridėti į pradžios ekraną'. Tada vieną kartą atidarykite programėlę prisijungę ir ten iš naujo išsaugokite savo oro uostus - programėlė turi savo atskirą saugyklą naudojimui neprisijungus.",
+    "installHintMac": "Mac kompiuteryje: įdiekite per Safari bendrinimo meniu pasirinkę 'Pridėti į Dock'. Tada vieną kartą atidarykite programėlę prisijungę ir ten iš naujo išsaugokite savo oro uostus - programėlė turi savo atskirą saugyklą naudojimui neprisijungus.",
+    "bulkDownload": "Išsaugoti visus {count} puslapius neprisijungus (apie {size} MB)",
+    "bulkDownloaded": "Prieinama neprisijungus",
+    "bulkUpdate": "Atnaujinti",
+    "bulkRemove": "Pašalinti",
+    "bulkProgress": "Išsaugomi puslapiai",
+    "bulkCancel": "Atšaukti",
+    "bulkError": "Atsisiuntimas nepavyko - bandykite dar kartą",
+    "bulkNoSpace": "Šiame įrenginyje nepakanka laisvos vietos",
+    "bulkScope": "Įtraukta: visi oro uostų puslapiai su oro uosto duomenimis. Neįtraukta: artėjimo kortelių PDF failai (galima išsaugoti atskirai kiekvienam oro uostui) ir realaus laiko orai (reikia interneto ryšio).",
+    "moreInfo": "Daugiau informacijos",
+    "pavedRunway": "Kietos dangos takas",
+    "favorites": "Mėgstamiausi",
+    "favoritesEmpty": "Kol kas nėra mėgstamiausių - išsaugokite oro uostą neprisijungus jo puslapyje ir jis atsiras čia.",
+    "recentlyViewed": "Neseniai peržiūrėti",
+    "recentlyViewedEmpty": "Jūsų atidaryti oro uostai automatiškai atsiras čia greitai prieigai.",
+    "borderCrossing": "Sienos kirtimas",
+    "alsoAvailable": "Taip pat prieinama:"
+  },
+  "Chart": {
+    "allCharts": "Visos kortelės ({count})",
+    "title": "Artėjimo kortelė",
+    "openPdf": "Atidaryti kortelės PDF",
+    "preview": "Rodyti peržiūrą"
+  },
+  "TermsPage": {
+    "title": "Naudojimo sąlygos",
+    "intro": "AIP:Aero yra nemokama aeronautikos informacijos rinkinių (AIP), artėjimo kortelių ir oro uostų duomenų paieškos ir rodyklės paslauga visoje Europoje.",
+    "servicesTitle": "Mūsų paslauga",
+    "servicesText": "<home>AIP:Aero</home> leidžia rasti aerodromus pagal pavadinimą arba ICAO kodą ir nukreipia jus tiesiai į atitinkamos šalies oficialią AIP publikaciją. Be to, mūsų oro uostų puslapiuose pateikiama papildoma informacija, pavyzdžiui, orų pranešimai (METAR/TAF), oro uosto duomenys (takai, dažniai, aukštis), žemėlapiai ir kontaktiniai duomenys; puslapius taip pat galima išsaugoti naudojimui neprisijungus. Paslauga teikiama nemokamai ir be registracijos.",
+    "disclaimerTitle": "Atsakomybės apribojimas",
+    "disclaimerText": "AIP:Aero jokiomis aplinkybėmis neprisiima atsakomybės. Aeronautikos dokumentų mes patys neskelbiame: mes tik pateikiame nuorodas į naujausią aeronautikos informacijos rinkinį (AIP), kurį pateikia atitinkamos šalies oficialus teikėjas. Tas pat galioja orų duomenims (METAR/TAF) ir oro uostų duomenims: šią informaciją pateikiame savo puslapiuose, tačiau ji gaunama iš toliau nurodytų išorinių šaltinių. Neprisiimame jokios atsakomybės ar garantijos dėl bet kokio susieto ar įterpto turinio tikslumo, išsamumo ar aktualumo, taip pat dėl šios svetainės prieinamumo. Ši svetainė nepakeičia oficialaus pasirengimo skrydžiui: orlaivio vadas išlieka vienintelis atsakingas už visos skrydžiui reikalingos informacijos gavimą ir patikrinimą.",
+    "sourcesTitle": "Duomenų šaltiniai",
+    "sourcesIntro": "Susietus ir įterptus duomenis gauname iš šių šaltinių (adresai pateikti kaip paprastas tekstas, sąmoningai nespaudžiami):",
+    "sourcesAip": "Oficialios AIP publikacijos, į kurias pateikiame nuorodas",
+    "sourcesData": "Įterpti išoriniai duomenys",
+    "srcAwc": "orai METAR/TAF ir oro uostų duomenys",
+    "srcOurAirports": "pagrindiniai oro uostų duomenys",
+    "srcOpenAip": "išplėstiniai oro uosto duomenys: takai, dažniai, kuras",
+    "srcOsm": "žemėlapiai ir adresai",
+    "metaTitle": "Naudojimo sąlygos - AIP:Aero Lietuva",
+    "metaDescription": "AIP:Aero, nemokamos AIP ir artėjimo kortelių paieškos Lietuvai ir Europai, naudojimo sąlygos: paslaugos aprašymas, atsakomybės apribojimas ir duomenų šaltiniai."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero naudojimas jūsų EFB (Electronic Flight Bag)",
+    "intro": "Kaip įdiegti AIP:Aero savo EFB (Electronic Flight Bag) planšetėje, išsaugoti artėjimo korteles neprisijungus, atsisiųsti šalių paketus ir perduoti oro uostus į savo planavimo įrankius - žingsnis po žingsnio.",
+    "metaTitle": "EFB vadovas Lietuva - AIP ir artėjimo kortelės jūsų planšetėje | AIP:Aero",
+    "metaDescription": "Įdiekite AIP:Aero kaip programėlę savo EFB planšetėje, išsaugokite artėjimo korteles neprisijungus, atsisiųskite visas šalis ir importuokite kortelių PDF failus į ForeFlight, SkyDemon ir kt. (Lietuva).",
+    "installTitle": "Įdiekite kaip programėlę (PWA)",
+    "installText": "AIP:Aero yra įdiegiama žiniatinklio programėlė: ji atsidaro per visą ekraną kaip savoji programėlė, o viskas, ką išsaugote, prieinama neprisijungus. Programėlių parduotuvė nereikalinga.",
+    "installIos": "iPad / iPhone (Safari): atidarykite aip.aero, palieskite bendrinimo piktogramą ir tada \"Pridėti į pradžios ekraną\".",
+    "installAndroid": "Android (Chrome): atidarykite aip.aero, palieskite meniu ir tada \"Pridėti į pradžios ekraną\" / \"Įdiegti programėlę\".",
+    "installDesktop": "Kompiuteris (Chrome/Edge): spustelėkite įdiegimo piktogramą adreso juostoje - arba naudokite žemiau esantį mygtuką. macOS (Safari): bendrinimo piktograma, tada \"Pridėti į Dock\".",
+    "offlineTitle": "Išsaugokite pavienius oro uostus neprisijungus",
+    "offlineText": "Kiekvienas išsamus oro uosto puslapis turi mygtuką \"Išsaugoti neprisijungus\". Jis įrenginyje išsaugo puslapį ir, kai AIP jį skelbia, artėjimo kortelės PDF failą; oro uostas tada atsiranda tarp mėgstamiausių šalies puslapyje. Išsaugotose kopijose rodoma atsisiuntimo data.",
+    "bulkTitle": "Atsisiųskite visą šalį",
+    "bulkText": "<list>Oro uostų sąraše</list> galite vienu kartu atsisiųsti visus šalies išsamius puslapius (tik puslapius, be kortelių PDF failų - juos išsaugokite atskirai kiekvienam oro uostui). Paketas prieš atsisiuntimą parodo savo dydį, jį bet kada galima atnaujinti arba pašalinti.",
+    "favoritesTitle": "Mėgstamiausi ir neseniai peržiūrėti",
+    "favoritesText": "Neprisijungus išsaugoti oro uostai automatiškai atsiranda tarp mėgstamiausių, o paskutiniai atidaryti pateikiami sąraše \"Neseniai peržiūrėti\" - abu sąrašai saugomi tik jūsų įrenginyje, be paskyros. Abu sąrašus rasite <country>šalies puslapyje</country>.",
+    "importTitle": "Kortelių PDF failai ForeFlight, SkyDemon ir kt.",
+    "importText": "Kai nacionalinis AIP skelbia kortelių PDF failus, kortelių langelis išsamiame puslapyje pateikia nuorodą į galiojantį PDF failą kartu su jo AIRAC data. Atsisiųskite jį ir importuokite į savo EFB programėlę kaip pasirinktinį turinį, pvz., ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) arba Garmin Pilot. Vokietija vietoj PDF failų skelbia HTML puslapius - ten naudokite AIP nuorodą.",
+    "toolsTitle": "Perdavimas planavimo įrankiams",
+    "toolsText": "Vietos langelis kiekviename išsamiame puslapyje atidaro tą patį oro uostą tiesiai SkyVector, Windy ir autorouter - patogu maršrutų planavimui, orų modeliams ir skrydžio plano pateikimui.",
+    "weatherTitle": "Orų informacija puslapyje",
+    "weatherText": "Išsamiuose puslapiuose rodomi realaus laiko METAR/TAF su iššifravimu į suprantamą kalbą, skrydžio kategorijos ženklelis ir priešpriešinio bei šoninio vėjo išskaidymas pagal takus - greitas papildomas patikrinimas, o ne jūsų oficialaus pasirengimo skrydžiui pakaitalas.",
+    "customsTitle": "Muitinė ir sienos kirtimas",
+    "customsText": "Išsamiuose puslapiuose rodoma, ar oro uostas teikia muitinės formalumus; kai nacionalinis AIP jį nurodo GEN 1.2 skyriuje, vertė patikrinta pagal šį oficialų šaltinį. Sienos kirtimo formalumams vietos langelis pateikia nuorodas į oficialias formas (pvz., britų General Aviation Report), o žemėlapyje galima filtruoti oro uostus su muitine. Taisyklės keičiasi - visada patvirtinkite pagal galiojantį AIP ir vietos valdžios institucijas.",
+    "disclaimerTitle": "Saugumo pastaba",
+    "disclaimerText": "AIP:Aero pateikia nuorodas į oficialias AIP publikacijas, tačiau nėra oficialus šaltinis. Neprisijungus išsaugotos kopijos pažymėtos atsisiuntimo data ir su kiekvienu AIRAC ciklu gali pasenti - prieš kiekvieną skrydį patikrinkite kortelių aktualumą ir visada gaukite oficialų pasirengimą skrydžiui.",
+    "installButton": "Įdiegti dabar",
+    "ctaTitle": "Išbandykite dabar",
+    "faqTitle": "Dažnai užduodami klausimai",
+    "faq1q": "Ar AIP:Aero veikia visiškai neprisijungus?",
+    "faq1a": "Išsaugoti oro uostai ir atsisiųsti šalių paketai veikia be interneto; kiekviena neprisijungus išsaugota kopija rodo juostą su išsaugojimo data. Realaus laiko orams (METAR/TAF) visada reikia interneto ryšio.",
+    "faq2q": "Kokios šalys yra prieinamos?",
+    "faq2a": "Visos šiuo metu prieinamos šalys išvardytos <home>pradžios puslapyje</home> - aprėptis nuolat auga. Kiekviena šalies kortelė rodo prieinamus kortelių tipus.",
+    "faq3q": "Ar kortelės yra aktualios?",
+    "faq3a": "Kortelių nuorodos veda į oficialias nacionalines AIP publikacijas, įskaitant AIRAC datą, kai ji paskelbta. Prieš skrydį visada patikrinkite oficialų šaltinį."
+  },
+  "CountryFaq": {
+    "title": "Dažnai užduodami klausimai",
+    "q1": "Kas yra AIP Lietuva?",
+    "a1": "AIP (aeronautikos informacijos rinkinys) yra oficialus Lietuvos aeronautikos vadovas, kurį leidžia Oro navigacija: oro uostų duomenys, procedūros ir artėjimo kortelės, atnaujinamos 28 dienų AIRAC ciklu. AIP:Aero nukreipia tiesiai į oficialią publikaciją.",
+    "q2": "Ar artėjimo kortelės nemokamos?",
+    "a2": "Taip - Oro navigacija nemokamai skelbia Lietuvos AIP kartu su <list>artėjimo kortelėmis</list>, ir AIP:Aero taip pat nemokamas: be paskyros, be prenumeratos.",
+    "q3": "Kokios kortelės ir oro uostai prieinami Lietuvai?",
+    "a3": "Lietuvai rasite <vfr>VFR oro uostus</vfr> - kiekvieną su tiesiogine nuoroda į oficialią kortelę, iššifruotais orais (METAR/TAF) ir oro uosto duomenimis.",
+    "q4": "Ar galiu naudoti AIP:Aero neprisijungus arba savo EFB?",
+    "a4": "Taip - AIP:Aero įdiegiamas kaip programėlė (PWA), o pavienius aerodromus ar visą šalį galima išsaugoti naudojimui neprisijungus. Žr. <efb>EFB vadovą</efb>."
+  }
+}
