@@ -1,5 +1,15 @@
 # autorouter API: NOTAMs (+ GRAMET) auf den Detailseiten - Konzept
 
+> **BLOCKIERT (Lizenz), GEPARKT 14.07.2026.** autorouters schriftliche Antwort:
+> NOTAMs sind kommerzielle Eurocontrol-EAD-Daten - sie duerfen an UNS geliefert,
+> aber NICHT an Dritte (unsere Website-Besucher) weitergegeben werden. Damit
+> scheidet die geplante server-seitige, gecachte NOTAM-Box aus. Die beiden
+> legalen Wege (eigene EAD-Kommerzlizenz ODER per-User-OAuth mit
+> autorouter-Account) und deren Pro/Cons stehen in `docs/pilot-wishlist.md` -
+> beide passen aktuell nicht zu einer kostenlosen, kontenlosen SEO-Seite. Das
+> untenstehende Konzept bleibt als technische Referenz erhalten (die API-Recon
+> ist verifiziert), ist aber NICHT umzusetzen, solange die Lizenzfrage offen ist.
+
 Owner-Auftrag 13.07.2026: "macht es Sinn, https://www.autorouter.aero/wiki/api/
 zu verwenden, für GRAMET und NOTAMs?" Dieses Dokument ist der Plan; gebaut
 wird erst nach Phase 0 (Verifikation). Verwandt: der autorouter-DEEP-LINK
