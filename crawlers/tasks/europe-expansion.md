@@ -14,7 +14,7 @@ Quellen-Klassifizierung per `probe_eaip`-Recon (Run 29256408808,
 | EE | https://eaip.eans.ee/ | Redirect auf `/<AIRAC>/html/` mit `index-en-GB.html` + `index-et.html` - klassisches eurocontrol eAIP |
 | FI | https://www.ais.fi/eaip/ | **Stabiler Pfad `/eaip/currently_effective/eAIP/`**, Dateien mit Leerzeichen (`EF-GEN 2.2-fi-FI.html`) wie LVNL |
 | IS | https://eaip.isavia.is/ | AIRAC-Editionsordner `A_06-2026_2026_06_11/` (LFV/PANSA-Ordnermuster) |
-| PT | https://ais.nav.pt/ | `eAIP_Current/eAIP_Online/eAIP/html/index.html` + separates **eVFR** (`eVFR_Current/...`) |
+| PT | https://ais.nav.pt/ | `eAIP_Current/eAIP_Online/eAIP/html/index.html` + separates **eVFR** (`eVFR_Current/eVFR_Online/eAIP/html/eAIP/LP-menu-pt-PT.html`, PT-only menu) - **eVFR jetzt gemerged** (`pt.py` `_crawl_evfr`, 14.07.2026): PT 19 -> 83 (39 vfr + 44 AD-3 heliports), 100% Chart-PDF, Heliport-Seite aktiviert |
 | HU | https://ais-en.hungarocontrol.hu/aip/ | AIRAC-Editionsordner `/aip/<YYYY-MM-DD>/` (+ eaip.zip); Edition per Datum wählen wie UK |
 
 Pro Land: `HttpEurocontrolBase`-Crawler (~40 Zeilen, Muster CZ/NL/UK),
