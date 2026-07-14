@@ -52,12 +52,19 @@ class PlaywrightCrawlerBase(HttpCrawlerBase):
 
     def __init__(self, country: str) -> None:
         super().__init__(country)
-        # Created on first render, reused across calls, torn down in close().
+        # Playwright driver + browser handles; created on first render, reused
+        # across calls, torn down in close(). None until _ensure_browser runs.
         self._pw = None
         self._browser = None
 
     def _ensure_browser(self):
-        """Launch (once) and return a headless Chromium browser."""
+        """Launch (once) and return a headless Chromium browser.
+
+        Lazily imports playwright so a browserless environment can still import
+        the crawler; raises PlaywrightUnavailable when the package or the
+        Chromium binary is missing, which crawlers catch to fail soft.
+        """
+        # Reuse an already-launched browser across multiple render_html calls.
         if self._browser is not None:
             return self._browser
         try:
@@ -100,14 +107,18 @@ class PlaywrightCrawlerBase(HttpCrawlerBase):
         if the browser is unusable.
         """
         browser = self._ensure_browser()
+        # Fresh isolated context per render (own cookies/cache); browser-like
+        # UA + en-GB so the SPA serves the English navigation.
         context = browser.new_context(
             user_agent=BROWSER_USER_AGENT,
             locale="en-GB",
         )
         page = context.new_page()
+        # Reset the network log; populated below only when capture_network is on.
         self.last_network: list[dict] = []
         if capture_network:
 
+            # Per-response callback: record a compact entry for every response.
             def _record(response) -> None:
                 try:
                     ctype = response.headers.get("content-type", "")
@@ -133,16 +144,21 @@ class PlaywrightCrawlerBase(HttpCrawlerBase):
 
             page.on("response", _record)
         try:
+            # Navigate and wait for the requested load state (default networkidle).
             page.goto(url, wait_until=wait_until, timeout=self.render_timeout_ms)
+            # Optionally wait for a specific element (nav tree injected late).
             if wait_selector:
                 page.wait_for_selector(
                     wait_selector, timeout=self.render_timeout_ms
                 )
+            # Optional fixed settle for SPAs that fire XHRs after networkidle.
             if wait_ms:
                 page.wait_for_timeout(wait_ms)
             self.logger.info(f"{self.country}: rendered {url}")
+            # Serialized post-JS DOM - fed to the same BS4 parsing as httpx HTML.
             return page.content()
         finally:
+            # Always drop the context (the browser stays up for reuse).
             context.close()
 
     def log_network_capture(self, *, limit: int = 40) -> None:

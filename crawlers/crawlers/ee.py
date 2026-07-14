@@ -40,13 +40,19 @@ class EE(HttpEurocontrolBase):
         super().__init__(COUNTRY)
 
     def crawl(self) -> list[Airport]:
+        """Resolve the current edition, walk the frameset to the nav menu,
+        emit AD 2 aerodromes (VFR) plus any AD 3 heliports, then attach
+        chart-PDF links. ``last_url``/``last_html`` retain the last fetch so
+        a failure dumps the offending page for post-mortem debugging."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
         last_html: str | None = None
 
         try:
-            # 1. Resolve the current edition folder via the host redirect.
+            # 1. Resolve the current edition folder via the host redirect: the
+            # bare host 302s to the dated edition dir, and response.url is the
+            # final (post-redirect) URL we join index-en-GB.html onto.
             response = self.fetch_response(ROOT_URL)
             edition_index = urljoin(str(response.url), "index-en-GB.html")
             self.logger.info(f"EE edition index: {edition_index}")
@@ -91,7 +97,14 @@ class EE(HttpEurocontrolBase):
         id_candidates: list[str],
         category: str,
     ) -> list[Airport]:
-        """Extract a menu section, trying each candidate id format in turn."""
+        """Extract a menu section, trying each candidate id format in turn.
+
+        The section-id spelling differs between eurocontrol AIPs (spaced vs
+        hyphenated, with/without locale suffix), so we try each candidate and
+        return the first that parses. If every candidate misses we re-raise
+        the LAST ValueError - the base's error text lists the real ids seen in
+        the menu, which tells us the correct id for the next iteration.
+        """
         last_error: Exception | None = None
         for menu_id in id_candidates:
             try:
@@ -100,5 +113,6 @@ class EE(HttpEurocontrolBase):
                 )
             except ValueError as e:
                 last_error = e
+        # find_all can never leave last_error None (id_candidates is non-empty).
         assert last_error is not None
         raise last_error

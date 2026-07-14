@@ -123,22 +123,31 @@ export async function AirportGadgets({
   addProp("Fuel", facts?.fuel.length ? facts.fuel.join(", ") : null);
   if (facts?.ppr != null) addProp("PPR", facts.ppr ? "Yes" : "No");
   addProp("Opening hours", openingHours);
-  addProp(
-    "Runways",
-    runways
-      .map((r) =>
-        [r.ident, r.lengthFt ? `${r.lengthFt} ft` : null, r.surface]
-          .filter(Boolean)
-          .join(" "),
-      )
-      .join("; ") || null,
-  );
-  addProp(
-    "Frequencies",
-    (facts?.frequencies ?? [])
-      .map((f) => `${f.type} ${f.mhz}`.trim())
-      .join("; ") || null,
-  );
+  // Runways and frequencies as GRANULAR PropertyValue entries - one per runway,
+  // one per frequency SERVICE type - instead of a single semicolon blob. More
+  // precisely machine-/LLM-readable (GEO): an assistant answering "ATIS at EDDF"
+  // reads {name:"ATIS", value:"118.03, 118.73"} directly. (No Google SEO effect
+  // either way: Airport.additionalProperty is not used for rich results.)
+  // Frequencies are grouped by service type rather than one node per frequency,
+  // so a field with three TWR frequencies stays one clean "TWR" node.
+  for (const r of runways) {
+    addProp(
+      `Runway ${r.ident}`,
+      [r.lengthFt ? `${r.lengthFt} ft` : null, r.surface]
+        .filter(Boolean)
+        .join(", ") || null,
+    );
+  }
+  const freqByType = new Map<string, string[]>();
+  for (const f of facts?.frequencies ?? []) {
+    const type = f.type?.trim() || "Frequency";
+    const list = freqByType.get(type) ?? [];
+    list.push(String(f.mhz));
+    freqByType.set(type, list);
+  }
+  for (const [type, list] of freqByType) {
+    addProp(type, list.join(", "));
+  }
   if (facts?.restaurant != null)
     addProp("Restaurant", facts.restaurant ? "Yes" : "No");
   if (facts?.customs != null) addProp("Customs", facts.customs ? "Yes" : "No");

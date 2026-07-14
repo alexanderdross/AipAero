@@ -34,6 +34,10 @@ class ES(HttpCrawlerBase):
         super().__init__(COUNTRY)
 
     def crawl(self) -> list[Airport]:
+        """Fetch the single ENAIRE AIP index page, harvest every AD 2
+        aerodrome section link (one per ICAO), derive a title, and emit each
+        as VFR. No frame walk - the index is one flat HTML page. ``last_html``
+        retains the page so a failure can dump it for post-mortem debugging."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
@@ -44,6 +48,8 @@ class ES(HttpCrawlerBase):
             last_html = html
             soup = self.soup(html)
 
+            # The index links each AD 2 section many times (charts, text, ...);
+            # `seen` keeps only the first hit per ICAO so a field lists once.
             seen: set[str] = set()
             for a in soup.find_all("a", href=True):
                 m = _AD2_HREF_RE.search(a["href"])
@@ -54,6 +60,8 @@ class ES(HttpCrawlerBase):
                     continue
                 seen.add(icao)
 
+                # Prefer the anchor's own label; when it is empty (icon-only
+                # link) fall back to the whole surrounding table row's text.
                 title = self.clean_text(a.get_text(" ", strip=True))
                 if not title:
                     row = a.find_parent("tr")

@@ -6,6 +6,8 @@ from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "GR"
+# Hellenic AIS (HASP) portal root - a captcha-gated JS intro page in front of
+# the eurocontrol eAIP frameset (see class docstring for the caveats).
 ROOT_URL = "https://aisgr.hasp.gov.gr/"
 
 # The HASP portal fronts the effective AIP behind an intro page: a "Browse"
@@ -14,14 +16,21 @@ ROOT_URL = "https://aisgr.hasp.gov.gr/"
 # finally opens the eurocontrol-style eAIP frameset. We follow those hops by
 # matching link text before walking the frame chain. Because the live source
 # is captcha-gated, these selectors are UNVERIFIED (see class docstring).
+# "Browse" link into the currently effective AIP.
 _BROWSE_RE = re.compile(r"browse", re.I)
+# The "AIP GREECE | Aeronautical Information Publication" entry that opens the
+# frameset (match either the AIP-GREECE label or the long publication title).
 _AIP_ENTRY_RE = re.compile(r"\bAIP\b.*GREECE|Aeronautical Information Publication", re.I)
+# Frameset index filename, with or without a language suffix (index-en-GB.html).
 _INDEX_HREF_RE = re.compile(r"index(?:[-_][A-Za-z]{2}-[A-Za-z]{2})?\.html$", re.I)
 
 # The HASP intro page carries NO server-side <a> links (verified live via the
 # proxied run) - its navigation is JS. The targets still appear as quoted
 # strings in the raw markup/scripts (onclick, window.open, location=, frame
 # src), so scan the raw HTML for URL-ish strings as diagnostics.
+# Two alternatives: (1) a quoted relative/absolute path ending in a page
+# extension (.html/.php/.aspx, optional ?query/#fragment); (2) any quoted
+# http(s):// URL. Used only for diagnostics when link discovery fails.
 _RAW_URL_RE = re.compile(
     r"""["']([^"'<>\s]{2,160}?\.(?:html?|php|aspx?)(?:[?#][^"']{0,80})?)["']"""
     r"""|["'](https?://[^"'<>\s]{4,160})["']""",
@@ -30,7 +39,7 @@ _RAW_URL_RE = re.compile(
 
 
 class GR(HttpEurocontrolBase):
-    """Greece AIP crawler (Hellenic AIS — https://aisgr.hasp.gov.gr/).
+    """Greece AIP crawler (Hellenic AIS - https://aisgr.hasp.gov.gr/).
 
     The Hellenic AIS portal serves a EUROCONTROL-style eAIP frameset. The
     navigation lists aerodromes and heliports under the Part 3 (AD) tree:
@@ -47,7 +56,7 @@ class GR(HttpEurocontrolBase):
     end (`ATHINAI/Eleftherios Venizelos LGAV`) and leaves `icao` None when no
     ICAO indicator is present.
 
-    CAVEAT — UNVERIFIED / captcha-gated. The public entry
+    CAVEAT - UNVERIFIED / captcha-gated. The public entry
     (https://aisgr.hasp.gov.gr/) is protected by a captcha, so this crawl path
     could not be run or verified here. Running it in production will likely
     require solving the captcha and/or routing through the web proxy the
@@ -90,7 +99,12 @@ class GR(HttpEurocontrolBase):
             )
 
     def _find_link(self, html: str, base_url: str, pattern: re.Pattern) -> str | None:
-        """Return the first absolute href whose link text matches ``pattern``."""
+        """Return the first absolute href whose link text (or title) matches.
+
+        Matches on both the visible text and the ``title`` attribute, and
+        normalises Windows-style backslash separators in the href before
+        resolving it against ``base_url``.
+        """
         soup = self.soup(html)
         for a in soup.find_all("a", href=True):
             text = a.get_text(separator=" ", strip=True)
@@ -109,15 +123,18 @@ class GR(HttpEurocontrolBase):
         """
         current_url, current_html = base_url, html
 
+        # Hop 1: follow "Browse" into the effective AIP if present.
         browse = self._find_link(current_html, current_url, _BROWSE_RE)
         if browse:
             current_url = browse
             current_html = self.fetch(browse)
 
+        # Hop 2: the labelled "AIP GREECE" entry is the frameset index itself.
         entry = self._find_link(current_html, current_url, _AIP_ENTRY_RE)
         if entry:
             return entry
 
+        # Fallback: any bare index*.html link (strip query/fragment first).
         soup = self.soup(current_html)
         for a in soup.find_all("a", href=True):
             href = a["href"].replace("\\", "/")
@@ -128,6 +145,8 @@ class GR(HttpEurocontrolBase):
         # a recaptcha widget, and the JS target "main.php?rand=<random>").
         # Probe main.php directly - if the captcha is only enforced client-
         # side, that IS the portal page carrying the AIP links.
+        # `allow_gate_probe` guards against infinite recursion: the recursive
+        # call below passes False so a captcha page can only be probed once.
         if allow_gate_probe and "recaptcha" in current_html.lower():
             probe = urljoin(current_url, "main.php?rand=0.5")
             self.logger.info(f"GR: captcha gate detected; probing {probe}")
@@ -136,6 +155,7 @@ class GR(HttpEurocontrolBase):
             except Exception as e:
                 self.logger.warning(f"GR: main.php probe failed: {e}")
             else:
+                # Re-run resolution on the probed page (no further probing).
                 return self._resolve_eaip_index(
                     probe, main_html, allow_gate_probe=False
                 )
@@ -153,6 +173,8 @@ class GR(HttpEurocontrolBase):
         the HASP intro page navigates via JS, so the real targets only show
         up as quoted strings in scripts/attributes.
         """
+        # Collect the first matching group per hit (either alternative), de-
+        # duplicated while preserving discovery order.
         hits: list[str] = []
         for m in _RAW_URL_RE.finditer(html):
             candidate = next(g for g in m.groups() if g)
@@ -166,6 +188,12 @@ class GR(HttpEurocontrolBase):
             self.logger.warning(f"  {candidate}")
 
     def crawl(self) -> list[Airport]:
+        """Drive the HASP intro hops -> frameset -> AD 2/AD 3 extraction.
+
+        On failure it logs the candidate links on the last page and dumps it
+        for post-mortem before re-raising. The extraction selectors here are
+        UNVERIFIED (captcha-gated source - see the class docstring).
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
@@ -178,7 +206,7 @@ class GR(HttpEurocontrolBase):
 
             index_url = self._resolve_eaip_index(ROOT_URL, root_html)
 
-            # 2. Walk the frame chain to the navigation HTML.
+            # 2. Walk the frame chain (base -> nav frame) to the menu HTML.
             nav_url, nav_html = self.follow_frame_chain(
                 index_url, ["eAISNavigationBase", "eAISNavigation"]
             )

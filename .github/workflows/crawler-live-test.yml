@@ -38,6 +38,10 @@ on:
         description: "Space-separated URLs whose CONTENT to dump from the runner (status, title, text head, api/notam/gramet-ish links) - status-only checks let the autorouter soft-404 through"
         required: false
         default: ""
+      pdf_dump:
+        description: "Space-separated PDF URLs to download and dump the extracted text of (pypdf) - e.g. an AD 1.3 index for ICAO<->name mapping; source for _NAMES / customs recon"
+        required: false
+        default: ""
       indexnow_test:
         description: "Space-separated URLs to submit to IndexNow (api.indexnow.org) as an end-to-end test; prints the response + confirms the key file is served"
         required: false
@@ -322,6 +326,18 @@ jobs:
                       if src and (".pdf" in src.lower() or "chart" in src.lower()
                                   or "wepub" in src.lower()):
                           print(f"   embed <{tag.name}> {src[:140]}")
+                  # VFR-manual index discovery: the per-field detail pages are
+                  # "<icao>_text_en.html"; list them UNCAPPED (the api_re list
+                  # above stops at 40 and a long aerodrome directory can hide
+                  # behind the supplement links). Also list "*_map_en.pdf"
+                  # (the per-field chart map).
+                  field_re = re.compile(r"[a-z0-9]+_text_en\.html$", re.I)
+                  fields = [a["href"].strip() for a in soup.find_all("a", href=True)
+                            if field_re.search(a["href"].strip())]
+                  fields = list(dict.fromkeys(fields))
+                  print(f"   _text_en.html anchors: {len(fields)}")
+                  if fields:
+                      print("   " + " ".join(fields[:250]))
                   # JSON-LD duplication audit: count ld+json scripts and how
                   # many carry each @type / @id, so a doubled WebSite /
                   # SearchAction node (Workers render artifact) is visible.
@@ -333,6 +349,43 @@ jobs:
                   print(f"   @id counts: {dict(_c.Counter(ids))}")
                   print(f"   @type counts: {dict(_c.Counter(types))}")
                   print(f"   SearchAction occurrences: {r.text.count('SearchAction')}")
+              except Exception as e:
+                  print(f"   FAILED - {type(e).__name__}: {e}")
+          PY
+
+      # Optional: download PDF(s) and dump their extracted text. Generic
+      # counterpart to dump_url for the many AIPs that publish data as PDF
+      # (an AD 1.3 "Index of Aerodromes" gives the ICAO<->name mapping for a
+      # crawler's _NAMES; a GEN 1.2 gives customs/entry airfields). pypdf is
+      # installed ad-hoc via `uv run --with`, kept out of the crawler deps.
+      - name: Dump PDF text
+        if: ${{ inputs.pdf_dump != '' }}
+        continue-on-error: true
+        env:
+          PDF_DUMP: ${{ inputs.pdf_dump }}
+        run: |
+          uv run --directory crawlers --with pypdf python - <<'PY'
+          import io, os
+          import httpx
+          from pypdf import PdfReader
+
+          UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+          for url in os.environ["PDF_DUMP"].split():
+              print(f"\n===== PDF {url} =====", flush=True)
+              try:
+                  r = httpx.get(url, headers={"User-Agent": UA},
+                                follow_redirects=True, timeout=40)
+                  print(f"   status {r.status_code}  {len(r.content)} bytes")
+                  r.raise_for_status()
+                  reader = PdfReader(io.BytesIO(r.content))
+                  text = "\n".join(p.extract_text() or "" for p in reader.pages)
+                  # Collapse blank runs; print a generous head (index tables
+                  # are near the top). 8000 chars covers an AD 1.3 table.
+                  lines = [ln.rstrip() for ln in text.splitlines()]
+                  compact = "\n".join(ln for ln in lines if ln.strip())
+                  print(f"   {len(reader.pages)} pages, {len(text)} chars")
+                  print("   --- text ---")
+                  print(compact[:8000])
               except Exception as e:
                   print(f"   FAILED - {type(e).__name__}: {e}")
           PY

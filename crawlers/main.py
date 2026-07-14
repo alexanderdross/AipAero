@@ -1,3 +1,14 @@
+"""Crawler subsystem entry point.
+
+Wires the whole scraping run together: it holds the `COUNTRY_CRAWLERS`
+registry (the active, scheduled crawlers keyed by country code), parses the
+optional CLI country selection, configures logging, then for each selected
+country runs `crawler.crawl()` and hands the result to `OutputHandler`, which
+POSTs it to the website's `/api/airports` endpoint. Run by the daily GitHub
+Actions workflow (`.github/workflows/crawl.yml`) or manually with
+`uv run main.py [CC ...]`.
+"""
+
 import logging
 import sys
 from time import perf_counter
@@ -22,6 +33,7 @@ from crawlers.nl import NL
 from crawlers.no import NO
 from crawlers.pl import PL
 from crawlers.pt import PT
+from crawlers.rs import RS
 from crawlers.se import SE
 from crawlers.si import SI
 from crawlers.uk import UK
@@ -53,6 +65,7 @@ COUNTRY_CRAWLERS = {
     "NO": NO,
     "PL": PL,
     "PT": PT,
+    "RS": RS,
     "SE": SE,
     "SI": SI,
 }
@@ -84,6 +97,12 @@ def select_crawlers(countries: list[str] | None = None) -> list:
 
 
 def main(countries: list[str] | None = None):
+    """Crawl the selected countries and publish each result independently.
+
+    One shared `OutputHandler` fans every country's airports out to the API.
+    Each crawler is isolated in its own try/except so a single country failing
+    (network error, markup drift) never aborts the rest of the run.
+    """
     logger.info("Starting crawling process")
     crawlers = select_crawlers(countries)
     logger.info(
@@ -94,6 +113,8 @@ def main(countries: list[str] | None = None):
     for crawler in crawlers:
         logger.info(f"Starting crawler: {crawler.country}")
         try:
+            # Time the scrape purely for the run log; then publish this
+            # country's airports before moving on to the next crawler.
             start = perf_counter()
             airports = crawler.crawl()
             country = crawler.country
@@ -101,31 +122,38 @@ def main(countries: list[str] | None = None):
             logger.info(f"Finished crawling {country} in {end - start:.2f} seconds")
             output_handler.write_output(airports, country)
         except Exception as e:
+            # Per-country isolation: log and continue with the next crawler.
             logger.error(f"Error in crawler {crawler.country}: {e}")
 
 
 if __name__ == "__main__":
     start = perf_counter()
     try:
+        # Load env-based config first; an invalid/missing var raises
+        # ValidationError, handled below, so the run fails with a clear message.
         settings = Settings()  # type: ignore
         logger.setLevel(settings.log_level)
-        # Erstelle ein Log-Format
+        # Build the log format (timestamp, level, source location, message).
         formatter = logging.Formatter(
             "%(asctime)s %(levelname)s [%(filename)s:%(lineno)s:%(funcName)s()] %(message)s",
             datefmt="%Y-%m-%dT%H:%M:%S",
         )
+        # Log to both stdout (Actions run log) and a file (settings.log_file).
         stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(formatter)
         file_handler = logging.FileHandler(settings.log_file)
         file_handler.setFormatter(formatter)
 
+        # Reset any inherited handlers so lines aren't duplicated on re-runs.
         if logger.hasHandlers():
             logger.handlers.clear()
         logger.addHandler(stream_handler)
         logger.addHandler(file_handler)
 
+        # sys.argv[1:] are the optional country codes to crawl (empty = all).
         main(sys.argv[1:])
     except ValidationError as e:
+        # Missing/invalid Settings env vars: print each message, don't crash.
         for error in e.errors():
             print(error.get("msg"))
 

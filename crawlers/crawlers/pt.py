@@ -47,6 +47,11 @@ class PT(HttpEurocontrolBase):
         super().__init__(COUNTRY)
 
     def _enter_nav(self) -> tuple[str, str]:
+        """Walk the frameset to the navigation HTML, tolerating either frame
+        layout. NAV Portugal has shipped the menu both nested (a base frame
+        wrapping the nav frame) and flat (nav frame directly), so we try each
+        frame chain in turn and return the first that resolves; if all fail we
+        re-raise the last error."""
         last_error: Exception | None = None
         for chain in _FRAME_CHAINS:
             try:
@@ -57,6 +62,10 @@ class PT(HttpEurocontrolBase):
         raise last_error
 
     def crawl(self) -> list[Airport]:
+        """Enter the frameset, emit every per-aerodrome AD-2 chapter as VFR
+        plus any AD-3 heliport chapters, then attach chart-PDF links.
+        ``last_url``/``last_html`` retain the last fetch so a failure can dump
+        the offending page for post-mortem debugging."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
@@ -66,6 +75,8 @@ class PT(HttpEurocontrolBase):
             nav_url, nav_html = self._enter_nav()
             last_url, last_html = nav_url, nav_html
 
+            # Like CZ, aerodromes are per-chapter (no aggregate AD 2 section):
+            # the base's per-chapter helper matches each "AD-2.<ICAO>details".
             airports.extend(
                 self.extract_airports_per_chapter(
                     nav_html, nav_url, _AD2_CHAPTER_RE, "vfr"

@@ -38,9 +38,21 @@ class CZ(HttpEurocontrolBase):
     def _extract_airport_sections(
         self, nav_html: str, nav_url: str
     ) -> list[Airport]:
+        """Emit one IFR Airport per aerodrome chapter in the CZ nav menu.
+
+        The CZ eAIP has no aggregate AD 2 list, so instead of the base's
+        aggregate-section parser we scan every per-aerodrome details div
+        (``id="AD-2.<ICAO>details"``): the id yields the ICAO, the sibling
+        title div gives the display name, and the "Charts related to the
+        aerodrome" link becomes the airport URL. Raises ValueError when no
+        such sections are found (markup drift / wrong nav page) so the crawl
+        fails loud rather than silently publishing an empty country.
+        """
         soup = self.soup(nav_html)
         airports: list[Airport] = []
 
+        # Each aerodrome is its own chapter; the regex-matched id both selects
+        # the section and carries the ICAO in its capture group.
         for details in soup.find_all(
             "div", attrs={"id": _AIRPORT_SECTION_RE}
         ):
@@ -69,6 +81,9 @@ class CZ(HttpEurocontrolBase):
                     if rest:
                         title = f"{rest} {icao}"
 
+            # The AIP page URL is the aerodrome's "Charts related to the
+            # aerodrome" link (per the CZ task spec); skip the field if the
+            # menu row has none to point at.
             charts_url = self._find_charts_url(details, nav_url)
             if charts_url is None:
                 self.logger.warning(
@@ -98,6 +113,10 @@ class CZ(HttpEurocontrolBase):
     PDF_HREF_PRIORITY = (r"-vfrc\.pdf$", r"-adc\.pdf$")
 
     def crawl(self) -> list[Airport]:
+        """Walk the frameset to the nav menu, emit every aerodrome as IFR,
+        then attach direct chart-PDF links. ``last_url``/``last_html`` track
+        the most recent fetch so a failure can dump the offending page for
+        post-mortem debugging via ``save_response``."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL

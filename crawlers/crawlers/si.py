@@ -17,14 +17,18 @@ CA_PEM_URL = "https://cacerts.digicert.com/RapidSSLTLSRSACAG1.crt.pem"
 # Edition entry links on the history page: live run 29272201936 shows
 # bare "../Operations/<yyyy-mm-dd>-AIRAC/html/index.html" hrefs (no
 # language suffix); the folder date picks the edition (NL/UK pattern).
+# Edition entry filename (index.html / index-en-GB.html, any suffix).
 _INDEX_HREF_RE = re.compile(r"index[-\w]*\.html?$", re.I)
+# YYYY-MM-DD inside the edition href = its AIRAC effective date.
 _DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
 
+# Aggregate AD 2 / AD 3 menu-section id variants (tried in order).
 _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 _AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD-3details", "AD 3details"]
-# Per-airport chapter fallback (CZ/PT/HU/IS layouts).
+# Per-airport chapter fallback (CZ/PT/HU/IS layouts): "AD 2.<ICAO>...details".
 _AD2_CHAPTER_RE = re.compile(r"AD[ -]2\.([A-Z]{4}).*details$")
 
+# Frameset layouts to try when entering the nav frame (base+nav, or nav only).
 _FRAME_CHAINS = (
     ["eAISNavigationBase", "eAISNavigation"],
     ["eAISNavigation"],
@@ -48,6 +52,7 @@ class SI(HttpEurocontrolBase):
     # sampled fields. Add a VAC-number pattern IN FRONT once the VAC's
     # chart number is verified by opening one PDF.
     FETCH_PDF_URLS = True
+    # Prefer the positional aerodrome chart (…_01-1_en.pdf) among AD 2.24 links.
     PDF_HREF_PRIORITY = (r"_01-1_en\.pdf$",)
 
     def __init__(self) -> None:
@@ -59,6 +64,13 @@ class SI(HttpEurocontrolBase):
     def _resolve_edition_entry(
         self, html: str, today: datetime.date | None = None
     ) -> str:
+        """Pick the effective edition's index page from the AMDT history page.
+
+        Splits the `index*.html` links into date-tagged and undated: prefers
+        the latest dated edition on/before ``today`` (earliest if all future),
+        else the first undated link; raises with a diagnostic href dump if the
+        page links no edition at all.
+        """
         today = today or datetime.date.today()
         soup = self.soup(html)
         dated: list[tuple[datetime.date, str]] = []
@@ -68,6 +80,7 @@ class SI(HttpEurocontrolBase):
             if not _INDEX_HREF_RE.search(href):
                 continue
             url = urljoin(ROOT_URL, href)
+            # A YYYY-MM-DD in the href dates the edition; keep undated ones too.
             m = _DATE_RE.search(href)
             if m:
                 try:
@@ -97,6 +110,11 @@ class SI(HttpEurocontrolBase):
         )
 
     def _enter_nav(self, entry: str) -> tuple[str, str]:
+        """Enter the nav frame, trying each frame-chain layout in turn.
+
+        Returns the first chain that resolves to the navigation HTML; re-raises
+        the last error if none of the known layouts match.
+        """
         last_error: Exception | None = None
         for chain in _FRAME_CHAINS:
             try:
@@ -107,12 +125,22 @@ class SI(HttpEurocontrolBase):
         raise last_error
 
     def crawl(self) -> list[Airport]:
+        """History page -> effective edition -> nav frame -> AD 2 (+ AD 3).
+
+        `use_extra_ca` pins the correct DigiCert intermediate FIRST (the host
+        serves a broken chain, so a plain fetch would fail TLS verification);
+        it runs here in crawl(), not __init__, to keep import egress-free.
+        AD 2 aerodromes are "vfr" with a per-airport-chapter fallback; AD 3
+        heliports are optional and fail-soft. Last page dumped on failure.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
         last_html: str | None = None
 
         try:
+            # Pin the correct intermediate CA before any HTTPS fetch to this
+            # host (verification stays ON - never verify=False).
             self.use_extra_ca(CA_PEM_URL)
             history = self.fetch(ROOT_URL)
             last_html = history
@@ -121,6 +149,8 @@ class SI(HttpEurocontrolBase):
             nav_url, nav_html = self._enter_nav(entry)
             last_url, last_html = nav_url, nav_html
 
+            # Primary: aggregate AD 2 section. Fall back to per-airport
+            # chapters if this eAIP uses the CZ/PT/HU/IS chapter layout.
             try:
                 airports.extend(
                     self._extract_section(

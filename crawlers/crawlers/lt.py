@@ -150,6 +150,8 @@ class LT(HttpCrawlerBase):
         last_html: str | None = None
 
         try:
+            # AD 1.3 "Index to Aerodromes" is the inventory source (there is no
+            # usable English nav menu); its AD-2 links give the ICAO list.
             base = self._resolve_eaip_base()
             ad13_url = urljoin(base, "EY-AD-1.3-en-US.html")
             last_url = ad13_url
@@ -160,6 +162,9 @@ class LT(HttpCrawlerBase):
             )
 
             for icao in icaos:
+                # Per-aerodrome English AD 2 page follows a fixed filename
+                # shape; a single field failing to fetch is skipped (fail-soft)
+                # rather than aborting the whole country.
                 ad2_url = urljoin(base, f"EY-AD-2-{icao}-en-US.html")
                 try:
                     ad2_html = self.fetch(ad2_url)
@@ -167,6 +172,8 @@ class LT(HttpCrawlerBase):
                     self.logger.warning(f"LT: {icao} AD-2 fetch failed: {e}")
                     continue
                 pdf_url, charts = self._charts(ad2_html, ad2_url)
+                # Prefix the known name where mapped; an unmapped ICAO titles as
+                # the bare code (still lists, website enriches via OurAirports).
                 title = f"{_NAMES.get(icao, '')} {icao}".strip()
                 airports.append(
                     Airport(
