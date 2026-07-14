@@ -225,39 +225,55 @@ jobs:
               raise SystemExit(0)
           print(f"AIP Danmark node: {aip.get('id')} {label(aip)}")
 
-          # Recursively locate GEN 1.2 and AD 1.3-style index documents (max 4
-          # levels deep). Collect every leaf PDF whose label/href looks like a
-          # customs/entry source.
-          WANT = re.compile(r"GEN\s*1\.?2|1\.2|AD\s*1\.?3|1\.3|entry|toldkontrol|customs", re.I)
-          found = []
+          # FULL recursive dump of a subtree (label/id/href, indented) so the
+          # exact GEN 1.2 / AD 1.3 leaf documents are visible - the previous
+          # run stopped one level too shallow and its filename filter missed
+          # the underscored leaf names (EK_GEN_1_2_...). Also collects every
+          # leaf document under the subtree for the customs PDF dump.
+          leaves = []
 
-          def walk(node, depth=0, path=""):
+          def dump_tree(node, depth=0, maxdepth=5):
               lbl = label(node)
-              here = f"{path} / {lbl}".strip(" /")
               h = href(node)
+              pad = "   " * depth
+              print(f"{pad}- {node.get('id')} {lbl}  href={h}")
               if h is not None:
-                  if WANT.search(lbl) or WANT.search(h):
-                      found.append((here, urljoin(ROOT, h)))
+                  leaves.append((lbl, urljoin(ROOT, h)))
                   return
-              if depth >= 4:
+              if depth >= maxdepth:
                   return
               for c in nodes(node.get("id", "")):
-                  walk(c, depth + 1, here)
+                  dump_tree(c, depth + 1, maxdepth)
 
-          # Print the GEN + AD 1 subtree labels first so the structure is visible
-          for top in nodes(aip.get("id", "")):
-              tl = label(top)
-              print(f" AIP child: {top.get('id')} {tl}")
-              if re.search(r"\bGEN\b|\bAD\b", tl, re.I):
-                  for sub in nodes(top.get("id", "")):
-                      print(f"    - {sub.get('id')} {label(sub)}  href={href(sub)}")
-              walk(top, 1, tl)
+          aip_children = nodes(aip.get("id", ""))
+          # The two subtrees that carry the customs source: GEN 1 (entry /
+          # transit / departure of aircraft -> GEN 1.2) and AD 1 (the
+          # AD 1.3-style aerodrome index designating INTL fields).
+          part1 = child(aip_children, "PART 1") or child(aip_children, "GEN")
+          part3 = child(aip_children, "PART 3") or child(aip_children, "AD")
 
-          print("\n===== candidate customs documents =====")
-          for path, url in found:
-              print(f"  {path}\n    -> {url}")
-          for path, url in found[:6]:
-              dump_pdf(url, note=path)
+          if part1:
+              print(f"\n===== GEN subtree (id {part1.get('id')}) =====")
+              gen1 = child(nodes(part1.get("id", "")), "GEN 1")
+              dump_tree(gen1 or part1, 0)
+          if part3:
+              print(f"\n===== AD subtree (id {part3.get('id')}) =====")
+              ad1 = child(nodes(part3.get("id", "")), "AD 1")
+              dump_tree(ad1 or part3, 0)
+
+          # From every collected leaf, dump the PDFs that look like the entry /
+          # customs source (GEN 1.2, AD 1.3, or entry/transit/departure text).
+          WANT = re.compile(
+              r"1[._ ]?2|1[._ ]?3|entry|transit|departure|toldkontrol|customs"
+              r"|indrejse|udrejse|told",
+              re.I,
+          )
+          picked = [(l, u) for l, u in leaves if u.lower().endswith(".pdf") and (WANT.search(l) or WANT.search(u))]
+          print(f"\n===== candidate customs PDFs ({len(picked)} of {len(leaves)} leaves) =====")
+          for lbl, url in picked:
+              print(f"  {lbl}\n    -> {url}")
+          for lbl, url in picked[:8]:
+              dump_pdf(url, note=lbl)
           PY
 
       # Optional: dump the CONTENT of arbitrary URLs from the runner - title,
@@ -289,7 +305,7 @@ jobs:
                   print(f"   title: {title}")
                   text = " ".join(soup.get_text(" ", strip=True).split())
                   print(f"   text head: {text[:2500]}")
-                  api_re = re.compile(r"api|notam|gramet|token|oauth|metar|briefing|swagger|openapi", re.I)
+                  api_re = re.compile(r"api|notam|gramet|token|oauth|metar|briefing|swagger|openapi|chart|kartta|kort|vac|adc|iac|2\.24|Charts|WePub", re.I)
                   seen = set()
                   for a in soup.find_all("a", href=True):
                       label = " ".join(a.get_text(" ", strip=True).split())[:60]
