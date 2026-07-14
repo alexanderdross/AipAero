@@ -120,10 +120,12 @@ const searchPages: TestPage[] = [
   { path: "/fr/en/aeroports/", lang: "en", label: "aeroports fr-EN" },
   // Belgium/Luxembourg (vfr, ifr, heliports, military)
   { path: "/be/vfr/", lang: "en", label: "vfr be" },
+  { path: "/cz/vfr/", lang: "cs", label: "vfr cz" },
+  { path: "/cz/en/vfr/", lang: "en", label: "vfr cz-EN" },
   { path: "/be/ifr/", lang: "en", label: "ifr be" },
   { path: "/be/heliports/", lang: "en", label: "heliports be" },
   { path: "/be/military/", lang: "en", label: "military be" },
-  // Czechia (ifr only)
+  // Czechia (vfr from the VFR Manual + ifr from the eAIP; vfr rows above)
   { path: "/cz/ifr/", lang: "cs", label: "ifr cz" },
   // vfr + heliports countries (sample)
   { path: "/dk/vfr/", lang: "da", label: "vfr dk" },

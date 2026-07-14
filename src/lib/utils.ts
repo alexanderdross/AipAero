@@ -70,7 +70,11 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   nl: ["vfr", "heliport"],
   uk: ["vfr", "heliport"],
   be: ["vfr", "ifr", "heliport", "mil"],
-  cz: ["ifr"],
+  // CZ eAIP carries only IFR aerodromes; the VFR aerodromes + SLZ ultralight
+  // fields (both "vfr") come from the separate ANS CR VFR Manual, harvested
+  // by the CZ crawler. (The manual's heliports are skipped for now - they
+  // would need a /cz/heliports page + HeliportPage i18n.)
+  cz: ["vfr", "ifr"],
   dk: ["vfr", "heliport"],
   gr: ["vfr", "heliport"],
   no: ["vfr", "heliport"],

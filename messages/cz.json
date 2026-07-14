@@ -72,6 +72,21 @@
       "description": "Prohledávejte AIP IFR Česko a stahujte přibližovací mapy letišť"
     }
   },
+  "VfrPage": {
+    "title": "Vyhledávání přibližovacích map AIP VFR Česko",
+    "metaTitle": "🛩️ Vyhledávání přibližovacích map AIP VFR Česko",
+    "description": "Zadejte název nebo ICAO kód letiště pro přístup k přibližovacím mapám VFR, které vydává ANS CR ve VFR příručce (včetně letišť SLZ pro ultralehká letadla).",
+    "metaDescription": "Prohledávejte AIP VFR Česko a stahujte přibližovací mapy letišť zdarma🗺️",
+    "searchTitle": "Zadejte název letiště nebo jeho ICAO kód pro přístup k AIP VFR",
+    "searchPlaceholder": "Zadejte název letiště nebo jeho ICAO kód pro přístup k AIP VFR",
+    "resultTitle": "AIP VFR mapy letiště {airport}",
+    "resultDescription": "Zde si prohlédněte a stáhněte AIP VFR mapy a přibližovací mapu pro {airport}.",
+    "breadcrumb": {
+      "name": "Letecká informační příručka AIP VFR Česko",
+      "alternateName": "Vyhledávání přibližovacích map AIP VFR Česko",
+      "description": "Prohledávejte AIP VFR Česko a stahujte přibližovací mapy letišť zdarma"
+    }
+  },
   "LocaleSwitcher": {
     "label": "Změnit jazyk",
     "locale": "{locale, select, cz {🇨🇿 Čeština} en {🇬🇧 English} other {Neznámý}}"
