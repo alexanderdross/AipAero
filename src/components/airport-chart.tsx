@@ -2,17 +2,12 @@ import { FileTextIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { ExternalLink } from "~/components/external-link";
 import { SectionHeading } from "~/components/section-heading";
-import { airacDateFromUrl, chartTypeLabel, type ChartLink } from "~/lib/charts";
+import {
+  airacDateFromUrl,
+  chartDisplayName,
+  type ChartLink,
+} from "~/lib/charts";
 import { localeLangMapping } from "~/i18n/routing";
-
-/** The raw source code plus its plain-language meaning when known, e.g.
- * "IAC 7 - Instrument Approach Chart"; just the code when the designator is
- * not a known standard one. Keeps the pilot-recognised code scannable while
- * spelling it out for everyone else. */
-function labelChart(name: string, lang: string): string {
-  const full = chartTypeLabel(name, lang);
-  return full ? `${name} - ${full}` : name;
-}
 
 /**
  * Chart-PDF box, shown when the airport's chart URL points directly at a PDF
@@ -51,7 +46,7 @@ export async function AirportChart({
     ? new Date(airacIso).toLocaleDateString(locale.replace("-EN", ""))
     : null;
   const designationLine = [
-    primary && labelChart(primary.name, lang),
+    primary && chartDisplayName(primary.name, lang),
     airacLabel && `AIRAC ${airacLabel}`,
   ]
     .filter(Boolean)
@@ -94,7 +89,7 @@ export async function AirportChart({
                   hrefTitle={`${chart.name} (PDF)`}
                   className="text-drossblue break-words hover:underline"
                 >
-                  {labelChart(chart.name, lang)}
+                  {chartDisplayName(chart.name, lang)}
                 </ExternalLink>
               </li>
             ))}

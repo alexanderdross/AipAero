@@ -1,4 +1,4 @@
-import type { ChartLink } from "~/lib/charts";
+import { chartDisplayName, type ChartLink } from "~/lib/charts";
 
 interface Props {
   name: string;
@@ -12,6 +12,8 @@ interface Props {
   datePublished?: string | null;
   /** The source's full chart list; emitted as hasPart DigitalDocuments. */
   charts?: ChartLink[];
+  /** UI language, so hasPart names spell out the ICAO chart-type codes. */
+  lang: string;
 }
 
 /**
@@ -28,6 +30,7 @@ export function SchemaDigitalDocument({
   isPartOfUrl,
   datePublished,
   charts,
+  lang,
 }: Props) {
   const schema = {
     "@context": "https://schema.org",
@@ -51,7 +54,7 @@ export function SchemaDigitalDocument({
           .filter((c) => c.url !== url)
           .map((c) => ({
             "@type": "DigitalDocument",
-            name: c.name,
+            name: chartDisplayName(c.name, lang),
             url: c.url,
             encodingFormat: "application/pdf",
           })),

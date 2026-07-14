@@ -205,3 +205,15 @@ export function chartTypeLabel(
   }
   return null;
 }
+
+/**
+ * The chart's raw source code plus its plain-language meaning when the code is
+ * a known standard designator, e.g. "IAC 7 -> IAC 7 - Instrument Approach
+ * Chart"; just the raw code otherwise. Keeps the pilot-recognised code
+ * scannable while spelling it out for everyone else. Shared by the visible
+ * chart box and the DigitalDocument JSON-LD so both read identically.
+ */
+export function chartDisplayName(name: string, lang: string): string {
+  const full = chartTypeLabel(name, lang);
+  return full ? `${name} - ${full}` : name;
+}
