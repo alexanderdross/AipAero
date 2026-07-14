@@ -118,6 +118,34 @@ Bing/Google Webmaster Tools.
 - Dedup/Volumen: Phase 1 ist von Natur aus winzig; Phase 2 deckelt auf den
   Diff. Nie pauschal die ganze Country-URL-Menge taeglich senden.
 
+## Rate-Limit-Fix (14.07.2026, nach dem ersten Live-Crawl)
+
+Der erste echte Crawl-POST-Durchlauf (Crawl #14) hat gezeigt: `insertAirports`
+feuerte den Submit fuer JEDES publizierte Land - ein voller Tages-Crawl sind
+~19 Laender, und `api.indexnow.org` hat selbst bei ~20-60 s Abstand die
+spaeteren Submits mit **HTTP 429 (Too Many Requests)** abgewiesen (in den
+Cloudflare-Worker-Logs sichtbar: "IndexNow submit for SE/IS/HU/DK: HTTP 429").
+Der Bing-WMT-Report blieb dadurch leer.
+
+Zwei Ebenen fixen das:
+
+- **Ebene 1 (Ursache): nur bei echter Aenderung pingen.** `insertAirports`
+  ruft `submitCountryToIndexNow` jetzt NUR, wenn `changedDetails` nicht leer
+  ist (ein Flugplatz kam hinzu oder fiel weg). Ein No-Op-Crawl (gleiche
+  Flugplaetze, nur das Stand-Datum bewegt sich) pingt GAR NICHTS - genau die
+  taegliche 19-Laender-Flut, die das Limit riss. Routinemaessige Frische traegt
+  ohnehin die per-Land-Sitemap-`lastmod` (siehe unten). Ein echter Erst-Publish
+  hat einen leeren Snapshot -> jeder Flugplatz zaehlt als "added" -> nicht leer
+  -> pingt weiterhin.
+- **Ebene 2 (Netz): 429/503 mit Jitter-Backoff wiederholen.** Ein AIRAC-Zyklus
+  kann viele Laender gleichzeitig aendern; dann streut ein gejitterter Backoff
+  (3-6 s, dann 6-9 s, bis zu 3 Versuche, alles im `waitUntil`-Budget) den Burst.
+
+Ergaenzend gegen den Bing-WMT-"Sitemap veraltet"-Hinweis: die Sitemap-`lastmod`
+(Index + per-Land) kommt jetzt aus dem echten Crawl-Zeitstempel
+(`QUERIES.crawlUpdatedAt`, country-getaggt) statt dem Build-Datum, bewegt sich
+also taeglich mit dem Crawl.
+
 ## Phasen
 
 | Phase | Inhalt | Gate |
@@ -125,6 +153,7 @@ Bing/Google Webmaster Tools.
 | 0 | Key + Hosting + Bing-Registrierung (ERLEDIGT 14.07.2026) | Bing bestaetigt den Key |
 | 1 | `indexnow.ts` + `INDEXNOW_KEY` var + Hook in `insertAirports` (Landing + Liste, nativ + EN, via waitUntil, fail-soft) - **GEBAUT 14.07.2026** | Live-Crawl-POST loest sichtbaren Submit aus (WMT IndexNow-Report) |
 | 2 | Diff-basierte Detailseiten-Submits (neu/entfallen) - **GEBAUT 14.07.2026** | Live-Crawl mit tatsaechlichem Diff |
+| 3 | Rate-Limit-Fix: Ping nur bei Diff + 429/503-Retry mit Jitter-Backoff - **GEBAUT 14.07.2026** | Voller Tages-Crawl ohne 429 im Worker-Log |
 
 **Phase-1-Umsetzung (14.07.2026):** `src/lib/indexnow.ts`
 (`submitCountryToIndexNow`), `INDEXNOW_KEY` als `var` in `wrangler.jsonc`

@@ -64,14 +64,37 @@ function detailUrls(country: string, details: ChangedDetail[]): string[] {
   return urls;
 }
 
+// api.indexnow.org rate-limits per host/key: a full daily crawl publishes ~19
+// countries and, even a minute apart, the shared endpoint returned HTTP 429
+// for the later ones (observed live 14.07.2026). The caller now only pings on
+// a real airport-set change (most crawls change nothing -> no ping at all),
+// but an AIRAC cycle can still change many countries at once, so retry 429/503
+// with a jittered backoff to spread the burst. All within the waitUntil budget.
+const MAX_ATTEMPTS = 3;
+const BACKOFF_BASE_MS = 3000;
+
+function backoffMs(attempt: number): number {
+  // 3-6s, then 6-9s (jitter so concurrent per-country submits desync).
+  return (
+    BACKOFF_BASE_MS * attempt + Math.floor(Math.random() * BACKOFF_BASE_MS)
+  );
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 /**
- * Notify IndexNow that `country`'s pages changed: always the landing + list
- * pages, plus the detail pages of airfields that appeared/disappeared this
- * crawl (`changedDetails` - new ones get indexed immediately, removed ones get
+ * Notify IndexNow that `country`'s pages changed: the landing + list pages,
+ * plus the detail pages of airfields that appeared/disappeared this crawl
+ * (`changedDetails` - new ones get indexed immediately, removed ones get
  * re-crawled so the engine sees the 404). Fire and forget from `ctx.waitUntil`
  * (never blocks the crawler POST response), fully fail-soft, and a NO-OP
  * without `INDEXNOW_KEY`. The key is public by design (served at `/<key>.txt`);
- * `keyLocation` points crawlers at it for ownership proof.
+ * `keyLocation` points crawlers at it for ownership proof. The CALLER gates
+ * this on an actual change so IndexNow is not pinged on a no-op crawl (that
+ * daily 19-country flood is what tripped the endpoint's rate limit); 429/503
+ * responses are retried with a jittered backoff below.
  */
 export async function submitCountryToIndexNow(
   country: string,
@@ -85,25 +108,41 @@ export async function submitCountryToIndexNow(
       ...detailUrls(country, changedDetails),
     ]),
   ].slice(0, MAX_URLS);
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 5000);
-    const res = await fetch(INDEXNOW_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json; charset=utf-8" },
-      body: JSON.stringify({
-        host: orgUrl.host,
-        key,
-        keyLocation: new URL(`/${key}.txt`, orgUrl).toString(),
-        urlList,
-      }),
-      signal: controller.signal,
-    }).finally(() => clearTimeout(timer));
-    // 200 / 202 = accepted; anything else is logged, never thrown.
-    if (!res.ok) {
+  const body = JSON.stringify({
+    host: orgUrl.host,
+    key,
+    keyLocation: new URL(`/${key}.txt`, orgUrl).toString(),
+    urlList,
+  });
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 5000);
+      const res = await fetch(INDEXNOW_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body,
+        signal: controller.signal,
+      }).finally(() => clearTimeout(timer));
+      // 200 / 202 = accepted.
+      if (res.ok) return;
+      // Throttled: back off with jitter and retry within the waitUntil budget.
+      if (
+        (res.status === 429 || res.status === 503) &&
+        attempt < MAX_ATTEMPTS
+      ) {
+        await sleep(backoffMs(attempt));
+        continue;
+      }
       console.warn(`IndexNow submit for ${country}: HTTP ${res.status}`);
+      return;
+    } catch (error) {
+      if (attempt < MAX_ATTEMPTS) {
+        await sleep(backoffMs(attempt));
+        continue;
+      }
+      console.warn(`IndexNow submit for ${country} failed:`, error);
+      return;
     }
-  } catch (error) {
-    console.warn(`IndexNow submit for ${country} failed:`, error);
   }
 }

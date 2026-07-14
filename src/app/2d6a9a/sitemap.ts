@@ -15,6 +15,7 @@ import {
 } from "~/lib/utils";
 import type { Airport } from "~/server/db/schema";
 import { QUERIES } from "~/server/db/queries";
+import { modifiedDate as buildDate } from "~/lib/build-info";
 
 // ISR safety net (see airport-list/page.tsx): deploys seed the build's empty
 // prerender; hourly revalidation bounds how long the sitemaps miss the
@@ -54,16 +55,28 @@ export default async function sitemap({
   if (!tlds.includes(id as Locale)) {
     return notFound();
   }
+  // lastmod = the real per-country crawl timestamp (tagged with the country
+  // tag, so a fresh crawler POST busts this read and moves the date daily);
+  // fall back to the build date for a country not yet crawled since deploy.
+  // Bing WMT flags a sitemap whose lastmod never changes as stale ("should
+  // update at least once a day") - the daily crawl now drives it.
+  const crawledAtUnix = await QUERIES.crawlUpdatedAt(id);
+  const lastModified = crawledAtUnix
+    ? new Date(crawledAtUnix * 1000)
+    : new Date(buildDate);
+
   const pathnames = Object.keys(routing.pathnames) as Pathnames[];
   const entries = await Promise.all(
-    pathnames.map((pathname) => getEntries(pathname, id as Locale)),
+    pathnames.map((pathname) =>
+      getEntries(pathname, id as Locale, lastModified),
+    ),
   );
   return entries.flat();
 }
 
 type Href = Parameters<typeof getPathname>[0]["href"];
 
-async function getEntries(pathname: Href, country: Locale) {
+async function getEntries(pathname: Href, country: Locale, lastModified: Date) {
   // Gate search-page entries by the country's available types (single source
   // of truth: countryTypeAvailability). "/" and "/airport-list" always emit.
   const type = TYPE_BY_PATH[pathname as string];
@@ -86,6 +99,7 @@ async function getEntries(pathname: Href, country: Locale) {
   // Both the current country and its English version of the base pathname should be included
   const pageEntries = alternateLangs.map((l) => ({
     url: getUrl(pathname, l.locale),
+    lastModified,
     ...(emitAlternates
       ? {
           alternates: {
@@ -110,6 +124,7 @@ async function getEntries(pathname: Href, country: Locale) {
       .map((x) => {
         return alternateLangs.map((l) => ({
           url: getAirportUrl(i18nPathMapping[x.type], x.slug, l.locale),
+          lastModified,
           ...(emitAlternates
             ? {
                 alternates: {

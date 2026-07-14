@@ -452,11 +452,18 @@ export const MUTATIONS = {
     // across every country on every run.)
     revalidateTag(countryTag(country));
 
-    // Ping IndexNow (Bing + partners): always the landing + list pages, plus
-    // the detail pages of airfields that appeared/disappeared vs the snapshot
-    // (added: index now; removed: re-crawl to see the 404). Off the response
-    // path via waitUntil, so the crawler POST returns immediately, and fully
-    // fail-soft (no-op without INDEXNOW_KEY; see src/lib/indexnow.ts +
+    // Ping IndexNow (Bing + partners) ONLY when this country's airport set
+    // actually changed - the detail pages of airfields that appeared or
+    // disappeared vs the snapshot (added: index now; removed: re-crawl to see
+    // the 404), plus the landing + list pages that frame them. A no-op crawl
+    // (same airfields, e.g. only the stand date moved) pings NOTHING: firing
+    // all ~19 countries on every daily crawl flooded api.indexnow.org into
+    // HTTP 429 (observed live 14.07.2026), and routine freshness is already
+    // carried by the per-country sitemap lastmod. A genuine first publish has
+    // an empty snapshot, so every airfield counts as "added" -> non-empty ->
+    // it still pings. Off the response path via waitUntil (the crawler POST
+    // returns immediately), fully fail-soft (no-op without INDEXNOW_KEY;
+    // 429/503 retried with jittered backoff; see src/lib/indexnow.ts +
     // docs/indexnow-concept.md).
     const key = (a: { type: Airport["type"]; slug: string }) =>
       `${a.type}:${a.slug}`;
@@ -468,11 +475,13 @@ export const MUTATIONS = {
           ...existingKeys.filter((a) => !newKeys.has(key(a))),
         ].map((a) => ({ type: a.type, slug: a.slug }))
       : [];
-    try {
-      const { ctx } = await getCloudflareContext({ async: true });
-      ctx.waitUntil(submitCountryToIndexNow(country, changedDetails));
-    } catch {
-      // No Cloudflare context (build/test) - skip the ping.
+    if (changedDetails.length > 0) {
+      try {
+        const { ctx } = await getCloudflareContext({ async: true });
+        ctx.waitUntil(submitCountryToIndexNow(country, changedDetails));
+      } catch {
+        // No Cloudflare context (build/test) - skip the ping.
+      }
     }
     return result;
   },
