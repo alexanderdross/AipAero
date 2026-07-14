@@ -28,10 +28,16 @@ from pathlib import Path
 
 import httpx
 
+from crawlers.http_eurocontrol_base import title_name_looks_bad
 from crawlers.models import Airport
 from settings import Settings
 
 DEFAULT_DROP_THRESHOLD = 0.5  # refuse if new count < 50% of last
+# Warn (Actions annotation) when more than this share of a country's titles
+# have no real place name - a bare ICAO or a chart-designator/boilerplate
+# "name" (the NL/ES/FI-heliport class of bug). A launch that ships a listing
+# of chart codes instead of aerodrome names must not pass silently.
+TITLE_QUALITY_WARN_RATIO = 0.2
 # Per-country last-successful counts, persisted between Actions runs (actions/cache).
 COUNT_STATE_FILE = Path("last_run_counts.json")
 # Generous total budget, short connect timeout - some AIP hosts are slow.
@@ -99,6 +105,38 @@ class OutputHandler:
             return
         raise CountDropAbort(msg + " Set CRAWLER_FORCE_PUBLISH=1 to override.")
 
+    @staticmethod
+    def _title_name_part(airport: Airport) -> str:
+        """The place-name portion of an airport title (the "<name>" in the
+        canonical "<name> <ICAO>" form). Falls back to the whole title when the
+        field has no ICAO (name-only listings are legitimate)."""
+        title = (airport.title or "").strip()
+        icao = (airport.icao or "").strip()
+        if icao and title.upper().endswith(icao.upper()):
+            return title[: len(title) - len(icao)].strip()
+        return title
+
+    def _check_title_quality(self, airports: list[Airport], country: str) -> None:
+        """Warn (loudly, as a GitHub Actions annotation) when too many of a
+        country's titles carry no real aerodrome name - a bare ICAO or a chart
+        designator / AD-section boilerplate instead of a place name. This is the
+        NL/ES/FI-heliport class of bug; catching it here means a newly onboarded
+        country cannot ship a listing of chart codes without a visible warning
+        in the run log. Never blocks the publish (fail-soft)."""
+        bad = [a for a in airports if title_name_looks_bad(self._title_name_part(a))]
+        if not bad:
+            return
+        ratio = len(bad) / len(airports)
+        sample = ", ".join(f"{a.title!r}" for a in bad[:5])
+        msg = (
+            f"{country}: {len(bad)}/{len(airports)} titles have no place name "
+            f"(e.g. {sample}) - the name source is likely wrong "
+            f"(docs: title_name_looks_bad in http_eurocontrol_base.py)"
+        )
+        self.logger.warning(msg)
+        if ratio >= TITLE_QUALITY_WARN_RATIO:
+            print(f"::warning title=Title quality::{msg}", flush=True)
+
     def write_output(self, airports: list[Airport], country: str) -> None:
         """Validate, serialize and POST one country's airports to the API.
 
@@ -137,6 +175,10 @@ class OutputHandler:
             self.logger.warning(msg)
             # GitHub Actions annotation (the daily crawl runs there).
             print(f"::warning title=Chart-PDF coverage::{msg}", flush=True)
+
+        # Title-quality guard: flag a country that ships bare ICAOs / chart
+        # designators instead of aerodrome names (fail-soft, never blocks).
+        self._check_title_quality(airports, country)
 
         self.logger.info(
             f"Writing {len(airports)} airports for {country} "
