@@ -99,6 +99,20 @@ class IS(HttpEurocontrolBase):
     emitted as "vfr" (NO/PL/SE convention).
     """
 
+    # Stage 2: Isavia links every AD 2.24 chart PDF on the aerodrome's own
+    # "8" (charts) page as plain anchors under
+    # `documents/Root_WePub/Rep_ISAVIA/Charts/AD/<ICAO>/PART_8/<ICAO>_8_<DESIG>_*.pdf`
+    # (pdf_recon run 29355638020). Prefer the visual/aerodrome charts a VFR
+    # pilot needs; fall back to the first captured PDF otherwise.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (
+        r"_VAC[_.]",
+        r"_ADC[_.]",
+        r"AERODROME_CHART",
+        r"VISUAL_APP",
+        r"_LDG[_.]",
+    )
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
