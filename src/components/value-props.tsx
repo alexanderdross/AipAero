@@ -36,7 +36,8 @@ const items = [
     text: (
       <>
         <span className="text-drossblue underline">Install as an app</span>,
-        save whole countries offline and import charts into your EFB
+        save whole countries offline and import charts into your EFB - for
+        free
       </>
     ),
     // English guide (the root page is English); per-locale EFB links live in
