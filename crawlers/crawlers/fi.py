@@ -109,18 +109,17 @@ class FI(HttpEurocontrolBase):
             )
             last_url, last_html = nav_url, nav_html
 
-            # AD 2 aerodromes (required); AD 3 heliports optional (fail-soft).
+            # AD 2 aerodromes only. AD 3 heliports are DELIBERATELY NOT
+            # crawled: Fintraffic's AD 3 menu does not expose clean heliport
+            # names - most entries came through as the chart-section heading
+            # "AD 3.23 HELIKOPTERILENTOPAIKKAA KOSKEVAT KARTAT <ICAO>"
+            # (12 of 16 fields, verified in prod D1 14.07.2026), so the
+            # heliport list was unusable. Re-enable only once the real names
+            # can be extracted from the AD 3 markup (recon needed); until then
+            # FI is VFR-only (countryTypeAvailability.fi = ["vfr"]).
             airports.extend(
                 self._extract_section(nav_html, nav_url, _AD2_SECTION_IDS, "vfr")
             )
-            try:
-                airports.extend(
-                    self._extract_section(
-                        nav_html, nav_url, _AD3_SECTION_IDS, "heliport"
-                    )
-                )
-            except ValueError:
-                self.logger.info("FI: no AD 3 heliport section - skipping")
 
             # Fintraffic menu anchors read "AD 2 EFET - ENONTEKIÖ
             # AERONAUTICAL DATA", which the generic extractor turns into

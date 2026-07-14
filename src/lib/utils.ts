@@ -81,7 +81,10 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   pl: ["vfr", "heliport"],
   se: ["vfr", "heliport"],
   ee: ["vfr", "heliport"],
-  fi: ["vfr", "heliport"],
+  // FI: AD 2 aerodromes only. The Fintraffic AD 3 heliport menu does not
+  // expose clean names (came through as the "AD 3.23 ... KARTAT" chart
+  // heading), so heliports are not crawled - see fi.py.
+  fi: ["vfr"],
   // ES: the ENAIRE crawler covers the AD-2 aerodrome list only (type
   // "vfr"); heliports are not part of the crawled AIP section.
   es: ["vfr"],

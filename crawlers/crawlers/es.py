@@ -2,6 +2,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_eurocontrol_base import title_name_looks_bad
 
 COUNTRY = "ES"
 # ENAIRE serves the AIP as ONE static index page per language with every
@@ -62,16 +63,24 @@ class ES(HttpCrawlerBase):
 
                 # Prefer the anchor's own label; when it is empty (icon-only
                 # link) fall back to the whole surrounding table row's text.
-                title = self.clean_text(a.get_text(" ", strip=True))
-                if not title:
-                    row = a.find_parent("tr")
-                    if row is not None:
-                        title = self.clean_text(row.get_text(" ", strip=True))
+                row = a.find_parent("tr")
+                label = self.clean_text(a.get_text(" ", strip=True))
+                if not label and row is not None:
+                    label = self.clean_text(row.get_text(" ", strip=True))
                 # Normalise: strip section numbering / the code itself, cap
                 # length, and always end with the ICAO for consistency.
-                title = re.sub(r"^AD\s*2[\s.-]*", "", title, flags=re.I)
-                title = title.replace(icao, "").strip(" -/")[:80]
-                title = f"{title} {icao}".strip() if title else icao
+                name = re.sub(r"^AD\s*2[\s.-]*", "", label, flags=re.I)
+                name = name.replace(icao, "").strip(" -/")[:80]
+                # Guard/diagnostic: the ENAIRE AD 2 link label is the section
+                # heading ("! See alerts Aerodrome data."), NOT the aerodrome
+                # name - flag it and dump the row markup so the real name node
+                # can be located.
+                if title_name_looks_bad(name):
+                    self.logger.warning(
+                        f"ES: suspicious name {name!r} for {icao}; row: "
+                        f"{row.decode()[:500] if row is not None else '(no row)'}"
+                    )
+                title = f"{name} {icao}".strip() if name else icao
 
                 airports.append(
                     Airport(

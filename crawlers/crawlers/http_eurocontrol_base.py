@@ -15,6 +15,33 @@ AirportType = Literal["vfr", "ifr", "heliport", "mil", "aeroport"]
 # chapter prefix is stripped before the ICAO dedupe.
 _CHAPTER_TITLE_PREFIX_RE = re.compile(r"^AD\s*[23]\.[A-Z]{4}\s*", re.I)
 
+# Title-quality guard: a "name" that is really a chart designator (NL menu
+# labels its entries "<ICAO> VAC") or AD-section boilerplate (ES "Aerodrome
+# data.", FI "AD 3.23 ... KARTAT") is NOT a place name. `title_name_looks_bad`
+# flags these so the crawl log warns (with the raw markup) and a launch check
+# can catch a new country before it ships a listing of chart codes.
+_CHART_DESIGNATOR_RE = re.compile(
+    r"^(VAC|IAC|ADC|AOC|APDC|GMC|PATC|SID|STAR|SMAC|PDC|LDG|TAXI|PARK|GROUND"
+    r"|OACI|VFR|IFR|AD|HEL)$",
+    re.I,
+)
+_TITLE_BOILERPLATE_RE = re.compile(
+    r"charts?\s+related|aerodrome\s+data|aeronautical\s+data"
+    r"|koskevat\s+kartat|see\s+alerts|\bAD\s*[23]\.\d",
+    re.I,
+)
+
+
+def title_name_looks_bad(name: str) -> bool:
+    """True if ``name`` (the part before the ICAO) is empty, a bare chart
+    designator, or AD-section boilerplate rather than a real place name."""
+    n = name.strip()
+    return (
+        not n
+        or bool(_CHART_DESIGNATOR_RE.match(n))
+        or bool(_TITLE_BOILERPLATE_RE.search(n))
+    )
+
 
 class HttpEurocontrolBase(HttpCrawlerBase):
     """Shared parser for the eurocontrol "eAIP" navigation HTML.
@@ -234,6 +261,14 @@ class HttpEurocontrolBase(HttpCrawlerBase):
 
         # Canonical display form is "<name> <ICAO>"; name-only when no ICAO.
         title = f"{title_rest} {icao}".strip() if icao else title_rest
+        # Guard: a chart-designator / boilerplate "name" (NL "<ICAO> VAC")
+        # means the menu anchor is not the aerodrome name - log the raw markup
+        # so the right anchor can be identified, and flag it for the launch check.
+        if title_name_looks_bad(title_rest):
+            self.logger.warning(
+                f"{self.country}: suspicious title {title!r} (name "
+                f"{title_rest!r}); title_div: {title_div.decode()[:400]}"
+            )
         return Airport(
             country=self.country,
             icao=icao,
