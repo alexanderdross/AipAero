@@ -53,26 +53,44 @@ jobs:
       - name: Build (OpenNext / Cloudflare Workers)
         run: pnpm run cf-build
 
-      # Deployt den Worker und befüllt den Incremental-Cache vor. Der Cache liegt
-      # jetzt auf R2 (statt KV), dessen Write-Kontingent um Größenordnungen höher
-      # ist — die Populate-Phase (~36 Class-A-Writes) ist damit unkritisch, daher
-      # nutzen wir wieder den regulären OpenNext-Deploy (kein OPEN_NEXT_DEPLOY-
-      # Workaround mehr nötig).
+      # Der Build hat keine DB - die Flughafenlisten + per-Land-Sitemaps
+      # prerendern LEER. `opennextjs-cloudflare deploy` seedet diese leeren
+      # Prerender via populateCache in den R2-Incremental-Cache und
+      # ueberschreibt dabei die LIVE gefuellten Eintraege (das ~4-min-Leer-
+      # Fenster nach jedem Deploy). Wir entfernen GENAU diese DB-abhaengigen
+      # Cache-Assets aus dem Build-Output, damit populateCache sie ueberspringt:
+      # ihre gefuellten R2-Eintraege ueberleben den Deploy, und der Post-Deploy-
+      # `/api/revalidate` bustet die country-Tags -> die Seiten regenerieren aus
+      # der LIVE-D1 mit dem neuen Code (stale-while-revalidate serviert die
+      # gefuellte Kopie waehrend der Regeneration, NIE leer). Alle uebrigen
+      # (statischen) Seiten - Startseiten, terms, efb, llms.txt, Sitemap-Index -
+      # bleiben im Seed und werden wie gehabt aktualisiert. Der Sitemap-INDEX
+      # (`2d6a9a/index.xml`) haengt nicht an der DB (nur liveCountries) und
+      # bleibt daher bewusst drin.
+      - name: Exclude the DB-seeded lists + sitemaps from the empty cache seed
+        run: |
+          before=$(find .open-next/cache -type f -name '*.cache' | wc -l)
+          find .open-next/cache -type f -name 'airport-list.cache' -delete
+          find .open-next/cache -type f -path '*/2d6a9a/sitemap/*.xml.cache' -delete
+          after=$(find .open-next/cache -type f -name '*.cache' | wc -l)
+          echo "Excluded $((before - after)) DB-dependent cache assets ($before -> $after)."
+
+      # Deployt den Worker und befuellt den Incremental-Cache vor (R2; hohes
+      # Write-Kontingent). Die im Schritt oben entfernten DB-Seiten werden
+      # NICHT ge-seedet und behalten so ihre gefuellten R2-Eintraege.
       - name: Deploy (OpenNext → Cloudflare)
         run: pnpm exec opennextjs-cloudflare deploy
 
-      # Der Build hat keine DB - die Flughafenlisten + Sitemaps werden LEER
-      # vorgerendert und beim Deploy in den R2-Incremental-Cache geseedet
-      # (populateCache ueberschreibt bestehende Eintraege bedingungslos). ZWEI
-      # Deployer seeden leer: dieser CD-Lauf UND die parallele
-      # Workers-Builds-Git-Integration - ein spaeterer Deploy kann also NACH
-      # einem frueheren Refresh erneut leer seeden. Ein einzelner blinder
-      # revalidate+warm reicht daher nicht; wir refreshen in Runden und
-      # PRUEFEN nach jeder Runde, ob die schwerste Liste wirklich Zeilen
-      # traegt (voller Render = viele `<use href="#row-link-icon">`; der
-      # leere Seed hat null), bis sie voll ist oder das Budget aufgebraucht
-      # ist. Fail-soft: ohne CRON_SECRET / nach allen Runden nur eine Warnung
-      # - die ISR-Stundenrevalidierung heilt spaetestens nach 1h.
+      # Die DB-Listen sind vom Leer-Seed AUSGENOMMEN (Schritt oben) - sie
+      # behalten also ihre gefuellten R2-Eintraege ueber den Deploy. Dieser
+      # Refresh bustet die country-Tags (`/api/revalidate`), damit die Listen
+      # aus der LIVE-D1 mit dem NEUEN Code regenerieren (stale-while-revalidate
+      # serviert die gefuellte Kopie waehrend der Regeneration - nie leer), und
+      # waermt die schweren Seiten off-path. Der Verify-Loop bleibt als NETZ:
+      # er prueft, dass die schwerste Liste Zeilen traegt (voller Render = viele
+      # row-link-icon <use>; ein hypothetischer Leer-Zustand haette null) und
+      # wiederholt sonst - er sollte jetzt aber in Runde 1 gruen sein. Fail-soft:
+      # ohne CRON_SECRET / nach allen Runden nur eine Warnung (ISR heilt <=1h).
       - name: Refresh + verify prerendered lists (self-healing)
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
@@ -125,9 +143,10 @@ jobs:
             done
           }
 
-          # Initial settle so the parallel Workers-Builds deploy finishes its
-          # own (empty) seeding before the first refresh round.
-          sleep 60
+          # Short settle for the deploy to propagate. No empty-seed race to
+          # wait out anymore (the DB lists are excluded from the seed), so this
+          # is just propagation - the verify loop below confirms the outcome.
+          sleep 15
           for round in 1 2 3 4 5; do
             echo "== refresh round $round =="
             revalidate || echo "::warning::revalidate failed in round $round"
