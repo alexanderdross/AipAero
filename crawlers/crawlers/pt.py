@@ -5,17 +5,26 @@ from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "PT"
 # NAV Portugal serves the eAIP behind an amendment-stable alias
-# (probe_eaip run 29255990091) - no edition picker needed. A separate
-# eVFR publication exists under eVFR_Current/ (candidate for a later
-# type split like DE BasicVFR/BasicIFR).
+# (probe_eaip run 29255990091) - no edition picker needed.
 ROOT_URL = (
     "https://ais.nav.pt/wp-content/uploads/AIS_Files/"
     "eAIP_Current/eAIP_Online/eAIP/html/index.html"
 )
 
+# The separate eVFR Manual (small VFR aerodromes/heliports the main eAIP omits)
+# is a eurocontrol frameset under the amendment-stable eVFR_Current alias. Its
+# menu is Portuguese-ONLY (the -en-PT variant 404s, dump run 29339283332) and
+# lives at a fixed path, so we fetch it directly rather than walking frames.
+# Names are place names, so the Portuguese menu is fine.
+EVFR_MENU_URL = (
+    "https://ais.nav.pt/wp-content/uploads/AIS_Files/"
+    "eVFR_Current/eVFR_Online/eAIP/html/eAIP/LP-menu-pt-PT.html"
+)
+
 # The PT menu has NO aggregate "AD 2" section: every aerodrome is its own
 # top-level chapter with an id like "AD-2.LPPTdetails" (live run
-# 29259975942 listed 19 such ids). Same layout as CZ.
+# 29259975942 listed 19 such ids). Same layout as CZ. The eVFR manual uses
+# the same eurocontrol chapter ids.
 _AD2_CHAPTER_RE = re.compile(r"AD-2\.([A-Z]{4})details$")
 _AD3_CHAPTER_RE = re.compile(r"AD-3\.([A-Z]{4})details$")
 
@@ -61,11 +70,43 @@ class PT(HttpEurocontrolBase):
         assert last_error is not None
         raise last_error
 
+    def _crawl_evfr(self) -> list[Airport]:
+        """Harvest the eVFR Manual (small VFR aerodromes/heliports the main
+        eAIP omits). The menu is a plain eurocontrol nav HTML at a fixed path,
+        so it is fetched directly (no frame walk). Same per-chapter layout as
+        the eAIP. Fully fail-soft: any failure logs and returns what was
+        gathered, so a VFR-manual hiccup never aborts the PT eAIP crawl."""
+        airports: list[Airport] = []
+        try:
+            menu_html = self.fetch(EVFR_MENU_URL)
+        except Exception as e:
+            self.logger.warning(f"PT eVFR: menu fetch failed: {e}")
+            return airports
+        try:
+            airports.extend(
+                self.extract_airports_per_chapter(
+                    menu_html, EVFR_MENU_URL, _AD2_CHAPTER_RE, "vfr"
+                )
+            )
+        except ValueError as e:
+            self.logger.warning(f"PT eVFR: no AD-2 chapters ({e})")
+        try:
+            airports.extend(
+                self.extract_airports_per_chapter(
+                    menu_html, EVFR_MENU_URL, _AD3_CHAPTER_RE, "heliport"
+                )
+            )
+        except ValueError:
+            self.logger.info("PT eVFR: no AD-3 heliport chapters - skipping")
+        self.logger.info(f"PT eVFR: extracted {len(airports)} VFR fields")
+        return airports
+
     def crawl(self) -> list[Airport]:
         """Enter the frameset, emit every per-aerodrome AD-2 chapter as VFR
-        plus any AD-3 heliport chapters, then attach chart-PDF links.
-        ``last_url``/``last_html`` retain the last fetch so a failure can dump
-        the offending page for post-mortem debugging."""
+        plus any AD-3 heliport chapters, merge in the eVFR-manual fields not
+        already listed, then attach chart-PDF links. ``last_url``/``last_html``
+        retain the last fetch so a failure can dump the offending page for
+        post-mortem debugging."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
@@ -90,6 +131,21 @@ class PT(HttpEurocontrolBase):
                 )
             except ValueError:
                 self.logger.info("PT: no AD 3 heliport chapters - skipping")
+
+            # Merge the eVFR-manual fields (type "vfr"/heliport) that are NOT
+            # already in the eAIP - one crawler owns country PT (the API
+            # delete+inserts per country), so both publications are returned
+            # together. Dedupe by ICAO, keeping the eAIP row for shared fields.
+            have = {a.icao for a in airports if a.icao}
+            evfr_added = 0
+            for a in self._crawl_evfr():
+                if a.icao and a.icao in have:
+                    continue
+                airports.append(a)
+                if a.icao:
+                    have.add(a.icao)
+                evfr_added += 1
+            self.logger.info(f"PT: merged {evfr_added} eVFR-only fields")
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)

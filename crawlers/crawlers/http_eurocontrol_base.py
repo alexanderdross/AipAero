@@ -347,13 +347,16 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         """Resolve the field's chart page URL from its details div, or None.
 
         The eAIP tags the wanted link with title="Charts related to an
-        aerodrome"; when that tagging is missing we fall back to the last inner
-        link, which in this menu layout is the AD-2 charts entry.
+        aerodrome" (or, on Portuguese-only manuals like the PT eVFR, "Cartas
+        relacionadas com o aeródromo"); when that tagging is missing we fall
+        back to the last inner link, which in this menu layout is the AD-2
+        charts entry.
         """
-        # Prefer the explicitly-tagged "Charts related to an aerodrome" link.
+        # Prefer the explicitly-tagged "Charts related to an aerodrome" link
+        # (English eAIPs) or its Portuguese equivalent (PT eVFR manual).
         for a in details_div.select("div a[title]"):
-            title_attr = a.get("title", "")
-            if "charts related" in title_attr.lower():
+            title_attr = a.get("title", "").lower()
+            if "charts related" in title_attr or "cartas relacionad" in title_attr:
                 href = a.get("href")
                 if href:
                     return urljoin(base_url, href)
