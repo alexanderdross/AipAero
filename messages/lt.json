@@ -268,8 +268,7 @@
   "Chart": {
     "allCharts": "Visos kortelės ({count})",
     "title": "Artėjimo kortelė",
-    "openPdf": "Atidaryti kortelės PDF",
-    "preview": "Rodyti peržiūrą"
+    "openPdf": "Atidaryti kortelės PDF"
   },
   "TermsPage": {
     "title": "Naudojimo sąlygos",

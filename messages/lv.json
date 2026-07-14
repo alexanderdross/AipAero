@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Visas kartes ({count})",
     "title": "Pieejas karte",
-    "openPdf": "Atvērt kartes PDF",
-    "preview": "Rādīt priekšskatījumu"
+    "openPdf": "Atvērt kartes PDF"
   },
   "TermsPage": {
     "title": "Lietošanas noteikumi",

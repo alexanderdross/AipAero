@@ -268,8 +268,7 @@
   "Chart": {
     "allCharts": "Todas as cartas ({count})",
     "title": "Carta de aproximação",
-    "openPdf": "Abrir PDF da carta",
-    "preview": "Mostrar pré-visualização"
+    "openPdf": "Abrir PDF da carta"
   },
   "TermsPage": {
     "title": "Termos de utilização",

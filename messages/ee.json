@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Kõik kaardid ({count})",
     "title": "Lähenemiskaart",
-    "openPdf": "Ava kaardi PDF",
-    "preview": "Näita eelvaadet"
+    "openPdf": "Ava kaardi PDF"
   },
   "TermsPage": {
     "title": "Kasutustingimused",

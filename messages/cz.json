@@ -278,8 +278,7 @@
   "Chart": {
     "allCharts": "Všechny mapy ({count})",
     "title": "Přibližovací mapa",
-    "openPdf": "Otevřít PDF mapy",
-    "preview": "Zobrazit náhled"
+    "openPdf": "Otevřít PDF mapy"
   },
   "TermsPage": {
     "title": "Podmínky použití",

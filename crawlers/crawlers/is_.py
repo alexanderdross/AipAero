@@ -1,9 +1,43 @@
 import datetime
 import re
+import unicodedata
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
+
+
+# Icelandic/Nordic letters NFKD does NOT decompose - map them the way the
+# AIP's ASCII transliteration does (Ð->D, Þ->TH, Æ->AE, Ø/Å->O/A).
+_TRANSLIT = str.maketrans(
+    {
+        "Ð": "D", "ð": "d", "Þ": "TH", "þ": "th",
+        "Æ": "AE", "æ": "ae", "Ø": "O", "ø": "o", "Å": "A", "å": "a",
+    }
+)
+
+
+def _fold(text: str) -> str:
+    """Accent-fold + uppercase for comparison so the native and transliterated
+    halves match (BÚÐARDALUR -> BUDARDALUR, GRUNDARFJÖRÐUR -> GRUNDARFJORDUR)."""
+    stripped = "".join(
+        c
+        for c in unicodedata.normalize("NFKD", text.translate(_TRANSLIT))
+        if not unicodedata.combining(c)
+    )
+    return stripped.upper().strip()
+
+
+def _dedupe_native_ascii(name: str) -> str:
+    """Isavia's chapter id repeats the field name as "<native> - <ASCII>"
+    (e.g. "BÍLDUDALUR - BILDUDALUR", "AKUREYRI - AKUREYRI"); keep only the
+    native half when the two sides are the same word accent-folded, so the
+    title is not doubled. A genuinely two-part name (folded halves differ) is
+    left untouched."""
+    if " - " not in name:
+        return name
+    left, right = name.split(" - ", 1)
+    return left.strip() if _fold(left) == _fold(right) else name
 
 COUNTRY = "IS"
 # Isavia lists dated edition folders on the host root (probe_eaip run
@@ -122,8 +156,9 @@ class IS(HttpEurocontrolBase):
                 # A nested duplicate may still carry the link - only
                 # warn once no div for this ICAO produced one.
                 continue
-            # Collapse whitespace in the id-derived title (group 2).
-            name = " ".join(match.group(2).split())
+            # Collapse whitespace in the id-derived title (group 2), then drop
+            # the redundant transliterated half ("BÍLDUDALUR - BILDUDALUR").
+            name = _dedupe_native_ascii(" ".join(match.group(2).split()))
             by_icao[icao] = Airport(
                 country=self.country,
                 icao=icao,

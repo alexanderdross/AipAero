@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Alle kaarten ({count})",
     "title": "Naderingskaart",
-    "openPdf": "Kaart-PDF openen",
-    "preview": "Voorbeeld tonen"
+    "openPdf": "Kaart-PDF openen"
   },
   "TermsPage": {
     "title": "Gebruiksvoorwaarden",

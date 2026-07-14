@@ -268,8 +268,7 @@
   "Chart": {
     "allCharts": "Vse karte ({count})",
     "title": "Karta prileta",
-    "openPdf": "Odpri PDF karte",
-    "preview": "Prikaži predogled"
+    "openPdf": "Odpri PDF karte"
   },
   "TermsPage": {
     "title": "Pogoji uporabe",

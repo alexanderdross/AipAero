@@ -2,6 +2,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_eurocontrol_base import ad21_name
 
 COUNTRY = "ES"
 # ENAIRE serves the AIP as ONE static index page per language with every
@@ -60,25 +61,30 @@ class ES(HttpCrawlerBase):
                     continue
                 seen.add(icao)
 
-                # Prefer the anchor's own label; when it is empty (icon-only
-                # link) fall back to the whole surrounding table row's text.
-                title = self.clean_text(a.get_text(" ", strip=True))
-                if not title:
-                    row = a.find_parent("tr")
-                    if row is not None:
-                        title = self.clean_text(row.get_text(" ", strip=True))
-                # Normalise: strip section numbering / the code itself, cap
-                # length, and always end with the ICAO for consistency.
-                title = re.sub(r"^AD\s*2[\s.-]*", "", title, flags=re.I)
-                title = title.replace(icao, "").strip(" -/")[:80]
-                title = f"{title} {icao}".strip() if title else icao
+                # The ENAIRE index row carries NO aerodrome name (only the ICAO
+                # + the boilerplate label "Aerodrome data."); the name lives on
+                # the AD 2 sub-page's "AD 2.1 AERODROME LOCATION INDICATOR AND
+                # NAME" line. Fetch the page and read it (fail-soft: fall back
+                # to the bare ICAO when the page or the line is unavailable).
+                url = urljoin(ROOT_URL, a["href"])
+                name: str | None = None
+                try:
+                    text = " ".join(
+                        self.soup(self.fetch(url)).get_text(" ").split()
+                    )
+                    name = ad21_name(text, icao)
+                except Exception as e:  # one bad page must not abort the crawl
+                    self.logger.warning(f"ES: {icao} name fetch failed: {e}")
+                if not name:
+                    self.logger.warning(f"ES: no AD 2.1 name for {icao}")
+                title = f"{name} {icao}".strip() if name else icao
 
                 airports.append(
                     Airport(
                         country=self.country,
                         icao=icao,
                         title=title,
-                        url=urljoin(ROOT_URL, a["href"]),
+                        url=url,
                         type="vfr",
                     )
                 )

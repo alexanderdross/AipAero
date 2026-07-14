@@ -15,6 +15,64 @@ AirportType = Literal["vfr", "ifr", "heliport", "mil", "aeroport"]
 # chapter prefix is stripped before the ICAO dedupe.
 _CHAPTER_TITLE_PREFIX_RE = re.compile(r"^AD\s*[23]\.[A-Z]{4}\s*", re.I)
 
+# Title-quality guard: a "name" that is really a chart designator (NL menu
+# labels its entries "<ICAO> VAC") or AD-section boilerplate (ES "Aerodrome
+# data.", FI "AD 3.23 ... KARTAT") is NOT a place name. `title_name_looks_bad`
+# flags these so the crawl log warns (with the raw markup) and a launch check
+# can catch a new country before it ships a listing of chart codes.
+_CHART_DESIGNATOR_RE = re.compile(
+    r"^(VAC|IAC|ADC|AOC|APDC|GMC|PATC|SID|STAR|SMAC|PDC|LDG|TAXI|PARK|GROUND"
+    r"|OACI|VFR|IFR|AD|HEL)$",
+    re.I,
+)
+_TITLE_BOILERPLATE_RE = re.compile(
+    r"charts?\s+related|aerodrome\s+data|aeronautical\s+data"
+    r"|koskevat\s+kartat|see\s+alerts|\bAD\s*[23]\.\d",
+    re.I,
+)
+
+
+def title_name_looks_bad(name: str) -> bool:
+    """True if ``name`` (the part before the ICAO) is empty, a bare chart
+    designator, or AD-section boilerplate rather than a real place name."""
+    n = name.strip()
+    return (
+        not n
+        or bool(_CHART_DESIGNATOR_RE.match(n))
+        or bool(_TITLE_BOILERPLATE_RE.search(n))
+    )
+
+
+# The AD 2.1 "AERODROME LOCATION INDICATOR AND NAME" line of an AD 2 page reads
+# "<ICAO> - <NAME>", terminated by the AD 2.2 heading. It is the reliable name
+# source for eAIPs whose nav MENU carries no aerodrome name at all (NL, ES) -
+# their menu lists only the ICAO + section labels, so the name must be read
+# from the per-aerodrome page. The label itself varies ("... AND NAME" vs
+# "... AND - NAME" on ENAIRE), and the dash before the name may be "-" or an
+# en/em dash.
+_AD21_NAME_RE = re.compile(
+    r"(?:AERODROME|HELIPORT) LOCATION INDICATOR AND\s*-?\s*NAME\s+"
+    r"([A-Z]{4})\s*[-–—]\s*(.+?)\s+"
+    r"(?:(?:AERODROME|HELIPORT) GEOGRAPHICAL|AD\s*[23]\.2)\b",
+    re.I | re.S,
+)
+
+
+def ad21_name(page_text: str, icao: str) -> str | None:
+    """The aerodrome name from an AD 2 page's "AD 2.1 AERODROME LOCATION
+    INDICATOR AND NAME" line ("<ICAO> - <NAME>").
+
+    For eAIPs whose nav menu carries no name (NL lists only "AD 2 <ICAO>";
+    ENAIRE lists "Aerodrome data."), the crawler fetches the per-aerodrome AD 2
+    page and reads the name from here. ``page_text`` is the page's collapsed
+    visible text. Returns None when the line is absent or its ICAO does not
+    match (fail-soft: the caller keeps its existing title). Module-level so
+    both HttpCrawlerBase (ES) and eurocontrol crawlers (NL) can use it."""
+    match = _AD21_NAME_RE.search(page_text)
+    if match and match.group(1).upper() == icao.upper():
+        return " ".join(match.group(2).split())
+    return None
+
 
 class HttpEurocontrolBase(HttpCrawlerBase):
     """Shared parser for the eurocontrol "eAIP" navigation HTML.
@@ -234,6 +292,14 @@ class HttpEurocontrolBase(HttpCrawlerBase):
 
         # Canonical display form is "<name> <ICAO>"; name-only when no ICAO.
         title = f"{title_rest} {icao}".strip() if icao else title_rest
+        # Guard: a chart-designator / boilerplate "name" (NL "<ICAO> VAC")
+        # means the menu anchor is not the aerodrome name - log the raw markup
+        # so the right anchor can be identified, and flag it for the launch check.
+        if title_name_looks_bad(title_rest):
+            self.logger.warning(
+                f"{self.country}: suspicious title {title!r} (name "
+                f"{title_rest!r}); title_div: {title_div.decode()[:2000]}"
+            )
         return Airport(
             country=self.country,
             icao=icao,

@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Alle kort ({count})",
     "title": "Indflyvningskort",
-    "openPdf": "Åbn kort-PDF",
-    "preview": "Vis forhåndsvisning"
+    "openPdf": "Åbn kort-PDF"
   },
   "TermsPage": {
     "title": "Vilkår for brug",
