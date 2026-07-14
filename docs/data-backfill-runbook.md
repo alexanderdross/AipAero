@@ -180,6 +180,68 @@ revises the schema, refresh the enum maps in `openaip-parse.ts` and its test.
 
 ---
 
+## C. OpenAIP coordinate backfill (fields OurAirports misses)
+
+OurAirports is the baseline (section A), but it does **not** carry hospital
+heliports or many small ULM / private strips. Those AIP fields end up with an
+ICAO in `aip_aero_v4_airports` but **no `airport_facts` row**, so they are
+**absent from the "airports near me" map** and carry no persisted geo (the
+detail page still works via the live OpenAIP / AWC fallback). As of 14.07.2026
+this was ~65 fields (BE 30, PT 13, HU 11, RS 8, + 1 each in AT/DK/CZ - almost
+all `... HOSPITAL (HLP)` heliports and small ULM strips). They self-heal only
+when someone visits the detail page (on-read write-back), which rarely happens
+for these.
+
+The backfill (`crawlers/import_openaip_backfill.py`) closes the gap without
+re-querying OpenAIP for all ~3k fields:
+
+1. `GET /api/airport-facts` (Bearer `CRON_SECRET`) returns the ICAOs with no
+   facts row yet (server-side `QUERIES.airportsMissingFacts`, uncached).
+2. Each is looked up on OpenAIP (`?search=<ICAO>&limit=1`, `x-openaip-api-key`);
+   coordinates / elevation / runways / frequencies are mapped the same way the
+   website's `src/lib/openaip-parse.ts` does (mirrored + unit-tested in
+   `crawlers/tests/test_openaip_backfill.py`).
+3. Rows that resolve to coordinates are POSTed to `/api/airport-facts`. Fields
+   OpenAIP has no coordinates for are left untouched (retried next run).
+
+### C.1 - Prerequisite: `OPENAIP_API_KEY` as a GitHub **repository** secret
+
+The importer runs on the self-hosted Actions runner, so the key must be a
+GitHub **repository** secret named exactly `OPENAIP_API_KEY` (same value as the
+Worker secret from B.2) - NOT an *environment* secret (the job sets no
+`environment:`). Verify it resolves: a dry-run whose env prints
+`OPENAIP_API_KEY:` **blank** (not `***`) means the secret is missing/misnamed.
+
+### C.2 - Run it (dry-run first)
+
+Manual dispatch of **Airport facts import** (`facts-import.yml`) with the
+`backfill` input:
+
+- `backfill: true`, `apply: false` -> **dry-run**: logs the resolved coords per
+  ICAO and writes nothing (doubles as the key check). The OurAirports import
+  step is skipped on a backfill-only run.
+- `backfill: true`, `apply: true` -> actually POSTs the resolved rows to D1.
+- `icaos: "LPFA LHBA ..."` (optional) -> target an explicit list instead of the
+  auto missing-list (spot-check / targeted re-run).
+
+Local equivalent:
+
+```bash
+API_BASE=https://aip.aero API_KEY=<CRON_SECRET> OPENAIP_API_KEY=<key> \
+    uv run python import_openaip_backfill.py                 # dry-run
+API_BASE=https://aip.aero API_KEY=<CRON_SECRET> OPENAIP_API_KEY=<key> \
+    BACKFILL_APPLY=1 uv run python import_openaip_backfill.py  # apply
+```
+
+### C.3 - Verify
+
+After an `apply` run, the previously-missing fields should appear as markers on
+their country's charts-list map, and their detail pages read coords/elevation
+from D1 instead of the live fallback. It stays **manual** until validated; once
+happy, it can be added to the weekly schedule.
+
+---
+
 ## Notes
 
 - **Migrations** (`airport_facts` + its columns, `crawl_meta`) are applied
