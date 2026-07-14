@@ -49,6 +49,16 @@ class ES(HttpCrawlerBase):
             last_html = html
             soup = self.soup(html)
 
+            # TEMP DEBUG (ES chart-PDF recon): what PDFs does the index link?
+            _all = [a["href"] for a in soup.find_all("a", href=True)]
+            _pdf = [h for h in _all if ".pdf" in h.lower()]
+            _leco = [h for h in _all if "LECO" in h.upper()]
+            self.logger.info(
+                f"ES DEBUG: {len(_all)} total links, {len(_pdf)} pdf links. "
+                f"pdf sample: {_pdf[:25]}"
+            )
+            self.logger.info(f"ES DEBUG: LECO links ({len(_leco)}): {_leco[:25]}")
+
             # The index links each AD 2 section many times (charts, text, ...);
             # `seen` keeps only the first hit per ICAO so a field lists once.
             seen: set[str] = set()
