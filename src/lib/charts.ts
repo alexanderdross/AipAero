@@ -106,10 +106,14 @@ export function airacDateFromUrl(
  * copy (same rationale as the METAR glossary in metar-decode.ts). Populated
  * for en/de/fr/nl with an English fallback for the other locales.
  *
- * Only unambiguous ICAO designators are listed. A code that is not a standard
- * designation (e.g. a state-specific "PDC") is deliberately absent, so an
- * unknown chart keeps its raw code rather than getting a wrong, potentially
- * misleading full name - chart labelling is safety-relevant.
+ * A code is only listed once its meaning is verified - either an unambiguous
+ * ICAO designator, or a state code confirmed against the source's own chart
+ * (e.g. ENAIRE's "PDC"/"TRAN", read from the chart title inside AD 2-LEBL:
+ * "Plano de Estacionamiento y Atraque de Aeronaves" = Aircraft Parking/Docking,
+ * "Carta de Transición a la Aproximación" = Approach Transition). A code whose
+ * meaning is genuinely ambiguous or unverified stays absent, so an unknown
+ * chart keeps its raw code rather than getting a wrong, potentially misleading
+ * full name - chart labelling is safety-relevant.
  */
 const CHART_TYPES: Record<
   string,
@@ -128,6 +132,16 @@ const CHART_TYPES: Record<
     nl: "Vliegveldobstakelkaart",
   },
   APDC: {
+    en: "Aircraft Parking / Docking Chart",
+    de: "Luftfahrzeug-Parkkarte",
+    fr: "Carte de stationnement des aéronefs",
+    nl: "Vliegtuigparkeerkaart",
+  },
+  // ENAIRE (ES) spells this "Plano de Estacionamiento y Atraque de Aeronaves -
+  // OACI" (AD 2-LEBL PDC) - the ICAO Aircraft Parking/Docking Chart, so it
+  // shares APDC's labels. Only a chart-list entry ever carries this code, so
+  // the datalink "Pre-Departure Clearance" reading does not apply here.
+  PDC: {
     en: "Aircraft Parking / Docking Chart",
     de: "Luftfahrzeug-Parkkarte",
     fr: "Carte de stationnement des aéronefs",
@@ -168,6 +182,14 @@ const CHART_TYPES: Record<
     de: "Sichtanflugkarte",
     fr: "Carte d'approche à vue",
     nl: "Zichtnaderingskaart",
+  },
+  // ENAIRE (ES) "Carta de Transición a la Aproximación (Final)" (AD 2-LEBL
+  // TRAN) - the transition from the arrival onto the final approach.
+  TRAN: {
+    en: "Approach Transition Chart",
+    de: "Anflug-Übergangskarte",
+    fr: "Carte de transition d'approche",
+    nl: "Naderingstransitiekaart",
   },
   VFR: {
     en: "VFR Chart",

@@ -85,9 +85,21 @@ describe("chartTypeLabel", () => {
     expect(chartTypeLabel("BIKF_8_VFR_RWY_01", "en")).toBe("VFR Chart");
   });
 
+  it("expands the source codes verified against the ENAIRE chart titles", () => {
+    // PDC = "Plano de Estacionamiento y Atraque de Aeronaves" (parking/docking).
+    expect(chartTypeLabel("PDC 1", "en")).toBe(
+      "Aircraft Parking / Docking Chart",
+    );
+    expect(chartTypeLabel("PDC 1", "de")).toBe("Luftfahrzeug-Parkkarte");
+    // TRAN = "Carta de Transición a la Aproximación" (approach transition).
+    expect(chartTypeLabel("TRAN 5", "en")).toBe("Approach Transition Chart");
+    expect(chartTypeLabel("TRAN 5", "fr")).toBe(
+      "Carte de transition d'approche",
+    );
+  });
+
   it("returns null for an unknown or non-standard designation", () => {
-    // "PDC" is not a standard ICAO designator - kept as the raw code.
-    expect(chartTypeLabel("PDC 1", "en")).toBeNull();
+    // An unverified / non-designator string keeps its raw code.
     expect(chartTypeLabel("AD 2.EGPD-2-1", "en")).toBeNull();
     expect(chartTypeLabel("", "en")).toBeNull();
     expect(chartTypeLabel(null, "en")).toBeNull();
