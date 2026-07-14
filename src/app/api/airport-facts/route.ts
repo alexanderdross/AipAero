@@ -1,8 +1,21 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { env } from "~/env";
-import { MUTATIONS } from "~/server/db/queries";
+import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import { airportFactsApiInsertSchema } from "~/server/db/schema";
+
+// Read side (same Bearer auth): the OpenAIP coord-backfill importer
+// (crawlers/import_openaip_backfill.py) GETs the ICAOs that have no facts row
+// yet, so it only queries OpenAIP for the fields OurAirports never carried
+// (hospital heliports / small ULM strips) instead of all ~3k. Uncached query,
+// invoked at most weekly from the importer.
+export async function GET(req: NextRequest) {
+  if (req.headers.get("Authorization") !== `Bearer ${env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const missing = await QUERIES.airportsMissingFacts();
+  return NextResponse.json({ count: missing.length, missing });
+}
 
 // Ingest endpoint for the OurAirports facts importer (crawlers/import_ourairports.py).
 // Same Bearer-token auth as /api/airports. Body: an array of facts rows

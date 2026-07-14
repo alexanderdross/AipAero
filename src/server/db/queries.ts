@@ -1,7 +1,17 @@
 "server-only";
 
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { and, between, eq, asc, isNotNull, like, or, sql } from "drizzle-orm";
+import {
+  and,
+  between,
+  eq,
+  asc,
+  isNotNull,
+  isNull,
+  like,
+  or,
+  sql,
+} from "drizzle-orm";
 import { unstable_cache, revalidateTag } from "next/cache";
 import { cache } from "react";
 import { submitCountryToIndexNow } from "~/lib/indexnow";
@@ -345,6 +355,39 @@ export const QUERIES = {
             between(airportFacts.lon, lon - lonDelta, lon + lonDelta),
           ),
         )) as AirportCoord[];
+    } catch {
+      return [];
+    }
+  },
+  airportsMissingFacts: async function (): Promise<
+    { icao: string; country: string; title: string }[]
+  > {
+    // Every airport that HAS an ICAO but no `airport_facts` row - i.e. a field
+    // OurAirports never carried (mostly hospital heliports and small ULM /
+    // private strips). These are absent from the "airports near me" map and
+    // carry no persisted geo, so the OpenAIP coord backfill importer
+    // (crawlers/import_openaip_backfill.py) reads this list and fills them.
+    // Deliberately UNCACHED and read behind the CRON_SECRET GET on
+    // /api/airport-facts - it runs at most weekly from the importer, never on a
+    // user request path. Fail-soft to [] with no DB binding (build time).
+    const db = await getDb();
+    if (!db) return [];
+    try {
+      const rows = await db
+        .select({
+          icao: airports.icao,
+          country: airports.country,
+          title: airports.title,
+        })
+        .from(airports)
+        .leftJoin(airportFacts, eq(airports.icao, airportFacts.icao))
+        .where(and(isNotNull(airports.icao), isNull(airportFacts.icao)))
+        .groupBy(airports.icao);
+      // `icao` is nullable in the row type but isNotNull filters the nulls out.
+      return rows.filter(
+        (r): r is { icao: string; country: string; title: string } =>
+          r.icao != null,
+      );
     } catch {
       return [];
     }

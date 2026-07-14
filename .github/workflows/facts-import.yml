@@ -19,6 +19,20 @@ on:
         required: false
         type: boolean
         default: false
+      backfill:
+        description: "Run the OpenAIP coord backfill instead of the OurAirports import: fill coordinates for fields OurAirports never carried (hospital heliports / small ULM strips) so they appear on the map"
+        required: false
+        type: boolean
+        default: false
+      apply:
+        description: "Backfill only: actually POST to D1. Off = dry-run (log what it would write, no data change)"
+        required: false
+        type: boolean
+        default: false
+      icaos:
+        description: "Backfill only (optional): space/comma-separated ICAOs to target instead of the auto missing-list (e.g. a spot-check or a targeted re-run)"
+        required: false
+        default: ""
 
 concurrency:
   group: facts-import
@@ -53,7 +67,10 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen
 
+      # The weekly OurAirports import. Skipped on a manual backfill-only run so
+      # a coord-backfill dry-run does not also re-post the whole dataset.
       - name: Import OurAirports facts -> D1
+        if: ${{ github.event_name == 'schedule' || !inputs.backfill }}
         env:
           API_BASE: https://aip.aero
           API_KEY: ${{ secrets.CRON_SECRET }}
@@ -61,3 +78,16 @@ jobs:
           # the importer only checks whether GEOCODE is set/non-empty.
           GEOCODE: ${{ inputs.geocode == true && '1' || '' }}
         run: uv run python import_ourairports.py
+
+      # OpenAIP coord backfill for fields OurAirports never carried (manual
+      # only). Dry-run unless `apply` is set - the dry-run logs what it would
+      # write and touches nothing, so it doubles as the OPENAIP_API_KEY check.
+      - name: OpenAIP coord backfill -> D1
+        if: ${{ inputs.backfill }}
+        env:
+          API_BASE: https://aip.aero
+          API_KEY: ${{ secrets.CRON_SECRET }}
+          OPENAIP_API_KEY: ${{ secrets.OPENAIP_API_KEY }}
+          BACKFILL_APPLY: ${{ inputs.apply == true && '1' || '' }}
+          BACKFILL_ICAOS: ${{ inputs.icaos }}
+        run: uv run python import_openaip_backfill.py
