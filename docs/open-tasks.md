@@ -31,8 +31,8 @@ Code: `crawlers/import_openaip_backfill.py` + `GET /api/airport-facts`
 ## ✅ 0b. Chart-PDF-Abdeckungs-Audit - ERLEDIGT (14.07.2026)
 
 Live gegen alle Live-Länder geprüft: **keine 0-Länder, keine Extraktions-Lücke.**
-100% auf CZ/DK/NO/PL/SE/EE/LV/PT/SI/HU/UK/FR/NL/AT/ES (ES 50/51). Die zwei
-niedrigen (BE 22/167, IS 7/53) sind quellseitig korrekt (nur öffentliche
+100% auf CZ/DK/NO/PL/SE/EE/LV/PT/SI/HU/UK/FR/NL/AT/ES (ES nach 0e nun 51/51).
+Die zwei niedrigen (BE 22/167, IS 7/53) sind quellseitig korrekt (nur öffentliche
 Aerodrome bzw. Hauptflugplätze gechartet), kein Fix nötig. DE bewusst ohne.
 
 ## ✅ 0c. Chart-Namen bereinigt (Pfad/Dateiname) - ERLEDIGT (14.07.2026)
@@ -50,17 +50,18 @@ Schwelle** (Reziprok-Peilung) - bei Landung 06 setzt man an der SW-Schwelle auf,
 wo die "06" gemalt ist (ICAO Annex 14). Für die empfohlene Bahn zusätzlich grüne
 Schwellenmarkierung + grüner Pfeil in Landerichtung.
 
-## 🟢 0e. ES 50/51 - LECU/LEVS ohne Chart (minor, 14.07.2026)
+## ✅ 0e. ES 50/51 → 51/51 (LECU/LEVS) - ERLEDIGT (14.07.2026)
 
-Einziges ES-Feld ohne `pdf_url`: **LECU/LEVS** (Madrid/Cuatro Vientos), ein
-Doppel-ICAO-Aerodrom unter `LECU_LEVS/`. Die Chart-Dateinamen tragen den
-Doppel-Key (`LE_AD_2_LECU_LEVS_<TYPE>_<N>_en.pdf`), den `_CHART_HREF_RE` in
-`es.py` (`LE_AD_2_<ICAO>_<TYPE>_<N>`) nicht matcht. Fix: Regex um ein optionales
-zweites ICAO-Segment erweitern (`([A-Z]{4})(?:_[A-Z]{4})?_...`) + kurzer
-`check_urls`/`pdf_recon` gegen den echten Dateinamen + Re-Crawl. Niedriger Wert
-(1 Feld), daher zurückgestellt.
+Einziges ES-Feld ohne `pdf_url` war **LECU/LEVS** (Madrid/Cuatro Vientos), ein
+Doppel-ICAO-Aerodrom unter `LECU_LEVS/`. Die Charts tragen den Doppel-Key
+(`LE_AD_2_LECU_LEVS_VAC_1_en.pdf`, per `check_urls` run 29372181084 als 200
+verifiziert), den `_CHART_HREF_RE` nicht matchte. `es.py`-Regex um ein
+optionales, nicht-fangendes zweites ICAO-Segment erweitert (`([A-Z]{4})(?:_[A-Z]{4})?_...`,
+Gruppen-Indizes unverändert), unit-getestet (`tests/test_es.py`). Live
+validiert: **ES jetzt 51/51** (Run 29372486590, 943 Charts). Wird beim nächsten
+ES-Crawl publiziert.
 
-## 🟡 8. Gated-Länder via OpenAIP sichtbar machen (IT/HR/IE/SK) - SCOPING + BLOCKER
+## 🟡 8. Gated-Länder sichtbar machen (IT/HR/IE/SK) via OurAirports/OpenAIP - SCOPING
 
 **Idee (Owner-Wunsch):** Länder mit paywall-/blockiertem AIP (Italien ENAV,
 Kroatien, Irland IAA, Slowakei LPS) mit **Grundabdeckung aus OpenAIP** zeigen
@@ -75,16 +76,31 @@ andere, deutlich weitergehende Nutzung - und die Site schaltet AdSense
 oder Verzicht auf Ads für diese Länder, oder alternative Quelle), **bevor** ein
 gated-Land so onboardet wird. Siehe auch den Lizenz-Hinweis im Backfill-Runbook.
 
-**Umfang, falls Lizenz geklärt (pro Land):** OpenAIP-basierter "Crawler" (Aerodrom-
-Liste des Landes via OpenAIP-Country-Query) → `/api/airports` (neuer
-Quell-Typ/`source`) → Locales/Prefix/Slug in `routing.ts` → `countryTypeAvailability`
-+ `countryMeta` → zwei Übersetzungsdateien → E2E → Launch-Flag in `liveCountries`.
-Kein AIP-Chart-Link (nur OpenAIP-Daten + ggf. Deep-Link zu OpenAIP). Alternativ
-**Italien**: ENAV Self-Briefing ist login-only, kein offener eAIP - hier ist
-OpenAIP ohnehin die einzige Option (recon 14.07., run 29352948630).
+**🟢 Ausweg um den Lizenz-Blocker: OurAirports (CC0) als primäre Quelle.**
+OurAirports ist **Public Domain / CC0** (kommerziell erlaubt, keine
+Attribution-/NC-Pflicht) und führt bereits Aerodrome für IT/HR/IE/SK (ICAO,
+Name, Coords, Typ, Ort - genau die Basis, die der wöchentliche Facts-Import
+schon lädt). Damit lässt sich die **Flugplatzliste eines gated-Landes
+lizenzsauber** bauen; OpenAIP bliebe wie gehabt nur die *per-Feld-Anreicherung*.
+Das verschiebt die Frage von "Lizenz" zu einer **Produktentscheidung**: solche
+Länderseiten hätten **keinen AIP-Chart-Link** (der AIP ist gated), also
+"Flugplatz-Info"-Seiten (Facts/Wetter/Karte/EFB-Hand-offs/Nearby) statt der
+Kern-"finde deine Anflugkarte"-Seite. Passt das zur Marke bzw. reicht der Wert?
 
-**Empfehlung:** erst die Lizenzfrage entscheiden; dann ein Land als Piloten
-(z.B. IE oder HR) durchziehen, bevor der Rest folgt.
+**Umfang, falls freigegeben (pro Land, OurAirports-Variante):** kleiner
+OurAirports-"Lister" (CSV → Aerodrome des Landes, `closed` raus) → `/api/airports`
+(neuer `source`, `url` = OpenAIP-/SkyVector-Deeplink statt AIP) → Locales/Prefix/
+Slug in `routing.ts` → `countryTypeAvailability` + `countryMeta` → zwei
+Übersetzungsdateien → E2E → Launch-Flag in `liveCountries`. Die Chart-Box
+rendert dann einfach nicht (kein `pdf_url`/PDF-`url`), alles fail-soft.
+
+**Italien** ist der Sonderfall: ENAV Self-Briefing ist login-only, kein offener
+eAIP (recon 14.07., run 29352948630) - hier ist OurAirports/OpenAIP ohnehin die
+einzige Option.
+
+**Empfehlung:** die Produktfrage entscheiden (Info-Seiten ohne Charts ja/nein);
+falls ja, **OurAirports-CC0** als Quelle nehmen (umgeht die OpenAIP-NC-Lizenz)
+und **ein** Land als Piloten (z.B. IE oder HR) durchziehen, bevor der Rest folgt.
 
 ## ✅ 1. `CRON_SECRET` als GitHub-Actions-Secret anlegen (Owner) - ERLEDIGT
 
