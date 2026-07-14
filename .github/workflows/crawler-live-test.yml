@@ -326,6 +326,18 @@ jobs:
                       if src and (".pdf" in src.lower() or "chart" in src.lower()
                                   or "wepub" in src.lower()):
                           print(f"   embed <{tag.name}> {src[:140]}")
+                  # VFR-manual index discovery: the per-field detail pages are
+                  # "<icao>_text_en.html"; list them UNCAPPED (the api_re list
+                  # above stops at 40 and a long aerodrome directory can hide
+                  # behind the supplement links). Also list "*_map_en.pdf"
+                  # (the per-field chart map).
+                  field_re = re.compile(r"[a-z0-9]+_text_en\.html$", re.I)
+                  fields = [a["href"].strip() for a in soup.find_all("a", href=True)
+                            if field_re.search(a["href"].strip())]
+                  fields = list(dict.fromkeys(fields))
+                  print(f"   _text_en.html anchors: {len(fields)}")
+                  if fields:
+                      print("   " + " ".join(fields[:250]))
                   # JSON-LD duplication audit: count ld+json scripts and how
                   # many carry each @type / @id, so a doubled WebSite /
                   # SearchAction node (Workers render artifact) is visible.
