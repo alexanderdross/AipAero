@@ -42,6 +42,10 @@ on:
         description: "Space-separated URLs to submit to IndexNow (api.indexnow.org) as an end-to-end test; prints the response + confirms the key file is served"
         required: false
         default: ""
+      naviair_gen12:
+        description: "DK-only: walk the Naviair Umbraco JSON tree to the GEN 1.2 / AD 1.x customs documents, download the PDFs and dump their text (customs/entry aerodromes - source for src/lib/customs-overrides.ts). Set to 1 to run."
+        required: false
+        default: ""
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
@@ -140,6 +144,121 @@ jobs:
             -d "$body" https://api.indexnow.org/indexnow) || code=000
           echo "IndexNow api.indexnow.org -> HTTP $code (200/202 = accepted)"
           cat /tmp/indexnow.out 2>/dev/null || true
+
+      # Optional (DK): the generic gen12 recon assumes a eurocontrol eAIP with
+      # an HTML AD 1.3 table - Naviair publishes an Umbraco JSON tree of PDFs
+      # instead, so it needs its own reader. Walk the tree to the GEN 1.2 (and
+      # any AD 1.3-style index) documents, download each PDF, and extract its
+      # text with pypdf (installed ad-hoc via `uv run --with`, kept out of the
+      # crawler's production deps). Prints the customs/entry table so the
+      # verified DK entries for src/lib/customs-overrides.ts can be filled.
+      - name: Naviair GEN 1.2 recon (DK customs)
+        if: ${{ inputs.naviair_gen12 != '' }}
+        continue-on-error: true
+        run: |
+          uv run --directory crawlers --with pypdf python - <<'PY'
+          import io
+          import re
+          from urllib.parse import urljoin
+
+          import httpx
+          from pypdf import PdfReader
+
+          API = "https://aim.naviair.dk/umbraco/api/naviairapi/getnodesforparent"
+          ROOT = "https://aim.naviair.dk/"
+          UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+          client = httpx.Client(
+              follow_redirects=True, timeout=30, headers={"User-Agent": UA}
+          )
+
+          def nodes(parent_id=""):
+              try:
+                  r = client.get(f"{API}?parentId={parent_id}")
+                  r.raise_for_status()
+                  data = r.json()
+                  return data if isinstance(data, list) else []
+              except Exception as e:
+                  print(f"   nodes({parent_id}) failed: {type(e).__name__}: {e}")
+                  return []
+
+          def label(n):
+              return str(n.get("name") or n.get("title") or "").strip()
+
+          def href(n):
+              for k in ("href", "link"):
+                  v = n.get(k)
+                  if isinstance(v, str) and v.strip():
+                      return v.strip()
+              return None
+
+          def child(nodes_, *needles):
+              wanted = [x.lower() for x in needles]
+              texts = [
+                  f"{n.get('name','')} {n.get('title','')}".lower() for n in nodes_
+              ]
+              for n, t in zip(nodes_, texts):
+                  if all(w in t for w in wanted):
+                      return n
+              for n, t in zip(nodes_, texts):
+                  if any(w in t for w in wanted):
+                      return n
+              return None
+
+          def dump_pdf(url, note=""):
+              print(f"\n----- PDF {note}: {url}")
+              try:
+                  r = client.get(url)
+                  r.raise_for_status()
+                  reader = PdfReader(io.BytesIO(r.content))
+                  text = "\n".join(p.extract_text() or "" for p in reader.pages)
+                  text = re.sub(r"[ \t]+", " ", text)
+                  print(f"   {len(reader.pages)} pages, {len(text)} chars")
+                  print(text[:9000])
+              except Exception as e:
+                  print(f"   PDF dump failed: {type(e).__name__}: {e}")
+
+          root = nodes("")
+          print("ROOT nodes:", [f"{n.get('id')}:{label(n)}" for n in root])
+          aip = child(root, "AIP", "Danmark") or child(root, "AIP")
+          if not aip:
+              print("No 'AIP Danmark' root node found - aborting.")
+              raise SystemExit(0)
+          print(f"AIP Danmark node: {aip.get('id')} {label(aip)}")
+
+          # Recursively locate GEN 1.2 and AD 1.3-style index documents (max 4
+          # levels deep). Collect every leaf PDF whose label/href looks like a
+          # customs/entry source.
+          WANT = re.compile(r"GEN\s*1\.?2|1\.2|AD\s*1\.?3|1\.3|entry|toldkontrol|customs", re.I)
+          found = []
+
+          def walk(node, depth=0, path=""):
+              lbl = label(node)
+              here = f"{path} / {lbl}".strip(" /")
+              h = href(node)
+              if h is not None:
+                  if WANT.search(lbl) or WANT.search(h):
+                      found.append((here, urljoin(ROOT, h)))
+                  return
+              if depth >= 4:
+                  return
+              for c in nodes(node.get("id", "")):
+                  walk(c, depth + 1, here)
+
+          # Print the GEN + AD 1 subtree labels first so the structure is visible
+          for top in nodes(aip.get("id", "")):
+              tl = label(top)
+              print(f" AIP child: {top.get('id')} {tl}")
+              if re.search(r"\bGEN\b|\bAD\b", tl, re.I):
+                  for sub in nodes(top.get("id", "")):
+                      print(f"    - {sub.get('id')} {label(sub)}  href={href(sub)}")
+              walk(top, 1, tl)
+
+          print("\n===== candidate customs documents =====")
+          for path, url in found:
+              print(f"  {path}\n    -> {url}")
+          for path, url in found[:6]:
+              dump_pdf(url, note=path)
+          PY
 
       # Optional: dump the CONTENT of arbitrary URLs from the runner - title,
       # text head and API-ish links. Complements the status-only check above:
@@ -931,6 +1050,30 @@ jobs:
                                       if len(seen_c) > 10:
                                           break
                                       print(f"       ~[{text}] {href[:130]}")
+                                  # Deepest recon (FI AD 2.24): when the charts
+                                  # are not anchor-linked at all, print the RAW
+                                  # markup of the "2.24 CHARTS" section so the
+                                  # element type driving the chart rows (viewer
+                                  # link, relative href without .pdf, object/
+                                  # iframe, JS onclick) becomes visible.
+                                  sec = None
+                                  for tag in soup.find_all(
+                                      ["h1", "h2", "h3", "h4", "td", "th", "div", "span"]
+                                  ):
+                                      txt = tag.get_text(" ", strip=True)
+                                      if _re.search(r"2\.24|CHARTS RELATED", txt, _re.I):
+                                          sec = tag
+                                          break
+                                  if sec is not None:
+                                      block = sec
+                                      for _ in range(4):
+                                          if block.parent is not None:
+                                              block = block.parent
+                                      raw = block.decode()[:3500]
+                                      print("       --- AD 2.24 raw markup ---")
+                                      print("       " + raw.replace("\n", "\n       "))
+                                  else:
+                                      print("       (no 2.24 / CHARTS heading found on page)")
                           except Exception as re_err:
                               print(f"       recon failed: {type(re_err).__name__}: {re_err}")
               except Exception as e:
