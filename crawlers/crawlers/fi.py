@@ -26,6 +26,22 @@ class FI(HttpEurocontrolBase):
     convention as NO/PL/SE), heliports fail-soft as "heliport".
     """
 
+    # Fintraffic labels the AD 2.24 charts section "LENTOASEMAA KOSKEVAT
+    # KARTAT" (charts concerning the aerodrome), so the base's English
+    # "charts related" match misses it and falls back to the wrong AD 2
+    # sub-page (waypoints). Match the Finnish phrase / the "AD 2.24" marker
+    # so each airport's url becomes its chart INDEX page, which links every
+    # ADC / VAC / IAC / approach chart PDF (dump run 29316929661).
+    CHARTS_LINK_RE = re.compile(r"2\.24|LENTOASEMAA KOSKEVAT KARTAT", re.I)
+
+    # Stage 2: that chart index page links each chart as a plain relative
+    # <a href="../documents/Root_WePub/ANSFI/Charts/AD/<ICAO>/EF_AD_2_<ICAO>_<TYPE>.pdf">
+    # with EMPTY link text (icon links). Prefer the VFR visual approach chart
+    # (VAC), then the aerodrome chart (ADC), for the primary pdf_url; the full
+    # chart set is stored in `charts`. HREF-based because the link text is empty.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_VAC\.pdf", r"_ADC\.pdf")
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 

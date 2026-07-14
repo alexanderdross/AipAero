@@ -217,15 +217,31 @@ class HttpEurocontrolBase(HttpCrawlerBase):
             type=category,
         )
 
-    @staticmethod
-    def _find_charts_url(details_div: Tag, base_url: str) -> str | None:
-        # Prefer the explicitly-tagged "Charts related to an aerodrome" link.
+    # Extra charts-section matcher for eAIPs that label "AD 2.24 charts
+    # related to an aerodrome" in another language (FI: "LENTOASEMAA KOSKEVAT
+    # KARTAT"). None = English-only (default), so AT/FR/NL/UK/... are
+    # unchanged; a subclass sets a compiled pattern, matched against each
+    # link's title attribute AND its visible text.
+    CHARTS_LINK_RE: re.Pattern[str] | None = None
+
+    def _find_charts_url(self, details_div: Tag, base_url: str) -> str | None:
+        # Prefer the explicitly-tagged "Charts related to an aerodrome" link
+        # (English default - unchanged for every existing eurocontrol country).
         for a in details_div.select("div a[title]"):
             title_attr = a.get("title", "")
             if "charts related" in title_attr.lower():
                 href = a.get("href")
                 if href:
                     return urljoin(base_url, href)
+
+        # Subclass-provided pattern for a localized charts section (FI).
+        if self.CHARTS_LINK_RE is not None:
+            for a in details_div.select("div a"):
+                haystack = f"{a.get('title', '')} {a.get_text(' ', strip=True)}"
+                if self.CHARTS_LINK_RE.search(haystack):
+                    href = a.get("href")
+                    if href:
+                        return urljoin(base_url, href)
 
         # Fallback: last `<a>` directly under one of the inner <div>s.
         candidates = details_div.select("div > a[href]")
