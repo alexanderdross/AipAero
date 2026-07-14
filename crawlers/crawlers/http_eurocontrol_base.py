@@ -53,13 +53,15 @@ def title_name_looks_bad(name: str) -> bool:
 # heading may repeat the ICAO ("<ICAO> AD 2.2 ..." on LVNL), which the
 # non-greedy capture would otherwise swallow (stripped below).
 _AD21_NAME_RE = re.compile(
-    r"(?:AERODROME|HELIPORT) LOCATION INDICATOR AND\s*-?\s*NAME\s+"
+    r"(?:AERODROME|HELIPORT) LOCATION INDICATOR\s*(?:AND\s*)?-?\s*NAME\s+"
     r"([A-Z]{4})\s*[-–—/]?\s*(.+?)\s+"
     r"(?:(?:AERODROME|HELIPORT) GEOGRAPHICAL|AD\s*[23]\.2)\b",
     re.I | re.S,
 )
-# Marker used to slice a diagnostic snippet when the pattern misses.
-_AD21_MARKER_RE = re.compile(r"LOCATION INDICATOR AND\s*-?\s*NAME", re.I)
+# Marker used to slice a diagnostic snippet when the pattern misses. The label
+# varies on ENAIRE: "INDICATOR AND NAME" (LECO) vs "INDICATOR - NAME" (LEBB),
+# so "AND" and the dash are both optional.
+_AD21_MARKER_RE = re.compile(r"LOCATION INDICATOR\s*(?:AND\s*)?-?\s*NAME", re.I)
 
 
 def _collapse_exact_dup(name: str) -> str:
