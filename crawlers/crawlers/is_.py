@@ -105,10 +105,17 @@ class IS(HttpEurocontrolBase):
     # (pdf_recon run 29355638020). Prefer the visual/aerodrome charts a VFR
     # pilot needs; fall back to the first captured PDF otherwise.
     FETCH_PDF_URLS = True
+    # Isavia's visual chart is named `<ICAO>_8_VFR_...` (BIKF/BIRK, crawl run
+    # 29356002129); prefer it, then the aerodrome / visual-approach charts,
+    # else the first captured PDF. Only ~7 of 53 fields publish a chart PDF at
+    # all (the major aerodromes); the small gravel landing sites carry only a
+    # textual AD entry, so pdf_url stays None there and the row falls back to
+    # the chart page url.
     PDF_HREF_PRIORITY = (
-        r"_VAC[_.]",
+        r"_VFR[_.]",
         r"_ADC[_.]",
         r"AERODROME_CHART",
+        r"_VAC[_.]",
         r"VISUAL_APP",
         r"_LDG[_.]",
     )
