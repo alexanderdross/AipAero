@@ -2,7 +2,12 @@ import { FileTextIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { ExternalLink } from "~/components/external-link";
 import { SectionHeading } from "~/components/section-heading";
-import { airacDateFromUrl, type ChartLink } from "~/lib/charts";
+import {
+  airacDateFromUrl,
+  chartDisplayName,
+  type ChartLink,
+} from "~/lib/charts";
+import { localeLangMapping } from "~/i18n/routing";
 
 /**
  * Chart-PDF box, shown when the airport's chart URL points directly at a PDF
@@ -32,6 +37,7 @@ export async function AirportChart({
   locale: string;
 }) {
   const t = await getTranslations("Chart");
+  const lang = localeLangMapping[locale] ?? "en";
 
   const primary = charts.find((c) => c.url === url) ?? null;
   const others = charts.filter((c) => c.url !== url);
@@ -39,7 +45,10 @@ export async function AirportChart({
   const airacLabel = airacIso
     ? new Date(airacIso).toLocaleDateString(locale.replace("-EN", ""))
     : null;
-  const designationLine = [primary?.name, airacLabel && `AIRAC ${airacLabel}`]
+  const designationLine = [
+    primary && chartDisplayName(primary.name, lang),
+    airacLabel && `AIRAC ${airacLabel}`,
+  ]
     .filter(Boolean)
     .join(" · ");
 
@@ -78,9 +87,9 @@ export async function AirportChart({
                 <ExternalLink
                   href={chart.url}
                   hrefTitle={`${chart.name} (PDF)`}
-                  className="text-drossblue break-all hover:underline"
+                  className="text-drossblue break-words hover:underline"
                 >
-                  {chart.name}
+                  {chartDisplayName(chart.name, lang)}
                 </ExternalLink>
               </li>
             ))}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { airacDateFromUrl, parseCharts } from "./charts";
+import { airacDateFromUrl, chartTypeLabel, parseCharts } from "./charts";
 
 describe("parseCharts", () => {
   it("parses a valid chart list", () => {
@@ -62,5 +62,46 @@ describe("airacDateFromUrl", () => {
       airacDateFromUrl("https://aim.rlp.cz/eaip/graphics/a2-tb-adc.pdf"),
     ).toBeNull();
     expect(airacDateFromUrl(null)).toBeNull();
+  });
+});
+
+describe("chartTypeLabel", () => {
+  it("expands a leading designator token (ES-style names)", () => {
+    expect(chartTypeLabel("IAC 7", "en")).toBe("Instrument Approach Chart");
+    expect(chartTypeLabel("AOC 1", "en")).toBe("Aerodrome Obstacle Chart");
+    expect(chartTypeLabel("SID 5", "en")).toBe("Standard Instrument Departure");
+  });
+
+  it("localises to the request language, with English fallback", () => {
+    expect(chartTypeLabel("VAC 1", "de")).toBe("Sichtanflugkarte");
+    expect(chartTypeLabel("VAC 1", "fr")).toBe("Carte d'approche à vue");
+    // A locale with no dedicated entry falls back to English.
+    expect(chartTypeLabel("VAC 1", "is")).toBe("Visual Approach Chart");
+  });
+
+  it("matches a designator as a whole token anywhere in the name", () => {
+    // Space-separated (SE ESNX style) and underscore/filename (IS) forms.
+    expect(chartTypeLabel("ESNX VAC", "en")).toBe("Visual Approach Chart");
+    expect(chartTypeLabel("BIKF_8_VFR_RWY_01", "en")).toBe("VFR Chart");
+  });
+
+  it("expands the source codes verified against the ENAIRE chart titles", () => {
+    // PDC = "Plano de Estacionamiento y Atraque de Aeronaves" (parking/docking).
+    expect(chartTypeLabel("PDC 1", "en")).toBe(
+      "Aircraft Parking / Docking Chart",
+    );
+    expect(chartTypeLabel("PDC 1", "de")).toBe("Luftfahrzeug-Parkkarte");
+    // TRAN = "Carta de Transición a la Aproximación" (approach transition).
+    expect(chartTypeLabel("TRAN 5", "en")).toBe("Approach Transition Chart");
+    expect(chartTypeLabel("TRAN 5", "fr")).toBe(
+      "Carte de transition d'approche",
+    );
+  });
+
+  it("returns null for an unknown or non-standard designation", () => {
+    // An unverified / non-designator string keeps its raw code.
+    expect(chartTypeLabel("AD 2.EGPD-2-1", "en")).toBeNull();
+    expect(chartTypeLabel("", "en")).toBeNull();
+    expect(chartTypeLabel(null, "en")).toBeNull();
   });
 });

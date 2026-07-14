@@ -98,3 +98,144 @@ export function airacDateFromUrl(
   }
   return null;
 }
+
+/**
+ * Glossary of the standard ICAO Annex 4 aerodrome chart-type designators that
+ * the sources use as chart names ("IAC 7", "AOC 1", ...). Kept in code, not
+ * the i18n JSON - it is a fixed, standard aeronautical vocabulary, not site
+ * copy (same rationale as the METAR glossary in metar-decode.ts). Populated
+ * for en/de/fr/nl with an English fallback for the other locales.
+ *
+ * A code is only listed once its meaning is verified - either an unambiguous
+ * ICAO designator, or a state code confirmed against the source's own chart
+ * (e.g. ENAIRE's "PDC"/"TRAN", read from the chart title inside AD 2-LEBL:
+ * "Plano de Estacionamiento y Atraque de Aeronaves" = Aircraft Parking/Docking,
+ * "Carta de Transición a la Aproximación" = Approach Transition). A code whose
+ * meaning is genuinely ambiguous or unverified stays absent, so an unknown
+ * chart keeps its raw code rather than getting a wrong, potentially misleading
+ * full name - chart labelling is safety-relevant.
+ */
+const CHART_TYPES: Record<
+  string,
+  Partial<Record<string, string>> & { en: string }
+> = {
+  ADC: {
+    en: "Aerodrome Chart",
+    de: "Flugplatzkarte",
+    fr: "Carte d'aérodrome",
+    nl: "Vliegveldkaart",
+  },
+  AOC: {
+    en: "Aerodrome Obstacle Chart",
+    de: "Flugplatz-Hinderniskarte",
+    fr: "Carte d'obstacles d'aérodrome",
+    nl: "Vliegveldobstakelkaart",
+  },
+  APDC: {
+    en: "Aircraft Parking / Docking Chart",
+    de: "Luftfahrzeug-Parkkarte",
+    fr: "Carte de stationnement des aéronefs",
+    nl: "Vliegtuigparkeerkaart",
+  },
+  // ENAIRE (ES) spells this "Plano de Estacionamiento y Atraque de Aeronaves -
+  // OACI" (AD 2-LEBL PDC) - the ICAO Aircraft Parking/Docking Chart, so it
+  // shares APDC's labels. Only a chart-list entry ever carries this code, so
+  // the datalink "Pre-Departure Clearance" reading does not apply here.
+  PDC: {
+    en: "Aircraft Parking / Docking Chart",
+    de: "Luftfahrzeug-Parkkarte",
+    fr: "Carte de stationnement des aéronefs",
+    nl: "Vliegtuigparkeerkaart",
+  },
+  GMC: {
+    en: "Ground Movement Chart",
+    de: "Rollwegekarte",
+    fr: "Carte de circulation au sol",
+    nl: "Grondbewegingskaart",
+  },
+  PATC: {
+    en: "Precision Approach Terrain Chart",
+    de: "Geländekarte für Präzisionsanflug",
+    fr: "Carte de terrain d'approche de précision",
+    nl: "Terreinkaart precisienadering",
+  },
+  SID: {
+    en: "Standard Instrument Departure",
+    de: "Standard-Instrumentenabflug",
+    fr: "Départ normalisé aux instruments",
+    nl: "Standaardvertrek volgens instrumenten",
+  },
+  STAR: {
+    en: "Standard Instrument Arrival",
+    de: "Standard-Instrumentenankunft",
+    fr: "Arrivée normalisée aux instruments",
+    nl: "Standaardaankomst volgens instrumenten",
+  },
+  IAC: {
+    en: "Instrument Approach Chart",
+    de: "Instrumentenanflugkarte",
+    fr: "Carte d'approche aux instruments",
+    nl: "Instrumentnaderingskaart",
+  },
+  VAC: {
+    en: "Visual Approach Chart",
+    de: "Sichtanflugkarte",
+    fr: "Carte d'approche à vue",
+    nl: "Zichtnaderingskaart",
+  },
+  // ENAIRE (ES) "Carta de Transición a la Aproximación (Final)" (AD 2-LEBL
+  // TRAN) - the transition from the arrival onto the final approach.
+  TRAN: {
+    en: "Approach Transition Chart",
+    de: "Anflug-Übergangskarte",
+    fr: "Carte de transition d'approche",
+    nl: "Naderingstransitiekaart",
+  },
+  VFR: {
+    en: "VFR Chart",
+    de: "VFR-Karte",
+    fr: "Carte VFR",
+    nl: "VFR-kaart",
+  },
+  LDG: {
+    en: "Landing Chart",
+    de: "Landekarte",
+    fr: "Carte d'atterrissage",
+    nl: "Landingskaart",
+  },
+};
+
+// Split a chart name into its whitespace/underscore/hyphen/dot tokens so a
+// designator can be matched as a WHOLE token ("VAC" in "ESNX VAC", "VFR" in
+// "BIKF_8_VFR_RWY_01") without matching a substring of an unrelated word.
+const CHART_TOKEN_SPLIT = /[\s_.\-/]+/;
+
+/**
+ * The full, localized name of the chart type encoded in a chart designation
+ * ("IAC 7" -> "Instrument Approach Chart"), or null when the name carries no
+ * known standard designator. Pure; used to enrich the raw code shown to the
+ * user with its plain-language meaning while keeping the code itself visible.
+ */
+export function chartTypeLabel(
+  name: string | null | undefined,
+  lang: string,
+): string | null {
+  if (!name) return null;
+  for (const token of name.split(CHART_TOKEN_SPLIT)) {
+    const entry = CHART_TYPES[token.toUpperCase()];
+    if (entry) return entry[lang] ?? entry.en;
+  }
+  return null;
+}
+
+/**
+ * The chart's raw source code plus its plain-language meaning when the code is
+ * a known standard designator, e.g. "IAC 7 -> IAC 7 - Instrument Approach
+ * Chart"; just the raw code otherwise. Keeps the pilot-recognised code
+ * scannable while spelling it out for everyone else. Shared by the visible
+ * chart box and the DigitalDocument JSON-LD so both read identically.
+ */
+export function chartDisplayName(name: string, lang: string): string {
+  const full = chartTypeLabel(name, lang);
+  return full ? `${name} - ${full}` : name;
+}

@@ -230,6 +230,7 @@ export async function AirportGadgets({
               isPartOfUrl={schemaUrl}
               datePublished={airacDateFromUrl(chartPdfUrl)}
               charts={chartList}
+              lang={lang}
             />
           </>
         )}
