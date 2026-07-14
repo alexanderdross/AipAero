@@ -62,6 +62,21 @@
       "description": "Overview of all airfields/ airports in Portugal"
     }
   },
+  "HeliportPage": {
+    "title": "AIP VFR Charts for Helicopter Aerodromes in Portugal",
+    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Portugal",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
+    "metaDescription": "Browse AIP VFR Helicopter Aerodromes of Portugal and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
+    "resultTitle": "AIP VFR Helicopter Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Heliports Portugal",
+      "alternateName": "AIP VFR Charts for Helicopter Aerodromes in Portugal",
+      "description": "Browse AIP VFR Helicopter Aerodromes of Portugal and download airport approach charts for free"
+    }
+  },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Portugal",
     "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Portugal",

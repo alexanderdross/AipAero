@@ -86,10 +86,12 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // "vfr"); heliports are not part of the crawled AIP section.
   es: ["vfr"],
   lv: ["vfr", "heliport"],
-  // IS/PT/HU crawlers found no AD-3 heliport chapters on the live
-  // sources (run 29265643933) - vfr only, like ES.
+  // IS/HU eAIPs carry no AD-3 heliport chapters (run 29265643933) - vfr only.
   is: ["vfr"],
-  pt: ["vfr"],
+  // PT: the eAIP has VFR aerodromes only, but the separate eVFR Manual
+  // (merged by the PT crawler) adds 20 more VFR aerodromes AND ~44 heliports
+  // (hospital helipads etc., AD-3), so PT now has a heliports page too.
+  pt: ["vfr", "heliport"],
   hu: ["vfr"],
   si: ["vfr"],
   // LT: the ANS eAIP crawler covers the AD-2 aerodrome list (type "vfr");
