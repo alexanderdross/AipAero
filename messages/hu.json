@@ -268,8 +268,7 @@
   "Chart": {
     "allCharts": "Összes térkép ({count})",
     "title": "Megközelítési térkép",
-    "openPdf": "Térkép PDF megnyitása",
-    "preview": "Előnézet megjelenítése"
+    "openPdf": "Térkép PDF megnyitása"
   },
   "TermsPage": {
     "title": "Felhasználási feltételek",

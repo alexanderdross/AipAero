@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Alle Karten ({count})",
     "title": "Anflugkarte",
-    "openPdf": "Chart-PDF öffnen",
-    "preview": "Vorschau anzeigen"
+    "openPdf": "Chart-PDF öffnen"
   },
   "TermsPage": {
     "title": "Nutzungsbedingungen",

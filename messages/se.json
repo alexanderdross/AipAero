@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Alla kartor ({count})",
     "title": "Inflygningskarta",
-    "openPdf": "Öppna kart-PDF",
-    "preview": "Visa förhandsvisning"
+    "openPdf": "Öppna kart-PDF"
   },
   "TermsPage": {
     "title": "Användarvillkor",

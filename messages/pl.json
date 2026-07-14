@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Wszystkie mapy ({count})",
     "title": "Mapa podejścia",
-    "openPdf": "Otwórz PDF mapy",
-    "preview": "Pokaż podgląd"
+    "openPdf": "Otwórz PDF mapy"
   },
   "TermsPage": {
     "title": "Warunki korzystania",

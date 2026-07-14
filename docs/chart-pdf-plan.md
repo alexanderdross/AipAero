@@ -6,11 +6,13 @@ index / frameset page they land on today.
 
 **Status: the website side is implemented.** Where the stored `url` already
 points at a PDF (`isPdfUrl`), the detail page renders a chart box
-(`src/components/airport-chart.tsx`) with a direct "open PDF" link, a lazy
-**on-click** inline preview (`src/components/chart-preview.tsx` - the `<object>`
-embed mounts only when the user expands it, since browsers fetch embeds even
-inside a collapsed `<details>`), and `schema.org/DigitalDocument` JSON-LD
-(`schema-digital-document.tsx`).
+(`src/components/airport-chart.tsx`) with a direct "open PDF" link for the
+primary chart, a collapsed list of open links for every other captured chart,
+and `schema.org/DigitalDocument` JSON-LD (`schema-digital-document.tsx`). The
+former inline `<object>` preview (`chart-preview.tsx`) was removed (14.07.2026):
+a cross-origin AIP PDF embed is unreliable (hosts block framing, mobile does
+not render PDFs inline - it showed an empty box) and only previewed one chart,
+so the box is links-only.
 
 **Stage 2 plumbing is also implemented:** the `airports` table carries a
 nullable `pdf_url` column (migration 0005), the crawler `Airport` model has an
@@ -27,17 +29,17 @@ relevant PDF via per-country priority regexes (`PDF_TEXT_PRIORITY` /
 derived from `pdf_recon` runs of the crawler live-test workflow (the AIP
 hosts are not reachable from the sandboxed agent environment):
 
-| Country | Selector | Chart picked |
-| --- | --- | --- |
-| AT | text `AD 2 MAP 1-1` | aerodrome chart |
-| FR | href `_ADC_01.pdf` > `_ADC_` > `_APDC_` | aerodrome chart (Cartes/<ICAO>/) |
-| NL | href `-VFR-PROC.pdf` | visual procedures chart |
-| UK | text `AD 2.Exxx-2-1` | aerodrome chart |
-| BE | text `-2-1` | aerodrome chart (validated live; recon client got 403) |
-| CZ | href `-vfrc.pdf` > `-adc.pdf` | VFR chart, else aerodrome chart |
-| NO | text `AD 2 Exxx 2 - 1` | aerodrome chart |
-| PL | first PDF (single link per page) | the VFR AD chart |
-| SE | href `VAC.pdf` | visual approach chart |
+| Country | Selector                                | Chart picked                                           |
+| ------- | --------------------------------------- | ------------------------------------------------------ |
+| AT      | text `AD 2 MAP 1-1`                     | aerodrome chart                                        |
+| FR      | href `_ADC_01.pdf` > `_ADC_` > `_APDC_` | aerodrome chart (Cartes/<ICAO>/)                       |
+| NL      | href `-VFR-PROC.pdf`                    | visual procedures chart                                |
+| UK      | text `AD 2.Exxx-2-1`                    | aerodrome chart                                        |
+| BE      | text `-2-1`                             | aerodrome chart (validated live; recon client got 403) |
+| CZ      | href `-vfrc.pdf` > `-adc.pdf`           | VFR chart, else aerodrome chart                        |
+| NO      | text `AD 2 Exxx 2 - 1`                  | aerodrome chart                                        |
+| PL      | first PDF (single link per page)        | the VFR AD chart                                       |
+| SE      | href `VAC.pdf`                          | visual approach chart                                  |
 
 **Chart-list stage is implemented too** (12.07.2026, "PDF-Optimierungen 1-4"):
 the crawlers store the source's FULL chart list per airport (`airports.charts`,
@@ -97,8 +99,11 @@ rest it needs per-country crawler work to capture the PDF URL.
      ```tsx
      <details>
        <summary>{t("Chart.preview")}</summary>
-       <object data={airport.url} type="application/pdf"
-               class="h-[80vh] w-full">
+       <object
+         data={airport.url}
+         type="application/pdf"
+         class="h-[80vh] w-full"
+       >
          {/* fallback shown if the host blocks framing */}
          <ExternalLink href={airport.url}>{t("Chart.openPdf")}</ExternalLink>
        </object>

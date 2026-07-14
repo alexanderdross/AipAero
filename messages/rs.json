@@ -268,8 +268,7 @@
   "Chart": {
     "allCharts": "Sve karte ({count})",
     "title": "Karta prilaza",
-    "openPdf": "Otvori PDF karte",
-    "preview": "Prikaži pregled"
+    "openPdf": "Otvori PDF karte"
   },
   "TermsPage": {
     "title": "Uslovi korišćenja",

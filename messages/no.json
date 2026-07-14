@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Alle kart ({count})",
     "title": "Innflygingskart",
-    "openPdf": "Åpne kart-PDF",
-    "preview": "Vis forhåndsvisning"
+    "openPdf": "Åpne kart-PDF"
   },
   "TermsPage": {
     "title": "Vilkår for bruk",

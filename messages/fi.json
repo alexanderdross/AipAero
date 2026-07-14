@@ -298,8 +298,7 @@
   "Chart": {
     "allCharts": "Kaikki kartat ({count})",
     "title": "Lähestymiskartta",
-    "openPdf": "Avaa kartta-PDF",
-    "preview": "Näytä esikatselu"
+    "openPdf": "Avaa kartta-PDF"
   },
   "TermsPage": {
     "title": "Käyttöehdot",

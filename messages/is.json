@@ -268,8 +268,7 @@
   "Chart": {
     "allCharts": "Öll kort ({count})",
     "title": "Aðflugskort",
-    "openPdf": "Opna PDF-kort",
-    "preview": "Sýna forskoðun"
+    "openPdf": "Opna PDF-kort"
   },
   "TermsPage": {
     "title": "Notkunarskilmálar",
