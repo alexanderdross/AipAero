@@ -61,44 +61,27 @@ jobs:
       - name: Deploy (OpenNext → Cloudflare)
         run: pnpm exec opennextjs-cloudflare deploy
 
-      # Der Build hat keine DB - alle statischen Seiten (Flughafenlisten,
-      # Sitemaps) werden LEER vorgerendert und beim Deploy in den Cache
-      # geseedet. Dieser Aufruf bustet direkt nach dem Deploy alle
-      # country-Tags, damit die Seiten sofort aus der echten D1 regenerieren
-      # statt bis zum nächsten Crawler-POST leer zu bleiben. Fail-soft: ohne
-      # CRON_SECRET-Secret (oder bei Fehlern) nur eine Warnung - die ISR-
-      # Stundenrevalidierung heilt die Seiten dann spätestens nach 1h.
-      - name: Revalidate all countries (refresh prerendered pages)
+      # Der Build hat keine DB - die Flughafenlisten + Sitemaps werden LEER
+      # vorgerendert und beim Deploy in den R2-Incremental-Cache geseedet
+      # (populateCache ueberschreibt bestehende Eintraege bedingungslos). ZWEI
+      # Deployer seeden leer: dieser CD-Lauf UND die parallele
+      # Workers-Builds-Git-Integration - ein spaeterer Deploy kann also NACH
+      # einem frueheren Refresh erneut leer seeden. Ein einzelner blinder
+      # revalidate+warm reicht daher nicht; wir refreshen in Runden und
+      # PRUEFEN nach jeder Runde, ob die schwerste Liste wirklich Zeilen
+      # traegt (voller Render = viele `<use href="#row-link-icon">`; der
+      # leere Seed hat null), bis sie voll ist oder das Budget aufgebraucht
+      # ist. Fail-soft: ohne CRON_SECRET / nach allen Runden nur eine Warnung
+      # - die ISR-Stundenrevalidierung heilt spaetestens nach 1h.
+      - name: Refresh + verify prerendered lists (self-healing)
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
           if [ -z "$CRON_SECRET" ]; then
-            echo "::warning::CRON_SECRET repo secret not set - skipping post-deploy revalidation (pages refresh via ISR within 1h or on the next crawler POST)"
+            echo "::warning::CRON_SECRET repo secret not set - skipping post-deploy refresh (pages heal via ISR within 1h or on the next crawler POST)"
             exit 0
           fi
-          # Kurz warten: die parallele Workers-Builds-Git-Integration deployt
-          # denselben Commit; erst nach deren Cache-Seeding revalidieren.
-          sleep 90
-          for i in 1 2 3; do
-            code=$(curl -sSL -o /tmp/revalidate.out -w '%{http_code}' -X POST \
-              -H "Authorization: Bearer $CRON_SECRET" \
-              https://aip.aero/api/revalidate) || code=000
-            cat /tmp/revalidate.out || true; echo " (HTTP $code)"
-            if [ "$code" = "200" ]; then exit 0; fi
-            echo "Attempt $i failed; retrying in $((i * 10))s"
-            sleep $((i * 10))
-          done
-          echo "::warning::Post-deploy revalidation failed - pages refresh via ISR within 1h or on the next crawler POST"
-          exit 0
 
-      # The country airport-list pages are the heaviest to render. The revalidate
-      # above marks them stale, so the first request regenerates them on the
-      # Worker - a cold render that, for the large DE list, has hit the Worker
-      # resource limit (Error 1102) on a real user. Do that regeneration here,
-      # off the user's request path, so visitors always get the cached HTML.
-      # Best-effort: never fail the deploy on a warm-up hiccup.
-      - name: Warm up the large list pages
-        run: |
           urls=(
             "https://aip.aero/de/flughafen-liste-deutschland/"
             "https://aip.aero/at/flughafen-liste-oesterreich/"
@@ -120,8 +103,44 @@ jobs:
             "https://aip.aero/hu/repuloterek-listaja-magyarorszag/"
             "https://aip.aero/si/seznam-letalisc-slovenija/"
           )
-          for u in "${urls[@]}"; do
-            code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000
-            echo "warm $u -> HTTP $code"
+          # Heaviest list; a full render carries per-row row-link-icon <use>
+          # markers, the empty build seed has zero - the proof of regeneration.
+          verify_url="https://aip.aero/de/flughafen-liste-deutschland/"
+
+          revalidate() {
+            for i in 1 2 3; do
+              code=$(curl -sSL -o /tmp/revalidate.out -w '%{http_code}' -X POST \
+                -H "Authorization: Bearer $CRON_SECRET" \
+                https://aip.aero/api/revalidate) || code=000
+              cat /tmp/revalidate.out || true; echo " (revalidate HTTP $code)"
+              [ "$code" = "200" ] && return 0
+              sleep $((i * 5))
+            done
+            return 1
+          }
+          warm() {
+            for u in "${urls[@]}"; do
+              code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000
+              echo "warm $u -> HTTP $code"
+            done
+          }
+
+          # Initial settle so the parallel Workers-Builds deploy finishes its
+          # own (empty) seeding before the first refresh round.
+          sleep 60
+          for round in 1 2 3 4 5; do
+            echo "== refresh round $round =="
+            revalidate || echo "::warning::revalidate failed in round $round"
+            warm
+            rows=$(curl -sSL --max-time 60 "$verify_url" \
+              | grep -o 'use href="#row-link-icon"' | wc -l | tr -d ' ')
+            echo "verify: $verify_url carries ${rows:-0} row markers"
+            if [ "${rows:-0}" -ge 1 ]; then
+              echo "Lists verified full after round $round."
+              exit 0
+            fi
+            echo "Still empty; waiting before the next round."
+            sleep 45
           done
+          echo "::warning::Lists still empty after all refresh rounds - ISR heals within 1h or on the next crawler POST"
           exit 0

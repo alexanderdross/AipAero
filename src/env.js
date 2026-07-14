@@ -22,6 +22,11 @@ export const env = createEnv({
     // D1 (or renders nothing). Create one at https://www.openaip.net (profile ->
     // API Key) and set it with `wrangler secret put OPENAIP_API_KEY`.
     OPENAIP_API_KEY: z.string().optional(),
+    // Optional: IndexNow key (public by design, served at `/<key>.txt`). When
+    // set, a crawler publish pings Bing + partners for the country's landing +
+    // list pages (src/lib/indexnow.ts). A plain `var` in wrangler.jsonc, NOT a
+    // secret. Unset = the ping is a no-op. Must equal the public/<key>.txt name.
+    INDEXNOW_KEY: z.string().optional(),
   },
 
   /**
@@ -42,6 +47,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     ADSENSE_ID: process.env.ADSENSE_ID,
     OPENAIP_API_KEY: process.env.OPENAIP_API_KEY,
+    INDEXNOW_KEY: process.env.INDEXNOW_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

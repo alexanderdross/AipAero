@@ -36,7 +36,10 @@
 		}
 	],
 	"vars": {
-		"NODE_ENV": "production"
+		"NODE_ENV": "production",
+		// IndexNow key - public by design (served at public/<key>.txt), so it
+		// lives here as a plain var, not a secret. Must equal the .txt filename.
+		"INDEXNOW_KEY": "fae2b7dc9cfb44919eb6b358e7c4a846"
 	},
 	// Self-reference binding required by the OpenNext memory queue (ISR
 	// revalidation, see open-next.config.ts): stale routes are re-rendered by
