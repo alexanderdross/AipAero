@@ -12,7 +12,11 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport
-from crawlers.http_eurocontrol_base import HttpEurocontrolBase, ad21_name
+from crawlers.http_eurocontrol_base import (
+    HttpEurocontrolBase,
+    ad21_debug_snippet,
+    ad21_name,
+)
 
 COUNTRY = "NL"
 ROOT_URL = "https://eaip.lvnl.nl/web/eaip/default.html"
@@ -184,13 +188,15 @@ class NL(HttpEurocontrolBase):
                         self.soup(self.fetch(page_url)).get_text(" ").split()
                     )
                     name = ad21_name(text, icao)
+                    if name:
+                        airport.title = f"{name} {icao}".strip()
+                    else:
+                        self.logger.warning(
+                            f"NL: no AD 2.1 name for {icao}; "
+                            f"markup: {ad21_debug_snippet(text)!r}"
+                        )
                 except Exception as e:  # fail-soft: keep the existing title
                     self.logger.warning(f"NL: {icao} name fetch failed: {e}")
-                    name = None
-                if name:
-                    airport.title = f"{name} {icao}".strip()
-                else:
-                    self.logger.warning(f"NL: no AD 2.1 name for {icao}")
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)

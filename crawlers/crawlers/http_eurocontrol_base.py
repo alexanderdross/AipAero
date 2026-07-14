@@ -48,14 +48,31 @@ def title_name_looks_bad(name: str) -> bool:
 # source for eAIPs whose nav MENU carries no aerodrome name at all (NL, ES) -
 # their menu lists only the ICAO + section labels, so the name must be read
 # from the per-aerodrome page. The label itself varies ("... AND NAME" vs
-# "... AND - NAME" on ENAIRE), and the dash before the name may be "-" or an
-# en/em dash.
+# "... AND - NAME" on ENAIRE); the separator before the name may be "-", an
+# en/em dash, a slash or just whitespace (so it is optional); and the AD 2.2
+# heading may repeat the ICAO ("<ICAO> AD 2.2 ..." on LVNL), which the
+# non-greedy capture would otherwise swallow (stripped below).
 _AD21_NAME_RE = re.compile(
     r"(?:AERODROME|HELIPORT) LOCATION INDICATOR AND\s*-?\s*NAME\s+"
-    r"([A-Z]{4})\s*[-–—]\s*(.+?)\s+"
+    r"([A-Z]{4})\s*[-–—/]?\s*(.+?)\s+"
     r"(?:(?:AERODROME|HELIPORT) GEOGRAPHICAL|AD\s*[23]\.2)\b",
     re.I | re.S,
 )
+# Marker used to slice a diagnostic snippet when the pattern misses.
+_AD21_MARKER_RE = re.compile(r"LOCATION INDICATOR AND\s*-?\s*NAME", re.I)
+
+
+def _collapse_exact_dup(name: str) -> str:
+    """Collapse a name that repeats itself around a "/" or " - " separator
+    (LVNL renders "AMELAND/AMELAND"; an exact repeat is redundant). Only an
+    EXACT duplicate is collapsed - "AMSTERDAM/SCHIPHOL" and "MAASTRICHT/
+    MAASTRICHT AACHEN" (distinct halves) are left untouched."""
+    for sep in ("/", " - "):
+        if sep in name:
+            left, _, right = name.partition(sep)
+            if left.strip() and left.strip().casefold() == right.strip().casefold():
+                return left.strip()
+    return name
 
 
 def ad21_name(page_text: str, icao: str) -> str | None:
@@ -69,9 +86,24 @@ def ad21_name(page_text: str, icao: str) -> str | None:
     match (fail-soft: the caller keeps its existing title). Module-level so
     both HttpCrawlerBase (ES) and eurocontrol crawlers (NL) can use it."""
     match = _AD21_NAME_RE.search(page_text)
-    if match and match.group(1).upper() == icao.upper():
-        return " ".join(match.group(2).split())
-    return None
+    if not match or match.group(1).upper() != icao.upper():
+        return None
+    name = " ".join(match.group(2).split())
+    # LVNL's next heading reads "<ICAO> AD 2.2 ...", so the non-greedy capture
+    # can end with the repeated ICAO - strip it so the title is not doubled.
+    name = re.sub(rf"\s+{re.escape(icao)}$", "", name, flags=re.I).strip()
+    name = _collapse_exact_dup(name)
+    return name or None
+
+
+def ad21_debug_snippet(page_text: str) -> str:
+    """A short window of the page text around the AD 2.1 name marker, for the
+    crawl log when ``ad21_name`` misses - shows the real markup so the pattern
+    can be adjusted without another blind runner round."""
+    m = _AD21_MARKER_RE.search(page_text)
+    if not m:
+        return "(no 'LOCATION INDICATOR AND NAME' marker on page)"
+    return page_text[m.start() : m.start() + 220]
 
 
 class HttpEurocontrolBase(HttpCrawlerBase):
