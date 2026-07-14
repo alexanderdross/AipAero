@@ -17,11 +17,12 @@ im klassischen Sinn (Bing empfiehlt <= 10.000 URLs/Tag, achtet auf Spam).
 
 ## STATUS QUO (14.07.2026)
 
-- **Schluessel + Hosting sind bereits erledigt:** `public/9f68ce9a...b.txt`
-  existiert und enthaelt den Schluessel `9f68ce9a6ab6426cbcd721e1704127db`.
-  Er wird als statische Datei unter
-  `https://aip.aero/9f68ce9a6ab6426cbcd721e1704127db.txt` ausgeliefert - das
-  ist die von IndexNow geforderte Key-Verifikation.
+- **Schluessel + Hosting sind erledigt:** Bing WMT hat am 14.07.2026 den Key
+  `fae2b7dc9cfb44919eb6b358e7c4a846` generiert (damit in Bing registriert);
+  `public/fae2b7dc9cfb44919eb6b358e7c4a846.txt` haelt ihn und wird unter
+  `https://aip.aero/fae2b7dc9cfb44919eb6b358e7c4a846.txt` ausgeliefert - die
+  von IndexNow geforderte Key-Verifikation. Der fruehere, nie registrierte
+  Key `9f68ce9a...` wurde entfernt.
 - **Was FEHLT:** die Submission. Niemand ruft den IndexNow-Endpunkt auf, wenn
   ein Crawl neue Daten publiziert. Dieses Konzept schliesst genau diese Luecke.
 
@@ -52,8 +53,8 @@ an IndexNow - dieselbe Stelle, dieselbe Praezision wie die Cache-Invalidierung.
   ```json
   {
     "host": "aip.aero",
-    "key": "9f68ce9a6ab6426cbcd721e1704127db",
-    "keyLocation": "https://aip.aero/9f68ce9a6ab6426cbcd721e1704127db.txt",
+    "key": "fae2b7dc9cfb44919eb6b358e7c4a846",
+    "keyLocation": "https://aip.aero/fae2b7dc9cfb44919eb6b358e7c4a846.txt",
     "urlList": ["https://aip.aero/de/", "..."]
   }
   ```
@@ -100,11 +101,9 @@ Bing/Google Webmaster Tools.
 1. **Site verifizieren** (falls noch nicht): bing.com/webmasters -> aip.aero
    hinzufuegen. Am einfachsten per Import aus der Google Search Console (Bing
    bietet das direkt an), sonst DNS-/Meta-/XML-Verifikation.
-2. **IndexNow-Key verknuepfen:** WMT -> IndexNow. Entweder den BESTEHENDEN
-   Key (`9f68ce9a...`) eintragen ODER Bing einen generieren lassen - falls
-   Bing einen neuen ausgibt, ersetzen wir die Datei in `public/` und den
-   `INDEXNOW_KEY`-Var entsprechend (beide muessen identisch sein). Ich
-   empfehle, den bestehenden Key zu behalten und in WMT einzutragen.
+2. **IndexNow-Key** (ERLEDIGT 14.07.2026): in Bing WMT generiert
+   (`fae2b7dc9cfb44919eb6b358e7c4a846`), Key-Datei in `public/` gehostet.
+   Der `INDEXNOW_KEY`-Var (Phase 1) muss auf denselben Wert gesetzt werden.
 3. **Sitemap einreichen:** WMT -> Sitemaps -> `https://aip.aero/2d6a9a/sitemap.xml`
    (unabhaengig von IndexNow, aber sinnvoll gleich mit).
 
@@ -122,9 +121,18 @@ Bing/Google Webmaster Tools.
 
 | Phase | Inhalt | Gate |
 | --- | --- | --- |
-| 0 | Key + Hosting (ERLEDIGT); Owner: Site in Bing WMT verifizieren + Key eintragen | Bing bestaetigt den Key |
-| 1 | `indexnow.ts` + `INDEXNOW_KEY` var + Hook in `insertAirports` (Landing + Liste, nativ + EN, via waitUntil, fail-soft) | Live-Crawl-POST loest sichtbaren Submit aus (WMT IndexNow-Report) |
+| 0 | Key + Hosting + Bing-Registrierung (ERLEDIGT 14.07.2026) | Bing bestaetigt den Key |
+| 1 | `indexnow.ts` + `INDEXNOW_KEY` var + Hook in `insertAirports` (Landing + Liste, nativ + EN, via waitUntil, fail-soft) - **GEBAUT 14.07.2026** | Live-Crawl-POST loest sichtbaren Submit aus (WMT IndexNow-Report) |
 | 2 | Diff-basierte Detailseiten-Submits (neu/entfallen) | Owner-Wunsch nach Phase-1-Verifikation |
+
+**Phase-1-Umsetzung (14.07.2026):** `src/lib/indexnow.ts`
+(`submitCountryToIndexNow`), `INDEXNOW_KEY` als `var` in `wrangler.jsonc`
+(Wert = Key, oeffentlich) + `src/env.js` (optional) + Example-Dateien, Hook
+in `MUTATIONS.insertAirports` nach `revalidateTag` via
+`ctx.waitUntil`. Verifikation offen: nach dem naechsten Deploy einen
+Crawl-POST (oder `crawl.yml`) abwarten und den Bing-WMT-IndexNow-Report
+pruefen; der Sandbox-Proxy erreicht `api.indexnow.org` ggf. nicht, ein
+Runner-Test-Submit ist die Alternative.
 
 ## Verifikation
 

@@ -5,3 +5,4 @@ CRON_SECRET=""
 ADSENSE_ID=""
 # Optional - OpenAIP core API key (embedded aerodrome-facts card).
 OPENAIP_API_KEY=""
+INDEXNOW_KEY=""

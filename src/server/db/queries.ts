@@ -1,8 +1,10 @@
 "server-only";
 
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { and, between, eq, asc, isNotNull, like, or, sql } from "drizzle-orm";
 import { unstable_cache, revalidateTag } from "next/cache";
 import { cache } from "react";
+import { submitCountryToIndexNow } from "~/lib/indexnow";
 import { getDb, type DB } from "~/server/db";
 import {
   type InsertAirport,
@@ -433,6 +435,17 @@ export const MUTATIONS = {
     // previous code revalidated 7 global tags, invalidating all ~1k entries
     // across every country on every run.)
     revalidateTag(countryTag(country));
+
+    // Ping IndexNow (Bing + partners) that this country's landing + list
+    // pages changed - off the response path via waitUntil, so the crawler
+    // POST returns immediately, and fully fail-soft (no-op without
+    // INDEXNOW_KEY; see src/lib/indexnow.ts + docs/indexnow-concept.md).
+    try {
+      const { ctx } = await getCloudflareContext({ async: true });
+      ctx.waitUntil(submitCountryToIndexNow(country));
+    } catch {
+      // No Cloudflare context (build/test) - skip the ping.
+    }
     return result;
   },
   upsertAirportFacts: async function (input: InsertAirportFacts[]) {
