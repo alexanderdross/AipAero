@@ -60,6 +60,7 @@ const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ESCAPE[c]!);
  */
 export function AirportMap({
   locale,
+  version,
   locateLabel,
   locateErrorLabel,
   mapLabel,
@@ -68,6 +69,13 @@ export function AirportMap({
   pavedLabel,
 }: {
   locale: string;
+  // Cache-busting version (the country's crawl timestamp, ms). The coords
+  // endpoint sits behind the Cloudflare Cache API (`withEdgeCache`), which
+  // `revalidateTag` cannot invalidate - so a title/data change would leave the
+  // markers frozen on the stale edge entry until its TTL. Threading the crawl
+  // timestamp into the request URL gives each crawl a fresh edge key, so the
+  // markers (incl. their popup titles) update as soon as the list page does.
+  version?: number | null;
   locateLabel: string;
   locateErrorLabel: string;
   mapLabel: string;
@@ -105,7 +113,10 @@ export function AirportMap({
     let active = true;
     // Trailing slash: the app sets `trailingSlash: true`, so the slashless URL
     // 308-redirects - request the canonical form directly to skip that hop.
-    fetch(`/api/airport-coords/?locale=${encodeURIComponent(locale)}`)
+    const versionParam = version ? `&v=${version}` : "";
+    fetch(
+      `/api/airport-coords/?locale=${encodeURIComponent(locale)}${versionParam}`,
+    )
       .then((r) => (r.ok ? (r.json() as Promise<MapMarker[]>) : []))
       .then((m) => {
         if (active) setMarkers(Array.isArray(m) ? m : []);
@@ -117,7 +128,7 @@ export function AirportMap({
     return () => {
       active = false;
     };
-  }, [locale]);
+  }, [locale, version]);
 
   // Defer the heavy Leaflet init + OSM tiles until the decorative map scrolls
   // near the viewport. The map is not page content, but loading its tiles on
