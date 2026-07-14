@@ -36,8 +36,15 @@ import httpx
 
 BASE_CSV = "https://davidmegginson.github.io/ourairports-data"
 
-# OurAirports `iso_country` codes for the countries AIP:Aero covers (UK = GB).
-COUNTRIES = {"DE", "AT", "FR", "NL", "GB", "BE", "LU", "CZ", "DK", "GR", "NO", "PL", "SE"}
+# OurAirports `iso_country` codes for the countries AIP:Aero covers. Keep in
+# sync with `liveCountries` in src/lib/utils.ts (this list drives the aerodrome
+# facts + the "airports near me" map coordinates - a country missing here has
+# an empty map). Note the mismatches vs our locale codes: UK = GB, and the
+# Serbian VFR AIP also publishes Montenegrin (ME) fields, so both are included.
+COUNTRIES = {
+    "DE", "AT", "FR", "NL", "GB", "BE", "LU", "CZ", "DK", "GR", "NO", "PL",
+    "SE", "EE", "FI", "ES", "LV", "IS", "PT", "HU", "SI", "LT", "RS", "ME",
+}
 
 BATCH_SIZE = 100  # airports per POST to keep each request payload modest
 
