@@ -43,6 +43,37 @@ def title_name_looks_bad(name: str) -> bool:
     )
 
 
+# The AD 2.1 "AERODROME LOCATION INDICATOR AND NAME" line of an AD 2 page reads
+# "<ICAO> - <NAME>", terminated by the AD 2.2 heading. It is the reliable name
+# source for eAIPs whose nav MENU carries no aerodrome name at all (NL, ES) -
+# their menu lists only the ICAO + section labels, so the name must be read
+# from the per-aerodrome page. The label itself varies ("... AND NAME" vs
+# "... AND - NAME" on ENAIRE), and the dash before the name may be "-" or an
+# en/em dash.
+_AD21_NAME_RE = re.compile(
+    r"(?:AERODROME|HELIPORT) LOCATION INDICATOR AND\s*-?\s*NAME\s+"
+    r"([A-Z]{4})\s*[-–—]\s*(.+?)\s+"
+    r"(?:(?:AERODROME|HELIPORT) GEOGRAPHICAL|AD\s*[23]\.2)\b",
+    re.I | re.S,
+)
+
+
+def ad21_name(page_text: str, icao: str) -> str | None:
+    """The aerodrome name from an AD 2 page's "AD 2.1 AERODROME LOCATION
+    INDICATOR AND NAME" line ("<ICAO> - <NAME>").
+
+    For eAIPs whose nav menu carries no name (NL lists only "AD 2 <ICAO>";
+    ENAIRE lists "Aerodrome data."), the crawler fetches the per-aerodrome AD 2
+    page and reads the name from here. ``page_text`` is the page's collapsed
+    visible text. Returns None when the line is absent or its ICAO does not
+    match (fail-soft: the caller keeps its existing title). Module-level so
+    both HttpCrawlerBase (ES) and eurocontrol crawlers (NL) can use it."""
+    match = _AD21_NAME_RE.search(page_text)
+    if match and match.group(1).upper() == icao.upper():
+        return " ".join(match.group(2).split())
+    return None
+
+
 class HttpEurocontrolBase(HttpCrawlerBase):
     """Shared parser for the eurocontrol "eAIP" navigation HTML.
 

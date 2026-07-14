@@ -2,7 +2,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
-from crawlers.http_eurocontrol_base import title_name_looks_bad
+from crawlers.http_eurocontrol_base import ad21_name
 
 COUNTRY = "ES"
 # ENAIRE serves the AIP as ONE static index page per language with every
@@ -61,25 +61,22 @@ class ES(HttpCrawlerBase):
                     continue
                 seen.add(icao)
 
-                # Prefer the anchor's own label; when it is empty (icon-only
-                # link) fall back to the whole surrounding table row's text.
-                row = a.find_parent("tr")
-                label = self.clean_text(a.get_text(" ", strip=True))
-                if not label and row is not None:
-                    label = self.clean_text(row.get_text(" ", strip=True))
-                # Normalise: strip section numbering / the code itself, cap
-                # length, and always end with the ICAO for consistency.
-                name = re.sub(r"^AD\s*2[\s.-]*", "", label, flags=re.I)
-                name = name.replace(icao, "").strip(" -/")[:80]
-                # Guard/diagnostic: the ENAIRE AD 2 link label is the section
-                # heading ("! See alerts Aerodrome data."), NOT the aerodrome
-                # name - flag it and dump the row markup so the real name node
-                # can be located.
-                if title_name_looks_bad(name):
-                    self.logger.warning(
-                        f"ES: suspicious name {name!r} for {icao}; row: "
-                        f"{row.decode()[:500] if row is not None else '(no row)'}"
+                # The ENAIRE index row carries NO aerodrome name (only the ICAO
+                # + the boilerplate label "Aerodrome data."); the name lives on
+                # the AD 2 sub-page's "AD 2.1 AERODROME LOCATION INDICATOR AND
+                # NAME" line. Fetch the page and read it (fail-soft: fall back
+                # to the bare ICAO when the page or the line is unavailable).
+                url = urljoin(ROOT_URL, a["href"])
+                name: str | None = None
+                try:
+                    text = " ".join(
+                        self.soup(self.fetch(url)).get_text(" ").split()
                     )
+                    name = ad21_name(text, icao)
+                except Exception as e:  # one bad page must not abort the crawl
+                    self.logger.warning(f"ES: {icao} name fetch failed: {e}")
+                if not name:
+                    self.logger.warning(f"ES: no AD 2.1 name for {icao}")
                 title = f"{name} {icao}".strip() if name else icao
 
                 airports.append(
@@ -87,7 +84,7 @@ class ES(HttpCrawlerBase):
                         country=self.country,
                         icao=icao,
                         title=title,
-                        url=urljoin(ROOT_URL, a["href"]),
+                        url=url,
                         type="vfr",
                     )
                 )

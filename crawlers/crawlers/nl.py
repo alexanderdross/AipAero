@@ -12,7 +12,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport
-from crawlers.http_eurocontrol_base import HttpEurocontrolBase
+from crawlers.http_eurocontrol_base import HttpEurocontrolBase, ad21_name
 
 COUNTRY = "NL"
 ROOT_URL = "https://eaip.lvnl.nl/web/eaip/default.html"
@@ -167,6 +167,30 @@ class NL(HttpEurocontrolBase):
                     nav_html, nav_url, "AD 3en-GBdetails", "heliport"
                 )
             )
+
+            # The LVNL nav menu lists ONLY "AD 2 <ICAO>" (no aerodrome name),
+            # so the base titles come out as the chart designator "VAC <ICAO>".
+            # Read the real name from each field's AD 2/AD 3 page (its "AD 2.1
+            # AERODROME LOCATION INDICATOR AND NAME" line). The page is
+            # "EH-AD <2|3> <ICAO> 1-en-GB.html" (section 1) next to the nav.
+            for airport in airports:
+                icao = airport.icao
+                if not icao:
+                    continue
+                section = "3" if airport.airport_type == "heliport" else "2"
+                page_url = urljoin(nav_url, f"EH-AD {section} {icao} 1-en-GB.html")
+                try:
+                    text = " ".join(
+                        self.soup(self.fetch(page_url)).get_text(" ").split()
+                    )
+                    name = ad21_name(text, icao)
+                except Exception as e:  # fail-soft: keep the existing title
+                    self.logger.warning(f"NL: {icao} name fetch failed: {e}")
+                    name = None
+                if name:
+                    airport.title = f"{name} {icao}".strip()
+                else:
+                    self.logger.warning(f"NL: no AD 2.1 name for {icao}")
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
