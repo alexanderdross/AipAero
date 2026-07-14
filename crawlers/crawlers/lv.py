@@ -1,3 +1,14 @@
+"""Latvia (LGS) eAIP crawler.
+
+Source: Latvijas gaisa satiksme (LGS) publishes a eurocontrol frameset eAIP at
+`ais.lgs.lv`. The `/aiseaip` listing is public (only other AIS-portal areas sit
+behind login); each AMDT link embeds its effective date. This crawler picks the
+edition in effect today (same date logic as NL/UK), then handles LGS's quirk of
+a SINGLE-LEVEL frameset (no eAISNavigationBase) by trying the short frame chain
+first and the two-level one as a fallback. Aerodromes -> "vfr", heliports ->
+"heliport" (fail-soft if there is no AD 3 section).
+"""
+
 import datetime
 import re
 from urllib.parse import urljoin
@@ -41,8 +52,15 @@ class LV(HttpEurocontrolBase):
     def _resolve_edition_url(
         self, html: str, today: datetime.date | None = None
     ) -> str:
+        """Pick the eAIP edition in effect today from the /aiseaip listing.
+
+        Reads the effective date embedded in each AMDT link's `/data/YYYY-MM-DD/`
+        path and returns the latest edition already in effect (else the earliest
+        listed).
+        """
         today = today or datetime.date.today()
         soup = self.soup(html)
+        # Collect (effective_date, absolute_url) for each dated edition link.
         candidates: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
             m = _EDITION_DATE_RE.search(a["href"])
@@ -52,12 +70,14 @@ class LV(HttpEurocontrolBase):
             try:
                 effective = datetime.date(year, month, day)
             except ValueError:
+                # Impossible calendar date in the href - ignore this link.
                 continue
             candidates.append(
                 (effective, urljoin(ROOT_URL, a["href"].strip()))
             )
         if not candidates:
             raise ValueError(f"No eAIP edition links found in {ROOT_URL}")
+        # Latest edition already in effect; else the earliest listed one.
         in_effect = [c for c in candidates if c[0] <= today]
         effective, url = (
             max(in_effect, key=lambda c: c[0])
@@ -68,12 +88,14 @@ class LV(HttpEurocontrolBase):
         return url
 
     def crawl(self) -> list[Airport]:
+        """Resolve the current edition, enter the frameset, and list airports."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
         last_html: str | None = None
 
         try:
+            # Public edition listing -> currently effective edition folder.
             listing_html = self.fetch(ROOT_URL)
             last_html = listing_html
             edition_url = self._resolve_edition_url(listing_html)
@@ -85,6 +107,8 @@ class LV(HttpEurocontrolBase):
             # chain first, keep the two-level chain as fallback.
             nav_url = nav_html = None
             frame_error: Exception | None = None
+            # Try the English frameset sibling first, then the bare index;
+            # for each, try the short single-level chain then the two-level one.
             for entry in (
                 urljoin(edition_url, "index-en-GB.html"),
                 edition_url,
@@ -100,14 +124,17 @@ class LV(HttpEurocontrolBase):
                         frame_error = e
                 if nav_html is not None:
                     break
+            # Exhausted every entry/chain combination - re-raise the last error.
             if nav_html is None:
                 assert frame_error is not None
                 raise frame_error
             last_url, last_html = nav_url, nav_html
 
+            # AD 2 aerodromes are required; a missing section raises (fail loud).
             airports.extend(
                 self._extract_section(nav_html, nav_url, _AD2_SECTION_IDS, "vfr")
             )
+            # AD 3 heliports are optional - many small AIPs have none.
             try:
                 airports.extend(
                     self._extract_section(
@@ -137,7 +164,11 @@ class LV(HttpEurocontrolBase):
         id_candidates: list[str],
         category: str,
     ) -> list[Airport]:
-        """Extract a menu section, trying each candidate id format in turn."""
+        """Extract a menu section, trying each candidate id format in turn.
+
+        eAIP menu ids vary by generator; return the first id that yields
+        airports, re-raising the last error if none matched.
+        """
         last_error: Exception | None = None
         for menu_id in id_candidates:
             try:

@@ -12,8 +12,12 @@ from bs4 import BeautifulSoup
 
 from crawlers.models import Airport, ChartLink
 
+# Re-export Airport so country crawlers can `from crawlers.http_base import
+# Airport, HttpCrawlerBase` in one line.
 __all__ = ["Airport", "HttpCrawlerBase"]
 
+# Honest, identifiable UA for well-behaved sources - names the crawler and
+# links back to the site so an AIS admin can see who is hitting them.
 DEFAULT_USER_AGENT = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
     "aip-aero-crawler/1.0 (+https://aip.aero)"
@@ -60,17 +64,23 @@ class HttpCrawlerBase:
     """Base for crawlers that talk to AIP sites over plain HTTP.
 
     No browser, no WebDriver. Use this for any source that serves static
-    HTML — including the eurocontrol-style frameset eAIPs, which are just
+    HTML - including the eurocontrol-style frameset eAIPs, which are just
     chains of `<frame src="...">` references that resolve to plain pages.
     """
 
+    # 30s overall read budget, 10s to connect - AIS servers are often slow
+    # but a hung socket must not stall the nightly cron.
     timeout = httpx.Timeout(30.0, connect=10.0)
     max_retries = 3
     retry_initial_delay = 1.0  # seconds; doubles each attempt
 
     def __init__(self, country: str):
+        # Country code is normalized upper-case; used for logging + Airport rows.
         self.country = country.upper()
         self.logger = logging.getLogger(__name__)
+        # One pooled client per crawler: follows redirects (frameset eAIPs
+        # bounce through several), default honest UA. http2=False because some
+        # AIS stacks negotiate HTTP/2 badly; HTTP/1.1 is the safe common path.
         self.client = httpx.Client(
             follow_redirects=True,
             timeout=self.timeout,
@@ -78,6 +88,8 @@ class HttpCrawlerBase:
             http2=False,
         )
 
+    # Context-manager support so a crawler can `with SomeCrawler("DE") as c:`
+    # and be guaranteed the httpx client (and any browser) is torn down.
     def __enter__(self):
         return self
 
@@ -85,6 +97,7 @@ class HttpCrawlerBase:
         self.close()
 
     def close(self) -> None:
+        """Close the pooled httpx client; never raises (best-effort cleanup)."""
         try:
             self.client.close()
         except Exception:
@@ -167,7 +180,12 @@ class HttpCrawlerBase:
         )
 
     def _rebuild_client(self, **kwargs) -> None:
-        """Swap self.client, carrying the accumulated headers over."""
+        """Swap self.client, carrying the accumulated headers over.
+
+        httpx has no way to change proxy/verify on a live client, so the
+        proxy/CA/legacy-TLS helpers rebuild it. Preserving the headers keeps
+        an earlier ``use_browser_headers()`` in effect across the swap.
+        """
         headers = dict(self.client.headers)
         self.client.close()
         self.client = httpx.Client(
@@ -194,6 +212,7 @@ class HttpCrawlerBase:
         """
         try:
             soup = self.soup(html)
+            # Optional filter: only log links whose href OR text matches.
             rx = re.compile(contains, re.I) if contains else None
             links = [
                 f"{(a.get_text(strip=True) or '')[:60]!r} -> {a['href'][:120]}"
@@ -233,7 +252,7 @@ class HttpCrawlerBase:
 
         Retries up to ``max_retries`` times on connection errors and on
         retryable 5xx / 429 responses, with exponential backoff. Other 4xx
-        responses propagate immediately — those are typically caller bugs,
+        responses propagate immediately - those are typically caller bugs,
         not transient.
 
         HTML only: URLs with an image/binary extension are refused before
@@ -242,6 +261,7 @@ class HttpCrawlerBase:
         anything but navigation HTML, and this keeps metered proxy traffic
         (Bright Data) down to those small text documents.
         """
+        # Pre-request guard: reject obvious binary URLs before spending a request.
         if _BINARY_URL_RE.search(url):
             raise ValueError(
                 f"Refusing to fetch non-HTML resource {url} - the crawler "
@@ -251,10 +271,12 @@ class HttpCrawlerBase:
         delay = self.retry_initial_delay
         last_exc: Exception | None = None
 
+        # Attempt 1..max_retries; backoff doubles between attempts (1s, 2s, ...).
         for attempt in range(1, self.max_retries + 1):
             try:
                 response = self.client.get(url)
             except httpx.TransportError as exc:
+                # Connection-level failure (DNS/TLS/reset/timeout) - retryable.
                 last_exc = exc
                 if attempt < self.max_retries:
                     self.logger.warning(
@@ -265,6 +287,7 @@ class HttpCrawlerBase:
                     delay *= 2
                 continue
 
+            # Transient server response (5xx / 429) - retry with backoff.
             if response.status_code in _RETRYABLE_STATUSES:
                 last_exc = httpx.HTTPStatusError(
                     f"retryable status {response.status_code}",
@@ -280,9 +303,12 @@ class HttpCrawlerBase:
                     delay *= 2
                 continue
 
-            # 2xx success or non-retryable 4xx/3xx — bail out of the loop.
+            # 2xx success or non-retryable 4xx/3xx - bail out of the loop.
+            # raise_for_status() turns a non-retryable 4xx into an exception
+            # (caller bug), and 2xx falls through to the content-type guard.
             response.raise_for_status()
             content_type = response.headers.get("content-type", "")
+            # Post-request guard: even a 200 must be HTML, not a binary payload.
             if _BINARY_CONTENT_TYPE_RE.match(content_type.strip()):
                 raise ValueError(
                     f"{url} returned non-HTML content type "
@@ -291,15 +317,22 @@ class HttpCrawlerBase:
                 )
             return response
 
-        # Exhausted all retries.
+        # Exhausted all retries - re-raise the last failure so the caller sees it.
         assert last_exc is not None
         raise last_exc
 
     def soup(self, html: str, *, parser: str = "html.parser") -> BeautifulSoup:
+        """Parse HTML into BeautifulSoup (stdlib html.parser, no lxml dep)."""
         return BeautifulSoup(html, parser)
 
     def get_frame_src(self, html: str, base_url: str, frame_name: str) -> str:
-        """Resolve the `src` attribute of a `<frame>` / `<iframe>` by name."""
+        """Resolve the `src` attribute of a `<frame>` / `<iframe>` by name.
+
+        eurocontrol eAIPs are framesets; navigation means chasing named frames.
+        Returns the src joined onto base_url (absolute); raises ValueError with
+        the list of available frames if the named one is missing - so a layout
+        change surfaces a readable diagnostic instead of a KeyError.
+        """
         soup = self.soup(html)
         frame = soup.find(["frame", "iframe"], attrs={"name": frame_name})
         if frame is None:
@@ -323,7 +356,10 @@ class HttpCrawlerBase:
     ) -> tuple[str, str]:
         """Walk a chain of named frames, starting from `start_url`.
 
-        Returns the (final_url, final_html) of the last frame in the chain.
+        Fetches start_url, then for each name resolves that frame's src and
+        fetches it, using the previous page as the base for relative hrefs.
+        Returns the (final_url, final_html) of the last frame in the chain -
+        typically the actual AD-2 navigation document.
         """
         url = start_url
         html = self.fetch(url)
@@ -333,6 +369,7 @@ class HttpCrawlerBase:
         return url, html
 
     def clean_text(self, text: str | None) -> str:
+        """Unescape HTML entities and collapse runs of whitespace to one space."""
         if not text:
             return ""
         text = html_module.unescape(text)
@@ -340,12 +377,13 @@ class HttpCrawlerBase:
         return text.strip()
 
     def _timestamp(self) -> str:
+        # Sortable timestamp for uniquely naming saved-response debug files.
         return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
     def save_response(self, url: str, body: str, prefix: str = "response") -> None:
         """Persist a response body to error_logs/ for post-mortem debugging.
 
-        Replaces the Selenium `save_screenshot` / `save_page_source` pair —
+        Replaces the Selenium `save_screenshot` / `save_page_source` pair -
         with httpx we already have the exact bytes the parser saw.
         """
         try:
@@ -368,8 +406,11 @@ class HttpCrawlerBase:
     # then against its HREF; the first match wins, else the page's first PDF
     # link. Patterns come from the pdf_recon live-test runs (the AIP hosts are
     # not reachable from the sandboxed dev environment).
+    # Master switch: subclass sets True to opt into per-airport PDF fetching.
     FETCH_PDF_URLS: bool = False
+    # Regexes tried (in order) against each PDF link's visible TEXT; first hit wins.
     PDF_TEXT_PRIORITY: tuple[str, ...] = ()
+    # Regexes tried (in order) against each PDF link's HREF; used if no TEXT hit.
     PDF_HREF_PRIORITY: tuple[str, ...] = ()
 
     def attach_pdf_urls(self, airports: list[Airport]) -> list[Airport]:
@@ -380,11 +421,14 @@ class HttpCrawlerBase:
         airport row - `pdf_url` simply stays None and the website falls back
         to the chart page `url`.
         """
+        # Opt-out fast path: crawlers that didn't enable this pay nothing.
         if not self.FETCH_PDF_URLS:
             return airports
         found = 0
         for airport in airports:
             try:
+                # Open the field's chart page, harvest every PDF link, then
+                # pick the primary one and store the full list.
                 html = self.fetch(airport.url)
                 links = self._collect_pdf_links(html, airport.url)
                 airport.pdf_url = self._pick_pdf_url(links)
@@ -414,14 +458,18 @@ class HttpCrawlerBase:
         seen: set[str] = set()
         for link in soup.find_all("a", href=True):
             href = link["href"]
+            # Only anchors pointing at a .pdf (substring match tolerates query
+            # strings / fragments after the extension).
             if ".pdf" not in href.lower():
                 continue
             url = urljoin(base_url, href)
+            # Dedupe by absolute URL, preserving first-seen (document) order.
             if url in seen:
                 continue
             seen.add(url)
             text = " ".join(link.get_text(" ", strip=True).split())
             links.append((text, url))
+        # Cap to bound the stored JSON regardless of a pathological page.
         return links[: self.MAX_CHARTS]
 
     def _to_chart_links(self, links: list[tuple[str, str]]) -> list[ChartLink]:
@@ -431,25 +479,37 @@ class HttpCrawlerBase:
         for text, url in links:
             name = text
             if not name:
+                # No link text: derive a name from the filename, stripping the
+                # .pdf and URL-decoding (%20 etc.).
                 stem = url.rsplit("/", 1)[-1]
                 name = unquote(stem[:-4] if stem.lower().endswith(".pdf") else stem)
+            # Truncate to keep the stored name bounded.
             charts.append(ChartLink(name=name[:120], url=url))
         return charts
 
     def _pick_pdf_url(self, links: list[tuple[str, str]]) -> str | None:
+        """Choose the single most relevant PDF as the primary `pdf_url`.
+
+        Priority: any TEXT-priority regex hit, else any HREF-priority hit,
+        else the first PDF on the page. Returns None when the page has none.
+        """
         if not links:
             return None
+        # 1) Prefer a link whose visible text matches a text-priority pattern.
         for pattern in self.PDF_TEXT_PRIORITY:
             rx = re.compile(pattern, re.I)
             for text, href in links:
                 if rx.search(text):
                     return href
+        # 2) Else a link whose href matches an href-priority pattern.
         for pattern in self.PDF_HREF_PRIORITY:
             rx = re.compile(pattern, re.I)
             for text, href in links:
                 if rx.search(href):
                     return href
+        # 3) Else fall back to the first PDF in document order.
         return links[0][1]
 
     def crawl(self) -> list[Airport]:
+        """Return the country's airports. Subclasses MUST implement this."""
         raise NotImplementedError("Crawlers must implement crawl()")

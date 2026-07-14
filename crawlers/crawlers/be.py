@@ -1,3 +1,14 @@
+"""Belgium & Luxembourg (skeyes) eAIP crawler.
+
+Source: skeyes (Belgocontrol) serves a standard eurocontrol frameset eAIP at
+`ops.skeyes.be`. Unlike the founding-five eAIPs, its menu has NO aggregate
+"AD 2" category node - every aerodrome/heliport is its own chapter. So this
+crawler discovers airports by scanning the navigation HTML for per-airport
+"AD-2.<ICAO>details" / "AD-3.<ICAO>details" ids (see `_AIRPORT_SECTION_RE`)
+rather than expanding a category section, and derives the VFR/IFR/mil/heliport
+type from the nearest preceding category heading in document order.
+"""
+
 import re
 
 from bs4 import Tag
@@ -55,7 +66,13 @@ class BE(HttpEurocontrolBase):
         self.use_browser_headers()
 
     def _category_for(self, details: Tag, ad_part: str) -> str:
-        """Resolve the airport type from the nearest preceding category label."""
+        """Resolve the airport type from the nearest preceding category label.
+
+        The per-airport id carries no category, so walk BACKWARDS in document
+        order from this airport's details div to the closest category heading
+        ("... PUBLIC AERODROMES", "... HELIPORTS", ...) and map it to a type.
+        """
+        # Nearest category heading text that precedes this airport in the menu.
         label = details.find_previous(string=_CATEGORY_ANY_RE)
         if label:
             text = str(label)
@@ -68,34 +85,48 @@ class BE(HttpEurocontrolBase):
     def _extract_airport_sections(
         self, nav_html: str, nav_url: str
     ) -> list[Airport]:
+        """Scan the menu HTML for per-airport chapters and build Airports.
+
+        Each aerodrome/heliport is a `<div id="AD-2.<ICAO>details">` (or AD-3).
+        For each match derive the ICAO + AD part from the id, read a human
+        title from the preceding sibling anchor, resolve the type from the
+        surrounding category heading, and locate the chart-list URL.
+        """
         soup = self.soup(nav_html)
         airports: list[Airport] = []
 
+        # Every airport is its own chapter div - iterate the id matches.
         for details in soup.find_all("div", attrs={"id": _AIRPORT_SECTION_RE}):
             match = _AIRPORT_SECTION_RE.search(details["id"])
             if not match:  # pragma: no cover - find_all already matched
                 continue
             ad_part, icao = match.group(1), match.group(2)
 
-            # Title lives in the sibling div right before the details div.
+            # Title lives in the sibling div right before the details div;
+            # default to the bare ICAO if we cannot parse a clean name.
             title = icao
             title_div = details.find_previous_sibling("div")
             if isinstance(title_div, Tag):
                 anchors = title_div.find_all("a")
                 if anchors:
+                    # Last anchor holds the full "AD 2.EBAW ANTWERPEN ..." label.
                     raw = anchors[-1].get_text(" ", strip=True)
                     raw = re.sub(r"\s+", " ", raw).strip()
                     # Drop hidden annotation tokens (contain ";"), the
                     # chapter prefix, and a duplicated leading ICAO.
                     raw = " ".join(t for t in raw.split() if ";" not in t)
+                    # Strip the "AD 2.EBAW " chapter prefix from the label.
                     rest = _TITLE_PREFIX_RE.sub("", raw).strip()
                     tokens = rest.split()
+                    # Some labels repeat the ICAO right after the prefix - drop it.
                     if tokens and tokens[0] == icao:
                         tokens = tokens[1:]
                     rest = " ".join(tokens).strip()
+                    # Canonical form: "<place name> <ICAO>".
                     if rest:
                         title = f"{rest} {icao}"
 
+            # Follow this chapter to its chart-list page; skip if none exists.
             charts_url = self._find_charts_url(details, nav_url)
             if charts_url is None:
                 self.logger.warning(f"BE: no charts link for {icao}; skipping")
@@ -111,6 +142,8 @@ class BE(HttpEurocontrolBase):
                 )
             )
 
+        # Empty result almost always means the menu markup changed - fail loud
+        # so the drop guard / diagnostics fire rather than publishing nothing.
         if not airports:
             raise ValueError(f"No per-airport AD sections found in {nav_url}")
         return airports
@@ -122,6 +155,11 @@ class BE(HttpEurocontrolBase):
     PDF_TEXT_PRIORITY = (r"-2-1$",)
 
     def crawl(self) -> list[Airport]:
+        """Fetch the eAIP menu and return every aerodrome/heliport.
+
+        `last_url` / `last_html` track the most recently fetched page so a
+        failure anywhere in the chain can dump that page for post-mortem.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL

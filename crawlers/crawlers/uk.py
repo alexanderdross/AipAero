@@ -1,3 +1,13 @@
+"""United Kingdom (NATS) eAIP crawler.
+
+Source: NATS serves a standard eurocontrol frameset eAIP via the EAD-hosted
+`nats-uk.ead-it.com` publications portal. The landing page lists several AIRAC
+editions side by side with no "current" label, so this crawler reads the AIRAC
+effective date out of each edition URL, picks the one in effect today, walks
+the frame chain to the navigation menu, and reads AD 2 (aerodromes) / AD 3
+(heliports). Pure HTML - no JS/browser.
+"""
+
 import datetime
 import re
 from urllib.parse import urljoin
@@ -11,8 +21,8 @@ ROOT_URL = "https://nats-uk.ead-it.com/cms-nats/opencms/en/Publications/AIP/"
 # The publications landing page lists several AIRAC editions side by side
 # (current + the next 28/56-day AMDTs), each linking to an online eAIP at
 # `.../Publications/YYYY-MM-DD-AIRAC/html/index-en-GB.html`. There is no
-# "current" label — NATS explicitly notes the links are dynamic and change
-# every cycle — so we read the AIRAC effective date straight out of each URL
+# "current" label - NATS explicitly notes the links are dynamic and change
+# every cycle - so we read the AIRAC effective date straight out of each URL
 # and pick the latest edition that is already in effect today.
 _AIRAC_EDITION_RE = re.compile(r"/(\d{4})-(\d{2})-(\d{2})-AIRAC/html/index", re.I)
 
@@ -32,7 +42,7 @@ class UK(HttpEurocontrolBase):
     each "Online Version" link embeds its AIRAC effective date in the URL
     (`.../YYYY-MM-DD-AIRAC/html/index-en-GB.html`). We select the currently
     effective edition by date, then walk the frame chain to the navigation
-    HTML — no JS/browser needed.
+    HTML - no JS/browser needed.
     """
 
     def __init__(self) -> None:
@@ -48,12 +58,13 @@ class UK(HttpEurocontrolBase):
 
         Reads the AIRAC effective date out of each online-version URL and
         returns the latest edition whose date is on or before ``today``
-        (falling back to the earliest listed edition if — unexpectedly —
+        (falling back to the earliest listed edition if, unexpectedly,
         every edition is still in the future).
         """
         today = today or datetime.date.today()
         soup = self.soup(html)
 
+        # Collect (effective_date, absolute_url) for each dated edition link.
         candidates: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
             m = _AIRAC_EDITION_RE.search(a["href"])
@@ -63,6 +74,7 @@ class UK(HttpEurocontrolBase):
             try:
                 effective = datetime.date(year, month, day)
             except ValueError:
+                # Impossible calendar date in the href - ignore this link.
                 continue
             candidates.append((effective, urljoin(base_url, a["href"])))
 
@@ -71,6 +83,7 @@ class UK(HttpEurocontrolBase):
                 f"No AIRAC eAIP 'Online Version' links found in {base_url}"
             )
 
+        # Latest edition already in effect; else the earliest listed one.
         in_effect = [c for c in candidates if c[0] <= today]
         effective_date, edition_url = (
             max(in_effect, key=lambda c: c[0])
@@ -90,7 +103,12 @@ class UK(HttpEurocontrolBase):
         id_candidates: list[str],
         category: str,
     ) -> list[Airport]:
-        """Extract a menu section, trying each candidate id format in turn."""
+        """Extract a menu section, trying each candidate id format in turn.
+
+        eAIP menu ids vary by generator (spaced "AD 2en-GBdetails" vs.
+        hyphenated "AD-2details"); return the first id that yields airports,
+        re-raising the last error if none matched.
+        """
         last_error: Exception | None = None
         for menu_id in id_candidates:
             try:

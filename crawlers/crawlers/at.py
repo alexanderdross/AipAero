@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from crawlers.http_base import Airport, HttpCrawlerBase
 
 COUNTRY = "AT"
+# Austro Control's eAIP root; the current-edition table lives at this URL.
 ROOT_URL = "https://eaip.austrocontrol.at"
 
 # The root page tabulates the current edition plus a few upcoming ones. Each
@@ -22,16 +23,23 @@ _EDITION_HREF_RE = re.compile(r"(\d{2})(\d{2})(\d{2})/index", re.I)
 class AT(HttpCrawlerBase):
     """Austria AIP crawler.
 
-    Austrocontrol's eAIP is plain ISO-8859-1 encoded HTML — no frames,
-    no JS. Navigate through three index pages (current version → Part
-    III/AD → AD 2/AD 3) and parse a simple table of <td><a>ICAO</a></td>
-    rows on each leaf.
+    Austrocontrol's eAIP is plain ISO-8859-1 encoded HTML - no frames,
+    no JS (unlike the eurocontrol frameset crawlers). Navigate through
+    three index pages (current version -> Part III/AD -> AD 2/AD 3) and
+    parse a simple table of <td><a>ICAO</a></td> rows on each leaf. Being
+    frameless, it inherits the plain HttpCrawlerBase rather than the
+    eurocontrol base.
     """
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
     def fetch_iso(self, url: str) -> str:
+        """Fetch a page decoded as ISO-8859-1 (the eAIP's declared charset).
+
+        The pages are Latin-1, not UTF-8, so decoding them any other way
+        mangles the Austrian umlauts in aerodrome/city names.
+        """
         return self.fetch(url, encoding="iso-8859-1")
 
     @staticmethod
@@ -39,8 +47,8 @@ class AT(HttpCrawlerBase):
         """Return the href of the first link whose visible text contains ``text``.
 
         Matches on the anchor's full ``get_text()`` (not its direct
-        ``.string``), so links wrapping nested markup — e.g.
-        ``<a><b>Part III - AD</b></a>`` — still match, and normalises runs of
+        ``.string``), so links wrapping nested markup - e.g.
+        ``<a><b>Part III - AD</b></a>`` - still match, and normalises runs of
         whitespace on both sides so a stray double space in the markup can't
         defeat the lookup.
         """
@@ -60,17 +68,19 @@ class AT(HttpCrawlerBase):
         """Resolve the currently effective edition entry point on the root page.
 
         Selection order, most robust first:
-          1. the edition link inside the ``<tr class="current">`` row — the
+          1. the edition link inside the ``<tr class="current">`` row - the
              site's own semantic marker for the effective cycle;
           2. the link whose text reads "…current version" / "aktuelle
              Ausgabe" (older / label-driven layouts);
           3. the latest edition whose date (the ``YYMMDD`` in the href) is on
              or before ``today``, falling back to the earliest listed edition
-             if — unexpectedly — every edition is still in the future.
+             if (unexpectedly) every edition is still in the future.
         """
         today = today or datetime.date.today()
         soup = self.soup(html)
 
+        # Return the first `…/YYMMDD/index.htm` edition href inside a scope
+        # (a table row or the whole page), ignoring non-edition links.
         def edition_href(scope) -> str | None:
             for a in scope.find_all("a", href=True):
                 if _EDITION_HREF_RE.search(a["href"]):
@@ -93,7 +103,8 @@ class AT(HttpCrawlerBase):
                 self.logger.info(f"Current AT edition (label): {a['href']}")
                 return urljoin(base_url, a["href"])
 
-        # 3. Date embedded in the edition href (YYMMDD).
+        # 3. Date embedded in the edition href (YYMMDD). Parse every edition
+        # link into (effective date, absolute url); skip impossible dates.
         dated: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
             m = _EDITION_HREF_RE.search(a["href"])
@@ -107,6 +118,8 @@ class AT(HttpCrawlerBase):
             dated.append((effective, urljoin(base_url, a["href"])))
 
         if dated:
+            # Prefer the newest edition already in effect; if every edition is
+            # still in the future, fall back to the earliest listed one.
             in_effect = [c for c in dated if c[0] <= today]
             effective_date, url = (
                 max(in_effect, key=lambda c: c[0])
@@ -124,15 +137,25 @@ class AT(HttpCrawlerBase):
     def extract_airports(
         self, url: str, airport_type: Literal["vfr", "ifr", "heliport"]
     ) -> list[Airport]:
+        """Parse an AD 2 / AD 3 leaf table into Airport rows.
+
+        Each aerodrome sits in a `<tr>` whose first cell links the ICAO code
+        and second cell holds the city/name; the linked href points at that
+        field's eAIP page. Rows with fewer than two cells or no first-cell
+        link are skipped (spacers/headers).
+        """
         text = self.fetch_iso(url)
         soup = self.soup(text)
         airports: list[Airport] = []
 
         for row in soup.find_all("tr"):
+            # Need at least an ICAO cell and a city cell.
             cells = row.find_all("td")
             if len(cells) < 2:
                 continue
 
+            # The ICAO cell may contain several anchors; the first carries the
+            # code text, the last carries the real destination href.
             first_links = cells[0].find_all("a")
             if not first_links:
                 continue
@@ -146,6 +169,8 @@ class AT(HttpCrawlerBase):
                 continue
 
             full_url = urljoin(url, href)
+            # title = "<city> <ICAO>"; icao normalised to None when blank so
+            # the site can slugify the title instead.
             airports.append(
                 Airport(
                     country=COUNTRY,
@@ -160,9 +185,16 @@ class AT(HttpCrawlerBase):
     # Chart-PDF extraction (recon 2026-07-12): the AD-2 page links every
     # chart as "LOWG AD 2 MAP 1-1" etc.; MAP 1-1 is the aerodrome chart.
     FETCH_PDF_URLS = True
+    # Prefer the aerodrome chart (MAP 1-1) among the AD-2 chart links.
     PDF_TEXT_PRIORITY = (r"AD 2 MAP 1-1$",)
 
     def crawl(self) -> list[Airport]:
+        """Drive the three-hop navigation and return all AT airports.
+
+        Root -> effective edition -> Part III (AD) -> AD 2 (aerodromes,
+        "vfr") + AD 3 (heliports). On any failure the last page fetched is
+        dumped via `save_response` for post-mortem before re-raising.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         last_url = ROOT_URL
         last_html: str | None = None

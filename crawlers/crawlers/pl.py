@@ -59,21 +59,21 @@ _CHARTS_TEXT_RES = (
 
 
 class PL(HttpEurocontrolBase):
-    """Poland AIP crawler — BEST-EFFORT / UNVERIFIED (no task spec).
+    """Poland AIP crawler - BEST-EFFORT / UNVERIFIED (no task spec).
 
     There is no task spec for Poland, so both the endpoint and the extraction
     rules below are assumptions modelled on the Netherlands crawler and MUST be
     validated against the live PANSA eAIP before enabling this crawler:
 
-      * ``ROOT_URL`` — the real PANSA eAIP index URL / current-edition entry
+      * ``ROOT_URL`` - the real PANSA eAIP index URL / current-edition entry
         point. PANSA may front the eAIP behind a dated-edition landing page (as
         LVNL/NATS do); if so, resolve the effective edition first (see nl.py's
         ``_resolve_edition_url``) before walking the frame chain.
-      * The frame names passed to ``follow_frame_chain`` — the standard
+      * The frame names passed to ``follow_frame_chain`` - the standard
         EUROCONTROL frameset uses ``eAISNavigationBase`` → ``eAISNavigation``,
         but this must be confirmed for the PL eAIP.
       * The menu section-id suffixes passed to
-        ``extract_airports_from_html`` — ``"AD 2en-GBdetails"`` (aerodromes) and
+        ``extract_airports_from_html`` - ``"AD 2en-GBdetails"`` (aerodromes) and
         ``"AD 3en-GBdetails"`` (heliports). Different eAIP builds vary the exact
         id text (spacing / locale suffix); adjust after inspecting a saved
         ``eAISNavigation`` document.
@@ -98,11 +98,16 @@ class PL(HttpEurocontrolBase):
         from urllib.parse import urljoin as _urljoin
 
         soup = self.soup(html)
+        # Flatten every anchor to (visible text, href) so patterns can match on
+        # either the link label or the URL.
         links = [
             (a.get_text(" ", strip=True) or "", a["href"])
             for a in soup.find_all("a", href=True)
         ]
 
+        # First definition captures `links` by closure; it is immediately
+        # shadowed once `links` is filtered below, so `pick` always sees the
+        # de-aliased list (the closure reads the outer name at call time).
         def pick(pattern: str) -> str | None:
             rx = _re.compile(pattern, _re.I)
             for text, href in links:
@@ -125,6 +130,8 @@ class PL(HttpEurocontrolBase):
                     return _urljoin(base_url, href)
             return None
 
+        # Preference order: an explicit "eAIP VFR" volume link (PL splits VFR
+        # from IFR), then any /aip/*.html link, then any e-aip html link.
         entry = (
             pick(r"e?aip[^a-z]*vfr|vfr[^a-z]*e?aip")
             or pick(r"/aip/.*\.html")
@@ -200,7 +207,15 @@ class PL(HttpEurocontrolBase):
         return base_url
 
     def _has_frames(self, html: str) -> bool:
+        """True if the page is a frameset (has a named/sourced frame or iframe).
+
+        Used to decide when the frameset-hunting walk has arrived at the
+        classic eurocontrol index page (as opposed to a redirect stub or the
+        dated-edition landing page, neither of which carries frames).
+        """
         soup = self.soup(html)
+        # A bare <frame>/<iframe> with neither name nor src is a placeholder,
+        # not the real navigation frameset - require at least one of the two.
         return any(
             f.get("name") or f.get("src")
             for f in soup.find_all(["frame", "iframe"])
@@ -213,6 +228,8 @@ class PL(HttpEurocontrolBase):
         soup = self.soup(html)
         candidates: list[str] = []
 
+        # Resolve each raw href against the current page, de-dupe against both
+        # already-visited URLs and this batch (Windows "\" separators -> "/").
         def add(raw: str) -> None:
             cand = urljoin(base_url, raw.replace("\\", "/"))
             if cand not in seen and cand not in candidates:
@@ -230,17 +247,20 @@ class PL(HttpEurocontrolBase):
         if m:
             add(m.group(1))
 
-        # 2. index*.html links, then dated AIRAC-edition links.
+        # 2. index*.html links first (the classic frameset entry), then dated
+        #    AIRAC-edition links (strip #fragment/?query before matching).
         for rx in (_INDEX_HREF_RE, _DATED_HREF_RE):
             for a in soup.find_all("a", href=True):
                 href = a["href"].split("#")[0].split("?")[0]
                 if rx.search(href.replace("\\", "/")):
                     add(a["href"])
 
-        # 3. Classic index files that may sit next to the entry page.
+        # 3. Classic index files that may sit next to the entry page even when
+        #    nothing links to them (probed relative to base_url).
         for suffix in _SIBLING_PROBES:
             add(suffix)
 
+        # Cap the fan-out so a stray page full of links cannot explode fetches.
         return candidates[:8]
 
     def _find_frameset(
@@ -256,29 +276,38 @@ class PL(HttpEurocontrolBase):
         seen: set[str] = {url}
         cur_url, cur_html = url, html
         for _ in range(hops):
+            # Already a frameset -> done.
             if self._has_frames(cur_html):
                 return cur_url, cur_html
+            # First fetchable non-frameset candidate becomes the descent target
+            # if no candidate on this level turns out to be the frameset itself.
             next_hop: tuple[str, str] | None = None
             for cand in self._frameset_candidates(cur_url, cur_html, seen):
                 seen.add(cand)
                 try:
                     cand_html = self.fetch(cand)
                 except Exception:
-                    continue
+                    continue  # unreachable candidate, try the next
                 if self._has_frames(cand_html):
                     self.logger.info(f"PL frameset found: {cand}")
                     return cand, cand_html
                 if next_hop is None:
                     next_hop = (cand, cand_html)
             if next_hop is None:
-                break
+                break  # nowhere left to descend
             self.logger.info(f"PL: no frameset yet; descending via {next_hop[0]}")
             cur_url, cur_html = next_hop
         self.logger.warning(f"PL: no frameset found within {hops} hops of {url}")
         return cur_url, cur_html
 
     def _charts_link(self, details: Tag, base_url: str) -> str | None:
-        """Pick the charts subsection link inside an AD 4 chapter."""
+        """Pick the charts subsection link inside an AD 4 chapter.
+
+        Prefers the English "CHARTS" label, then Polish "MAPY" (both link the
+        same subpage); falls back to the base class' generic charts-link finder
+        when neither label matches.
+        """
+        # Outer loop is by language so English wins over Polish when both exist.
         for rx in _CHARTS_TEXT_RES:
             for a in details.find_all("a", href=True):
                 text = a.get_text(" ", strip=True)
@@ -295,6 +324,8 @@ class PL(HttpEurocontrolBase):
         airports: list[Airport] = []
         seen: set[str] = set()
 
+        # Each airfield is a <div id="AD 4 <ICAO>en-GBdetails"> chapter; the
+        # regex both selects the divs and captures the 4-letter ICAO.
         for details in soup.find_all("div", attrs={"id": _AIRPORT_SECTION_RE}):
             match = _AIRPORT_SECTION_RE.search(details["id"])
             if not match:  # pragma: no cover - find_all already matched
@@ -306,25 +337,31 @@ class PL(HttpEurocontrolBase):
                 continue
             seen.add(icao)
 
-            # Title lives in the sibling div right before the details div.
+            # Title lives in the sibling div right before the details div;
+            # start from the ICAO and upgrade to a real name if one is found.
             title = icao
             title_div = details.find_previous_sibling("div")
             if isinstance(title_div, Tag):
                 anchors = title_div.find_all("a")
                 if anchors:
+                    # Last anchor holds the full "AD 4 <ICAO> <NAME>" label.
                     raw = anchors[-1].get_text(" ", strip=True)
                     raw = re.sub(r"\s+", " ", raw).strip()
                     # Drop hidden annotation tokens (contain ";"), the
                     # chapter prefix, and a duplicated leading ICAO.
                     raw = " ".join(t for t in raw.split() if ";" not in t)
+                    # Strip the "AD 4 <ICAO>" chapter prefix ...
                     rest = _TITLE_PREFIX_RE.sub("", raw).strip()
                     tokens = rest.split()
+                    # ... and any ICAO the prefix regex left duplicated in front.
                     if tokens and tokens[0] == icao:
                         tokens = tokens[1:]
                     rest = " ".join(tokens).strip()
+                    # Emit "<NAME> <ICAO>" so the slug/search keep the ICAO.
                     if rest:
                         title = f"{rest} {icao}"
 
+            # An airfield with no charts subsection has nothing to link to.
             charts_url = self._charts_link(details, nav_url)
             if charts_url is None:
                 self.logger.warning(f"PL: no charts link for {icao}; skipping")
@@ -357,6 +394,7 @@ class PL(HttpEurocontrolBase):
         ICAO-only titles are kept.
         """
         soup = self.soup(nav_html)
+        # Locate the AD 1 aerodrome-index subpage link in the menu.
         ad1_url = None
         for a in soup.find_all("a", href=True):
             if re.search(r"AD 1-en-GB\.html", a["href"]):
@@ -367,12 +405,14 @@ class PL(HttpEurocontrolBase):
             return
 
         index_html = self.fetch(ad1_url)
+        # Map ICAO -> airfield name by scanning the index table row by row.
         names: dict[str, str] = {}
         for tr in self.soup(index_html).find_all("tr"):
             cells = [
                 c.get_text(" ", strip=True)
                 for c in tr.find_all(["td", "th"])
             ]
+            # A data row has exactly one Polish ICAO cell (EPxx); skip the rest.
             icaos = [c for c in cells if re.fullmatch(r"EP[A-Z]{2}", c)]
             if len(icaos) != 1:
                 continue
@@ -382,9 +422,12 @@ class PL(HttpEurocontrolBase):
                     continue
                 # First cell that looks like a name (has letters, is not a
                 # page/date reference, keeps a sane length).
+                # Drop hidden annotation tokens (they contain ";").
                 cleaned = " ".join(
                     t for t in cell.split() if ";" not in t
                 ).strip()
+                # Accept only a plausible name: >=3 letters (incl. Polish
+                # diacritics), not a pure page/date reference, not overlong.
                 if (
                     re.search(r"[A-Za-zÀ-žŁłŚśŻżŹźĆćŃńÓó]{3}", cleaned)
                     and not re.fullmatch(r"[\d\s./-]+", cleaned)
@@ -400,6 +443,7 @@ class PL(HttpEurocontrolBase):
             )
             return
 
+        # Overwrite the ICAO-only titles with "<NAME> <ICAO>" where a name exists.
         enriched = 0
         for airport in airports:
             name = names.get(airport.icao or "")
@@ -415,6 +459,15 @@ class PL(HttpEurocontrolBase):
     FETCH_PDF_URLS = True
 
     def crawl(self) -> list[Airport]:
+        """Walk the PANSA hub -> entry -> frameset -> menu, emit VFR airfields.
+
+        Pipeline: resolve the eAIP volume link off the hub, hunt the classic
+        frameset a few hops in, follow the frame chain to the navigation menu,
+        then extract one airport per "AD 4 <ICAO>" chapter (with a generic
+        AD 2/AD 3 fallback). Names are backfilled from the AD 1 index and direct
+        chart PDFs attached. `last_url`/`last_html` track the furthest page
+        reached so a failure can dump useful diagnostics.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL

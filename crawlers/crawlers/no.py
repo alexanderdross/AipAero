@@ -6,7 +6,7 @@ from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "NO"
-# Avinor / IPPC eAIP entry point. BEST-EFFORT — see the class docstring:
+# Avinor / IPPC eAIP entry point. BEST-EFFORT - see the class docstring:
 # this URL is unverified and almost certainly needs adjusting once the live
 # structure of the Avinor eAIP is inspected.
 # Avinor's AIM portal lists the AIRAC editions; each edition links to
@@ -27,7 +27,7 @@ _JS_LOCATION_RE = re.compile(r"""location(?:\.href)?\s*=\s*['"]([^'"]+)['"]""", 
 
 
 class NO(HttpEurocontrolBase):
-    """Norway AIP crawler — Avinor eAIP (IPPC, https://www.ippc.no/).
+    """Norway AIP crawler - Avinor eAIP (IPPC, https://www.ippc.no/).
 
     ⚠️ BEST-EFFORT / UNVERIFIED ⚠️
     There is NO task spec for Norway. Both the entry-point URL (``ROOT_URL``)
@@ -39,7 +39,7 @@ class NO(HttpEurocontrolBase):
       1. Open the live Avinor / IPPC eAIP and confirm the real HTML entry
          point (``ROOT_URL`` may need to be a ``default.html`` that lists dated
          AIRAC editions, or a differently-named index).
-      2. Confirm the frame chain names — this assumes the standard
+      2. Confirm the frame chain names - this assumes the standard
          ``["eAISNavigationBase", "eAISNavigation"]`` frameset.
       3. Confirm the AD-section id suffixes in the navigation HTML. This
          assumes the standard ``"AD 2en-GBdetails"`` (aerodromes → vfr) and
@@ -79,6 +79,8 @@ class NO(HttpEurocontrolBase):
         today = today or datetime.date.today()
         soup = self.soup(html)
 
+        # Collect dated edition links: either the eurocontrol
+        # `YYYY_MM_DD/index.html` form OR Avinor's `YYYY-MM-DD-AIRAC` path form.
         dated: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
             m = _EDITION_DATE_RE.search(a["href"]) or _AIRAC_DATE_RE.search(
@@ -90,11 +92,12 @@ class NO(HttpEurocontrolBase):
             try:
                 effective = datetime.date(year, month, day)
             except ValueError:
-                continue
+                continue  # invalid date in the URL, ignore this link
             href = a["href"].replace("\\", "/")
             dated.append((effective, urljoin(base_url, href)))
 
         if dated:
+            # Latest edition in effect today; else the earliest future one.
             in_effect = [c for c in dated if c[0] <= today]
             effective_date, edition_url = (
                 max(in_effect, key=lambda c: c[0])
@@ -108,11 +111,13 @@ class NO(HttpEurocontrolBase):
             return edition_url
 
         # --- fallbacks: single-edition / redirect layouts --------------------
+        # (a) a bare or locale-suffixed index*.html link (no dated editions).
         for a in soup.find_all("a", href=True):
             href = a["href"].replace("\\", "/")
             if _EDITION_HREF_RE.search(href.split("?")[0].split("#")[0]):
                 return urljoin(base_url, href)
 
+        # (b) a <meta http-equiv="refresh" ...> redirect.
         meta = soup.find(
             "meta", attrs={"http-equiv": re.compile("refresh", re.I)}
         )
@@ -121,11 +126,12 @@ class NO(HttpEurocontrolBase):
             if m:
                 return urljoin(base_url, m.group(1).strip().strip("'\""))
 
+        # (c) a JS `location = "..."` redirect.
         m = _JS_LOCATION_RE.search(html)
         if m:
             return urljoin(base_url, m.group(1))
 
-        # ROOT_URL is presumably already the frameset — use it as-is.
+        # ROOT_URL is presumably already the frameset - use it as-is.
         return base_url
 
     def _extract_first(
@@ -135,7 +141,12 @@ class NO(HttpEurocontrolBase):
         id_candidates: list[str],
         category: str,
     ) -> list[Airport]:
-        """Extract a menu section, trying each candidate id in turn."""
+        """Extract a menu section, trying each candidate id in turn.
+
+        The exact section-id suffix is unverified (en-GB vs no-NO vs a bare
+        AD-2 form), so try each candidate and return the first that parses;
+        re-raise the last ValueError only if every candidate failed.
+        """
         last_error: Exception | None = None
         for menu_id in id_candidates:
             try:
@@ -143,7 +154,8 @@ class NO(HttpEurocontrolBase):
                     nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
                 )
             except ValueError as e:
-                last_error = e
+                last_error = e  # remember and fall through to the next id
+        # id_candidates is always non-empty, so a failure sets last_error.
         assert last_error is not None
         raise last_error
 
@@ -153,6 +165,13 @@ class NO(HttpEurocontrolBase):
     PDF_TEXT_PRIORITY = (r"AD 2 \w{4} 2 - 1$",)
 
     def crawl(self) -> list[Airport]:
+        """Resolve the effective AIRAC edition, then parse AD 2/AD 3 airfields.
+
+        Follows Avinor's /no/AIP/ redirect to the edition list, picks the
+        edition in effect today, prefers the English (index-en-GB) frameset,
+        follows the frame chain to the menu, and emits AD 2 aerodromes (vfr)
+        plus AD 3 heliports before attaching direct chart PDFs.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL

@@ -1,3 +1,12 @@
+"""Netherlands (LVNL) eAIP crawler.
+
+Source: LVNL publishes a static eurocontrol-style frameset eAIP at
+`eaip.lvnl.nl`. `default.html` is an edition picker listing several dated
+AIRAC editions; this crawler resolves the currently effective one by the date
+embedded in each link, walks the frame chain to the navigation menu, and reads
+the AD 2 (aerodromes) and AD 3 (heliports) sections. Pure HTML - no JS/browser.
+"""
+
 import datetime
 import re
 from urllib.parse import urljoin
@@ -13,8 +22,8 @@ ROOT_URL = "https://eaip.lvnl.nl/web/eaip/default.html"
 #   `AIRAC AMDT 06-2026_2026_06_11\index.html`
 # Note (a) the embedded effective date `YYYY_MM_DD` right before the index
 # file, and (b) the Windows-style backslash separator (plus spaces). We pick
-# the edition by date — the latest whose effective date is on or before today,
-# like the UK crawler — and normalise the backslash to "/": browsers do that
+# the edition by date - the latest whose effective date is on or before today,
+# like the UK crawler - and normalise the backslash to "/": browsers do that
 # implicitly, httpx does not, so a raw backslash would be percent-encoded into
 # a 404 URL.
 _EDITION_DATE_RE = re.compile(r"(\d{4})_(\d{2})_(\d{2})[\\/]index[^\\/]*\.html", re.I)
@@ -39,7 +48,7 @@ class NL(HttpEurocontrolBase):
                         └─ frame name=eAISNavigationBase
                             └─ frame name=eAISNavigation  ← the menu we parse
 
-    No JS execution is needed — every step resolves to a plain HTML doc.
+    No JS execution is needed - every step resolves to a plain HTML doc.
     """
 
     def __init__(self) -> None:
@@ -55,7 +64,7 @@ class NL(HttpEurocontrolBase):
 
         Primary path: read the effective date embedded in each dated edition
         link and return the latest edition already in effect on ``today``
-        (falling back to the earliest listed edition if — unexpectedly —
+        (falling back to the earliest listed edition if, unexpectedly,
         every edition is still in the future). Windows-style backslash
         separators are normalised to "/" so httpx builds a valid URL.
 
@@ -67,6 +76,7 @@ class NL(HttpEurocontrolBase):
         today = today or datetime.date.today()
         soup = self.soup(html)
 
+        # Collect (effective_date, absolute_url) for every dated edition link.
         dated: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
             m = _EDITION_DATE_RE.search(a["href"])
@@ -76,11 +86,15 @@ class NL(HttpEurocontrolBase):
             try:
                 effective = datetime.date(year, month, day)
             except ValueError:
+                # Impossible calendar date in the href - ignore this link.
                 continue
+            # Normalise the Windows backslash separator so httpx builds a URL
+            # that resolves (a raw "\" gets percent-encoded into a 404).
             href = a["href"].replace("\\", "/")
             dated.append((effective, urljoin(base_url, href)))
 
         if dated:
+            # Latest edition already in effect; else the earliest listed one.
             in_effect = [c for c in dated if c[0] <= today]
             effective_date, edition_url = (
                 max(in_effect, key=lambda c: c[0])
@@ -94,11 +108,13 @@ class NL(HttpEurocontrolBase):
             return edition_url
 
         # --- fallbacks: single-edition / redirect layouts --------------------
+        # (1) A bare / locale-suffixed index*.html link (old single-edition site).
         for a in soup.find_all("a", href=True):
             href = a["href"].replace("\\", "/")
             if _EDITION_HREF_RE.search(href.split("?")[0].split("#")[0]):
                 return urljoin(base_url, href)
 
+        # (2) A <meta http-equiv="refresh" content="0; url=..."> redirect.
         meta = soup.find(
             "meta", attrs={"http-equiv": re.compile("refresh", re.I)}
         )
@@ -107,6 +123,7 @@ class NL(HttpEurocontrolBase):
             if m:
                 return urljoin(base_url, m.group(1).strip().strip("'\""))
 
+        # (3) A `location = "..."` JS redirect (Selenium followed it; httpx does not).
         m = _JS_LOCATION_RE.search(html)
         if m:
             return urljoin(base_url, m.group(1))

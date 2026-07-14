@@ -44,7 +44,7 @@ class SE(HttpEurocontrolBase):
                             └─ frame name=eAISNavigation  ← the menu we parse
 
     UNVERIFIED, must be validated against the live site before use:
-      * ``ROOT_URL`` — the real ARO eAIP entry point / index page.
+      * ``ROOT_URL`` - the real ARO eAIP entry point / index page.
       * the frame chain names (``eAISNavigationBase`` / ``eAISNavigation``).
       * the AD section id suffixes passed to ``extract_airports_from_html``.
         These follow the eurocontrol convention (``AD 2…details`` for
@@ -52,7 +52,7 @@ class SE(HttpEurocontrolBase):
         exact locale-suffixed id string is a guess and may differ (e.g.
         ``AD 2en-GBdetails`` vs. ``AD 2sv-SEdetails``).
 
-    No JS execution is intended — every step should resolve to a plain HTML
+    No JS execution is intended - every step should resolve to a plain HTML
     document. If LFV requires JS rendering, a Playwright fallback is needed.
     """
 
@@ -79,6 +79,7 @@ class SE(HttpEurocontrolBase):
         today = today or datetime.date.today()
         soup = self.soup(html)
 
+        # Collect every dated edition link as (effective date, absolute URL).
         dated: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
             m = _EDITION_DATE_RE.search(a["href"])
@@ -88,11 +89,13 @@ class SE(HttpEurocontrolBase):
             try:
                 effective = datetime.date(year, month, day)
             except ValueError:
-                continue
+                continue  # e.g. a bogus 2026_13_40 in the URL
             href = a["href"].replace("\\", "/")
             dated.append((effective, urljoin(base_url, href)))
 
         if dated:
+            # Latest edition already in effect today; if none is yet in effect
+            # (all future-dated), fall back to the earliest listed.
             in_effect = [c for c in dated if c[0] <= today]
             effective_date, edition_url = (
                 max(in_effect, key=lambda c: c[0])
@@ -106,11 +109,13 @@ class SE(HttpEurocontrolBase):
             return edition_url
 
         # --- fallbacks: single-edition / redirect layouts --------------------
+        # (a) a bare or locale-suffixed index*.html link (no dated editions).
         for a in soup.find_all("a", href=True):
             href = a["href"].replace("\\", "/")
             if _EDITION_HREF_RE.search(href.split("?")[0].split("#")[0]):
                 return urljoin(base_url, href)
 
+        # (b) a <meta http-equiv="refresh" content="0; url=..."> redirect.
         meta = soup.find(
             "meta", attrs={"http-equiv": re.compile("refresh", re.I)}
         )
@@ -119,6 +124,7 @@ class SE(HttpEurocontrolBase):
             if m:
                 return urljoin(base_url, m.group(1).strip().strip("'\""))
 
+        # (c) a JS `location = "..."` redirect embedded in the page.
         m = _JS_LOCATION_RE.search(html)
         if m:
             return urljoin(base_url, m.group(1))
@@ -134,6 +140,8 @@ class SE(HttpEurocontrolBase):
         import re as _re
         from urllib.parse import urljoin as _urljoin
 
+        # AROWeb links the eAIP package under /content/eaip/... (the "EAIP"
+        # link) - first such anchor wins.
         rx = _re.compile(r"content/eaip/.*\.html", _re.I)
         soup = self.soup(html)
         for a in soup.find_all("a", href=True):
@@ -149,6 +157,8 @@ class SE(HttpEurocontrolBase):
         """
         from urllib.parse import urljoin as _urljoin
 
+        # Try the viewer URL itself, then the conventional eurocontrol classic
+        # index locations that IDS ships alongside the JS viewer.
         candidates = [
             edition_url,  # maybe index-v2 IS a frameset after all
             _urljoin(edition_url, "index.html"),
@@ -161,9 +171,10 @@ class SE(HttpEurocontrolBase):
             try:
                 html = self.fetch(candidate)
             except Exception:
-                continue
+                continue  # candidate doesn't exist, try the next
             last_html = html
             soup = self.soup(html)
+            # First candidate that is a real frameset wins.
             frames = soup.find_all(["frame", "iframe"])
             if any(f.get("name") or f.get("src") for f in frames):
                 self.logger.info(f"SE classic index: {candidate}")
@@ -182,6 +193,14 @@ class SE(HttpEurocontrolBase):
     PDF_HREF_PRIORITY = (r"VAC\.pdf$",)
 
     def crawl(self) -> list[Airport]:
+        """Walk the AROWeb portal -> eAIP -> edition -> frameset -> menu.
+
+        Hops from the AROWeb portal to the /content/eaip entry, picks the
+        AIRAC edition effective today, resolves the classic frameset next to
+        LFV's index-v2 JS viewer, follows the frame chain to the menu, then
+        emits AD 2 aerodromes (vfr) plus optional AD 3 heliports. Titles are
+        de-noised of the charts-subsection label and direct chart PDFs attached.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
@@ -219,7 +238,7 @@ class SE(HttpEurocontrolBase):
             last_url, last_html = nav_url, nav_html
 
             # 3. Extract aerodromes (AD 2 → vfr) and heliports (AD 3 → heliport).
-            #    Section id suffixes are UNVERIFIED — see class docstring.
+            #    Section id suffixes are UNVERIFIED - see class docstring.
             airports.extend(
                 self.extract_airports_from_html(
                     nav_html, nav_url, "AD 2en-GBdetails", "vfr"
@@ -238,7 +257,7 @@ class SE(HttpEurocontrolBase):
 
             # Strip the charts-subsection label the menu anchors embed in
             # the title text ("... 9 Visuellflygkartor / Visual flight
-            # charts ...").
+            # charts ...") and collapse the resulting whitespace.
             for airport in airports:
                 airport.title = re.sub(
                     r"\s+", " ", _TITLE_NOISE_RE.sub(" ", airport.title)

@@ -1,3 +1,13 @@
+"""Hungary (HungaroControl) eAIP crawler.
+
+Source: HungaroControl's English AIS portal at `ais-en.hungarocontrol.hu`
+lists dated AIRAC edition folders. This crawler picks the folder in effect
+today (like UK), resolves a working frameset entry inside it from a candidate
+list, and - like the BE/CZ layout - discovers airports from per-chapter ids
+("AD-2.<ICAO>details" / "AD-3.<ICAO>details") because the menu has no aggregate
+"AD 2" section. Aerodromes -> "vfr", heliports -> "heliport" (fail-soft).
+"""
+
 import datetime
 import re
 from urllib.parse import urljoin
@@ -61,11 +71,19 @@ class HU(HttpEurocontrolBase):
     def _resolve_edition_folder(
         self, html: str, today: datetime.date | None = None
     ) -> str:
+        """Pick the dated AIRAC edition folder in effect today.
+
+        Reads the `YYYY-MM-DD` date out of each edition-folder href (relative or
+        absolute) and returns the latest folder already in effect (else the
+        earliest listed), normalised to a trailing-slash absolute URL.
+        """
         today = today or datetime.date.today()
         soup = self.soup(html)
+        # Collect (effective_date, absolute_folder_url) for each dated link.
         candidates: list[tuple[datetime.date, str]] = []
         for a in soup.find_all("a", href=True):
             href = a["href"].strip()
+            # Match the date at the end of the href (trailing slash stripped).
             m = _EDITION_DATE_RE.search(href.rstrip("/"))
             if not m:
                 continue
@@ -73,11 +91,14 @@ class HU(HttpEurocontrolBase):
             try:
                 effective = datetime.date(year, month, day)
             except ValueError:
+                # Impossible calendar date in the href - ignore this link.
                 continue
+            # Normalise to an absolute folder URL with a trailing slash.
             folder = urljoin(ROOT_URL, href if href.endswith("/") else href + "/")
             candidates.append((effective, folder))
         if not candidates:
             raise ValueError(f"No dated edition folders found in {ROOT_URL}")
+        # Latest edition already in effect; else the earliest listed one.
         in_effect = [c for c in candidates if c[0] <= today]
         effective, folder = (
             max(in_effect, key=lambda c: c[0])
@@ -88,7 +109,13 @@ class HU(HttpEurocontrolBase):
         return folder
 
     def _enter_nav(self, folder: str) -> tuple[str, str]:
+        """Return (nav_url, nav_html) for the edition folder's menu frame.
+
+        The frameset entry filename and depth vary, so try each candidate index
+        file against each known frame chain and use the first that resolves.
+        """
         last_error: Exception | None = None
+        # Cross-product of candidate index files x known frame-chain depths.
         for candidate in _INDEX_CANDIDATES:
             entry = urljoin(folder, candidate)
             for chain in _FRAME_CHAINS:
@@ -100,12 +127,14 @@ class HU(HttpEurocontrolBase):
         raise last_error
 
     def crawl(self) -> list[Airport]:
+        """Resolve the current edition, enter the frameset, and list airports."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
         last_html: str | None = None
 
         try:
+            # Edition listing -> currently effective folder -> menu frame.
             root_html = self.fetch(ROOT_URL)
             last_html = root_html
             folder = self._resolve_edition_folder(root_html)
@@ -113,6 +142,8 @@ class HU(HttpEurocontrolBase):
             nav_url, nav_html = self._enter_nav(folder)
             last_url, last_html = nav_url, nav_html
 
+            # Per-chapter discovery (no aggregate "AD 2" node): AD 2 required,
+            # AD 3 heliports optional (fail-soft).
             airports.extend(
                 self.extract_airports_per_chapter(
                     nav_html, nav_url, _AD2_CHAPTER_RE, "vfr"

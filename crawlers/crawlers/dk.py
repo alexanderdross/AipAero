@@ -58,6 +58,14 @@ _MAX_CHARTS = 50
 
 
 class DK(PlaywrightCrawlerBase):
+    """Denmark crawler over the Naviair Umbraco JSON tree API.
+
+    The happy path is browserless: it walks `getnodesforparent` (see the
+    module docstring) with plain httpx down to the AD 2 / AD 3 airfield nodes.
+    Inheriting ``PlaywrightCrawlerBase`` only for the diagnostic render
+    fallback (`_render_diagnostics`) when the JSON walk finds nothing.
+    """
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
@@ -146,6 +154,8 @@ class DK(PlaywrightCrawlerBase):
             self.logger.debug(f"DK: no documents under {self._label(node)!r}")
             return None
 
+        # Collect every PDF document as a chart; remember the first ADC
+        # (Aerodrome Chart) seen - matched on the filename or its label.
         charts: list[ChartLink] = []
         adc_url: str | None = None
         for doc in docs:
@@ -153,7 +163,7 @@ class DK(PlaywrightCrawlerBase):
             if href is None:
                 continue
             url = urljoin(ROOT_URL, href)
-            name = self._label(doc) or url.rsplit("/", 1)[-1]
+            name = self._label(doc) or url.rsplit("/", 1)[-1]  # filename fallback
             if len(charts) < _MAX_CHARTS:
                 charts.append(ChartLink(name=name, url=url))
             if adc_url is None and (
@@ -167,6 +177,8 @@ class DK(PlaywrightCrawlerBase):
         # document so an airfield without a dedicated ADC still lists.
         main_url = adc_url or charts[0].url
 
+        # Last-resort ICAO: pull it from the chosen chart's filename when the
+        # label had no trailing code.
         if icao is None:
             href_match = _ICAO_IN_HREF.search(main_url)
             if href_match:
@@ -180,12 +192,18 @@ class DK(PlaywrightCrawlerBase):
             icao=icao,
             title=title,
             url=main_url,
+            # Only set pdf_url when the main link really is a PDF (it usually is).
             pdf_url=main_url if main_url.lower().endswith(".pdf") else None,
             charts=charts or None,
             type=category,
         )
 
     def _extract_section(self, section: dict, category: str) -> list[Airport]:
+        """Turn every airfield node under one AD 2/AD 3 section into Airports.
+
+        Skips chapter documents (intro/index PDFs) that sit directly under the
+        section, since those have no "Name - ICAO" label and are not fields.
+        """
         airports: list[Airport] = []
         for node in self._nodes(section.get("id", "")):
             # Chapter documents sitting DIRECTLY under the section (the AD 3.1
@@ -214,17 +232,26 @@ class DK(PlaywrightCrawlerBase):
     # ----- entry point -----------------------------------------------------
 
     def crawl(self) -> list[Airport]:
+        """Walk the JSON tree root → VFG → Part 3 → AD 2/AD 3 into Airports.
+
+        Fully fail-soft: a missing node returns whatever was gathered so far
+        (a lost step is a data gap, not a crash), and an empty VFG triggers the
+        Playwright render diagnostics so the next run sees what the API renamed.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
 
         try:
+            # WAF-friendly headers; the JSON API is open but picky about UA.
             self.use_browser_headers()
             root = self._nodes("")
             vfg = self._child_by_text(root, "VFR Flight Guide")
             if vfg is None:
+                # Root lookup failed - render the SPA to reveal the new layout.
                 self._render_diagnostics()
                 return airports
 
+            # Descend "VFG Part 3 - FLYVEPLADSER (AD)" to reach the AD sections.
             part3 = self._child_by_text(
                 self._nodes(vfg["id"]), "Part 3", "FLYVEPLADSER"
             )

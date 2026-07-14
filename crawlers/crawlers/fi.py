@@ -1,3 +1,20 @@
+"""Finland (Fintraffic ANS) eAIP crawler.
+
+Source: Fintraffic ANS publishes a eurocontrol frameset eAIP behind an
+amendment-stable `currently_effective` alias at `ais.fi`, so no edition picker
+is needed - just resolve a working index file inside that folder.
+
+FI SPECIAL CASE (chart PDFs): the AD 2.24 chart nodes are NOT in the airport's
+menu `details_div`, so the base's charts-link match cannot reach them, and the
+per-airport AD 2 sub-page the menu points at is the waypoints section (only
+WPT_LIST/FAS_DB data PDFs). Every real chart instead lives on the single
+full-aerodrome document page, numbered "1-fi-FI" for EVERY airfield. So after
+extracting the aerodrome list, `crawl()` rewrites each airport's `url` to that
+"1-fi-FI" page (see `_chart_index_url`) before `attach_pdf_urls` runs, and the
+primary pdf_url is chosen by HREF preferring the VFR visual approach chart
+(_VAC) then the aerodrome chart (_ADC).
+"""
+
 import re
 from urllib.parse import urljoin
 
@@ -57,6 +74,11 @@ class FI(HttpEurocontrolBase):
         return rewritten if n else url
 
     def _resolve_index(self) -> str:
+        """Return the first frameset index file that fetches OK under BASE_URL.
+
+        The `currently_effective` folder's index filename varies (locale
+        suffix / bare); try each candidate in order and use the first 200.
+        """
         last_error: Exception | None = None
         for candidate in _INDEX_CANDIDATES:
             url = urljoin(BASE_URL, candidate)
@@ -71,12 +93,14 @@ class FI(HttpEurocontrolBase):
         )
 
     def crawl(self) -> list[Airport]:
+        """List aerodromes/heliports, then repoint each url at its chart page."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = BASE_URL
         last_html: str | None = None
 
         try:
+            # Amendment-stable alias -> a working frameset index file.
             index_url = self._resolve_index()
             self.logger.info(f"FI edition index: {index_url}")
 
@@ -85,6 +109,7 @@ class FI(HttpEurocontrolBase):
             )
             last_url, last_html = nav_url, nav_html
 
+            # AD 2 aerodromes (required); AD 3 heliports optional (fail-soft).
             airports.extend(
                 self._extract_section(nav_html, nav_url, _AD2_SECTION_IDS, "vfr")
             )
@@ -102,6 +127,8 @@ class FI(HttpEurocontrolBase):
             # "- ENONTEKIÖ AERONAUTICAL DATA EFET" - strip the boilerplate
             # so the title is "ENONTEKIÖ EFET" (live run 29257033060).
             for airport in airports:
+                # Drop the "AERONAUTICAL DATA" boilerplate + leading "- " so the
+                # title collapses to "<place name> <ICAO>".
                 title = re.sub(
                     r"\s*AERONAUTICAL DATA", "", airport.title, flags=re.I
                 )
@@ -131,7 +158,11 @@ class FI(HttpEurocontrolBase):
         id_candidates: list[str],
         category: str,
     ) -> list[Airport]:
-        """Extract a menu section, trying each candidate id format in turn."""
+        """Extract a menu section, trying each candidate id format in turn.
+
+        eAIP menu ids vary by generator; return the first id that yields
+        airports, re-raising the last error if none matched.
+        """
         last_error: Exception | None = None
         for menu_id in id_candidates:
             try:

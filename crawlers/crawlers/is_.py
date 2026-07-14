@@ -12,9 +12,13 @@ COUNTRY = "IS"
 # frameset inside the folder.
 ROOT_URL = "https://eaip.isavia.is/"
 
+# Trailing `_YYYY_MM_DD/` on an edition folder href = its effective date.
 _EDITION_DATE_RE = re.compile(r"_(\d{4})_(\d{2})_(\d{2})/?$")
+# Frameset entry filenames to try inside the chosen edition folder, in order.
 _INDEX_CANDIDATES = ["index-en-GB.html", "index.html", "html/index-en-GB.html", "html/index.html"]
 
+# Aggregate AD 2 menu-section id variants (fallback path; the primary path
+# reads each field's own chapter - see _CHAPTER_RE below).
 _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 
 # Isavia lists each field as its own top-level chapter, in BOTH
@@ -29,8 +33,13 @@ _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 # 29264498572 emitted "BIAR | BIAR" and "BIAR | AKUREYRI - AKUREYRI 8
 # BIAR"), so extraction dedupes by ICAO and takes the title from the
 # id itself (group 2) instead of the sibling title div.
+# Match an English top-level chapter id: "AD"/"LS", then the 4-letter ICAO
+# (group 1), then the title (group 2). The `(?<!\d)` before "en-GB" rejects
+# numbered SUB-pages ("... AKUREYRI 1en-GBdetails"); the "en-GB" anchor
+# rejects the Icelandic ("is-IS") twins.
 _CHAPTER_RE = re.compile(r"^(?:AD|LS) ([A-Z]{4}) (.*?)(?<!\d)en-GBdetails$")
 
+# Frameset layouts to try when entering the nav frame (base+nav, or nav only).
 _FRAME_CHAINS = (
     ["eAISNavigationBase", "eAISNavigation"],
     ["eAISNavigation"],
@@ -54,6 +63,12 @@ class IS(HttpEurocontrolBase):
     def _resolve_edition_folder(
         self, html: str, today: datetime.date | None = None
     ) -> str:
+        """Pick the effective AIRAC edition folder from the host root listing.
+
+        Parses each `A_..._YYYY_MM_DD/` folder href into its effective date and
+        returns the latest one on/before ``today`` (falling back to the
+        earliest if all are still future, e.g. right before a cycle switch).
+        """
         today = today or datetime.date.today()
         soup = self.soup(html)
         candidates: list[tuple[datetime.date, str]] = []
@@ -67,6 +82,7 @@ class IS(HttpEurocontrolBase):
                 effective = datetime.date(year, month, day)
             except ValueError:
                 continue
+            # Normalise to a trailing-slash absolute folder URL.
             folder = urljoin(ROOT_URL, href if href.endswith("/") else href + "/")
             candidates.append((effective, folder))
         if not candidates:
@@ -90,6 +106,8 @@ class IS(HttpEurocontrolBase):
         charts link wins (document order: the parent chapter).
         """
         soup = self.soup(nav_html)
+        # Keyed by ICAO so the first (parent-chapter) div wins and the
+        # duplicate/sub-page divs for the same field are dropped.
         by_icao: dict[str, Airport] = {}
         for details in soup.find_all("div", attrs={"id": _CHAPTER_RE}):
             match = _CHAPTER_RE.search(details["id"])
@@ -98,11 +116,13 @@ class IS(HttpEurocontrolBase):
             icao = match.group(1)
             if icao in by_icao:
                 continue
+            # The parent chapter is the one that carries a charts link.
             charts_url = self._find_charts_url(details, nav_url)
             if charts_url is None:
                 # A nested duplicate may still carry the link - only
                 # warn once no div for this ICAO produced one.
                 continue
+            # Collapse whitespace in the id-derived title (group 2).
             name = " ".join(match.group(2).split())
             by_icao[icao] = Airport(
                 country=self.country,
@@ -112,6 +132,8 @@ class IS(HttpEurocontrolBase):
                 type="vfr",
             )
         if not by_icao:
+            # Nothing matched: dump the available "*details" ids so a markup
+            # change is visible in the crawl log before raising.
             candidates = sorted(
                 {
                     el["id"]
@@ -126,6 +148,13 @@ class IS(HttpEurocontrolBase):
         return list(by_icao.values())
 
     def _enter_nav(self, folder: str) -> tuple[str, str]:
+        """Enter the nav frame, trying each index filename x frame-chain combo.
+
+        The exact frameset entry file and inner-frame layout vary across
+        editions, so brute-force every (_INDEX_CANDIDATES, _FRAME_CHAINS)
+        pairing and return the first that resolves; the last error is re-raised
+        if none do.
+        """
         last_error: Exception | None = None
         for candidate in _INDEX_CANDIDATES:
             entry = urljoin(folder, candidate)
@@ -138,6 +167,12 @@ class IS(HttpEurocontrolBase):
         raise last_error
 
     def crawl(self) -> list[Airport]:
+        """Root -> effective edition folder -> nav frame -> per-chapter parse.
+
+        The per-chapter parse is primary; if it finds nothing it falls back to
+        the aggregate AD 2 section. All fields are "vfr" (NO/PL/SE convention).
+        The last page fetched is dumped on failure before re-raising.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL
@@ -151,6 +186,8 @@ class IS(HttpEurocontrolBase):
             nav_url, nav_html = self._enter_nav(folder)
             last_url, last_html = nav_url, nav_html
 
+            # Primary: one airport per AD/LS chapter. Fall back to the
+            # aggregate section if the per-chapter layout does not match.
             try:
                 airports.extend(self._extract_chapters(nav_html, nav_url))
             except ValueError as e:

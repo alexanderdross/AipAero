@@ -8,6 +8,7 @@ from crawlers.http_base import Airport, HttpCrawlerBase
 
 __all__ = ["HttpEurocontrolBase"]
 
+# The site's five airport categories; passed in by each crawler per section.
 AirportType = Literal["vfr", "ifr", "heliport", "mil", "aeroport"]
 
 # Per-chapter title anchors look like "AD 2.LKPR PRAHA/Ruzyně" - the
@@ -21,8 +22,13 @@ class HttpEurocontrolBase(HttpCrawlerBase):
     The navigation page is a single static document that lists every
     aerodrome / heliport under a tree of `<div>`s. Each entry is two
     sibling `<div>`s: the first holds the title (with the ICAO code), the
-    second holds the per-airport links — including the "Charts related to
+    second holds the per-airport links - including the "Charts related to
     an aerodrome" link we want.
+
+    Two entry points cover the two menu shapes seen in the wild:
+    ``extract_airports_from_html`` for one aggregate "AD 2/AD 3" section that
+    lists all fields, and ``extract_airports_per_chapter`` for eAIPs where each
+    aerodrome is its own top-level chapter with no aggregate section.
     """
 
     def extract_airports_from_html(
@@ -61,8 +67,10 @@ class HttpEurocontrolBase(HttpCrawlerBase):
                 f"Available *details ids: {candidates}"
             )
 
-        # Direct child <div>s only — same as the original `> div` selector.
+        # Direct child <div>s only - same as the original `> div` selector.
         menu_items = [c for c in menu_div.find_all("div", recursive=False)]
+        # Entries come as (title div, details div) pairs: zip the even-indexed
+        # divs with the odd-indexed ones. A trailing unpaired div is dropped.
         paired = list(zip(menu_items[::2], menu_items[1::2]))
         self.logger.debug(
             f"Section {id_in_menu!r}: {len(menu_items)} items, "
@@ -71,10 +79,14 @@ class HttpEurocontrolBase(HttpCrawlerBase):
 
         airports: list[Airport] = []
         for title_div, details_div in paired:
+            # _parse_pair returns None for non-airport pairs (no anchors, no
+            # charts link); those are silently skipped.
             airport = self._parse_pair(title_div, details_div, base_url, category)
             if airport is not None:
                 airports.append(airport)
 
+        # Zero airports means the section id matched but the layout changed -
+        # treat as a hard failure so the drop guard / live test catches it.
         if not airports:
             raise ValueError(
                 f"No airports found for section {id_in_menu!r} in {base_url}"
@@ -106,6 +118,7 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         soup = self.soup(html)
         airports: list[Airport] = []
 
+        # Each matching div is one aerodrome's chapter; group 1 = its ICAO code.
         for details in soup.find_all("div", attrs={"id": section_re}):
             match = section_re.search(details["id"])
             if not match:  # pragma: no cover - find_all already matched
@@ -114,11 +127,14 @@ class HttpEurocontrolBase(HttpCrawlerBase):
 
             # Title lives in the sibling div right before the details div,
             # e.g. <a>AD 2.LKPR PRAHA/Ruzyně</a>.
+            # Default to the bare ICAO; upgrade to "<name> <ICAO>" if the
+            # sibling title div yields a real name.
             title = icao
             title_div = details.find_previous_sibling("div")
             if isinstance(title_div, Tag):
                 anchors = title_div.find_all("a")
                 if anchors:
+                    # Last anchor holds the human title, e.g. "AD 2.LKPR PRAHA".
                     raw = anchors[-1].get_text(" ", strip=True)
                     raw = re.sub(r"\s+", " ", raw).strip()
                     # Drop hidden annotation tokens (contain ";") and the
@@ -132,6 +148,8 @@ class HttpEurocontrolBase(HttpCrawlerBase):
                     if rest:
                         title = f"{rest} {icao}"
 
+            # A chapter with no resolvable charts link is unusable - skip it
+            # (unlike the aggregate path, a single field missing is not fatal).
             charts_url = self._find_charts_url(details, base_url)
             if charts_url is None:
                 self.logger.warning(
@@ -172,12 +190,17 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         base_url: str,
         category: AirportType,
     ) -> Airport | None:
+        """Turn one (title div, details div) pair into an Airport, or None.
+
+        Returns None when the pair is not a real aerodrome entry: no title
+        anchor, an empty label, or no chart link in the details div.
+        """
         anchors = title_div.find_all("a")
         if not anchors:
             return None
 
         # Title: take the last <a>'s visible text (mirrors the Selenium
-        # `innerText` behaviour closely enough for this content — these
+        # `innerText` behaviour closely enough for this content - these
         # pages have no display:none nodes inside the title link).
         raw_title = anchors[-1].get_text(separator=" ", strip=True)
         raw_title = raw_title.replace("—", "")
@@ -192,6 +215,7 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         if not raw_title:
             return None
 
+        # First token is the ICAO code iff it is exactly four letters.
         parts = raw_title.split(" ")
         icao_candidate = parts[0].upper()
         if re.fullmatch(r"[A-Z]{4}", icao_candidate):
@@ -208,6 +232,7 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         if charts_url is None:
             return None
 
+        # Canonical display form is "<name> <ICAO>"; name-only when no ICAO.
         title = f"{title_rest} {icao}".strip() if icao else title_rest
         return Airport(
             country=self.country,
@@ -219,6 +244,12 @@ class HttpEurocontrolBase(HttpCrawlerBase):
 
     @staticmethod
     def _find_charts_url(details_div: Tag, base_url: str) -> str | None:
+        """Resolve the field's chart page URL from its details div, or None.
+
+        The eAIP tags the wanted link with title="Charts related to an
+        aerodrome"; when that tagging is missing we fall back to the last inner
+        link, which in this menu layout is the AD-2 charts entry.
+        """
         # Prefer the explicitly-tagged "Charts related to an aerodrome" link.
         for a in details_div.select("div a[title]"):
             title_attr = a.get("title", "")

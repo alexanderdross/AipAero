@@ -39,7 +39,7 @@ BASE_CSV = "https://davidmegginson.github.io/ourairports-data"
 # OurAirports `iso_country` codes for the countries AIP:Aero covers (UK = GB).
 COUNTRIES = {"DE", "AT", "FR", "NL", "GB", "BE", "LU", "CZ", "DK", "GR", "NO", "PL", "SE"}
 
-BATCH_SIZE = 100
+BATCH_SIZE = 100  # airports per POST to keep each request payload modest
 
 
 def _icao(row: dict[str, str]) -> str | None:
@@ -54,18 +54,26 @@ def _icao(row: dict[str, str]) -> str | None:
 
 
 def _fetch_csv(client: httpx.Client, name: str) -> list[dict[str, str]]:
+    """Download one OurAirports CSV export and parse it into a list of row dicts."""
     resp = client.get(f"{BASE_CSV}/{name}", timeout=60)
     resp.raise_for_status()
     return list(csv.DictReader(io.StringIO(resp.text)))
 
 
 def build_facts() -> list[dict[str, object]]:
+    """Join the airports/runways/frequencies CSVs into per-ICAO facts rows.
+
+    Filters to `COUNTRIES`, keys everything by ICAO, and shapes each row to
+    match the `/api/airport-facts` schema (camelCase keys, JSON-encoded
+    runway/frequency lists).
+    """
     with httpx.Client(follow_redirects=True) as client:
         airports = _fetch_csv(client, "airports.csv")
         runways = _fetch_csv(client, "runways.csv")
         freqs = _fetch_csv(client, "airport-frequencies.csv")
 
-    # ident (OurAirports airport_ident) -> ICAO, for the airports we keep.
+    # First pass over airports: keep only covered countries with a valid ICAO,
+    # and build the ident -> ICAO map the runway/frequency joins below need.
     ident_to_icao: dict[str, str] = {}
     airport_by_icao: dict[str, dict[str, str]] = {}
     for a in airports:
@@ -77,11 +85,13 @@ def build_facts() -> list[dict[str, object]]:
         ident_to_icao[a["ident"]] = icao
         airport_by_icao[icao] = a
 
+    # Group runways under their airport's ICAO, skipping closed ones.
     runways_by_icao: dict[str, list[dict]] = defaultdict(list)
     for r in runways:
         icao = ident_to_icao.get(r.get("airport_ident", ""))
         if not icao or (r.get("closed") == "1"):
             continue
+        # Runway designator: combine both ends (e.g. "07/25"), else whatever exists.
         le, he = (r.get("le_ident") or "").strip(), (r.get("he_ident") or "").strip()
         ident = "/".join(x for x in (le, he) if x) or (r.get("le_ident") or "")
         if not ident:
@@ -95,6 +105,7 @@ def build_facts() -> list[dict[str, object]]:
             }
         )
 
+    # Group frequencies under their airport's ICAO (drop rows with no MHz value).
     freqs_by_icao: dict[str, list[dict]] = defaultdict(list)
     for f in freqs:
         icao = ident_to_icao.get(f.get("airport_ident", ""))
@@ -109,6 +120,7 @@ def build_facts() -> list[dict[str, object]]:
             }
         )
 
+    # Second pass: emit one facts row per kept airport, merging its runways/freqs.
     now = int(time.time())
     facts: list[dict[str, object]] = []
     for icao, a in airport_by_icao.items():
@@ -149,6 +161,10 @@ GEO_UA = "AIP:Aero-importer/1.0 (+https://aip.aero)"
 
 
 def reverse_geocode(client: httpx.Client, lat: float, lon: float) -> dict[str, str | None]:
+    """Reverse-geocode coordinates to a street/postcode/phone dict via Nominatim.
+
+    Fail-soft: any error yields all-None so one bad lookup never aborts the run.
+    """
     try:
         resp = client.get(
             NOMINATIM,
@@ -199,7 +215,9 @@ def _api_base() -> str:
 
 
 def main() -> None:
+    """Build the facts rows and POST them to /api/airport-facts in batches."""
     api_base = _api_base()
+    # Same bearer secret as the crawlers; accept either env var name.
     api_key = os.environ.get("API_KEY") or os.environ.get("CRON_SECRET")
     if not api_key:
         raise SystemExit("Set API_KEY (or CRON_SECRET) to the website's CRON_SECRET.")
@@ -207,9 +225,11 @@ def main() -> None:
     facts = build_facts()
     print(f"Built {len(facts)} airport-facts rows; posting to {api_base}/api/airport-facts")
 
+    # Optional (slow) address backfill; off unless GEOCODE is set.
     if os.environ.get("GEOCODE"):
         geocode_facts(facts)
 
+    # POST in fixed-size batches so no single request carries the whole dataset.
     url = f"{api_base}/api/airport-facts"
     headers = {"Authorization": f"Bearer {api_key}"}
     with httpx.Client(timeout=60) as client:

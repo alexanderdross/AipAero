@@ -68,6 +68,14 @@ _META_REFRESH_RE = re.compile(
 
 
 class DE(HttpCrawlerBase):
+    """Germany crawler over DFS BasicVFR + BasicIFR.
+
+    No browser: enters each fork at its static section index page (see the
+    module docstring), walks the folder-link tree to the per-airfield leaves,
+    and stores each field's amendment-stable `myPermalink` rather than the
+    edition-specific physical URL DFS renames every AIRAC cycle.
+    """
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
@@ -110,11 +118,16 @@ class DE(HttpCrawlerBase):
         return url, html
 
     def _process_vfr(self, airports: list[Airport]) -> None:
+        """Walk the BasicVFR aerodrome + heliport indexes into ``airports``.
+
+        Each index lists letter-group folders; the group pages then list the
+        individual fields (VFR is two levels deep, unlike the flat IFR lists).
+        """
         ad_url, ad_html = self._fetch(VFR_AERODROMES_URL)
         heli_url, heli_html = self._fetch(VFR_HELIPORTS_URL)
 
         # The first 3 folder-links on the aerodromes index are AD 0 Content,
-        # AD 1 General Remarks, and the AD 2 list header — not airfields.
+        # AD 1 General Remarks, and the AD 2 list header - not airfields.
         aerodrome_links = self.folder_link_hrefs(ad_html)[3:]
         # The first heliport link is the HEL AD 3 list header, also not a field.
         heliport_links = self.folder_link_hrefs(heli_html)[1:]
@@ -136,6 +149,12 @@ class DE(HttpCrawlerBase):
         category: Literal["vfr", "heliport"],
         airports: list[Airport],
     ) -> None:
+        """Parse one VFR letter-group page into ``airports`` (fail-soft).
+
+        A failed group fetch is logged and skipped so one bad letter does not
+        empty the whole country. The field title (and its trailing ICAO) come
+        from the span inside each `<a class="folder-link">`.
+        """
         try:
             base_url, html = self._fetch(url)
         except Exception as e:
@@ -145,6 +164,7 @@ class DE(HttpCrawlerBase):
             href = el.get("href")
             if not href:
                 continue
+            # Title lives in the inner <span>; fall back to the link text.
             title_span = el.find("span")
             title = (
                 title_span.get_text(strip=True)
@@ -153,6 +173,7 @@ class DE(HttpCrawlerBase):
             )
             if not title:
                 continue
+            # ICAO is the trailing 4-letter code of the label (may be absent).
             match = _ICAO_TRAILING.search(title)
             icao = match.group(1) if match else None
 
@@ -189,6 +210,11 @@ class DE(HttpCrawlerBase):
     # ----- IFR ----------------------------------------------------------------
 
     def _process_ifr(self, airports: list[Airport]) -> None:
+        """Walk the BasicIFR AD 2 (aerodromes) + AD 3 (heliports) lists.
+
+        IFR lists are flat (one folder-link per field, no letter groups), so
+        each href goes straight to a leaf page.
+        """
         ad2_url, ad2_html = self._fetch(IFR_AERODROMES_URL)
         ad3_url, ad3_html = self._fetch(IFR_HELIPORTS_URL)
 
@@ -213,15 +239,25 @@ class DE(HttpCrawlerBase):
         category: Literal["ifr", "heliport"],
         airports: list[Airport],
     ) -> None:
+        """Parse one IFR leaf page into ``airports`` (fail-soft).
+
+        Unlike VFR, IFR leaves split the name across two elements: the city in
+        `div.headlineText.left > span` and the ICAO in
+        `a.document-link > span.document-name`. The stored title recombines them
+        ("City ICAO"); a leaf with neither is skipped.
+        """
         try:
             _, html = self._fetch(url)
         except Exception as e:
             self.logger.warning(f"Skipping IFR leaf {url}: {e}")
             return
         soup = self.soup(html)
+        # City/place name headline (left column of the leaf's title row).
         city_el = soup.select_one("div.headlineText.left > span")
         city = city_el.get_text(strip=True) if city_el else ""
         icao = ""
+        # ICAO sits inside the document link's name span; take the first
+        # 4-letter run anywhere in it.
         icao_el = soup.select_one("a.document-link > span.document-name")
         if icao_el:
             match = _ICAO_ANYWHERE.search(icao_el.get_text(strip=True))
@@ -229,7 +265,7 @@ class DE(HttpCrawlerBase):
                 icao = match.group(1)
         if not (city or icao):
             return
-        # The leaf HTML is already in hand — read its stable permalink for free.
+        # The leaf HTML is already in hand - read its stable permalink for free.
         stable_url = self._permalink_from_html(html, IFR_BASE) or url
         airports.append(
             Airport(
@@ -244,6 +280,11 @@ class DE(HttpCrawlerBase):
     # ----- entry point --------------------------------------------------------
 
     def crawl(self) -> list[Airport]:
+        """Crawl both DFS forks (VFR then IFR) into one Airport list.
+
+        Raises if the combined result is empty (a structural break worth
+        failing on); the drop guard in OutputHandler catches partial losses.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         try:

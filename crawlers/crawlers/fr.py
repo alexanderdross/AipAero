@@ -1,3 +1,22 @@
+"""France AIP crawler.
+
+Source: SIA (Service de l'Information Aeronautique, aviation-civile.gouv.fr),
+a standard eurocontrol-style eAIP frameset. Reaching the effective edition is
+multi-hop and SIA re-arranges its front page periodically, so the crawl is a
+chain of tolerant lookups rather than one fixed URL:
+
+    /plandesite  → "eAIP FRANCE" link
+                 → eAIP issues overview page (an <object data="…"> wrapper)
+                 → object document listing the dated `index-fr-FR.html` editions
+                 → pick the edition effective on/before today
+                 → follow the eurocontrol frame chain to the navigation HTML
+                 → parse the AD-2/AD-3 sections into Airport rows
+
+Civil aerodromes map to our `aeroport` type (SIA does not split VFR vs IFR the
+way we do); military aerodromes map to `mil`. Each section is parsed
+independently so a menu change in one does not empty the whole country.
+"""
+
 import datetime
 import re
 from urllib.parse import urljoin
@@ -10,7 +29,7 @@ ROOT_URL = "https://www.sia.aviation-civile.gouv.fr/plandesite"
 
 # The SIA "object" document links to the currently effective eAIP edition via
 # `…/index-fr-FR.html`. It may list more than one edition (current + upcoming),
-# so — like the NL/UK crawlers — prefer the latest edition whose date is on or
+# so - like the NL/UK crawlers - prefer the latest edition whose date is on or
 # before today. We don't know SIA's exact URL date encoding a priori, so try
 # the common ISO-ish and day-first forms; if none parses we fall back to the
 # first index link (the previous behaviour), which stays correct for a
@@ -55,7 +74,7 @@ class FR(HttpEurocontrolBase):
 
         It now lives in the site's global "AIP" header-nav dropdown; older
         layouts nested it in a `<div id="…plandesite…"><h2>AIP</h2>`. Match on
-        the link text alone so either layout works — and require an *exact*
+        the link text alone so either layout works - and require an *exact*
         "eAIP FRANCE" so we never pick up its dropdown siblings ("eAIP CAR SAM
         NAM", "eAIP PAC N/P", "eAIP RUN"), which are regions we don't crawl.
         """
@@ -71,6 +90,12 @@ class FR(HttpEurocontrolBase):
 
     @staticmethod
     def _extract_date(text: str) -> datetime.date | None:
+        """Parse the first edition date embedded in an href, or None.
+
+        Tries each shape in ``_DATE_PATTERNS`` (ISO-ish then day-first);
+        rejects impossible combinations (e.g. month 13) via the ValueError
+        from ``datetime.date`` and keeps scanning.
+        """
         for pattern in _DATE_PATTERNS:
             m = pattern.search(text)
             if not m:
@@ -140,9 +165,10 @@ class FR(HttpEurocontrolBase):
         today = today or datetime.date.today()
         soup = self.soup(html)
 
+        # Collect every `index-fr-FR.html` link with its parsed date (or None).
         candidates: list[tuple[datetime.date | None, str]] = []
         for a in soup.find_all("a", href=True):
-            href = a["href"].replace("\\", "/")
+            href = a["href"].replace("\\", "/")  # Windows-style separators appear
             if _INDEX_HREF not in href:
                 continue
             candidates.append((self._extract_date(href), urljoin(base_url, href)))
@@ -179,6 +205,8 @@ class FR(HttpEurocontrolBase):
                 f"Current-edition link ({_INDEX_HREF}) not found in {base_url}"
             )
 
+        # Prefer the newest edition already in effect (date <= today); if none
+        # is yet effective (only future editions listed), take the earliest.
         dated = [(d, u) for d, u in candidates if d is not None]
         if dated:
             in_effect = [c for c in dated if c[0] <= today]
@@ -199,11 +227,20 @@ class FR(HttpEurocontrolBase):
         return candidates[0][1]
 
     # Chart-PDF extraction (recon 2026-07-12): semantic hrefs under
-    # Cartes/<ICAO>/, e.g. AD_2_LFBA_ADC_01.pdf (aerodrome chart).
+    # Cartes/<ICAO>/, e.g. AD_2_LFBA_ADC_01.pdf (aerodrome chart). The base's
+    # attach_pdf_urls() uses these ordered regexes to pick the primary chart:
+    # the numbered ADC first, then any ADC, then the combined APDC.
     FETCH_PDF_URLS = True
     PDF_HREF_PRIORITY = (r"_ADC_01\.pdf$", r"_ADC_", r"_APDC_")
 
     def crawl(self) -> list[Airport]:
+        """Resolve the effective SIA eAIP and parse its AD-2/AD-3 sections.
+
+        Walks the /plandesite → object-doc → edition → frame-chain hops above,
+        parses each ``_SECTIONS`` menu independently (a missing section is a
+        warning, not a failure), then attaches direct chart-PDF links. On any
+        failure the last fetched page is saved for post-mortem before re-raising.
+        """
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = ROOT_URL

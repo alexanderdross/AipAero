@@ -113,10 +113,16 @@ class RS(PlaywrightCrawlerBase):
         return name[:120]
 
     def crawl(self) -> list[Airport]:
+        """Headless-render the JS-built AD page, group its per-aerodrome PDFs
+        by KEY, and emit one VFR Airport per aerodrome. A missing/unlaunchable
+        browser (PlaywrightUnavailable) or a render error fails soft (returns
+        no airports) rather than raising, since RS is a best-effort source."""
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
 
         try:
+            # ad.html is client-rendered: only after its JS runs does the DOM
+            # carry the aerodrome PDF links, so a plain fetch is not enough.
             html = self.render_html(AD_URL, wait_until="networkidle")
         except PlaywrightUnavailable as e:
             self.logger.error(f"RS: headless render unavailable: {e}")
@@ -164,6 +170,8 @@ class RS(PlaywrightCrawlerBase):
                     None,
                 )
                 primary = vac or adc or data or charts[0].url
+                # Coded fields (LYxx) get a real ICAO; uncoded ones (BLACE) have
+                # none, so icao stays None and the name/KEY carries the title.
                 icao = key if _ICAO_RE.match(key) else None
                 title = _NAMES.get(key) or icao or key.title()
                 airports.append(
