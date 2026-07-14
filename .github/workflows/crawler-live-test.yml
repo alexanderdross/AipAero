@@ -322,6 +322,17 @@ jobs:
                       if src and (".pdf" in src.lower() or "chart" in src.lower()
                                   or "wepub" in src.lower()):
                           print(f"   embed <{tag.name}> {src[:140]}")
+                  # JSON-LD duplication audit: count ld+json scripts and how
+                  # many carry each @type / @id, so a doubled WebSite /
+                  # SearchAction node (Workers render artifact) is visible.
+                  ld = soup.find_all("script", attrs={"type": "application/ld+json"})
+                  ids = re.findall(r'"@id"\s*:\s*"([^"]+)"', r.text)
+                  types = re.findall(r'"@type"\s*:\s*"([^"]+)"', r.text)
+                  import collections as _c
+                  print(f"   ld+json scripts: {len(ld)}")
+                  print(f"   @id counts: {dict(_c.Counter(ids))}")
+                  print(f"   @type counts: {dict(_c.Counter(types))}")
+                  print(f"   SearchAction occurrences: {r.text.count('SearchAction')}")
               except Exception as e:
                   print(f"   FAILED - {type(e).__name__}: {e}")
           PY
