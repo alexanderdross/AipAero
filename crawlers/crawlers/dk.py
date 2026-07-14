@@ -188,6 +188,20 @@ class DK(PlaywrightCrawlerBase):
     def _extract_section(self, section: dict, category: str) -> list[Airport]:
         airports: list[Airport] = []
         for node in self._nodes(section.get("id", "")):
+            # Chapter documents sitting DIRECTLY under the section (the AD 3.1
+            # intro/index PDF, label = its filename) are not airfields: real
+            # entries are "Name - ICAO" labelled. A direct document without a
+            # trailing ICAO in its label is skipped (run 29291960740 shipped
+            # 'EK_AD_3_1_en.pdf' as a heliport without this guard).
+            label = re.sub(r"\s*-\s*", " ", self._label(node)).strip()
+            if (
+                self._doc_href(node) is not None
+                and _ICAO_TRAILING.search(label) is None
+            ):
+                self.logger.debug(
+                    f"DK: skipping chapter document {self._label(node)!r}"
+                )
+                continue
             airport = self._airport_from_node(node, category)
             if airport is not None:
                 airports.append(airport)

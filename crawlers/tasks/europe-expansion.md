@@ -36,6 +36,7 @@ Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 | PT | 19 | 29265643933; PDF 19/19 (`_01-1_en.pdf` = ADC) |
 | HU | 8 | 29265643933; PDF 8/8 (VAC bevorzugt) |
 | SI | 4 | 29272420058 (TLS via gepinntem Intermediate, use_extra_ca); Customs LJLJ/LJMB/LJPZ + PDF-Muster wie PT (29273393673); GELAUNCHT 13.07.2026 |
+| DK | 35 | Naviair-Umbraco-JSON-API statt Playwright-DOM (Netzwerk-Capture-Fund, Runs 29289869395/29291960740/29291001169); 32 vfr + Heliports EKRB/EKRH aus AD 3, 100% pdf_url, 134 Charts; kein generischer gen12 (Naviair ist kein eurocontrol-eAIP - bespoke Recon offen); GELAUNCHT 14.07.2026 |
 
 Der CZ-Stil "ein Kapitel pro Aerodrom" ist jetzt generisch:
 `HttpEurocontrolBase.extract_airports_per_chapter()` (ICAO aus der

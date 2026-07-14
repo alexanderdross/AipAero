@@ -129,8 +129,13 @@ export const liveCountries: string[] = [
   // 4 airports) behind the pinned-intermediate TLS fix; first data
   // published via the manual crawl dispatch on launch day.
   "si",
-  // TEMPORARILY HIDDEN - crawler not yet verified against the live source:
-  // "dk",
+  // Denmark (14.07.2026): crawler rewritten onto the Naviair Umbraco JSON
+  // API and live-validated (run 29291960740 - 35 airports incl. the
+  // EKRB/EKRH hospital heliports, 100% chart coverage); first data
+  // published via the manual crawl dispatch on launch day.
+  "dk",
+  // TEMPORARILY HIDDEN - crawler not yet verified against the live source
+  // (HASP rejects even the Web Unlocker, see crawlers/recon/):
   // "gr",
 ];
 

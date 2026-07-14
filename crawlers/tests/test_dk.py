@@ -61,7 +61,12 @@ NODES: dict[object, list[dict]] = {
         _dir(100, "Anholt - EKAT"),
         _dir(101, "Esbjerg - EKEB"),
     ],
-    21: [_dir(102, "Copenhagen Heliport - EKCH")],
+    21: [
+        # Chapter intro PDF directly under the section: must be skipped
+        # (live regression - shipped as an ICAO-less "heliport").
+        _doc(211, "EK_AD_3_1_en.pdf", "/media/files/intro/EK_AD_3_1_en.pdf"),
+        _dir(102, "Copenhagen Heliport - EKCH"),
+    ],
     100: [
         _doc(200, "EK_AD_2_EKAT_VAC_en", "/charts/EK_AD_2_EKAT_VAC_en.pdf"),
         _doc(201, "EK_AD_2_EKAT_ADC_en", "/charts/EK_AD_2_EKAT_ADC_en.pdf"),
