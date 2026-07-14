@@ -34,7 +34,7 @@ Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 | LV | 12 | 29259295508; PDF 12/12 via AD-2.24-Position (29265643933) |
 | IS | 53 | 29265643933 (AD-/LS-Kapitel, Dedupe by ICAO - 106 waren systematische Doppel) |
 | PT | 19 | 29265643933; PDF 19/19 (`_01-1_en.pdf` = ADC) |
-| HU | 8 | 29265643933; PDF 8/8 (VAC bevorzugt) |
+| HU | 73 | 8 eAIP + **65 VFR-Manual** (`hu.py` `_crawl_vfr_manual`, bespoke Tabelle `ais-en.hungarocontrol.hu/vfrmanual`, PDFs auf storage.hungarocontrol.hu; 14.07.2026); PDF 73/73 |
 | SI | 4 | 29272420058 (TLS via gepinntem Intermediate, use_extra_ca); Customs LJLJ/LJMB/LJPZ + PDF-Muster wie PT (29273393673); GELAUNCHT 13.07.2026 |
 | DK | 35 | Naviair-Umbraco-JSON-API statt Playwright-DOM (Netzwerk-Capture-Fund, Runs 29289869395/29291960740/29291001169); 32 vfr + Heliports EKRB/EKRH aus AD 3, 100% pdf_url, 134 Charts; kein generischer gen12 (Naviair ist kein eurocontrol-eAIP - bespoke Recon offen); GELAUNCHT 14.07.2026 |
 
