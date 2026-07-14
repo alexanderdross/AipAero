@@ -62,6 +62,21 @@
       "description": "Panorâmica de todos os aeroportos e aeródromos de Portugal"
     }
   },
+  "HeliportPage": {
+    "title": "Máscara de pesquisa de cartas de aproximação AIP VFR HEL AD heliportos Portugal",
+    "metaTitle": "🛩️ Máscara de pesquisa de cartas de aproximação AIP VFR HEL AD heliportos Portugal",
+    "description": "Introduza o nome ou o código ICAO do aeródromo para aceder às cartas de aproximação VFR dos heliportos de Portugal (NAV Portugal)",
+    "metaDescription": "AIP VFR Portugal HEL AD Pesquise heliportos e descarregue cartas de aproximação🗺️",
+    "searchTitle": "Introduza o nome do aeródromo ou o código ICAO para aceder aos heliportos AIP VFR",
+    "searchPlaceholder": "Introduza o nome do aeródromo ou o código ICAO para aceder aos heliportos AIP VFR",
+    "resultTitle": "Cartas AIP VFR de heliportos de {airport}",
+    "resultDescription": "Cartas AIP VFR de heliportos e carta de aproximação do aeródromo de {airport}. Consulte e descarregue aqui.",
+    "breadcrumb": {
+      "name": "AIP VFR Heliportos Portugal",
+      "alternateName": "Máscara de pesquisa de cartas de aproximação AIP VFR HEL AD heliportos Portugal",
+      "description": "AIP VFR Portugal HEL AD Pesquise heliportos e descarregue cartas de aproximação"
+    }
+  },
   "VfrPage": {
     "title": "Pesquisa de cartas de aproximação AIP VFR Portugal",
     "metaTitle": "🛩️ Pesquisa de cartas de aproximação AIP VFR Portugal",

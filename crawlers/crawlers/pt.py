@@ -136,16 +136,21 @@ class PT(HttpEurocontrolBase):
             # already in the eAIP - one crawler owns country PT (the API
             # delete+inserts per country), so both publications are returned
             # together. Dedupe by ICAO, keeping the eAIP row for shared fields.
-            have = {a.icao for a in airports if a.icao}
-            evfr_added = 0
-            for a in self._crawl_evfr():
-                if a.icao and a.icao in have:
-                    continue
-                airports.append(a)
-                if a.icao:
-                    have.add(a.icao)
-                evfr_added += 1
-            self.logger.info(f"PT: merged {evfr_added} eVFR-only fields")
+            # Wrapped so a eVFR-manual failure can NEVER drop the eAIP fields
+            # (the whole VFR merge is a bonus on top of the guaranteed eAIP set).
+            try:
+                have = {a.icao for a in airports if a.icao}
+                evfr_added = 0
+                for a in self._crawl_evfr():
+                    if a.icao and a.icao in have:
+                        continue
+                    airports.append(a)
+                    if a.icao:
+                        have.add(a.icao)
+                    evfr_added += 1
+                self.logger.info(f"PT: merged {evfr_added} eVFR-only fields")
+            except Exception as e:
+                self.logger.warning(f"PT eVFR merge failed (keeping eAIP): {e}")
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)

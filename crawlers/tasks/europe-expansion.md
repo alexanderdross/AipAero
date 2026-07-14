@@ -14,7 +14,7 @@ Quellen-Klassifizierung per `probe_eaip`-Recon (Run 29256408808,
 | EE | https://eaip.eans.ee/ | Redirect auf `/<AIRAC>/html/` mit `index-en-GB.html` + `index-et.html` - klassisches eurocontrol eAIP |
 | FI | https://www.ais.fi/eaip/ | **Stabiler Pfad `/eaip/currently_effective/eAIP/`**, Dateien mit Leerzeichen (`EF-GEN 2.2-fi-FI.html`) wie LVNL |
 | IS | https://eaip.isavia.is/ | AIRAC-Editionsordner `A_06-2026_2026_06_11/` (LFV/PANSA-Ordnermuster) |
-| PT | https://ais.nav.pt/ | `eAIP_Current/eAIP_Online/eAIP/html/index.html` + separates **eVFR** (`eVFR_Current/...`) |
+| PT | https://ais.nav.pt/ | `eAIP_Current/eAIP_Online/eAIP/html/index.html` + separates **eVFR** (`eVFR_Current/eVFR_Online/eAIP/html/eAIP/LP-menu-pt-PT.html`, PT-only menu) - **eVFR jetzt gemerged** (`pt.py` `_crawl_evfr`, 14.07.2026): PT 19 -> 83 (39 vfr + 44 AD-3 heliports), 100% Chart-PDF, Heliport-Seite aktiviert |
 | HU | https://ais-en.hungarocontrol.hu/aip/ | AIRAC-Editionsordner `/aip/<YYYY-MM-DD>/` (+ eaip.zip); Edition per Datum wählen wie UK |
 
 Pro Land: `HttpEurocontrolBase`-Crawler (~40 Zeilen, Muster CZ/NL/UK),
@@ -34,7 +34,7 @@ Chart-PDF-Prioritäten per `pdf_recon`. Launch erst nach Live-Test
 | LV | 12 | 29259295508; PDF 12/12 via AD-2.24-Position (29265643933) |
 | IS | 53 | 29265643933 (AD-/LS-Kapitel, Dedupe by ICAO - 106 waren systematische Doppel) |
 | PT | 19 | 29265643933; PDF 19/19 (`_01-1_en.pdf` = ADC) |
-| HU | 8 | 29265643933; PDF 8/8 (VAC bevorzugt) |
+| HU | 73 | 8 eAIP + **65 VFR-Manual** (`hu.py` `_crawl_vfr_manual`, bespoke Tabelle `ais-en.hungarocontrol.hu/vfrmanual`, PDFs auf storage.hungarocontrol.hu; 14.07.2026); PDF 73/73 |
 | SI | 4 | 29272420058 (TLS via gepinntem Intermediate, use_extra_ca); Customs LJLJ/LJMB/LJPZ + PDF-Muster wie PT (29273393673); GELAUNCHT 13.07.2026 |
 | DK | 35 | Naviair-Umbraco-JSON-API statt Playwright-DOM (Netzwerk-Capture-Fund, Runs 29289869395/29291960740/29291001169); 32 vfr + Heliports EKRB/EKRH aus AD 3, 100% pdf_url, 134 Charts; kein generischer gen12 (Naviair ist kein eurocontrol-eAIP - bespoke Recon offen); GELAUNCHT 14.07.2026 |
 
