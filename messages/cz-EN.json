@@ -72,6 +72,21 @@
       "description": "Browse AIP IFR Czechia and download airport approach charts for free"
     }
   },
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts Czechia",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Czechia",
+    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts from the ANS CR VFR Manual, including SLZ ultralight fields.",
+    "metaDescription": "Browse AIP VFR Czechia and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Czechia",
+      "alternateName": "Index of AIP VFR and visual approach charts Czechia",
+      "description": "Browse AIP VFR Czechia and download airport approach charts for free"
+    }
+  },
   "LocaleSwitcher": {
     "label": "Switch language",
     "locale": "{locale, select, cz {🇨🇿 Čeština} en {🇬🇧 English} other {Unknown}}"
