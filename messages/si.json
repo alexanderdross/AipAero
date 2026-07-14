@@ -221,7 +221,9 @@
     "fromRight": "z desne",
     "landingDirection": "Verjetna smer pristajanja",
     "aerodromeType": "Vrsta letališča",
-    "surface": "Površina"
+    "surface": "Površina",
+    "variable": "spremenljiv",
+    "calm": "brezvetrje"
   },
   "Common": {
     "openIn": "Odpri v",

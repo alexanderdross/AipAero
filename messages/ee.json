@@ -251,7 +251,9 @@
     "fromRight": "paremalt",
     "landingDirection": "Tõenäoline maandumissuund",
     "aerodromeType": "Lennuvälja tüüp",
-    "surface": "Kate"
+    "surface": "Kate",
+    "variable": "muutlik",
+    "calm": "vaikne"
   },
   "Common": {
     "openIn": "Ava rakenduses",

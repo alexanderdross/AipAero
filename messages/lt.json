@@ -221,7 +221,9 @@
     "fromRight": "iš dešinės",
     "landingDirection": "Tikėtina tūpimo kryptis",
     "aerodromeType": "Aerodromo tipas",
-    "surface": "Danga"
+    "surface": "Danga",
+    "variable": "kintamas",
+    "calm": "štilis"
   },
   "Common": {
     "openIn": "Atidaryti su",

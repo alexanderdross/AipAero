@@ -53,8 +53,11 @@ function runwayLines(ends: RunwayEnd[]): [number, number, number, number][] {
  * the likely landing direction (the end most into wind). Client component,
  * lazy-loaded with the weather (see `AirportWeatherWind`); the compass (cardinals,
  * runways with end designators, the wind arrow and the highlighted recommended
- * landing end) is a pure-math SVG. Renders nothing without a numeric wind
- * direction (VRB is skipped) or runways.
+ * landing end) is a pure-math SVG. Shown for EVERY field that has a weather
+ * station (a METAR) and runways: a fixed numeric wind gets the full per-runway
+ * computation, a VRB/variable wind shows the compass + a "crosswind up to the
+ * wind speed" note, calm shows the compass + "calm". Renders nothing only when
+ * there is no METAR or no runways.
  */
 export function AirportWind({
   metar,
@@ -64,21 +67,29 @@ export function AirportWind({
   runways: RunwayFact[];
 }) {
   const t = useTranslations("Weather");
-  const wdir = typeof metar?.wdir === "number" ? metar.wdir : null;
-  const wspd = metar?.wspd ?? null;
-  if (wdir == null || wspd == null || wspd <= 0 || runways.length === 0)
-    return null;
+  // Owner directive: EVERY field with a weather station (a METAR) shows this
+  // box. A fixed numeric wind gets the full per-runway crosswind computation;
+  // VRB (variable) and calm winds have no defined vector, so the box still
+  // renders (compass + runways + wind state) but without per-runway numbers -
+  // for a variable wind the crosswind can reach the full wind speed on any
+  // runway, which is exactly what the note conveys.
+  if (metar == null || runways.length === 0) return null;
 
-  const winds = runwayWinds(runways, wdir, wspd);
-  if (winds.length === 0) return null;
+  const wdir = typeof metar.wdir === "number" ? metar.wdir : null;
+  const wspd = typeof metar.wspd === "number" ? metar.wspd : 0;
+  const isCalm = wspd <= 0;
+  const hasVector = wdir != null && wspd > 0; // fixed direction + speed
+  // else (!hasVector && !isCalm) = VRB / variable: moving air, no fixed vector.
 
-  const rec = recommendedLanding(winds);
+  const winds = hasVector ? runwayWinds(runways, wdir, wspd) : [];
+  const rec = hasVector && winds.length > 0 ? recommendedLanding(winds) : null;
 
   const ends = runwayEnds(runways);
   const lines = runwayLines(ends);
-  const [ax, ay] = compassPoint(C, C, R - 1, wdir); // arrow tail (wind source)
-  const [hx, hy] = compassPoint(C, C, 34, wdir); // arrow head (toward centre)
-  const [lx, ly] = compassPoint(C, C, R - 1, wdir); // wind label anchor
+  // Arrow geometry is only meaningful for a fixed vector.
+  const [ax, ay] = hasVector ? compassPoint(C, C, R - 1, wdir) : [0, 0];
+  const [hx, hy] = hasVector ? compassPoint(C, C, 34, wdir) : [0, 0];
+  const [lx, ly] = hasVector ? compassPoint(C, C, R - 1, wdir) : [0, 0];
 
   // International aviation convention: cardinals stay N/E/S/W in every locale
   // (localized letters would mislead - e.g. Czech "S" is North).
@@ -100,7 +111,13 @@ export function AirportWind({
           viewBox="0 0 240 240"
           className="h-52 w-52 flex-shrink-0"
           role="img"
-          aria-label={`${t("windComponents")} - ${t("wind")} ${wdir}° ${wspd} kt`}
+          aria-label={`${t("windComponents")} - ${t("wind")} ${
+            hasVector
+              ? `${wdir}° ${wspd} kt`
+              : isCalm
+                ? t("calm")
+                : `${t("variable")} ${wspd} kt`
+          }`}
         >
           <defs>
             <marker
@@ -187,78 +204,116 @@ export function AirportWind({
             );
           })}
 
-          {/* wind arrow (from the wind source toward the centre) + label */}
-          <line
-            x1={ax}
-            y1={ay}
-            x2={hx}
-            y2={hy}
-            stroke="#2d6a9a"
-            strokeWidth="4"
-            markerEnd="url(#wind-arrow)"
-          />
-          <text
-            x={lx}
-            y={ly < C ? ly - 8 : ly + 12}
-            textAnchor="middle"
-            fontSize="12"
-            fontWeight={600}
-            fill="#2d6a9a"
-          >
-            {wdir}° {wspd} kt
-          </text>
+          {/* wind arrow (from the wind source toward the centre) + label -
+              only for a fixed vector; VRB/calm show a centre label instead */}
+          {hasVector ? (
+            <>
+              <line
+                x1={ax}
+                y1={ay}
+                x2={hx}
+                y2={hy}
+                stroke="#2d6a9a"
+                strokeWidth="4"
+                markerEnd="url(#wind-arrow)"
+              />
+              <text
+                x={lx}
+                y={ly < C ? ly - 8 : ly + 12}
+                textAnchor="middle"
+                fontSize="12"
+                fontWeight={600}
+                fill="#2d6a9a"
+              >
+                {wdir}° {wspd} kt
+              </text>
+            </>
+          ) : (
+            <text
+              x={C}
+              y={C}
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize="12"
+              fontWeight={600}
+              fill="#2d6a9a"
+            >
+              {isCalm ? t("calm") : `${t("variable")} ${wspd} kt`}
+            </text>
+          )}
         </svg>
 
         <div className="w-full max-w-xs">
-          {rec && (
-            <p className="mb-2 text-sm">
-              <span className="text-drossgray-dark">
-                {t("landingDirection")}:{" "}
-              </span>
-              <span className="font-semibold text-green-700">{rec.ident}</span>
-            </p>
-          )}
-          <table className="w-full text-sm">
-            <tbody>
-              {winds.map((w) => {
-                const isRec = rec?.heading === w.heading;
-                return (
-                  <tr
-                    key={w.ident}
-                    className={isRec ? "font-semibold" : undefined}
-                  >
-                    <td className="py-1 pr-3 font-mono">{w.ident}</td>
-                    <td className="py-1 pr-3">
-                      <span
-                        className={
-                          w.headwind >= 0 ? "text-green-700" : "text-red-600"
-                        }
+          {!hasVector ? (
+            isCalm ? (
+              <p className="text-drossgray-dark text-sm">{t("calm")}</p>
+            ) : (
+              // Variable wind: the direction is undefined, so the crosswind on
+              // any runway can reach the full wind speed.
+              <p className="text-sm">
+                <span className="text-amber-700">
+                  {t("crosswind")} ≤ {wspd} kt
+                </span>{" "}
+                <span className="text-drossgray-dark">({t("variable")})</span>
+              </p>
+            )
+          ) : (
+            <>
+              {rec && (
+                <p className="mb-2 text-sm">
+                  <span className="text-drossgray-dark">
+                    {t("landingDirection")}:{" "}
+                  </span>
+                  <span className="font-semibold text-green-700">
+                    {rec.ident}
+                  </span>
+                </p>
+              )}
+              <table className="w-full text-sm">
+                <tbody>
+                  {winds.map((w) => {
+                    const isRec = rec?.heading === w.heading;
+                    return (
+                      <tr
+                        key={w.ident}
+                        className={isRec ? "font-semibold" : undefined}
                       >
-                        {w.headwind >= 0
-                          ? `${t("headwind")} ${w.headwind}`
-                          : `${t("tailwind")} ${Math.abs(w.headwind)}`}{" "}
-                        kt
-                      </span>
-                    </td>
-                    <td className="py-1 text-amber-700">
-                      {w.crosswind > 0 ? (
-                        <>
-                          {t("crosswind")} {w.crosswind} kt{" "}
-                          {t(
-                            w.crosswindSide === "left"
-                              ? "fromLeft"
-                              : "fromRight",
+                        <td className="py-1 pr-3 font-mono">{w.ident}</td>
+                        <td className="py-1 pr-3">
+                          <span
+                            className={
+                              w.headwind >= 0
+                                ? "text-green-700"
+                                : "text-red-600"
+                            }
+                          >
+                            {w.headwind >= 0
+                              ? `${t("headwind")} ${w.headwind}`
+                              : `${t("tailwind")} ${Math.abs(w.headwind)}`}{" "}
+                            kt
+                          </span>
+                        </td>
+                        <td className="py-1 text-amber-700">
+                          {w.crosswind > 0 ? (
+                            <>
+                              {t("crosswind")} {w.crosswind} kt{" "}
+                              {t(
+                                w.crosswindSide === "left"
+                                  ? "fromLeft"
+                                  : "fromRight",
+                              )}
+                            </>
+                          ) : (
+                            "-"
                           )}
-                        </>
-                      ) : (
-                        "-"
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </>
+          )}
         </div>
       </div>
     </section>

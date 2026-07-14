@@ -321,7 +321,9 @@
     "fromRight": "from the right",
     "landingDirection": "Likely landing direction",
     "aerodromeType": "Aerodrome type",
-    "surface": "Surface"
+    "surface": "Surface",
+    "variable": "variable",
+    "calm": "calm"
   },
   "Common": {
     "openIn": "Open in",

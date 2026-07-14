@@ -251,7 +251,9 @@
     "fromRight": "de droite",
     "landingDirection": "Direction d'atterrissage probable",
     "aerodromeType": "Type d'aérodrome",
-    "surface": "Revêtement"
+    "surface": "Revêtement",
+    "variable": "variable",
+    "calm": "calme"
   },
   "Common": {
     "openIn": "Ouvrir dans",

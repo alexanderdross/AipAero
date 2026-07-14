@@ -251,7 +251,9 @@
     "fromRight": "z prawej",
     "landingDirection": "Prawdopodobny kierunek lądowania",
     "aerodromeType": "Typ lotniska",
-    "surface": "Nawierzchnia"
+    "surface": "Nawierzchnia",
+    "variable": "zmienny",
+    "calm": "cisza"
   },
   "Common": {
     "openIn": "Otwórz w",

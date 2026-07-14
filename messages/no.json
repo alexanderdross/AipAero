@@ -251,7 +251,9 @@
     "fromRight": "fra høyre",
     "landingDirection": "Sannsynlig landingsretning",
     "aerodromeType": "Flyplasstype",
-    "surface": "Dekke"
+    "surface": "Dekke",
+    "variable": "variabel",
+    "calm": "vindstille"
   },
   "Common": {
     "openIn": "Åpne i",

@@ -251,7 +251,9 @@
     "fromRight": "oikealta",
     "landingDirection": "Todennäköinen laskusuunta",
     "aerodromeType": "Lentopaikan tyyppi",
-    "surface": "Pinta"
+    "surface": "Pinta",
+    "variable": "vaihteleva",
+    "calm": "tyyni"
   },
   "Common": {
     "openIn": "Avaa palvelussa",

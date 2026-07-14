@@ -251,7 +251,9 @@
     "fromRight": "från höger",
     "landingDirection": "Sannolik landningsriktning",
     "aerodromeType": "Flygplatstyp",
-    "surface": "Underlag"
+    "surface": "Underlag",
+    "variable": "variabel",
+    "calm": "lugnt"
   },
   "Common": {
     "openIn": "Öppna i",
