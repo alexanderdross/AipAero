@@ -38,6 +38,10 @@ on:
         description: "Space-separated URLs whose CONTENT to dump from the runner (status, title, text head, api/notam/gramet-ish links) - status-only checks let the autorouter soft-404 through"
         required: false
         default: ""
+      indexnow_test:
+        description: "Space-separated URLs to submit to IndexNow (api.indexnow.org) as an end-to-end test; prints the response + confirms the key file is served"
+        required: false
+        default: ""
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
@@ -113,6 +117,29 @@ jobs:
             code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 -L -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36" "$u" || echo "ERR")
             echo "URLCHECK $code $u"
           done
+
+      # Optional: end-to-end IndexNow test - POST the given URLs to
+      # api.indexnow.org with the public key and print the response (200/202 =
+      # accepted), and confirm the key file is served. The sandboxed agent
+      # cannot reach IndexNow/aip.aero, so this is the only place to verify the
+      # live submit path (src/lib/indexnow.ts).
+      - name: IndexNow test submit
+        if: ${{ inputs.indexnow_test != '' }}
+        continue-on-error: true
+        env:
+          URLS: ${{ inputs.indexnow_test }}
+        run: |
+          key="fae2b7dc9cfb44919eb6b358e7c4a846"
+          keycode=$(curl -sS -o /tmp/key.out -w '%{http_code}' "https://aip.aero/$key.txt") || keycode=000
+          echo "Key file https://aip.aero/$key.txt -> HTTP $keycode, content: $(cat /tmp/key.out 2>/dev/null)"
+          urllist=$(printf '"%s",' $URLS | sed 's/,$//')
+          body="{\"host\":\"aip.aero\",\"key\":\"$key\",\"keyLocation\":\"https://aip.aero/$key.txt\",\"urlList\":[$urllist]}"
+          echo "POST body: $body"
+          code=$(curl -sS -o /tmp/indexnow.out -w '%{http_code}' -X POST \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$body" https://api.indexnow.org/indexnow) || code=000
+          echo "IndexNow api.indexnow.org -> HTTP $code (200/202 = accepted)"
+          cat /tmp/indexnow.out 2>/dev/null || true
 
       # Optional: dump the CONTENT of arbitrary URLs from the runner - title,
       # text head and API-ish links. Complements the status-only check above:
