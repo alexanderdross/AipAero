@@ -22,6 +22,7 @@ from crawlers.nl import NL
 from crawlers.no import NO
 from crawlers.pl import PL
 from crawlers.pt import PT
+from crawlers.rs import RS
 from crawlers.se import SE
 from crawlers.si import SI
 from crawlers.uk import UK
@@ -53,6 +54,7 @@ COUNTRY_CRAWLERS = {
     "NO": NO,
     "PL": PL,
     "PT": PT,
+    "RS": RS,
     "SE": SE,
     "SI": SI,
 }
