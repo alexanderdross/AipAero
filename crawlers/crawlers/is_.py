@@ -31,13 +31,21 @@ def _fold(text: str) -> str:
 def _dedupe_native_ascii(name: str) -> str:
     """Isavia's chapter id repeats the field name as "<native> - <ASCII>"
     (e.g. "BÍLDUDALUR - BILDUDALUR", "AKUREYRI - AKUREYRI"); keep only the
-    native half when the two sides are the same word accent-folded, so the
-    title is not doubled. A genuinely two-part name (folded halves differ) is
-    left untouched."""
+    native half when the ASCII half is just a transliteration of it, so the
+    title is not doubled. The ASCII half can also DROP a word the native one
+    keeps ("HÖFN Í HORNAFIRÐI - HOFN HORNAFIRDI" drops the standalone "Í"), so
+    an exact fold match is too strict - collapse whenever the ASCII half's
+    folded word set is a subset of the native half's (never has extra words).
+    A genuinely two-part name (ASCII half carries a distinct word) is left
+    untouched."""
     if " - " not in name:
         return name
     left, right = name.split(" - ", 1)
-    return left.strip() if _fold(left) == _fold(right) else name
+    left_words = _fold(left).split()
+    right_words = _fold(right).split()
+    if right_words and set(right_words) <= set(left_words):
+        return left.strip()
+    return name
 
 COUNTRY = "IS"
 # Isavia lists dated edition folders on the host root (probe_eaip run

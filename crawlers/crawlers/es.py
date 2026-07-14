@@ -2,7 +2,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
-from crawlers.http_eurocontrol_base import ad21_name
+from crawlers.http_eurocontrol_base import ad21_debug_snippet, ad21_name
 
 COUNTRY = "ES"
 # ENAIRE serves the AIP as ONE static index page per language with every
@@ -73,10 +73,13 @@ class ES(HttpCrawlerBase):
                         self.soup(self.fetch(url)).get_text(" ").split()
                     )
                     name = ad21_name(text, icao)
+                    if not name:
+                        self.logger.warning(
+                            f"ES: no AD 2.1 name for {icao}; "
+                            f"markup: {ad21_debug_snippet(text)!r}"
+                        )
                 except Exception as e:  # one bad page must not abort the crawl
                     self.logger.warning(f"ES: {icao} name fetch failed: {e}")
-                if not name:
-                    self.logger.warning(f"ES: no AD 2.1 name for {icao}")
                 title = f"{name} {icao}".strip() if name else icao
 
                 airports.append(
