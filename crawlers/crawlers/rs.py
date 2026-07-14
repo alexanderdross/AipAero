@@ -173,7 +173,16 @@ class RS(PlaywrightCrawlerBase):
                 # Coded fields (LYxx) get a real ICAO; uncoded ones (BLACE) have
                 # none, so icao stays None and the name/KEY carries the title.
                 icao = key if _ICAO_RE.match(key) else None
-                title = _NAMES.get(key) or icao or key.title()
+                # Title is "Name ICAO" (the site-wide convention, e.g. "Kula
+                # LYKU") so the listing, page headline and chart button all
+                # show the full name AND the code; fall back to whichever part
+                # exists (an uncoded field is just its name; an unmapped ICAO
+                # is just the code).
+                name = _NAMES.get(key)
+                if name and icao:
+                    title = f"{name} {icao}"
+                else:
+                    title = name or icao or key.title()
                 airports.append(
                     Airport(
                         country=COUNTRY,
