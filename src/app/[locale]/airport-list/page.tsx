@@ -159,6 +159,10 @@ async function AirportLists({ locale }: { locale: string }) {
   // misses and five R2 writes - the multi-second streamed-content delay
   // Lighthouse caught on a freshly tag-busted list.
   const allAirports = await QUERIES.airportsByCountry(country);
+  // Crawl timestamp (unix seconds, null if never crawled) - threaded into the
+  // map's coords fetch URL as a cache-buster so the markers refresh per crawl
+  // (the coords endpoint's Cloudflare edge cache is not tag-invalidated).
+  const crawledAt = await QUERIES.crawlUpdatedAt(country);
   const byType = (type: Airport["type"]) =>
     allAirports.filter((a) => a.type === type);
   const vfrAirports = byType("vfr");
@@ -189,6 +193,9 @@ async function AirportLists({ locale }: { locale: string }) {
           country has no coordinates. */}
       <AirportMap
         locale={locale}
+        // Cache-bust the coords endpoint's edge cache per crawl so the map
+        // markers (and their popup titles) never lag a data change.
+        version={crawledAt ?? undefined}
         locateLabel={tCommon("locate")}
         locateErrorLabel={tCommon("locateError")}
         mapLabel={tCommon("map")}
