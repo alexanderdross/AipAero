@@ -52,12 +52,12 @@ Always run `pnpm check` before declaring a code change complete.
 
 GitHub Actions (`.github/workflows/ci.yml`) runs on every pull request to `main` and on every push to `main`. Four parallel jobs:
 
-| Job | Steps |
-| --- | --- |
-| **Website (Next.js)** | `pnpm install --frozen-lockfile` → `typecheck` → `format:check` → `lint` → i18n parity → `test` (vitest) → `audit` (high+) → `cf-build` (OpenNext Worker build) |
-| **Crawlers (Python)** | `uv lock --check` → `uv sync --frozen` → `python -m compileall` → import smoke test for all 12 country crawlers → `pytest` |
+| Job                                    | Steps                                                                                                                                                                                                                                                                                                                                              |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Website (Next.js)**                  | `pnpm install --frozen-lockfile` → `typecheck` → `format:check` → `lint` → i18n parity → `test` (vitest) → `audit` (high+) → `cf-build` (OpenNext Worker build)                                                                                                                                                                                    |
+| **Crawlers (Python)**                  | `uv lock --check` → `uv sync --frozen` → `python -m compileall` → import smoke test for all 12 country crawlers → `pytest`                                                                                                                                                                                                                         |
 | **E2E & rendered output (Playwright)** | `pnpm build` → `pnpm test:e2e` (Playwright, Chromium) against a `next start` server: rendered-output **SEO** contract (meta description in `<head>` & unique, canonical/OG/Twitter, `<main>`, `<html lang>`), **axe** accessibility, **JSON-LD** structured-data validity, user **flows** (search, locale switch, 404), and **sitemap** structure. |
-| **Lighthouse budgets (local)** | `pnpm build` → start `pnpm start` → `treosh/lighthouse-ci-action` against localhost URLs with budgets from `.lighthouserc.cjs` (SEO + a11y gate, best-practices + performance warn). |
+| **Lighthouse budgets (local)**         | `pnpm build` → start `pnpm start` → `treosh/lighthouse-ci-action` against localhost URLs with budgets from `.lighthouserc.cjs` (SEO + a11y gate, best-practices + performance warn).                                                                                                                                                               |
 
 Notes:
 
@@ -66,7 +66,7 @@ Notes:
 - **`lighthouse.yml`** stays a manual `workflow_dispatch` run against any deployed URL (`base_url` input) - e.g. a `workers.dev` preview or `aip.aero`; it shares the `.lighthouserc.cjs` budgets. PR-time Lighthouse gating is the `lighthouse` job in `ci.yml` against a local server.
 - **All 12 active crawlers are covered by the import smoke test.** They run on httpx/BeautifulSoup (DK walks the Naviair Umbraco JSON API with httpx; its Playwright render remains only as a self-diagnosing fallback); Selenium is gone - the legacy `crawler_base.py` / `eurocontrol_base.py` bases, the experimental crawlers (belgium / car_sam_nam / pac_n / pac_p / run) and the `cache_warmer.py` script were removed along with the `selenium` / `webdriver-manager` deps.
 
-To gate merges on these checks, enable branch protection on `main` in repo settings → *Branches* → *Branch protection rules* (or *Rules → Rulesets*), and mark `Website (Next.js)`, `Crawlers (Python)`, `E2E & rendered output (Playwright)` and `Lighthouse budgets (local)` as required status checks.
+To gate merges on these checks, enable branch protection on `main` in repo settings → _Branches_ → _Branch protection rules_ (or _Rules → Rulesets_), and mark `Website (Next.js)`, `Crawlers (Python)`, `E2E & rendered output (Playwright)` and `Lighthouse budgets (local)` as required status checks.
 
 ## Architecture
 
@@ -79,6 +79,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 ```
 
 ### Data Flow
+
 1. **Python crawlers** scrape AIP websites for airport data. All twelve active country crawlers run on `httpx` + BeautifulSoup. The crawler subsystem also retries transient HTTP failures with exponential backoff, and `OutputHandler` refuses to publish if the new airport count drops > 50% from the last successful run (override with `CRAWLER_FORCE_PUBLISH=1`).
 2. Crawlers POST airport data to `/api/airports` (authenticated via `CRON_SECRET` Bearer token).
 3. The API validates with Zod, enriches with slugs, then atomically deletes existing country data and inserts new data via a D1 `batch` (D1 has no interactive transactions).
@@ -229,9 +230,12 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 - **Locale detection**: enabled, cookies disabled
 - **Translation files**: `messages/<locale>.json`
 
+> The three reference tables below (Locale Mappings, Page Availability, Localized Pathnames) list the **founding five** countries as worked examples. The **live source of truth** is code, not this doc: locales/prefixes/slugs in `src/i18n/routing.ts`, per-country page types in `countryTypeAvailability`, and which countries are launched in `liveCountries` (all in `src/lib/utils.ts`). Newer countries (BE, CZ, DK, GR, NO, PL, SE, LT) follow the same shape - e.g. LT: locales `lt`/`lt-EN`, prefix `/lt/en`, VFR only, slug `/oro-uostu-sarasas-lietuva`.
+
 ### Locale Mappings
+
 | Locale | Language | Country |
-|--------|----------|---------|
+| ------ | -------- | ------- |
 | uk     | en       | uk      |
 | de     | de       | de      |
 | de-EN  | en       | de      |
@@ -243,19 +247,21 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 | at-EN  | en       | at      |
 
 ### Country-Specific Page Availability
-| Page       | UK | DE | FR | NL | AT |
-|------------|----|----|----|----|-----|
-| /vfr       | Y  | Y  | N  | Y  | Y   |
-| /ifr       | N  | Y  | N  | N  | N   |
-| /heliports | Y  | Y  | N  | Y  | Y   |
-| /military  | N  | N  | Y  | N  | N   |
-| /aeroports | N  | N  | Y  | N  | N   |
-| /airport-list | Y | Y | Y | Y  | Y   |
-| /efb       | Y  | Y  | Y  | Y  | Y   |
+
+| Page          | UK  | DE  | FR  | NL  | AT  |
+| ------------- | --- | --- | --- | --- | --- |
+| /vfr          | Y   | Y   | N   | Y   | Y   |
+| /ifr          | N   | Y   | N   | N   | N   |
+| /heliports    | Y   | Y   | N   | Y   | Y   |
+| /military     | N   | N   | Y   | N   | N   |
+| /aeroports    | N   | N   | Y   | N   | N   |
+| /airport-list | Y   | Y   | Y   | Y   | Y   |
+| /efb          | Y   | Y   | Y   | Y   | Y   |
 
 `/efb` (like `/terms`) exists for **every** locale with a uniform slug: the EFB guide (`src/app/[locale]/efb/page.tsx`, i18n namespace `EfbPage`) explains PWA install, offline saves, country packs, chart-PDF import into ForeFlight/SkyDemon & Co., the open-in hand-offs and the on-page weather briefing. Static, SSR-only, linked from the footer nav group and included in the sitemap automatically (it iterates `routing.pathnames`). Per-locale meta title/description carry the country name for uniqueness - the e2e SEO test enforces global meta-description uniqueness across the whole page matrix.
 
 ### Localized Pathnames
+
 - `/airport-list` has country-specific slugs:
   - `at`: `/flughafen-liste-oesterreich`
   - `de`: `/flughafen-liste-deutschland`
@@ -265,32 +271,44 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 
 ## Supported Countries
 
-| Country        | Code | Crawler Class | Base                  | Browser?        | AIP Source            |
-|----------------|------|---------------|-----------------------|-----------------|-----------------------|
-| Austria           | AT   | `AT`          | `HttpCrawlerBase`     | no              | Austro Control eAIP   |
-| Germany           | DE   | `DE`          | `HttpCrawlerBase`     | no              | DFS BasicVFR/BasicIFR |
-| France            | FR   | `FR`          | `HttpEurocontrolBase` | no              | SIA eAIP              |
-| Netherlands       | NL   | `NL`          | `HttpEurocontrolBase` | no              | LVNL eAIP             |
-| United Kingdom    | UK   | `UK`          | `HttpEurocontrolBase` | no              | NATS eAIP             |
-| Belgium/Luxembourg| BE   | `BE`          | `HttpEurocontrolBase` | no              | skeyes eAIP           |
-| Czechia           | CZ   | `CZ`          | `HttpEurocontrolBase` | no              | ANS CR (rlp.cz) eAIP  |
-| Denmark           | DK   | `DK`          | `PlaywrightCrawlerBase` | no (JSON API; render = diagnostic fallback only) | Naviair Umbraco JSON API |
-| Greece            | GR   | `GR`          | `HttpEurocontrolBase` | via Web Unlocker | HANSP (aisgr) eAIP    |
-| Norway            | NO   | `NO`          | `HttpEurocontrolBase` | no              | Avinor eAIP           |
-| Poland            | PL   | `PL`          | `HttpEurocontrolBase` | no              | PANSA eAIP            |
-| Sweden            | SE   | `SE`          | `HttpEurocontrolBase` | no              | LFV eAIP              |
+| Country            | Code | Crawler Class | Base                    | Browser?                                         | AIP Source                  |
+| ------------------ | ---- | ------------- | ----------------------- | ------------------------------------------------ | --------------------------- |
+| Austria            | AT   | `AT`          | `HttpCrawlerBase`       | no                                               | Austro Control eAIP         |
+| Germany            | DE   | `DE`          | `HttpCrawlerBase`       | no                                               | DFS BasicVFR/BasicIFR       |
+| France             | FR   | `FR`          | `HttpEurocontrolBase`   | no                                               | SIA eAIP                    |
+| Netherlands        | NL   | `NL`          | `HttpEurocontrolBase`   | no                                               | LVNL eAIP                   |
+| United Kingdom     | UK   | `UK`          | `HttpEurocontrolBase`   | no                                               | NATS eAIP                   |
+| Belgium/Luxembourg | BE   | `BE`          | `HttpEurocontrolBase`   | no                                               | skeyes eAIP                 |
+| Czechia            | CZ   | `CZ`          | `HttpEurocontrolBase`   | no                                               | ANS CR (rlp.cz) eAIP        |
+| Denmark            | DK   | `DK`          | `PlaywrightCrawlerBase` | no (JSON API; render = diagnostic fallback only) | Naviair Umbraco JSON API    |
+| Greece             | GR   | `GR`          | `HttpEurocontrolBase`   | via Web Unlocker                                 | HANSP (aisgr) eAIP          |
+| Norway             | NO   | `NO`          | `HttpEurocontrolBase`   | no                                               | Avinor eAIP                 |
+| Poland             | PL   | `PL`          | `HttpEurocontrolBase`   | no                                               | PANSA eAIP                  |
+| Sweden             | SE   | `SE`          | `HttpEurocontrolBase`   | no                                               | LFV eAIP                    |
+| Lithuania          | LT   | `LT`          | `HttpCrawlerBase`       | via Web Unlocker                                 | ANS Lithuania (ans.lt) eAIP |
 
-All twelve active country crawlers run on httpx (DK via Playwright); none use Selenium. The legacy Selenium bases (`crawler_base.py`, `eurocontrol_base.py`), the experimental crawlers (`belgium.py` / `car_sam_nam.py` / `pac_n.py` / `pac_p.py` / `run.py`) and the `cache_warmer.py` script have been removed, together with the `selenium` / `webdriver-manager` dependencies.
+All thirteen active country crawlers run on httpx (DK via Playwright); none use Selenium. The legacy Selenium bases (`crawler_base.py`, `eurocontrol_base.py`), the experimental crawlers (`belgium.py` / `car_sam_nam.py` / `pac_n.py` / `pac_p.py` / `run.py`) and the `cache_warmer.py` script have been removed, together with the `selenium` / `webdriver-manager` dependencies. The **LT** crawler is `HttpCrawlerBase` (not eurocontrol): the ANS Lithuania eAIP is WAF'd, so it routes through the Bright Data Web Unlocker (`BRIGHTDATA_UNLOCKER_URL`) and resolves the AIRAC edition path itself (supplements page -> `start.html` -> index -> eAIP base), then parses AD 1.3 for the ICAO list and reads per-airport `EY-AD-2-<ICAO>-en-US.html` (VAC charts preferred). LT customs is not yet verified (AD 1.3 INTL recon pending, issue #31) - OpenAIP fills it until then.
+
+**Country onboarding candidates that are paywalled / blocked (14.07.2026):** Croatia (Crocontrol) moved its eAIP behind the AIM-portal subscription on 01.01.2026 (now 401); Serbia's IFR eAIP (SMATSA) is a subscription "Order Form" too. The only free Serbian path is the **public VFR AIP** (SMATSA, a bespoke UTF-16 frameset `.../upload/vfraip/published/htm/ad.html` linking `VFR_LY_AD_2_<...>_en.pdf` under `/pdf/adr/`) - onboarding it needs its own crawler (not eurocontrol), tracked as issue #34. Ireland (IAA), Slovakia (LPS) and Greece (HANSP, captcha) are also blocked to direct httpx; GR already routes through the Web Unlocker. **Separate VFR manuals** (issue #35): several countries publish most small VFR fields in a standalone VFR manual, NOT the eurocontrol AD-2 eAIP the crawler reads - Czechia is the clearest case (its eAIP carries only ~11 IFR aerodromes). Harvesting those is a per-country VFR-manual crawler, out of scope for the eAIP crawlers.
 
 **Per-country page/type availability is data-driven** from `countryTypeAvailability` in `src/lib/utils.ts` (the single source of truth): the country landing cards (`[locale]/page.tsx` via `t.has`), the search-page `generateStaticParams`, the sitemap, the menus and the SiteNavigation schema all derive from it. The **global homepage's** country cards / hreflang links / about-text links derive from `liveCountries` x `countryMeta` (both in `src/lib/utils.ts`) - no per-country edit in `src/app/page.tsx`. Adding a country = one row in `countryTypeAvailability` + one in `countryMeta` + a GEN 1.2 customs check (run `crawler-live-test.yml` with `gen12: <CC>` - generic for eurocontrol eAIPs - and fill `customs-overrides.ts` from the output) + its two translation files (native + `-EN`; a single English locale like `uk`/`be` has no `-EN` partner) + a crawler + a `routing.ts` locale/prefix/slug entry; **launching** it (once the crawler is verified) = un-commenting its line in `liveCountries`. The BE/CZ/DK/GR crawlers follow their `crawlers/tasks/*` specs; **NO/PL/SE have no task spec - their endpoints and eAIP section ids are best-effort and must be validated against the live source before the scheduled crawl relies on them.**
 
 ## API Endpoint
 
 ### POST `/api/airports`
+
 - **Auth**: Bearer token (`CRON_SECRET` env var)
 - **Body**: Array of airport objects (validated via Zod/drizzle-zod)
   ```json
-  [{ "icao": "EDNY", "title": "Friedrichshafen", "url": "...", "type": "vfr", "country": "DE" }]
+  [
+    {
+      "icao": "EDNY",
+      "title": "Friedrichshafen",
+      "url": "...",
+      "type": "vfr",
+      "country": "DE"
+    }
+  ]
   ```
 - **Behavior**: Deletes all existing airports for the country, then bulk inserts new data
 - **Cache**: Invalidates all cache tags after insert
@@ -298,6 +316,7 @@ All twelve active country crawlers run on httpx (DK via Playwright); none use Se
 ## Server Actions
 
 ### `searchAirports` (src/server/actions.ts)
+
 - Used by `SearchInputField` client component
 - Validates: search (1-50 chars), country (2 chars), type (vfr/ifr/heliport)
 - Returns up to 5 matching airports via `QUERIES.airports()`
@@ -320,6 +339,8 @@ All twelve active country crawlers run on httpx (DK via Playwright); none use Se
 - Dynamic sitemaps per country at `/2d6a9a/sitemap/<country>.xml` (live countries only; gr excluded until its crawler is verified - dk launched 14.07.2026 on the Naviair Umbraco JSON API)
 - `/llms.txt` (llmstxt.org, GEO): LLM-friendly Markdown site summary served by `src/app/llms.txt/route.ts`, generated from `liveCountries` x `countryMeta` x `countryTypeAvailability` (launching a country updates it automatically); static, no DB. robots.txt explicitly welcomes the AI crawlers and mentions it (the obfuscated sitemap path deliberately stays out of robots.txt)
 - Sitemap index at `/2d6a9a/sitemap.xml` (rewritten from `/2d6a9a/index.xml`)
+- **Sitemap `lastmod` is the real crawl timestamp**: both the per-country sitemap (`2d6a9a/sitemap.ts`) and the sitemap index (`2d6a9a/index.xml/route.ts`) set `lastModified` from `QUERIES.crawlUpdatedAt(country)` (the `aip_aero_v4_crawl_meta` timestamp, unix seconds -> Date), falling back to the build date for not-yet-crawled countries - so search engines see a truthful last-changed date per country instead of the deploy time. Threaded through both the page entries and the per-airport entries.
+- **IndexNow** (`src/lib/indexnow.ts`, key `fae2b7dc9cfb44919eb6b358e7c4a846` served at `/<key>.txt`; `INDEXNOW_KEY` is a plain `var` in `wrangler.jsonc`): on each crawler POST, `MUTATIONS.insertAirports` pings IndexNow (Bing/Yandex) with the changed country's URLs via `ctx.waitUntil(submitCountryToIndexNow(...))` - but **only when the insert actually changed detail rows** (`if (changedDetails.length > 0)`), so an unchanged re-crawl does not ping. The submit retries 429/503 with jittered exponential backoff (`MAX_ATTEMPTS=3`, `BACKOFF_BASE_MS=3000`) - a fix for the 429 storm caused by 19 countries all pinging on the same daily schedule. See `docs/indexnow-concept.md`.
 - Canonical URLs, alternate language links + **`x-default`** (pointing at the English version) on the country/list/search pages and in the sitemap; single-locale countries (uk, be - `isSingleLocale()` in `routing.ts`) emit **no** alternates and hide the language switcher
 - `trailingSlash: true` in Next.js config
 - Static generation with `dynamicParams = false` and `generateStaticParams()`
@@ -340,11 +361,11 @@ In `src/app/[locale]/layout.tsx` (and every statically-rendered locale page), ca
 
 ### Metadata gotcha #2: streaming metadata puts `<meta>` in `<body>` on dynamic pages - `htmlLimitedBots` forces it into `<head>`
 
-Since Next.js 15.2, metadata is **streamed** by default: on **dynamically rendered** routes it is emitted at the end of the stream (inside `<body>`) and only hoisted into `<head>` by client-side React - *unless* the request's user agent matches Next's built-in `htmlLimitedBots` list (Googlebot is deliberately **not** on it, since Google renders JS). The search / airport-detail routes (`/vfr`, `/ifr`, `/heliports`, `/military`, `/aeroports`) read `searchParams` for the `?ICAO` scheme, so they are dynamic - meaning their `<meta name="description">`, OG and Twitter tags stream into `<body>`, and Lighthouse / crawlers that read the raw `<head>` see no description. `next.config.mjs` sets **`htmlLimitedBots: /.*/`** (match every UA) to disable streaming metadata and emit it blocking in `<head>` for all requests. Verified with `pnpm start` by diffing the byte offset of `<meta name="description">` against `</head>` across Googlebot / plain-Chrome / Chrome-Lighthouse user agents. Trade-off: a small TTFB increase on dynamic pages (metadata resolves before the first byte) - acceptable for these SEO pages, and static pages are unaffected.
+Since Next.js 15.2, metadata is **streamed** by default: on **dynamically rendered** routes it is emitted at the end of the stream (inside `<body>`) and only hoisted into `<head>` by client-side React - _unless_ the request's user agent matches Next's built-in `htmlLimitedBots` list (Googlebot is deliberately **not** on it, since Google renders JS). The search / airport-detail routes (`/vfr`, `/ifr`, `/heliports`, `/military`, `/aeroports`) read `searchParams` for the `?ICAO` scheme, so they are dynamic - meaning their `<meta name="description">`, OG and Twitter tags stream into `<body>`, and Lighthouse / crawlers that read the raw `<head>` see no description. `next.config.mjs` sets **`htmlLimitedBots: /.*/`** (match every UA) to disable streaming metadata and emit it blocking in `<head>` for all requests. Verified with `pnpm start` by diffing the byte offset of `<meta name="description">` against `</head>` across Googlebot / plain-Chrome / Chrome-Lighthouse user agents. Trade-off: a small TTFB increase on dynamic pages (metadata resolves before the first byte) - acceptable for these SEO pages, and static pages are unaffected.
 
-### JSON-LD gotcha: site-wide schemas live in `[locale]/layout.tsx` (inside Suspense) - do NOT move them back into pages
+### JSON-LD gotcha: site-wide schemas live in `[locale]/layout.tsx` (rendered DIRECTLY, no Suspense) + `SchemaDedupe` - do NOT move them back into pages
 
-On the Workers runtime, JSON-LD `<script>`s emitted **directly by a dynamically rendered page** (the search routes) were **duplicated** in the served HTML - the schema.org validator showed 2 elements each - while schemas rendered from the layout inside a `<Suspense>` boundary (the locale-switcher's WebPage, the gadgets' Airport) appear once. The source emits every node exactly once; the doubling is a Cloudflare/OpenNext dynamic-render artifact. Therefore the site-wide `SchemaWebsite` + `SchemaSitenav` are rendered from `src/app/[locale]/layout.tsx` inside `<Suspense>` (the global homepage, outside `[locale]`, keeps its own inline copies). Page-specific schemas (BreadcrumbList, Product, Airport, DigitalDocument) stay in the pages/gadgets.
+On the Workers runtime, JSON-LD `<script>`s emitted **directly by a dynamically rendered page** (the search routes) were **duplicated** in the served HTML - the schema.org validator showed 2 elements each. The source emits every node exactly once; the doubling is a Cloudflare/OpenNext dynamic-render artifact. Therefore the site-wide `SchemaWebsite` + `SchemaSitenav` are rendered from `src/app/[locale]/layout.tsx` (the global homepage, outside `[locale]`, keeps its own inline copies). Page-specific schemas (BreadcrumbList, Product, Airport, DigitalDocument) stay in the pages/gadgets. **These site-wide schemas are rendered DIRECTLY, NOT inside `<Suspense>`** (14.07.2026): wrapping them in a Suspense boundary made OpenNext stream them as a late chunk that client hydration re-inserted as a SECOND `<script>` in the JS-rendered DOM (the validator showed WebSite/SearchAction twice; the RAW served HTML was already correct with one node, so Googlebot's raw read was fine). They are synchronous server components, so Suspense bought nothing but that duplicate. `src/components/schema-dedupe.tsx` (`SchemaDedupe`, client) is the belt-and-braces: it removes byte-identical duplicate JSON-LD `<script>`s after hydration AND via a bounded `MutationObserver` (catches the page-emitted BreadcrumbList/Product that OpenNext can still double on dynamic routes, even if inserted late).
 
 ### LocaleSwitcher gotcha: ICU branch keys must equal the LOCALE PREFIX, not the ISO language code
 
@@ -361,8 +382,8 @@ Beyond the core search-and-link flow, the airport detail pages and the charts in
 - **Section anchors** - `src/components/section-heading.tsx`. Every gadget-box `<h2>` (Anflugkarte, Standort, Flugplatzdaten, Wetter, Windkomponenten, In der Naehe) is a self-anchor: the `id`/hash is slugified from the **localized** heading text (`#wetter` on de, `#weather` on en), with a `#` fading in on hover. Plain HTML anchor, no client JS, works in server- and client-rendered gadgets alike; zero new i18n keys.
 - **Last updated** - `src/components/last-updated.tsx`, a localized date on the charts index (`airport-list`). Prefers the **real per-country crawl timestamp** (the `aip_aero_v4_crawl_meta` table, stamped in the same atomic batch as each crawler POST by `MUTATIONS.insertAirports`, read via `QUERIES.crawlUpdatedAt` with the country tag), falling back to the build stamp (`~/lib/build-info`) for countries not yet crawled since the last deploy.
 - **Trade:Aero cross-link** - `src/lib/trade-aero.ts` + `src/components/trade-aero-cta.tsx`. Locale + country aware deep links to the sister marketplace (`https://trade.aero`), derived entirely from the locale config so new countries roll out automatically; localized CTA on the country landing page, the airport-list page (between map and listings) and all five airport-detail pages (above the weather box, via the gadgets wrapper), plus a locale-aware footer link. Followed (`rel="noopener"`) with UTM attribution. The link is plain **inline flow** (not inline-flex): with inline-flex, the external-link icon floated detached at the right edge when the copy wrapped on mobile - keep the icon as a trailing inline-block element. See `docs/trade-aero-crosslink-concept.md`.
-- **Aerodrome facts** - `src/components/airport-facts.tsx` + `src/lib/airport-facts.ts`. Embedded runways / frequencies / elevation / town / website / opening hours per ICAO, **merged** from three sources with a per-field precedence (see the `getAirportFacts` doc comment): **(1) OpenAIP** at request time when the `OPENAIP_API_KEY` secret is set (`src/lib/openaip.ts` fetch client + `src/lib/openaip-parse.ts` pure mapper, unit-tested; cached, fail-soft; richest, and the only source of fuel / PPR / opening hours / circuit direction - field names + enums verified against the authoritative public v1 schema at `api.core.openaip.net/api/schemas/response/airport/airport-schema.json`); **(2) OurAirports** base (public domain / CC0, imported into the D1 `airport_facts` table by `crawlers/import_ourairports.py` -> `POST /api/airport-facts`; the only source of `municipality` + `home_link`); **(3) AWC / NOAA** (`src/lib/awc-airport.ts`, the free no-key `aviationweather.gov` "airport" endpoint we already use for weather - an **always-on fallback** for coordinates / elevation / runways / frequencies, so the card works with no importer run and no key). **The persisted D1 row is primary** - the importer backfills the full enrichment (OpenAIP values + the OpenStreetMap postal address) into `airport_facts`, so the detail page reads values from the database instead of fetching them live per request; the live OpenAIP / AWC / Nominatim fetches are **fallbacks** for ICAOs (or fields) not yet backfilled. `airport_facts` therefore also carries `street` / `postcode` / `phone` (OSM address, backfilled with `GEOCODE=1`) and `fuel` / `opening_hours` / `ppr` / `aerodrome_type` / `restaurant` / `customs` (OpenAIP). All server-rendered; the weather + wind boxes are the only lazy (client-fetched) part. The location + aerodrome-data values also feed the enriched Airport JSON-LD (geo, address, `sameAs`, `hasMap`, `additionalProperty`).
-- **Wind components (crosswind/headwind)** - `src/components/airport-wind.tsx` + `src/lib/crosswind.ts`. A per-runway head/tail- and cross-wind breakdown computed by pure trigonometry from the field's **own** reported wind (never the nearest-station substitute) and the runway bearings (parsed from the designator, e.g. `06/24` -> 060°/240°), plus a **server-rendered compass SVG** (runway lines + wind arrow, no client JS). Renders nothing without a numeric wind direction (VRB skipped) or runways. The runways come from the merged aerodrome facts above, so AWC alone is enough to drive it.
+- **Aerodrome facts** - `src/components/airport-facts.tsx` + `src/lib/airport-facts.ts`. Embedded runways / frequencies / elevation / town / website / opening hours per ICAO, **merged** from three sources with a per-field precedence (see the `getAirportFacts` doc comment): **(1) OpenAIP** at request time when the `OPENAIP_API_KEY` secret is set (`src/lib/openaip.ts` fetch client + `src/lib/openaip-parse.ts` pure mapper, unit-tested; cached, fail-soft; richest, and the only source of fuel / PPR / opening hours / circuit direction - field names + enums verified against the authoritative public v1 schema at `api.core.openaip.net/api/schemas/response/airport/airport-schema.json`); **(2) OurAirports** base (public domain / CC0, imported into the D1 `airport_facts` table by `crawlers/import_ourairports.py` -> `POST /api/airport-facts`; the only source of `municipality` + `home_link`); **(3) AWC / NOAA** (`src/lib/awc-airport.ts`, the free no-key `aviationweather.gov` "airport" endpoint we already use for weather - an **always-on fallback** for coordinates / elevation / runways / frequencies, so the card works with no importer run and no key). **The persisted D1 row is primary** - the importer backfills the full enrichment (OpenAIP values + the OpenStreetMap postal address) into `airport_facts`, so the detail page reads values from the database instead of fetching them live per request; the live OpenAIP / AWC / Nominatim fetches are **fallbacks** for ICAOs (or fields) not yet backfilled. `airport_facts` therefore also carries `street` / `postcode` / `phone` (OSM address, backfilled with `GEOCODE=1`) and `fuel` / `opening_hours` / `ppr` / `aerodrome_type` / `restaurant` / `customs` (OpenAIP). All server-rendered; the weather + wind boxes are the only lazy (client-fetched) part. The location + aerodrome-data values also feed the enriched Airport JSON-LD (geo, address, `sameAs`, `hasMap`, `additionalProperty`). The `additionalProperty` entries are **granular** (`src/components/airport-gadgets.tsx`, 14.07.2026): **one PropertyValue per runway** (`name: "Runway 07C/25C"`) and **one per frequency SERVICE type** (`name: "TWR", value: "119.905, 124.855, 136.5"` - grouped so a field with three TWR frequencies stays one node), not a single semicolon blob - more precisely LLM-readable (GEO). No Google SEO effect either way (Airport.additionalProperty is not a rich-result field); this is a GEO/semantic-cleanliness choice.
+- **Wind components (crosswind/headwind)** - `src/components/airport-wind.tsx` + `src/lib/crosswind.ts`. A per-runway head/tail- and cross-wind breakdown computed by pure trigonometry from the field's **own** reported wind (never the nearest-station substitute) and the runway bearings (parsed from the designator, e.g. `06/24` -> 060°/240°), plus a **compass SVG** (runway lines + wind arrow). **Owner directive (14.07.2026): the box shows for EVERY field that has a weather station (a METAR) + runways** - it gates only on `metar != null && runways.length > 0`, NOT on a numeric wind. A fixed numeric wind gets the full per-runway table + arrow; a **VRB / variable** wind (very common, e.g. LOWI/EDNY report VRB) shows the compass + runways + a "crosswind ≤ wind speed (variable)" note (the direction is undefined, so the crosswind can reach the full speed on any runway); **calm** shows the compass + "calm". i18n keys `Weather.variable` / `Weather.calm` exist in every locale. The runways come from the merged aerodrome facts above, so AWC alone is enough to drive it.
 - **EFB / pilot-tool hand-offs** - `src/lib/efb-links.ts`, rendered in the contact/location box: the same field opened in SkyVector, Windy and autorouter (ICAO-keyed deep links; all patterns verified 200 from the runner via the live-test `check_urls` step). VERIFIED URL PATTERNS ONLY - same policy as the border-crossing links; app-scheme links (ForeFlight/SkyDemon) are deliberately absent (undocumented, fail silently without the app). `Common.openIn` exists in every locale.
 - **Customs overrides (AIP GEN 1.2)** - `src/lib/customs-overrides.ts`: verified customs/Airport-of-Entry values live in code and WIN over OpenAIP/D1 at read time, in the facts merge AND the map-filter flags (`airport-coords` selects `icao` for the lookup). Seeded empty until entries are verified against the national GEN 1.2 (runbook section in `docs/data-backfill-runbook.md`); a wrong customs answer is a compliance hazard - never add unverified entries.
 - **Contact address (OpenStreetMap)** - `src/lib/geocode.ts`. The contact/location box also shows a postal **address** (street/postcode/town), **coordinates** and a contact **phone**, reverse-geocoded from **OpenStreetMap (Nominatim)** server-side (cached 30 days, fail-soft, descriptive `User-Agent` per their usage policy). The wrapper geocodes the **best available coordinates** (the facts row, else the METAR station), so the address resolves even before the OurAirports importer has run; opening hours also fall back to OSM `opening_hours` when OpenAIP has none. OurAirports/OpenAIP carry no postal address.
@@ -385,22 +406,26 @@ New i18n namespaces backing these - `Weather` (incl. `decode`, `openingHours`), 
 - **shadcn/ui**: new-york style (only `input` + `skeleton` remain; NO Radix dependencies are left in the project), Lucide icons (`lucide-react` pinned to `^1.21.0` - verify icon names by import before using)
 - **CSS Variables**: Used for shadcn theme tokens (background, foreground, etc.)
 - **Dark mode**: class-based (configured but not actively used)
+- **Browserslist** (`package.json` `browserslist`): pinned to modern evergreen targets (`chrome >= 93`, `edge >= 93`, `firefox >= 92`, `safari >= 15.4`, `ios_saf >= 15.4`). Without an explicit list, Next/SWC/Lighthouse fall back to a wide default that ships legacy transpilation + polyfills; the pin keeps the JS output lean (no needless `Array.prototype` / spread polyfills) for the browsers our aviation audience actually uses. Bump the floor only with a concrete reason.
 
 ## Environment Variables
 
 ### Server-side (required)
-| Variable          | Description                     |
-|-------------------|---------------------------------|
-| CRON_SECRET       | Bearer token for API auth (Worker secret) |
-| ADSENSE_ID        | Google AdSense publisher ID     |
+
+| Variable                   | Description                                                                                                                                                                                                                                                                                |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| CRON_SECRET                | Bearer token for API auth (Worker secret)                                                                                                                                                                                                                                                  |
+| ADSENSE_ID                 | Google AdSense publisher ID                                                                                                                                                                                                                                                                |
 | OPENAIP_API_KEY (optional) | OpenAIP core API key for the embedded aerodrome-facts card (`x-openaip-api-key`); unset = OurAirports + AWC (NOAA) only. Without it the card still fills coordinates / elevation / runways / frequencies from AWC (free, no key), but loses fuel / PPR / opening hours / circuit direction |
 
 The database is a Cloudflare **D1 binding** (`DB` in `wrangler.jsonc`), not env vars. OpenNext caching uses the `NEXT_INC_CACHE_R2_BUCKET` (R2) and `NEXT_TAG_CACHE_D1` (D1) bindings. `NODE_ENV` is set as a plain `var`.
 
 ### Client-side
+
 None currently. (`NEXT_PUBLIC_BUILD_DATE` is optionally stamped at build time - see `src/lib/build-info.ts` - but read directly, not via `src/env.js`.)
 
 ### Tooling-only (Drizzle Kit push/studio against remote D1)
+
 `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_DATABASE_ID`, `CLOUDFLARE_D1_TOKEN` (read in `drizzle.config.ts`).
 
 - Env validation via `@t3-oss/env-nextjs` + Zod (src/env.js)
@@ -426,6 +451,7 @@ When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEuroc
 ## Deployment
 
 ### Cloudflare Workers (current)
+
 - Deploy with `pnpm deploy` (runs `opennextjs-cloudflare build` then `deploy`). Local end-to-end preview with `pnpm preview` (miniflare + local D1/R2).
 - One-time resource setup: `wrangler d1 create aip-aero`, `wrangler d1 create aip-aero-tag-cache`, `wrangler r2 bucket create aip-aero-inc-cache` (R2 must be enabled on the account first), then paste the returned D1 IDs into `wrangler.jsonc`. Set the secret with `wrangler secret put CRON_SECRET` (and `ADSENSE_ID`).
 - **CD:** `.github/workflows/cd.yml` (self-hosted) deploys on push to `main`: applies D1 migrations, `cf-build`, **excludes the DB-seeded lists+sitemaps from the cache seed** (see below), `opennextjs-cloudflare deploy`, then a self-healing **"Refresh + verify prerendered lists"** step. Auth via `CLOUDFLARE_API_TOKEN` (needs edit on Workers Scripts, R2 Storage, D1, and Workers Routes) and `CLOUDFLARE_ACCOUNT_ID` repo secrets.
@@ -434,6 +460,7 @@ When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEuroc
 - The GH Actions CI runs the OpenNext build (`pnpm cf-build`) - no DB needed. Cutover is preview-first: validate on a `workers.dev`/preview URL (site + crawler POST), then repoint `aip.aero` DNS.
 
 ### Docker (legacy)
+
 - Multi-stage `Dockerfile` (deps → build → runner), `docker-compose.yml` exposing `127.0.0.1:8080:3000`.
 - `next.config.mjs` sets `output: "standalone"` for this image.
 - Runs `db:push` during the Docker build.
@@ -441,7 +468,7 @@ When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEuroc
 
 ## Conventions
 
-- **Never use em-dashes (`—`) anywhere** - not in user-facing content/translations (`messages/*.json`), docs (`*.md`), code comments, or copy. Use a spaced hyphen (` - `), a comma, or parentheses instead. This is a hard style rule for the project. (Exception: a literal `"—"` used as functional parsing data in code, e.g. `str.replace("—", "")` in the crawler base, is not prose and must be left as-is.)
+- **Never use em-dashes (`—`) anywhere** - not in user-facing content/translations (`messages/*.json`), docs (`*.md`), code comments, or copy. Use a spaced hyphen (`-`), a comma, or parentheses instead. This is a hard style rule for the project. (Exception: a literal `"—"` used as functional parsing data in code, e.g. `str.replace("—", "")` in the crawler base, is not prose and must be left as-is.)
 - Prefer editing existing files over creating new ones; do not add new top-level docs unless asked.
 - Keep components colocated under `src/components`; primitives go in `src/components/ui`.
 - Server-only logic belongs under `src/server` (`"use server"` actions, DB access, secrets).
@@ -465,7 +492,7 @@ When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEuroc
 - France uses `aeroport` and `mil` types instead of `vfr`/`ifr`/`heliport`
 - The sitemap path `/2d6a9a/` is intentionally obfuscated
 - Airport detail URLs use search param keys without values: `/vfr?ICAO-CODE` not `/vfr?code=ICAO-CODE`. This `?ICAO` scheme is an **intentional SEO strategy** - never convert it to path segments, and keep these URLs in the multilingual sitemap (see SEO section).
-- Locale pages lose their meta description / OG tags if `setRequestLocale(locale)` runs *after* `getMessages()`/`getTranslations()` - it forces dynamic rendering and OpenNext/Workers then serves the page without prerendered `<head>` metadata (see SEO section).
+- Locale pages lose their meta description / OG tags if `setRequestLocale(locale)` runs _after_ `getMessages()`/`getTranslations()` - it forces dynamic rendering and OpenNext/Workers then serves the page without prerendered `<head>` metadata (see SEO section).
 - Locale `uk` means United Kingdom (not Ukrainian) - it's the default locale
 - The `slug` field is auto-generated: uses ICAO code if available, otherwise slugified title
 - The `searchAirports` server action only supports types `vfr`, `ifr`, `heliport` (not `mil` or `aeroport`)
