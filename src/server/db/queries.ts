@@ -29,6 +29,11 @@ const REVALIDATE_SECONDS = 60 * 60 * 24;
 // The facts columns (fuel/customs/runways, raw D1 values) are only selected by
 // `airportsWithCoords` - they feed the map filters - and stay absent on the
 // bounding-box "nearby" query.
+// The airport-list / sitemap / airport-urls rows: a full airport row minus the
+// heavy `charts` JSON (only the detail page needs charts). Keeping charts out
+// of the per-country cached read is a memory guard - see `airportsByCountry`.
+export type AirportListRow = Omit<Airport, "charts">;
+
 export type AirportCoord = {
   slug: string;
   title: string;
@@ -247,8 +252,16 @@ export const QUERIES = {
         db.query.airports.findMany({
           where: eq(airports.country, country),
           orderBy: [asc(airports.title)],
+          // NEVER load `charts` here: the list page, the sitemap and
+          // /api/airport-urls do not use it, and the per-field chart JSON (up
+          // to 50 charts/field) is large - pulling the whole country's charts
+          // into this single cached read bloated the render and broke the ES
+          // list (only-map-no-list, the Error-1102 memory variant: ES alone
+          // carries ~940 chart objects). Charts belong only on the detail page
+          // (QUERIES.airport, one row).
+          columns: { charts: false },
         }),
-      [] as Airport[],
+      [] as AirportListRow[],
     );
   },
   airportsWithCoords: function (country: string) {
