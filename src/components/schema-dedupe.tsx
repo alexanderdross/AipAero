@@ -14,8 +14,11 @@ import { useEffect } from "react";
 // schemas with different content are never touched. Googlebot and the
 // validator render JavaScript, so they see the deduplicated DOM.
 //
-// Runs after hydration and again after `load` (+ a grace delay) to catch
-// late-streamed Suspense content.
+// Runs after hydration, and a bounded MutationObserver then catches any
+// late-streamed/late-hydrated duplicate as soon as it is inserted (the timed
+// pass alone could miss a Suspense chunk that lands after its delay). The
+// observer disconnects after a short window - all JSON-LD is in the DOM well
+// before then, and a permanent observer would cost on every later DOM change.
 function dedupe() {
   const seen = new Set<string>();
   document
@@ -31,9 +34,21 @@ function dedupe() {
 export function SchemaDedupe() {
   useEffect(() => {
     dedupe();
-    const late = () => setTimeout(dedupe, 1500);
-    if (document.readyState === "complete") late();
-    else window.addEventListener("load", late, { once: true });
+    const observer = new MutationObserver(() => dedupe());
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+    // Bound the observer: JSON-LD is fully present well within a few seconds;
+    // a final sweep on disconnect covers anything that landed at the edge.
+    const stop = setTimeout(() => {
+      dedupe();
+      observer.disconnect();
+    }, 6000);
+    return () => {
+      clearTimeout(stop);
+      observer.disconnect();
+    };
   }, []);
   return null;
 }

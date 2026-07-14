@@ -87,6 +87,14 @@
     "initVersion": "7.38.1"
   },
   "packageManager": "pnpm@10.8.1",
+  "//browserslist": "Modern target so Next/SWC stops injecting polyfills for Array.prototype.at/flat/flatMap, Object.fromEntries/hasOwn, String.prototype.trimStart/trimEnd (Lighthouse 'Legacy JavaScript', ~12 KiB on the detail-page chunk). These features all shipped by Chrome 93 / Safari 15.4 / Firefox 92 (2021-2022), well below any active 2026 browser.",
+  "browserslist": [
+    "chrome >= 93",
+    "edge >= 93",
+    "firefox >= 92",
+    "safari >= 15.4",
+    "ios_saf >= 15.4"
+  ],
   "pnpm": {
     "overrides": {
       "esbuild@<0.28.1": ">=0.28.1",
