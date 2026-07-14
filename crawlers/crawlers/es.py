@@ -3,6 +3,7 @@ from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
 from crawlers.http_eurocontrol_base import ad21_debug_snippet, ad21_name
+from crawlers.models import ChartLink
 
 COUNTRY = "ES"
 # ENAIRE serves the AIP as ONE static index page per language with every
@@ -19,6 +20,31 @@ _AD2_HREF_RE = re.compile(
     r"contenido_AIP/AD/[^\"']*AD[_\- ]?2[_\- ]([A-Z]{4})[^\"']*_en\.html",
     re.I,
 )
+
+# The AD 2.24 chart PDFs are siblings of the AD-2 text page in the index (ES
+# DEBUG recon run 29346896167): `LE_AD_2_<ICAO>_<TYPE>_<N>_en.pdf` where TYPE
+# is a chart designator (ADC aerodrome chart, VAC visual approach, GMC ground
+# movement, APDC/PDC parking, AOC obstacle, PATC, SID, STAR, IAC...). The bare
+# `LE_AD_2_<ICAO>_en.pdf` (the full AD-2 document, no TYPE) is deliberately not
+# matched - it is not a single chart.
+_CHART_HREF_RE = re.compile(
+    r"contenido_AIP/AD/[^\"']*/LE_AD_2_([A-Z]{4})_([A-Z]{2,8})_(\d+)_en\.pdf$",
+    re.I,
+)
+# Primary chart preference: the visual approach chart first (VFR site), then
+# the aerodrome chart, then ground-movement/parking, else the first captured.
+_CHART_PRIORITY = ("VAC", "ADC", "GMC", "APDC", "PDC", "AOC")
+_MAX_CHARTS = 50  # cap per field (the API stores at most 50)
+
+
+def _pick_primary(charts: list[ChartLink]) -> str | None:
+    """The most relevant chart URL for the detail page's chart box, by
+    designation preference (VAC -> ADC -> ...), else the first captured."""
+    for pref in _CHART_PRIORITY:
+        for c in charts:
+            if c.name.upper().startswith(pref):
+                return c.url
+    return charts[0].url if charts else None
 
 
 class ES(HttpCrawlerBase):
@@ -49,15 +75,20 @@ class ES(HttpCrawlerBase):
             last_html = html
             soup = self.soup(html)
 
-            # TEMP DEBUG (ES chart-PDF recon): what PDFs does the index link?
-            _all = [a["href"] for a in soup.find_all("a", href=True)]
-            _pdf = [h for h in _all if ".pdf" in h.lower()]
-            _leco = [h for h in _all if "LECO" in h.upper()]
-            self.logger.info(
-                f"ES DEBUG: {len(_all)} total links, {len(_pdf)} pdf links. "
-                f"pdf sample: {_pdf[:25]}"
-            )
-            self.logger.info(f"ES DEBUG: LECO links ({len(_leco)}): {_leco[:25]}")
+            # Collect every AD 2.24 chart PDF per ICAO from the index in one
+            # pass (the charts are siblings of the AD-2 text page, so no extra
+            # fetch per field is needed). Order-stable, deduped, capped.
+            charts_by_icao: dict[str, list[ChartLink]] = {}
+            for a in soup.find_all("a", href=True):
+                cm = _CHART_HREF_RE.search(a["href"])
+                if not cm:
+                    continue
+                ic = cm.group(1).upper()
+                designation = f"{cm.group(2).upper()} {cm.group(3)}"  # "ADC 1"
+                curl = urljoin(ROOT_URL, a["href"])
+                lst = charts_by_icao.setdefault(ic, [])
+                if len(lst) < _MAX_CHARTS and all(c.url != curl for c in lst):
+                    lst.append(ChartLink(name=designation, url=curl))
 
             # The index links each AD 2 section many times (charts, text, ...);
             # `seen` keeps only the first hit per ICAO so a field lists once.
@@ -92,21 +123,25 @@ class ES(HttpCrawlerBase):
                     self.logger.warning(f"ES: {icao} name fetch failed: {e}")
                 title = f"{name} {icao}".strip() if name else icao
 
+                # Attach the field's AD 2.24 chart PDFs (from the index pass);
+                # the primary is the direct chart-box link (VAC/ADC preferred).
+                charts = charts_by_icao.get(icao) or []
                 airports.append(
                     Airport(
                         country=self.country,
                         icao=icao,
                         title=title,
                         url=url,
+                        pdf_url=_pick_primary(charts),
+                        charts=charts or None,
                         type="vfr",
                     )
                 )
 
             if not airports:
                 raise ValueError(f"No AD 2 links found in {ROOT_URL}")
-
-            # Stage 2: capture direct chart-PDF links (fail-soft per field).
-            self.attach_pdf_urls(airports)
+            pdf_n = sum(1 for a in airports if a.pdf_url)
+            self.logger.info(f"ES: chart-PDF coverage {pdf_n}/{len(airports)}")
         except Exception as e:
             self.logger.error(f"ES crawl failed: {e}")
             if last_html is not None:
