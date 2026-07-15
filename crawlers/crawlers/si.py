@@ -22,11 +22,15 @@ _INDEX_HREF_RE = re.compile(r"index[-\w]*\.html?$", re.I)
 # YYYY-MM-DD inside the edition href = its AIRAC effective date.
 _DATE_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})")
 
-# Aggregate AD 2 / AD 3 menu-section id variants (tried in order).
+# Aggregate AD 2 / AD 3 / AD 4 menu-section id variants (tried in order).
 _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 _AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD-3details", "AD 3details"]
-# Per-airport chapter fallback (CZ/PT/HU/IS layouts): "AD 2.<ICAO>...details".
+# Slovenia files its many small VFR aerodromes / airstrips under AD 4 (distinct
+# from the AD 2 aerodromes) - the bulk of the country's fields live here.
+_AD4_SECTION_IDS = ["AD 4en-GBdetails", "AD-4details", "AD 4details"]
+# Per-airport chapter fallbacks (CZ/PT/HU/IS layouts): "AD <n>.<ICAO>...details".
 _AD2_CHAPTER_RE = re.compile(r"AD[ -]2\.([A-Z]{4}).*details$")
+_AD4_CHAPTER_RE = re.compile(r"AD[ -]4\.([A-Z]{4}).*details$")
 
 # Frameset layouts to try when entering the nav frame (base+nav, or nav only).
 _FRAME_CHAINS = (
@@ -175,6 +179,37 @@ class SI(HttpEurocontrolBase):
                 )
             except ValueError:
                 self.logger.info("SI: no AD 3 heliport section - skipping")
+
+            # AD 4: Slovenia's small VFR aerodromes / airstrips (the bulk of the
+            # country's fields) - aggregate section, per-chapter fallback, all
+            # "vfr", fail-soft. Deduped by ICAO against AD 2 below.
+            try:
+                airports.extend(
+                    self._extract_section(
+                        nav_html, nav_url, _AD4_SECTION_IDS, "vfr"
+                    )
+                )
+            except ValueError:
+                try:
+                    airports.extend(
+                        self.extract_airports_per_chapter(
+                            nav_html, nav_url, _AD4_CHAPTER_RE, "vfr"
+                        )
+                    )
+                except ValueError:
+                    self.logger.info("SI: no AD 4 section - skipping")
+
+            # Dedup by ICAO (a field must not appear twice if it is listed in
+            # both AD 2 and AD 4); keep the first (AD 2) occurrence.
+            seen_icao: set[str] = set()
+            deduped: list[Airport] = []
+            for a in airports:
+                key = (a.icao or a.title or "").upper()
+                if key in seen_icao:
+                    continue
+                seen_icao.add(key)
+                deduped.append(a)
+            airports = deduped
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
