@@ -109,7 +109,25 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // BA: BHANSA's eAIP lists AD 2 (4 international aerodromes) + AD 4 (the
   // small VFR fields), all "vfr"; there is no AD-3 heliport chapter.
   ba: ["vfr"],
+  // CH: info-page only (skybriefing charts are paywalled). The aerodrome list
+  // comes from OurAirports; each field is "vfr" with OpenAIP data + weather and
+  // a blue AIP button to the skybriefing portal (no chart crawl).
+  ch: ["vfr"],
 };
+
+/**
+ * Countries whose official AIP / charts sit behind a login or paid
+ * registration, so we deliberately do NOT crawl charts and instead link the
+ * provider's portal (the airport `url`). The detail page shows a
+ * "registration may be required" hint next to the AIP button. Keyed by the
+ * two-letter country code (`localeCountryMapping[locale]`).
+ */
+export const gatedCountries = new Set<string>(["ch"]);
+
+/** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
+export function isGatedCountry(country: string): boolean {
+  return gatedCountries.has(country);
+}
 
 /** True if `country` (two-letter code) exposes the given search page type. */
 export function countryHasType(
@@ -199,6 +217,16 @@ export const liveCountries: string[] = [
   // the 4 international fields; the AD-4 VFR fields carry a text AD entry only).
   // First data published to production D1 via the manual crawl dispatch.
   "ba",
+  // Switzerland (15.07.2026): info-page only - skybriefing (skyguide) publishes
+  // the official Swiss AIP + charts behind a login/registration, so we do NOT
+  // crawl charts. The aerodrome list comes from OurAirports; each field is a
+  // "vfr" row with OpenAIP data + weather and a blue AIP button to the
+  // skybriefing portal (https://www.skybriefing.com/en/aip, verified 200 via
+  // the live-test check_urls). Gated (see gatedCountries): the detail page
+  // shows a "registration may be required" hint. Live-validated (run
+  // 29449399452 - 67 aerodromes, 0 charts by design). First data published to
+  // production D1 via the manual crawl dispatch.
+  "ch",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -248,4 +276,5 @@ export const countryMeta: Record<
     flag: "🇧🇦",
     nativeLang: "Bosnian",
   },
+  ch: { lang: "de", name: "Switzerland", flag: "🇨🇭", nativeLang: "German" },
 };

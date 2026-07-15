@@ -6,24 +6,20 @@
       "hrefTitle": "AIP Index"
     },
     "/": {
-      "title": "Österreich (Deutsch)",
-      "hrefTitle": "AIP Österreich"
+      "title": "Schweiz (Deutsch)",
+      "hrefTitle": "AIP Schweiz"
     },
     "/vfr": {
       "title": "VFR",
-      "hrefTitle": "Luftfahrthandbuch VFR Österreich"
-    },
-    "/heliports": {
-      "title": "Heliports",
-      "hrefTitle": "AIP VFR Heliports Österreich"
+      "hrefTitle": "Luftfahrthandbuch VFR Schweiz"
     },
     "/airport-list": {
-      "title": "Flughafen Liste",
-      "hrefTitle": "Flughafen Liste Österreich"
+      "title": "Flugplatz Liste",
+      "hrefTitle": "Flugplatz Liste Schweiz"
     },
     "/terms": {
       "title": "Nutzungsbedingungen",
-      "hrefTitle": "Nutzungsbedingungen - AIP:Aero Österreich"
+      "hrefTitle": "Nutzungsbedingungen - AIP:Aero Schweiz"
     },
     "/efb": {
       "title": "EFB-Anleitung",
@@ -33,125 +29,99 @@
   "Menu": {
     "label": "Menü",
     "home": {
-      "title": "AIP Österreich",
-      "hrefTitle": "AIP Österreich"
+      "title": "AIP Schweiz",
+      "hrefTitle": "AIP Schweiz"
     },
     "vfr": {
       "title": "AIP VFR",
-      "hrefTitle": "Luftfahrthandbuch VFR Österreich"
-    },
-    "heliports": {
-      "title": "Heliports",
-      "hrefTitle": "AIP VFR Heliports Österreich"
+      "hrefTitle": "Luftfahrthandbuch VFR Schweiz"
     },
     "airports": {
-      "title": "Flughafen Liste",
-      "hrefTitle": "Flughafen Liste Österreich"
+      "title": "Flugplatz Liste",
+      "hrefTitle": "Flugplatz Liste Schweiz"
     }
   },
   "AirportsPage": {
-    "title": "Liste der Flugplätze in Österreich",
-    "metaTitle": "🛩️ Liste der Flugplätze in Österreich",
-    "description": "Alle Flugplätze/ Flughäfen in Österreich im Überblick",
-    "metaDescription": "Alle Flugplätze/ Flughäfen in Österreich im Überblick🗺️",
+    "title": "Liste der Flugplätze in der Schweiz",
+    "metaTitle": "🛩️ Liste der Flugplätze in der Schweiz",
+    "description": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick",
+    "metaDescription": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick🗺️",
     "vfrCard": {
       "title": "VFR Flugplätze",
-      "description": "VFR Flugplätze/ Flughäfen in Österreich",
-      "linkTitle": "AIP VFR Charts und Anflugkarte für {airport} LOXA hier ansehen und runterladen."
+      "description": "VFR Flugplätze/ Flughäfen in der Schweiz",
+      "linkTitle": "Flugplatzdaten und Wetter für {airport} ansehen und zur offiziellen AIP von skybriefing gelangen."
     },
     "heliportCard": {
       "title": "Hubschrauberlandeplätze",
-      "description": "Hubschrauberlandeplätze in Österreich",
-      "linkTitle": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen."
+      "description": "Hubschrauberlandeplätze in der Schweiz",
+      "linkTitle": "Flugplatzdaten und Wetter für {airport} ansehen und zur offiziellen AIP von skybriefing gelangen."
     },
     "breadcrumb": {
-      "name": "Flughafen Liste Österreich",
-      "alternateName": "Liste der Flugplätze in Österreich",
-      "description": "Alle Flugplätze/ Flughäfen in Österreich im Überblick"
-    }
-  },
-  "HeliportPage": {
-    "title": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
-    "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
-    "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten für Hubschrauberlandeplätze zu gelangen",
-    "metaDescription": "AIP VFR Österreich HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen🗺️",
-    "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
-    "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP für Hubschrauberlandeplätze zu gelangen",
-    "resultTitle": "AIP VFR Hubschrauberlandeplatz Charts von {airport}",
-    "resultDescription": "AIP VFR Hubschrauberlandeplatz Charts und Anflugkarten für {airport} hier ansehen und runterladen.",
-    "breadcrumb": {
-      "name": "AIP VFR Heliports Österreich",
-      "alternateName": "Suchmaske für Anflugkarten AIP VFR HEL AD Hubschrauberlandeplätze in Österreich",
-      "description": "AIP VFR Österreich HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen"
+      "name": "Flugplatz Liste Schweiz",
+      "alternateName": "Liste der Flugplätze in der Schweiz",
+      "description": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick"
     }
   },
   "VfrPage": {
-    "title": "Suchmaske für Anflugkarten AIP VFR Österreich",
-    "metaTitle": "🛩️ Suchmaske für Anflugkarten AIP VFR Österreich",
-    "description": "Namen oder ICAO Code des Flughafens eingeben, um zu den von der Austro Control bereitgestellten VFR Anflugkarten zu gelangen",
-    "metaDescription": "AIP VFR Österreich AD Flugplätze durchsuchen und Anflugkarten runterladen🗺️",
-    "searchTitle": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
-    "searchPlaceholder": "Flughafen oder ICAO Code eingeben, um zur VFR AIP zu gelangen",
-    "resultTitle": "AIP VFR Charts von {airport}",
-    "resultDescription": "AIP VFR Charts und Anflugkarte für {airport} hier ansehen und runterladen.",
+    "title": "Suchmaske für Flugplätze AIP VFR Schweiz",
+    "metaTitle": "🛩️ Suchmaske für Flugplätze AIP VFR Schweiz",
+    "description": "Namen oder ICAO Code des Flugplatzes eingeben (z.B. LSZH, LSGG, LSZR), um Flugplatzdaten und Wetter anzusehen und zur offiziellen AIP von skybriefing zu gelangen (Registrierung ggf. erforderlich).",
+    "metaDescription": "AIP VFR Schweiz Flugplätze durchsuchen: Flugplatzdaten, Wetter und Link zur offiziellen AIP von skybriefing🗺️",
+    "searchTitle": "Flugplatz oder ICAO Code eingeben, um Flugplatzdaten und die VFR AIP zu finden",
+    "searchPlaceholder": "Flugplatz oder ICAO Code eingeben, um Flugplatzdaten und die VFR AIP zu finden",
+    "resultTitle": "AIP VFR und Flugplatzdaten von {airport}",
+    "resultDescription": "Flugplatzdaten und Wetter für {airport} ansehen und zur offiziellen AIP von skybriefing gelangen.",
     "breadcrumb": {
-      "name": "Luftfahrthandbuch VFR Österreich",
-      "alternateName": "Suchmaske für Anflugkarten AIP VFR Österreich",
-      "description": "AIP VFR Österreich AD Flugplätze durchsuchen und Anflugkarten runterladen"
+      "name": "Luftfahrthandbuch VFR Schweiz",
+      "alternateName": "Suchmaske für Flugplätze AIP VFR Schweiz",
+      "description": "AIP VFR Schweiz Flugplätze durchsuchen: Flugplatzdaten, Wetter und Link zur offiziellen AIP von skybriefing"
     }
   },
   "LocaleSwitcher": {
     "label": "Sprache ändern",
-    "locale": "{locale, select, at {🇦🇹 Deutsch} en {🇬🇧 English} other {Unbekannt}}"
+    "locale": "{locale, select, ch {🇨🇭 Deutsch} en {🇬🇧 English} other {Unbekannt}}"
   },
   "CountrySiteNavElement": {
-    "name": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
-    "alternateName": "AIP Österreich",
-    "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download",
+    "name": "Flugplatzdaten & Luftfahrthandbuch AIP für die Schweiz",
+    "alternateName": "AIP Schweiz",
+    "description": "Flugplatzdaten, Wetter und Links zum offiziellen AIP (Aeronautical Information Publication) von skybriefing für die Schweiz",
     "inLanguage": "de",
-    "url": "https://aip.aero/at/"
+    "url": "https://aip.aero/ch/"
   },
   "CountryPage": {
-    "title": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
-    "metaTitle": "🛩️ Anflugkarten & Luftfahrthandbuch AIP für Österreich",
-    "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download",
-    "metaDescription": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download🗺️",
+    "title": "Flugplatzdaten & Luftfahrthandbuch AIP für die Schweiz",
+    "metaTitle": "🛩️ Flugplatzdaten & Luftfahrthandbuch AIP für die Schweiz",
+    "description": "Flugplatzdaten, Wetter und Links zum offiziellen AIP (Aeronautical Information Publication) von skybriefing für die Schweiz",
+    "metaDescription": "Flugplatzdaten, Wetter und Links zum offiziellen AIP (Aeronautical Information Publication) von skybriefing für die Schweiz🗺️",
     "vfrCard": {
-      "title": "Luftfahrthandbuch AIP VFR Österreich",
-      "description": "AIP VFR Österreich AD Flugplätze durchsuchen und Anflugkarten runterladen",
+      "title": "Luftfahrthandbuch AIP VFR Schweiz",
+      "description": "AIP VFR Schweiz Flugplätze durchsuchen: Flugplatzdaten, Wetter und Link zur offiziellen AIP von skybriefing",
       "buttonTitle": "Luftfahrthandbuch AIP VFR",
-      "buttonHref": "/at/vfr/",
-      "buttonHrefTitle": "Luftfahrthandbuch VFR Österreich"
-    },
-    "heliportCard": {
-      "title": "Hubschrauberlandeplätze Österreich",
-      "description": "AIP VFR Österreich HEL AD Hubschrauberlandeplätze durchsuchen und Anflugkarten runterladen",
-      "buttonTitle": "AIP VFR Hubschrauberlandeplätze",
-      "buttonHref": "/at/heliports/",
-      "buttonHrefTitle": "AIP VFR Heliports Österreich"
+      "buttonHref": "/ch/vfr/",
+      "buttonHrefTitle": "Luftfahrthandbuch VFR Schweiz"
     },
     "airportListCard": {
-      "title": "Flughafen Liste",
-      "description": "Alle Flugplätze/ Flughäfen in Österreich im Überblick - mit Offline-Download, Zoll- und Fuel-Infos",
-      "buttonTitle": "Flughafen Liste",
-      "buttonHref": "/at/flughafen-liste-oesterreich/",
-      "buttonHrefTitle": "Flughafen Liste Österreich"
+      "title": "Flugplatz Liste",
+      "description": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick - mit Offline-Download, Zoll- und Fuel-Infos",
+      "buttonTitle": "Flugplatz Liste",
+      "buttonHref": "/ch/flugplaetze-schweiz/",
+      "buttonHrefTitle": "Flugplatz Liste Schweiz"
     },
     "breadcrumb": {
-      "name": "AIP Österreich",
-      "alternateName": "Anflugkarten & Luftfahrthandbuch AIP für Österreich",
-      "description": "Hier gibt es alle AIP (Aeronautical Information Publication) Luftfahrthandbücher und Anflugkarten für Österreich zum Download"
+      "name": "AIP Schweiz",
+      "alternateName": "Flugplatzdaten & Luftfahrthandbuch AIP für die Schweiz",
+      "description": "Flugplatzdaten, Wetter und Links zum offiziellen AIP (Aeronautical Information Publication) von skybriefing für die Schweiz"
     }
   },
   "About": {
     "title": "Wozu diese Website?",
-    "description": "Das kostenlose <aip>Luftfahrthandbuch AIP Österreich</aip> steht seitens Austro Control als Basisversion zur Verfügung, jedoch ohne Suchfunktion. Unsere Seite erleichtert das Auffinden von Flugplätzen, übernimmt jedoch keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns herausgegeben wird. Wir verlinken lediglich zu den jeweiligen Anflugkarten.",
-    "aipUrl": "https://eaip.austrocontrol.at",
-    "aipTitle": "Luftfahrthandbuch AIP Österreich"
+    "description": "Das offizielle <aip>Luftfahrthandbuch AIP Schweiz</aip> und die Anflugkarten werden von skybriefing (einer Skyguide-Gesellschaft) herausgegeben und erfordern eine Registrierung bzw. Anmeldung. Diese Seite zeigt zu jedem Flugplatz Flugplatzdaten und Wetter; der AIP-Button führt zum skybriefing-Portal. Wir übernehmen keine Haftung für die Richtigkeit oder Aktualität der AIP (Aeronautical Information Publication), da sie nicht von uns herausgegeben wird.",
+    "aipUrl": "https://www.skybriefing.com/en/aip",
+    "aipTitle": "Luftfahrthandbuch AIP Schweiz (skybriefing)"
   },
   "TradeAero": {
     "title": "Flugzeug kaufen oder verkaufen?",
-    "description": "Entdecken Sie Flugzeuge in Österreich auf Trade:Aero - dem Marktplatz zum Kaufen und Verkaufen von Flugzeugen.",
+    "description": "Entdecken Sie Flugzeuge in der Schweiz auf Trade:Aero - dem Marktplatz zum Kaufen und Verkaufen von Flugzeugen.",
     "buttonTitle": "Trade:Aero - Europas größter Marktplatz für Flugzeuge",
     "buttonHrefTitle": "Trade:Aero - Europas größter Marktplatz für Flugzeuge"
   },
@@ -200,7 +170,7 @@
     },
     "terms": {
       "title": "Nutzungsbedingungen",
-      "hrefTitle": "Nutzungsbedingungen - AIP:Aero Österreich"
+      "hrefTitle": "Nutzungsbedingungen - AIP:Aero Schweiz"
     },
     "efb": {
       "title": "EFB-Anleitung",
@@ -294,7 +264,7 @@
     "recentlyViewedEmpty": "Geöffnete Flugplätze erscheinen hier automatisch für den schnellen Wiedereinstieg.",
     "borderCrossing": "Grenzübertritt",
     "alsoAvailable": "Auch verfügbar:",
-    "aipLoginHint": "Login oder Registrierung kann erforderlich sein."
+    "aipLoginHint": "Login oder Registrierung bei skybriefing kann erforderlich sein."
   },
   "Chart": {
     "allCharts": "Alle Karten ({count})",
@@ -324,14 +294,14 @@
     "srcOurAirports": "Flugplatz-Basisdaten",
     "srcOpenAip": "erweiterte Flugplatzdaten: Pisten, Frequenzen, Kraftstoff",
     "srcOsm": "Karten und Adressen",
-    "metaTitle": "Nutzungsbedingungen - AIP:Aero Österreich",
-    "metaDescription": "Nutzungsbedingungen von AIP:Aero, der kostenlosen AIP- und Anflugkarten-Suche für Österreich und Europa: Servicebeschreibung, Haftungsausschluss und Datenquellen."
+    "metaTitle": "Nutzungsbedingungen - AIP:Aero Schweiz",
+    "metaDescription": "Nutzungsbedingungen von AIP:Aero, der kostenlosen AIP- und Flugplatzdaten-Suche für die Schweiz und Europa: Servicebeschreibung, Haftungsausschluss und Datenquellen."
   },
   "EfbPage": {
     "title": "AIP:Aero auf dem EFB (Electronic Flight Bag) nutzen",
     "intro": "So installierst du AIP:Aero auf deinem EFB (Electronic Flight Bag)-Tablet, speicherst Anflugkarten offline, lädst ganze Länder herunter und übergibst Plätze an deine Planungstools - Schritt für Schritt.",
-    "metaTitle": "EFB-Anleitung Österreich - AIP & Anflugkarten auf dem Tablet | AIP:Aero",
-    "metaDescription": "AIP:Aero als App auf dem EFB-Tablet installieren, Anflugkarten offline speichern, ganze Länder herunterladen und Karten-PDFs in ForeFlight, SkyDemon & Co. importieren (Österreich).",
+    "metaTitle": "EFB-Anleitung Schweiz - AIP & Anflugkarten auf dem Tablet | AIP:Aero",
+    "metaDescription": "AIP:Aero als App auf dem EFB-Tablet installieren, Anflugkarten offline speichern, ganze Länder herunterladen und Karten-PDFs in ForeFlight, SkyDemon & Co. importieren (Schweiz).",
     "installTitle": "Als App installieren (PWA)",
     "installText": "AIP:Aero ist eine installierbare Web-App: Sie öffnet im Vollbild wie eine native App, und alles Gespeicherte ist offline verfügbar. Kein App Store nötig.",
     "installIos": "iPad / iPhone (Safari): aip.aero öffnen, Teilen-Symbol antippen, dann \"Zum Home-Bildschirm\".",
@@ -340,11 +310,11 @@
     "offlineTitle": "Einzelne Plätze offline speichern",
     "offlineText": "Jede Flugplatz-Detailseite hat einen \"Offline speichern\"-Button. Er legt die Seite und, wo die AIP eines veröffentlicht, das Anflugkarten-PDF auf deinem Gerät ab; der Platz erscheint danach unter Favoriten auf der Länderseite. Gespeicherte Kopien zeigen ihr Download-Datum.",
     "bulkTitle": "Ein ganzes Land herunterladen",
-    "bulkText": "Auf der <list>Flughafen-Liste</list> kannst du alle Detailseiten eines Landes auf einmal herunterladen (nur Seiten, ohne Karten-PDFs - die speicherst du pro Platz). Das Paket zeigt vor dem Download seine Größe und lässt sich jederzeit aktualisieren oder entfernen.",
+    "bulkText": "Auf der <list>Flugplatz-Liste</list> kannst du alle Detailseiten eines Landes auf einmal herunterladen (nur Seiten, ohne Karten-PDFs - die speicherst du pro Platz). Das Paket zeigt vor dem Download seine Größe und lässt sich jederzeit aktualisieren oder entfernen.",
     "favoritesTitle": "Favoriten & zuletzt angesehen",
     "favoritesText": "Offline gespeicherte Plätze erscheinen automatisch als Favoriten, und die zuletzt geöffneten Flugplätze stehen unter \"Zuletzt angesehen\" - beides liegt nur auf Ihrem Gerät, kein Konto nötig. Beide Listen finden Sie <country>auf der Länderseite</country>.",
     "importTitle": "Karten-PDFs in ForeFlight, SkyDemon & Co.",
-    "importText": "Wo die nationale AIP Karten-PDFs veröffentlicht, verlinkt die Karten-Box auf der Detailseite das aktuelle PDF inklusive AIRAC-Datum. Lade es herunter und importiere es in deine EFB-App als eigenes Kartenmaterial, z.B. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) oder Garmin Pilot. Deutschland veröffentlicht HTML-Seiten statt PDFs - nutze dort den AIP-Link.",
+    "importText": "Wo die nationale AIP Karten-PDFs veröffentlicht, verlinkt die Karten-Box auf der Detailseite das aktuelle PDF inklusive AIRAC-Datum. Lade es herunter und importiere es in deine EFB-App als eigenes Kartenmaterial, z.B. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) oder Garmin Pilot. Die Schweizer AIP von skybriefing ist zugangsbeschränkt - dort führt der AIP-Button zum skybriefing-Portal.",
     "toolsTitle": "Übergabe an Planungstools",
     "toolsText": "Die Standort-Box auf jeder Detailseite öffnet denselben Platz direkt in SkyVector, Windy und autorouter - praktisch für Routenplanung, Wettermodelle und Flugplanaufgabe.",
     "weatherTitle": "Wetter-Briefing auf der Seite",
@@ -365,12 +335,12 @@
   },
   "CountryFaq": {
     "title": "Häufige Fragen",
-    "q1": "Was ist die AIP Österreich?",
-    "a1": "Die AIP (Aeronautical Information Publication) ist das offizielle Luftfahrthandbuch für Österreich, herausgegeben von Austro Control: Flugplatzdaten, Verfahren und Anflugkarten, aktualisiert im 28-Tage-AIRAC-Zyklus. AIP:Aero verlinkt direkt auf die offizielle Publikation.",
+    "q1": "Was ist die AIP Schweiz?",
+    "a1": "Die AIP (Aeronautical Information Publication) ist das offizielle Luftfahrthandbuch für die Schweiz, herausgegeben von skybriefing (einer Skyguide-Gesellschaft): Flugplatzdaten, Verfahren und Anflugkarten, aktualisiert im 28-Tage-AIRAC-Zyklus. AIP:Aero zeigt zu jedem Platz Flugplatzdaten und Wetter und verlinkt zum offiziellen skybriefing-Portal.",
     "q2": "Sind die Anflugkarten kostenlos?",
-    "a2": "Ja - Austro Control veröffentlicht die AIP für Österreich einschließlich der <list>Anflugkarten</list> kostenlos, und auch AIP:Aero ist kostenlos: kein Konto, kein Abo.",
-    "q3": "Welche Karten und Flugplätze gibt es für Österreich?",
-    "a3": "Für Österreich finden Sie <vfr>VFR-Flugplätze</vfr> und <heli>Hubschrauberlandeplätze</heli> - jeweils mit direktem Link zur offiziellen Karte, entschlüsseltem Wetter (METAR/TAF) und Flugplatzdaten.",
+    "a2": "Die offizielle AIP der Schweiz wird von skybriefing veröffentlicht und erfordert eine Registrierung bzw. Anmeldung; die Anflugkarten sind also nicht frei herunterladbar. AIP:Aero selbst ist kostenlos und zeigt zu jedem Platz <list>Flugplatzdaten und Wetter</list> mit einem Link zum skybriefing-Portal.",
+    "q3": "Welche Flugplätze gibt es für die Schweiz?",
+    "a3": "Für die Schweiz finden Sie die <vfr>VFR-Flugplätze</vfr> - jeweils mit Flugplatzdaten (Pisten, Frequenzen, Höhe), entschlüsseltem Wetter (METAR/TAF) und einem Link zur offiziellen AIP von skybriefing.",
     "q4": "Kann ich AIP:Aero offline oder auf dem EFB nutzen?",
     "a4": "Ja - AIP:Aero lässt sich als App (PWA) installieren, und einzelne Plätze oder das ganze Land können offline gespeichert werden. Siehe <efb>EFB-Anleitung</efb>."
   }

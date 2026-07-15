@@ -57,6 +57,8 @@ const countryPages: TestPage[] = [
   { path: "/sk/en/", lang: "en", label: "country sk-EN" },
   { path: "/ba/", lang: "bs", label: "country ba" },
   { path: "/ba/en/", lang: "en", label: "country ba-EN" },
+  { path: "/ch/", lang: "de", label: "country ch" },
+  { path: "/ch/en/", lang: "en", label: "country ch-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -106,6 +108,8 @@ const airportListPages: TestPage[] = [
   { path: "/sk/en/airport-list-slovakia/", lang: "en", label: "list sk-EN" },
   { path: "/ba/lista-aerodroma-bih/", lang: "bs", label: "list ba" },
   { path: "/ba/en/airport-list-bosnia/", lang: "en", label: "list ba-EN" },
+  { path: "/ch/flugplaetze-schweiz/", lang: "de", label: "list ch" },
+  { path: "/ch/en/airport-list-switzerland/", lang: "en", label: "list ch-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -168,6 +172,8 @@ const searchPages: TestPage[] = [
   { path: "/sk/en/vfr/", lang: "en", label: "vfr sk-EN" },
   { path: "/ba/vfr/", lang: "bs", label: "vfr ba" },
   { path: "/ba/en/vfr/", lang: "en", label: "vfr ba-EN" },
+  { path: "/ch/vfr/", lang: "de", label: "vfr ch" },
+  { path: "/ch/en/vfr/", lang: "en", label: "vfr ch-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -219,6 +225,8 @@ const termsPages: TestPage[] = [
   { path: "/sk/en/terms/", lang: "en", label: "terms sk-EN" },
   { path: "/ba/terms/", lang: "bs", label: "terms ba" },
   { path: "/ba/en/terms/", lang: "en", label: "terms ba-EN" },
+  { path: "/ch/terms/", lang: "de", label: "terms ch" },
+  { path: "/ch/en/terms/", lang: "en", label: "terms ch-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).
@@ -270,6 +278,8 @@ const efbPages: TestPage[] = [
   { path: "/sk/en/efb/", lang: "en", label: "efb sk-EN" },
   { path: "/ba/efb/", lang: "bs", label: "efb ba" },
   { path: "/ba/en/efb/", lang: "en", label: "efb ba-EN" },
+  { path: "/ch/efb/", lang: "de", label: "efb ch" },
+  { path: "/ch/en/efb/", lang: "en", label: "efb ch-EN" },
 ];
 
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */

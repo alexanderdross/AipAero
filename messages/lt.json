@@ -263,7 +263,8 @@
     "recentlyViewed": "Neseniai peržiūrėti",
     "recentlyViewedEmpty": "Jūsų atidaryti oro uostai automatiškai atsiras čia greitai prieigai.",
     "borderCrossing": "Sienos kirtimas",
-    "alsoAvailable": "Taip pat prieinama:"
+    "alsoAvailable": "Taip pat prieinama:",
+    "aipLoginHint": "Gali reikėti prisijungimo arba registracijos."
   },
   "Chart": {
     "allCharts": "Visos kortelės ({count})",

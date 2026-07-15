@@ -44,6 +44,7 @@ BASE_CSV = "https://davidmegginson.github.io/ourairports-data"
 COUNTRIES = {
     "DE", "AT", "FR", "NL", "GB", "BE", "LU", "CZ", "DK", "GR", "NO", "PL",
     "SE", "EE", "FI", "ES", "LV", "IS", "PT", "HU", "SI", "LT", "RS", "ME",
+    "IE", "SK", "BA", "CH",
 }
 
 BATCH_SIZE = 100  # airports per POST to keep each request payload modest

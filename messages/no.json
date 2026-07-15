@@ -293,7 +293,8 @@
     "recentlyViewed": "Nylig vist",
     "recentlyViewedEmpty": "Flyplasser du åpner vises automatisk her for rask tilgang.",
     "borderCrossing": "Grensepassering",
-    "alsoAvailable": "Også tilgjengelig:"
+    "alsoAvailable": "Også tilgjengelig:",
+    "aipLoginHint": "Innlogging eller registrering kan være påkrevd."
   },
   "Chart": {
     "allCharts": "Alle kart ({count})",

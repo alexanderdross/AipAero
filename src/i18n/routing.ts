@@ -50,6 +50,8 @@ export const routing = defineRouting({
     "sk-EN",
     "ba",
     "ba-EN",
+    "ch",
+    "ch-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -77,6 +79,7 @@ export const routing = defineRouting({
       "rs-EN": "/rs/en",
       "sk-EN": "/sk/en",
       "ba-EN": "/ba/en",
+      "ch-EN": "/ch/en",
     },
   },
   pathnames: {
@@ -137,6 +140,8 @@ export const routing = defineRouting({
       "sk-EN": "/airport-list-slovakia",
       ba: "/lista-aerodroma-bih",
       "ba-EN": "/airport-list-bosnia",
+      ch: "/flugplaetze-schweiz",
+      "ch-EN": "/airport-list-switzerland",
     },
   },
   localeCookie: false,
@@ -225,6 +230,11 @@ export const localeLangMapping: Record<
   // CLAUDE.md), so messages/ba.json keys its native branch on "ba".
   ba: "bs",
   "ba-EN": "en",
+  // Switzerland: prefix "ch", native language German (`de`) like Austria (CH
+  // is multilingual; German is the majority language). The LocaleSwitcher ICU
+  // branch keys on the PREFIX "ch" (see the gotcha in CLAUDE.md).
+  ch: "de",
+  "ch-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -278,4 +288,6 @@ export const localeCountryMapping: Record<
   "sk-EN": "sk",
   ba: "ba",
   "ba-EN": "ba",
+  ch: "ch",
+  "ch-EN": "ch",
 };

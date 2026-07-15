@@ -263,7 +263,8 @@
     "recentlyViewed": "Vistos recientemente",
     "recentlyViewedEmpty": "Los aeródromos que abras aparecerán aquí automáticamente para un acceso rápido.",
     "borderCrossing": "Cruce de fronteras",
-    "alsoAvailable": "También disponible:"
+    "alsoAvailable": "También disponible:",
+    "aipLoginHint": "Puede requerirse iniciar sesión o registrarse."
   },
   "Chart": {
     "allCharts": "Todas las cartas ({count})",

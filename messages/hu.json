@@ -263,7 +263,8 @@
     "recentlyViewed": "Nemrég megtekintett",
     "recentlyViewedEmpty": "A megnyitott repülőterek automatikusan megjelennek itt a gyors eléréshez.",
     "borderCrossing": "Határátlépés",
-    "alsoAvailable": "Szintén elérhető:"
+    "alsoAvailable": "Szintén elérhető:",
+    "aipLoginHint": "Bejelentkezés vagy regisztráció szükséges lehet."
   },
   "Chart": {
     "allCharts": "Összes térkép ({count})",

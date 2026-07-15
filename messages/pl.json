@@ -293,7 +293,8 @@
     "recentlyViewed": "Ostatnio przeglądane",
     "recentlyViewedEmpty": "Otwierane lotniska pojawią się tutaj automatycznie dla szybkiego dostępu.",
     "borderCrossing": "Przekroczenie granicy",
-    "alsoAvailable": "Dostępne również:"
+    "alsoAvailable": "Dostępne również:",
+    "aipLoginHint": "Może być wymagane logowanie lub rejestracja."
   },
   "Chart": {
     "allCharts": "Wszystkie mapy ({count})",
