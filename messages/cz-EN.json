@@ -9,6 +9,10 @@
       "title": "Czechia (English)",
       "hrefTitle": "AIP Czechia"
     },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Czechia"
+    },
     "/ifr": {
       "title": "IFR",
       "hrefTitle": "AIP IFR Czechia"

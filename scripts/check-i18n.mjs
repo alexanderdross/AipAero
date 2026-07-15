@@ -59,4 +59,56 @@ for (const [baseFile, enFile] of pairs) {
   }
 }
 
+// Second check: the BreadCrumbs namespace must carry a {title, hrefTitle}
+// entry for every PAGE a country actually renders. The pairwise check above
+// can't catch a key missing from BOTH a locale and its -EN partner - which is
+// exactly what happens when a country's page availability is EXPANDED (e.g.
+// CZ gaining /vfr via its VFR manual, PT gaining /heliports via the eVFR
+// manual) without also updating BreadCrumbs. The breadcrumb component looks
+// the key up by pathname (`t(`${page.href}.title`)`), so a missing entry is a
+// hard runtime MISSING_MESSAGE error on that page for that locale.
+const UTILS = new URL("../src/lib/utils.ts", import.meta.url).pathname;
+const TYPE_TO_HREF = {
+  vfr: "/vfr",
+  ifr: "/ifr",
+  heliport: "/heliports",
+  mil: "/military",
+  aeroport: "/aeroports",
+};
+// Page crumbs rendered on every country (uniform slugs, all locales).
+const ALWAYS_PAGES = ["/airport-list", "/terms", "/efb"];
+
+function loadAvailability() {
+  const src = readFileSync(UTILS, "utf8");
+  const block = src.match(
+    /countryTypeAvailability[^{]*\{([\s\S]*?)\n\};/,
+  )?.[1];
+  if (!block) throw new Error("could not parse countryTypeAvailability");
+  const avail = {};
+  for (const m of block.matchAll(/^\s*([a-z]{2}):\s*\[([^\]]*)\]/gm)) {
+    avail[m[1]] = [...m[2].matchAll(/"(\w+)"/g)].map((x) => x[1]);
+  }
+  return avail;
+}
+
+const availability = loadAvailability();
+
+for (const file of files) {
+  const base = file.replace(".json", "");
+  const country = base.endsWith("-EN") ? base.slice(0, -3) : base;
+  const types = availability[country];
+  if (!types) continue; // not a launched/known country locale
+  const bc = load(file).BreadCrumbs ?? {};
+  const required = [...types.map((t) => TYPE_TO_HREF[t]), ...ALWAYS_PAGES];
+  const missing = required.filter(
+    (k) => !bc[k]?.title || !bc[k]?.hrefTitle,
+  );
+  if (missing.length) {
+    failed = true;
+    console.error(
+      `\n✗ ${file}: BreadCrumbs missing page entries (country renders these pages): ${missing.join(", ")}`,
+    );
+  }
+}
+
 process.exit(failed ? 1 : 0);
