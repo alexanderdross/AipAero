@@ -1,12 +1,16 @@
-"""Unit tests for the Greece crawler's Bright Data zone selection.
+"""Unit tests for the Greece crawler (HASP static per-edition AIP tree).
 
-GR's entry is a server-side reCAPTCHA gate, so it needs the Web Unlocker zone
-(BRIGHTDATA_UNLOCKER_URL). A plain proxy (BRIGHTDATA_PROXY_URL) clears the IP
-block but not the captcha, so it is only a fallback. These tests assert the
-preference order without any network / real proxy.
+Two groups: (1) the Bright Data zone-selection preference in __init__ (Web
+Unlocker over plain proxy - the deep static edition paths still need a proxy);
+(2) edition-folder resolution by effective date and the AIP-menu.htm link
+harvest (AD 2 aerodrome VFR + text sheets, AD 3 heliports by place name, GEN
+front matter ignored). The live source is proxied, so these run against mocked
+HTML - the real fetch path is exercised by the live test.
 """
 
 from __future__ import annotations
+
+import datetime
 
 import pytest
 
@@ -14,12 +18,14 @@ from crawlers import gr as gr_module
 from crawlers.gr import GR
 
 
-@pytest.fixture(autouse=True)
+# --- zone selection (no network) -------------------------------------------
+
+
+@pytest.fixture
 def _capture_use_proxy(monkeypatch):
     """Record every use_proxy(url) call instead of opening a real client."""
     calls: list[str] = []
     monkeypatch.setattr(GR, "use_proxy", lambda self, url: calls.append(url))
-    # use_browser_headers touches the live httpx client - make it a no-op too.
     monkeypatch.setattr(GR, "use_browser_headers", lambda self: None)
     return calls
 
@@ -49,4 +55,66 @@ def test_no_zone_configured_does_not_route(monkeypatch, _capture_use_proxy):
 
 
 def test_module_root_url_is_hasp():
-    assert gr_module.ROOT_URL == "https://aisgr.hasp.gov.gr/"
+    assert gr_module.HOST == "https://aisgr.hasp.gov.gr/"
+    assert gr_module.ROOT_URL.startswith("https://aisgr.hasp.gov.gr/")
+
+
+# --- edition resolution + menu parsing (no network) ------------------------
+
+
+@pytest.fixture
+def gr(monkeypatch) -> GR:
+    monkeypatch.delenv("BRIGHTDATA_UNLOCKER_URL", raising=False)
+    monkeypatch.delenv("BRIGHTDATA_PROXY_URL", raising=False)
+    crawler = GR()
+    yield crawler
+    crawler.close()
+
+
+_LANDING = """
+<a href="aipgr_incl_amdt_0626_wef_09jul2026/cd/ais/indexaip.htm">Current</a>
+<a href="aipgr_incl_amdt_0726_wef_06aug2026/cd/ais/index.html">Next</a>
+"""
+
+_MENU = """
+<a href="eaip/pdf/AD%202/AD2-LGAD/LG_AD_2_LGAD_en.pdf">AD 2 LGAD</a>
+<a href="eaip/pdf/AD%202/AD2-LGAD/LG_AD_2_LGAD_VFR_en.pdf">AD 2-LGAD-VFR</a>
+<a href="eaip/pdf/AD%202/AD2-LGAV/LG_AD_2_LGAV_VFR_en.pdf">AD 2-LGAV-VFR</a>
+<a href="eaip/pdf/AD%203/AD3-ALONISSOS/LG_AD_3_ALONISSOS_VFR_en.pdf">AD 3.5 ALONISSOS</a>
+<a href="eaip/pdf/gen%200/LG_GEN_0_1_en.pdf">GEN 0.1 PREFACE</a>
+"""
+
+
+def test_resolve_edition_picks_effective(gr: GR):
+    base = gr._resolve_edition_base(_LANDING, today=datetime.date(2026, 7, 15))
+    assert base == (
+        "https://aisgr.hasp.gov.gr/"
+        "aipgr_incl_amdt_0626_wef_09jul2026/cd/ais/"
+    )
+    assert gr.airac == "2026-07-09"
+
+
+def test_resolve_edition_no_token_raises(gr: GR):
+    with pytest.raises(ValueError):
+        gr._resolve_edition_base("<html>nothing</html>")
+
+
+def test_parse_menu_ad2_and_ad3(gr: GR):
+    base = "https://aisgr.hasp.gov.gr/aipgr_incl_amdt_0626_wef_09jul2026/cd/ais/"
+    aps = gr._parse_menu(_MENU, base)
+    by_key = {(a.airport_type, a.icao or a.title): a for a in aps}
+
+    lgad = by_key[("vfr", "LGAD")]
+    assert lgad.pdf_url.endswith("/LG_AD_2_LGAD_VFR_en.pdf")
+    assert lgad.url == lgad.pdf_url
+    assert {c.name for c in lgad.charts} == {"LGAD VFR", "AD 2 LGAD"}
+
+    lgav = by_key[("vfr", "LGAV")]
+    assert len(lgav.charts) == 1
+
+    alonissos = by_key[("heliport", "ALONISSOS")]
+    assert alonissos.icao is None
+    assert alonissos.title == "ALONISSOS"
+    assert alonissos.pdf_url.endswith("/LG_AD_3_ALONISSOS_VFR_en.pdf")
+
+    assert not any("GEN" in (a.title or "") for a in aps)
