@@ -263,7 +263,8 @@
     "recentlyViewed": "Nedavno ogledano",
     "recentlyViewedEmpty": "Odprta letališča se bodo tukaj samodejno prikazala za hiter dostop.",
     "borderCrossing": "Prehod meje",
-    "alsoAvailable": "Na voljo tudi:"
+    "alsoAvailable": "Na voljo tudi:",
+    "aipLoginHint": "Morda bo potrebna prijava ali registracija."
   },
   "Chart": {
     "allCharts": "Vse karte ({count})",

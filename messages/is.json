@@ -263,7 +263,8 @@
     "recentlyViewed": "Nýlega skoðað",
     "recentlyViewedEmpty": "Flugvellir sem þú opnar birtast hér sjálfkrafa fyrir skjótan aðgang.",
     "borderCrossing": "För yfir landamæri",
-    "alsoAvailable": "Einnig í boði:"
+    "alsoAvailable": "Einnig í boði:",
+    "aipLoginHint": "Innskráning eða skráning gæti verið nauðsynleg."
   },
   "Chart": {
     "allCharts": "Öll kort ({count})",

@@ -277,7 +277,8 @@
     "recentlyViewed": "Nedávno zobrazené",
     "recentlyViewedEmpty": "Otevřená letiště se zde automaticky zobrazí pro rychlý přístup.",
     "borderCrossing": "Překročení hranice",
-    "alsoAvailable": "K dispozici také:"
+    "alsoAvailable": "K dispozici také:",
+    "aipLoginHint": "Může být vyžadováno přihlášení nebo registrace."
   },
   "Chart": {
     "allCharts": "Všechny mapy ({count})",

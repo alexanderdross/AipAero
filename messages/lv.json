@@ -293,7 +293,8 @@
     "recentlyViewed": "Nesen skatītie",
     "recentlyViewedEmpty": "Atvērtie lidlauki šeit parādīsies automātiski ātrai piekļuvei.",
     "borderCrossing": "Robežšķērsošana",
-    "alsoAvailable": "Pieejams arī:"
+    "alsoAvailable": "Pieejams arī:",
+    "aipLoginHint": "Var būt nepieciešama pieteikšanās vai reģistrācija."
   },
   "Chart": {
     "allCharts": "Visas kartes ({count})",

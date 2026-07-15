@@ -293,7 +293,8 @@
     "recentlyViewed": "Senast visade",
     "recentlyViewedEmpty": "Fält du öppnar visas automatiskt här för snabb åtkomst.",
     "borderCrossing": "Gränspassage",
-    "alsoAvailable": "Även tillgänglig:"
+    "alsoAvailable": "Även tillgänglig:",
+    "aipLoginHint": "Inloggning eller registrering kan krävas."
   },
   "Chart": {
     "allCharts": "Alla kartor ({count})",

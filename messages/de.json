@@ -328,7 +328,8 @@
     "recentlyViewed": "Zuletzt angesehen",
     "recentlyViewedEmpty": "Geöffnete Flugplätze erscheinen hier automatisch für den schnellen Wiedereinstieg.",
     "borderCrossing": "Grenzübertritt",
-    "alsoAvailable": "Auch verfügbar:"
+    "alsoAvailable": "Auch verfügbar:",
+    "aipLoginHint": "Login oder Registrierung kann erforderlich sein."
   },
   "Chart": {
     "allCharts": "Alle Karten ({count})",

@@ -6,20 +6,20 @@
       "hrefTitle": "AIP Index"
     },
     "/": {
-      "title": "Slovenia (English)",
-      "hrefTitle": "AIP Slovenia"
+      "title": "Bosnia and Herzegovina (English)",
+      "hrefTitle": "AIP Bosnia and Herzegovina"
     },
     "/vfr": {
       "title": "VFR",
-      "hrefTitle": "AIP VFR Slovenia"
+      "hrefTitle": "AIP VFR Bosnia and Herzegovina"
     },
     "/airport-list": {
       "title": "Airport List",
-      "hrefTitle": "List of Airfields/ Airports Slovenia"
+      "hrefTitle": "List of Airfields/ Airports Bosnia and Herzegovina"
     },
     "/terms": {
       "title": "Terms of Service",
-      "hrefTitle": "Terms of Service - AIP:Aero Slovenia"
+      "hrefTitle": "Terms of Service - AIP:Aero Bosnia and Herzegovina"
     },
     "/efb": {
       "title": "EFB Guide",
@@ -29,99 +29,99 @@
   "Menu": {
     "label": "Menu",
     "home": {
-      "title": "AIP Slovenia",
-      "hrefTitle": "AIP Slovenia"
+      "title": "AIP Bosnia and Herzegovina",
+      "hrefTitle": "AIP Bosnia and Herzegovina"
     },
     "vfr": {
       "title": "AIP VFR",
-      "hrefTitle": "AIP VFR Slovenia"
+      "hrefTitle": "AIP VFR Bosnia and Herzegovina"
     },
     "airports": {
       "title": "Airport List",
-      "hrefTitle": "List of Airfields/ Airports Slovenia"
+      "hrefTitle": "List of Airfields/ Airports Bosnia and Herzegovina"
     }
   },
   "AirportsPage": {
-    "title": "List of Airfields in Slovenia",
-    "metaTitle": "🛩️ List of Airfields in Slovenia",
-    "description": "Overview of all airfields/ airports in Slovenia",
-    "metaDescription": "Overview of all airfields/ airports in Slovenia🗺️",
+    "title": "List of Airfields in Bosnia and Herzegovina",
+    "metaTitle": "🛩️ List of Airfields in Bosnia and Herzegovina",
+    "description": "Overview of all airfields/ airports in Bosnia and Herzegovina",
+    "metaDescription": "Overview of all airfields/ airports in Bosnia and Herzegovina🗺️",
     "vfrCard": {
       "title": "VFR Airports",
-      "description": "VFR airfields/ airports in Slovenia",
+      "description": "VFR airfields/ airports in Bosnia and Herzegovina",
       "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
     },
     "heliportCard": {
       "title": "Helicopter Aerodromes",
-      "description": "Helicopter Aerodromes in Slovenia",
+      "description": "Helicopter Aerodromes in Bosnia and Herzegovina",
       "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
     },
     "breadcrumb": {
-      "name": "List of Airfields/ Airports Slovenia",
-      "alternateName": "List of Airfields in Slovenia",
-      "description": "Overview of all airfields/ airports in Slovenia"
+      "name": "List of Airfields/ Airports Bosnia and Herzegovina",
+      "alternateName": "List of Airfields in Bosnia and Herzegovina",
+      "description": "Overview of all airfields/ airports in Bosnia and Herzegovina"
     }
   },
   "VfrPage": {
-    "title": "Index of AIP VFR and visual approach charts Slovenia",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Slovenia",
-    "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by Slovenia Control.",
-    "metaDescription": "Browse AIP VFR Slovenia and download airport approach charts for free🗺️",
+    "title": "Index of AIP VFR and visual approach charts Bosnia and Herzegovina",
+    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Bosnia and Herzegovina",
+    "description": "Enter airport name or ICAO code (e.g. LQSA, LQMO, LQBK) to access the AIP VFR approach charts provided by BHANSA.",
+    "metaDescription": "Browse AIP VFR Bosnia and Herzegovina and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
     "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
     "resultTitle": "AIP VFR Charts of {airport}",
     "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
     "breadcrumb": {
-      "name": "AIP VFR Slovenia",
-      "alternateName": "Index of AIP VFR and visual approach charts Slovenia",
-      "description": "Browse AIP VFR Slovenia and download airport approach charts for free"
+      "name": "AIP VFR Bosnia and Herzegovina",
+      "alternateName": "Index of AIP VFR and visual approach charts Bosnia and Herzegovina",
+      "description": "Browse AIP VFR Bosnia and Herzegovina and download airport approach charts for free"
     }
   },
   "LocaleSwitcher": {
     "label": "Switch language",
-    "locale": "{locale, select, si {🇸🇮 Slovenščina} en {🇬🇧 English} other {Unknown}}"
+    "locale": "{locale, select, ba {🇧🇦 Bosanski} en {🇬🇧 English} other {Unknown}}"
   },
   "CountrySiteNavElement": {
-    "name": "AIP and approach charts of Slovenia",
-    "alternateName": "AIP Slovenia",
-    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Slovenia",
+    "name": "AIP and approach charts of Bosnia and Herzegovina",
+    "alternateName": "AIP Bosnia and Herzegovina",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Bosnia and Herzegovina",
     "inLanguage": "en",
-    "url": "https://aip.aero/si/en/"
+    "url": "https://aip.aero/ba/en/"
   },
   "CountryPage": {
-    "title": "AIP and approach charts of Slovenia",
-    "metaTitle": "🛩️ AIP and approach charts of Slovenia",
-    "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Slovenia",
-    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Slovenia🗺️",
+    "title": "AIP and approach charts of Bosnia and Herzegovina",
+    "metaTitle": "🛩️ AIP and approach charts of Bosnia and Herzegovina",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Bosnia and Herzegovina",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Bosnia and Herzegovina🗺️",
     "vfrCard": {
-      "title": "AIP VFR Slovenia",
-      "description": "Browse AIP VFR Slovenia and download airport approach charts for free",
+      "title": "AIP VFR Bosnia and Herzegovina",
+      "description": "Browse AIP VFR Bosnia and Herzegovina and download airport approach charts for free",
       "buttonTitle": "AIP VFR approach charts",
-      "buttonHref": "/si/en/vfr/",
-      "buttonHrefTitle": "AIP VFR Slovenia"
+      "buttonHref": "/ba/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Bosnia and Herzegovina"
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Slovenia - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Bosnia and Herzegovina - with offline download, customs and fuel info",
       "buttonTitle": "Airport List",
-      "buttonHref": "/si/en/airport-list-slovenia/",
-      "buttonHrefTitle": "List of Airfields/ Airports Slovenia"
+      "buttonHref": "/ba/en/airport-list-bosnia/",
+      "buttonHrefTitle": "List of Airfields/ Airports Bosnia and Herzegovina"
     },
     "breadcrumb": {
-      "name": "AIP Slovenia",
-      "alternateName": "AIP and approach charts of Slovenia",
-      "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Slovenia"
+      "name": "AIP Bosnia and Herzegovina",
+      "alternateName": "AIP and approach charts of Bosnia and Herzegovina",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Bosnia and Herzegovina"
     }
   },
   "About": {
     "title": "What is this website for?",
-    "description": "The <aip>Slovenian Aeronautical Information Publication AIP</aip> is available as a free version. This website aims to simplify the search for airfields, as the version from Slovenia Control does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only provide convenient links to the respective approach charts.",
-    "aipUrl": "https://aim.sloveniacontrol.si/",
-    "aipTitle": "AIP Slovenia"
+    "description": "The <aip>Bosnia and Herzegovina Aeronautical Information Publication AIP</aip> is available as a free version, published by BHANSA (the Bosnia and Herzegovina Air Navigation Services Agency). This website aims to simplify the search for airfields, as the official eAIP does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only provide convenient links to the respective approach charts.",
+    "aipUrl": "https://eaip.bhansa.gov.ba/",
+    "aipTitle": "AIP Bosnia and Herzegovina"
   },
   "TradeAero": {
     "title": "Buying or selling an aircraft?",
-    "description": "Browse aircraft for sale in Slovenia on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "description": "Browse aircraft for sale in Bosnia and Herzegovina on Trade:Aero - the marketplace for buying and selling aircraft.",
     "buttonTitle": "Trade:Aero - Europe's largest aircraft marketplace",
     "buttonHrefTitle": "Trade:Aero - Europe's largest aircraft marketplace"
   },
@@ -170,7 +170,7 @@
     },
     "terms": {
       "title": "Terms of Service",
-      "hrefTitle": "Terms of Service - AIP:Aero Slovenia"
+      "hrefTitle": "Terms of Service - AIP:Aero Bosnia and Herzegovina"
     },
     "efb": {
       "title": "EFB Guide",
@@ -294,14 +294,14 @@
     "srcOurAirports": "airport base data",
     "srcOpenAip": "extended aerodrome data: runways, frequencies, fuel",
     "srcOsm": "maps and addresses",
-    "metaTitle": "Terms of Service - AIP:Aero Slovenia",
-    "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for Slovenia and Europe: service description, disclaimer of liability and data sources."
+    "metaTitle": "Terms of Service - AIP:Aero Bosnia and Herzegovina",
+    "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for Bosnia and Herzegovina and Europe: service description, disclaimer of liability and data sources."
   },
   "EfbPage": {
     "title": "Using AIP:Aero on your EFB (Electronic Flight Bag)",
     "intro": "How to install AIP:Aero on your EFB (Electronic Flight Bag) tablet, save approach charts offline, download country packs and hand fields over to your planning tools - step by step.",
-    "metaTitle": "EFB Guide Slovenia - AIP & approach charts on your tablet | AIP:Aero",
-    "metaDescription": "Install AIP:Aero as an app on your EFB tablet, save approach charts offline, download whole countries and import chart PDFs into ForeFlight, SkyDemon & Co (Slovenia).",
+    "metaTitle": "EFB Guide Bosnia and Herzegovina - AIP & approach charts on your tablet | AIP:Aero",
+    "metaDescription": "Install AIP:Aero as an app on your EFB tablet, save approach charts offline, download whole countries and import chart PDFs into ForeFlight, SkyDemon & Co (Bosnia and Herzegovina).",
     "installTitle": "Install as an app (PWA)",
     "installText": "AIP:Aero is an installable web app: it opens full-screen like a native app and everything you save is available offline. No app store needed.",
     "installIos": "iPad / iPhone (Safari): open aip.aero, tap the share icon, then \"Add to Home Screen\".",
@@ -335,12 +335,12 @@
   },
   "CountryFaq": {
     "title": "Frequently asked questions",
-    "q1": "What is the AIP Slovenia?",
-    "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Slovenia, published by Slovenia Control: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
+    "q1": "What is the AIP Bosnia and Herzegovina?",
+    "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Bosnia and Herzegovina, published by BHANSA (the Bosnia and Herzegovina Air Navigation Services Agency): aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
     "q2": "Are the approach charts free?",
-    "a2": "Yes - Slovenia Control publishes the AIP of Slovenia including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
-    "q3": "Which charts and airfields are available for Slovenia?",
-    "a3": "For Slovenia you will find <vfr>VFR airfields</vfr> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
+    "a2": "Yes - BHANSA publishes the AIP of Bosnia and Herzegovina including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
+    "q3": "Which charts and airfields are available for Bosnia and Herzegovina?",
+    "a3": "For Bosnia and Herzegovina you will find <vfr>VFR airfields</vfr> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
     "q4": "Can I use AIP:Aero offline or on my EFB?",
     "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
   }

@@ -293,7 +293,8 @@
     "recentlyViewed": "Recent bekeken",
     "recentlyViewedEmpty": "Vliegvelden die u opent verschijnen hier automatisch voor snelle toegang.",
     "borderCrossing": "Grensoverschrijding",
-    "alsoAvailable": "Ook beschikbaar:"
+    "alsoAvailable": "Ook beschikbaar:",
+    "aipLoginHint": "Mogelijk zijn inloggen of registratie vereist."
   },
   "Chart": {
     "allCharts": "Alle kaarten ({count})",

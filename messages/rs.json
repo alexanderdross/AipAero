@@ -263,7 +263,8 @@
     "recentlyViewed": "Nedavno pregledano",
     "recentlyViewedEmpty": "Aerodromi koje otvorite automatski će se pojaviti ovde za brz pristup.",
     "borderCrossing": "Prelazak granice",
-    "alsoAvailable": "Takođe dostupno:"
+    "alsoAvailable": "Takođe dostupno:",
+    "aipLoginHint": "Možda će biti potrebna prijava ili registracija."
   },
   "Chart": {
     "allCharts": "Sve karte ({count})",

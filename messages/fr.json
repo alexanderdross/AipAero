@@ -293,7 +293,8 @@
     "recentlyViewed": "Consultés récemment",
     "recentlyViewedEmpty": "Les terrains que vous consultez apparaîtront ici automatiquement pour un accès rapide.",
     "borderCrossing": "Passage frontalier",
-    "alsoAvailable": "Également disponible :"
+    "alsoAvailable": "Également disponible :",
+    "aipLoginHint": "Une connexion ou une inscription peut être requise."
   },
   "Chart": {
     "allCharts": "Toutes les cartes ({count})",

@@ -263,7 +263,8 @@
     "recentlyViewed": "Nedávno zobrazené",
     "recentlyViewedEmpty": "Otvorené letiská sa tu automaticky zobrazia pre rýchly prístup.",
     "borderCrossing": "Prekročenie hranice",
-    "alsoAvailable": "K dispozícii aj:"
+    "alsoAvailable": "K dispozícii aj:",
+    "aipLoginHint": "Môže byť potrebné prihlásenie alebo registrácia."
   },
   "Chart": {
     "allCharts": "Všetky mapy ({count})",

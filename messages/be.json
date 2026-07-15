@@ -363,7 +363,8 @@
     "recentlyViewed": "Recently viewed",
     "recentlyViewedEmpty": "Airfields you open will appear here automatically for quick access.",
     "borderCrossing": "Border crossing",
-    "alsoAvailable": "Also available:"
+    "alsoAvailable": "Also available:",
+    "aipLoginHint": "A login or registration may be required."
   },
   "Chart": {
     "allCharts": "All charts ({count})",

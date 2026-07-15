@@ -293,7 +293,8 @@
     "recentlyViewed": "Viimeksi katsotut",
     "recentlyViewedEmpty": "Avaamasi kentät ilmestyvät tähän automaattisesti nopeaa käyttöä varten.",
     "borderCrossing": "Rajanylitys",
-    "alsoAvailable": "Myös saatavilla:"
+    "alsoAvailable": "Myös saatavilla:",
+    "aipLoginHint": "Kirjautuminen tai rekisteröityminen voi olla tarpeen."
   },
   "Chart": {
     "allCharts": "Kaikki kartat ({count})",

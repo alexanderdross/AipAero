@@ -21,7 +21,12 @@ import {
   routing,
   isSingleLocale,
 } from "~/i18n/routing";
-import { countryHasType, i18nPathMapping, orgUrl } from "~/lib/utils";
+import {
+  countryHasType,
+  i18nPathMapping,
+  isGatedCountry,
+  orgUrl,
+} from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 import { type Airport } from "~/server/db/schema";
 
@@ -225,6 +230,7 @@ export function createSearchPage(config: SearchPageConfig) {
 
     const p = Object.keys(await searchParams);
     const t = await getTranslations(namespace);
+    const tCommon = await getTranslations("Common");
 
     let data: Airport | undefined;
     const country = localeCountryMapping[locale]!;
@@ -307,6 +313,14 @@ export function createSearchPage(config: SearchPageConfig) {
                       aria-hidden="true"
                     />
                   </ExternalLink>
+                  {/* Gated countries (e.g. CH/skybriefing): the AIP portal
+                      needs a login / registration, so tell the reader before
+                      they click into a paywall. */}
+                  {isGatedCountry(country) && (
+                    <p className="mt-2 text-sm text-white/90">
+                      {tCommon("aipLoginHint")}
+                    </p>
+                  )}
                 </li>
               )}
             </ol>

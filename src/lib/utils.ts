@@ -106,7 +106,28 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // SK: the LPS SR eAIP lists AD-2 aerodromes only (5 international fields,
   // type "vfr"); there is no AD-3 heliport chapter.
   sk: ["vfr"],
+  // BA: BHANSA's eAIP lists AD 2 (4 international aerodromes) + AD 4 (the
+  // small VFR fields), all "vfr"; there is no AD-3 heliport chapter.
+  ba: ["vfr"],
+  // CH: info-page only (skybriefing charts are paywalled). The aerodrome list
+  // comes from OurAirports; each field is "vfr" with OpenAIP data + weather and
+  // a blue AIP button to the skybriefing portal (no chart crawl).
+  ch: ["vfr"],
 };
+
+/**
+ * Countries whose official AIP / charts sit behind a login or paid
+ * registration, so we deliberately do NOT crawl charts and instead link the
+ * provider's portal (the airport `url`). The detail page shows a
+ * "registration may be required" hint next to the AIP button. Keyed by the
+ * two-letter country code (`localeCountryMapping[locale]`).
+ */
+export const gatedCountries = new Set<string>(["ch"]);
+
+/** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
+export function isGatedCountry(country: string): boolean {
+  return gatedCountries.has(country);
+}
 
 /** True if `country` (two-letter code) exposes the given search page type. */
 export function countryHasType(
@@ -187,6 +208,25 @@ export const liveCountries: string[] = [
   // (run 29446360729 - 41 aerodromes + 45 heliports, 100% chart coverage). First
   // data published to production D1 (86 rows).
   "gr",
+  // Bosnia and Herzegovina (15.07.2026): BHANSA publishes a standard
+  // eurocontrol eAIP at eaip.bhansa.gov.ba. The edition folder is date-stamped
+  // (<YYYY-MM-DD>-AIRAC), so the crawler derives the current edition from the
+  // AIRAC schedule (no JS root), then reads the per-airport AD 2 (4
+  // international aerodromes) + AD 4 (small VFR fields) chapters, all "vfr".
+  // Live-validated (run 29448132449 - 17 aerodromes, 4/17 chart-PDF coverage,
+  // the 4 international fields; the AD-4 VFR fields carry a text AD entry only).
+  // First data published to production D1 via the manual crawl dispatch.
+  "ba",
+  // Switzerland (15.07.2026): info-page only - skybriefing (skyguide) publishes
+  // the official Swiss AIP + charts behind a login/registration, so we do NOT
+  // crawl charts. The aerodrome list comes from OurAirports; each field is a
+  // "vfr" row with OpenAIP data + weather and a blue AIP button to the
+  // skybriefing portal (https://www.skybriefing.com/en/aip, verified 200 via
+  // the live-test check_urls). Gated (see gatedCountries): the detail page
+  // shows a "registration may be required" hint. Live-validated (run
+  // 29449399452 - 67 aerodromes, 0 charts by design). First data published to
+  // production D1 via the manual crawl dispatch.
+  "ch",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -230,4 +270,11 @@ export const countryMeta: Record<
   rs: { lang: "sr", name: "Serbia", flag: "🇷🇸", nativeLang: "Serbian" },
   ie: { lang: "en", name: "Ireland", flag: "🇮🇪", nativeLang: "English" },
   sk: { lang: "sk", name: "Slovakia", flag: "🇸🇰", nativeLang: "Slovak" },
+  ba: {
+    lang: "bs",
+    name: "Bosnia and Herzegovina",
+    flag: "🇧🇦",
+    nativeLang: "Bosnian",
+  },
+  ch: { lang: "de", name: "Switzerland", flag: "🇨🇭", nativeLang: "German" },
 };

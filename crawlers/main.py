@@ -16,7 +16,9 @@ from time import perf_counter
 from pydantic import ValidationError
 
 from crawlers.at import AT
+from crawlers.ba import BA
 from crawlers.be import BE
+from crawlers.ch import CH
 from crawlers.cz import CZ
 from crawlers.de import DE
 from crawlers.ee import EE
@@ -49,6 +51,8 @@ logger = logging.getLogger()
 # (e.g. `uv run main.py NL UK` to re-crawl only the Netherlands and the UK).
 COUNTRY_CRAWLERS = {
     "AT": AT,
+    "BA": BA,
+    "CH": CH,
     "DE": DE,
     "EE": EE,
     "ES": ES,

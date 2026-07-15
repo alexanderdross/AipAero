@@ -293,7 +293,8 @@
     "recentlyViewed": "Hiljuti vaadatud",
     "recentlyViewedEmpty": "Avatud lennuväljad ilmuvad siia automaatselt kiireks juurdepääsuks.",
     "borderCrossing": "Piiriületus",
-    "alsoAvailable": "Samuti saadaval:"
+    "alsoAvailable": "Samuti saadaval:",
+    "aipLoginHint": "Võib olla vajalik sisselogimine või registreerimine."
   },
   "Chart": {
     "allCharts": "Kõik kaardid ({count})",
