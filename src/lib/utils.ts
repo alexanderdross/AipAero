@@ -172,6 +172,13 @@ export const liveCountries: string[] = [
   // the major fields; small GA fields carry a text AD entry only). First data
   // published to production D1 via the manual crawl dispatch (22 rows).
   "ie",
+  // Slovakia (15.07.2026): the LPS SR AIS portal (aim.lps.sk) is session-based
+  // PHP, but its AIP SR page publicly links the currently effective eAIP - a
+  // standard eurocontrol frameset (LZ-frameset-en-SK.html) - with no login.
+  // Crawler resolves the "Currently Effective" edition, then AD-2;
+  // live-validated (run 29443130839 - 5 international aerodromes, 5/5 chart-PDF
+  // coverage, 101 charts). First data published to production D1 (5 rows).
+  "sk",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source
   // (HASP rejects even the Web Unlocker, see crawlers/recon/):
   // "gr",
