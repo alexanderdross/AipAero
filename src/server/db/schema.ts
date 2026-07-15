@@ -131,4 +131,9 @@ export const airportFactsApiInsertSchema =
 export const crawlMeta = createTable("crawl_meta", {
   country: text("country").primaryKey(),
   updatedAt: integer("updated_at").notNull(), // unix seconds
+  // AIRAC/edition effective date of the crawled data (ISO "2026-07-09"),
+  // derived from the source's edition-dated chart/page URLs at crawl time
+  // (airacDateFromUrl). Nullable: sources whose URLs carry no date (e.g. CZ)
+  // leave it null and the list page shows only the crawl "last updated" line.
+  airac: text("airac"),
 });

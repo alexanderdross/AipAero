@@ -1,0 +1,1 @@
+ALTER TABLE `aip_aero_v4_crawl_meta` ADD `airac` text;

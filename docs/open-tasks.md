@@ -1,6 +1,32 @@
-# AIP:Aero - Offene Aufgaben (Stand: 14.07.2026)
+# AIP:Aero - Offene Aufgaben (Stand: 15.07.2026)
 
 Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional · ✅ erledigt
+
+## Aktuelle Priorität (Owner 15.07.2026): 4 (AIRAC-Anzeige) → 3 (LT-VFR-Manual) → 2 (GR)
+
+## ✅ Heute erledigt (15.07.2026, gemergt)
+
+- **Flughafenlisten "Karte da, aber keine Liste" - GEFIXT (PR #271).** `cachedRead`
+  cachte zur Laufzeit ein leeres `[]`, wenn das D1-Binding fehlte (Hintergrund-
+  ISR-Regeneration ohne Cloudflare-Kontext) - das vergiftete die Liste sitewide
+  (Karte lief weiter, weil client-gefetcht). Fix: beim Build weiter leeres
+  Fallback, zur Laufzeit **werfen** statt leer zu cachen (stale-while-revalidate
+  hält die letzte volle Liste). Produktion sofort per CD-Rerun wiederhergestellt.
+- **SI AD-4** crawlen (PR #271): SI **4 → 16** Flugplätze (greift beim nächsten
+  Crawl); eurocontrol-Base-Titel für AD 4 gesäubert. **DK AD-4**: Sackgasse
+  (Dänemark publiziert Privatplätze nur als Listen-PDF, Live-Walk = 0) - dokumentiert.
+- **Chart-Liste nach Flugphase gruppiert (PR #272):** Flugplatz → Sicht (VFR) →
+  Anflug → Ankunft → Abflug → Sonstige, mit Gruppen-Überschriften, VFR-first
+  (Owner-Wunsch). `charts.ts` `chartCategory`/`groupChartsByCategory`, i18n in
+  allen 42 Locales.
+- **Breadcrumb-`MISSING_MESSAGE` gefixt (PR #273):** CZ `/vfr` + PT `/heliports`
+  fehlten in `BreadCrumbs` (Seiten nach Onboarding dazugekommen, i18n nie
+  nachgezogen) - warfen Laufzeitfehler. Einträge ergänzt + **neuer CI-Guard**
+  in `check-i18n.mjs` (jede Locale muss Breadcrumbs für jede tatsächlich
+  gerenderte Seite haben, aus `countryTypeAvailability`).
+- **IndexNow live verifiziert:** Key-Datei 200 (exakter Key), Submit an
+  `api.indexnow.org` → HTTP 200 (akzeptiert). Der Bing-WMT-"Get Started"-Screen
+  ist kein Fehler - das Dashboard hinkt hinterher / braucht Property-Verifikation.
 
 ## ✅ 0. OpenAIP-Coord-Backfill - ERLEDIGT + APPLY GELAUFEN (14.07.2026)
 
@@ -164,7 +190,16 @@ Produktion geschrieben (201 Created, kein Drop-Guard-Block). Die Fixes sind auf
 `main` (PR #154) - der **nächtliche** Crawl nutzt sie ab jetzt. Nichts mehr
 offen.
 
-## 3. DK live verifizieren + freischalten 🟡 (Claude)
+## ✅ 3. DK live - ERLEDIGT (14.07.2026, launched)
+
+**DK ist live** (in `liveCountries`), Crawler läuft über die **Naviair-Umbraco-
+JSON-API** (browserlos, `dk.py` walkt `getnodesforparent`); Playwright bleibt nur
+als Diagnose-Fallback. Letzter Live-Test: **DK OK, 34 Flugplätze**. Der frühere
+Befund unten (AngularJS-SPA nicht navigierbar) ist damit **überholt** - die
+Lösung war die offene JSON-Tree-API, nicht der SPA-Render. (Historie zur
+Nachvollziehbarkeit belassen.)
+
+<details><summary>Historischer Befund (überholt)</summary>
 
 **Erledigt (im Code):** `PlaywrightCrawlerBase` (headless-Chromium, lazy import,
 fail-soft), `dk.py` darauf portiert; Live-Test + `crawl.yml` installieren
@@ -191,6 +226,8 @@ Netzwerk-Intercept ermitteln und direkt abfragen. Bis dahin bleibt DK in
 
 → Ergebnis bei Umsetzung: **11 von 12 Ländern live** (aktuell **10 live**: alle
 außer DK und GR)
+
+</details>
 
 ## 4. GR: Web Unlocker liefert `502 Access denied` 🟡 (Owner-Diagnose nötig)
 

@@ -15,6 +15,7 @@ import {
 import { unstable_cache, revalidateTag } from "next/cache";
 import { cache } from "react";
 import { submitCountryToIndexNow } from "~/lib/indexnow";
+import { mostCommonAirac } from "~/lib/charts";
 import { getDb, type DB } from "~/server/db";
 import {
   type InsertAirport,
@@ -425,6 +426,27 @@ export const QUERIES = {
       null,
     );
   },
+  crawlAirac: function (country: string) {
+    // AIRAC/edition date (ISO "2026-07-09") of this country's crawled data,
+    // stamped at crawl time from the sources' edition-dated URLs. Null when the
+    // source's URLs carry no date (CZ) or the country was never crawled. Light
+    // per-country read (same table + country tag as crawlUpdatedAt), so the
+    // charts index can add an "AIRAC …" line without loading airport rows.
+    country = country.toUpperCase();
+    return cachedRead<string | null>(
+      "crawlAirac",
+      ["crawlAirac", country],
+      ["crawlAirac", countryTag(country)],
+      (db) =>
+        db
+          .select({ airac: crawlMeta.airac })
+          .from(crawlMeta)
+          .where(eq(crawlMeta.country, country))
+          .limit(1)
+          .then((rows) => rows[0]?.airac ?? null),
+      null,
+    );
+  },
   airportFacts: function (icao: string) {
     // Embedded aerodrome facts by ICAO (OurAirports base, imported into D1).
     // Cached with a single global tag - the importer refreshes all rows at once.
@@ -500,12 +522,19 @@ export const MUTATIONS = {
     // so the charts list can show a real "last updated" per country. Runs only
     // at runtime (the crawler POST), where `Date` is available.
     const crawledAt = Math.floor(Date.now() / 1000);
+    // AIRAC/edition date of this data, from the sources' edition-dated URLs.
+    // All of a country's charts share one edition, so take the MOST COMMON
+    // parsed date (robust against a stray odd URL); null when none carry a date.
+    const airac = mostCommonAirac(input);
     const crawlStmt = db
       .insert(crawlMeta)
-      .values({ country, updatedAt: crawledAt })
+      .values({ country, updatedAt: crawledAt, airac })
       .onConflictDoUpdate({
         target: crawlMeta.country,
-        set: { updatedAt: sql`excluded.updated_at` },
+        set: {
+          updatedAt: sql`excluded.updated_at`,
+          airac: sql`excluded.airac`,
+        },
       });
     const statements = [deleteStmt, ...insertStmts, crawlStmt];
     const result = await db.batch(

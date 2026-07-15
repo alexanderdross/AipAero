@@ -6,6 +6,7 @@ import {
   chartTypeLabel,
   cleanChartName,
   groupChartsByCategory,
+  mostCommonAirac,
   parseCharts,
   type ChartLink,
 } from "./charts";
@@ -218,5 +219,41 @@ describe("groupChartsByCategory", () => {
       { name: "AD 2-LKTB-2-1", url: "u/unknown" },
     ]);
     expect(groups.map((g) => g.category)).toEqual(["aerodrome", "other"]);
+  });
+});
+
+describe("mostCommonAirac", () => {
+  const AT =
+    "https://eaip.austrocontrol.at/lo/260710/Charts/LOWG/LO_AD_2_LOWG_1-1_en.pdf";
+  const AT2 = "https://eaip.austrocontrol.at/lo/260710/ad_2_lowi.htm";
+  it("returns the mode edition date across airports (pdfUrl preferred)", () => {
+    expect(
+      mostCommonAirac([
+        { url: AT2, pdfUrl: AT },
+        { url: AT2, pdfUrl: AT },
+      ]),
+    ).toBe("2026-07-10");
+  });
+  it("falls back to url when pdfUrl is absent/null", () => {
+    expect(mostCommonAirac([{ url: AT2 }])).toBe("2026-07-10");
+    expect(mostCommonAirac([{ url: AT2, pdfUrl: null }])).toBe("2026-07-10");
+  });
+  it("picks the most common date when they differ", () => {
+    const older = "https://eaip.austrocontrol.at/lo/260612/x_1-1_en.pdf";
+    expect(
+      mostCommonAirac([
+        { url: "x", pdfUrl: AT },
+        { url: "x", pdfUrl: AT },
+        { url: "x", pdfUrl: older },
+      ]),
+    ).toBe("2026-07-10");
+  });
+  it("is null when no url carries a parseable date", () => {
+    expect(
+      mostCommonAirac([
+        { url: "https://aim.rlp.cz/eaip/graphics/a2-tb-adc.pdf" },
+      ]),
+    ).toBeNull();
+    expect(mostCommonAirac([])).toBeNull();
   });
 });
