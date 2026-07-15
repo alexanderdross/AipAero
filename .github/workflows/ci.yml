@@ -60,7 +60,29 @@ jobs:
       - name: Audit dependencies (high+)
         # Fails on high or critical advisories. Complements Dependabot
         # security updates by gating PRs that touch the lockfile.
-        run: pnpm audit --audit-level=high --prod
+        #
+        # The npm audit registry endpoint intermittently returns
+        # ERR_PNPM_AUDIT_BAD_RESPONSE (endpoint/infra hiccup, NOT a
+        # vulnerability). That must not red-fail an unrelated PR: retry a few
+        # times and, if the endpoint stays unreachable, warn and pass. A real
+        # advisory (audit ran and found high/critical) still fails the job, and
+        # Dependabot remains the backstop.
+        run: |
+          set +e
+          for i in 1 2 3; do
+            out="$(pnpm audit --audit-level=high --prod 2>&1)"
+            code=$?
+            if [ "$code" -eq 0 ]; then echo "$out"; exit 0; fi
+            if printf '%s' "$out" | grep -q "ERR_PNPM_AUDIT_BAD_RESPONSE"; then
+              echo "::warning::pnpm audit endpoint bad response (attempt $i/3); retrying..."
+              sleep $((i * 5))
+              continue
+            fi
+            echo "$out"
+            exit "$code"
+          done
+          echo "::warning::pnpm audit endpoint unreachable (ERR_PNPM_AUDIT_BAD_RESPONSE) after 3 tries - passing (registry infra, not a vulnerability; Dependabot is the backstop)."
+          exit 0
 
       # The website deploys to Cloudflare Workers via the OpenNext adapter.
       # The build no longer needs a database: DB reads go through the `DB`
