@@ -99,6 +99,27 @@ def test_resolve_edition_no_token_raises(gr: GR):
         gr._resolve_edition_base("<html>nothing</html>")
 
 
+def test_airac_dates_follow_28day_cycle(gr: GR):
+    # Newest-first AIRAC effective dates on/before 15 JUL 2026.
+    ds = GR.airac_dates_on_or_before(datetime.date(2026, 7, 15), 3)
+    assert ds == [
+        datetime.date(2026, 7, 9),
+        datetime.date(2026, 6, 11),
+        datetime.date(2026, 5, 14),
+    ]
+
+
+def test_edition_token_matches_real_folders(gr: GR):
+    assert (
+        GR._edition_token(6, datetime.date(2026, 7, 9))
+        == "aipgr_incl_amdt_0626_wef_09jul2026"
+    )
+    assert (
+        GR._edition_token(7, datetime.date(2026, 8, 6))
+        == "aipgr_incl_amdt_0726_wef_06aug2026"
+    )
+
+
 def test_parse_menu_ad2_and_ad3(gr: GR):
     base = "https://aisgr.hasp.gov.gr/aipgr_incl_amdt_0626_wef_09jul2026/cd/ais/"
     aps = gr._parse_menu(_MENU, base)
