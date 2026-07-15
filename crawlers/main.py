@@ -120,7 +120,12 @@ def main(countries: list[str] | None = None):
             country = crawler.country
             end = perf_counter()
             logger.info(f"Finished crawling {country} in {end - start:.2f} seconds")
-            output_handler.write_output(airports, country)
+            # `crawler.airac` is set only by crawlers that know their edition
+            # date but store date-less URLs (DE); None for everyone else, where
+            # the website derives the edition from the airport URLs.
+            output_handler.write_output(
+                airports, country, airac=crawler.airac
+            )
         except Exception as e:
             # Per-country isolation: log and continue with the next crawler.
             logger.error(f"Error in crawler {crawler.country}: {e}")

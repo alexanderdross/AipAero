@@ -289,3 +289,20 @@ def test_process_ifr_dedups_and_maps_types(de: DE):
     pairs = sorted((a.icao, a.airport_type) for a in airports)
     # EDDS appeared twice in the index but is crawled once; types mapped.
     assert pairs == [("EDDF", "ifr"), ("EDDS", "ifr"), ("EDXH", "heliport")]
+
+
+def test_capture_edition_from_physical_url():
+    """The DFS edition token in a physical URL -> self.airac (ISO), first wins."""
+    c = DE()
+    c._capture_edition("https://aip.dfs.de/BasicVFR/2026JUN25/chapter/abc.html")
+    assert c.airac == "2026-06-25"
+    # First edition wins; a later (IFR) edition does not overwrite it.
+    c._capture_edition("https://aip.dfs.de/BasicIFR/2026JUL23/chapter/def.html")
+    assert c.airac == "2026-06-25"
+
+
+def test_capture_edition_ignores_dateless_permalink():
+    """A date-less `pages/CNNNNN.html` permalink leaves self.airac None."""
+    c = DE()
+    c._capture_edition("https://aip.dfs.de/BasicVFR/pages/C019CA.html")
+    assert c.airac is None

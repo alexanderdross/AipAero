@@ -137,11 +137,18 @@ class OutputHandler:
         if ratio >= TITLE_QUALITY_WARN_RATIO:
             print(f"::warning title=Title quality::{msg}", flush=True)
 
-    def write_output(self, airports: list[Airport], country: str) -> None:
+    def write_output(
+        self, airports: list[Airport], country: str, airac: str | None = None
+    ) -> None:
         """Validate, serialize and POST one country's airports to the API.
 
         Bails (without error) on an empty result or a tripped drop guard;
         only records the new baseline counts after the POST actually succeeds.
+
+        ``airac`` (ISO edition date) is forwarded to the API as an ``?airac=``
+        query param when a crawler provides it (DE, whose stored URLs carry no
+        date); the API stamps it into ``crawl_meta.airac``. Omitted otherwise -
+        the website derives the edition from the airport URLs for those sources.
         """
         # An empty result never overwrites live data (would look like a total loss).
         if not airports:
@@ -209,10 +216,16 @@ class OutputHandler:
         ]
 
         # POST the batch with the CRON_SECRET bearer token; 4xx/5xx raises.
+        # Forward the edition date (when the crawler knows it) as ?airac=.
+        endpoint = self.settings.api_endpoint
+        if airac:
+            sep = "&" if "?" in endpoint else "?"
+            endpoint = f"{endpoint}{sep}airac={airac}"
+            self.logger.info(f"{country}: forwarding AIRAC {airac} to the API")
         try:
             with httpx.Client(timeout=HTTP_TIMEOUT) as client:
                 response = client.post(
-                    self.settings.api_endpoint,
+                    endpoint,
                     json=payload,
                     headers={"Authorization": f"Bearer {self.settings.api_key}"},
                 )

@@ -17,6 +17,7 @@ import { getAirportFacts } from "~/lib/airport-facts";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { airacDateFromUrl, parseCharts } from "~/lib/charts";
 import { isPdfUrl } from "~/lib/utils";
+import { QUERIES } from "~/server/db/queries";
 import type { Airport } from "~/server/db/schema";
 
 /**
@@ -112,6 +113,23 @@ export async function AirportGadgets({
   // Every remaining item of the two boxes with no first-class schema.org field,
   // as PropertyValue entries so the Airport JSON-LD mirrors what is displayed.
   const lang = localeLangMapping[locale] ?? "en";
+  // AIRAC edition date for detail pages WITHOUT a chart-PDF box (the box shows
+  // its own AIRAC inline, so we never duplicate it). Prefer the field's own
+  // edition-dated URL (IS/FR); fall back to the country's stamped edition
+  // (crawl_meta.airac) for sources whose URLs carry no date (DE permalinks,
+  // BE/FI eAIP aliases). Only query the country edition when actually needed.
+  const detailAiracIso = chartPdfUrl
+    ? null
+    : (airacDateFromUrl(airport.url) ??
+      (await QUERIES.crawlAirac(airport.country)));
+  const detailAiracLabel = detailAiracIso
+    ? new Intl.DateTimeFormat(lang, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "UTC",
+      }).format(new Date(`${detailAiracIso}T00:00:00Z`))
+    : null;
   const runways = facts?.runways ?? [];
   const surfaces = [...new Set(runways.map((r) => r.surface).filter(Boolean))];
   const props: Array<{ name: string; value: string }> = [];
@@ -233,6 +251,15 @@ export async function AirportGadgets({
               lang={lang}
             />
           </>
+        )}
+        {/* AIRAC edition line for detail pages WITHOUT a chart-PDF box (DE's
+            DFS BasicVFR HTML permalinks, BE/FI eAIP aliases, ...) - the box
+            carries its own AIRAC inline, so this only renders when there is no
+            box, surfacing the data currency there too. */}
+        {detailAiracLabel && (
+          <p className="text-drossgray-dark text-center text-sm">
+            AIRAC {detailAiracLabel}
+          </p>
         )}
         {/* Location + aerodrome-data boxes side by side on >= md (each half
             width, stretched to equal height), stacking on mobile. */}
