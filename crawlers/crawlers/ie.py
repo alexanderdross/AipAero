@@ -108,11 +108,13 @@ class IE(HttpEurocontrolBase):
         )
         return edition_url
 
-    # Chart-PDF extraction: eurocontrol eAIPs label the aerodrome chart
-    # "AD 2.EIDW-2-1"; prefer it, else the first PDF on the page (fail-soft).
-    # Refined from the pdf_url coverage of the first live IE run.
+    # Chart-PDF extraction (recon 2026-07-15): AirNav Ireland's AD 2.24 charts
+    # are EI_AD_2_<ICAO>_24-<n>_en.pdf (sheet 24-1 = the aerodrome chart; the
+    # link text IS the href on this eAIP). Prefer sheet 24-1, else the first
+    # chart on the page. Coverage is 9/22 - only the major aerodromes publish
+    # charts; the small GA fields carry a text AD entry only (correct-by-source).
     FETCH_PDF_URLS = True
-    PDF_TEXT_PRIORITY = (r"AD 2\.\w{4}-2-1$",)
+    PDF_HREF_PRIORITY = (r"_24[-_]1_en\.pdf$",)
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
