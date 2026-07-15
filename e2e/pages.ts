@@ -52,6 +52,7 @@ const countryPages: TestPage[] = [
   { path: "/lt/en/", lang: "en", label: "country lt-EN" },
   { path: "/rs/", lang: "sr", label: "country rs" },
   { path: "/rs/en/", lang: "en", label: "country rs-EN" },
+  { path: "/ie/", lang: "en", label: "country ie" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -96,6 +97,7 @@ const airportListPages: TestPage[] = [
   { path: "/lt/en/airport-list-lithuania/", lang: "en", label: "list lt-EN" },
   { path: "/rs/lista-aerodroma-srbija/", lang: "sr", label: "list rs" },
   { path: "/rs/en/airport-list-serbia/", lang: "en", label: "list rs-EN" },
+  { path: "/ie/airport-list-ireland/", lang: "en", label: "list ie" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -153,6 +155,7 @@ const searchPages: TestPage[] = [
   { path: "/lt/en/vfr/", lang: "en", label: "vfr lt-EN" },
   { path: "/rs/vfr/", lang: "sr", label: "vfr rs" },
   { path: "/rs/en/vfr/", lang: "en", label: "vfr rs-EN" },
+  { path: "/ie/vfr/", lang: "en", label: "vfr ie" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -199,6 +202,7 @@ const termsPages: TestPage[] = [
   { path: "/lt/en/terms/", lang: "en", label: "terms lt-EN" },
   { path: "/rs/terms/", lang: "sr", label: "terms rs" },
   { path: "/rs/en/terms/", lang: "en", label: "terms rs-EN" },
+  { path: "/ie/terms/", lang: "en", label: "terms ie" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).
@@ -245,6 +249,7 @@ const efbPages: TestPage[] = [
   { path: "/lt/en/efb/", lang: "en", label: "efb lt-EN" },
   { path: "/rs/efb/", lang: "sr", label: "efb rs" },
   { path: "/rs/en/efb/", lang: "en", label: "efb rs-EN" },
+  { path: "/ie/efb/", lang: "en", label: "efb ie" },
 ];
 
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */

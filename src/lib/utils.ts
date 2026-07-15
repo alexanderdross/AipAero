@@ -100,6 +100,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // RS: the SMATSA public VFR AIP lists aerodromes AND helidromes as one
   // AD-2 set (~35 fields); the crawler classifies them all as "vfr".
   rs: ["vfr"],
+  // IE: AirNav Ireland's eAIP lists AD-2 aerodromes only (22 fields, type
+  // "vfr"); there is no AD-3 heliport chapter.
+  ie: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -203,4 +206,5 @@ export const countryMeta: Record<
   si: { lang: "sl", name: "Slovenia", flag: "🇸🇮", nativeLang: "Slovenian" },
   lt: { lang: "lt", name: "Lithuania", flag: "🇱🇹", nativeLang: "Lithuanian" },
   rs: { lang: "sr", name: "Serbia", flag: "🇷🇸", nativeLang: "Serbian" },
+  ie: { lang: "en", name: "Ireland", flag: "🇮🇪", nativeLang: "English" },
 };

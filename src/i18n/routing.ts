@@ -45,6 +45,7 @@ export const routing = defineRouting({
     "lt-EN",
     "rs",
     "rs-EN",
+    "ie",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -125,6 +126,7 @@ export const routing = defineRouting({
       "lt-EN": "/airport-list-lithuania",
       rs: "/lista-aerodroma-srbija",
       "rs-EN": "/airport-list-serbia",
+      ie: "/airport-list-ireland",
     },
   },
   localeCookie: false,
@@ -201,6 +203,9 @@ export const localeLangMapping: Record<
   // branches key on the PREFIX "rs" - see the gotcha in CLAUDE.md).
   rs: "sr",
   "rs-EN": "en",
+  // Ireland: single English locale (like uk/be) - the AIP and site content
+  // are English only, so no `ie-EN` twin.
+  ie: "en",
 };
 
 export const localeCountryMapping: Record<
@@ -249,4 +254,5 @@ export const localeCountryMapping: Record<
   "lt-EN": "lt",
   rs: "rs",
   "rs-EN": "rs",
+  ie: "ie",
 };
