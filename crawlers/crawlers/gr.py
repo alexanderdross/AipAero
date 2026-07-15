@@ -300,4 +300,16 @@ class GR(HttpCrawlerBase):
         self.logger.info(
             f"GR: {len(ad2)} AD 2 aerodromes, {len(heliports)} AD 3 heliports"
         )
+        # Diagnostic: if no heliports matched, log the AD-3-ish hrefs so the
+        # real path/naming is visible without another blind runner round.
+        if not heliports:
+            ad3ish = []
+            for a in soup.find_all("a", href=True):
+                h = unquote(a["href"])
+                if re.search(r"AD[ _]?3", h, re.I) and ".pdf" in h.lower():
+                    ad3ish.append(h)
+            self.logger.warning(
+                f"GR: 0 heliports matched; {len(ad3ish)} AD-3-ish pdf hrefs, "
+                f"first 12: {ad3ish[:12]}"
+            )
         return airports
