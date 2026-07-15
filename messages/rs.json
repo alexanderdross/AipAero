@@ -268,7 +268,15 @@
   "Chart": {
     "allCharts": "Sve karte ({count})",
     "title": "Karta prilaza",
-    "openPdf": "Otvori PDF karte"
+    "openPdf": "Otvori PDF karte",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Vizuelno (VFR)",
+      "approach": "Prilaz",
+      "arrival": "Dolazak",
+      "departure": "Odlazak",
+      "other": "Ostalo"
+    }
   },
   "TermsPage": {
     "title": "Uslovi korišćenja",

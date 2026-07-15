@@ -268,7 +268,15 @@
   "Chart": {
     "allCharts": "Visos kortelės ({count})",
     "title": "Artėjimo kortelė",
-    "openPdf": "Atidaryti kortelės PDF"
+    "openPdf": "Atidaryti kortelės PDF",
+    "group": {
+      "aerodrome": "Aerodromas",
+      "visual": "Vizualus (VFR)",
+      "approach": "Artėjimas",
+      "arrival": "Atvykimas",
+      "departure": "Išvykimas",
+      "other": "Kita"
+    }
   },
   "TermsPage": {
     "title": "Naudojimo sąlygos",

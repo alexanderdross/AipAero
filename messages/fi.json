@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Kaikki kartat ({count})",
     "title": "Lähestymiskartta",
-    "openPdf": "Avaa kartta-PDF"
+    "openPdf": "Avaa kartta-PDF",
+    "group": {
+      "aerodrome": "Lentopaikka",
+      "visual": "Näkö (VFR)",
+      "approach": "Lähestyminen",
+      "arrival": "Saapuminen",
+      "departure": "Lähtö",
+      "other": "Muut"
+    }
   },
   "TermsPage": {
     "title": "Käyttöehdot",

@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
   airacDateFromUrl,
+  chartCategory,
   chartDisplayName,
   chartTypeLabel,
   cleanChartName,
+  groupChartsByCategory,
   parseCharts,
+  type ChartLink,
 } from "./charts";
 
 describe("parseCharts", () => {
@@ -157,5 +160,63 @@ describe("chartDisplayName", () => {
     );
     // No known designator: just the cleaned code.
     expect(chartDisplayName("AD 2-LKTB-2-1", "en")).toBe("AD 2-LKTB-2-1");
+  });
+});
+
+describe("chartCategory", () => {
+  it("maps designators to their flight-phase category", () => {
+    expect(chartCategory("ADC 1")).toBe("aerodrome");
+    expect(chartCategory("AOC 2")).toBe("aerodrome");
+    expect(chartCategory("PDC 1")).toBe("aerodrome");
+    expect(chartCategory("ESNX VAC")).toBe("visual");
+    expect(chartCategory("BIKF_8_VFR_RWY_01")).toBe("visual");
+    expect(chartCategory("IAC 5")).toBe("approach");
+    expect(chartCategory("TRAN 1")).toBe("approach");
+    expect(chartCategory("STAR 2")).toBe("arrival");
+    expect(chartCategory("SID 6")).toBe("departure");
+  });
+
+  it("resolves a designator glued to its number (ADC01)", () => {
+    expect(chartCategory("EBAW_ADC01_v48")).toBe("aerodrome");
+    expect(chartCategory("SID12")).toBe("departure");
+  });
+
+  it("returns 'other' for unknown or empty names", () => {
+    expect(chartCategory("AD 2-LKTB-2-1")).toBe("other");
+    expect(chartCategory("")).toBe("other");
+    expect(chartCategory(null)).toBe("other");
+  });
+});
+
+describe("groupChartsByCategory", () => {
+  it("orders groups aerodrome -> visual -> approach -> arrival -> departure -> other, preserving source order within each", () => {
+    const charts: ChartLink[] = [
+      { name: "SID 1", url: "u/sid1" },
+      { name: "ADC 1", url: "u/adc1" },
+      { name: "IAC 2", url: "u/iac2" },
+      { name: "SID 2", url: "u/sid2" },
+      { name: "STAR 1", url: "u/star1" },
+      { name: "ESNX VAC", url: "u/vac" },
+      { name: "IAC 1", url: "u/iac1" },
+    ];
+    const groups = groupChartsByCategory(charts);
+    expect(groups.map((g) => g.category)).toEqual([
+      "aerodrome",
+      "visual",
+      "approach",
+      "arrival",
+      "departure",
+    ]);
+    // within-group order = source order (IAC 2 before IAC 1, SID 1 before SID 2)
+    expect(groups[2]!.charts.map((c) => c.name)).toEqual(["IAC 2", "IAC 1"]);
+    expect(groups[4]!.charts.map((c) => c.name)).toEqual(["SID 1", "SID 2"]);
+  });
+
+  it("omits empty groups and keeps unknown charts under 'other'", () => {
+    const groups = groupChartsByCategory([
+      { name: "ADC 1", url: "u/adc" },
+      { name: "AD 2-LKTB-2-1", url: "u/unknown" },
+    ]);
+    expect(groups.map((g) => g.category)).toEqual(["aerodrome", "other"]);
   });
 });

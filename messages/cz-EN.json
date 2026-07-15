@@ -278,7 +278,15 @@
   "Chart": {
     "allCharts": "All charts ({count})",
     "title": "Approach chart",
-    "openPdf": "Open chart PDF"
+    "openPdf": "Open chart PDF",
+    "group": {
+      "aerodrome": "Aerodrome",
+      "visual": "Visual (VFR)",
+      "approach": "Approach",
+      "arrival": "Arrival",
+      "departure": "Departure",
+      "other": "Other"
+    }
   },
   "TermsPage": {
     "title": "Terms of Service",

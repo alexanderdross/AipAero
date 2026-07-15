@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Alla kartor ({count})",
     "title": "Inflygningskarta",
-    "openPdf": "Öppna kart-PDF"
+    "openPdf": "Öppna kart-PDF",
+    "group": {
+      "aerodrome": "Flygplats",
+      "visual": "Visuell (VFR)",
+      "approach": "Inflygning",
+      "arrival": "Ankomst",
+      "departure": "Avgång",
+      "other": "Övrigt"
+    }
   },
   "TermsPage": {
     "title": "Användarvillkor",

@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Alle kart ({count})",
     "title": "Innflygingskart",
-    "openPdf": "Åpne kart-PDF"
+    "openPdf": "Åpne kart-PDF",
+    "group": {
+      "aerodrome": "Flyplass",
+      "visual": "Visuell (VFR)",
+      "approach": "Innflyging",
+      "arrival": "Ankomst",
+      "departure": "Avgang",
+      "other": "Annet"
+    }
   },
   "TermsPage": {
     "title": "Vilkår for bruk",

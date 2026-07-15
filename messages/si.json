@@ -268,7 +268,15 @@
   "Chart": {
     "allCharts": "Vse karte ({count})",
     "title": "Karta prileta",
-    "openPdf": "Odpri PDF karte"
+    "openPdf": "Odpri PDF karte",
+    "group": {
+      "aerodrome": "Letališče",
+      "visual": "Vizualno (VFR)",
+      "approach": "Prilet",
+      "arrival": "Prihod",
+      "departure": "Odhod",
+      "other": "Drugo"
+    }
   },
   "TermsPage": {
     "title": "Pogoji uporabe",

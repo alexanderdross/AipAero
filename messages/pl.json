@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Wszystkie mapy ({count})",
     "title": "Mapa podejścia",
-    "openPdf": "Otwórz PDF mapy"
+    "openPdf": "Otwórz PDF mapy",
+    "group": {
+      "aerodrome": "Lotnisko",
+      "visual": "Wizualne (VFR)",
+      "approach": "Podejście",
+      "arrival": "Przylot",
+      "departure": "Odlot",
+      "other": "Inne"
+    }
   },
   "TermsPage": {
     "title": "Warunki korzystania",

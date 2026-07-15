@@ -268,7 +268,15 @@
   "Chart": {
     "allCharts": "Öll kort ({count})",
     "title": "Aðflugskort",
-    "openPdf": "Opna PDF-kort"
+    "openPdf": "Opna PDF-kort",
+    "group": {
+      "aerodrome": "Flugvöllur",
+      "visual": "Sjónflug (VFR)",
+      "approach": "Aðflug",
+      "arrival": "Koma",
+      "departure": "Brottför",
+      "other": "Annað"
+    }
   },
   "TermsPage": {
     "title": "Notkunarskilmálar",

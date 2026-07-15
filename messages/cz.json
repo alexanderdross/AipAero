@@ -278,7 +278,15 @@
   "Chart": {
     "allCharts": "Všechny mapy ({count})",
     "title": "Přibližovací mapa",
-    "openPdf": "Otevřít PDF mapy"
+    "openPdf": "Otevřít PDF mapy",
+    "group": {
+      "aerodrome": "Letiště",
+      "visual": "Vizuální (VFR)",
+      "approach": "Přiblížení",
+      "arrival": "Přílet",
+      "departure": "Odlet",
+      "other": "Ostatní"
+    }
   },
   "TermsPage": {
     "title": "Podmínky použití",
