@@ -46,6 +46,8 @@ export const routing = defineRouting({
     "rs",
     "rs-EN",
     "ie",
+    "sk",
+    "sk-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -71,6 +73,7 @@ export const routing = defineRouting({
       "si-EN": "/si/en",
       "lt-EN": "/lt/en",
       "rs-EN": "/rs/en",
+      "sk-EN": "/sk/en",
     },
   },
   pathnames: {
@@ -127,6 +130,8 @@ export const routing = defineRouting({
       rs: "/lista-aerodroma-srbija",
       "rs-EN": "/airport-list-serbia",
       ie: "/airport-list-ireland",
+      sk: "/letiska-slovensko",
+      "sk-EN": "/airport-list-slovakia",
     },
   },
   localeCookie: false,
@@ -206,6 +211,10 @@ export const localeLangMapping: Record<
   // Ireland: single English locale (like uk/be) - the AIP and site content
   // are English only, so no `ie-EN` twin.
   ie: "en",
+  // Slovakia: prefix "sk" == ISO language code "sk", so the LocaleSwitcher ICU
+  // branch keys match without the si/cz/dk/gr caveat.
+  sk: "sk",
+  "sk-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -255,4 +264,6 @@ export const localeCountryMapping: Record<
   rs: "rs",
   "rs-EN": "rs",
   ie: "ie",
+  sk: "sk",
+  "sk-EN": "sk",
 };
