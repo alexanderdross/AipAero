@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Visas kartes ({count})",
     "title": "Pieejas karte",
-    "openPdf": "Atvērt kartes PDF"
+    "openPdf": "Atvērt kartes PDF",
+    "group": {
+      "aerodrome": "Lidlauks",
+      "visual": "Vizuālā (VFR)",
+      "approach": "Pieeja",
+      "arrival": "Ielidošana",
+      "departure": "Izlidošana",
+      "other": "Citi"
+    }
   },
   "TermsPage": {
     "title": "Lietošanas noteikumi",

@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Alle Karten ({count})",
     "title": "Anflugkarte",
-    "openPdf": "Chart-PDF öffnen"
+    "openPdf": "Chart-PDF öffnen",
+    "group": {
+      "aerodrome": "Flugplatz",
+      "visual": "Sicht (VFR)",
+      "approach": "Anflug",
+      "arrival": "Ankunft",
+      "departure": "Abflug",
+      "other": "Sonstige"
+    }
   },
   "TermsPage": {
     "title": "Nutzungsbedingungen",

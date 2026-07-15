@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Kõik kaardid ({count})",
     "title": "Lähenemiskaart",
-    "openPdf": "Ava kaardi PDF"
+    "openPdf": "Ava kaardi PDF",
+    "group": {
+      "aerodrome": "Lennuväli",
+      "visual": "Visuaalne (VFR)",
+      "approach": "Lähenemine",
+      "arrival": "Saabumine",
+      "departure": "Väljumine",
+      "other": "Muud"
+    }
   },
   "TermsPage": {
     "title": "Kasutustingimused",

@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Alle kaarten ({count})",
     "title": "Naderingskaart",
-    "openPdf": "Kaart-PDF openen"
+    "openPdf": "Kaart-PDF openen",
+    "group": {
+      "aerodrome": "Vliegveld",
+      "visual": "Zicht (VFR)",
+      "approach": "Nadering",
+      "arrival": "Aankomst",
+      "departure": "Vertrek",
+      "other": "Overig"
+    }
   },
   "TermsPage": {
     "title": "Gebruiksvoorwaarden",

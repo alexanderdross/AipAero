@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Alle kort ({count})",
     "title": "Indflyvningskort",
-    "openPdf": "Åbn kort-PDF"
+    "openPdf": "Åbn kort-PDF",
+    "group": {
+      "aerodrome": "Flyveplads",
+      "visual": "Visuel (VFR)",
+      "approach": "Indflyvning",
+      "arrival": "Ankomst",
+      "departure": "Afgang",
+      "other": "Andre"
+    }
   },
   "TermsPage": {
     "title": "Vilkår for brug",

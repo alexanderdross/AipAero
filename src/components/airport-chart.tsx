@@ -6,6 +6,7 @@ import {
   airacDateFromUrl,
   chartDisplayName,
   cleanChartName,
+  groupChartsByCategory,
   type ChartLink,
 } from "~/lib/charts";
 import { localeLangMapping } from "~/i18n/routing";
@@ -75,26 +76,40 @@ export async function AirportChart({
         </p>
       )}
 
-      {/* The source's full chart set (collapsed; plain SSR links). Each entry
-          keeps the source's own designation - pilots know these codes. */}
+      {/* The source's full chart set (collapsed; plain SSR links), grouped by
+          flight phase for a mostly-VFR audience: aerodrome -> visual (VFR) ->
+          approach -> arrival -> departure -> other (owner directive
+          15.07.2026). Each entry keeps the source's own designation - pilots
+          know these codes. */}
       {others.length > 0 && (
         <details className="mt-3 text-sm">
           <summary className="text-drossblue cursor-pointer text-center hover:underline">
             {t("allCharts", { count: others.length })}
           </summary>
-          <ul className="mt-2 grid gap-x-4 gap-y-1 sm:grid-cols-2">
-            {others.map((chart) => (
-              <li key={chart.url}>
-                <ExternalLink
-                  href={chart.url}
-                  hrefTitle={`${cleanChartName(chart.name)} (PDF)`}
-                  className="text-drossblue break-words hover:underline"
-                >
-                  {chartDisplayName(chart.name, lang)}
-                </ExternalLink>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-2 space-y-3">
+            {groupChartsByCategory(others).map(
+              ({ category, charts: groupCharts }) => (
+                <div key={category}>
+                  <h3 className="text-drossgray-dark text-xs font-semibold tracking-wide uppercase">
+                    {t(`group.${category}`)}
+                  </h3>
+                  <ul className="mt-1 grid gap-x-4 gap-y-1 sm:grid-cols-2">
+                    {groupCharts.map((chart) => (
+                      <li key={chart.url}>
+                        <ExternalLink
+                          href={chart.url}
+                          hrefTitle={`${cleanChartName(chart.name)} (PDF)`}
+                          className="text-drossblue break-words hover:underline"
+                        >
+                          {chartDisplayName(chart.name, lang)}
+                        </ExternalLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ),
+            )}
+          </div>
         </details>
       )}
     </section>

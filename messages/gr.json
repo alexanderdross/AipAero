@@ -298,7 +298,15 @@
   "Chart": {
     "allCharts": "Όλοι οι χάρτες ({count})",
     "title": "Χάρτης προσέγγισης",
-    "openPdf": "Άνοιγμα PDF χάρτη"
+    "openPdf": "Άνοιγμα PDF χάρτη",
+    "group": {
+      "aerodrome": "Αεροδρόμιο",
+      "visual": "Οπτική (VFR)",
+      "approach": "Προσέγγιση",
+      "arrival": "Άφιξη",
+      "departure": "Αναχώρηση",
+      "other": "Άλλα"
+    }
   },
   "TermsPage": {
     "title": "Όροι χρήσης",

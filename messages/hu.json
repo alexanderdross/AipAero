@@ -268,7 +268,15 @@
   "Chart": {
     "allCharts": "Összes térkép ({count})",
     "title": "Megközelítési térkép",
-    "openPdf": "Térkép PDF megnyitása"
+    "openPdf": "Térkép PDF megnyitása",
+    "group": {
+      "aerodrome": "Repülőtér",
+      "visual": "Vizuális (VFR)",
+      "approach": "Megközelítés",
+      "arrival": "Érkezés",
+      "departure": "Indulás",
+      "other": "Egyéb"
+    }
   },
   "TermsPage": {
     "title": "Felhasználási feltételek",

@@ -268,7 +268,15 @@
   "Chart": {
     "allCharts": "Todas las cartas ({count})",
     "title": "Carta de aproximación",
-    "openPdf": "Abrir PDF de la carta"
+    "openPdf": "Abrir PDF de la carta",
+    "group": {
+      "aerodrome": "Aeródromo",
+      "visual": "Visual (VFR)",
+      "approach": "Aproximación",
+      "arrival": "Llegada",
+      "departure": "Salida",
+      "other": "Otras"
+    }
   },
   "TermsPage": {
     "title": "Condiciones de uso",

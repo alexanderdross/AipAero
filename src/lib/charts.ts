@@ -267,3 +267,83 @@ export function chartDisplayName(name: string, lang: string): string {
   const full = chartTypeLabel(name, lang);
   return full ? `${clean} - ${full}` : clean;
 }
+
+/**
+ * Flight-phase category a chart belongs to, used to GROUP the "all charts" list
+ * on the detail page instead of leaving it in raw source order. Ordered for a
+ * mostly-VFR private-pilot audience: aerodrome layout first, then the visual
+ * (VFR) charts, then the IFR procedures (approach / arrival / departure), with
+ * anything unrecognised last (owner directive 15.07.2026).
+ */
+export type ChartCategory =
+  | "aerodrome"
+  | "visual"
+  | "approach"
+  | "arrival"
+  | "departure"
+  | "other";
+
+// Which category each known designator falls under. Membership mirrors the
+// CHART_TYPES glossary; a code absent here (or an unrecognised name) is "other".
+const CHART_CATEGORY_BY_TYPE: Record<string, ChartCategory> = {
+  ADC: "aerodrome",
+  AOC: "aerodrome",
+  APDC: "aerodrome",
+  PDC: "aerodrome",
+  GMC: "aerodrome",
+  VAC: "visual",
+  VFR: "visual",
+  IAC: "approach",
+  TRAN: "approach",
+  PATC: "approach",
+  LDG: "approach",
+  STAR: "arrival",
+  SID: "departure",
+};
+
+// Display order of the groups (see the ChartCategory doc). "other" always last.
+export const CHART_CATEGORY_ORDER: ChartCategory[] = [
+  "aerodrome",
+  "visual",
+  "approach",
+  "arrival",
+  "departure",
+  "other",
+];
+
+/**
+ * The flight-phase category of a chart, from its designator token (same token
+ * matching as chartTypeLabel: "ADC 1" -> aerodrome, "SID 12" -> departure).
+ * Unrecognised names return "other" so nothing is ever dropped.
+ */
+export function chartCategory(name: string | null | undefined): ChartCategory {
+  if (!name) return "other";
+  for (const token of cleanChartName(name).split(CHART_TOKEN_SPLIT)) {
+    const key = token.toUpperCase().replace(/\d+$/, "");
+    const cat = CHART_CATEGORY_BY_TYPE[key];
+    if (cat) return cat;
+  }
+  return "other";
+}
+
+/**
+ * Group a chart list into the fixed CHART_CATEGORY_ORDER, preserving the
+ * source order WITHIN each group (the sources already number their charts).
+ * Only non-empty groups are returned, so the caller renders a heading only
+ * when that phase has charts. Pure; used by the chart box.
+ */
+export function groupChartsByCategory(
+  charts: ChartLink[],
+): { category: ChartCategory; charts: ChartLink[] }[] {
+  const buckets = new Map<ChartCategory, ChartLink[]>();
+  for (const chart of charts) {
+    const cat = chartCategory(chart.name);
+    const bucket = buckets.get(cat);
+    if (bucket) bucket.push(chart);
+    else buckets.set(cat, [chart]);
+  }
+  return CHART_CATEGORY_ORDER.filter((cat) => buckets.has(cat)).map((cat) => ({
+    category: cat,
+    charts: buckets.get(cat)!,
+  }));
+}
