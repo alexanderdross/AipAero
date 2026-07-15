@@ -13,7 +13,9 @@ AirportType = Literal["vfr", "ifr", "heliport", "mil", "aeroport"]
 
 # Per-chapter title anchors look like "AD 2.LKPR PRAHA/Ruzyně" - the
 # chapter prefix is stripped before the ICAO dedupe.
-_CHAPTER_TITLE_PREFIX_RE = re.compile(r"^AD\s*[23]\.[A-Z]{4}\s*", re.I)
+# Strips the chapter prefix "AD 2.LKPR"/"AD 4.LJAJ" from a title anchor. Covers
+# AD 2/3/4 so the small-VFR AD 4 chapters (Slovenia) are cleaned too.
+_CHAPTER_TITLE_PREFIX_RE = re.compile(r"^AD\s*[234]\.[A-Z]{4}\s*", re.I)
 
 # Title-quality guard: a "name" that is really a chart designator (NL menu
 # labels its entries "<ICAO> VAC") or AD-section boilerplate (ES "Aerodrome
@@ -234,7 +236,9 @@ class HttpEurocontrolBase(HttpCrawlerBase):
                     raw = " ".join(t for t in raw.split() if ";" not in t)
                     rest = title_prefix_re.sub("", raw).strip()
                     tokens = rest.split()
-                    if tokens and tokens[0] == icao:
+                    # Drop a leading ICAO token, tolerating a footnote marker
+                    # (Slovenia's AD 4 menu labels ICAOs like "LJAJ*").
+                    if tokens and tokens[0].rstrip("*") == icao:
                         tokens = tokens[1:]
                     rest = " ".join(tokens).strip()
                     if rest:
