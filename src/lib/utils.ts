@@ -106,6 +106,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // SK: the LPS SR eAIP lists AD-2 aerodromes only (5 international fields,
   // type "vfr"); there is no AD-3 heliport chapter.
   sk: ["vfr"],
+  // BA: BHANSA's eAIP lists AD 2 (4 international aerodromes) + AD 4 (the
+  // small VFR fields), all "vfr"; there is no AD-3 heliport chapter.
+  ba: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -187,6 +190,15 @@ export const liveCountries: string[] = [
   // (run 29446360729 - 41 aerodromes + 45 heliports, 100% chart coverage). First
   // data published to production D1 (86 rows).
   "gr",
+  // Bosnia and Herzegovina (15.07.2026): BHANSA publishes a standard
+  // eurocontrol eAIP at eaip.bhansa.gov.ba. The edition folder is date-stamped
+  // (<YYYY-MM-DD>-AIRAC), so the crawler derives the current edition from the
+  // AIRAC schedule (no JS root), then reads the per-airport AD 2 (4
+  // international aerodromes) + AD 4 (small VFR fields) chapters, all "vfr".
+  // Live-validated (run 29448132449 - 17 aerodromes, 4/17 chart-PDF coverage,
+  // the 4 international fields; the AD-4 VFR fields carry a text AD entry only).
+  // First data published to production D1 via the manual crawl dispatch.
+  "ba",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -230,4 +242,10 @@ export const countryMeta: Record<
   rs: { lang: "sr", name: "Serbia", flag: "🇷🇸", nativeLang: "Serbian" },
   ie: { lang: "en", name: "Ireland", flag: "🇮🇪", nativeLang: "English" },
   sk: { lang: "sk", name: "Slovakia", flag: "🇸🇰", nativeLang: "Slovak" },
+  ba: {
+    lang: "bs",
+    name: "Bosnia and Herzegovina",
+    flag: "🇧🇦",
+    nativeLang: "Bosnian",
+  },
 };

@@ -1,0 +1,346 @@
+{
+  "BreadCrumbs": {
+    "label": "Navigacijski put",
+    "root": {
+      "title": "AIP Indeks",
+      "hrefTitle": "AIP Indeks"
+    },
+    "/": {
+      "title": "Bosna i Hercegovina (Bosanski)",
+      "hrefTitle": "AIP Bosna i Hercegovina"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Bosna i Hercegovina"
+    },
+    "/airport-list": {
+      "title": "Lista aerodroma",
+      "hrefTitle": "Lista aerodroma u Bosni i Hercegovini"
+    },
+    "/terms": {
+      "title": "Uslovi korištenja",
+      "hrefTitle": "Uslovi korištenja - AIP:Aero Bosna i Hercegovina"
+    },
+    "/efb": {
+      "title": "EFB vodič",
+      "hrefTitle": "EFB vodič - AIP:Aero na vašem tabletu"
+    }
+  },
+  "Menu": {
+    "label": "Meni",
+    "home": {
+      "title": "AIP Bosna i Hercegovina",
+      "hrefTitle": "AIP Bosna i Hercegovina"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Bosna i Hercegovina"
+    },
+    "airports": {
+      "title": "Lista aerodroma",
+      "hrefTitle": "Lista aerodroma u Bosni i Hercegovini"
+    }
+  },
+  "AirportsPage": {
+    "title": "Lista aerodroma u Bosni i Hercegovini",
+    "metaTitle": "🛩️ Lista aerodroma u Bosni i Hercegovini",
+    "description": "Pregled svih aerodroma u Bosni i Hercegovini",
+    "metaDescription": "Pregled svih aerodroma u Bosni i Hercegovini🗺️",
+    "vfrCard": {
+      "title": "VFR aerodromi",
+      "description": "VFR aerodromi u Bosni i Hercegovini",
+      "linkTitle": "Kliknite na link ispod za pristup AIP VFR-u i vizuelnoj prilaznoj karti aerodroma {airport}"
+    },
+    "heliportCard": {
+      "title": "Helidromi",
+      "description": "Helidromi u Bosni i Hercegovini",
+      "linkTitle": "Kliknite na link ispod za pristup AIP VFR helidroma i vizuelnoj prilaznoj karti aerodroma {airport}"
+    },
+    "breadcrumb": {
+      "name": "Lista aerodroma u Bosni i Hercegovini",
+      "alternateName": "Lista aerodroma u Bosni i Hercegovini",
+      "description": "Pregled svih aerodroma u Bosni i Hercegovini"
+    }
+  },
+  "VfrPage": {
+    "title": "Indeks AIP VFR i vizuelnih prilaznih karata Bosna i Hercegovina",
+    "metaTitle": "🛩️ Indeks AIP VFR i vizuelnih prilaznih karata Bosna i Hercegovina",
+    "description": "Unesite naziv aerodroma ili ICAO kod (npr. LQSA, LQMO, LQBK) za pristup AIP VFR prilaznim kartama koje objavljuje BHANSA.",
+    "metaDescription": "Pretražite AIP VFR Bosna i Hercegovina i besplatno preuzmite prilazne karte aerodroma🗺️",
+    "searchTitle": "Unesite naziv aerodroma ili njegov ICAO kod za pristup AIP VFR-u",
+    "searchPlaceholder": "Unesite naziv aerodroma ili njegov ICAO kod za pristup AIP VFR-u",
+    "resultTitle": "AIP VFR karte aerodroma {airport}",
+    "resultDescription": "Kliknite na link ispod za pristup AIP VFR-u i vizuelnoj prilaznoj karti aerodroma {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Bosna i Hercegovina",
+      "alternateName": "Indeks AIP VFR i vizuelnih prilaznih karata Bosna i Hercegovina",
+      "description": "Pretražite AIP VFR Bosna i Hercegovina i besplatno preuzmite prilazne karte aerodroma"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Promijeni jezik",
+    "locale": "{locale, select, ba {🇧🇦 Bosanski} en {🇬🇧 English} other {Nepoznato}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP i prilazne karte Bosne i Hercegovine",
+    "alternateName": "AIP Bosna i Hercegovina",
+    "description": "Indeks za pretragu zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Bosni i Hercegovini",
+    "inLanguage": "bs",
+    "url": "https://aip.aero/ba/"
+  },
+  "CountryPage": {
+    "title": "AIP i prilazne karte Bosne i Hercegovine",
+    "metaTitle": "🛩️ AIP i prilazne karte Bosne i Hercegovine",
+    "description": "Indeks za pretragu zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Bosni i Hercegovini",
+    "metaDescription": "Indeks za pretragu zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Bosni i Hercegovini🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Bosna i Hercegovina",
+      "description": "Pretražite AIP VFR Bosna i Hercegovina i besplatno preuzmite prilazne karte aerodroma",
+      "buttonTitle": "AIP VFR prilazne karte",
+      "buttonHref": "/ba/vfr/",
+      "buttonHrefTitle": "AIP VFR Bosna i Hercegovina"
+    },
+    "airportListCard": {
+      "title": "Lista aerodroma",
+      "description": "Pregled svih aerodroma u Bosni i Hercegovini - sa offline preuzimanjem i informacijama o carini i gorivu",
+      "buttonTitle": "Lista aerodroma",
+      "buttonHref": "/ba/lista-aerodroma-bih/",
+      "buttonHrefTitle": "Lista aerodroma u Bosni i Hercegovini"
+    },
+    "breadcrumb": {
+      "name": "AIP Bosna i Hercegovina",
+      "alternateName": "AIP i prilazne karte Bosne i Hercegovine",
+      "description": "Indeks za pretragu zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Bosni i Hercegovini"
+    }
+  },
+  "About": {
+    "title": "Čemu služi ova web stranica?",
+    "description": "Besplatni <aip>zbornik zrakoplovnih informacija AIP Bosne i Hercegovine</aip> objavljuje BHANSA (Agencija za pružanje usluga u zračnoj plovidbi Bosne i Hercegovine), ali bez funkcije pretrage. Ova stranica ima za cilj olakšati pretragu aerodroma. Ne preuzimamo nikakvu odgovornost za tačnost ili ažurnost AIP-a (Aeronautical Information Publication), jer ga mi ne objavljujemo. Pružamo samo praktične linkove ka odgovarajućim prilaznim kartama.",
+    "aipUrl": "https://eaip.bhansa.gov.ba/",
+    "aipTitle": "AIP Bosna i Hercegovina"
+  },
+  "TradeAero": {
+    "title": "Kupujete ili prodajete zrakoplov?",
+    "description": "Pregledajte zrakoplove na prodaju u Bosni i Hercegovini na Trade:Aero - tržnici za kupovinu i prodaju zrakoplova.",
+    "buttonTitle": "Trade:Aero - najveća evropska tržnica zrakoplova",
+    "buttonHrefTitle": "Trade:Aero - najveća evropska tržnica zrakoplova"
+  },
+  "Footer": {
+    "navTitle": "Navigacija",
+    "legalTitle": "Pravne informacije i kontakt",
+    "partnersTitle": "Partneri",
+    "aipHome": {
+      "title": "AIP Indeks",
+      "hrefTitle": "AIP:Aero početna - AIP i prilazne karte za Evropu"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Početna",
+      "hrefTitle": "Početna - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impresum",
+      "hrefTitle": "Impresum - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privatnost",
+      "hrefTitle": "Politika privatnosti - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Web stranica Alexandra Drossa",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Uslovi korištenja",
+      "hrefTitle": "Uslovi korištenja - AIP:Aero Bosna i Hercegovina"
+    },
+    "efb": {
+      "title": "EFB vodič",
+      "hrefTitle": "AIP:Aero na vašem EFB-u - instalacija, offline karte, uvoz"
+    }
+  },
+  "Error": {
+    "description": "<p>Nažalost, došlo je do greške.</p><p>Možete pokušati <retry>ponovo učitati ovu stranicu</retry>.</p>",
+    "title": "Nešto je pošlo po zlu!"
+  },
+  "NotFound": {
+    "title": "404 - Stranica nije pronađena",
+    "description": "Ova stranica ili kod aerodroma ne postoji. Umjesto toga pokušajte pretražiti aerodrom:",
+    "searchPlaceholder": "Pretražite bilo koji aerodrom po nazivu ili ICAO kodu",
+    "home": "Nazad na početnu stranicu"
+  },
+  "Weather": {
+    "title": "Vrijeme",
+    "observed": "Izmjereno",
+    "forecast": "Prognoza",
+    "wind": "Vjetar",
+    "visibility": "Vidljivost",
+    "clouds": "Oblaci",
+    "temperature": "Temperatura",
+    "qnh": "QNH",
+    "source": "Izvor",
+    "elevation": "Nadmorska visina",
+    "sunrise": "Izlazak sunca",
+    "sunset": "Zalazak sunca",
+    "civilTwilight": "Građanski sumrak",
+    "facts": "Podaci o aerodromu",
+    "runways": "Poletno-sletne staze",
+    "frequencies": "Frekvencije",
+    "decode": "Prikaži dekodirano",
+    "openingHours": "Radno vrijeme",
+    "fuel": "Gorivo",
+    "ppr": "PPR",
+    "pprRequired": "Potrebno prethodno odobrenje",
+    "nearest": "Vrijeme sa najbližeg aerodroma {station} ({km} km udaljen)",
+    "circuit": "Školski krug",
+    "circuitLeft": "lijevi",
+    "circuitRight": "desni",
+    "windComponents": "Komponente vjetra",
+    "headwind": "Čeoni vjetar",
+    "tailwind": "Leđni vjetar",
+    "crosswind": "Bočni vjetar",
+    "fromLeft": "s lijeva",
+    "fromRight": "s desna",
+    "landingDirection": "Vjerovatni smjer slijetanja",
+    "aerodromeType": "Tip aerodroma",
+    "surface": "Podloga",
+    "variable": "promjenljiv",
+    "calm": "tišina"
+  },
+  "Common": {
+    "openIn": "Otvori u",
+    "homeLink": "AIP:Aero - Zbornici zrakoplovnih informacija (AIP) i prilazne karte za Evropu",
+    "lastUpdated": "Posljednje ažuriranje",
+    "viewOnMap": "Prikaži na Google kartama",
+    "location": "Lokacija",
+    "website": "Web stranica",
+    "address": "Adresa",
+    "coordinates": "Koordinate",
+    "phone": "Telefon",
+    "map": "Karta",
+    "locate": "Pronađi moju lokaciju",
+    "locateError": "Nije moguće odrediti vašu lokaciju",
+    "nearby": "Aerodromi u blizini",
+    "restaurant": "Restoran",
+    "customs": "Carina",
+    "yes": "Da",
+    "no": "Ne",
+    "saveOffline": "Sačuvaj offline",
+    "savedOffline": "Sačuvano offline",
+    "installHint": "Instalirajte kao aplikaciju: u meniju za dijeljenje u vašem pregledniku odaberite 'Dodaj na početni ekran'. Zatim jednom otvorite aplikaciju dok ste online i ponovo sačuvajte svoje aerodrome u njoj - aplikacija ima vlastitu offline pohranu.",
+    "installHintMac": "Na Macu: instalirajte putem menija za dijeljenje u Safariju pomoću 'Dodaj u Dock'. Zatim jednom otvorite aplikaciju dok ste online i ponovo sačuvajte svoje aerodrome u njoj - aplikacija ima vlastitu offline pohranu.",
+    "bulkDownload": "Sačuvaj svih {count} stranica offline (oko {size} MB)",
+    "bulkDownloaded": "Dostupno offline",
+    "bulkUpdate": "Ažuriraj",
+    "bulkRemove": "Ukloni",
+    "bulkProgress": "Spremanje stranica",
+    "bulkCancel": "Otkaži",
+    "bulkError": "Preuzimanje nije uspjelo - pokušajte ponovo",
+    "bulkNoSpace": "Nema dovoljno slobodne pohrane na ovom uređaju",
+    "bulkScope": "Uključeno: sve stranice aerodroma sa podacima o aerodromu. Nije uključeno: PDF prilaznih karata (mogu se sačuvati po aerodromu) i trenutno vrijeme (potrebna je veza).",
+    "moreInfo": "Više informacija",
+    "pavedRunway": "Asfaltirana staza",
+    "favorites": "Omiljeni",
+    "favoritesEmpty": "Još nema omiljenih - sačuvajte aerodrom offline na njegovoj stranici i pojavit će se ovdje.",
+    "recentlyViewed": "Nedavno pregledano",
+    "recentlyViewedEmpty": "Aerodromi koje otvorite ovdje će se automatski pojaviti za brzi pristup.",
+    "borderCrossing": "Prelazak granice",
+    "alsoAvailable": "Također dostupno:"
+  },
+  "Chart": {
+    "allCharts": "Sve karte ({count})",
+    "title": "Prilazna karta",
+    "openPdf": "Otvori PDF karte",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Vizuelna (VFR)",
+      "approach": "Prilaz",
+      "arrival": "Dolazak",
+      "departure": "Odlazak",
+      "other": "Ostalo"
+    }
+  },
+  "TermsPage": {
+    "title": "Uslovi korištenja",
+    "intro": "AIP:Aero je besplatna usluga pretrage i indeksiranja zbornika zrakoplovnih informacija (AIP), prilaznih karata i podataka o aerodromima širom Evrope.",
+    "servicesTitle": "Naša usluga",
+    "servicesText": "<home>AIP:Aero</home> vam omogućava da pronađete aerodrome po nazivu ili ICAO kodu i vodi vas direktno do zvanične AIP publikacije odgovarajuće države. Osim toga, naše stranice aerodroma prikazuju dodatne informacije poput izvještaja o vremenu (METAR/TAF), podataka o aerodromu (staze, frekvencije, nadmorska visina), karata i kontakt podataka; stranice se također mogu sačuvati za offline korištenje. Usluga je besplatna i bez registracije.",
+    "disclaimerTitle": "Odricanje od odgovornosti",
+    "disclaimerText": "AIP:Aero se ni pod kojim okolnostima ne može smatrati odgovornim. Sami ne objavljujemo nikakve zrakoplovne dokumente: samo pružamo linkove ka najnovijem zborniku zrakoplovnih informacija (AIP) koji je dostupan od strane zvaničnog izdavača odgovarajuće države. Isto vrijedi za podatke o vremenu (METAR/TAF) i podatke o aerodromima: ove informacije prikazujemo na našim stranicama, ali one potiču iz vanjskih izvora navedenih ispod. Ne preuzimamo nikakvu odgovornost niti garanciju za tačnost, potpunost ili ažurnost povezanog ili prikazanog sadržaja, niti za dostupnost ove web stranice. Ova stranica ne zamjenjuje zvanični predletni brifing: vođa zrakoplova ostaje isključivo odgovoran za pribavljanje i provjeru svih informacija potrebnih za let.",
+    "sourcesTitle": "Izvori podataka",
+    "sourcesIntro": "Povezane i prikazane podatke dobivamo iz sljedećih izvora (adrese kao običan tekst, namjerno neklikabilne):",
+    "sourcesAip": "Zvanične AIP publikacije na koje se povezujemo",
+    "sourcesData": "Prikazani vanjski podaci",
+    "srcAwc": "vrijeme METAR/TAF i podaci o aerodromima",
+    "srcOurAirports": "osnovni podaci o aerodromima",
+    "srcOpenAip": "prošireni podaci o aerodromima: staze, frekvencije, gorivo",
+    "srcOsm": "karte i adrese",
+    "metaTitle": "Uslovi korištenja - AIP:Aero Bosna i Hercegovina",
+    "metaDescription": "Uslovi korištenja AIP:Aero, besplatne pretrage AIP-a i prilaznih karata za Bosnu i Hercegovinu i Evropu: opis usluge, odricanje od odgovornosti i izvori podataka."
+  },
+  "EfbPage": {
+    "title": "Korištenje AIP:Aero na vašem EFB-u (Electronic Flight Bag)",
+    "intro": "Kako instalirati AIP:Aero na vaš EFB (Electronic Flight Bag) tablet, sačuvati prilazne karte offline, preuzeti pakete država i proslijediti aerodrome vašim alatima za planiranje - korak po korak.",
+    "metaTitle": "EFB vodič Bosna i Hercegovina - AIP i prilazne karte na tabletu | AIP:Aero",
+    "metaDescription": "Instalirajte AIP:Aero kao aplikaciju na vaš EFB tablet, čuvajte prilazne karte offline, preuzimajte cijele države i uvezite PDF karte u ForeFlight, SkyDemon i druge (Bosna i Hercegovina).",
+    "installTitle": "Instalacija kao aplikacija (PWA)",
+    "installText": "AIP:Aero je aplikacija koja se može instalirati: otvara se preko cijelog ekrana kao izvorna aplikacija, a sve što sačuvate dostupno je offline. Nije potrebna prodavnica aplikacija.",
+    "installIos": "iPad / iPhone (Safari): otvorite aip.aero, dodirnite ikonu za dijeljenje, zatim \"Dodaj na početni ekran\".",
+    "installAndroid": "Android (Chrome): otvorite aip.aero, dodirnite meni, zatim \"Dodaj na početni ekran\" / \"Instaliraj aplikaciju\".",
+    "installDesktop": "Računar (Chrome/Edge): kliknite na ikonu za instalaciju u adresnoj traci - ili koristite dugme ispod. macOS (Safari): ikona za dijeljenje, zatim \"Dodaj u Dock\".",
+    "offlineTitle": "Sačuvajte pojedinačne aerodrome offline",
+    "offlineText": "Svaka stranica s detaljima aerodroma ima dugme \"Sačuvaj offline\". Ono pohranjuje stranicu i, gdje AIP objavljuje, PDF prilazne karte na vaš uređaj; aerodrom se zatim pojavljuje pod Omiljeni na stranici države. Sačuvane kopije prikazuju datum preuzimanja.",
+    "bulkTitle": "Preuzimanje cijele države",
+    "bulkText": "Na <list>listi aerodroma</list> možete preuzeti sve stranice s detaljima jedne države odjednom (samo stranice, bez PDF karata - njih čuvajte po aerodromu). Paket prikazuje svoju veličinu prije preuzimanja i može se ažurirati ili ukloniti u bilo kojem trenutku.",
+    "favoritesTitle": "Omiljeni i nedavno pregledano",
+    "favoritesText": "Aerodromi koje sačuvate za offline korištenje automatski se pojavljuju kao omiljeni, a posljednji aerodromi koje ste otvorili navedeni su pod \"Nedavno pregledano\" - oboje se pohranjuje samo na vašem uređaju, bez naloga. Obje liste pronaći ćete <country>na stranici države</country>.",
+    "importTitle": "PDF karte u ForeFlight, SkyDemon i drugima",
+    "importText": "Gdje nacionalni AIP objavljuje PDF karte, okvir s kartama na stranici s detaljima povezuje trenutni PDF uključujući njegov AIRAC datum. Preuzmite ga i uvezite u svoju EFB aplikaciju kao prilagođeni sadržaj, npr. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ili Garmin Pilot. Njemačka objavljuje HTML stranice umjesto PDF-a - tamo koristite AIP link.",
+    "toolsTitle": "Prosljeđivanje alatima za planiranje",
+    "toolsText": "Okvir s lokacijom na svakoj stranici s detaljima otvara isti aerodrom direktno u SkyVector, Windy i autorouter - korisno za planiranje rute, vremenske modele i podnošenje plana leta.",
+    "weatherTitle": "Vremenski brifing na stranici",
+    "weatherText": "Stranice s detaljima prikazuju uživo METAR/TAF s dekodiranjem na razumljiv jezik, oznaku kategorije leta i za svaku stazu raspodjelu čeonog i bočnog vjetra - brza provjera, ali ne zamjena za vaš zvanični brifing.",
+    "customsTitle": "Carina i prelazak granice",
+    "customsText": "Stranice s detaljima pokazuju nudi li aerodrom carinsko odobrenje; gdje to nacionalni AIP navodi u GEN 1.2, vrijednost je provjerena naspram tog zvaničnog izvora. Za graničnu papirologiju okvir s lokacijom povezuje zvanične obrasce (npr. britanski General Aviation Report), a karta može filtrirati carinske aerodrome. Pravila se mijenjaju - uvijek potvrdite s aktuelnim AIP-om i lokalnom vlašću.",
+    "disclaimerTitle": "Sigurnosna napomena",
+    "disclaimerText": "AIP:Aero povezuje zvanične AIP publikacije, ali nije zvanični izvor. Offline kopije označene su datumom preuzimanja i mogu zastarjeti sa svakim AIRAC ciklusom - provjerite ažurnost karata prije svakog leta i uvijek pribavite zvanični predletni brifing.",
+    "installButton": "Instaliraj sada",
+    "ctaTitle": "Isprobajte sada",
+    "faqTitle": "Često postavljana pitanja",
+    "faq1q": "Radi li AIP:Aero potpuno offline?",
+    "faq1a": "Sačuvani aerodromi i preuzeti paketi država rade bez interneta; svaka offline kopija prikazuje baner s datumom spremanja. Vrijeme uživo (METAR/TAF) uvijek zahtijeva vezu.",
+    "faq2q": "Koje su države pokrivene?",
+    "faq2a": "Sve trenutno dostupne države navedene su na <home>početnoj stranici</home> - pokrivenost se kontinuirano širi. Svaka kartica države prikazuje dostupne tipove karata.",
+    "faq3q": "Jesu li karte aktuelne?",
+    "faq3a": "Linkovi ka kartama vode do zvaničnih nacionalnih AIP publikacija, uključujući AIRAC datum gdje je objavljen. Uvijek provjerite naspram zvaničnog izvora prije leta."
+  },
+  "CountryFaq": {
+    "title": "Često postavljana pitanja",
+    "q1": "Šta je AIP Bosna i Hercegovina?",
+    "a1": "AIP (zbornik zrakoplovnih informacija) je zvanični zrakoplovni priručnik Bosne i Hercegovine, koji objavljuje BHANSA (Agencija za pružanje usluga u zračnoj plovidbi Bosne i Hercegovine): podaci o aerodromima, procedure i prilazne karte, ažurirani u 28-dnevnom AIRAC ciklusu. AIP:Aero vas povezuje direktno sa zvaničnom publikacijom.",
+    "q2": "Jesu li prilazne karte besplatne?",
+    "a2": "Da - BHANSA objavljuje AIP Bosne i Hercegovine uključujući <list>prilazne karte</list> besplatno, a AIP:Aero je također besplatan: bez naloga, bez pretplate.",
+    "q3": "Koje karte i aerodromi su dostupni za Bosnu i Hercegovinu?",
+    "a3": "Za Bosnu i Hercegovinu pronaći ćete <vfr>VFR aerodrome</vfr> - svaki s direktnim linkom ka zvaničnoj karti, dekodiranim vremenom (METAR/TAF) i podacima o aerodromu.",
+    "q4": "Mogu li koristiti AIP:Aero offline ili na svom EFB-u?",
+    "a4": "Da - AIP:Aero se instalira kao aplikacija (PWA), a pojedinačni aerodromi ili cijela država mogu se sačuvati offline. Pogledajte <efb>EFB vodič</efb>."
+  }
+}

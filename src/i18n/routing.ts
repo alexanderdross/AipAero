@@ -48,6 +48,8 @@ export const routing = defineRouting({
     "ie",
     "sk",
     "sk-EN",
+    "ba",
+    "ba-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -74,6 +76,7 @@ export const routing = defineRouting({
       "lt-EN": "/lt/en",
       "rs-EN": "/rs/en",
       "sk-EN": "/sk/en",
+      "ba-EN": "/ba/en",
     },
   },
   pathnames: {
@@ -132,6 +135,8 @@ export const routing = defineRouting({
       ie: "/airport-list-ireland",
       sk: "/letiska-slovensko",
       "sk-EN": "/airport-list-slovakia",
+      ba: "/lista-aerodroma-bih",
+      "ba-EN": "/airport-list-bosnia",
     },
   },
   localeCookie: false,
@@ -215,6 +220,11 @@ export const localeLangMapping: Record<
   // branch keys match without the si/cz/dk/gr caveat.
   sk: "sk",
   "sk-EN": "en",
+  // Bosnia and Herzegovina: prefix "ba", ISO language code "bs" (Bosnian) -
+  // the LocaleSwitcher ICU branches key on the PREFIX "ba" (see the gotcha in
+  // CLAUDE.md), so messages/ba.json keys its native branch on "ba".
+  ba: "bs",
+  "ba-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -266,4 +276,6 @@ export const localeCountryMapping: Record<
   ie: "ie",
   sk: "sk",
   "sk-EN": "sk",
+  ba: "ba",
+  "ba-EN": "ba",
 };
