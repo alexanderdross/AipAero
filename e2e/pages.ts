@@ -53,6 +53,8 @@ const countryPages: TestPage[] = [
   { path: "/rs/", lang: "sr", label: "country rs" },
   { path: "/rs/en/", lang: "en", label: "country rs-EN" },
   { path: "/ie/", lang: "en", label: "country ie" },
+  { path: "/sk/", lang: "sk", label: "country sk" },
+  { path: "/sk/en/", lang: "en", label: "country sk-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -98,6 +100,8 @@ const airportListPages: TestPage[] = [
   { path: "/rs/lista-aerodroma-srbija/", lang: "sr", label: "list rs" },
   { path: "/rs/en/airport-list-serbia/", lang: "en", label: "list rs-EN" },
   { path: "/ie/airport-list-ireland/", lang: "en", label: "list ie" },
+  { path: "/sk/letiska-slovensko/", lang: "sk", label: "list sk" },
+  { path: "/sk/en/airport-list-slovakia/", lang: "en", label: "list sk-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -156,6 +160,8 @@ const searchPages: TestPage[] = [
   { path: "/rs/vfr/", lang: "sr", label: "vfr rs" },
   { path: "/rs/en/vfr/", lang: "en", label: "vfr rs-EN" },
   { path: "/ie/vfr/", lang: "en", label: "vfr ie" },
+  { path: "/sk/vfr/", lang: "sk", label: "vfr sk" },
+  { path: "/sk/en/vfr/", lang: "en", label: "vfr sk-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -203,6 +209,8 @@ const termsPages: TestPage[] = [
   { path: "/rs/terms/", lang: "sr", label: "terms rs" },
   { path: "/rs/en/terms/", lang: "en", label: "terms rs-EN" },
   { path: "/ie/terms/", lang: "en", label: "terms ie" },
+  { path: "/sk/terms/", lang: "sk", label: "terms sk" },
+  { path: "/sk/en/terms/", lang: "en", label: "terms sk-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).
@@ -250,6 +258,8 @@ const efbPages: TestPage[] = [
   { path: "/rs/efb/", lang: "sr", label: "efb rs" },
   { path: "/rs/en/efb/", lang: "en", label: "efb rs-EN" },
   { path: "/ie/efb/", lang: "en", label: "efb ie" },
+  { path: "/sk/efb/", lang: "sk", label: "efb sk" },
+  { path: "/sk/en/efb/", lang: "en", label: "efb sk-EN" },
 ];
 
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */

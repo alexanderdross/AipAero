@@ -103,6 +103,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // IE: AirNav Ireland's eAIP lists AD-2 aerodromes only (22 fields, type
   // "vfr"); there is no AD-3 heliport chapter.
   ie: ["vfr"],
+  // SK: the LPS SR eAIP lists AD-2 aerodromes only (5 international fields,
+  // type "vfr"); there is no AD-3 heliport chapter.
+  sk: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -169,6 +172,13 @@ export const liveCountries: string[] = [
   // the major fields; small GA fields carry a text AD entry only). First data
   // published to production D1 via the manual crawl dispatch (22 rows).
   "ie",
+  // Slovakia (15.07.2026): the LPS SR AIS portal (aim.lps.sk) is session-based
+  // PHP, but its AIP SR page publicly links the currently effective eAIP - a
+  // standard eurocontrol frameset (LZ-frameset-en-SK.html) - with no login.
+  // Crawler resolves the "Currently Effective" edition, then AD-2;
+  // live-validated (run 29443130839 - 5 international aerodromes, 5/5 chart-PDF
+  // coverage, 101 charts). First data published to production D1 (5 rows).
+  "sk",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source
   // (HASP rejects even the Web Unlocker, see crawlers/recon/):
   // "gr",
@@ -214,4 +224,5 @@ export const countryMeta: Record<
   lt: { lang: "lt", name: "Lithuania", flag: "🇱🇹", nativeLang: "Lithuanian" },
   rs: { lang: "sr", name: "Serbia", flag: "🇷🇸", nativeLang: "Serbian" },
   ie: { lang: "en", name: "Ireland", flag: "🇮🇪", nativeLang: "English" },
+  sk: { lang: "sk", name: "Slovakia", flag: "🇸🇰", nativeLang: "Slovak" },
 };

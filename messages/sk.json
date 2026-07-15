@@ -1,0 +1,346 @@
+{
+  "BreadCrumbs": {
+    "label": "Navigačná cesta",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Slovensko (Slovenčina)",
+      "hrefTitle": "AIP Slovensko"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Letecká informačná príručka AIP VFR Slovensko"
+    },
+    "/airport-list": {
+      "title": "Zoznam letísk",
+      "hrefTitle": "Zoznam letísk na Slovensku"
+    },
+    "/terms": {
+      "title": "Podmienky používania",
+      "hrefTitle": "Podmienky používania - AIP:Aero Slovensko"
+    },
+    "/efb": {
+      "title": "Sprievodca EFB",
+      "hrefTitle": "Sprievodca EFB - AIP:Aero na tablete"
+    }
+  },
+  "Menu": {
+    "label": "Menu",
+    "home": {
+      "title": "AIP Slovensko",
+      "hrefTitle": "AIP Slovensko"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "Letecká informačná príručka AIP VFR Slovensko"
+    },
+    "airports": {
+      "title": "Zoznam letísk",
+      "hrefTitle": "Zoznam letísk na Slovensku"
+    }
+  },
+  "AirportsPage": {
+    "title": "Zoznam letísk na Slovensku",
+    "metaTitle": "🛩️ Zoznam letísk na Slovensku",
+    "description": "Prehľad všetkých letísk na Slovensku",
+    "metaDescription": "Prehľad všetkých letísk na Slovensku🗺️",
+    "vfrCard": {
+      "title": "VFR letiská",
+      "description": "VFR letiská na Slovensku",
+      "linkTitle": "Kliknutím na odkaz nižšie získate prístup k AIP VFR a vizuálnej približovacej mape letiska {airport}"
+    },
+    "heliportCard": {
+      "title": "Heliporty",
+      "description": "Heliporty na Slovensku",
+      "linkTitle": "Kliknutím na odkaz nižšie získate prístup k AIP VFR heliportov a vizuálnej približovacej mape letiska {airport}"
+    },
+    "breadcrumb": {
+      "name": "Zoznam letísk na Slovensku",
+      "alternateName": "Zoznam letísk na Slovensku",
+      "description": "Prehľad všetkých letísk na Slovensku"
+    }
+  },
+  "VfrPage": {
+    "title": "Vyhľadávanie približovacích máp AIP VFR Slovensko",
+    "metaTitle": "🛩️ Vyhľadávanie približovacích máp AIP VFR Slovensko",
+    "description": "Zadajte názov alebo ICAO kód letiska (napr. LZIB, LZKZ, LZZI) pre prístup k približovacím mapám AIP VFR, ktoré vydáva LPS SR.",
+    "metaDescription": "Prehľadávajte AIP VFR Slovensko a sťahujte približovacie mapy letísk zadarmo🗺️",
+    "searchTitle": "Zadajte názov letiska alebo jeho ICAO kód pre prístup k AIP VFR",
+    "searchPlaceholder": "Zadajte názov letiska alebo jeho ICAO kód pre prístup k AIP VFR",
+    "resultTitle": "AIP VFR mapy letiska {airport}",
+    "resultDescription": "Kliknutím na odkaz nižšie získate prístup k AIP VFR a vizuálnej približovacej mape letiska {airport}",
+    "breadcrumb": {
+      "name": "Letecká informačná príručka AIP VFR Slovensko",
+      "alternateName": "Vyhľadávanie približovacích máp AIP VFR Slovensko",
+      "description": "Prehľadávajte AIP VFR Slovensko a sťahujte približovacie mapy letísk zadarmo"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Zmeniť jazyk",
+    "locale": "{locale, select, sk {🇸🇰 Slovenčina} en {🇬🇧 English} other {Neznámy}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Približovacie mapy a letecká informačná príručka AIP pre Slovensko",
+    "alternateName": "AIP Slovensko",
+    "description": "Vyhľadávanie leteckých informačných príručiek AIP (Aeronautical Information Publication) VFR a približovacích máp pre Slovensko",
+    "inLanguage": "sk",
+    "url": "https://aip.aero/sk/"
+  },
+  "CountryPage": {
+    "title": "Približovacie mapy a letecká informačná príručka AIP pre Slovensko",
+    "metaTitle": "🛩️ Približovacie mapy a letecká informačná príručka AIP pre Slovensko",
+    "description": "Vyhľadávanie leteckých informačných príručiek AIP (Aeronautical Information Publication) VFR a približovacích máp pre Slovensko",
+    "metaDescription": "Vyhľadávanie leteckých informačných príručiek AIP (Aeronautical Information Publication) VFR a približovacích máp pre Slovensko🗺️",
+    "vfrCard": {
+      "title": "Letecká informačná príručka AIP VFR",
+      "description": "Prehľadávajte AIP VFR Slovensko a sťahujte približovacie mapy letísk zadarmo",
+      "buttonTitle": "AIP VFR približovacie mapy",
+      "buttonHref": "/sk/vfr/",
+      "buttonHrefTitle": "Letecká informačná príručka AIP VFR Slovensko"
+    },
+    "airportListCard": {
+      "title": "Zoznam letísk",
+      "description": "Prehľad všetkých letísk na Slovensku - s offline stiahnutím a informáciami o cle a palive",
+      "buttonTitle": "Zoznam letísk",
+      "buttonHref": "/sk/letiska-slovensko/",
+      "buttonHrefTitle": "Zoznam letísk na Slovensku"
+    },
+    "breadcrumb": {
+      "name": "AIP Slovensko",
+      "alternateName": "Približovacie mapy a letecká informačná príručka AIP pre Slovensko",
+      "description": "Vyhľadávanie leteckých informačných príručiek AIP (Aeronautical Information Publication) VFR a približovacích máp pre Slovensko"
+    }
+  },
+  "About": {
+    "title": "Načo je táto webová stránka?",
+    "description": "Bezplatná <aip>letecká informačná príručka AIP Slovensko</aip> je k dispozícii od LPS SR (Letové prevádzkové služby Slovenskej republiky), avšak bez vyhľadávacej funkcie. Naša stránka uľahčuje vyhľadávanie letísk. Nepreberáme žiadnu zodpovednosť za správnosť alebo aktuálnosť AIP (Aeronautical Information Publication), keďže ju nevydávame. Poskytujeme iba pohodlné odkazy na príslušné približovacie mapy.",
+    "aipUrl": "https://aim.lps.sk/web/index.php?fn=200&lng=sk",
+    "aipTitle": "Letecká informačná príručka AIP Slovensko"
+  },
+  "TradeAero": {
+    "title": "Kúpiť alebo predať lietadlo?",
+    "description": "Objavte lietadlá na predaj na Slovensku na Trade:Aero - trhovisku pre nákup a predaj lietadiel.",
+    "buttonTitle": "Trade:Aero - najväčšie európske trhovisko s lietadlami",
+    "buttonHrefTitle": "Trade:Aero - najväčšie európske trhovisko s lietadlami"
+  },
+  "Footer": {
+    "navTitle": "Navigácia",
+    "legalTitle": "Právne informácie & kontakt",
+    "partnersTitle": "Partneri",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "Domovská stránka AIP:Aero - AIP a približovacie mapy pre Európu"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Domov",
+      "hrefTitle": "Domov - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Tiráž",
+      "hrefTitle": "Tiráž - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Ochrana osobných údajov",
+      "hrefTitle": "Zásady ochrany osobných údajov - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Webová stránka Alexandra Drossa",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Podmienky používania",
+      "hrefTitle": "Podmienky používania - AIP:Aero Slovensko"
+    },
+    "efb": {
+      "title": "Sprievodca EFB",
+      "hrefTitle": "AIP:Aero na EFB - inštalácia, offline mapy, import"
+    }
+  },
+  "Error": {
+    "description": "<p>Bohužiaľ, došlo k chybe.</p><p>Môžete skúsiť <retry>znovu načítať túto stránku</retry>.</p>",
+    "title": "Niečo sa pokazilo!"
+  },
+  "NotFound": {
+    "title": "404 - Stránka sa nenašla",
+    "description": "Táto stránka alebo kód letiska neexistuje. Skúste letisko vyhľadať:",
+    "searchPlaceholder": "Hľadať letisko podľa názvu alebo kódu ICAO",
+    "home": "Späť na úvodnú stránku"
+  },
+  "Weather": {
+    "title": "Počasie",
+    "observed": "Namerané",
+    "forecast": "Predpoveď",
+    "wind": "Vietor",
+    "visibility": "Dohľadnosť",
+    "clouds": "Oblačnosť",
+    "temperature": "Teplota",
+    "qnh": "QNH",
+    "source": "Zdroj",
+    "elevation": "Nadmorská výška",
+    "sunrise": "Východ slnka",
+    "sunset": "Západ slnka",
+    "civilTwilight": "Občiansky súmrak",
+    "facts": "Údaje o letisku",
+    "runways": "Dráhy",
+    "frequencies": "Frekvencie",
+    "decode": "Zobraziť dekódované",
+    "openingHours": "Otváracie hodiny",
+    "fuel": "Palivo",
+    "ppr": "PPR",
+    "pprRequired": "Vyžaduje predchádzajúce povolenie",
+    "nearest": "Počasie z najbližšieho letiska {station} ({km} km)",
+    "circuit": "Okruh",
+    "circuitLeft": "ľavý",
+    "circuitRight": "pravý",
+    "windComponents": "Zložky vetra",
+    "headwind": "Protivietor",
+    "tailwind": "Zadný vietor",
+    "crosswind": "Bočný vietor",
+    "fromLeft": "zľava",
+    "fromRight": "sprava",
+    "landingDirection": "Pravdepodobný smer pristátia",
+    "aerodromeType": "Typ letiska",
+    "surface": "Povrch",
+    "variable": "premenlivý",
+    "calm": "bezvetrie"
+  },
+  "Common": {
+    "openIn": "Otvoriť v",
+    "homeLink": "AIP:Aero - Letecké informačné príručky (AIP) & približovacie mapy pre Európu",
+    "lastUpdated": "Naposledy aktualizované",
+    "viewOnMap": "Zobraziť na Mapách Google",
+    "location": "Poloha",
+    "website": "Webová stránka",
+    "address": "Adresa",
+    "coordinates": "Súradnice",
+    "phone": "Telefón",
+    "map": "Mapa",
+    "locate": "Nájsť moju polohu",
+    "locateError": "Nepodarilo sa zistiť vašu polohu",
+    "nearby": "Letiská v okolí",
+    "restaurant": "Reštaurácia",
+    "customs": "Colnica",
+    "yes": "Áno",
+    "no": "Nie",
+    "saveOffline": "Uložiť offline",
+    "savedOffline": "Uložené offline",
+    "installHint": "Nainštalovať ako aplikáciu: v ponuke Zdieľať vo vašom prehliadači zvoľte 'Pridať na plochu'. Potom aplikáciu raz otvorte online a letiská v nej znovu uložte - aplikácia má vlastné offline úložisko.",
+    "installHintMac": "Na Macu: nainštalujte cez ponuku Zdieľať v Safari voľbou 'Pridať do Docku'. Potom aplikáciu raz otvorte online a letiská v nej znovu uložte - aplikácia má vlastné offline úložisko.",
+    "bulkDownload": "Uložiť všetkých {count} stránok offline (cca {size} MB)",
+    "bulkDownloaded": "Dostupné offline",
+    "bulkUpdate": "Aktualizovať",
+    "bulkRemove": "Odstrániť",
+    "bulkProgress": "Ukladanie stránok",
+    "bulkCancel": "Zrušiť",
+    "bulkError": "Sťahovanie zlyhalo - skúste to prosím znovu",
+    "bulkNoSpace": "Nedostatok voľného úložiska v tomto zariadení",
+    "bulkScope": "Obsahuje: všetky stránky letísk s údajmi o letiskách. Neobsahuje: PDF približovacích máp (možno uložiť pri jednotlivých letiskách) a aktuálne počasie (vyžaduje pripojenie).",
+    "moreInfo": "Viac informácií",
+    "pavedRunway": "Spevnená dráha",
+    "favorites": "Obľúbené",
+    "favoritesEmpty": "Zatiaľ žiadne obľúbené letiská - uložte letisko offline na jeho stránke a objaví sa tu.",
+    "recentlyViewed": "Nedávno zobrazené",
+    "recentlyViewedEmpty": "Otvorené letiská sa tu automaticky zobrazia pre rýchly prístup.",
+    "borderCrossing": "Prekročenie hranice",
+    "alsoAvailable": "K dispozícii aj:"
+  },
+  "Chart": {
+    "allCharts": "Všetky mapy ({count})",
+    "title": "Približovacia mapa",
+    "openPdf": "Otvoriť PDF mapy",
+    "group": {
+      "aerodrome": "Letisko",
+      "visual": "Vizuálna (VFR)",
+      "approach": "Priblíženie",
+      "arrival": "Prílet",
+      "departure": "Odlet",
+      "other": "Ostatné"
+    }
+  },
+  "TermsPage": {
+    "title": "Podmienky používania",
+    "intro": "AIP:Aero je bezplatná vyhľadávacia a indexová služba pre letecké informačné príručky (AIP), približovacie mapy a údaje o letiskách v Európe.",
+    "servicesTitle": "Naša služba",
+    "servicesText": "<home>AIP:Aero</home> vyhľadá letiská podľa názvu alebo kódu ICAO a odkáže priamo na oficiálnu publikáciu AIP príslušnej krajiny. Naše stránky letísk navyše zobrazujú doplnkové informácie, napríklad meteorologické správy (METAR/TAF), údaje o letiskách (dráhy, frekvencie, nadmorskú výšku), mapy a kontakty; stránky možno tiež uložiť pre použitie offline. Služba je bezplatná a bez registrácie.",
+    "disclaimerTitle": "Vylúčenie zodpovednosti",
+    "disclaimerText": "AIP:Aero nenesie za žiadnych okolností zodpovednosť. Sami žiadne letecké dokumenty nevydávame: iba odkazujeme na najnovšiu AIP (Aeronautical Information Publication) sprístupnenú oficiálnym vydavateľom príslušnej krajiny. To isté platí pre meteorologické údaje (METAR/TAF) a údaje o letiskách: tieto informácie na našich stránkach zobrazujeme, pochádzajú však z externých zdrojov uvedených nižšie. Nepreberáme žiadnu zodpovednosť ani záruku za správnosť, úplnosť či aktuálnosť odkazovaného alebo vloženého obsahu, ani za dostupnosť tejto webovej stránky. Táto stránka nenahrádza oficiálnu predletovú prípravu: veliteľ lietadla zostáva výhradne zodpovedný za získanie a overenie všetkých informácií potrebných na let.",
+    "sourcesTitle": "Zdroje údajov",
+    "sourcesIntro": "Odkazované a vkladané údaje získavame z nasledujúcich zdrojov (adresy ako obyčajný text, zámerne neklikateľné):",
+    "sourcesAip": "Oficiálne publikácie AIP, na ktoré odkazujeme",
+    "sourcesData": "Vkladané externé údaje",
+    "srcAwc": "počasie METAR/TAF a údaje o letiskách",
+    "srcOurAirports": "základné údaje o letiskách",
+    "srcOpenAip": "rozšírené údaje o letiskách: dráhy, frekvencie, palivo",
+    "srcOsm": "mapy a adresy",
+    "metaTitle": "Podmienky používania - AIP:Aero Slovensko",
+    "metaDescription": "Podmienky používania AIP:Aero, bezplatného vyhľadávania AIP a približovacích máp pre Slovensko a Európu: popis služby, vylúčenie zodpovednosti a zdroje údajov."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero na vašom EFB (Electronic Flight Bag)",
+    "intro": "Ako nainštalovať AIP:Aero na EFB (Electronic Flight Bag) tablet, uložiť približovacie mapy offline, stiahnuť celé krajiny a odovzdať letiská do plánovacích nástrojov - krok za krokom.",
+    "metaTitle": "Sprievodca EFB Slovensko - AIP a približovacie mapy na tablete | AIP:Aero",
+    "metaDescription": "Nainštalujte AIP:Aero ako aplikáciu na EFB tablet, ukladajte mapy offline, sťahujte celé krajiny a importujte PDF máp do ForeFlight, SkyDemon a ďalších (Slovensko).",
+    "installTitle": "Inštalácia ako aplikácia (PWA)",
+    "installText": "AIP:Aero je inštalovateľná webová aplikácia: otvára sa na celú obrazovku ako natívna aplikácia a všetko uložené je dostupné offline. Nie je potrebný žiadny app store.",
+    "installIos": "iPad / iPhone (Safari): otvorte aip.aero, ťuknite na ikonu zdieľania a potom \"Pridať na plochu\".",
+    "installAndroid": "Android (Chrome): otvorte aip.aero, ťuknite na menu a potom \"Pridať na plochu\" / \"Inštalovať aplikáciu\".",
+    "installDesktop": "Počítač (Chrome/Edge): kliknite na ikonu inštalácie v paneli s adresou - alebo použite tlačidlo nižšie. macOS (Safari): ikona Zdieľať, potom \"Pridať do Docku\".",
+    "offlineTitle": "Uloženie jednotlivých letísk offline",
+    "offlineText": "Každá detailná stránka letiska má tlačidlo \"Uložiť offline\". Uloží stránku a, ak ju AIP publikuje, aj PDF približovacej mapy do vášho zariadenia; letisko sa potom objaví v obľúbených na stránke krajiny. Uložené kópie zobrazujú dátum stiahnutia.",
+    "bulkTitle": "Stiahnutie celej krajiny",
+    "bulkText": "Na <list>zozname letísk</list> môžete stiahnuť všetky detailné stránky krajiny naraz (iba stránky, bez PDF máp - tie ukladajte po letiskách). Balík pred stiahnutím zobrazí svoju veľkosť a možno ho kedykoľvek aktualizovať alebo odstrániť.",
+    "favoritesTitle": "Obľúbené & nedávno zobrazené",
+    "favoritesText": "Letiská uložené offline sa automaticky objavia ako obľúbené a naposledy otvorené letiská nájdete v sekcii \"Nedávno zobrazené\" - oboje je uložené iba vo vašom zariadení, bez účtu. Oba zoznamy nájdete <country>na stránke krajiny</country>.",
+    "importTitle": "PDF máp vo ForeFlight, SkyDemon a ďalších",
+    "importText": "Kde národný AIP publikuje PDF máp, odkazuje box s mapami na detailnej stránke na aktuálne PDF vrátane dátumu AIRAC. Stiahnite ho a importujte do svojej EFB aplikácie ako vlastný obsah, napr. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) alebo Garmin Pilot. Nemecko publikuje HTML stránky namiesto PDF - použite tam odkaz na AIP.",
+    "toolsTitle": "Odovzdanie do plánovacích nástrojov",
+    "toolsText": "Box s polohou na každej detailnej stránke otvorí rovnaké letisko priamo v SkyVector, Windy a autorouter - užitočné pre plánovanie trate, meteorologické modely a podanie letového plánu.",
+    "weatherTitle": "Meteorologický briefing na stránke",
+    "weatherText": "Detailné stránky zobrazujú živé METAR/TAF s dekódovaním do zrozumiteľného jazyka, odznak letovej kategórie a pre každú dráhu zložky protivetra a bočného vetra - rýchla kontrola, nie náhrada oficiálneho briefingu.",
+    "customsTitle": "Colné odbavenie a prekročenie hraníc",
+    "customsText": "Detailné stránky ukazujú, či letisko ponúka colné odbavenie; kde to národný AIP uvádza v GEN 1.2, je hodnota overená voči tomuto oficiálnemu zdroju. Pre hraničné formality odkazuje box s polohou na oficiálne formuláre (napr. britský General Aviation Report) a mapa vie filtrovať colné letiská. Pravidlá sa menia - vždy ich potvrďte s aktuálnym AIP a miestnym úradom.",
+    "disclaimerTitle": "Bezpečnostné upozornenie",
+    "disclaimerText": "AIP:Aero odkazuje na oficiálne publikácie AIP, ale nie je oficiálnym zdrojom. Offline kópie nesú dátum stiahnutia a môžu s každým cyklom AIRAC zastarať - pred každým letom overte platnosť máp a vždy si vyžiadajte oficiálny predletový briefing.",
+    "installButton": "Nainštalovať teraz",
+    "ctaTitle": "Vyskúšajte to",
+    "faqTitle": "Časté otázky",
+    "faq1q": "Funguje AIP:Aero úplne offline?",
+    "faq1a": "Uložené letiská a stiahnuté balíky krajín fungujú bez internetu; každá offline kópia zobrazuje banner s dátumom uloženia. Živé počasie (METAR/TAF) vždy vyžaduje pripojenie.",
+    "faq2q": "Ktoré krajiny sú k dispozícii?",
+    "faq2a": "Všetky aktuálne dostupné krajiny sú uvedené na <home>úvodnej stránke</home> - pokrytie sa priebežne rozširuje. Každá karta krajiny ukazuje dostupné typy máp.",
+    "faq3q": "Sú mapy aktuálne?",
+    "faq3a": "Odkazy na mapy vedú na oficiálne národné publikácie AIP vrátane dátumu AIRAC, ak je zverejnený. Pred letom vždy overte oficiálny zdroj."
+  },
+  "CountryFaq": {
+    "title": "Časté otázky",
+    "q1": "Čo je AIP Slovensko?",
+    "a1": "AIP (letecká informačná príručka) je oficiálna letecká príručka Slovenska, vydávaná LPS SR (Letové prevádzkové služby Slovenskej republiky): údaje o letiskách, postupy a približovacie mapy, aktualizované v 28-dňovom cykle AIRAC. AIP:Aero odkazuje priamo na oficiálnu publikáciu.",
+    "q2": "Sú približovacie mapy zadarmo?",
+    "a2": "Áno - LPS SR vydáva AIP Slovenska vrátane <list>približovacích máp</list> zadarmo a AIP:Aero je tiež zadarmo: bez účtu, bez predplatného.",
+    "q3": "Aké mapy a letiská sú pre Slovensko k dispozícii?",
+    "a3": "Pre Slovensko nájdete <vfr>VFR letiská</vfr> - každé s priamym odkazom na oficiálnu mapu, dekódovaným počasím (METAR/TAF) a údajmi o letisku.",
+    "q4": "Môžem AIP:Aero používať offline alebo na svojom EFB?",
+    "a4": "Áno - AIP:Aero možno nainštalovať ako aplikáciu (PWA) a jednotlivé letiská alebo celú krajinu možno uložiť offline. Pozri <efb>sprievodcu EFB</efb>."
+  }
+}
