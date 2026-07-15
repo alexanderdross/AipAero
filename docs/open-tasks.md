@@ -17,9 +17,10 @@ Code: `crawlers/import_openaip_backfill.py` + `GET /api/airport-facts`
   geschrieben, Lücke 65 → 30.** Die restlichen 30 kennt auch OpenAIP nicht
   (Hospital-HLPs wie LPLR, Kleinstplätze wie EBAF) - erwarteter Boden; sie
   heilen sich per on-read-Write-back beim Seitenbesuch.
-- **Optional (🟢):** den `backfill`-Schritt in den Wochenplan von
-  `facts-import.yml` aufnehmen, damit künftige neue Felder automatisch coords
-  bekommen (aktuell manuell).
+- **✅ Wochenplan:** der `backfill`-Schritt läuft jetzt im wöchentlichen
+  `facts-import.yml`-Lauf (So 03:30 UTC, apply-Modus nach dem OurAirports-Import),
+  damit künftige neue Felder automatisch Coords bekommen. Manueller Dispatch
+  (Dry-run/`apply`/`icaos`) bleibt für Spot-Checks.
 
 ## ✅ 0a. Chart-Namen ausgeschrieben (PDC/TRAN) - ERLEDIGT (14.07.2026, gemergt)
 
@@ -192,6 +193,15 @@ Netzwerk-Intercept ermitteln und direkt abfragen. Bis dahin bleibt DK in
 außer DK und GR)
 
 ## 4. GR: Web Unlocker liefert `502 Access denied` 🟡 (Owner-Diagnose nötig)
+
+**Re-Probe 15.07.2026 (Run 29395569894): unverändert blockiert.** Erste
+Anfrage an `https://aisgr.hasp.gov.gr/` -> `502 Forbidden` (2 Retries) ->
+`502 Access denied`, weiterhin über die Web-Unlocker-Zone. Kein Fortschritt
+ohne die Owner-Schritte unten (Bright-Data-KYC/Domain-Freigabe für die
+`.gov.gr`-Regierungsdomain). **Alternativer Weg ohne Bright Data:** GR ist
+faktisch ein *gated-Land* (offizieller AIP hart blockiert) - es ließe sich wie
+IT/HR/IE/SK über **OurAirports (CC0)** als Info-Seiten *ohne* Chart-Links
+onboarden (siehe Task 8, Produktentscheidung).
 
 **✅ Erledigt (Owner):** Web-Unlocker-Zone `aipaero_web_unlocker_gr` angelegt
 (CAPTCHA Solver an), Access-URL als Actions-Secret `BRIGHTDATA_UNLOCKER_URL`
