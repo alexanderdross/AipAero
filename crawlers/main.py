@@ -27,6 +27,7 @@ from crawlers.dk import DK
 from crawlers.fr import FR
 from crawlers.gr import GR
 from crawlers.hu import HU
+from crawlers.ie import IE
 from crawlers.is_ import IS
 from crawlers.lt import LT
 from crawlers.nl import NL
@@ -60,6 +61,7 @@ COUNTRY_CRAWLERS = {
     "DK": DK,
     "GR": GR,
     "HU": HU,
+    "IE": IE,
     "IS": IS,
     "LT": LT,
     "NO": NO,
