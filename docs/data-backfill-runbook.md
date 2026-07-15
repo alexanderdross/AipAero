@@ -237,8 +237,17 @@ API_BASE=https://aip.aero API_KEY=<CRON_SECRET> OPENAIP_API_KEY=<key> \
 
 After an `apply` run, the previously-missing fields should appear as markers on
 their country's charts-list map, and their detail pages read coords/elevation
-from D1 instead of the live fallback. It stays **manual** until validated; once
-happy, it can be added to the weekly schedule.
+from D1 instead of the live fallback.
+
+### C.4 - Runs weekly (automatic)
+
+The backfill is wired into the **weekly** `facts-import.yml` schedule (Sunday
+03:30 UTC): after the OurAirports import, it runs in **apply** mode against the
+auto missing-list, so any newly-crawled field OurAirports still lacks gets its
+OpenAIP coordinates the same week (idempotent + fail-soft - a field OpenAIP has
+no coordinates for is left for next week / on-read self-heal). The manual
+`backfill` dispatch (dry-run default, `apply`/`icaos` opt-in) remains for
+spot-checks and targeted re-runs.
 
 ---
 
