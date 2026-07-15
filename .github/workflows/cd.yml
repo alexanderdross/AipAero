@@ -120,7 +120,19 @@ jobs:
             "https://aip.aero/pt/lista-de-aerodromos-portugal/"
             "https://aip.aero/hu/repuloterek-listaja-magyarorszag/"
             "https://aip.aero/si/seznam-letalisc-slovenija/"
+            "https://aip.aero/lt/oro-uostu-sarasas-lietuva/"
+            "https://aip.aero/rs/lista-aerodroma-srbija/"
+            "https://aip.aero/ie/airport-list-ireland/"
+            "https://aip.aero/sk/letiska-slovensko/"
+            "https://aip.aero/gr/aerolimenes-ellada/"
+            "https://aip.aero/ba/lista-aerodroma-bih/"
+            "https://aip.aero/ch/flugplaetze-schweiz/"
           )
+          # NOTE: this list MUST carry EVERY live country's airport-list URL
+          # (liveCountries in src/lib/utils.ts x the /airport-list slug in
+          # src/i18n/routing.ts). A launched country missing here is never
+          # warmed post-deploy, so its list page serves the empty build seed
+          # (skeleton) until the 1h ISR TTL - the CH/BA regression of 15.07.2026.
           # Heaviest list; a full render carries per-row row-link-icon <use>
           # markers, the empty build seed has zero - the proof of regeneration.
           verify_url="https://aip.aero/de/flughafen-liste-deutschland/"
