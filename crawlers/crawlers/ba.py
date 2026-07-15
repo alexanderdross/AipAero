@@ -112,9 +112,11 @@ class BA(HttpEurocontrolBase):
             # 1. Currently effective edition index (AIRAC-derived, no JS root).
             index_url = self._resolve_edition_index()
 
-            # 2. Walk the frame chain to the navigation HTML.
+            # 2. Walk the frame chain to the navigation HTML. BHANSA's frameset
+            # is flat (index -> eAISNavigation directly), not the two-level
+            # eAISNavigationBase -> eAISNavigation chain some eAIPs use.
             nav_url, nav_html = self.follow_frame_chain(
-                index_url, ["eAISNavigationBase", "eAISNavigation"]
+                index_url, ["eAISNavigation"]
             )
             last_url, last_html = nav_url, nav_html
 
