@@ -78,6 +78,13 @@ class SK(HttpEurocontrolBase):
             return first_frameset
         raise ValueError(f"No eAIP frameset link found on {base_url}")
 
+    # Chart-PDF extraction (recon 2026-07-15): each aerodrome's AD 2.24 page
+    # lists LZ_AD_2_<ICAO>_<sec>-<n>_en.pdf with link text "AD 2-<ICAO>-2-1"
+    # etc. Sheet 2-1 is the aerodrome chart (ICAO); prefer it over the
+    # "Printable version" full-AD-2 text PDF that sits first in document order.
+    FETCH_PDF_URLS = True
+    PDF_TEXT_PRIORITY = (r"^AD 2-\w{4}-2-1$",)
+
     def _extract_section(
         self,
         nav_html: str,
