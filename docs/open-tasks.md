@@ -27,6 +27,14 @@ Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Näch
 - **IndexNow live verifiziert:** Key-Datei 200 (exakter Key), Submit an
   `api.indexnow.org` → HTTP 200 (akzeptiert). Der Bing-WMT-"Get Started"-Screen
   ist kein Fehler - das Dashboard hinkt hinterher / braucht Property-Verifikation.
+- **AIRAC-Zyklus angezeigt (PR #274/#275):** Flughafenliste + Detailseiten zeigen
+  jetzt das AIRAC-/Editionsdatum. DE (datumslose BasicVFR-Permalinks) erfasst der
+  Crawler die Edition aus der physischen URL und reicht sie per `?airac=` durch.
+- **LT-VFR-Manual gecrawlt (issue #35):** das offene "AIP VFR LITHUANIA"
+  (`ans.lt/a1/aip_vfr/aip_vfr_<edition>/`, flacher PDF-Baum) gemergt - **LT 4 → 29**
+  (4 eAIP-International + 25 kleine VFR-Felder, name-only, je 1 Chart-PDF). Live
+  validiert (Run 29408944800, pdf_url 29/29). Damit ist die Drei-Länder-VFR-Lücke
+  komplett: SI (AD 4) ✅, LT (VFR-Manual) ✅, DK (nur Listen-PDF, Sackgasse) ✅.
 
 ## ✅ 0. OpenAIP-Coord-Backfill - ERLEDIGT + APPLY GELAUFEN (14.07.2026)
 
