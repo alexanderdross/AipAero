@@ -151,9 +151,12 @@ class IE(HttpEurocontrolBase):
 
             edition_url = self._resolve_current_edition_url(ROOT_URL, landing_html)
 
-            # 2. Walk the frame chain to the navigation HTML.
+            # 2. Walk the frame chain to the navigation HTML. AirNav Ireland's
+            # index.html is a FLAT frameset (eAISCommands / eAISNavigation /
+            # eAISContent) - the menu is the eAISNavigation frame directly, not
+            # the two-level eAISNavigationBase->eAISNavigation chain NL/UK use.
             nav_url, nav_html = self.follow_frame_chain(
-                edition_url, ["eAISNavigationBase", "eAISNavigation"]
+                edition_url, ["eAISNavigation"]
             )
             last_url, last_html = nav_url, nav_html
 
