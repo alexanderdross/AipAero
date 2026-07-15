@@ -269,6 +269,33 @@ export function chartDisplayName(name: string, lang: string): string {
 }
 
 /**
+ * The most common AIRAC/edition date across a set of airports, parsed from
+ * their edition-dated chart/page URLs (`pdfUrl` preferred, else `url`). All of
+ * a country's charts share one edition, so the mode is that country's effective
+ * date; null when no URL carries a parseable date (e.g. CZ). Structural input
+ * (no DB dependency) so it stays pure and unit-testable; the crawler-ingest
+ * mutation stamps the result into `crawl_meta.airac`.
+ */
+export function mostCommonAirac(
+  airports: { url: string; pdfUrl?: string | null }[],
+): string | null {
+  const counts = new Map<string, number>();
+  for (const a of airports) {
+    const iso = airacDateFromUrl(a.pdfUrl ?? a.url);
+    if (iso) counts.set(iso, (counts.get(iso) ?? 0) + 1);
+  }
+  let best: string | null = null;
+  let bestN = 0;
+  for (const [iso, n] of counts) {
+    if (n > bestN) {
+      best = iso;
+      bestN = n;
+    }
+  }
+  return best;
+}
+
+/**
  * Flight-phase category a chart belongs to, used to GROUP the "all charts" list
  * on the detail page instead of leaving it in raw source order. Ordered for a
  * mostly-VFR private-pilot audience: aerodrome layout first, then the visual

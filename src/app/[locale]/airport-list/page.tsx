@@ -101,7 +101,11 @@ export default async function IndexPage(
   // Enable static rendering
   setRequestLocale(locale);
   const t = await getTranslations("AirportsPage");
-  const crawledAt = await QUERIES.crawlUpdatedAt(locale.split("-")[0]!);
+  const country = locale.split("-")[0]!;
+  // Both are light per-country reads (crawl_meta), so the "last updated" +
+  // AIRAC line stays in the fast shell and never blocks on the airport list.
+  const crawledAt = await QUERIES.crawlUpdatedAt(country);
+  const airacIso = await QUERIES.crawlAirac(country);
 
   const currentUrl = new URL(
     getPathname({ href: "/airport-list", locale }),
@@ -113,7 +117,7 @@ export default async function IndexPage(
   return (
     <>
       <Title title={t("title")} description={t("description")} />
-      <LastUpdated timestamp={crawledAt} />
+      <LastUpdated timestamp={crawledAt} airacIso={airacIso} />
       <SchemaProduct
         name={t("breadcrumb.alternateName")}
         alternateName={t("breadcrumb.name")}
