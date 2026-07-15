@@ -143,11 +143,51 @@ class LT(HttpCrawlerBase):
         primary = vac or adc or (charts[0].url if charts else None)
         return primary, charts
 
+    def _recon_vfr_dir(self, url: str, depth: int = 0) -> None:
+        """TEMP (log-only) recon: walk the open LT VFR-AIP directory index
+        (ans.lt/a1/aip_vfr/) up to 2 levels deep, logging every entry so the
+        per-field structure (HTML pages vs PDFs) becomes visible. Fail-soft;
+        removed once _crawl_vfr_manual is implemented (issue #35)."""
+        try:
+            html = self.fetch(url)
+        except Exception as e:
+            self.logger.info(f"LT VFRRECON fetch FAIL {url}: {e}")
+            return
+        soup = self.soup(html)
+        title = soup.title.get_text(strip=True) if soup.title else "-"
+        entries = []
+        for a in soup.find_all("a", href=True):
+            href = a["href"].strip()
+            # Skip Apache autoindex sort/parent links.
+            if href.startswith("?") or href in ("/a1/", "../") or "Parent" in a.get_text():
+                continue
+            entries.append(href)
+        pdfs = [h for h in entries if h.lower().endswith(".pdf")]
+        htmls = [h for h in entries if h.lower().endswith((".html", ".htm"))]
+        subdirs = [h for h in entries if h.endswith("/")]
+        self.logger.info(
+            f"LT VFRRECON d{depth} {url} | title={title!r} | "
+            f"{len(entries)} entries: {len(subdirs)} dirs, "
+            f"{len(htmls)} html, {len(pdfs)} pdf"
+        )
+        for h in entries[:60]:
+            self.logger.info(f"LT VFRRECON  d{depth} entry: {h[:120]}")
+        # Descend into subdirs (bounded) to reveal per-field layout.
+        if depth < 2:
+            for sub in subdirs[:6]:
+                self._recon_vfr_dir(urljoin(url, sub), depth + 1)
+
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = SUPPLEMENTS_URL
         last_html: str | None = None
+
+        # TEMP: descend the open VFR-AIP directory (issue #35); log-only.
+        try:
+            self._recon_vfr_dir("https://www.ans.lt/a1/aip_vfr/aip_vfr_11jun2026/")
+        except Exception as e:
+            self.logger.warning(f"LT VFRRECON failed: {e}")
 
         try:
             # AD 1.3 "Index to Aerodromes" is the inventory source (there is no
