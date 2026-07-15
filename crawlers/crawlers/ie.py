@@ -38,11 +38,10 @@ ROOT_URL = (
 # accept 2-4 digits and normalise a two-digit year to 20xx.
 _AIRAC_EDITION_RE = re.compile(r"/(\d{2,4})-(\d{2})-(\d{2})-AIRAC/html/index", re.I)
 
-# eurocontrol menu ids vary by generator/locale: IDS-generated eAIPs use spaced,
-# locale-suffixed ids ("AD 2en-GBdetails"); others the hyphenated short form
-# ("AD-2details"). Try each so a menu-format/locale tweak doesn't empty the list.
-_AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD 2en-IEdetails", "AD-2details"]
-_AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD 3en-IEdetails", "AD-3details"]
+# AirNav Ireland's eAIP has NO aggregate "AD 2" menu section: every aerodrome
+# is its own top-level chapter, id "AD-2.EIDWdetails" (group 1 = the ICAO). This
+# is the per-chapter layout CZ/PT/HU/IS use, not the aggregate one NL/UK use.
+_AIRPORT_SECTION_RE = re.compile(r"AD-2\.([A-Z]{4})details$")
 
 
 class IE(HttpEurocontrolBase):
@@ -109,29 +108,6 @@ class IE(HttpEurocontrolBase):
         )
         return edition_url
 
-    def _extract_section(
-        self,
-        nav_html: str,
-        nav_url: str,
-        id_candidates: list[str],
-        category: str,
-    ) -> list[Airport]:
-        """Extract a menu section, trying each candidate id format in turn.
-
-        Returns the first id that yields airports, re-raising the last error
-        if none matched.
-        """
-        last_error: Exception | None = None
-        for menu_id in id_candidates:
-            try:
-                return self.extract_airports_from_html(
-                    nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
-                )
-            except ValueError as e:
-                last_error = e
-        assert last_error is not None
-        raise last_error
-
     # Chart-PDF extraction: eurocontrol eAIPs label the aerodrome chart
     # "AD 2.EIDW-2-1"; prefer it, else the first PDF on the page (fail-soft).
     # Refined from the pdf_url coverage of the first live IE run.
@@ -160,19 +136,13 @@ class IE(HttpEurocontrolBase):
             )
             last_url, last_html = nav_url, nav_html
 
-            # 3. Aerodromes (AD 2) and heliports (AD 3).
+            # 3. Aerodromes: each is its own "AD-2.<ICAO>details" chapter.
+            # AirNav Ireland's eAIP has no separate AD 3 heliport section.
             airports.extend(
-                self._extract_section(nav_html, nav_url, _AD2_SECTION_IDS, "vfr")
-            )
-            # AD 3 (heliports) may be absent in a small state's eAIP - fail-soft.
-            try:
-                airports.extend(
-                    self._extract_section(
-                        nav_html, nav_url, _AD3_SECTION_IDS, "heliport"
-                    )
+                self.extract_airports_per_chapter(
+                    nav_html, nav_url, _AIRPORT_SECTION_RE, "vfr"
                 )
-            except ValueError as e:
-                self.logger.info(f"IE: no AD 3 heliport section ({e})")
+            )
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
