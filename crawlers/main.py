@@ -18,6 +18,7 @@ from pydantic import ValidationError
 from crawlers.at import AT
 from crawlers.ba import BA
 from crawlers.be import BE
+from crawlers.ch import CH
 from crawlers.cz import CZ
 from crawlers.de import DE
 from crawlers.ee import EE
@@ -51,6 +52,7 @@ logger = logging.getLogger()
 COUNTRY_CRAWLERS = {
     "AT": AT,
     "BA": BA,
+    "CH": CH,
     "DE": DE,
     "EE": EE,
     "ES": ES,
