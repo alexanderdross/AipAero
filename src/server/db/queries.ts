@@ -103,10 +103,25 @@ function cachedRead<T>(
     async () => {
       const db = await getDb();
       if (!db) {
-        console.warn(
-          `DB unavailable during ${label}; returning empty result so the build/cache can proceed`,
+        // During the build there is no binding by design - return the empty
+        // fallback so the build/cache can proceed (revalidated at runtime).
+        if (IS_BUILD) {
+          console.warn(
+            `DB unavailable during ${label} build; returning empty result (revalidated at runtime)`,
+          );
+          return fallback;
+        }
+        // At RUNTIME the D1 binding must exist. If it does not (observed on
+        // background ISR regenerations dispatched without the request's
+        // Cloudflare context), returning the empty fallback here would be
+        // CACHED by unstable_cache as a successful result - poisoning the page
+        // with an empty airport list ("only-map-no-list": the map still works
+        // because it is a separate live client fetch of /api/airport-coords).
+        // Throw instead so unstable_cache does NOT persist an empty entry;
+        // stale-while-revalidate then keeps serving the last good copy.
+        throw new Error(
+          `DB binding unavailable at runtime during '${label}' - refusing to cache an empty result`,
         );
-        return fallback;
       }
       try {
         return await run(db);
