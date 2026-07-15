@@ -275,6 +275,21 @@ class DK(PlaywrightCrawlerBase):
                         f"-> {airport.url}"
                     )
                 airports.extend(heliports)
+
+            # AD 4 - PRIVATE / GLIDER AERODROMES: the VFG lists these alongside
+            # the public AD 2 fields. `_extract_section` only turns "Name - ICAO"
+            # nodes into airports (the AD 4.1/4.2 index/list PDFs are skipped),
+            # so this yields the individually-published private fields, or
+            # nothing if the source only carries them as a single list PDF.
+            ad4 = self._child_by_text(part3_children, "AD 4")
+            if ad4 is not None:
+                private = self._extract_section(ad4, "vfr")
+                for airport in private:
+                    self.logger.info(
+                        f"DK private (AD 4): {airport.icao} | {airport.title} "
+                        f"-> {airport.url}"
+                    )
+                airports.extend(private)
         except Exception as e:
             self.logger.error(f"DK crawl failed: {e}")
         finally:
