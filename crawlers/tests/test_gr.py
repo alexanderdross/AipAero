@@ -82,7 +82,9 @@ _MENU = """
 <a href="eaip/pdf/AD%202/AD2-LGAD/LG_AD_2_LGAD_en.pdf">AD 2 LGAD</a>
 <a href="eaip/pdf/AD%202/AD2-LGAD/LG_AD_2_LGAD_VFR_en.pdf">AD 2-LGAD-VFR</a>
 <a href="eaip/pdf/AD%202/AD2-LGAV/LG_AD_2_LGAV_VFR_en.pdf">AD 2-LGAV-VFR</a>
-<a href="eaip/pdf/AD%203/AD3-ALONISSOS/LG_AD_3_ALONISSOS_VFR_en.pdf">AD 3.5 ALONISSOS</a>
+<a href="eaip/pdf/ad%203/HELIPORTS/LG_AD_3_0_en.pdf">AD 3.0 PREFACE</a>
+<a href="eaip/pdf/ad%203/HELIPORTS/LG_AD_3_5_ALONISSOS_en.pdf">AD 3.5 ALONISSOS</a>
+<a href="eaip/pdf/ad%203/HELIPORTS/LG_AD_3_2_AGIOS-EFSTRATIOS_en.pdf">AD 3.2 AGIOS EFSTRATIOS</a>
 <a href="eaip/pdf/gen%200/LG_GEN_0_1_en.pdf">GEN 0.1 PREFACE</a>
 """
 
@@ -138,6 +140,12 @@ def test_parse_menu_ad2_and_ad3(gr: GR):
     alonissos = by_key[("heliport", "ALONISSOS")]
     assert alonissos.icao is None
     assert alonissos.title == "ALONISSOS"
-    assert alonissos.pdf_url.endswith("/LG_AD_3_ALONISSOS_VFR_en.pdf")
+    assert alonissos.pdf_url.endswith("/LG_AD_3_5_ALONISSOS_en.pdf")
 
+    # Name comes from the menu text ("AD 3.2 AGIOS EFSTRATIOS"), not the key.
+    agios = by_key[("heliport", "AGIOS EFSTRATIOS")]
+    assert agios.icao is None
+
+    # Neither the AD 3.0 preface nor the GEN front matter is an airport.
+    assert not any("PREFACE" in (a.title or "") for a in aps)
     assert not any("GEN" in (a.title or "") for a in aps)
