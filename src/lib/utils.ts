@@ -100,6 +100,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // RS: the SMATSA public VFR AIP lists aerodromes AND helidromes as one
   // AD-2 set (~35 fields); the crawler classifies them all as "vfr".
   rs: ["vfr"],
+  // IE: AirNav Ireland's eAIP lists AD-2 aerodromes only (22 fields, type
+  // "vfr"); there is no AD-3 heliport chapter.
+  ie: ["vfr"],
 };
 
 /** True if `country` (two-letter code) exposes the given search page type. */
@@ -159,6 +162,13 @@ export const liveCountries: string[] = [
   // Serbia/Montenegro AIP includes a few Montenegrin fields. First data
   // published via the manual crawl dispatch on launch day.
   "rs",
+  // Ireland (15.07.2026): AirNav Ireland (formerly IAA) publishes an open
+  // eurocontrol eAIP on www.airnav.ie (the old iaip.iaa.ie host is retired).
+  // Per-chapter AD-2 crawler, edition auto-resolved from the AIM landing page;
+  // live-validated (run 29441545116 - 22 aerodromes, 9/22 chart-PDF coverage,
+  // the major fields; small GA fields carry a text AD entry only). First data
+  // published to production D1 via the manual crawl dispatch (22 rows).
+  "ie",
   // TEMPORARILY HIDDEN - crawler not yet verified against the live source
   // (HASP rejects even the Web Unlocker, see crawlers/recon/):
   // "gr",
@@ -203,4 +213,5 @@ export const countryMeta: Record<
   si: { lang: "sl", name: "Slovenia", flag: "🇸🇮", nativeLang: "Slovenian" },
   lt: { lang: "lt", name: "Lithuania", flag: "🇱🇹", nativeLang: "Lithuanian" },
   rs: { lang: "sr", name: "Serbia", flag: "🇷🇸", nativeLang: "Serbian" },
+  ie: { lang: "en", name: "Ireland", flag: "🇮🇪", nativeLang: "English" },
 };

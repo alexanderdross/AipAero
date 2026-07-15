@@ -27,6 +27,7 @@ from crawlers.dk import DK
 from crawlers.fr import FR
 from crawlers.gr import GR
 from crawlers.hu import HU
+from crawlers.ie import IE
 from crawlers.is_ import IS
 from crawlers.lt import LT
 from crawlers.nl import NL
@@ -36,6 +37,7 @@ from crawlers.pt import PT
 from crawlers.rs import RS
 from crawlers.se import SE
 from crawlers.si import SI
+from crawlers.sk import SK
 from crawlers.uk import UK
 from output_handler import OutputHandler
 from settings import Settings
@@ -60,6 +62,7 @@ COUNTRY_CRAWLERS = {
     "DK": DK,
     "GR": GR,
     "HU": HU,
+    "IE": IE,
     "IS": IS,
     "LT": LT,
     "NO": NO,
@@ -68,6 +71,7 @@ COUNTRY_CRAWLERS = {
     "RS": RS,
     "SE": SE,
     "SI": SI,
+    "SK": SK,
 }
 
 
