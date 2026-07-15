@@ -18,10 +18,18 @@ Per aerodrome the English AD 2 page (EY-AD-2-<ICAO>-en-US.html) lists every
 chart PDF as a plain <a href="../pdf/EY-AD-2-<ICAO>-<TYPE>.pdf">; the VFR
 visual approach chart (VAC) is the primary pdf_url, the aerodrome chart (ADC)
 the fallback, and the full set is stored in `charts`.
+
+On top of those four international aerodromes the crawler merges the separate
+open "AIP VFR LITHUANIA" (issue #35): a flat PDF tree at
+``ans.lt/a1/aip_vfr/aip_vfr_<edition>/`` whose landing page links one chart PDF
+per small VFR field (``pdf/<placename>.pdf``, place-named, no ICAO). GEN/ENR
+front matter is filtered out; the fields are deduped against the AD-2 list and
+appended as name-only ``vfr`` entries. Fully fail-soft.
 """
 
 from __future__ import annotations
 
+import datetime
 import os
 import re
 from urllib.parse import urljoin
@@ -33,6 +41,23 @@ COUNTRY = "LT"
 SUPPLEMENTS_URL = (
     "https://www.ans.lt/en/information-publications/aip-aip-supplements"
 )
+
+# The separate open "AIP VFR LITHUANIA" - a flat PDF tree the eAIP (4
+# international aerodromes) omits (issue #35). The root is an Apache index of
+# dated editions (aip_vfr_11jun2026/); each edition's landing page links one
+# chart PDF per small VFR field under pdf/<placename>.pdf, plus GEN/ENR front
+# matter that is filtered out. No ICAO in the source - fields are place-named.
+VFR_ROOT_URL = "https://www.ans.lt/a1/aip_vfr/"
+# aip_vfr_11jun2026/ or aip_vfr_79_16apr2026/ -> the edition's effective date.
+_VFR_EDITION_RE = re.compile(r"aip_vfr_(?:\d+_)?(\d{1,2})([a-z]{3})(\d{4})/?$", re.I)
+_VFR_MONTHS = {
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+    "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
+}
+# A field PDF's stem is an all-lowercase place name (klaipeda, paluknys_av);
+# GEN/ENR front matter carries digits / uppercase / dots and is skipped.
+_VFR_FIELD_STEM_RE = re.compile(r"^[a-z]+(?:_[a-z]+)*$")
+_VFR_SKIP_STEMS = {"amdt"}
 
 # Public discovery hops (no hardcoded edition path).
 _START_HREF_RE = re.compile(r"/a1/aip/[^\"'\s>]+/start\.html", re.I)
@@ -143,51 +168,109 @@ class LT(HttpCrawlerBase):
         primary = vac or adc or (charts[0].url if charts else None)
         return primary, charts
 
-    def _recon_vfr_dir(self, url: str, depth: int = 0) -> None:
-        """TEMP (log-only) recon: walk the open LT VFR-AIP directory index
-        (ans.lt/a1/aip_vfr/) up to 2 levels deep, logging every entry so the
-        per-field structure (HTML pages vs PDFs) becomes visible. Fail-soft;
-        removed once _crawl_vfr_manual is implemented (issue #35)."""
+    def _resolve_vfr_edition(self) -> str | None:
+        """The newest ``aip_vfr_<ddmmmyyyy>/`` edition directory under the open
+        VFR root (the dated path changes each AIRAC cycle, so it is discovered,
+        not hardcoded). None on any failure - the VFR merge is optional."""
         try:
-            html = self.fetch(url)
+            html = self.fetch(VFR_ROOT_URL)
         except Exception as e:
-            self.logger.info(f"LT VFRRECON fetch FAIL {url}: {e}")
-            return
-        soup = self.soup(html)
-        title = soup.title.get_text(strip=True) if soup.title else "-"
-        entries = []
-        for a in soup.find_all("a", href=True):
-            href = a["href"].strip()
-            # Skip Apache autoindex sort/parent links.
-            if href.startswith("?") or href in ("/a1/", "../") or "Parent" in a.get_text():
+            self.logger.warning(f"LT: VFR root fetch failed: {e}")
+            return None
+        best_url: str | None = None
+        best_date: datetime.date | None = None
+        for a in self.soup(html).find_all("a", href=True):
+            m = _VFR_EDITION_RE.search(a["href"].strip())
+            if not m:
                 continue
-            entries.append(href)
-        pdfs = [h for h in entries if h.lower().endswith(".pdf")]
-        htmls = [h for h in entries if h.lower().endswith((".html", ".htm"))]
-        subdirs = [h for h in entries if h.endswith("/")]
+            month = _VFR_MONTHS.get(m.group(2).lower())
+            if not month:
+                continue
+            try:
+                d = datetime.date(int(m.group(3)), month, int(m.group(1)))
+            except ValueError:
+                continue
+            if best_date is None or d > best_date:
+                best_date, best_url = d, urljoin(VFR_ROOT_URL, a["href"])
+        if best_url and not best_url.endswith("/"):
+            best_url += "/"
+        return best_url
+
+    def _crawl_vfr_manual(self) -> list[Airport]:
+        """Small VFR fields from the open "AIP VFR LITHUANIA" PDF tree.
+
+        The current edition's landing page links one chart PDF per field under
+        ``pdf/<placename>.pdf`` (place-named, no ICAO), plus GEN/ENR front
+        matter that is filtered out. A field's extra sheet (``paluknys_av.pdf``
+        next to ``paluknys.pdf``) rides as a second chart on the same field.
+        Fully fail-soft: any failure returns [] so the eAIP crawl still stands.
+        """
+        base = self._resolve_vfr_edition()
+        if not base:
+            self.logger.info("LT: no VFR edition found - skipping VFR manual")
+            return []
+        try:
+            html = self.fetch(base)
+        except Exception as e:
+            self.logger.warning(f"LT: VFR index fetch failed ({base}): {e}")
+            return []
+
+        # Group PDFs by base field name (stem before the first underscore).
+        fields: dict[str, list[ChartLink]] = {}
+        order: list[str] = []
+        for a in self.soup(html).find_all("a", href=True):
+            href = a["href"].strip()
+            if not href.lower().endswith(".pdf"):
+                continue
+            stem = href.rsplit("/", 1)[-1][:-4].lower()
+            # Keep only place-name stems; drop AMDT/GEN/ENR front matter.
+            if (
+                stem in _VFR_SKIP_STEMS
+                or stem.startswith(("gen", "enr"))
+                or not _VFR_FIELD_STEM_RE.match(stem)
+            ):
+                continue
+            field = stem.split("_")[0]
+            if field not in fields:
+                fields[field] = []
+                order.append(field)
+            # First chart of a field is the plain <field>.pdf (the aerodrome
+            # VFR chart); label it "VFR", any extra sheet by its suffix.
+            suffix = stem[len(field) :].strip("_")
+            name = suffix.upper() if suffix else "VFR"
+            if len(fields[field]) < _MAX_CHARTS:
+                fields[field].append(
+                    ChartLink(name=name, url=urljoin(base, href))
+                )
+
+        airports: list[Airport] = []
+        for field in order:
+            charts = fields[field]
+            # Primary = the plain "VFR" sheet where present, else the first.
+            primary = next(
+                (c for c in charts if c.name == "VFR"), charts[0]
+            )
+            airports.append(
+                Airport(
+                    country=COUNTRY,
+                    icao=None,
+                    title=field.replace("_", " ").title(),
+                    url=primary.url,
+                    pdf_url=primary.url,
+                    charts=charts,
+                    type="vfr",
+                )
+            )
         self.logger.info(
-            f"LT VFRRECON d{depth} {url} | title={title!r} | "
-            f"{len(entries)} entries: {len(subdirs)} dirs, "
-            f"{len(htmls)} html, {len(pdfs)} pdf"
+            f"LT: VFR manual added {len(airports)} fields from {base}"
         )
-        for h in entries[:60]:
-            self.logger.info(f"LT VFRRECON  d{depth} entry: {h[:120]}")
-        # Descend into subdirs (bounded) to reveal per-field layout.
-        if depth < 2:
-            for sub in subdirs[:6]:
-                self._recon_vfr_dir(urljoin(url, sub), depth + 1)
+        return airports
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
         last_url = SUPPLEMENTS_URL
         last_html: str | None = None
-
-        # TEMP: descend the open VFR-AIP directory (issue #35); log-only.
-        try:
-            self._recon_vfr_dir("https://www.ans.lt/a1/aip_vfr/aip_vfr_11jun2026/")
-        except Exception as e:
-            self.logger.warning(f"LT VFRRECON failed: {e}")
 
         try:
             # AD 1.3 "Index to Aerodromes" is the inventory source (there is no
@@ -226,6 +309,16 @@ class LT(HttpCrawlerBase):
                         type="vfr",
                     )
                 )
+
+            # Merge the separate open VFR manual (small fields the eAIP omits),
+            # deduped by ICAO/title against the AD-2 aerodromes above. Fail-soft.
+            seen = {(a.icao or a.title or "").upper() for a in airports}
+            for field in self._crawl_vfr_manual():
+                key = (field.icao or field.title or "").upper()
+                if key in seen:
+                    continue
+                seen.add(key)
+                airports.append(field)
         except Exception as e:
             self.logger.error(f"LT crawl failed: {e}")
             if last_html is not None:
