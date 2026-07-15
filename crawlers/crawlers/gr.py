@@ -57,10 +57,12 @@ _AD2_VFR_RE = re.compile(
 _AD2_TXT_RE = re.compile(
     r"/AD 2/AD2-([A-Z]{4})/LG_AD_2_[A-Z]{4}_en\.pdf$", re.I
 )
-# AD 3 heliport chart PDF. The KEY is a place name (Greek island helipads
-# rarely have an ICAO), so it is not constrained to 4 letters.
+# AD 3 heliport chart PDF. Unlike AD 2, all heliports live in ONE folder and
+# are numbered with a hyphenated place name (no ICAO - Greek island helipads):
+#   eaip/pdf/ad 3/HELIPORTS/LG_AD_3_<n>_<PLACE-NAME>_en.pdf
+# The AD 3.0 preface (LG_AD_3_0_en.pdf, no name) does not match (no name group).
 _AD3_RE = re.compile(
-    r"/AD 3/AD3-([^/]+)/LG_AD_3_[^/]+?(_VFR)?_en\.pdf$", re.I
+    r"/ad ?3/HELIPORTS/LG_AD_3_\d+_([A-Z0-9][A-Z0-9-]*)_en\.pdf$", re.I
 )
 # Strip the "AD 3.12 " chapter prefix from a heliport's menu link text.
 _AD3_TITLE_PREFIX_RE = re.compile(r"^AD\s*3\.\d+\s*", re.I)
@@ -256,18 +258,22 @@ class GR(HttpCrawlerBase):
                 continue
             m3 = _AD3_RE.search(href)
             if m3:
-                key = m3.group(1)
+                key = m3.group(1).upper()
                 if key in heli_seen:
                     continue
                 heli_seen.add(key)
-                name = _AD3_TITLE_PREFIX_RE.sub("", text).strip() or unquote(key)
-                # A LGxx key is a real ICAO; otherwise the field is name-only.
-                icao = key.upper() if re.fullmatch(r"[A-Z]{4}", key.upper()) else None
+                # Heliports are place-name only (no ICAO). Prefer the menu link
+                # text ("AD 3.2 AGIOS EFSTRATIOS" -> "AGIOS EFSTRATIOS"); fall
+                # back to the href key with hyphens rendered as spaces.
+                name = (
+                    _AD3_TITLE_PREFIX_RE.sub("", text).strip()
+                    or key.replace("-", " ")
+                )
                 heliports.append(
                     Airport(
                         country=self.country,
-                        icao=icao,
-                        title=f"{name} {icao}".strip() if icao else name,
+                        icao=None,
+                        title=name,
                         url=abs_url,
                         type="heliport",
                         pdf_url=abs_url,
