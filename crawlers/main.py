@@ -37,6 +37,7 @@ from crawlers.pt import PT
 from crawlers.rs import RS
 from crawlers.se import SE
 from crawlers.si import SI
+from crawlers.sk import SK
 from crawlers.uk import UK
 from output_handler import OutputHandler
 from settings import Settings
@@ -70,6 +71,7 @@ COUNTRY_CRAWLERS = {
     "RS": RS,
     "SE": SE,
     "SI": SI,
+    "SK": SK,
 }
 
 
