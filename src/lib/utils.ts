@@ -179,9 +179,14 @@ export const liveCountries: string[] = [
   // live-validated (run 29443130839 - 5 international aerodromes, 5/5 chart-PDF
   // coverage, 101 charts). First data published to production D1 (5 rows).
   "sk",
-  // TEMPORARILY HIDDEN - crawler not yet verified against the live source
-  // (HASP rejects even the Web Unlocker, see crawlers/recon/):
-  // "gr",
+  // Greece (15.07.2026): HASP's main.php landing is captcha-gated and Bright
+  // Data blocks the .gov page, but each AIRAC edition is a STATIC tree whose
+  // deep paths proxy through at 200. The crawler derives the current edition
+  // from the AIRAC schedule (probing the static folders, no main.php) and reads
+  // AIP-menu.htm for AD 2 aerodrome + AD 3 heliport chart PDFs. Live-validated
+  // (run 29446360729 - 41 aerodromes + 45 heliports, 100% chart coverage). First
+  // data published to production D1 (86 rows).
+  "gr",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
