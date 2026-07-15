@@ -26,9 +26,14 @@ _AD2_HREF_RE = re.compile(
 # is a chart designator (ADC aerodrome chart, VAC visual approach, GMC ground
 # movement, APDC/PDC parking, AOC obstacle, PATC, SID, STAR, IAC...). The bare
 # `LE_AD_2_<ICAO>_en.pdf` (the full AD-2 document, no TYPE) is deliberately not
-# matched - it is not a single chart.
+# matched - it is not a single chart. A few aerodromes share a combined folder
+# under a DUAL designator (LECU/LEVS - MADRID/Cuatro Vientos), whose charts are
+# filed as `LE_AD_2_LECU_LEVS_<TYPE>_<N>_en.pdf` (both keys, verified 200 via
+# check_urls run 29372181084); the optional `(?:_[A-Z]{4})?` captures that
+# second ICAO without shifting the group indices (group 1 stays the first ICAO,
+# which is the ICAO the field is emitted under).
 _CHART_HREF_RE = re.compile(
-    r"contenido_AIP/AD/[^\"']*/LE_AD_2_([A-Z]{4})_([A-Z]{2,8})_(\d+)_en\.pdf$",
+    r"contenido_AIP/AD/[^\"']*/LE_AD_2_([A-Z]{4})(?:_[A-Z]{4})?_([A-Z]{2,8})_(\d+)_en\.pdf$",
     re.I,
 )
 # Primary chart preference: the visual approach chart first (VFR site), then
