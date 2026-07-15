@@ -484,7 +484,10 @@ function chunk<T>(items: T[], size: number): T[][] {
 }
 
 export const MUTATIONS = {
-  insertAirports: async function (input: InsertAirport[]) {
+  insertAirports: async function (
+    input: InsertAirport[],
+    airacOverride?: string | null,
+  ) {
     if (!input[0]) {
       console.warn("No airports to insert");
       return;
@@ -522,10 +525,11 @@ export const MUTATIONS = {
     // so the charts list can show a real "last updated" per country. Runs only
     // at runtime (the crawler POST), where `Date` is available.
     const crawledAt = Math.floor(Date.now() / 1000);
-    // AIRAC/edition date of this data, from the sources' edition-dated URLs.
-    // All of a country's charts share one edition, so take the MOST COMMON
-    // parsed date (robust against a stray odd URL); null when none carry a date.
-    const airac = mostCommonAirac(input);
+    // AIRAC/edition date of this data. Prefer the crawler-supplied override
+    // (DE, whose stored URLs carry no date); otherwise derive it from the
+    // sources' edition-dated URLs - all of a country's charts share one edition,
+    // so take the MOST COMMON parsed date. Null when neither is available (CZ).
+    const airac = airacOverride ?? mostCommonAirac(input);
     const crawlStmt = db
       .insert(crawlMeta)
       .values({ country, updatedAt: crawledAt, airac })

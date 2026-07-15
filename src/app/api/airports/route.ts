@@ -39,8 +39,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Optional AIRAC/edition date (ISO "2026-06-25") forwarded by crawlers that
+    // know their edition but store date-less URLs (DE). Validated loosely; an
+    // out-of-shape value is ignored so it can never break the insert.
+    const airacParam = req.nextUrl.searchParams.get("airac");
+    const airac = /^\d{4}-\d{2}-\d{2}$/.test(airacParam ?? "")
+      ? airacParam
+      : null;
+
     // Insert the airports into the database
-    await MUTATIONS.insertAirports(enrichedAirports);
+    await MUTATIONS.insertAirports(enrichedAirports, airac);
     return NextResponse.json(
       { message: "Airports inserted successfully" },
       { status: 201 },

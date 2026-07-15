@@ -78,6 +78,13 @@ class HttpCrawlerBase:
         # Country code is normalized upper-case; used for logging + Airport rows.
         self.country = country.upper()
         self.logger = logging.getLogger(__name__)
+        # Optional AIRAC/edition date (ISO "2026-06-25") for this crawl, set by
+        # a crawler that KNOWS its edition but stores date-less URLs (DE: the
+        # amendment-stable BasicVFR permalinks carry no date, so the website
+        # cannot derive it from the airport URLs). OutputHandler forwards it to
+        # the API (?airac=), which stamps crawl_meta.airac. Left None otherwise;
+        # for date-in-URL sources the website derives the edition itself.
+        self.airac: str | None = None
         # One pooled client per crawler: follows redirects (frameset eAIPs
         # bounce through several), default honest UA. http2=False because some
         # AIS stacks negotiate HTTP/2 badly; HTTP/1.1 is the safe common path.

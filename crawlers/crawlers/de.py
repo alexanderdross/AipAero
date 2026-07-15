@@ -65,6 +65,16 @@ _META_REFRESH_RE = re.compile(
     r"""http-equiv=["']?refresh["']?[^>]*content=["']?[^;]*;\s*url=([^"'>\s]+)""",
     re.I,
 )
+# DFS edition token in the physical URL: …/Basic(VFR|IFR)/2026JUN25/chapter/…
+# We store date-less permalinks (so links survive amendments), so this is the
+# ONLY place the edition date is visible - captured into self.airac so the
+# website can show "AIRAC …" for DE too (it cannot derive it from the URLs).
+_EDITION_RE = re.compile(r"/Basic(?:VFR|IFR)/(\d{4})([A-Z]{3})(\d{2})/", re.I)
+_MONTHS = {
+    "JAN": "01", "FEB": "02", "MAR": "03", "APR": "04", "MAY": "05",
+    "JUN": "06", "JUL": "07", "AUG": "08", "SEP": "09", "OCT": "10",
+    "NOV": "11", "DEC": "12",
+}
 
 
 class DE(HttpCrawlerBase):
@@ -113,9 +123,25 @@ class DE(HttpCrawlerBase):
         m = _META_REFRESH_RE.search(html)
         if m and _depth < 4:
             target = urljoin(url, m.group(1).replace("\\", "/"))
+            self._capture_edition(target)
             self.logger.info(f"DE: following meta refresh {url} -> {target}")
             return self._fetch(target, _depth + 1)
+        self._capture_edition(url)
         return url, html
+
+    def _capture_edition(self, url: str) -> None:
+        """Record the DFS edition date (ISO) from a physical URL the first time
+        one is seen. All DE pages share the current edition, so the first hit
+        is the country's AIRAC date; forwarded to the API as ?airac=."""
+        if self.airac is not None:
+            return
+        m = _EDITION_RE.search(url)
+        if not m:
+            return
+        month = _MONTHS.get(m.group(2).upper())
+        if month:
+            self.airac = f"{m.group(1)}-{month}-{m.group(3)}"
+            self.logger.info(f"DE: edition (AIRAC) date {self.airac}")
 
     def _process_vfr(self, airports: list[Airport]) -> None:
         """Walk the BasicVFR aerodrome + heliport indexes into ``airports``.
