@@ -111,9 +111,11 @@ class SK(HttpEurocontrolBase):
                 AIP_INDEX_URL, index_html
             )
 
-            # 2. Walk the frame chain to the navigation HTML.
+            # 2. Walk the frame chain to the navigation HTML. The SK frameset is
+            # FLAT and names its frames eAIPNavigation / eAIPContent (note "eAIP",
+            # not the usual "eAIS"), so the menu is one hop away.
             nav_url, nav_html = self.follow_frame_chain(
-                frameset_url, ["eAISNavigationBase", "eAISNavigation"]
+                frameset_url, ["eAIPNavigation"]
             )
             last_url, last_html = nav_url, nav_html
 
