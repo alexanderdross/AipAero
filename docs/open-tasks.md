@@ -2,7 +2,7 @@
 
 Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional · ✅ erledigt
 
-## Aktuelle Priorität (Owner 15.07.2026): 4 (AIRAC-Anzeige) → 3 (LT-VFR-Manual) → 2 (GR)
+## Aktuelle Priorität (Owner 15.07.2026): 4 (AIRAC) ✅ · 3 (LT-VFR-Manual) ✅ · 2 (GR) 🔴 Bright-Data-`.gov`-Policy-Sackgasse → nur noch via OurAirports-CC0 (Task 8, Produktentscheidung offen)
 
 ## ✅ Heute erledigt (15.07.2026, gemergt)
 
@@ -237,45 +237,39 @@ außer DK und GR)
 
 </details>
 
-## 4. GR: Web Unlocker liefert `502 Access denied` 🟡 (Owner-Diagnose nötig)
+## 4. GR: Bright Data blockt `.gov`-Domains hart 🔴 (Sackgasse via Bright Data)
 
-**Re-Probe 15.07.2026 (Run 29395569894): unverändert blockiert.** Erste
-Anfrage an `https://aisgr.hasp.gov.gr/` -> `502 Forbidden` (2 Retries) ->
-`502 Access denied`, weiterhin über die Web-Unlocker-Zone. Kein Fortschritt
-ohne die Owner-Schritte unten (Bright-Data-KYC/Domain-Freigabe für die
-`.gov.gr`-Regierungsdomain). **Alternativer Weg ohne Bright Data:** GR ist
-faktisch ein *gated-Land* (offizieller AIP hart blockiert) - es ließe sich wie
-IT/HR/IE/SK über **OurAirports (CC0)** als Info-Seiten *ohne* Chart-Links
-onboarden (siehe Task 8, Produktentscheidung).
+**Definitiv geklärt (15.07.2026, Direct-API-Test durch Owner):** Bright Data
+lehnt die Ziel-Domain kategorisch ab, **kein KYC-/Zonen-Problem**:
 
-**✅ Erledigt (Owner):** Web-Unlocker-Zone `aipaero_web_unlocker_gr` angelegt
-(CAPTCHA Solver an), Access-URL als Actions-Secret `BRIGHTDATA_UNLOCKER_URL`
-gesetzt. **✅ Erledigt (Code):** `gr.py` liest die Variable bevorzugt.
+```
+HTTP 400 - Access denied: aisgr.hasp.gov.gr is classified as Government and
+blocked by Bright Data as it might breach Bright Data usage policy.
+```
 
-**Problem:** Der Unlocker selbst liefert `502 Access denied` für
-`aisgr.hasp.gov.gr` (2 Retries, dann Abbruch) - das kommt **nicht** von unseren
-Selektoren. **Wahrscheinlichste Ursache:** `hasp.gov.gr` ist eine
-**Regierungsdomain** (`.gov.gr`), die Bright Data aus Compliance-Gründen oft
-sperrt oder nur nach KYC-Freigabe durchlässt ("Access denied" ist Bright Datas
-eigene Ablehnung, nicht das Ziel).
+Das ist eine **pauschale Usage-Policy** von Bright Data gegen Regierungsdomains
+(`.gov`), nicht durch KYC oder eine neue Zone lösbar. **GR über Bright Data ist
+damit eine Sackgasse** (analog DK, nur aus Policy-Gründen).
 
-**Offen (Owner) - Schritt für Schritt:**
+**✅ Zonen-Setup ist korrekt** (nichts zu tun): Zone `aipaero_web_unlocker_gr`
+(Kunde `hl_98e1a5d7`), Native-Proxy in `BRIGHTDATA_UNLOCKER_URL`, `gr.py` liest
+sie - beweisbar funktionsfähig (LT läuft über dieselbe Zone). Es scheitert nur
+an der Ziel-Domain-Policy.
 
-1. **Playground:** Zone `aipaero_web_unlocker_gr` → Tab *Playground* → URL
-   `https://aisgr.hasp.gov.gr/` senden. Kommt derselbe 502 → Zone/Bright-Data-
-   Problem (nicht unser Crawler).
-2. **Logs lesen:** Zone → *Logs* → den 502-Request öffnen → **exakten Grund**
-   notieren. "Domain not allowed" / "KYC required" / "restricted" → Schritt 4;
-   "target blocked/403" → Schritt 5.
-3. *(optional)* Per curl gegenprüfen (wie der Crawler, Native proxy access):
-   `curl -v -x brd.superproxy.io:33335 -U brd-customer-<ID>-zone-aipaero_web_unlocker_gr:<PW> "https://aisgr.hasp.gov.gr/"`
-4. **KYC/Domain-Freigabe:** Account-KYC im Dashboard abschließen; bei Support
-   die Domain freischalten lassen (Begründung: **öffentliche AIP-Daten**, keine
-   personenbezogenen Daten).
-5. **Wenn das Portal selbst blockt:** in der Zone *Premium domains* testweise
-   aktivieren und erneut testen.
-6. **Grund aus Schritt 2 an Claude** → dann Live-Test auswerten + GR-Selektoren
-   nachziehen.
+**Verbleibende Optionen (Owner-Entscheidung):**
+
+1. **Bright-Data-Ausnahme anfragen** (geringe Chance): Support-Mail mit
+   „public AIP data, no personal data, no auth bypass, only linking not
+   mirroring". Regierungsdomains werden aber selten freigegeben. (Mail-Vorlage
+   liegt im Session-Verlauf.)
+2. **Anderer Unlocker-Anbieter** ohne `.gov`-Sperre - neue Integration + Kosten,
+   nur für ein Land: schlechtes Aufwand/Nutzen-Verhältnis.
+3. **GR über OurAirports (CC0)** als Info-Seiten *ohne* Chart-Links onboarden -
+   wie IT/HR/IE/SK (siehe **Task 8**, Produktentscheidung). Der pragmatische Weg.
+
+**Empfehlung:** GR bei Bright Data abhaken; realistisch ist Option 3 (mit der
+Task-8-Produktfrage gekoppelt). Bleibt GR bis dahin ausgeblendet - kein
+technischer Schaden, alle anderen Länder laufen unabhängig.
 
 → Bei Freigabe: **11-12 von 12 Ländern live** (je nach DK). Bleibt es gesperrt,
 wird GR ausgeblendet - kein technischer Schaden, alle anderen laufen unabhängig.
