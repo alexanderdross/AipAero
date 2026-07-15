@@ -27,19 +27,23 @@ from urllib.parse import unquote, urljoin
 from crawlers.http_base import Airport, HttpCrawlerBase
 
 COUNTRY = "GR"
-# The portal landing that lists / links the currently effective edition. It is
-# fetched through the proxy; we scrape the edition folder token out of it.
-ROOT_URL = "https://aisgr.hasp.gov.gr/main.php?rand=0.5"
 HOST = "https://aisgr.hasp.gov.gr/"
+# Kept for the unit tests / diagnostics; the crawler no longer fetches the
+# captcha-gated main.php (Bright Data 502s that dynamic .gov page). The current
+# edition folder is derived from the AIRAC schedule + a static-folder probe.
+ROOT_URL = "https://aisgr.hasp.gov.gr/main.php?rand=0.5"
 
-_MONTHS = {
-    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
-    "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
-}
+_MONTH_ABBR = [
+    "jan", "feb", "mar", "apr", "may", "jun",
+    "jul", "aug", "sep", "oct", "nov", "dec",
+]
+
+# A known AIRAC effective date to anchor the fixed 28-day cycle (matches the
+# 09 JUL 2026 edition folder). Any real AIRAC date works as the anchor.
+_AIRAC_ANCHOR = datetime.date(2026, 7, 9)
 
 # Edition folder: aipgr_incl_amdt_<NNYY>_wef_<dd><mmm><yyyy> (e.g.
-# aipgr_incl_amdt_0626_wef_09jul2026). Capture the effective date so the
-# currently effective edition can be picked without parsing the captcha page.
+# aipgr_incl_amdt_0626_wef_09jul2026). Used to recognise/parse folder tokens.
 _EDITION_RE = re.compile(
     r"aipgr_incl_amdt_\d{4}_wef_(\d{2})([a-z]{3})(\d{4})", re.I
 )
@@ -78,26 +82,32 @@ class GR(HttpCrawlerBase):
         self.use_browser_headers()
         unlocker = os.environ.get("BRIGHTDATA_UNLOCKER_URL", "").strip()
         proxy_url = os.environ.get("BRIGHTDATA_PROXY_URL", "").strip()
-        if unlocker:
-            self.logger.info("GR: routing via Bright Data Web Unlocker")
-            self.use_proxy(unlocker)
-        elif proxy_url:
+        # The static per-edition tree needs only IP-based WAF bypass, NOT the
+        # captcha/JS solving of the Web Unlocker (we no longer touch main.php).
+        # Prefer the PLAIN proxy: it is far faster (the Unlocker renders JS on
+        # every request, ~10-15s each, which makes the AMDT probe unusable).
+        if proxy_url:
             self.logger.info("GR: routing via Bright Data proxy")
             self.use_proxy(proxy_url)
+        elif unlocker:
+            self.logger.info("GR: routing via Bright Data Web Unlocker")
+            self.use_proxy(unlocker)
         else:
             self.logger.warning(
-                "GR: no BRIGHTDATA_UNLOCKER_URL / BRIGHTDATA_PROXY_URL set - "
+                "GR: no BRIGHTDATA_PROXY_URL / BRIGHTDATA_UNLOCKER_URL set - "
                 "the HASP WAF will block this crawl"
             )
 
     def _resolve_edition_base(
         self, html: str, today: datetime.date | None = None
     ) -> str:
-        """Return the currently effective edition's `.../cd/ais/` base URL.
+        """Return the effective edition base URL from a listing's HTML.
 
-        Scans the landing HTML for `aipgr_incl_amdt_..._wef_<date>` folder
-        tokens and picks the latest edition whose effective date is on or
-        before ``today`` (falling back to the earliest if all are future).
+        Scans for `aipgr_incl_amdt_..._wef_<date>` folder tokens and picks the
+        latest whose effective date is on or before ``today``. Kept as a
+        helper (and unit-tested) for any reachable listing; the live crawl uses
+        ``_find_current_edition`` instead, because the only page that lists the
+        editions (main.php) is captcha-gated and Bright Data 502s it.
         """
         today = today or datetime.date.today()
         editions: list[tuple[datetime.date, str]] = []
@@ -107,49 +117,98 @@ class GR(HttpCrawlerBase):
             if token in seen:
                 continue
             seen.add(token)
-            day, mon, year = int(m.group(1)), m.group(2).lower(), int(m.group(3))
-            month = _MONTHS.get(mon)
-            if not month:
-                continue
-            try:
-                eff = datetime.date(year, month, day)
-            except ValueError:
-                continue
-            editions.append((eff, token))
+            eff = self._token_date(m)
+            if eff is not None:
+                editions.append((eff, token))
         if not editions:
-            raise ValueError(
-                "No 'aipgr_incl_amdt_..._wef_...' edition token found on the "
-                "HASP landing page"
-            )
+            raise ValueError("No 'aipgr_incl_amdt_..._wef_...' token in HTML")
         in_effect = [e for e in editions if e[0] <= today]
         eff, token = (
             max(in_effect, key=lambda e: e[0])
             if in_effect
             else min(editions, key=lambda e: e[0])
         )
-        self.logger.info(
-            f"GR current edition (effective {eff.isoformat()}): {token}"
-        )
-        # Set the AIRAC edition (ISO) for the website's "Stand: ... AIRAC" line;
-        # GR stores date-in-URL PDFs, but the menu HTML itself carries no date.
         self.airac = eff.isoformat()
         return f"{HOST}{token}/cd/ais/"
+
+    @staticmethod
+    def _token_date(m: re.Match) -> datetime.date | None:
+        day, mon, year = int(m.group(1)), m.group(2).lower(), int(m.group(3))
+        if mon not in _MONTH_ABBR:
+            return None
+        try:
+            return datetime.date(year, _MONTH_ABBR.index(mon) + 1, day)
+        except ValueError:
+            return None
+
+    @staticmethod
+    def airac_dates_on_or_before(
+        today: datetime.date, count: int = 3
+    ) -> list[datetime.date]:
+        """The ``count`` most recent AIRAC effective dates on/before ``today``.
+
+        AIRAC effective dates follow a fixed global 28-day cycle; anchoring on
+        one known date reproduces the whole schedule with no network call.
+        Newest first.
+        """
+        k = (today - _AIRAC_ANCHOR).days // 28
+        return [_AIRAC_ANCHOR + datetime.timedelta(days=28 * (k - i))
+                for i in range(count)]
+
+    @staticmethod
+    def _edition_token(amdt: int, wef: datetime.date) -> str:
+        wef_str = f"{wef.day:02d}{_MONTH_ABBR[wef.month - 1]}{wef.year}"
+        return f"aipgr_incl_amdt_{amdt:02d}{wef.year % 100:02d}_wef_{wef_str}"
+
+    def _find_current_edition(
+        self, today: datetime.date | None = None
+    ) -> tuple[str, str]:
+        """Locate the effective edition's AIP-menu.htm without main.php.
+
+        For each recent AIRAC effective date (newest first), the edition folder
+        embeds an AMDT number we cannot derive, so probe the static folders
+        directly (`aipgr_incl_amdt_<NN><YY>_wef_<date>/cd/ais/AIP-menu.htm`) -
+        there is exactly one AMDT per effective date. The first folder that
+        answers 200 through the proxy is the current edition. Returns
+        (menu_url, menu_html) and sets ``self.airac``.
+        """
+        today = today or datetime.date.today()
+        # A missing folder answers 404/502 through the proxy; probe with NO
+        # retries so each miss is one quick request (the default 3x backoff
+        # would make the AMDT sweep take minutes).
+        saved_retries = self.max_retries
+        self.max_retries = 1
+        try:
+            for wef in self.airac_dates_on_or_before(today, count=3):
+                for amdt in range(1, 14):
+                    token = self._edition_token(amdt, wef)
+                    menu_url = f"{HOST}{token}/cd/ais/AIP-menu.htm"
+                    try:
+                        menu_html = self.fetch(menu_url)
+                    except Exception:
+                        continue  # missing folder - try the next AMDT
+                    self.logger.info(
+                        f"GR current edition: {token} (AIRAC {wef.isoformat()})"
+                    )
+                    self.airac = wef.isoformat()
+                    return menu_url, menu_html
+        finally:
+            self.max_retries = saved_retries
+        raise ValueError(
+            "GR: no effective edition folder answered (probed the last 3 "
+            "AIRAC cycles x AMDT 01-13)"
+        )
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
-        last_url = ROOT_URL
+        last_url = HOST
         last_html: str | None = None
 
         try:
-            # 1. Landing page (via proxy) -> currently effective edition base.
-            root_html = self.fetch(ROOT_URL)
-            last_url, last_html = ROOT_URL, root_html
-            base = self._resolve_edition_base(root_html)
-
-            # 2. The side menu carries every publication as a direct PDF link.
-            menu_url = urljoin(base, "AIP-menu.htm")
-            menu_html = self.fetch(menu_url)
+            # Locate the effective edition's side menu (static folder probe -
+            # the menu carries every publication as a direct PDF link).
+            menu_url, menu_html = self._find_current_edition()
             last_url, last_html = menu_url, menu_html
 
             airports = self._parse_menu(menu_html, menu_url)

@@ -30,19 +30,21 @@ def _capture_use_proxy(monkeypatch):
     return calls
 
 
-def test_prefers_unlocker_over_proxy(monkeypatch, _capture_use_proxy):
+def test_prefers_plain_proxy_over_unlocker(monkeypatch, _capture_use_proxy):
+    # The static edition tree needs only IP unblocking, so the fast plain proxy
+    # is preferred over the JS-rendering Web Unlocker.
     monkeypatch.setenv("BRIGHTDATA_UNLOCKER_URL", "http://u:p@unlocker.test:1")
     monkeypatch.setenv("BRIGHTDATA_PROXY_URL", "http://u:p@proxy.test:2")
     gr = GR()
-    assert _capture_use_proxy == ["http://u:p@unlocker.test:1"]
+    assert _capture_use_proxy == ["http://u:p@proxy.test:2"]
     gr.close()
 
 
-def test_falls_back_to_plain_proxy(monkeypatch, _capture_use_proxy):
-    monkeypatch.delenv("BRIGHTDATA_UNLOCKER_URL", raising=False)
-    monkeypatch.setenv("BRIGHTDATA_PROXY_URL", "http://u:p@proxy.test:2")
+def test_falls_back_to_unlocker(monkeypatch, _capture_use_proxy):
+    monkeypatch.delenv("BRIGHTDATA_PROXY_URL", raising=False)
+    monkeypatch.setenv("BRIGHTDATA_UNLOCKER_URL", "http://u:p@unlocker.test:1")
     gr = GR()
-    assert _capture_use_proxy == ["http://u:p@proxy.test:2"]
+    assert _capture_use_proxy == ["http://u:p@unlocker.test:1"]
     gr.close()
 
 
@@ -97,6 +99,27 @@ def test_resolve_edition_picks_effective(gr: GR):
 def test_resolve_edition_no_token_raises(gr: GR):
     with pytest.raises(ValueError):
         gr._resolve_edition_base("<html>nothing</html>")
+
+
+def test_airac_dates_follow_28day_cycle(gr: GR):
+    # Newest-first AIRAC effective dates on/before 15 JUL 2026.
+    ds = GR.airac_dates_on_or_before(datetime.date(2026, 7, 15), 3)
+    assert ds == [
+        datetime.date(2026, 7, 9),
+        datetime.date(2026, 6, 11),
+        datetime.date(2026, 5, 14),
+    ]
+
+
+def test_edition_token_matches_real_folders(gr: GR):
+    assert (
+        GR._edition_token(6, datetime.date(2026, 7, 9))
+        == "aipgr_incl_amdt_0626_wef_09jul2026"
+    )
+    assert (
+        GR._edition_token(7, datetime.date(2026, 8, 6))
+        == "aipgr_incl_amdt_0726_wef_06aug2026"
+    )
 
 
 def test_parse_menu_ad2_and_ad3(gr: GR):
