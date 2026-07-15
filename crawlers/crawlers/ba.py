@@ -8,12 +8,18 @@ edition lives at a deterministic, date-stamped path:
 
 so this crawler skips the JS root and builds the currently effective edition
 URL straight from the AIRAC 28-day schedule (probing recent cycles until one
-answers), then walks the frame chain to the navigation menu and reads AD 2
-(aerodromes) / AD 3 (heliports). Pure HTML - no JS/browser, no login. LQ is the
-Bosnia ICAO prefix.
+answers), then walks the frame chain to the navigation menu.
+
+BHANSA's menu has NO aggregate "AD 2" div: every field is its own top-level
+chapter (id "AD-2.<ICAO>details" / "AD-4.<ICAO>details"), the per-chapter
+layout CZ/PT/HU/IE use. AD 2 carries the 4 international aerodromes (LQBK/LQMO/
+LQSA/LQTZ); AD 4 carries the ~13 smaller VFR fields (the bulk of the country -
+the Slovenia pattern). All are emitted as "vfr", deduped by ICAO. Pure HTML -
+no JS/browser, no login. LQ is the Bosnia ICAO prefix.
 """
 
 import datetime
+import re
 
 from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
@@ -23,17 +29,18 @@ HOST = "https://eaip.bhansa.gov.ba/"
 # A known AIRAC effective date to anchor the fixed 28-day cycle.
 _AIRAC_ANCHOR = datetime.date(2026, 7, 9)
 
-# eurocontrol menu ids vary by generator/locale; try the spaced locale-suffixed
-# form and the hyphenated short form.
-_AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details"]
-_AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD-3details"]
+# Per-chapter menu ids: "AD-2.<ICAO>details" (international aerodromes) and
+# "AD-4.<ICAO>details" (small VFR fields). Group 1 is the ICAO code.
+_AD2_CHAPTER_RE = re.compile(r"AD[ -]2\.([A-Z]{4}).*details$")
+_AD4_CHAPTER_RE = re.compile(r"AD[ -]4\.([A-Z]{4}).*details$")
 
 
 class BA(HttpEurocontrolBase):
     """Bosnia and Herzegovina (BHANSA) AIP crawler - standard eurocontrol eAIP.
 
     The current edition URL is derived from the AIRAC schedule (the JS root page
-    is bypassed), then the frame chain is walked to the navigation HTML.
+    is bypassed), then the frame chain is walked to the navigation HTML and the
+    per-airport AD 2 / AD 4 chapters are read.
     """
 
     def __init__(self) -> None:
@@ -81,26 +88,11 @@ class BA(HttpEurocontrolBase):
             "AIRAC cycles)"
         )
 
-    def _extract_section(
-        self,
-        nav_html: str,
-        nav_url: str,
-        id_candidates: list[str],
-        category: str,
-    ) -> list[Airport]:
-        last_error: Exception | None = None
-        for menu_id in id_candidates:
-            try:
-                return self.extract_airports_from_html(
-                    nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
-                )
-            except ValueError as e:
-                last_error = e
-        assert last_error is not None
-        raise last_error
-
-    # Chart-PDF extraction refined from the first live run's pdf_url coverage.
+    # Chart-PDF extraction: BHANSA's AD 2.24 charts follow the eurocontrol
+    # positional scheme LQ_AD_2_<ICAO>_24-<n>_en.pdf (sheet 24-1 = the
+    # aerodrome chart). Prefer sheet 24-1, else the first chart on the page.
     FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_24[-_]1_en\.pdf$",)
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
@@ -120,18 +112,34 @@ class BA(HttpEurocontrolBase):
             )
             last_url, last_html = nav_url, nav_html
 
-            # 3. Aerodromes (AD 2) and heliports (AD 3, fail-soft if absent).
+            # 3. Aerodromes: no aggregate AD 2 section - each field is its own
+            # "AD-2.<ICAO>details" / "AD-4.<ICAO>details" chapter. AD 2 = the
+            # international aerodromes, AD 4 = the small VFR fields. All "vfr".
             airports.extend(
-                self._extract_section(nav_html, nav_url, _AD2_SECTION_IDS, "vfr")
+                self.extract_airports_per_chapter(
+                    nav_html, nav_url, _AD2_CHAPTER_RE, "vfr"
+                )
             )
             try:
                 airports.extend(
-                    self._extract_section(
-                        nav_html, nav_url, _AD3_SECTION_IDS, "heliport"
+                    self.extract_airports_per_chapter(
+                        nav_html, nav_url, _AD4_CHAPTER_RE, "vfr"
                     )
                 )
-            except ValueError as e:
-                self.logger.info(f"BA: no AD 3 heliport section ({e})")
+            except ValueError:
+                self.logger.info("BA: no AD 4 section - skipping")
+
+            # Dedup by ICAO (a field must not appear twice if listed in both
+            # AD 2 and AD 4); keep the first (AD 2) occurrence.
+            seen_icao: set[str] = set()
+            deduped: list[Airport] = []
+            for a in airports:
+                key = (a.icao or a.title or "").upper()
+                if key in seen_icao:
+                    continue
+                seen_icao.add(key)
+                deduped.append(a)
+            airports = deduped
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
