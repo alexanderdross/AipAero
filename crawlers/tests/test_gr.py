@@ -30,19 +30,21 @@ def _capture_use_proxy(monkeypatch):
     return calls
 
 
-def test_prefers_unlocker_over_proxy(monkeypatch, _capture_use_proxy):
+def test_prefers_plain_proxy_over_unlocker(monkeypatch, _capture_use_proxy):
+    # The static edition tree needs only IP unblocking, so the fast plain proxy
+    # is preferred over the JS-rendering Web Unlocker.
     monkeypatch.setenv("BRIGHTDATA_UNLOCKER_URL", "http://u:p@unlocker.test:1")
     monkeypatch.setenv("BRIGHTDATA_PROXY_URL", "http://u:p@proxy.test:2")
     gr = GR()
-    assert _capture_use_proxy == ["http://u:p@unlocker.test:1"]
+    assert _capture_use_proxy == ["http://u:p@proxy.test:2"]
     gr.close()
 
 
-def test_falls_back_to_plain_proxy(monkeypatch, _capture_use_proxy):
-    monkeypatch.delenv("BRIGHTDATA_UNLOCKER_URL", raising=False)
-    monkeypatch.setenv("BRIGHTDATA_PROXY_URL", "http://u:p@proxy.test:2")
+def test_falls_back_to_unlocker(monkeypatch, _capture_use_proxy):
+    monkeypatch.delenv("BRIGHTDATA_PROXY_URL", raising=False)
+    monkeypatch.setenv("BRIGHTDATA_UNLOCKER_URL", "http://u:p@unlocker.test:1")
     gr = GR()
-    assert _capture_use_proxy == ["http://u:p@proxy.test:2"]
+    assert _capture_use_proxy == ["http://u:p@unlocker.test:1"]
     gr.close()
 
 

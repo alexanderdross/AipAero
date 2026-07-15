@@ -82,15 +82,19 @@ class GR(HttpCrawlerBase):
         self.use_browser_headers()
         unlocker = os.environ.get("BRIGHTDATA_UNLOCKER_URL", "").strip()
         proxy_url = os.environ.get("BRIGHTDATA_PROXY_URL", "").strip()
-        if unlocker:
-            self.logger.info("GR: routing via Bright Data Web Unlocker")
-            self.use_proxy(unlocker)
-        elif proxy_url:
+        # The static per-edition tree needs only IP-based WAF bypass, NOT the
+        # captcha/JS solving of the Web Unlocker (we no longer touch main.php).
+        # Prefer the PLAIN proxy: it is far faster (the Unlocker renders JS on
+        # every request, ~10-15s each, which makes the AMDT probe unusable).
+        if proxy_url:
             self.logger.info("GR: routing via Bright Data proxy")
             self.use_proxy(proxy_url)
+        elif unlocker:
+            self.logger.info("GR: routing via Bright Data Web Unlocker")
+            self.use_proxy(unlocker)
         else:
             self.logger.warning(
-                "GR: no BRIGHTDATA_UNLOCKER_URL / BRIGHTDATA_PROXY_URL set - "
+                "GR: no BRIGHTDATA_PROXY_URL / BRIGHTDATA_UNLOCKER_URL set - "
                 "the HASP WAF will block this crawl"
             )
 
@@ -169,19 +173,27 @@ class GR(HttpCrawlerBase):
         (menu_url, menu_html) and sets ``self.airac``.
         """
         today = today or datetime.date.today()
-        for wef in self.airac_dates_on_or_before(today, count=3):
-            for amdt in range(1, 14):
-                token = self._edition_token(amdt, wef)
-                menu_url = f"{HOST}{token}/cd/ais/AIP-menu.htm"
-                try:
-                    menu_html = self.fetch(menu_url)
-                except Exception:
-                    continue  # 404 / missing folder - try the next AMDT
-                self.logger.info(
-                    f"GR current edition: {token} (AIRAC {wef.isoformat()})"
-                )
-                self.airac = wef.isoformat()
-                return menu_url, menu_html
+        # A missing folder answers 404/502 through the proxy; probe with NO
+        # retries so each miss is one quick request (the default 3x backoff
+        # would make the AMDT sweep take minutes).
+        saved_retries = self.max_retries
+        self.max_retries = 1
+        try:
+            for wef in self.airac_dates_on_or_before(today, count=3):
+                for amdt in range(1, 14):
+                    token = self._edition_token(amdt, wef)
+                    menu_url = f"{HOST}{token}/cd/ais/AIP-menu.htm"
+                    try:
+                        menu_html = self.fetch(menu_url)
+                    except Exception:
+                        continue  # missing folder - try the next AMDT
+                    self.logger.info(
+                        f"GR current edition: {token} (AIRAC {wef.isoformat()})"
+                    )
+                    self.airac = wef.isoformat()
+                    return menu_url, menu_html
+        finally:
+            self.max_retries = saved_retries
         raise ValueError(
             "GR: no effective edition folder answered (probed the last 3 "
             "AIRAC cycles x AMDT 01-13)"
