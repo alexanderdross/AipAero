@@ -9,6 +9,10 @@
       "title": "Česko (Čeština)",
       "hrefTitle": "AIP Česko"
     },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "Letecká informační příručka AIP VFR Česko"
+    },
     "/ifr": {
       "title": "IFR",
       "hrefTitle": "Letecká informační příručka AIP IFR Česko"

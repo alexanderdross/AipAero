@@ -13,6 +13,10 @@
       "title": "VFR",
       "hrefTitle": "Publicação de informação aeronáutica AIP VFR Portugal"
     },
+    "/heliports": {
+      "title": "Heliportos",
+      "hrefTitle": "AIP VFR Heliportos Portugal"
+    },
     "/airport-list": {
       "title": "Lista de aeródromos",
       "hrefTitle": "Lista de aeródromos de Portugal"
