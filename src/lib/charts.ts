@@ -213,17 +213,25 @@ const CHART_TOKEN_SPLIT = /[\s_.\-/]+/;
 /**
  * Some sources put the chart's relative href (or bare filename) as the link
  * text, so the stored `name` can be a URL fragment like
- * "../graphics/eAIP/EBAW_ADC01_v48.pdf" (BE/PT/SI). Strip any leading path
+ * "../graphics/eAIP/EBAW_ADC01_v48.pdf" (BE/PT/SI/HU). Strip any leading path
  * segments and a trailing ".pdf" so the box shows a readable code instead of a
- * path. Clean names ("ADC 1", "ESNX VAC", "AD 2-LKTB-2-1") have no slash and no
- * ".pdf", so they pass through untouched.
+ * path.
+ *
+ * Only paths/filenames (which never contain whitespace) are cleaned: a human
+ * designation with an internal slash - e.g. the RS "AD 2 LYBE 2.1-1/2 AERODROME
+ * CHART" where "1/2" means sheet 1 of 2 - has spaces and is left untouched, so
+ * we never mistake its "/" for a path separator. Clean names ("ADC 1", "ESNX
+ * VAC", "AD 2-LKTB-2-1") also pass through unchanged.
  */
 export function cleanChartName(name: string): string {
-  let out = name.trim();
+  const trimmed = name.trim();
+  // Whitespace => a human designation, not a path/filename: leave it as-is.
+  if (/\s/.test(trimmed)) return trimmed;
+  let out = trimmed;
   const slash = out.lastIndexOf("/");
-  if (slash !== -1) out = out.slice(slash + 1).trim();
-  if (/\.pdf$/i.test(out)) out = out.slice(0, -4).trim();
-  return out || name.trim();
+  if (slash !== -1) out = out.slice(slash + 1);
+  if (/\.pdf$/i.test(out)) out = out.slice(0, -4);
+  return out || trimmed;
 }
 
 /**

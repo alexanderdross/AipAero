@@ -135,6 +135,14 @@ describe("cleanChartName", () => {
     expect(cleanChartName("ESNX VAC")).toBe("ESNX VAC");
     expect(cleanChartName("AD 2-LKTB-2-1")).toBe("AD 2-LKTB-2-1");
   });
+
+  it("keeps an internal slash in a human designation (RS sheet 1/2)", () => {
+    // "1/2" = sheet 1 of 2 - the slash is NOT a path separator, so the name
+    // (which has spaces) must survive intact.
+    expect(cleanChartName("AD 2 LYBE 2.1-1/2 AERODROME CHART")).toBe(
+      "AD 2 LYBE 2.1-1/2 AERODROME CHART",
+    );
+  });
 });
 
 describe("chartDisplayName", () => {
