@@ -34,9 +34,11 @@ const AIRAC_PATTERNS: {
   rx: RegExp;
   toIso: (m: RegExpMatchArray) => string;
 }[] = [
-  // UK/NO: .../2026-07-09-AIRAC/...
+  // UK/NO/BA: .../2026-07-09-AIRAC/...  and AL: .../2026-05-20-NON-AIRAC/...
+  // (AL publishes both AIRAC and off-cycle NON-AIRAC editions; the date is the
+  // effective date either way, so the "NON-" is optional).
   {
-    rx: /(\d{4})-(\d{2})-(\d{2})-AIRAC/i,
+    rx: /(\d{4})-(\d{2})-(\d{2})-(?:NON-)?AIRAC/i,
     toIso: (m) => `${m[1]}-${m[2]}-${m[3]}`,
   },
   // FR: .../AIRAC-2026-07-09/...

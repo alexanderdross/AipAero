@@ -67,6 +67,12 @@ describe("airacDateFromUrl", () => {
         "https://aip.dfs.de/BasicVFR/2026JUN25/chapter/3fb9780db947a5bd4782bc7f9b334f99.html",
       ),
     ).toBe("2026-06-25");
+    // AL (NON-AIRAC edition folder still carries the effective date)
+    expect(
+      airacDateFromUrl(
+        "https://www.albcontrol.al/al/aip/20-MAY-2026-NA/2026-05-20-NON-AIRAC/html/eAIP/LA_AD_2_LATI_en-GB.pdf",
+      ),
+    ).toBe("2026-05-20");
     // GR (HASP edition folder: wef_<dd><mmm><yyyy>)
     expect(
       airacDateFromUrl(
