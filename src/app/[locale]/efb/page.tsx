@@ -247,7 +247,10 @@ export default async function EfbPage(
         <div className="border-drossgray-dark/15 flex flex-col gap-8 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
           {SECTIONS.map((section) => (
             <section key={section}>
-              <SectionHeading className="text-xl font-semibold tracking-tight">
+              <SectionHeading
+                className="text-xl font-semibold tracking-tight"
+                linkTitle={`${t("title")} - ${t(`${section}Title`)}`}
+              >
                 {t(`${section}Title`)}
               </SectionHeading>
               {section === "bulk" || section === "favorites" ? (
@@ -345,7 +348,10 @@ export default async function EfbPage(
               HashDetailsOpener island binds hash <-> accordion two-way. */}
           <section>
             <HashDetailsOpener />
-            <SectionHeading className="text-xl font-semibold tracking-tight">
+            <SectionHeading
+              className="text-xl font-semibold tracking-tight"
+              linkTitle={`${t("title")} - ${t("faqTitle")}`}
+            >
               {t("faqTitle")}
             </SectionHeading>
             <div className="divide-drossgray-dark/10 mt-2 divide-y">
@@ -391,7 +397,10 @@ export default async function EfbPage(
               it is left out of the HowTo JSON-LD above. Links the site's
               existing contact (Footer namespace). */}
           <section className="border-drossgray-dark/15 border-t pt-6">
-            <SectionHeading className="text-xl font-semibold tracking-tight">
+            <SectionHeading
+              className="text-xl font-semibold tracking-tight"
+              linkTitle={`${t("title")} - ${t("apiTitle")}`}
+            >
               {t("apiTitle")}
             </SectionHeading>
             <p className="mt-3">
