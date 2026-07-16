@@ -1,6 +1,6 @@
 import re
 
-from crawlers.http_base import Airport
+from crawlers.http_base import Airport, current_airac_date
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "PT"
@@ -115,6 +115,8 @@ class PT(HttpEurocontrolBase):
         try:
             nav_url, nav_html = self._enter_nav()
             last_url, last_html = nav_url, nav_html
+            # NAV Portugal URLs carry no edition date; stamp on-cycle AIRAC.
+            self.airac = current_airac_date()
 
             # Like CZ, aerodromes are per-chapter (no aggregate AD 2 section):
             # the base's per-chapter helper matches each "AD-2.<ICAO>details".

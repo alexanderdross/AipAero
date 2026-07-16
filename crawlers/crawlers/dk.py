@@ -40,7 +40,7 @@ from __future__ import annotations
 import re
 from urllib.parse import urljoin
 
-from crawlers.http_base import Airport
+from crawlers.http_base import Airport, current_airac_date
 from crawlers.models import ChartLink
 from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
 
@@ -250,6 +250,8 @@ class DK(PlaywrightCrawlerBase):
                 # Root lookup failed - render the SPA to reveal the new layout.
                 self._render_diagnostics()
                 return airports
+            # Naviair JSON API carries no edition date; stamp on-cycle AIRAC.
+            self.airac = current_airac_date()
 
             # Descend "VFG Part 3 - FLYVEPLADSER (AD)" to reach the AD sections.
             part3 = self._child_by_text(

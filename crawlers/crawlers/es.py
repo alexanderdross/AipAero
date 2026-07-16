@@ -1,7 +1,7 @@
 import re
 from urllib.parse import urljoin
 
-from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_base import Airport, HttpCrawlerBase, current_airac_date
 from crawlers.http_eurocontrol_base import ad21_debug_snippet, ad21_name
 from crawlers.models import ChartLink
 
@@ -79,6 +79,8 @@ class ES(HttpCrawlerBase):
             html = self.fetch(ROOT_URL)
             last_html = html
             soup = self.soup(html)
+            # ENAIRE index URL carries no edition date; stamp on-cycle AIRAC.
+            self.airac = current_airac_date()
 
             # Collect every AD 2.24 chart PDF per ICAO from the index in one
             # pass (the charts are siblings of the AD-2 text page, so no extra

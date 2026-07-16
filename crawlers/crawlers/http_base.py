@@ -59,6 +59,22 @@ _BINARY_CONTENT_TYPE_RE = re.compile(
     re.I,
 )
 
+# Fixed 28-day AIRAC cycle anchor (a real AIRAC effective date). The current
+# effective edition of a standard eAIP is the most recent AIRAC date on/before
+# today, so crawlers whose source URLs carry NO edition date can still stamp
+# crawl_meta.airac (the detail page shows the AIRAC cycle). This is the on-cycle
+# edition; a source lagging a cycle is the only inaccuracy, acceptable and the
+# same approximation ba.py/gr.py already use.
+_AIRAC_ANCHOR = datetime.date(2026, 7, 9)
+
+
+def current_airac_date(today: datetime.date | None = None) -> str:
+    """ISO date of the AIRAC cycle currently in effect (most recent 28-day
+    boundary on/before today)."""
+    today = today or datetime.date.today()
+    n = (today - _AIRAC_ANCHOR).days // 28
+    return (_AIRAC_ANCHOR + datetime.timedelta(days=n * 28)).isoformat()
+
 
 class HttpCrawlerBase:
     """Base for crawlers that talk to AIP sites over plain HTTP.

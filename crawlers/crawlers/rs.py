@@ -34,7 +34,7 @@ from __future__ import annotations
 import re
 from urllib.parse import urljoin
 
-from crawlers.http_base import Airport
+from crawlers.http_base import Airport, current_airac_date
 from crawlers.models import ChartLink
 from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
 
@@ -132,6 +132,9 @@ class RS(PlaywrightCrawlerBase):
             self.logger.error(f"RS: rendering {AD_URL} failed: {e}")
             self.close()
             return airports
+
+        # SMATSA VFR AIP URLs carry no edition date; stamp on-cycle AIRAC.
+        self.airac = current_airac_date()
 
         try:
             # Group every AD-2 PDF document by its aerodrome KEY, preserving

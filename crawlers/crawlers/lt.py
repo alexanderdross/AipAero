@@ -34,7 +34,7 @@ import os
 import re
 from urllib.parse import urljoin
 
-from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_base import Airport, HttpCrawlerBase, current_airac_date
 from crawlers.models import ChartLink
 
 COUNTRY = "LT"
@@ -194,6 +194,10 @@ class LT(HttpCrawlerBase):
                 best_date, best_url = d, urljoin(VFR_ROOT_URL, a["href"])
         if best_url and not best_url.endswith("/"):
             best_url += "/"
+        # Remember the real resolved edition date so crawl() can stamp
+        # crawl_meta.airac from the actual source date (more accurate than the
+        # 28-day schedule approximation).
+        self._vfr_edition_date = best_date
         return best_url
 
     def _crawl_vfr_manual(self) -> list[Airport]:
@@ -319,6 +323,14 @@ class LT(HttpCrawlerBase):
                     continue
                 seen.add(key)
                 airports.append(field)
+
+            # Stamp crawl_meta.airac. Prefer the REAL resolved VFR-manual
+            # edition date (set by _resolve_vfr_edition above); fall back to the
+            # 28-day schedule if it could not be resolved. Fail-soft.
+            edition_date = getattr(self, "_vfr_edition_date", None)
+            self.airac = (
+                edition_date.isoformat() if edition_date else current_airac_date()
+            )
         except Exception as e:
             self.logger.error(f"LT crawl failed: {e}")
             if last_html is not None:
