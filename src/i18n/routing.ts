@@ -58,6 +58,11 @@ export const routing = defineRouting({
     "mk-EN",
     "ro",
     "ro-EN",
+    "cy",
+    "cy-EN",
+    "mt",
+    "md",
+    "md-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -89,6 +94,8 @@ export const routing = defineRouting({
       "al-EN": "/al/en",
       "mk-EN": "/mk/en",
       "ro-EN": "/ro/en",
+      "cy-EN": "/cy/en",
+      "md-EN": "/md/en",
     },
   },
   pathnames: {
@@ -157,6 +164,11 @@ export const routing = defineRouting({
       "mk-EN": "/airport-list-north-macedonia",
       ro: "/lista-aeroporturi-romania",
       "ro-EN": "/airport-list-romania",
+      cy: "/aerolimenes-kypros",
+      "cy-EN": "/airport-list-cyprus",
+      mt: "/airport-list-malta",
+      md: "/lista-aeroporturi-moldova",
+      "md-EN": "/airport-list-moldova",
     },
   },
   localeCookie: false,
@@ -263,6 +275,19 @@ export const localeLangMapping: Record<
   // LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
   ro: "ro",
   "ro-EN": "en",
+  // Cyprus: prefix "cy", ISO language code "el" (Greek) - the LocaleSwitcher
+  // ICU branches key on the PREFIX "cy" (see the gotcha in CLAUDE.md), so
+  // messages/cy.json keys its native branch on "cy".
+  cy: "el",
+  "cy-EN": "en",
+  // Malta: single English locale (like uk/ie/be) - Malta is bilingual but
+  // English is co-official and the aviation language, so no `mt-EN` twin.
+  mt: "en",
+  // Moldova: prefix "md", ISO language code "ro" (Moldovan is Romanian) - the
+  // LocaleSwitcher ICU branches key on the PREFIX "md" (see the gotcha in
+  // CLAUDE.md), so messages/md.json keys its native branch on "md".
+  md: "ro",
+  "md-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -324,4 +349,9 @@ export const localeCountryMapping: Record<
   "mk-EN": "mk",
   ro: "ro",
   "ro-EN": "ro",
+  cy: "cy",
+  "cy-EN": "cy",
+  mt: "mt",
+  md: "md",
+  "md-EN": "md",
 };

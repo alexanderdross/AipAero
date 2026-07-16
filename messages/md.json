@@ -1,0 +1,347 @@
+{
+  "BreadCrumbs": {
+    "label": "Firul de navigare",
+    "root": {
+      "title": "Index AIP",
+      "hrefTitle": "Index AIP"
+    },
+    "/": {
+      "title": "Moldova (Română)",
+      "hrefTitle": "AIP Moldova"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Moldova"
+    },
+    "/airport-list": {
+      "title": "Lista aeroporturilor",
+      "hrefTitle": "Lista aeroporturilor din Moldova"
+    },
+    "/terms": {
+      "title": "Termeni de utilizare",
+      "hrefTitle": "Termeni de utilizare - AIP:Aero Moldova"
+    },
+    "/efb": {
+      "title": "Ghid EFB",
+      "hrefTitle": "Ghid EFB - AIP:Aero pe tableta ta"
+    }
+  },
+  "Menu": {
+    "label": "Meniu",
+    "home": {
+      "title": "AIP Moldova",
+      "hrefTitle": "AIP Moldova"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Moldova"
+    },
+    "airports": {
+      "title": "Lista aeroporturilor",
+      "hrefTitle": "Lista aeroporturilor din Moldova"
+    }
+  },
+  "AirportsPage": {
+    "title": "Lista aeroporturilor din Moldova",
+    "metaTitle": "🛩️ Lista aeroporturilor din Moldova",
+    "description": "Prezentare generală a tuturor aeroporturilor din Moldova",
+    "metaDescription": "Prezentare generală a tuturor aeroporturilor din Moldova🗺️",
+    "vfrCard": {
+      "title": "Aeroporturi VFR",
+      "description": "Aeroporturi VFR din Moldova",
+      "linkTitle": "Faceți clic pe linkul de mai jos pentru a accesa AIP VFR și harta de apropiere vizuală a {airport}"
+    },
+    "heliportCard": {
+      "title": "Heliporturi",
+      "description": "Heliporturi din Moldova",
+      "linkTitle": "Faceți clic pe linkul de mai jos pentru a accesa AIP VFR pentru heliporturi și harta de apropiere vizuală a {airport}"
+    },
+    "breadcrumb": {
+      "name": "Lista aeroporturilor din Moldova",
+      "alternateName": "Lista aeroporturilor din Moldova",
+      "description": "Prezentare generală a tuturor aeroporturilor din Moldova"
+    }
+  },
+  "VfrPage": {
+    "title": "Indexul AIP VFR și al hărților de apropiere vizuală Moldova",
+    "metaTitle": "🛩️ Indexul AIP VFR și al hărților de apropiere vizuală Moldova",
+    "description": "Introduceți numele aeroportului sau codul ICAO (de ex. LUKK) pentru a accesa hărțile de apropiere AIP VFR furnizate de MOLDATSA.",
+    "metaDescription": "Răsfoiți AIP VFR Moldova și descărcați gratuit hărțile de apropiere ale aeroporturilor🗺️",
+    "searchTitle": "Introduceți numele aeroportului sau codul său ICAO pentru a accesa AIP VFR",
+    "searchPlaceholder": "Introduceți numele aeroportului sau codul său ICAO pentru a accesa AIP VFR",
+    "resultTitle": "Hărțile AIP VFR ale {airport}",
+    "resultDescription": "Faceți clic pe linkul de mai jos pentru a accesa AIP VFR și harta de apropiere vizuală a {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Moldova",
+      "alternateName": "Indexul AIP VFR și al hărților de apropiere vizuală Moldova",
+      "description": "Răsfoiți AIP VFR Moldova și descărcați gratuit hărțile de apropiere ale aeroporturilor"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Schimbă limba",
+    "locale": "{locale, select, md {🇲🇩 Română} en {🇬🇧 English} other {Necunoscut}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP și hărțile de apropiere ale Moldovei",
+    "alternateName": "AIP Moldova",
+    "description": "Index de căutare al publicației de informare aeronautică (AIP) VFR și al hărților de apropiere din Moldova",
+    "inLanguage": "ro",
+    "url": "https://aip.aero/md/"
+  },
+  "CountryPage": {
+    "title": "AIP și hărțile de apropiere ale Moldovei",
+    "metaTitle": "🛩️ AIP și hărțile de apropiere ale Moldovei",
+    "description": "Index de căutare al publicației de informare aeronautică (AIP) VFR și al hărților de apropiere din Moldova",
+    "metaDescription": "Index de căutare al publicației de informare aeronautică (AIP) VFR și al hărților de apropiere din Moldova🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Moldova",
+      "description": "Răsfoiți AIP VFR Moldova și descărcați gratuit hărțile de apropiere ale aeroporturilor",
+      "buttonTitle": "Hărți de apropiere AIP VFR",
+      "buttonHref": "/md/vfr/",
+      "buttonHrefTitle": "AIP VFR Moldova"
+    },
+    "airportListCard": {
+      "title": "Lista aeroporturilor",
+      "description": "Prezentare generală a tuturor aeroporturilor din Moldova - cu descărcare offline și informații despre vamă și combustibil",
+      "buttonTitle": "Lista aeroporturilor",
+      "buttonHref": "/md/lista-aeroporturi-moldova/",
+      "buttonHrefTitle": "Lista aeroporturilor din Moldova"
+    },
+    "breadcrumb": {
+      "name": "AIP Moldova",
+      "alternateName": "AIP și hărțile de apropiere ale Moldovei",
+      "description": "Index de căutare al publicației de informare aeronautică (AIP) VFR și al hărților de apropiere din Moldova"
+    }
+  },
+  "About": {
+    "title": "Pentru ce este acest site?",
+    "description": "<aip>Publicația de Informare Aeronautică AIP a Moldovei</aip> este publicată de MOLDATSA (furnizorul de servicii de navigație aeriană din Moldova); accesul la publicația oficială poate necesita înregistrare. Acest site își propune să simplifice căutarea aeroporturilor, deoarece eAIP-ul oficial nu include o funcție de căutare. Nu ne asumăm nicio răspundere pentru acuratețea sau actualitatea AIP-ului (Publicația de Informare Aeronautică), deoarece nu este publicat de noi. Oferim doar linkuri comode către hărțile de apropiere respective.",
+    "aipUrl": "https://aim.moldatsa.md/",
+    "aipTitle": "AIP Moldova"
+  },
+  "TradeAero": {
+    "title": "Cumpărați sau vindeți un avion?",
+    "description": "Descoperiți avioane de vânzare în Moldova pe Trade:Aero - piața pentru cumpărarea și vânzarea de avioane.",
+    "buttonTitle": "Trade:Aero - cea mai mare piață de avioane din Europa",
+    "buttonHrefTitle": "Trade:Aero - cea mai mare piață de avioane din Europa"
+  },
+  "Footer": {
+    "navTitle": "Navigare",
+    "legalTitle": "Aspecte legale & contact",
+    "partnersTitle": "Parteneri",
+    "aipHome": {
+      "title": "Index AIP",
+      "hrefTitle": "AIP:Aero Acasă - AIP-uri & hărți de apropiere pentru Europa"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Acasă",
+      "hrefTitle": "Acasă - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impressum",
+      "hrefTitle": "Impressum - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Confidențialitate",
+      "hrefTitle": "Politica de confidențialitate - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Site-ul web al lui Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Termeni de utilizare",
+      "hrefTitle": "Termeni de utilizare - AIP:Aero Moldova"
+    },
+    "efb": {
+      "title": "Ghid EFB",
+      "hrefTitle": "AIP:Aero pe EFB-ul tău - instalare, hărți offline, import"
+    }
+  },
+  "Error": {
+    "description": "<p>Din păcate, a apărut o eroare.</p><p>Puteți încerca să <retry>reîncărcați această pagină</retry>.</p>",
+    "title": "Ceva nu a mers bine!"
+  },
+  "NotFound": {
+    "title": "404 - Pagina nu a fost găsită",
+    "description": "Această pagină sau acest cod de aeroport nu există. Încercați în schimb să căutați aeroportul:",
+    "searchPlaceholder": "Căutați orice aeroport după nume sau cod ICAO",
+    "home": "Înapoi la pagina principală"
+  },
+  "Weather": {
+    "title": "Vremea",
+    "observed": "Observată",
+    "forecast": "Prognoză",
+    "wind": "Vânt",
+    "visibility": "Vizibilitate",
+    "clouds": "Nori",
+    "temperature": "Temperatură",
+    "qnh": "QNH",
+    "source": "Sursă",
+    "elevation": "Altitudine",
+    "sunrise": "Răsăritul soarelui",
+    "sunset": "Apusul soarelui",
+    "civilTwilight": "Crepuscul civil",
+    "facts": "Date despre aerodrom",
+    "runways": "Piste",
+    "frequencies": "Frecvențe",
+    "decode": "Afișează decodat",
+    "openingHours": "Program de funcționare",
+    "fuel": "Combustibil",
+    "ppr": "PPR",
+    "pprRequired": "Este necesară permisiunea prealabilă",
+    "nearest": "Vremea de la cel mai apropiat aeroport {station} (la {km} km distanță)",
+    "circuit": "Circuit de trafic",
+    "circuitLeft": "stânga",
+    "circuitRight": "dreapta",
+    "windComponents": "Componentele vântului",
+    "headwind": "Vânt din față",
+    "tailwind": "Vânt din spate",
+    "crosswind": "Vânt lateral",
+    "fromLeft": "din stânga",
+    "fromRight": "din dreapta",
+    "landingDirection": "Direcția probabilă de aterizare",
+    "aerodromeType": "Tipul aerodromului",
+    "surface": "Suprafață",
+    "variable": "variabil",
+    "calm": "calm"
+  },
+  "Common": {
+    "openIn": "Deschide în",
+    "homeLink": "AIP:Aero - Publicații de Informare Aeronautică (AIP) & hărți de apropiere pentru Europa",
+    "lastUpdated": "Actualizat ultima dată",
+    "viewOnMap": "Vezi pe Google Maps",
+    "location": "Locație",
+    "website": "Site web",
+    "address": "Adresă",
+    "coordinates": "Coordonate",
+    "phone": "Telefon",
+    "map": "Hartă",
+    "locate": "Găsește locația mea",
+    "locateError": "Nu s-a putut determina locația dvs.",
+    "nearby": "Aeroporturi din apropiere",
+    "restaurant": "Restaurant",
+    "customs": "Vamă",
+    "yes": "Da",
+    "no": "Nu",
+    "saveOffline": "Salvează offline",
+    "savedOffline": "Salvat offline",
+    "installHint": "Instalează ca aplicație: deschide meniul Partajare al browserului și alege 'Adaugă la ecranul principal'. Apoi deschide aplicația o dată în timp ce ești online și salvează din nou aeroporturile acolo - aplicația are propriul spațiu de stocare offline.",
+    "installHintMac": "Pe Mac: instalează prin meniul Partajare din Safari folosind 'Adaugă în Dock'. Apoi deschide aplicația o dată în timp ce ești online și salvează din nou aeroporturile acolo - aplicația are propriul spațiu de stocare offline.",
+    "bulkDownload": "Salvează toate cele {count} pagini offline (aprox. {size} MB)",
+    "bulkDownloaded": "Disponibil offline",
+    "bulkUpdate": "Actualizează",
+    "bulkRemove": "Elimină",
+    "bulkProgress": "Se salvează paginile",
+    "bulkCancel": "Anulează",
+    "bulkError": "Descărcarea a eșuat - vă rugăm să încercați din nou",
+    "bulkNoSpace": "Spațiu de stocare insuficient pe acest dispozitiv",
+    "bulkScope": "Inclus: toate paginile aeroporturilor cu date despre aerodrom. Nu este inclus: PDF-urile hărților de apropiere (pot fi salvate pentru fiecare aeroport) și vremea live (necesită o conexiune).",
+    "moreInfo": "Mai multe informații",
+    "pavedRunway": "Pistă asfaltată",
+    "favorites": "Favorite",
+    "favoritesEmpty": "Încă niciun favorit - salvează un aeroport offline pe pagina sa de detalii și va apărea aici.",
+    "recentlyViewed": "Vizualizate recent",
+    "recentlyViewedEmpty": "Aeroporturile pe care le deschideți vor apărea aici automat pentru acces rapid.",
+    "borderCrossing": "Trecerea frontierei",
+    "alsoAvailable": "Disponibil și:",
+    "aipLoginHint": "Poate fi necesară autentificarea sau înregistrarea."
+  },
+  "Chart": {
+    "allCharts": "Toate hărțile ({count})",
+    "title": "Harta de apropiere",
+    "openPdf": "Deschide PDF-ul hărții",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Vizuală (VFR)",
+      "approach": "Apropiere",
+      "arrival": "Sosire",
+      "departure": "Plecare",
+      "other": "Altele"
+    }
+  },
+  "TermsPage": {
+    "title": "Termeni de utilizare",
+    "intro": "AIP:Aero este un serviciu gratuit de căutare și indexare pentru Publicațiile de Informare Aeronautică (AIP), hărțile de apropiere și datele aeroporturilor din întreaga Europă.",
+    "servicesTitle": "Serviciul nostru",
+    "servicesText": "<home>AIP:Aero</home> vă permite să găsiți aerodromuri după nume sau cod ICAO și vă duce direct la publicația AIP oficială a țării respective. În plus, paginile noastre de aeroport includ informații suplimentare precum rapoarte meteo (METAR/TAF), date despre aerodrom (piste, frecvențe, altitudine), hărți și detalii de contact, iar paginile pot fi salvate pentru utilizare offline. Serviciul este oferit gratuit și fără înregistrare.",
+    "disclaimerTitle": "Declinarea răspunderii",
+    "disclaimerText": "AIP:Aero nu poate fi tras la răspundere în nicio circumstanță. Nu publicăm noi înșine documente aeronautice: oferim doar linkuri către cea mai recentă Publicație de Informare Aeronautică (AIP) pusă la dispoziție de furnizorul oficial al țării respective. Același lucru este valabil pentru datele meteo (METAR/TAF) și datele aeroporturilor: afișăm aceste informații pe paginile noastre, dar provin din surse externe enumerate mai jos. Nu ne asumăm nicio răspundere sau garanție pentru acuratețea, exhaustivitatea sau actualitatea conținutului legat sau afișat, nici pentru disponibilitatea acestui site. Acest site nu înlocuiește briefingul oficial dinaintea zborului: pilotul comandant rămâne singurul responsabil pentru obținerea și verificarea tuturor informațiilor necesare unui zbor.",
+    "sourcesTitle": "Surse de date",
+    "sourcesIntro": "Obținem datele legate și afișate din următoarele surse (adresele afișate ca text simplu, în mod deliberat neaccesibile prin clic):",
+    "sourcesAip": "Publicații AIP oficiale către care oferim linkuri",
+    "sourcesData": "Date externe afișate",
+    "srcAwc": "vremea METAR/TAF și datele aeroporturilor",
+    "srcOurAirports": "datele de bază ale aeroporturilor",
+    "srcOpenAip": "date extinse despre aerodrom: piste, frecvențe, combustibil",
+    "srcOsm": "hărți și adrese",
+    "metaTitle": "Termeni de utilizare - AIP:Aero Moldova",
+    "metaDescription": "Termenii de utilizare ai AIP:Aero, căutarea gratuită de AIP și hărți de apropiere pentru Moldova și Europa: descrierea serviciului, declinarea răspunderii și sursele de date."
+  },
+  "EfbPage": {
+    "title": "Utilizarea AIP:Aero pe EFB-ul tău (Electronic Flight Bag)",
+    "intro": "Cum să instalezi AIP:Aero pe tableta ta EFB (Electronic Flight Bag), să salvezi hărțile de apropiere offline, să descarci pachete de țări și să transferi aeroporturile către instrumentele tale de planificare - pas cu pas.",
+    "metaTitle": "Ghid EFB Moldova - AIP & hărți de apropiere pe tableta ta | AIP:Aero",
+    "metaDescription": "Instalează AIP:Aero ca aplicație pe tableta ta EFB, salvează hărțile de apropiere offline, descarcă țări întregi și importă PDF-urile hărților în ForeFlight, SkyDemon & Co (Moldova).",
+    "installTitle": "Instalează ca aplicație (PWA)",
+    "installText": "AIP:Aero este o aplicație web instalabilă: se deschide pe tot ecranul ca o aplicație nativă și tot ce salvezi este disponibil offline. Nu este nevoie de un magazin de aplicații.",
+    "installIos": "iPad / iPhone (Safari): deschide aip.aero, atinge pictograma de partajare, apoi \"Adaugă la ecranul principal\".",
+    "installAndroid": "Android (Chrome): deschide aip.aero, atinge meniul, apoi \"Adaugă la ecranul principal\" / \"Instalează aplicația\".",
+    "installDesktop": "Desktop (Chrome/Edge): fă clic pe pictograma de instalare din bara de adrese - sau folosește butonul de mai jos. macOS (Safari): pictograma Partajare, apoi \"Adaugă în Dock\".",
+    "offlineTitle": "Salvează aeroporturi individuale offline",
+    "offlineText": "Fiecare pagină de detalii a aeroportului are un buton \"Salvează offline\". Aceasta stochează pagina și, acolo unde AIP-ul publică una, PDF-ul hărții de apropiere pe dispozitivul tău; aeroportul apare apoi la Favorite pe pagina țării. Copiile salvate afișează data descărcării lor.",
+    "bulkTitle": "Descarcă o țară întreagă",
+    "bulkText": "În <list>lista aeroporturilor</list> poți descărca toate paginile de detalii ale unei țări dintr-o dată (doar paginile, fără PDF-urile hărților - salvează-le pentru fiecare aeroport). Pachetul afișează dimensiunea sa înainte de descărcare și poate fi actualizat sau eliminat oricând.",
+    "favoritesTitle": "Favorite & vizualizate recent",
+    "favoritesText": "Aeroporturile pe care le salvezi pentru utilizare offline apar automat ca favorite, iar ultimele aeroporturi pe care le-ai deschis sunt listate la \"Vizualizate recent\" - ambele sunt stocate doar pe dispozitivul tău, fără a fi nevoie de un cont. Vei găsi ambele liste <country>pe pagina țării</country>.",
+    "importTitle": "PDF-urile hărților în ForeFlight, SkyDemon & Co.",
+    "importText": "Acolo unde AIP-ul național publică PDF-uri ale hărților, caseta hărților de pe pagina de detalii oferă linkul către PDF-ul actual, inclusiv data sa AIRAC. Descarcă-l și importă-l în aplicația ta EFB ca conținut personalizat, de ex. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) sau Garmin Pilot. Germania publică pagini HTML în loc de PDF-uri - folosește linkul AIP de acolo.",
+    "toolsTitle": "Transferuri către instrumentele de planificare",
+    "toolsText": "Caseta de locație de pe fiecare pagină de detalii deschide același aeroport direct în SkyVector, Windy și autorouter - util pentru planificarea rutei, modelele meteo și depunerea planului de zbor.",
+    "weatherTitle": "Briefing meteo pe pagină",
+    "weatherText": "Paginile de detalii afișează METAR/TAF live cu decodare în limbaj simplu, insigna categoriei de zbor și o defalcare a vântului din față și lateral pentru fiecare pistă - o verificare rapidă, nu un înlocuitor pentru briefingul tău oficial.",
+    "customsTitle": "Vamă & trecerea frontierei",
+    "customsText": "Paginile de detalii arată dacă un aeroport oferă vămuire; acolo unde un AIP național o listează în GEN 1.2, valoarea este verificată în raport cu acea sursă oficială. Pentru documentele de trecere a frontierei, caseta de locație oferă linkuri către formularele oficiale (de ex. UK General Aviation Report), iar harta poate filtra aeroporturile cu vamă. Regulile se schimbă - confirmă întotdeauna cu AIP-ul actual și autoritatea locală.",
+    "disclaimerTitle": "Notă de siguranță",
+    "disclaimerText": "AIP:Aero oferă linkuri către publicații AIP oficiale, dar nu este o sursă oficială. Copiile offline sunt marcate cu data descărcării lor și pot deveni învechite cu fiecare ciclu AIRAC - verifică actualitatea hărților înainte de fiecare zbor și obține întotdeauna un briefing oficial dinaintea zborului.",
+    "installButton": "Instalează acum",
+    "ctaTitle": "Încearcă acum",
+    "faqTitle": "Întrebări frecvente",
+    "faq1q": "AIP:Aero funcționează complet offline?",
+    "faq1a": "Aeroporturile salvate și pachetele de țări descărcate funcționează fără internet; fiecare copie offline afișează un banner cu data salvării. Vremea live (METAR/TAF) necesită întotdeauna o conexiune.",
+    "faq2q": "Ce țări sunt acoperite?",
+    "faq2a": "Toate țările disponibile în prezent sunt listate pe <home>pagina principală</home> - acoperirea crește continuu. Fiecare card de țară afișează tipurile de hărți disponibile.",
+    "faq3q": "Hărțile sunt actuale?",
+    "faq3a": "Linkurile hărților duc către publicațiile AIP naționale oficiale, inclusiv data AIRAC acolo unde este publicată. Verifică întotdeauna în raport cu sursa oficială înainte de zbor."
+  },
+  "CountryFaq": {
+    "title": "Întrebări frecvente",
+    "q1": "Ce este AIP Moldova?",
+    "a1": "AIP (Publicația de Informare Aeronautică) este manualul aeronautic oficial al Moldovei, publicat de MOLDATSA (furnizorul de servicii de navigație aeriană din Moldova): date despre aerodromuri, proceduri și hărți de apropiere, actualizate în ciclul AIRAC de 28 de zile. AIP:Aero vă conduce direct la publicația oficială.",
+    "q2": "Hărțile de apropiere sunt gratuite?",
+    "a2": "AIP:Aero este gratuit: fără cont, fără abonament. MOLDATSA publică AIP-ul Moldovei, inclusiv <list>hărțile de apropiere</list>; accesul la portalul oficial poate necesita înregistrare.",
+    "q3": "Ce hărți și aeroporturi sunt disponibile pentru Moldova?",
+    "a3": "Pentru Moldova veți găsi <vfr>aeroporturile VFR</vfr> - inclusiv principalul aeroport Chișinău (LUKK), fiecare cu un link direct către harta oficială, vremea decodată (METAR/TAF) și datele despre aerodrom.",
+    "q4": "Pot folosi AIP:Aero offline sau pe EFB-ul meu?",
+    "a4": "Da - AIP:Aero se instalează ca aplicație (PWA), iar aerodromurile individuale sau întreaga țară pot fi salvate offline. Consultați <efb>ghidul EFB</efb>."
+  }
+}

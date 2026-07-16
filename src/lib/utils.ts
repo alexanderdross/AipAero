@@ -122,6 +122,15 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // RO: AISRO's eAIP lists the Romanian aerodromes (LR**), all "vfr" (each
   // field's AD 2 chart PDF from the static DOCS tree).
   ro: ["vfr"],
+  // CY: DCA Cyprus "Open Cyprus VFR Manual" lists the 2 civil aerodromes
+  // (LCLK Larnaka / LCPH Pafos), all "vfr" (each field's VFR chart PDF).
+  cy: ["vfr"],
+  // MT: info-page only (the MATS AIP portal is a JS app, no open chart tree).
+  // OurAirports aerodrome list, "vfr", OpenAIP data + weather + AIP button.
+  mt: ["vfr"],
+  // MD: info-page only (the MOLDATSA AIM portal is registration-gated).
+  // OurAirports aerodrome list, "vfr", OpenAIP data + weather + AIP button.
+  md: ["vfr"],
 };
 
 /**
@@ -131,7 +140,7 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
  * "registration may be required" hint next to the AIP button. Keyed by the
  * two-letter country code (`localeCountryMapping[locale]`).
  */
-export const gatedCountries = new Set<string>(["ch"]);
+export const gatedCountries = new Set<string>(["ch", "mt", "md"]);
 
 /** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
 export function isGatedCountry(country: string): boolean {
@@ -318,4 +327,7 @@ export const countryMeta: Record<
     nativeLang: "Macedonian",
   },
   ro: { lang: "ro", name: "Romania", flag: "🇷🇴", nativeLang: "Romanian" },
+  cy: { lang: "el", name: "Cyprus", flag: "🇨🇾", nativeLang: "Greek" },
+  mt: { lang: "en", name: "Malta", flag: "🇲🇹", nativeLang: "English" },
+  md: { lang: "ro", name: "Moldova", flag: "🇲🇩", nativeLang: "Romanian" },
 };
