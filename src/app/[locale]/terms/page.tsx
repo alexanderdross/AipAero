@@ -26,57 +26,90 @@ export function generateStaticParams() {
 // KEEP THIS IN SYNC WITH `liveCountries` (src/lib/utils.ts): every launched
 // country's official AIP provider must be listed here (attribution). The order
 // follows the onboarding order.
-const AIP_SOURCES: { name: string; url: string }[] = [
-  { name: "Austro Control (Österreich)", url: "https://eaip.austrocontrol.at" },
-  { name: "skeyes (Belgium & Luxembourg)", url: "https://ops.skeyes.be" },
-  { name: "ANS CR (Česko)", url: "https://aim.rlp.cz" },
-  { name: "Naviair (Danmark)", url: "https://aim.naviair.dk" },
+// `cc` = the liveCountries code (src/lib/utils.ts). It makes this list
+// machine-checkable: scripts/check-live-countries-coverage.mjs asserts every
+// live country's AIP provider is attributed here (BE covers BE+LU, one row).
+const AIP_SOURCES: { cc: string; name: string; url: string }[] = [
   {
+    cc: "at",
+    name: "Austro Control (Österreich)",
+    url: "https://eaip.austrocontrol.at",
+  },
+  {
+    cc: "be",
+    name: "skeyes (Belgium & Luxembourg)",
+    url: "https://ops.skeyes.be",
+  },
+  { cc: "cz", name: "ANS CR (Česko)", url: "https://aim.rlp.cz" },
+  { cc: "dk", name: "Naviair (Danmark)", url: "https://aim.naviair.dk" },
+  {
+    cc: "de",
     name: "DFS Deutsche Flugsicherung (Deutschland)",
     url: "https://aip.dfs.de",
   },
   {
+    cc: "fr",
     name: "SIA - Service de l'Information Aéronautique (France)",
     url: "https://www.sia.aviation-civile.gouv.fr",
   },
-  { name: "HASP (Ελλάδα)", url: "https://aisgr.hasp.gov.gr" },
-  { name: "LVNL (Nederland)", url: "https://eaip.lvnl.nl" },
-  { name: "Avinor (Norge)", url: "https://aim-prod.avinor.no" },
-  { name: "PANSA (Polska)", url: "https://www.ais.pansa.pl" },
-  { name: "LFV (Sverige)", url: "https://aro.lfv.se" },
-  { name: "NATS (United Kingdom)", url: "https://nats-uk.ead-it.com" },
-  { name: "EANS (Eesti)", url: "https://eaip.eans.ee" },
-  { name: "Fintraffic ANS (Suomi)", url: "https://www.ais.fi" },
-  { name: "ENAIRE (España)", url: "https://aip.enaire.es" },
-  { name: "LGS (Latvija)", url: "https://ais.lgs.lv" },
-  { name: "Isavia (Ísland)", url: "https://eaip.isavia.is" },
-  { name: "NAV Portugal (Portugal)", url: "https://ais.nav.pt" },
+  { cc: "gr", name: "HASP (Ελλάδα)", url: "https://aisgr.hasp.gov.gr" },
+  { cc: "nl", name: "LVNL (Nederland)", url: "https://eaip.lvnl.nl" },
+  { cc: "no", name: "Avinor (Norge)", url: "https://aim-prod.avinor.no" },
+  { cc: "pl", name: "PANSA (Polska)", url: "https://www.ais.pansa.pl" },
+  { cc: "se", name: "LFV (Sverige)", url: "https://aro.lfv.se" },
   {
+    cc: "uk",
+    name: "NATS (United Kingdom)",
+    url: "https://nats-uk.ead-it.com",
+  },
+  { cc: "ee", name: "EANS (Eesti)", url: "https://eaip.eans.ee" },
+  { cc: "fi", name: "Fintraffic ANS (Suomi)", url: "https://www.ais.fi" },
+  { cc: "es", name: "ENAIRE (España)", url: "https://aip.enaire.es" },
+  { cc: "lv", name: "LGS (Latvija)", url: "https://ais.lgs.lv" },
+  { cc: "is", name: "Isavia (Ísland)", url: "https://eaip.isavia.is" },
+  { cc: "pt", name: "NAV Portugal (Portugal)", url: "https://ais.nav.pt" },
+  {
+    cc: "hu",
     name: "HungaroControl (Magyarország)",
     url: "https://ais.hungarocontrol.hu",
   },
   {
+    cc: "si",
     name: "Slovenia Control (Slovenija)",
     url: "https://aim.sloveniacontrol.si",
   },
-  { name: "Oro navigacija (Lietuva)", url: "https://www.ans.lt" },
-  { name: "SMATSA (Srbija)", url: "https://smatsa.rs" },
-  { name: "AirNav Ireland (Ireland)", url: "https://www.airnav.ie" },
-  { name: "LPS SR (Slovensko)", url: "https://aim.lps.sk" },
-  { name: "BHANSA (Bosna i Hercegovina)", url: "https://eaip.bhansa.gov.ba" },
+  { cc: "lt", name: "Oro navigacija (Lietuva)", url: "https://www.ans.lt" },
+  { cc: "rs", name: "SMATSA (Srbija)", url: "https://smatsa.rs" },
+  { cc: "ie", name: "AirNav Ireland (Ireland)", url: "https://www.airnav.ie" },
+  { cc: "sk", name: "LPS SR (Slovensko)", url: "https://aim.lps.sk" },
   {
+    cc: "ba",
+    name: "BHANSA (Bosna i Hercegovina)",
+    url: "https://eaip.bhansa.gov.ba",
+  },
+  {
+    cc: "ch",
     name: "skybriefing / skyguide (Schweiz)",
     url: "https://www.skybriefing.com",
   },
-  { name: "Albcontrol (Shqipëri)", url: "https://www.albcontrol.al" },
-  { name: "M-NAV (Severna Makedonija)", url: "https://ais.m-nav.info" },
-  { name: "AISRO / ROMATSA (România)", url: "https://www.aisro.ro" },
-  { name: "DCA Cyprus (Κύπρος)", url: "http://vfrmanual.dca.mcw.gov.cy" },
+  { cc: "al", name: "Albcontrol (Shqipëri)", url: "https://www.albcontrol.al" },
   {
+    cc: "mk",
+    name: "M-NAV (Severna Makedonija)",
+    url: "https://ais.m-nav.info",
+  },
+  { cc: "ro", name: "AISRO / ROMATSA (România)", url: "https://www.aisro.ro" },
+  {
+    cc: "cy",
+    name: "DCA Cyprus (Κύπρος)",
+    url: "http://vfrmanual.dca.mcw.gov.cy",
+  },
+  {
+    cc: "mt",
     name: "MATS / Transport Malta (Malta)",
     url: "https://www.transport.gov.mt",
   },
-  { name: "MOLDATSA (Moldova)", url: "https://aim.moldatsa.md" },
+  { cc: "md", name: "MOLDATSA (Moldova)", url: "https://aim.moldatsa.md" },
 ];
 
 // Descriptor for each embedded source comes from i18n (srcAwc etc.).

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "next build",
     "check": "eslint . && tsc --noEmit",
+    "check:countries": "node scripts/check-live-countries-coverage.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",

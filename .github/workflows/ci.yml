@@ -54,6 +54,9 @@ jobs:
       - name: i18n key parity
         run: node scripts/check-i18n.mjs
 
+      - name: Live-country list coverage
+        run: node scripts/check-live-countries-coverage.mjs
+
       - name: Unit tests
         run: pnpm test
 
