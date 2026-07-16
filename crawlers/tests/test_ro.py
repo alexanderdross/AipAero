@@ -22,9 +22,12 @@ def ro() -> RO:
     crawler.close()
 
 
+# The live landing uses RELATIVE hrefs ("2026-07-09/index.html", relative to
+# /aip/aip.php); mix relative + absolute here so the urljoin resolution is
+# covered by the test.
 _LANDING = """
-<a href="/aip/2026-05-14/index.html">Old edition</a>
-<a href="/aip/2026-07-09/index.html">Click here to access AIP ROMANIA</a>
+<a href="2026-05-14/index.html">Old edition</a>
+<a href="2026-07-09/index.html">Click here to access AIP ROMANIA</a>
 <a href="/aip/2026-09-03/index.html">Future edition</a>
 <a href="https://www.romatsa.ro/">ROMATSA</a>
 """

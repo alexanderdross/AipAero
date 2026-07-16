@@ -105,7 +105,9 @@ class RO(HttpCrawlerBase):
         soup = self.soup(html)
         dates: set[datetime.date] = set()
         for a in soup.find_all("a", href=True):
-            m = _EDITION_RE.search(a["href"])
+            # The landing links the edition with a RELATIVE href
+            # ("2026-07-09/index.html"); resolve to absolute before matching.
+            m = _EDITION_RE.search(urljoin(LANDING_URL, a["href"]))
             if not m:
                 continue
             try:
