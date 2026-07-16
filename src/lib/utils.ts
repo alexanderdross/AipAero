@@ -269,6 +269,27 @@ export const liveCountries: string[] = [
   // at its combined AD 2 chart PDF; names from a static AD 1.3-derived map.
   // First data published via the manual crawl dispatch.
   "ro",
+  // Cyprus (16.07.2026): DCA Cyprus publishes an open, static "Open Cyprus VFR
+  // Manual" at vfrmanual.dca.mcw.gov.cy. cy.py reads menu.html for each civil
+  // aerodrome's charts/VFR_CHART_<ICAO>.pdf (Larnaka LCLK, Pafos LCPH); the
+  // country-wide LCCC sheet is excluded. Live-validated (run 29489284966 -
+  // 2 aerodromes, 2/2 chart-PDF coverage). First data published via the manual
+  // crawl dispatch. NOT gated (open chart source).
+  "cy",
+  // Malta (16.07.2026): info-page. The MATS AIP portal (maltats.com/aim) is a
+  // JavaScript app with no open chart tree, so - like CH - no chart crawl:
+  // mt.py reads the Maltese aerodromes from OurAirports and points each at the
+  // Transport Malta AIP page (gated - see gatedCountries). OpenAIP data +
+  // weather come from the website. Live-validated (run 29490801719 - 1 field
+  // LMML). First data published via the manual crawl dispatch.
+  "mt",
+  // Moldova (16.07.2026): info-page. The MOLDATSA AIM portal (aim.moldatsa.md)
+  // is Home-Briefing-registration-gated with no open chart tree, so - like CH -
+  // no chart crawl: md.py reads the Moldovan aerodromes from OurAirports and
+  // points each at the AIM portal (gated - see gatedCountries). OpenAIP data +
+  // weather come from the website. Live-validated (run 29490801719 - 5 fields,
+  // LUKK Chisinau + others). First data published via the manual crawl dispatch.
+  "md",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
