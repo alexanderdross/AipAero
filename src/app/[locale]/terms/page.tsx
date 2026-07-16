@@ -22,6 +22,9 @@ export function generateStaticParams() {
 // The sources are language-independent data, so they live in code (only the
 // section headings / descriptors are translated). The addresses are rendered
 // as PLAIN TEXT on purpose - deliberately not clickable.
+// KEEP THIS IN SYNC WITH `liveCountries` (src/lib/utils.ts): every launched
+// country's official AIP provider must be listed here (attribution). The order
+// follows the onboarding order.
 const AIP_SOURCES: { name: string; url: string }[] = [
   { name: "Austro Control (Österreich)", url: "https://eaip.austrocontrol.at" },
   { name: "skeyes (Belgium & Luxembourg)", url: "https://ops.skeyes.be" },
@@ -41,6 +44,38 @@ const AIP_SOURCES: { name: string; url: string }[] = [
   { name: "PANSA (Polska)", url: "https://www.ais.pansa.pl" },
   { name: "LFV (Sverige)", url: "https://aro.lfv.se" },
   { name: "NATS (United Kingdom)", url: "https://nats-uk.ead-it.com" },
+  { name: "EANS (Eesti)", url: "https://eaip.eans.ee" },
+  { name: "Fintraffic ANS (Suomi)", url: "https://www.ais.fi" },
+  { name: "ENAIRE (España)", url: "https://aip.enaire.es" },
+  { name: "LGS (Latvija)", url: "https://ais.lgs.lv" },
+  { name: "Isavia (Ísland)", url: "https://eaip.isavia.is" },
+  { name: "NAV Portugal (Portugal)", url: "https://ais.nav.pt" },
+  {
+    name: "HungaroControl (Magyarország)",
+    url: "https://ais.hungarocontrol.hu",
+  },
+  {
+    name: "Slovenia Control (Slovenija)",
+    url: "https://aim.sloveniacontrol.si",
+  },
+  { name: "Oro navigacija (Lietuva)", url: "https://www.ans.lt" },
+  { name: "SMATSA (Srbija)", url: "https://smatsa.rs" },
+  { name: "AirNav Ireland (Ireland)", url: "https://www.airnav.ie" },
+  { name: "LPS SR (Slovensko)", url: "https://aim.lps.sk" },
+  { name: "BHANSA (Bosna i Hercegovina)", url: "https://eaip.bhansa.gov.ba" },
+  {
+    name: "skybriefing / skyguide (Schweiz)",
+    url: "https://www.skybriefing.com",
+  },
+  { name: "Albcontrol (Shqipëri)", url: "https://www.albcontrol.al" },
+  { name: "M-NAV (Severna Makedonija)", url: "https://ais.m-nav.info" },
+  { name: "AISRO / ROMATSA (România)", url: "https://www.aisro.ro" },
+  { name: "DCA Cyprus (Κύπρος)", url: "http://vfrmanual.dca.mcw.gov.cy" },
+  {
+    name: "MATS / Transport Malta (Malta)",
+    url: "https://www.transport.gov.mt",
+  },
+  { name: "MOLDATSA (Moldova)", url: "https://aim.moldatsa.md" },
 ];
 
 // Descriptor for each embedded source comes from i18n (srcAwc etc.).
