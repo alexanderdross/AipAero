@@ -116,6 +116,12 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // AL: Albcontrol's eAIP lists the 2 international aerodromes (LATI/LAKU),
   // all "vfr"; there is no AD-3 heliport chapter.
   al: ["vfr"],
+  // MK: M-NAV's eAIP lists the 2 international aerodromes (LWSK/LWOH), all
+  // "vfr" (each field's AD 2 chart PDF); the single AD 3 doc is not split.
+  mk: ["vfr"],
+  // RO: AISRO's eAIP lists the Romanian aerodromes (LR**), all "vfr" (each
+  // field's AD 2 chart PDF from the static DOCS tree).
+  ro: ["vfr"],
 };
 
 /**
@@ -238,6 +244,22 @@ export const liveCountries: string[] = [
   // 2 aerodromes, 2/2 chart-PDF coverage, 25 charts). First data published to
   // production D1 via the manual crawl dispatch.
   "al",
+  // North Macedonia (16.07.2026): M-NAV publishes an open eAIP at
+  // ais.m-nav.info/eAIP/ (the "current" alias resolves the edition). Its older
+  // custom generator has no static per-field HTML, but each aerodrome's full
+  // AD 2 doc is a combined PDF under pdf/aerodromes/ (LW_AD_2_<ICAO>_en.pdf);
+  // mk.py reads the no-JS nav for the 2 international fields (LWSK Skopje, LWOH
+  // Ohrid) and points each at that chart PDF. Live-validated (2 aerodromes,
+  // 2/2 chart-PDF coverage). First data published via the manual crawl dispatch.
+  "mk",
+  // Romania (16.07.2026): AISRO's landing (aisro.ro/aip/aip.php) links the
+  // effective edition /aip/<date>/index.html; each edition is a static tree
+  // with a browsable DOCS/AIP/AD/AD2/ directory (Greece pattern). ro.py sends
+  // browser headers (the host gates plain UAs), resolves the edition by date,
+  // lists AD2 to enumerate every aerodrome (35 fields, LR**), and points each
+  // at its combined AD 2 chart PDF; names from a static AD 1.3-derived map.
+  // First data published via the manual crawl dispatch.
+  "ro",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -289,4 +311,11 @@ export const countryMeta: Record<
   },
   ch: { lang: "de", name: "Switzerland", flag: "🇨🇭", nativeLang: "German" },
   al: { lang: "sq", name: "Albania", flag: "🇦🇱", nativeLang: "Albanian" },
+  mk: {
+    lang: "mk",
+    name: "North Macedonia",
+    flag: "🇲🇰",
+    nativeLang: "Macedonian",
+  },
+  ro: { lang: "ro", name: "Romania", flag: "🇷🇴", nativeLang: "Romanian" },
 };

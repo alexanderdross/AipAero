@@ -54,6 +54,10 @@ export const routing = defineRouting({
     "ch-EN",
     "al",
     "al-EN",
+    "mk",
+    "mk-EN",
+    "ro",
+    "ro-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -83,6 +87,8 @@ export const routing = defineRouting({
       "ba-EN": "/ba/en",
       "ch-EN": "/ch/en",
       "al-EN": "/al/en",
+      "mk-EN": "/mk/en",
+      "ro-EN": "/ro/en",
     },
   },
   pathnames: {
@@ -147,6 +153,10 @@ export const routing = defineRouting({
       "ch-EN": "/airport-list-switzerland",
       al: "/aeroportet-shqiperi",
       "al-EN": "/airport-list-albania",
+      mk: "/aerodromi-severna-makedonija",
+      "mk-EN": "/airport-list-north-macedonia",
+      ro: "/lista-aeroporturi-romania",
+      "ro-EN": "/airport-list-romania",
     },
   },
   localeCookie: false,
@@ -245,6 +255,14 @@ export const localeLangMapping: Record<
   // CLAUDE.md), so messages/al.json keys its native branch on "al".
   al: "sq",
   "al-EN": "en",
+  // North Macedonia: prefix "mk" == ISO language code "mk" (Macedonian), so
+  // the LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
+  mk: "mk",
+  "mk-EN": "en",
+  // Romania: prefix "ro" == ISO language code "ro" (Romanian), so the
+  // LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
+  ro: "ro",
+  "ro-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -302,4 +320,8 @@ export const localeCountryMapping: Record<
   "ch-EN": "ch",
   al: "al",
   "al-EN": "al",
+  mk: "mk",
+  "mk-EN": "mk",
+  ro: "ro",
+  "ro-EN": "ro",
 };

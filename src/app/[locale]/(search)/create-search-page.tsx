@@ -317,7 +317,10 @@ export function createSearchPage(config: SearchPageConfig) {
                       needs a login / registration, so tell the reader before
                       they click into a paywall. */}
                   {isGatedCountry(country) && (
-                    <p className="mt-2 text-sm text-white/90">
+                    // The hint sits below the button on the light page
+                    // background (not on the blue button), so it must NOT
+                    // inherit the block's text-white - use the muted dark tone.
+                    <p className="text-drossgray-dark mt-2 text-sm">
                       {tCommon("aipLoginHint")}
                     </p>
                   )}

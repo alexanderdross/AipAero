@@ -61,6 +61,10 @@ const countryPages: TestPage[] = [
   { path: "/ch/en/", lang: "en", label: "country ch-EN" },
   { path: "/al/", lang: "sq", label: "country al" },
   { path: "/al/en/", lang: "en", label: "country al-EN" },
+  { path: "/mk/", lang: "mk", label: "country mk" },
+  { path: "/mk/en/", lang: "en", label: "country mk-EN" },
+  { path: "/ro/", lang: "ro", label: "country ro" },
+  { path: "/ro/en/", lang: "en", label: "country ro-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -114,6 +118,14 @@ const airportListPages: TestPage[] = [
   { path: "/ch/en/airport-list-switzerland/", lang: "en", label: "list ch-EN" },
   { path: "/al/aeroportet-shqiperi/", lang: "sq", label: "list al" },
   { path: "/al/en/airport-list-albania/", lang: "en", label: "list al-EN" },
+  { path: "/mk/aerodromi-severna-makedonija/", lang: "mk", label: "list mk" },
+  {
+    path: "/mk/en/airport-list-north-macedonia/",
+    lang: "en",
+    label: "list mk-EN",
+  },
+  { path: "/ro/lista-aeroporturi-romania/", lang: "ro", label: "list ro" },
+  { path: "/ro/en/airport-list-romania/", lang: "en", label: "list ro-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -180,6 +192,10 @@ const searchPages: TestPage[] = [
   { path: "/ch/en/vfr/", lang: "en", label: "vfr ch-EN" },
   { path: "/al/vfr/", lang: "sq", label: "vfr al" },
   { path: "/al/en/vfr/", lang: "en", label: "vfr al-EN" },
+  { path: "/mk/vfr/", lang: "mk", label: "vfr mk" },
+  { path: "/mk/en/vfr/", lang: "en", label: "vfr mk-EN" },
+  { path: "/ro/vfr/", lang: "ro", label: "vfr ro" },
+  { path: "/ro/en/vfr/", lang: "en", label: "vfr ro-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -235,6 +251,10 @@ const termsPages: TestPage[] = [
   { path: "/ch/en/terms/", lang: "en", label: "terms ch-EN" },
   { path: "/al/terms/", lang: "sq", label: "terms al" },
   { path: "/al/en/terms/", lang: "en", label: "terms al-EN" },
+  { path: "/mk/terms/", lang: "mk", label: "terms mk" },
+  { path: "/mk/en/terms/", lang: "en", label: "terms mk-EN" },
+  { path: "/ro/terms/", lang: "ro", label: "terms ro" },
+  { path: "/ro/en/terms/", lang: "en", label: "terms ro-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).

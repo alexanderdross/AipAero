@@ -88,6 +88,10 @@ class RO(HttpCrawlerBase):
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
+        # aisro.ro is UA/IP sensitive (it 403s datacenter IPs and serves a
+        # gate page to plain UAs, so the edition link is absent); send a full
+        # browser fingerprint like the other header-gated sources (BE/GR/SK).
+        self.use_browser_headers()
 
     def _resolve_edition(
         self, html: str, today: datetime.date | None = None
@@ -101,7 +105,9 @@ class RO(HttpCrawlerBase):
         soup = self.soup(html)
         dates: set[datetime.date] = set()
         for a in soup.find_all("a", href=True):
-            m = _EDITION_RE.search(a["href"])
+            # The landing links the edition with a RELATIVE href
+            # ("2026-07-09/index.html"); resolve to absolute before matching.
+            m = _EDITION_RE.search(urljoin(LANDING_URL, a["href"]))
             if not m:
                 continue
             try:

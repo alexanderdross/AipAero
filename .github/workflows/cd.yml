@@ -128,6 +128,8 @@ jobs:
             "https://aip.aero/ba/lista-aerodroma-bih/"
             "https://aip.aero/ch/flugplaetze-schweiz/"
             "https://aip.aero/al/aeroportet-shqiperi/"
+            "https://aip.aero/mk/aerodromi-severna-makedonija/"
+            "https://aip.aero/ro/lista-aeroporturi-romania/"
           )
           # NOTE: this list MUST carry EVERY live country's airport-list URL
           # (liveCountries in src/lib/utils.ts x the /airport-list slug in
