@@ -80,12 +80,17 @@ class CH(HttpCrawlerBase):
                 if not icao or icao in seen:
                     continue
                 seen.add(icao)
-                name = (row.get("name") or "").strip() or icao
+                # Title convention across the site is "<name> <ICAO>" (shown on
+                # the map label, the list and the detail heading). Append the
+                # ICAO to the OurAirports name; fall back to the bare code when
+                # the name is missing (never "<ICAO> <ICAO>").
+                name = (row.get("name") or "").strip()
+                title = f"{name} {icao}" if name else icao
                 airports.append(
                     Airport(
                         country=COUNTRY,
                         icao=icao,
-                        title=name,
+                        title=title,
                         url=SKYBRIEFING_AIP_URL,
                         type="vfr",  # type: ignore[call-arg]
                     )

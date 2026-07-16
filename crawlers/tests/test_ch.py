@@ -71,5 +71,8 @@ def test_crawl_rows_point_at_skybriefing_no_charts(ch: CH):
         assert a.url == ch_module.SKYBRIEFING_AIP_URL
         assert a.pdf_url is None
         assert a.charts is None
+    # Title convention is "<name> <ICAO>" (map label / list / detail heading).
     zurich = next(a for a in airports if a.icao == "LSZH")
-    assert zurich.title == "Zurich Airport"
+    assert zurich.title == "Zurich Airport LSZH"
+    for a in airports:
+        assert a.icao and a.title.endswith(a.icao)
