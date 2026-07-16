@@ -34,9 +34,11 @@ const AIRAC_PATTERNS: {
   rx: RegExp;
   toIso: (m: RegExpMatchArray) => string;
 }[] = [
-  // UK/NO: .../2026-07-09-AIRAC/...
+  // UK/NO/BA: .../2026-07-09-AIRAC/...  and AL: .../2026-05-20-NON-AIRAC/...
+  // (AL publishes both AIRAC and off-cycle NON-AIRAC editions; the date is the
+  // effective date either way, so the "NON-" is optional).
   {
-    rx: /(\d{4})-(\d{2})-(\d{2})-AIRAC/i,
+    rx: /(\d{4})-(\d{2})-(\d{2})-(?:NON-)?AIRAC/i,
     toIso: (m) => `${m[1]}-${m[2]}-${m[3]}`,
   },
   // FR: .../AIRAC-2026-07-09/...
@@ -99,6 +101,36 @@ const AIRAC_PATTERNS: {
       const month = months[m[2]!.toLowerCase()];
       return month ? `${m[3]}-${month}-${m[1]}` : "";
     },
+  },
+  // SK: .../AIP_SR_EFF_09JUL2026/... - the LPS SR edition folder carries the
+  // effective date as `_EFF_<dd><MMM><yyyy>` (uppercase month).
+  {
+    rx: /_EFF_(\d{2})([A-Z]{3})(\d{4})/i,
+    toIso: (m) => {
+      const months: Record<string, string> = {
+        jan: "01",
+        feb: "02",
+        mar: "03",
+        apr: "04",
+        may: "05",
+        jun: "06",
+        jul: "07",
+        aug: "08",
+        sep: "09",
+        oct: "10",
+        nov: "11",
+        dec: "12",
+      };
+      const month = months[m[2]!.toLowerCase()];
+      return month ? `${m[3]}-${month}-${m[1]}` : "";
+    },
+  },
+  // IE: .../26-07-09-AIRAC/... - AirNav Ireland's currently-effective edition
+  // uses a 2-DIGIT year. Runs after the 4-digit `-AIRAC` pattern above, so a
+  // full YYYY-MM-DD edition matches there first; this only catches yy-mm-dd.
+  {
+    rx: /\/(\d{2})-(\d{2})-(\d{2})-(?:NON-)?AIRAC/i,
+    toIso: (m) => `20${m[1]}-${m[2]}-${m[3]}`,
   },
   // Generic dated edition folder `/YYYY-MM-DD/` (RO: .../aip/2026-07-09/DOCS/...).
   // LAST + most general so the specific `-AIRAC` / `AIRAC-` / `_YYYY_MM_DD_`

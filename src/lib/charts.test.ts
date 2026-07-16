@@ -67,6 +67,12 @@ describe("airacDateFromUrl", () => {
         "https://aip.dfs.de/BasicVFR/2026JUN25/chapter/3fb9780db947a5bd4782bc7f9b334f99.html",
       ),
     ).toBe("2026-06-25");
+    // AL (NON-AIRAC edition folder still carries the effective date)
+    expect(
+      airacDateFromUrl(
+        "https://www.albcontrol.al/al/aip/20-MAY-2026-NA/2026-05-20-NON-AIRAC/html/eAIP/LA_AD_2_LATI_en-GB.pdf",
+      ),
+    ).toBe("2026-05-20");
     // GR (HASP edition folder: wef_<dd><mmm><yyyy>)
     expect(
       airacDateFromUrl(
@@ -77,6 +83,24 @@ describe("airacDateFromUrl", () => {
     expect(
       airacDateFromUrl(
         "https://www.aisro.ro/aip/2026-07-09/DOCS/AIP/AD/AD2/AD_2_5_LROP/LR_AD_2_LROP_en.pdf",
+      ),
+    ).toBe("2026-07-09");
+    // SK (LPS SR edition folder: _EFF_<dd><MMM><yyyy>)
+    expect(
+      airacDateFromUrl(
+        "https://aim.lps.sk/eAIP/AIP_SR_EFF_09JUL2026/html/eAIP/LZ-AD-2.LZIB-en-SK.html",
+      ),
+    ).toBe("2026-07-09");
+    // IE (AirNav Ireland currently-effective edition uses a 2-digit year)
+    expect(
+      airacDateFromUrl(
+        "https://www.airnav.ie/26-07-09-AIRAC/html/eAIP/EI-AD-2.EIDW-en-IE.html",
+      ),
+    ).toBe("2026-07-09");
+    // ...but a full 4-digit AIRAC edition still matches the 4-digit pattern.
+    expect(
+      airacDateFromUrl(
+        "https://www.airnav.ie/2026-07-09-AIRAC/html/eAIP/EI-AD-2.EIDW-en-IE.html",
       ),
     ).toBe("2026-07-09");
     // CZ carries no date in its URLs

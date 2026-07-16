@@ -18,7 +18,7 @@ primary pdf_url is chosen by HREF preferring the VFR visual approach chart
 import re
 from urllib.parse import urljoin
 
-from crawlers.http_base import Airport
+from crawlers.http_base import Airport, current_airac_date
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "FI"
@@ -133,6 +133,8 @@ class FI(HttpEurocontrolBase):
                 index_url, ["eAISNavigationBase", "eAISNavigation"]
             )
             last_url, last_html = nav_url, nav_html
+            # The edition alias carries no date; stamp the on-cycle AIRAC.
+            self.airac = current_airac_date()
 
             # AD 2 aerodromes (required); AD 3 heliports optional (fail-soft).
             # Both get their real titles re-derived from the menu anchor ids

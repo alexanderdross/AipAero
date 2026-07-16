@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 
 from bs4 import Tag
 
-from crawlers.http_base import Airport
+from crawlers.http_base import Airport, current_airac_date
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 from crawlers.models import ChartLink
 
@@ -305,6 +305,8 @@ class CZ(HttpEurocontrolBase):
                 ROOT_URL, ["eAISNavigationBase", "eAISNavigation"]
             )
             last_url, last_html = nav_url, nav_html
+            # ANS CR URLs carry no edition date; stamp the on-cycle AIRAC.
+            self.airac = current_airac_date()
 
             # 2. One chapter per aerodrome; all are type "ifr" per the spec.
             airports.extend(self._extract_airport_sections(nav_html, nav_url))

@@ -94,6 +94,10 @@ class AL(HttpEurocontrolBase):
             else min(candidates, key=lambda c: c[0])
         )
         menu_url = urljoin(root.rstrip("/") + "/", _MENU_SUFFIX)
+        # Forward the effective edition to crawl_meta.airac so the detail page
+        # shows the AIRAC even for a NON-AIRAC edition (belt-and-braces; the
+        # chart URL also carries the date, see charts.ts AIRAC_PATTERNS).
+        self.airac = eff.isoformat()
         self.logger.info(
             f"AL current edition (effective {eff.isoformat()}): {menu_url}"
         )

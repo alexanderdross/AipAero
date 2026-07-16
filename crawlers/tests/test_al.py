@@ -41,6 +41,8 @@ def test_resolve_menu_picks_effective_edition(al: AL):
         "https://www.albcontrol.al/al/aip/20-MAY-2026-NA/"
         "2026-05-20-NON-AIRAC/html/eAIP/LA-menu-en-GB.html"
     )
+    # The effective edition is forwarded to crawl_meta.airac.
+    assert al.airac == "2026-05-20"
 
 
 def test_resolve_menu_before_any_edition_takes_earliest(al: AL):

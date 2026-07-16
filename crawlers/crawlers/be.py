@@ -13,7 +13,7 @@ import re
 
 from bs4 import Tag
 
-from crawlers.http_base import Airport
+from crawlers.http_base import Airport, current_airac_date
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "BE"
@@ -170,6 +170,8 @@ class BE(HttpEurocontrolBase):
             # page in `last_html` for the diagnostics/artifact below.
             index_html = self.fetch(ROOT_URL)
             last_url, last_html = ROOT_URL, index_html
+            # skeyes URLs carry no edition date; stamp the on-cycle AIRAC.
+            self.airac = current_airac_date()
 
             # index-en-GB.html IS the top frameset - one hop to the menu.
             nav_url, nav_html = self.follow_frame_chain(
