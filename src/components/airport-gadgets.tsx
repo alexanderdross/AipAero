@@ -16,7 +16,7 @@ import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { airacDateFromUrl, parseCharts } from "~/lib/charts";
-import { isGatedCountry, isPdfUrl } from "~/lib/utils";
+import { isGatedCountry, isPdfUrl, isSelfServicePdfCountry } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 import type { Airport } from "~/server/db/schema";
 
@@ -267,15 +267,19 @@ export async function AirportGadgets({
           </>
         )}
         {/* Per-field chart-availability note (owner directive #5b): when this
-            field has no direct chart PDF and the country is NOT a login-gated
-            portal (those already show the aipLoginHint next to the AIP button),
-            say so honestly - the AIP link opens the official aerodrome entry
-            rather than a chart sheet. */}
-        {!chartPdfUrl && !isGatedCountry(airport.country) && (
-          <p className="text-drossgray-dark text-center text-sm">
-            {tCommon("noChartPdf")}
-          </p>
-        )}
+            field has no direct chart PDF, say so honestly - the AIP link opens
+            the official aerodrome entry rather than a chart sheet. Suppressed
+            for (a) login-gated portals (ch/mt/md - they already show the
+            aipLoginHint next to the AIP button) and (b) self-service PDF
+            sources (DE/DFS BasicVFR, where the pilot exports the chart PDF from
+            the AIP page itself, so "no chart PDF is published" is misleading). */}
+        {!chartPdfUrl &&
+          !isGatedCountry(airport.country) &&
+          !isSelfServicePdfCountry(airport.country) && (
+            <p className="text-drossgray-dark text-center text-sm">
+              {tCommon("noChartPdf")}
+            </p>
+          )}
         {/* AIRAC edition line for detail pages WITHOUT a chart-PDF box (DE's
             DFS BasicVFR HTML permalinks, BE/FI eAIP aliases, ...) - the box
             carries its own AIRAC inline, so this only renders when there is no
