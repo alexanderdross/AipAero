@@ -88,6 +88,10 @@ class RO(HttpCrawlerBase):
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
+        # aisro.ro is UA/IP sensitive (it 403s datacenter IPs and serves a
+        # gate page to plain UAs, so the edition link is absent); send a full
+        # browser fingerprint like the other header-gated sources (BE/GR/SK).
+        self.use_browser_headers()
 
     def _resolve_edition(
         self, html: str, today: datetime.date | None = None
