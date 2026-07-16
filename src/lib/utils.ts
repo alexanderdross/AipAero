@@ -113,6 +113,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // comes from OurAirports; each field is "vfr" with OpenAIP data + weather and
   // a blue AIP button to the skybriefing portal (no chart crawl).
   ch: ["vfr"],
+  // AL: Albcontrol's eAIP lists the 2 international aerodromes (LATI/LAKU),
+  // all "vfr"; there is no AD-3 heliport chapter.
+  al: ["vfr"],
 };
 
 /**
@@ -227,6 +230,14 @@ export const liveCountries: string[] = [
   // 29449399452 - 67 aerodromes, 0 charts by design). First data published to
   // production D1 via the manual crawl dispatch.
   "ch",
+  // Albania (15.07.2026): Albcontrol publishes a standard eurocontrol eAIP
+  // linked from www.albcontrol.al/aip/ (dated editions). The crawler resolves
+  // the effective edition by date, fetches the LA-menu-en-GB.html nav frame
+  // directly, and reads the AD 2 aerodromes (LATI Tirana, LAKU Kukes) - the
+  // country's complete international set. Live-validated (run 29453417634 -
+  // 2 aerodromes, 2/2 chart-PDF coverage, 25 charts). First data published to
+  // production D1 via the manual crawl dispatch.
+  "al",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -277,4 +288,5 @@ export const countryMeta: Record<
     nativeLang: "Bosnian",
   },
   ch: { lang: "de", name: "Switzerland", flag: "🇨🇭", nativeLang: "German" },
+  al: { lang: "sq", name: "Albania", flag: "🇦🇱", nativeLang: "Albanian" },
 };

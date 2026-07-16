@@ -52,6 +52,8 @@ export const routing = defineRouting({
     "ba-EN",
     "ch",
     "ch-EN",
+    "al",
+    "al-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -80,6 +82,7 @@ export const routing = defineRouting({
       "sk-EN": "/sk/en",
       "ba-EN": "/ba/en",
       "ch-EN": "/ch/en",
+      "al-EN": "/al/en",
     },
   },
   pathnames: {
@@ -142,6 +145,8 @@ export const routing = defineRouting({
       "ba-EN": "/airport-list-bosnia",
       ch: "/flugplaetze-schweiz",
       "ch-EN": "/airport-list-switzerland",
+      al: "/aeroportet-shqiperi",
+      "al-EN": "/airport-list-albania",
     },
   },
   localeCookie: false,
@@ -235,6 +240,11 @@ export const localeLangMapping: Record<
   // branch keys on the PREFIX "ch" (see the gotcha in CLAUDE.md).
   ch: "de",
   "ch-EN": "en",
+  // Albania: prefix "al", ISO language code "sq" (Albanian) - the
+  // LocaleSwitcher ICU branches key on the PREFIX "al" (see the gotcha in
+  // CLAUDE.md), so messages/al.json keys its native branch on "al".
+  al: "sq",
+  "al-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -290,4 +300,6 @@ export const localeCountryMapping: Record<
   "ba-EN": "ba",
   ch: "ch",
   "ch-EN": "ch",
+  al: "al",
+  "al-EN": "al",
 };

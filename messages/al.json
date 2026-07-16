@@ -1,0 +1,347 @@
+{
+  "BreadCrumbs": {
+    "label": "Shtegu i navigimit",
+    "root": {
+      "title": "AIP Indeks",
+      "hrefTitle": "AIP Indeks"
+    },
+    "/": {
+      "title": "Shqipëri (Shqip)",
+      "hrefTitle": "AIP Shqipëri"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Shqipëri"
+    },
+    "/airport-list": {
+      "title": "Lista e aeroporteve",
+      "hrefTitle": "Lista e aeroporteve Shqipëri"
+    },
+    "/terms": {
+      "title": "Kushtet e përdorimit",
+      "hrefTitle": "Kushtet e përdorimit - AIP:Aero Shqipëri"
+    },
+    "/efb": {
+      "title": "Udhëzuesi EFB",
+      "hrefTitle": "Udhëzuesi EFB - AIP:Aero në tabletin tuaj"
+    }
+  },
+  "Menu": {
+    "label": "Menyja",
+    "home": {
+      "title": "AIP Shqipëri",
+      "hrefTitle": "AIP Shqipëri"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Shqipëri"
+    },
+    "airports": {
+      "title": "Lista e aeroporteve",
+      "hrefTitle": "Lista e aeroporteve Shqipëri"
+    }
+  },
+  "AirportsPage": {
+    "title": "Lista e aeroporteve në Shqipëri",
+    "metaTitle": "🛩️ Lista e aeroporteve në Shqipëri",
+    "description": "Pasqyrë e të gjitha aeroporteve në Shqipëri",
+    "metaDescription": "Pasqyrë e të gjitha aeroporteve në Shqipëri🗺️",
+    "vfrCard": {
+      "title": "Aeroportet VFR",
+      "description": "Aeroportet VFR në Shqipëri",
+      "linkTitle": "Klikoni në lidhjen më poshtë për të hyrë në AIP VFR dhe hartën vizuale të afrimit të {airport}"
+    },
+    "heliportCard": {
+      "title": "Helioportet",
+      "description": "Helioportet në Shqipëri",
+      "linkTitle": "Klikoni në lidhjen më poshtë për të hyrë në AIP VFR të helioporteve dhe hartën vizuale të afrimit të {airport}"
+    },
+    "breadcrumb": {
+      "name": "Lista e aeroporteve Shqipëri",
+      "alternateName": "Lista e aeroporteve në Shqipëri",
+      "description": "Pasqyrë e të gjitha aeroporteve në Shqipëri"
+    }
+  },
+  "VfrPage": {
+    "title": "Indeksi i AIP VFR dhe hartave vizuale të afrimit Shqipëri",
+    "metaTitle": "🛩️ Indeksi i AIP VFR dhe hartave vizuale të afrimit Shqipëri",
+    "description": "Shkruani emrin e aeroportit ose kodin ICAO (p.sh. LATI, LAKU) për të hyrë në hartat e afrimit AIP VFR të ofruara nga Albcontrol.",
+    "metaDescription": "Shfletoni AIP VFR Shqipëri dhe shkarkoni hartat e afrimit të aeroporteve falas🗺️",
+    "searchTitle": "Shkruani emrin e aeroportit ose kodin e tij ICAO për të hyrë në AIP VFR",
+    "searchPlaceholder": "Shkruani emrin e aeroportit ose kodin e tij ICAO për të hyrë në AIP VFR",
+    "resultTitle": "Hartat AIP VFR të {airport}",
+    "resultDescription": "Klikoni në lidhjen më poshtë për të hyrë në AIP VFR dhe hartën vizuale të afrimit të {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Shqipëri",
+      "alternateName": "Indeksi i AIP VFR dhe hartave vizuale të afrimit Shqipëri",
+      "description": "Shfletoni AIP VFR Shqipëri dhe shkarkoni hartat e afrimit të aeroporteve falas"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Ndrysho gjuhën",
+    "locale": "{locale, select, al {🇦🇱 Shqip} en {🇬🇧 English} other {E panjohur}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP dhe hartat e afrimit të Shqipërisë",
+    "alternateName": "AIP Shqipëri",
+    "description": "Indeks kërkimi i publikimit të informacionit aeronautik (AIP) VFR dhe hartave të afrimit në Shqipëri",
+    "inLanguage": "sq",
+    "url": "https://aip.aero/al/"
+  },
+  "CountryPage": {
+    "title": "AIP dhe hartat e afrimit të Shqipërisë",
+    "metaTitle": "🛩️ AIP dhe hartat e afrimit të Shqipërisë",
+    "description": "Indeks kërkimi i publikimit të informacionit aeronautik (AIP) VFR dhe hartave të afrimit në Shqipëri",
+    "metaDescription": "Indeks kërkimi i publikimit të informacionit aeronautik (AIP) VFR dhe hartave të afrimit në Shqipëri🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Shqipëri",
+      "description": "Shfletoni AIP VFR Shqipëri dhe shkarkoni hartat e afrimit të aeroporteve falas",
+      "buttonTitle": "Hartat e afrimit AIP VFR",
+      "buttonHref": "/al/vfr/",
+      "buttonHrefTitle": "AIP VFR Shqipëri"
+    },
+    "airportListCard": {
+      "title": "Lista e aeroporteve",
+      "description": "Pasqyrë e të gjitha aeroporteve në Shqipëri - me shkarkim offline dhe informacione për doganën dhe karburantin",
+      "buttonTitle": "Lista e aeroporteve",
+      "buttonHref": "/al/aeroportet-shqiperi/",
+      "buttonHrefTitle": "Lista e aeroporteve Shqipëri"
+    },
+    "breadcrumb": {
+      "name": "AIP Shqipëri",
+      "alternateName": "AIP dhe hartat e afrimit të Shqipërisë",
+      "description": "Indeks kërkimi i publikimit të informacionit aeronautik (AIP) VFR dhe hartave të afrimit në Shqipëri"
+    }
+  },
+  "About": {
+    "title": "Për çfarë shërben kjo faqe?",
+    "description": "Publikimi i Informacionit Aeronautik <aip>AIP i Shqipërisë</aip> ofrohet falas nga Albcontrol (ofruesi i shërbimeve të navigacionit ajror shqiptar). Kjo faqe synon të thjeshtojë kërkimin e aeroporteve, pasi eAIP zyrtar nuk përfshin një funksion kërkimi. Ne nuk marrim asnjë përgjegjësi për saktësinë ose aktualitetin e AIP-së (Aeronautical Information Publication), pasi nuk botohet nga ne. Ne ofrojmë vetëm lidhje të përshtatshme drejt hartave përkatëse të afrimit.",
+    "aipUrl": "https://www.albcontrol.al/aip/",
+    "aipTitle": "AIP Shqipëri"
+  },
+  "TradeAero": {
+    "title": "Blini ose shisni një avion?",
+    "description": "Zbuloni avionë në shitje në Shqipëri në Trade:Aero - tregu për blerjen dhe shitjen e avionëve.",
+    "buttonTitle": "Trade:Aero - tregu më i madh evropian i avionëve",
+    "buttonHrefTitle": "Trade:Aero - tregu më i madh evropian i avionëve"
+  },
+  "Footer": {
+    "navTitle": "Navigimi",
+    "legalTitle": "Ligjore & kontakt",
+    "partnersTitle": "Partnerët",
+    "aipHome": {
+      "title": "AIP Indeks",
+      "hrefTitle": "AIP:Aero Fillimi - AIP dhe hartat e afrimit për Evropën"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Fillimi",
+      "hrefTitle": "Fillimi - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impresum",
+      "hrefTitle": "Impresum - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privatësia",
+      "hrefTitle": "Politika e privatësisë - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Faqja e internetit e Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Kushtet e përdorimit",
+      "hrefTitle": "Kushtet e përdorimit - AIP:Aero Shqipëri"
+    },
+    "efb": {
+      "title": "Udhëzuesi EFB",
+      "hrefTitle": "AIP:Aero në EFB-në tuaj - instalim, harta offline, importim"
+    }
+  },
+  "Error": {
+    "description": "<p>Fatkeqësisht, ndodhi një gabim.</p><p>Mund të provoni të <retry>ringarkoni këtë faqe</retry>.</p>",
+    "title": "Diçka shkoi keq!"
+  },
+  "NotFound": {
+    "title": "404 - Faqja nuk u gjet",
+    "description": "Kjo faqe ose ky kod aeroporti nuk ekziston. Provoni të kërkoni aeroportin:",
+    "searchPlaceholder": "Kërkoni çdo aeroport sipas emrit ose kodit ICAO",
+    "home": "Kthehu në faqen kryesore"
+  },
+  "Weather": {
+    "title": "Moti",
+    "observed": "I vëzhguar",
+    "forecast": "Parashikimi",
+    "wind": "Era",
+    "visibility": "Dukshmëria",
+    "clouds": "Retë",
+    "temperature": "Temperatura",
+    "qnh": "QNH",
+    "source": "Burimi",
+    "elevation": "Lartësia",
+    "sunrise": "Lindja e diellit",
+    "sunset": "Perëndimi i diellit",
+    "civilTwilight": "Muzgu civil",
+    "facts": "Të dhënat e aerodromit",
+    "runways": "Pistat",
+    "frequencies": "Frekuencat",
+    "decode": "Shfaq të dekoduar",
+    "openingHours": "Orari i punës",
+    "fuel": "Karburanti",
+    "ppr": "PPR",
+    "pprRequired": "Kërkohet leje paraprake",
+    "nearest": "Moti nga aeroporti më i afërt {station} ({km} km larg)",
+    "circuit": "Qarku i trafikut",
+    "circuitLeft": "majtas",
+    "circuitRight": "djathtas",
+    "windComponents": "Komponentët e erës",
+    "headwind": "Erë ballore",
+    "tailwind": "Erë e pasme",
+    "crosswind": "Erë anësore",
+    "fromLeft": "nga e majta",
+    "fromRight": "nga e djathta",
+    "landingDirection": "Drejtimi i mundshëm i uljes",
+    "aerodromeType": "Lloji i aerodromit",
+    "surface": "Sipërfaqja",
+    "variable": "e ndryshueshme",
+    "calm": "qetësi"
+  },
+  "Common": {
+    "openIn": "Hap në",
+    "homeLink": "AIP:Aero - Publikimet e Informacionit Aeronautik (AIP) & hartat e afrimit për Evropën",
+    "lastUpdated": "Përditësuar së fundmi",
+    "viewOnMap": "Shiko në Google Maps",
+    "location": "Vendndodhja",
+    "website": "Faqja e internetit",
+    "address": "Adresa",
+    "coordinates": "Koordinatat",
+    "phone": "Telefoni",
+    "map": "Harta",
+    "locate": "Gjej vendndodhjen time",
+    "locateError": "Nuk u përcaktua dot vendndodhja juaj",
+    "nearby": "Aeroportet afër",
+    "restaurant": "Restorant",
+    "customs": "Doganat",
+    "yes": "Po",
+    "no": "Jo",
+    "saveOffline": "Ruaj offline",
+    "savedOffline": "Ruajtur offline",
+    "installHint": "Instaloje si aplikacion: në menynë Ndaj të shfletuesit zgjidhni 'Shto në ekranin bazë'. Pastaj hape aplikacionin një herë online dhe ruaj përsëri aeroportet - aplikacioni ka hapësirën e tij offline.",
+    "installHintMac": "Në Mac: instaloje përmes menysë Ndaj në Safari me 'Shto në Dock'. Pastaj hape aplikacionin një herë online dhe ruaj përsëri aeroportet - aplikacioni ka hapësirën e tij offline.",
+    "bulkDownload": "Ruaj të gjitha {count} faqet offline (rreth {size} MB)",
+    "bulkDownloaded": "Në dispozicion offline",
+    "bulkUpdate": "Përditëso",
+    "bulkRemove": "Hiq",
+    "bulkProgress": "Duke ruajtur faqet",
+    "bulkCancel": "Anulo",
+    "bulkError": "Shkarkimi dështoi - ju lutemi provoni përsëri",
+    "bulkNoSpace": "Nuk ka hapësirë të mjaftueshme në këtë pajisje",
+    "bulkScope": "Përfshihet: të gjitha faqet e aeroporteve me të dhënat e aerodromit. Nuk përfshihet: PDF-të e hartave të afrimit (mund të ruhen për çdo aeroport) dhe moti live (kërkon lidhje).",
+    "moreInfo": "Më shumë informacion",
+    "pavedRunway": "Pistë e asfaltuar",
+    "favorites": "Të preferuarat",
+    "favoritesEmpty": "Ende asnjë i preferuar - ruaj një aeroport offline në faqen e tij dhe do të shfaqet këtu.",
+    "recentlyViewed": "Shikuar së fundmi",
+    "recentlyViewedEmpty": "Aeroportet që hapni do të shfaqen këtu automatikisht për qasje të shpejtë.",
+    "borderCrossing": "Kalimi kufitar",
+    "alsoAvailable": "Gjithashtu në dispozicion:",
+    "aipLoginHint": "Mund të kërkohet identifikimi ose regjistrimi."
+  },
+  "Chart": {
+    "allCharts": "Të gjitha hartat ({count})",
+    "title": "Harta e afrimit",
+    "openPdf": "Hap PDF-në e hartës",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Vizuale (VFR)",
+      "approach": "Afrimi",
+      "arrival": "Ardhja",
+      "departure": "Nisja",
+      "other": "Të tjera"
+    }
+  },
+  "TermsPage": {
+    "title": "Kushtet e përdorimit",
+    "intro": "AIP:Aero është një shërbim falas kërkimi dhe indeksimi për Publikimet e Informacionit Aeronautik (AIP), hartat e afrimit dhe të dhënat e aeroporteve në të gjithë Evropën.",
+    "servicesTitle": "Shërbimi ynë",
+    "servicesText": "<home>AIP:Aero</home> ju lejon të gjeni aerodrome sipas emrit ose kodit ICAO dhe ju çon drejtpërdrejt te publikimi zyrtar AIP i vendit përkatës. Përveç kësaj, faqet tona të aeroporteve shfaqin informacione shtesë si raportet e motit (METAR/TAF), të dhënat e aerodromit (pistat, frekuencat, lartësinë), hartat dhe të dhënat e kontaktit; faqet mund të ruhen gjithashtu për përdorim offline. Shërbimi ofrohet falas dhe pa regjistrim.",
+    "disclaimerTitle": "Mohim përgjegjësie",
+    "disclaimerText": "AIP:Aero nuk mund të mbahet përgjegjës në asnjë rrethanë. Ne vetë nuk botojmë dokumente aeronautike: ne vetëm lidhemi me Publikimin më të fundit të Informacionit Aeronautik (AIP) të vënë në dispozicion nga ofruesi zyrtar i vendit përkatës. E njëjta gjë vlen për të dhënat e motit (METAR/TAF) dhe të dhënat e aeroporteve: këto informacione i shfaqim në faqet tona, por ato vijnë nga burime të jashtme të listuara më poshtë. Ne nuk marrim asnjë përgjegjësi ose garanci për saktësinë, plotësinë ose aktualitetin e përmbajtjes së lidhur ose të shfaqur, as për disponueshmërinë e kësaj faqeje. Kjo faqe nuk zëvendëson përgatitjen zyrtare para fluturimit: komandanti i avionit mbetet i vetmi përgjegjës për marrjen dhe verifikimin e të gjithë informacionit të nevojshëm për një fluturim.",
+    "sourcesTitle": "Burimet e të dhënave",
+    "sourcesIntro": "Të dhënat e lidhura dhe të shfaqura i marrim nga burimet e mëposhtme (adresat si tekst i thjeshtë, qëllimisht jo të klikueshme):",
+    "sourcesAip": "Publikimet zyrtare AIP me të cilat lidhemi",
+    "sourcesData": "Të dhëna të jashtme të shfaqura",
+    "srcAwc": "moti METAR/TAF dhe të dhënat e aeroporteve",
+    "srcOurAirports": "të dhënat bazë të aeroporteve",
+    "srcOpenAip": "të dhëna të zgjeruara të aerodromit: pistat, frekuencat, karburanti",
+    "srcOsm": "hartat dhe adresat",
+    "metaTitle": "Kushtet e përdorimit - AIP:Aero Shqipëri",
+    "metaDescription": "Kushtet e përdorimit të AIP:Aero, kërkimi falas i AIP dhe hartave të afrimit për Shqipërinë dhe Evropën: përshkrimi i shërbimit, mohimi i përgjegjësisë dhe burimet e të dhënave."
+  },
+  "EfbPage": {
+    "title": "Përdorimi i AIP:Aero në EFB-në tuaj (Electronic Flight Bag)",
+    "intro": "Si të instaloni AIP:Aero në tabletin tuaj EFB (Electronic Flight Bag), të ruani hartat e afrimit offline, të shkarkoni paketat e vendeve dhe t'i kaloni aeroportet te mjetet tuaja të planifikimit - hap pas hapi.",
+    "metaTitle": "Udhëzuesi EFB Shqipëri - AIP & hartat e afrimit në tablet | AIP:Aero",
+    "metaDescription": "Instaloni AIP:Aero si aplikacion në tabletin tuaj EFB, ruani hartat e afrimit offline, shkarkoni vende të tëra dhe importoni PDF-të e hartave në ForeFlight, SkyDemon & Co (Shqipëri).",
+    "installTitle": "Instaloje si aplikacion (PWA)",
+    "installText": "AIP:Aero është një aplikacion web i instalueshëm: hapet në ekran të plotë si një aplikacion vendas dhe gjithçka që ruani është në dispozicion offline. Nuk nevojitet app store.",
+    "installIos": "iPad / iPhone (Safari): hapni aip.aero, prekni ikonën e ndarjes, pastaj \"Shto në ekranin bazë\".",
+    "installAndroid": "Android (Chrome): hapni aip.aero, prekni menynë, pastaj \"Shto në ekranin bazë\" / \"Instalo aplikacionin\".",
+    "installDesktop": "Kompjuter (Chrome/Edge): klikoni ikonën e instalimit në shiritin e adresës - ose përdorni butonin më poshtë. macOS (Safari): ikona Ndaj, pastaj \"Shto në Dock\".",
+    "offlineTitle": "Ruani aeroporte individuale offline",
+    "offlineText": "Çdo faqe detajesh e aeroportit ka një buton \"Ruaj offline\". Ai ruan faqen dhe, aty ku AIP boton një të tillë, PDF-në e hartës së afrimit në pajisjen tuaj; aeroporti më pas shfaqet te Të preferuarat në faqen e vendit. Kopjet e ruajtura tregojnë datën e shkarkimit.",
+    "bulkTitle": "Shkarkoni një vend të tërë",
+    "bulkText": "Në <list>listën e aeroporteve</list> mund të shkarkoni të gjitha faqet e detajeve të një vendi menjëherë (vetëm faqet, pa PDF-të e hartave - ato ruajini për çdo aeroport). Paketa tregon madhësinë e saj para shkarkimit dhe mund të përditësohet ose hiqet në çdo kohë.",
+    "favoritesTitle": "Të preferuarat & të shikuara së fundmi",
+    "favoritesText": "Aeroportet që ruani për përdorim offline shfaqen automatikisht si të preferuara, dhe aeroportet e fundit që keni hapur renditen te \"Shikuar së fundmi\" - të dyja ruhen vetëm në pajisjen tuaj, pa nevojë për llogari. Të dyja listat do t'i gjeni <country>në faqen e vendit</country>.",
+    "importTitle": "PDF-të e hartave në ForeFlight, SkyDemon & Co.",
+    "importText": "Aty ku AIP kombëtar boton PDF-të e hartave, kutia e hartave në faqen e detajeve lidh PDF-në aktuale përfshirë datën e saj AIRAC. Shkarkojeni dhe importojeni në aplikacionin tuaj EFB si përmbajtje të personalizuar, p.sh. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ose Garmin Pilot. Gjermania boton faqe HTML në vend të PDF-ve - përdorni lidhjen AIP atje.",
+    "toolsTitle": "Kalimi te mjetet e planifikimit",
+    "toolsText": "Kutia e vendndodhjes në çdo faqe detajesh hap të njëjtin aeroport drejtpërdrejt në SkyVector, Windy dhe autorouter - e dobishme për planifikimin e rrugës, modelet e motit dhe paraqitjen e planit të fluturimit.",
+    "weatherTitle": "Brifingu i motit në faqe",
+    "weatherText": "Faqet e detajeve shfaqin METAR/TAF live me dekodim në gjuhë të thjeshtë, distinktivin e kategorisë së fluturimit dhe një ndarje të erës ballore dhe anësore për çdo pistë - një kontroll i shpejtë, jo një zëvendësim për brifingun tuaj zyrtar.",
+    "customsTitle": "Doganat & kalimi kufitar",
+    "customsText": "Faqet e detajeve tregojnë nëse një aeroport ofron zhdoganim; aty ku një AIP kombëtar e liston atë në GEN 1.2, vlera verifikohet kundrejt atij burimi zyrtar. Për dokumentacionin e kalimit kufitar, kutia e vendndodhjes lidh formularët zyrtarë (p.sh. UK General Aviation Report), dhe harta mund të filtrojë aeroportet me doganë. Rregullat ndryshojnë - konfirmojini gjithmonë me AIP-në aktuale dhe autoritetin vendor.",
+    "disclaimerTitle": "Njoftim sigurie",
+    "disclaimerText": "AIP:Aero lidh publikimet zyrtare AIP por nuk është burim zyrtar. Kopjet offline shënohen me datën e shkarkimit dhe mund të vjetërohen me çdo cikël AIRAC - verifikoni aktualitetin e hartave para çdo fluturimi dhe merrni gjithmonë një brifing zyrtar para fluturimit.",
+    "installButton": "Instalo tani",
+    "ctaTitle": "Provoje tani",
+    "faqTitle": "Pyetjet e shpeshta",
+    "faq1q": "A funksionon AIP:Aero plotësisht offline?",
+    "faq1a": "Aeroportet e ruajtura dhe paketat e shkarkuara të vendeve funksionojnë pa internet; çdo kopje offline tregon një baner me datën e ruajtjes. Moti live (METAR/TAF) kërkon gjithmonë një lidhje.",
+    "faq2q": "Cilat vende mbulohen?",
+    "faq2a": "Të gjitha vendet aktualisht aktive janë të listuara në <home>faqen kryesore</home> - mbulimi rritet vazhdimisht. Çdo kartë vendi tregon llojet e hartave në dispozicion.",
+    "faq3q": "A janë hartat aktuale?",
+    "faq3a": "Lidhjet e hartave çojnë te publikimet zyrtare kombëtare AIP, përfshirë datën AIRAC aty ku botohet. Verifikoni gjithmonë kundrejt burimit zyrtar para fluturimit."
+  },
+  "CountryFaq": {
+    "title": "Pyetjet e shpeshta",
+    "q1": "Çfarë është AIP Shqipëri?",
+    "a1": "AIP (Publikimi i Informacionit Aeronautik) është manuali zyrtar aeronautik i Shqipërisë, botuar nga Albcontrol (ofruesi i shërbimeve të navigacionit ajror shqiptar): të dhënat e aerodromeve, procedurat dhe hartat e afrimit, të përditësuara në ciklin 28-ditor AIRAC. AIP:Aero ju lidh drejtpërdrejt me publikimin zyrtar.",
+    "q2": "A janë falas hartat e afrimit?",
+    "a2": "Po - Albcontrol boton AIP-në e Shqipërisë përfshirë <list>hartat e afrimit</list> falas, dhe AIP:Aero është gjithashtu falas: pa llogari, pa abonim.",
+    "q3": "Cilat harta dhe aeroporte janë në dispozicion për Shqipërinë?",
+    "a3": "Për Shqipërinë do të gjeni <vfr>aeroportet VFR</vfr> - secili me një lidhje të drejtpërdrejtë me hartën zyrtare, motin e dekoduar (METAR/TAF) dhe të dhënat e aerodromit.",
+    "q4": "A mund ta përdor AIP:Aero offline ose në EFB-në time?",
+    "a4": "Po - AIP:Aero instalohet si aplikacion (PWA), dhe aeroportet individuale ose i gjithë vendi mund të ruhen offline. Shihni <efb>udhëzuesin EFB</efb>."
+  }
+}
