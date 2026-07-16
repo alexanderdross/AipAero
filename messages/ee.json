@@ -26,7 +26,7 @@
       "hrefTitle": "Kasutustingimused - AIP:Aero Eesti"
     },
     "/efb": {
-      "title": "EFB juhend",
+      "title": "Piloodi tööriistad & EFB",
       "hrefTitle": "EFB juhend - AIP:Aero tahvelarvutis"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Kasutustingimused - AIP:Aero Eesti"
     },
     "efb": {
-      "title": "EFB juhend",
+      "title": "Piloodi tööriistad & EFB",
       "hrefTitle": "AIP:Aero sinu EFB-s - paigaldus, offline-kaardid, import"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "AIP:Aero kasutustingimused - tasuta AIP ja lähenemiskaartide otsing Eesti ja Euroopa jaoks: teenuse kirjeldus, vastutuse välistamine ja andmeallikad."
   },
   "EfbPage": {
-    "title": "Kasuta AIP:Aero-t oma EFB (Electronic Flight Bag)-s",
+    "title": "AIP:Aero piloodi tööriistad: EFB-rakendus, võrguühenduseta kaardid, impordid ja andmed",
     "intro": "Kuidas paigaldada AIP:Aero oma EFB (Electronic Flight Bag)-tahvelarvutisse, salvestada lähenemiskaarte offline, laadida alla terveid riike ja saata väljad edasi oma planeerimistööriistadesse - samm-sammult.",
     "metaTitle": "EFB juhend Eesti - AIP ja lähenemiskaardid tahvelarvutis | AIP:Aero",
     "metaDescription": "Paigalda AIP:Aero rakendusena oma EFB-tahvelarvutisse, salvesta lähenemiskaarte offline, laadi alla terveid riike ja impordi kaardi-PDF-e ForeFlighti, SkyDemonisse jm (Eesti).",
@@ -353,6 +353,8 @@
     "customsText": "Detailvaate lehed näitavad, kas väljak pakub tolliteenust; kui riiklik AIP loetleb selle jaotises GEN 1.2, on väärtus kontrollitud selle ametliku allika vastu. Piiriületuse formaalsuste jaoks lingib asukohakast ametlikud vormid (nt Ühendkuningriigi General Aviation Report) ja kaardil saab filtreerida tolliväljakuid. Reeglid muutuvad - kinnita need alati kehtiva AIP ja kohaliku ametiasutusega.",
     "disclaimerTitle": "Ohutusmärkus",
     "disclaimerText": "AIP:Aero lingib ametlikele AIP-väljaannetele, kuid ei ole ametlik allikas. Offline-koopiad kannavad oma allalaadimiskuupäeva ja võivad iga AIRAC-tsükliga aeguda - kontrolli kaartide kehtivust enne iga lendu ja hangi alati ametlik lennueelne briifing.",
+    "apiTitle": "API ja andmekoostöö",
+    "apiText": "Arendajatele ja EFB-pakkujatele: AIP:Aero struktureeritud lennuväljade andmed (normaliseeritud lennuväljade indeks, kaartide PDF-ide otselingid, AIRAC-tsüklid, koordinaadid, rajad, sagedused ja tolliteave) on integratsioonide jaoks saadaval API kaudu. Oleme avatud koostööks; <contact>võtke ühendust</contact>.",
     "installButton": "Installi kohe",
     "ctaTitle": "Proovi järele",
     "faqTitle": "Korduma kippuvad küsimused",

@@ -26,7 +26,7 @@
       "hrefTitle": "Gebruiksvoorwaarden - AIP:Aero Nederland"
     },
     "/efb": {
-      "title": "EFB-gids",
+      "title": "Pilotentools & EFB",
       "hrefTitle": "EFB-gids - AIP:Aero op je tablet"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Gebruiksvoorwaarden - AIP:Aero Nederland"
     },
     "efb": {
-      "title": "EFB-gids",
+      "title": "Pilotentools & EFB",
       "hrefTitle": "AIP:Aero op je EFB - installeren, offline kaarten, import"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "Gebruiksvoorwaarden van AIP:Aero, de gratis AIP- en naderingskaarten-zoekdienst voor Nederland en Europa: dienstbeschrijving, aansprakelijkheidsuitsluiting en databronnen."
   },
   "EfbPage": {
-    "title": "AIP:Aero op je EFB (Electronic Flight Bag) gebruiken",
+    "title": "AIP:Aero pilotentools: EFB-app, offline kaarten, imports en gegevens",
     "intro": "Zo installeer je AIP:Aero op je EFB (Electronic Flight Bag)-tablet, sla je naderingskaarten offline op, download je hele landen en geef je velden door aan je planningstools - stap voor stap.",
     "metaTitle": "EFB-gids Nederland - AIP en naderingskaarten op je tablet | AIP:Aero",
     "metaDescription": "Installeer AIP:Aero als app op je EFB-tablet, sla naderingskaarten offline op, download hele landen en importeer kaart-PDF's in ForeFlight, SkyDemon en meer (Nederland).",
@@ -353,6 +353,8 @@
     "customsText": "Detailpagina's tonen of een veld douaneafhandeling biedt; waar de nationale AIP dit in GEN 1.2 vermeldt, is de waarde geverifieerd tegen die officiële bron. Voor de grensformaliteiten linkt de locatiebox naar de officiële formulieren (bijv. het Britse General Aviation Report), en de kaart kan filteren op douanevelden. Regels veranderen - bevestig ze altijd met de actuele AIP en de lokale autoriteit.",
     "disclaimerTitle": "Veiligheidsmelding",
     "disclaimerText": "AIP:Aero linkt naar officiële AIP-publicaties maar is zelf geen officiële bron. Offline kopieën dragen hun downloaddatum en kunnen elke AIRAC-cyclus verouderen - controleer de actualiteit van kaarten voor elke vlucht en haal altijd een officiële briefing.",
+    "apiTitle": "API en datasamenwerking",
+    "apiText": "Voor ontwikkelaars en EFB-aanbieders: de gestructureerde luchthavengegevens van AIP:Aero (de genormaliseerde luchthavenindex, directe links naar chart-PDF's, AIRAC-cycli, coördinaten, banen, frequenties en douane-informatie) zijn via een API beschikbaar voor integraties. Wij staan open voor samenwerkingen; <contact>neem contact op</contact>.",
     "installButton": "Nu installeren",
     "ctaTitle": "Probeer het nu",
     "faqTitle": "Veelgestelde vragen",

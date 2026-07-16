@@ -26,7 +26,7 @@
       "hrefTitle": "Vilkår for bruk - AIP:Aero Norge"
     },
     "/efb": {
-      "title": "EFB-guide",
+      "title": "Pilotverktøy & EFB",
       "hrefTitle": "EFB-guide - AIP:Aero på nettbrettet"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Vilkår for bruk - AIP:Aero Norge"
     },
     "efb": {
-      "title": "EFB-guide",
+      "title": "Pilotverktøy & EFB",
       "hrefTitle": "AIP:Aero på din EFB - installasjon, offline kart, import"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "Vilkår for bruk av AIP:Aero, det gratis AIP- og innflygingskart-søket for Norge og Europa: tjenestebeskrivelse, ansvarsfraskrivelse og datakilder."
   },
   "EfbPage": {
-    "title": "Bruk AIP:Aero på din EFB (Electronic Flight Bag)",
+    "title": "AIP:Aero pilotverktøy: EFB-app, offline-kart, importer og data",
     "intro": "Slik installerer du AIP:Aero på EFB (Electronic Flight Bag)-nettbrettet, lagrer innflygingskart offline, laster ned hele land og sender plasser videre til planleggingsverktøyene dine - steg for steg.",
     "metaTitle": "EFB-guide Norge - AIP og innflygingskart på nettbrettet | AIP:Aero",
     "metaDescription": "Installer AIP:Aero som app på EFB-nettbrettet, lagre innflygingskart offline, last ned hele land og importer kart-PDF-er i ForeFlight, SkyDemon m.fl (Norge).",
@@ -353,6 +353,8 @@
     "customsText": "Detaljsider viser om en plass tilbyr tollbehandling; der den nasjonale AIP-en lister det i GEN 1.2, er verdien verifisert mot denne offisielle kilden. For grenseformaliteter lenker posisjonsboksen til de offisielle skjemaene (f.eks. det britiske General Aviation Report), og kartet kan filtrere etter tollplasser. Regler endres - bekreft dem alltid med gjeldende AIP og lokal myndighet.",
     "disclaimerTitle": "Sikkerhetsmerknad",
     "disclaimerText": "AIP:Aero lenker til offisielle AIP-publikasjoner, men er ikke en offisiell kilde. Offline-kopier bærer nedlastingsdatoen sin og kan bli utdatert med hver AIRAC-syklus - kontroller kartenes gyldighet før hver flyging og innhent alltid en offisiell briefing.",
+    "apiTitle": "API og datasamarbeid",
+    "apiText": "For utviklere og EFB-leverandører: AIP:Aeros strukturerte flyplassdata (den normaliserte flyplassindeksen, direkte lenker til kart-PDF-er, AIRAC-sykluser, koordinater, rullebaner, frekvenser og tollinformasjon) er tilgjengelig via API for integrasjoner. Vi er åpne for samarbeid; <contact>ta kontakt</contact>.",
     "installButton": "Installer nå",
     "ctaTitle": "Prøv det nå",
     "faqTitle": "Ofte stilte spørsmål",

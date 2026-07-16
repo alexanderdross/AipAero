@@ -26,7 +26,7 @@
       "hrefTitle": "Terms of Service - AIP:Aero Estonia"
     },
     "/efb": {
-      "title": "EFB Guide",
+      "title": "Pilot Tools & EFB",
       "hrefTitle": "EFB Guide - AIP:Aero on your tablet"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Terms of Service - AIP:Aero Estonia"
     },
     "efb": {
-      "title": "EFB Guide",
+      "title": "Pilot Tools & EFB",
       "hrefTitle": "AIP:Aero on your EFB - install, offline charts, import"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for Estonia and Europe: service description, disclaimer of liability and data sources."
   },
   "EfbPage": {
-    "title": "Using AIP:Aero on your EFB (Electronic Flight Bag)",
+    "title": "AIP:Aero pilot tools: EFB app, offline charts, imports and data",
     "intro": "How to install AIP:Aero on your EFB (Electronic Flight Bag) tablet, save approach charts offline, download country packs and hand fields over to your planning tools - step by step.",
     "metaTitle": "EFB Guide Estonia - AIP & approach charts on your tablet | AIP:Aero",
     "metaDescription": "Install AIP:Aero as an app on your EFB tablet, save approach charts offline, download whole countries and import chart PDFs into ForeFlight, SkyDemon & Co (Estonia).",
@@ -353,6 +353,8 @@
     "customsText": "Detail pages show whether a field offers customs clearance; where a national AIP lists it in GEN 1.2, the value is verified against that official source. For border-crossing paperwork the location box links the official forms (e.g. the UK General Aviation Report), and the map can filter for customs airfields. Rules change - always confirm with the current AIP and the local authority.",
     "disclaimerTitle": "Safety notice",
     "disclaimerText": "AIP:Aero links official AIP publications but is not an official source. Offline copies are marked with their download date and can become outdated with every AIRAC cycle - verify chart currency before every flight and always obtain an official pre-flight briefing.",
+    "apiTitle": "API and data cooperation",
+    "apiText": "For developers and EFB providers: AIP:Aero's structured aerodrome data (the normalized aerodrome index, chart-PDF deep links, AIRAC cycles, coordinates, runways, frequencies and customs information) is available via API for integrations. We are open for cooperations; <contact>get in touch</contact>.",
     "installButton": "Install now",
     "ctaTitle": "Try it now",
     "faqTitle": "Frequently asked questions",

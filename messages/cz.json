@@ -26,7 +26,7 @@
       "hrefTitle": "Podmínky použití - AIP:Aero Česko"
     },
     "/efb": {
-      "title": "Průvodce EFB",
+      "title": "Nástroje pro piloty & EFB",
       "hrefTitle": "Průvodce EFB - AIP:Aero na tabletu"
     }
   },
@@ -187,7 +187,7 @@
       "hrefTitle": "Podmínky použití - AIP:Aero Česko"
     },
     "efb": {
-      "title": "Průvodce EFB",
+      "title": "Nástroje pro piloty & EFB",
       "hrefTitle": "AIP:Aero na EFB - instalace, offline mapy, import"
     }
   },
@@ -312,7 +312,7 @@
     "metaDescription": "Podmínky použití AIP:Aero, bezplatného vyhledávání AIP a přibližovacích map pro Česko a Evropu: popis služby, vyloučení odpovědnosti a zdroje dat."
   },
   "EfbPage": {
-    "title": "AIP:Aero na vašem EFB (Electronic Flight Bag)",
+    "title": "AIP:Aero nástroje pro piloty: aplikace EFB, offline mapy, importy a data",
     "intro": "Jak nainstalovat AIP:Aero na EFB (Electronic Flight Bag) tablet, uložit přibližovací mapy offline, stáhnout celé země a předat letiště do plánovacích nástrojů - krok za krokem.",
     "metaTitle": "Průvodce EFB Česko - AIP a přibližovací mapy na tabletu | AIP:Aero",
     "metaDescription": "Nainstalujte AIP:Aero jako aplikaci na EFB tablet, ukládejte mapy offline, stahujte celé země a importujte PDF map do ForeFlight, SkyDemon a dalších (Česko).",
@@ -337,6 +337,8 @@
     "customsText": "Detailní stránky ukazují, zda letiště nabízí celní odbavení; kde to národní AIP uvádí v GEN 1.2, je hodnota ověřena proti tomuto oficiálnímu zdroji. Pro hraniční formality odkazuje box s polohou na oficiální formuláře (např. britský General Aviation Report) a mapa umí filtrovat celní letiště. Pravidla se mění - vždy je potvrďte s aktuálním AIP a místním úřadem.",
     "disclaimerTitle": "Bezpečnostní upozornění",
     "disclaimerText": "AIP:Aero odkazuje na oficiální publikace AIP, ale není oficiálním zdrojem. Offline kopie nesou datum stažení a mohou s každým cyklem AIRAC zastarat - před každým letem ověřte platnost map a vždy si vyžádejte oficiální předletový briefing.",
+    "apiTitle": "API a datová spolupráce",
+    "apiText": "Pro vývojáře a poskytovatele EFB: strukturovaná data letišť z AIP:Aero (normalizovaný index letišť, přímé odkazy na PDF mapy, cykly AIRAC, souřadnice, dráhy, frekvence a celní informace) jsou k dispozici prostřednictvím API pro integrace. Jsme otevřeni spolupráci; <contact>kontaktujte nás</contact>.",
     "installButton": "Nainstalovat nyní",
     "ctaTitle": "Vyzkoušejte to",
     "faqTitle": "Časté dotazy",

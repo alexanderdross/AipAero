@@ -22,7 +22,7 @@
       "hrefTitle": "Kushtet e përdorimit - AIP:Aero Shqipëri"
     },
     "/efb": {
-      "title": "Udhëzuesi EFB",
+      "title": "Mjete për pilotë & EFB",
       "hrefTitle": "Udhëzuesi EFB - AIP:Aero në tabletin tuaj"
     }
   },
@@ -173,7 +173,7 @@
       "hrefTitle": "Kushtet e përdorimit - AIP:Aero Shqipëri"
     },
     "efb": {
-      "title": "Udhëzuesi EFB",
+      "title": "Mjete për pilotë & EFB",
       "hrefTitle": "AIP:Aero në EFB-në tuaj - instalim, harta offline, importim"
     }
   },
@@ -298,7 +298,7 @@
     "metaDescription": "Kushtet e përdorimit të AIP:Aero, kërkimi falas i AIP dhe hartave të afrimit për Shqipërinë dhe Evropën: përshkrimi i shërbimit, mohimi i përgjegjësisë dhe burimet e të dhënave."
   },
   "EfbPage": {
-    "title": "Përdorimi i AIP:Aero në EFB-në tuaj (Electronic Flight Bag)",
+    "title": "AIP:Aero mjete për pilotë: aplikacioni EFB, harta offline, importe dhe të dhëna",
     "intro": "Si të instaloni AIP:Aero në tabletin tuaj EFB (Electronic Flight Bag), të ruani hartat e afrimit offline, të shkarkoni paketat e vendeve dhe t'i kaloni aeroportet te mjetet tuaja të planifikimit - hap pas hapi.",
     "metaTitle": "Udhëzuesi EFB Shqipëri - AIP & hartat e afrimit në tablet | AIP:Aero",
     "metaDescription": "Instaloni AIP:Aero si aplikacion në tabletin tuaj EFB, ruani hartat e afrimit offline, shkarkoni vende të tëra dhe importoni PDF-të e hartave në ForeFlight, SkyDemon & Co (Shqipëri).",
@@ -323,6 +323,8 @@
     "customsText": "Faqet e detajeve tregojnë nëse një aeroport ofron zhdoganim; aty ku një AIP kombëtar e liston atë në GEN 1.2, vlera verifikohet kundrejt atij burimi zyrtar. Për dokumentacionin e kalimit kufitar, kutia e vendndodhjes lidh formularët zyrtarë (p.sh. UK General Aviation Report), dhe harta mund të filtrojë aeroportet me doganë. Rregullat ndryshojnë - konfirmojini gjithmonë me AIP-në aktuale dhe autoritetin vendor.",
     "disclaimerTitle": "Njoftim sigurie",
     "disclaimerText": "AIP:Aero lidh publikimet zyrtare AIP por nuk është burim zyrtar. Kopjet offline shënohen me datën e shkarkimit dhe mund të vjetërohen me çdo cikël AIRAC - verifikoni aktualitetin e hartave para çdo fluturimi dhe merrni gjithmonë një brifing zyrtar para fluturimit.",
+    "apiTitle": "API dhe bashkëpunim për të dhënat",
+    "apiText": "Për zhvilluesit dhe ofruesit e EFB: të dhënat e strukturuara të aerodromeve të AIP:Aero (indeksi i normalizuar i aerodromeve, lidhjet e drejtpërdrejta te PDF-të e hartave, ciklet AIRAC, koordinatat, pistat, frekuencat dhe informacionet doganore) janë të disponueshme përmes një API për integrime. Jemi të hapur për bashkëpunime; <contact>na kontaktoni</contact>.",
     "installButton": "Instalo tani",
     "ctaTitle": "Provoje tani",
     "faqTitle": "Pyetjet e shpeshta",

@@ -22,7 +22,7 @@
       "hrefTitle": "Notkunarskilmálar - AIP:Aero Ísland"
     },
     "/efb": {
-      "title": "EFB-leiðbeiningar",
+      "title": "Flugmannatól og EFB",
       "hrefTitle": "EFB-leiðbeiningar - AIP:Aero í spjaldtölvunni þinni"
     }
   },
@@ -173,7 +173,7 @@
       "hrefTitle": "Notkunarskilmálar - AIP:Aero Ísland"
     },
     "efb": {
-      "title": "EFB-leiðbeiningar",
+      "title": "Flugmannatól og EFB",
       "hrefTitle": "AIP:Aero á EFB-tækinu þínu - uppsetning, kort án nettengingar, innflutningur"
     }
   },
@@ -298,7 +298,7 @@
     "metaDescription": "Notkunarskilmálar AIP:Aero, ókeypis leitarvélarinnar fyrir AIP og aðflugskort fyrir Ísland og Evrópu: lýsing á þjónustunni, fyrirvari um ábyrgð og gagnaheimildir."
   },
   "EfbPage": {
-    "title": "Notaðu AIP:Aero á EFB (Electronic Flight Bag)-tækinu þínu",
+    "title": "AIP:Aero flugmannatól: EFB-app, kort án nettengingar, innflutningar og gögn",
     "intro": "Hvernig þú setur AIP:Aero upp á EFB (Electronic Flight Bag)-spjaldtölvunni þinni, vistar aðflugskort án nettengingar, sækir heilu löndin og sendir flugvelli yfir í skipulagsverkfærin þín - skref fyrir skref.",
     "metaTitle": "EFB-leiðbeiningar Ísland - AIP og aðflugskort í spjaldtölvunni þinni | AIP:Aero",
     "metaDescription": "Settu AIP:Aero upp sem app á EFB-spjaldtölvunni þinni, vistaðu aðflugskort án nettengingar, sæktu heilu löndin og fluttu PDF-kort inn í ForeFlight, SkyDemon og fleiri (Ísland).",
@@ -323,6 +323,8 @@
     "customsText": "Flugvallasíðurnar sýna hvort flugvöllur býður upp á tollafgreiðslu; þegar landsbundin AIP tilgreinir það í GEN 1.2 er gildið sannreynt gagnvart þeirri opinberu heimild. Fyrir landamærapappíra tengir staðsetningarreiturinn á opinberu eyðublöðin (t.d. breska General Aviation Report) og kortið getur síað eftir flugvöllum með tollafgreiðslu. Reglur breytast - staðfestu þær alltaf með gildandi AIP og hjá staðaryfirvöldum.",
     "disclaimerTitle": "Öryggisathugasemd",
     "disclaimerText": "AIP:Aero tengir á opinberar AIP-útgáfur en er ekki opinber heimild. Afrit án nettengingar eru merkt með dagsetningu niðurhalsins og geta úrelst með hverri AIRAC-lotu - athugaðu gildi kortanna fyrir hvert flug og fáðu þér alltaf opinberan flugundirbúning.",
+    "apiTitle": "API og gagnasamstarf",
+    "apiText": "Fyrir forritara og EFB-veitendur: skipulögð flugvallargögn AIP:Aero (staðlaða flugvallaskráin, beinir tenglar á korta-PDF, AIRAC-lotur, hnit, flugbrautir, tíðnir og tollupplýsingar) eru aðgengileg í gegnum API fyrir samþættingar. Við erum opin fyrir samstarfi; <contact>hafðu samband</contact>.",
     "installButton": "Setja upp núna",
     "ctaTitle": "Prófaðu núna",
     "faqTitle": "Algengar spurningar",

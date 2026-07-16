@@ -112,6 +112,9 @@ export default async function EfbPage(
   const t = await getTranslations("EfbPage");
   const tMenu = await getTranslations("Menu");
   const tCommon = await getTranslations("Common");
+  // The API/data-cooperation note links the site's existing contact (imprint
+  // network) - single source of truth for the address, no new one invented.
+  const tFooter = await getTranslations("Footer");
 
   const airportListPath = getPathname({ href: "/airport-list", locale });
   const airportListHref = airportListPath.endsWith("/")
@@ -381,6 +384,31 @@ export default async function EfbPage(
                 </details>
               ))}
             </div>
+          </section>
+
+          {/* B2B: structured-data / API cooperation offer. Standalone (NOT a
+              HowToStep - it is a partnership note, not a pilot instruction), so
+              it is left out of the HowTo JSON-LD above. Links the site's
+              existing contact (Footer namespace). */}
+          <section className="border-drossgray-dark/15 border-t pt-6">
+            <SectionHeading className="text-xl font-semibold tracking-tight">
+              {t("apiTitle")}
+            </SectionHeading>
+            <p className="mt-3">
+              {t.rich("apiText", {
+                contact: (chunks) => (
+                  <a
+                    href={tFooter("contact.href")}
+                    title={tFooter("contact.hrefTitle")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={inlineLink}
+                  >
+                    {chunks}
+                  </a>
+                ),
+              })}
+            </p>
           </section>
 
           {/* Closing CTA: from the guide straight into the product. */}

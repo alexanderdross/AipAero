@@ -26,7 +26,7 @@
       "hrefTitle": "Termos de utilização - AIP:Aero Portugal"
     },
     "/efb": {
-      "title": "Guia EFB",
+      "title": "Ferramentas para pilotos & EFB",
       "hrefTitle": "Guia EFB - AIP:Aero no teu tablet"
     }
   },
@@ -192,7 +192,7 @@
       "hrefTitle": "Termos de utilização - AIP:Aero Portugal"
     },
     "efb": {
-      "title": "Guia EFB",
+      "title": "Ferramentas para pilotos & EFB",
       "hrefTitle": "AIP:Aero no teu EFB - instalação, cartas offline, importação"
     }
   },
@@ -317,7 +317,7 @@
     "metaDescription": "Termos de utilização do AIP:Aero, o serviço gratuito de pesquisa de AIP e cartas de aproximação para Portugal e a Europa: descrição do serviço, exclusão de responsabilidade e fontes de dados."
   },
   "EfbPage": {
-    "title": "Usa o AIP:Aero no teu EFB (Electronic Flight Bag)",
+    "title": "AIP:Aero ferramentas para pilotos: aplicação EFB, cartas offline, importações e dados",
     "intro": "Como instalar o AIP:Aero no teu tablet EFB (Electronic Flight Bag), guardar cartas de aproximação offline, descarregar países inteiros e enviar aeródromos para as tuas ferramentas de planeamento - passo a passo.",
     "metaTitle": "Guia EFB Portugal - AIP e cartas de aproximação no teu tablet | AIP:Aero",
     "metaDescription": "Instala o AIP:Aero como aplicação no teu tablet EFB, guarda cartas de aproximação offline, descarrega países inteiros e importa PDF de cartas no ForeFlight, SkyDemon e outros (Portugal).",
@@ -342,6 +342,8 @@
     "customsText": "As páginas de detalhe mostram se um aeródromo dispõe de despacho alfandegário; quando a AIP nacional o indica na secção GEN 1.2, o valor está verificado com essa fonte oficial. Para as formalidades de fronteira, a caixa de localização liga aos formulários oficiais (p. ex. o General Aviation Report britânico) e o mapa pode filtrar por aeródromos com alfândega. As regras mudam - confirma-as sempre com a AIP em vigor e a autoridade local.",
     "disclaimerTitle": "Aviso de segurança",
     "disclaimerText": "O AIP:Aero liga a publicações AIP oficiais, mas não é uma fonte oficial. As cópias offline indicam a sua data de transferência e podem ficar desatualizadas a cada ciclo AIRAC - verifica a validade das cartas antes de cada voo e obtém sempre um briefing oficial.",
+    "apiTitle": "API e cooperação de dados",
+    "apiText": "Para programadores e fornecedores de EFB: os dados estruturados de aeródromos da AIP:Aero (o índice de aeródromos normalizado, as ligações diretas para os PDF das cartas, os ciclos AIRAC, as coordenadas, as pistas, as frequências e as informações aduaneiras) estão disponíveis através de uma API para integrações. Estamos abertos a cooperações; <contact>entre em contacto</contact>.",
     "installButton": "Instalar agora",
     "ctaTitle": "Experimenta já",
     "faqTitle": "Perguntas frequentes",
