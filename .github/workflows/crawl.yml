@@ -121,7 +121,21 @@ jobs:
             "https://aip.aero/pt/lista-de-aerodromos-portugal/"
             "https://aip.aero/hu/repuloterek-listaja-magyarorszag/"
             "https://aip.aero/si/seznam-letalisc-slovenija/"
+            "https://aip.aero/lt/oro-uostu-sarasas-lietuva/"
+            "https://aip.aero/rs/lista-aerodroma-srbija/"
+            "https://aip.aero/ie/airport-list-ireland/"
+            "https://aip.aero/sk/letiska-slovensko/"
+            "https://aip.aero/gr/aerolimenes-ellada/"
+            "https://aip.aero/ba/lista-aerodroma-bih/"
+            "https://aip.aero/ch/flugplaetze-schweiz/"
+            "https://aip.aero/al/aeroportet-shqiperi/"
+            "https://aip.aero/mk/aerodromi-severna-makedonija/"
+            "https://aip.aero/ro/lista-aeroporturi-romania/"
           )
+          # NOTE: keep this in sync with liveCountries x the /airport-list slug
+          # (src/lib/utils.ts + src/i18n/routing.ts). A launched country missing
+          # here just isn't pre-warmed after a crawl (the crawler's revalidateTag
+          # still busts its tag, so the first visitor triggers regeneration).
           for u in "${urls[@]}"; do
             code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000
             echo "warm $u -> HTTP $code"
