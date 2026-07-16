@@ -20,6 +20,7 @@ from crawlers.at import AT
 from crawlers.ba import BA
 from crawlers.be import BE
 from crawlers.ch import CH
+from crawlers.cy import CY
 from crawlers.cz import CZ
 from crawlers.de import DE
 from crawlers.ee import EE
@@ -57,6 +58,7 @@ COUNTRY_CRAWLERS = {
     "AT": AT,
     "BA": BA,
     "CH": CH,
+    "CY": CY,
     "DE": DE,
     "EE": EE,
     "ES": ES,
