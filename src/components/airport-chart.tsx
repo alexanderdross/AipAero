@@ -33,17 +33,21 @@ export async function AirportChart({
   url,
   charts = [],
   locale,
+  fallbackAiracIso = null,
 }: {
   url: string;
   charts?: ChartLink[];
   locale: string;
+  // Country edition (crawl_meta.airac) used when the chart URL carries no date
+  // (e.g. MK's `current` alias), so every chart box can still show the AIRAC.
+  fallbackAiracIso?: string | null;
 }) {
   const t = await getTranslations("Chart");
   const lang = localeLangMapping[locale] ?? "en";
 
   const primary = charts.find((c) => c.url === url) ?? null;
   const others = charts.filter((c) => c.url !== url);
-  const airacIso = airacDateFromUrl(url);
+  const airacIso = airacDateFromUrl(url) ?? fallbackAiracIso;
   const airacLabel = airacIso
     ? new Date(airacIso).toLocaleDateString(locale.replace("-EN", ""))
     : null;

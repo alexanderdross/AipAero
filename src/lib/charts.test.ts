@@ -67,6 +67,18 @@ describe("airacDateFromUrl", () => {
         "https://aip.dfs.de/BasicVFR/2026JUN25/chapter/3fb9780db947a5bd4782bc7f9b334f99.html",
       ),
     ).toBe("2026-06-25");
+    // GR (HASP edition folder: wef_<dd><mmm><yyyy>)
+    expect(
+      airacDateFromUrl(
+        "https://aisgr.hasp.gov.gr/aipgr_incl_amdt_0626_wef_09jul2026/cd/ais/eaip/pdf/AD 2/AD2-LGKF/LG_AD_2_LGKF_VFR_en.pdf",
+      ),
+    ).toBe("2026-07-09");
+    // RO (generic dated edition folder /YYYY-MM-DD/)
+    expect(
+      airacDateFromUrl(
+        "https://www.aisro.ro/aip/2026-07-09/DOCS/AIP/AD/AD2/AD_2_5_LROP/LR_AD_2_LROP_en.pdf",
+      ),
+    ).toBe("2026-07-09");
     // CZ carries no date in its URLs
     expect(
       airacDateFromUrl("https://aim.rlp.cz/eaip/graphics/a2-tb-adc.pdf"),

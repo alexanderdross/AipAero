@@ -67,6 +67,60 @@ _AD3_RE = re.compile(
 # Strip the "AD 3.12 " chapter prefix from a heliport's menu link text.
 _AD3_TITLE_PREFIX_RE = re.compile(r"^AD\s*3\.\d+\s*", re.I)
 
+# Aerodrome names by ICAO. The HASP AIP-menu.htm AD 2 links carry only the ICAO
+# (no place name), so the title would otherwise be a bare code; this static map
+# (names from OurAirports, CC0 / public domain) restores the "<name> <ICAO>"
+# convention on the list, map and detail heading. An unmapped ICAO falls back to
+# the bare code (the website still enriches the town from OpenAIP/OurAirports).
+_NAMES: dict[str, str] = {
+    "LGAV": "Athens / Eleftherios Venizelos",
+    "LGTS": "Thessaloniki / Makedonia",
+    "LGIR": "Heraklion / Nikos Kazantzakis",
+    "LGKR": "Corfu / Ioannis Kapodistrias",
+    "LGRP": "Rhodes / Diagoras",
+    "LGKO": "Kos / Ippokratis",
+    "LGSR": "Santorini",
+    "LGMT": "Mytilene / Lesbos",
+    "LGSM": "Samos",
+    "LGKV": "Kavala / Alexander the Great",
+    "LGZA": "Zakynthos / Dionysios Solomos",
+    "LGKF": "Kefalonia",
+    "LGPZ": "Aktion / Preveza",
+    "LGAL": "Alexandroupoli / Democritus",
+    "LGKL": "Kalamata",
+    "LGSK": "Skiathos",
+    "LGMK": "Mykonos",
+    "LGRX": "Araxos / Patras",
+    "LGHI": "Chios",
+    "LGLM": "Limnos",
+    "LGNX": "Naxos",
+    "LGPA": "Paros",
+    "LGKP": "Karpathos",
+    "LGKC": "Kithira",
+    "LGML": "Milos",
+    "LGST": "Sitia",
+    "LGIO": "Ioannina / King Pyrrhus",
+    "LGKZ": "Kozani / Filippos",
+    "LGBL": "Nea Anchialos / Volos",
+    "LGAD": "Andravida",
+    "LGTL": "Kasteli",
+    "LGLR": "Larissa",
+    "LGKY": "Kalymnos",
+    "LGIK": "Ikaria",
+    "LGSA": "Chania / Souda",
+    "LGSO": "Syros",
+    "LGTG": "Tanagra",
+    "LGAG": "Agrinion",
+    "LGEL": "Elefsina",
+    "LGKN": "Marathon / Kotroni",
+    "LGKA": "Kastoria / Aristotle",
+    "LGKJ": "Kastelorizo",
+    "LGKS": "Kasos",
+    "LGLE": "Leros",
+    "LGPL": "Astypalaia",
+    "LGSY": "Skyros",
+}
+
 
 class GR(HttpCrawlerBase):
     """Greece (Hellenic AIS - https://aisgr.hasp.gov.gr/) AIP crawler.
@@ -290,11 +344,16 @@ class GR(HttpCrawlerBase):
                 charts.append({"name": f"{icao} VFR", "url": sheets["vfr"]})
             if sheets.get("txt"):
                 charts.append({"name": f"AD 2 {icao}", "url": sheets["txt"]})
+            # Title convention "<name> <ICAO>" (list / map / detail heading);
+            # the menu carries no AD 2 name, so use the static _NAMES map with a
+            # bare-ICAO fallback for an unmapped field.
+            name = _NAMES.get(icao, "")
+            title = f"{name} {icao}" if name else icao
             airports.append(
                 Airport(
                     country=self.country,
                     icao=icao,
-                    title=icao,
+                    title=title,
                     url=primary,
                     type="vfr",
                     pdf_url=sheets.get("vfr") or primary,
