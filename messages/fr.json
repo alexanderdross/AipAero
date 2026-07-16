@@ -68,7 +68,8 @@
       "name": "Liste des aéroports France",
       "alternateName": "Liste des aérodromes en France",
       "description": "Vue d'ensemble de tous les aérodromes/aéroports en France"
-    }
+    },
+    "coverage": "{bucket, select, gated {L'AIP officielle de ce pays se trouve sur un portail pouvant nécessiter une inscription gratuite - nous le lions directement et ajoutons les données et la météo pour chaque aérodrome.} full {Des PDF de cartes d'approche et VFR directs sont disponibles pour l'ensemble des {total} aérodromes listés ci-dessous.} partial {Des PDF de cartes directs sont disponibles pour {withCharts} des {total} aérodromes ; les terrains plus petits renvoient plutôt vers leur fiche AIP officielle.} none {Les liens ouvrent la page AIP officielle de chaque aérodrome - cette autorité ne publie pas de PDF de cartes distincts.} other {}}"
   },
   "MilitaryPage": {
     "title": "Recherche de cartes d'approche AIP MIL France",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Les terrains que vous consultez apparaîtront ici automatiquement pour un accès rapide.",
     "borderCrossing": "Passage frontalier",
     "alsoAvailable": "Également disponible :",
-    "aipLoginHint": "Une connexion ou une inscription peut être requise."
+    "aipLoginHint": "Une connexion ou une inscription peut être requise.",
+    "noChartPdf": "Aucun PDF de carte distinct n'est publié pour cet aérodrome - le bouton AIP ci-dessus ouvre sa fiche d'aérodrome officielle."
   },
   "Chart": {
     "allCharts": "Toutes les cartes ({count})",

@@ -155,6 +155,35 @@ export function countryHasType(
   return countryTypeAvailability[country]?.includes(type) ?? false;
 }
 
+/** Chart-availability bucket for a country (drives the airport-list note). */
+export type ChartCoverageBucket = "gated" | "full" | "partial" | "none";
+
+/**
+ * Chart-availability signal for a country, derived from the airport rows the
+ * list page already loaded (`QUERIES.airportsByCountry`) - so it costs no extra
+ * query and can never drift from the real data. Feeds the honest "what you get"
+ * note on the airport-list page:
+ *
+ *  - "gated":   login/registration AIP portal, no chart crawl (ch/mt/md).
+ *  - "full":    every field has a direct chart PDF.
+ *  - "partial": some fields have a chart PDF, the rest link their AIP entry.
+ *  - "none":    no field has a chart PDF (the authority publishes none, e.g. the
+ *               DE DFS BasicVFR HTML AIP), so the links open the AIP pages.
+ */
+export function chartCoverage(
+  country: string,
+  airports: Pick<Airport, "url" | "pdfUrl">[],
+): { bucket: ChartCoverageBucket; withCharts: number; total: number } {
+  const total = airports.length;
+  if (isGatedCountry(country)) return { bucket: "gated", withCharts: 0, total };
+  const withCharts = airports.filter(
+    (a) => a.pdfUrl != null || isPdfUrl(a.url),
+  ).length;
+  const bucket: ChartCoverageBucket =
+    withCharts === 0 ? "none" : withCharts === total ? "full" : "partial";
+  return { bucket, withCharts, total };
+}
+
 // Countries whose crawler is verified and feeding airport data. Only these are
 // promoted on the start page and listed in the sitemap index; the others stay
 // fully wired (routes, translations, crawlers, COUNTRY_META) but hidden, so

@@ -64,7 +64,8 @@
       "name": "Lista de aeródromos de Portugal",
       "alternateName": "Lista de aeródromos de Portugal",
       "description": "Panorâmica de todos os aeroportos e aeródromos de Portugal"
-    }
+    },
+    "coverage": "{bucket, select, gated {O AIP oficial deste país está num portal que pode exigir registo gratuito - ligamos diretamente a ele e adicionamos dados do aeródromo e meteorologia para cada aeródromo.} full {Estão disponíveis PDFs diretos de cartas de aproximação e VFR para todos os {total} aeródromos listados abaixo.} partial {Estão disponíveis PDFs de cartas diretos para {withCharts} de {total} aeródromos; os campos mais pequenos ligam antes à sua ficha AIP oficial.} none {As ligações abrem a página AIP oficial de cada aeródromo - esta autoridade não publica PDFs de cartas separados.} other {}}"
   },
   "HeliportPage": {
     "title": "Máscara de pesquisa de cartas de aproximação AIP VFR HEL AD heliportos Portugal",
@@ -283,7 +284,8 @@
     "recentlyViewedEmpty": "Os aeródromos que abrir aparecerão aqui automaticamente para acesso rápido.",
     "borderCrossing": "Passagem de fronteira",
     "alsoAvailable": "Também disponível:",
-    "aipLoginHint": "Pode ser necessário iniciar sessão ou registar-se."
+    "aipLoginHint": "Pode ser necessário iniciar sessão ou registar-se.",
+    "noChartPdf": "Não é publicado nenhum PDF de carta separado para este aeródromo - o botão AIP acima abre a sua ficha de aeródromo oficial."
   },
   "Chart": {
     "allCharts": "Todas as cartas ({count})",

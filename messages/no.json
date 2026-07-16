@@ -68,7 +68,8 @@
       "name": "Liste over flyplasser i Norge",
       "alternateName": "Liste over flyplasser i Norge",
       "description": "Oversikt over alle flyplasser i Norge"
-    }
+    },
+    "coverage": "{bucket, select, gated {Dette landets offisielle AIP ligger på en portal som kan kreve gratis registrering - vi lenker direkte til den og legger til flyplassdata og vær for hver flyplass.} full {Direkte PDF-er med innflygings- og VFR-kart er tilgjengelige for alle de {total} flyplassene som er oppført nedenfor.} partial {Direkte kart-PDF-er er tilgjengelige for {withCharts} av {total} flyplasser; de mindre plassene lenker i stedet til sin offisielle AIP-oppføring.} none {Lenkene åpner hver flyplass' offisielle AIP-side - denne myndigheten publiserer ikke separate kart-PDF-er.} other {}}"
   },
   "HeliportPage": {
     "title": "Søkefelt for innflygingskart AIP VFR HEL AD helikopterplasser i Norge",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Flyplasser du åpner vises automatisk her for rask tilgang.",
     "borderCrossing": "Grensepassering",
     "alsoAvailable": "Også tilgjengelig:",
-    "aipLoginHint": "Innlogging eller registrering kan være påkrevd."
+    "aipLoginHint": "Innlogging eller registrering kan være påkrevd.",
+    "noChartPdf": "Det publiseres ingen separat kart-PDF for denne flyplassen - AIP-knappen ovenfor åpner dens offisielle flyplassoppføring."
   },
   "Chart": {
     "allCharts": "Alle kart ({count})",

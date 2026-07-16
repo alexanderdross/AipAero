@@ -68,7 +68,8 @@
       "name": "Luchthavenlijst Nederland",
       "alternateName": "Luchthavenlijst Nederland",
       "description": "Alle vliegvelden/luchthavens in Nederland op een rij"
-    }
+    },
+    "coverage": "{bucket, select, gated {De officiële AIP van dit land staat op een portaal waarvoor mogelijk een gratis registratie nodig is - we linken er rechtstreeks naar en voegen luchthavengegevens en weer toe voor elk vliegveld.} full {Directe nadering- en VFR-kaart-PDF's zijn beschikbaar voor alle {total} hieronder vermelde vliegvelden.} partial {Directe kaart-PDF's zijn beschikbaar voor {withCharts} van de {total} vliegvelden; de kleinere velden verwijzen in plaats daarvan naar hun officiële AIP-vermelding.} none {De links openen de officiële AIP-pagina van elk vliegveld - deze autoriteit publiceert geen aparte kaart-PDF's.} other {}}"
   },
   "HeliportPage": {
     "title": "Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Vliegvelden die u opent verschijnen hier automatisch voor snelle toegang.",
     "borderCrossing": "Grensoverschrijding",
     "alsoAvailable": "Ook beschikbaar:",
-    "aipLoginHint": "Mogelijk zijn inloggen of registratie vereist."
+    "aipLoginHint": "Mogelijk zijn inloggen of registratie vereist.",
+    "noChartPdf": "Voor dit vliegveld wordt geen aparte kaart-PDF gepubliceerd - de AIP-knop hierboven opent de officiële vliegveldvermelding."
   },
   "Chart": {
     "allCharts": "Alle kaarten ({count})",

@@ -60,7 +60,8 @@
       "name": "Lista aerodroma u Bosni i Hercegovini",
       "alternateName": "Lista aerodroma u Bosni i Hercegovini",
       "description": "Pregled svih aerodroma u Bosni i Hercegovini"
-    }
+    },
+    "coverage": "{bucket, select, gated {Zvanični AIP ove zemlje nalazi se na portalu koji može zahtijevati besplatnu registraciju - povezujemo ga direktno i dodajemo podatke o aerodromu i vremensku prognozu za svaki aerodrom.} full {Direktni PDF-ovi prilaznih i VFR karata dostupni su za svih {total} aerodroma navedenih ispod.} partial {Direktni PDF-ovi karata dostupni su za {withCharts} od {total} aerodroma; manji aerodromi umjesto toga povezuju svoj zvanični AIP unos.} none {Linkovi otvaraju zvaničnu AIP stranicu svakog aerodroma - ovaj organ ne objavljuje zasebne PDF-ove karata.} other {}}"
   },
   "VfrPage": {
     "title": "Indeks AIP VFR i vizuelnih prilaznih karata Bosna i Hercegovina",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Aerodromi koje otvorite ovdje će se automatski pojaviti za brzi pristup.",
     "borderCrossing": "Prelazak granice",
     "alsoAvailable": "Također dostupno:",
-    "aipLoginHint": "Možda će biti potrebna prijava ili registracija."
+    "aipLoginHint": "Možda će biti potrebna prijava ili registracija.",
+    "noChartPdf": "Za ovaj aerodrom nije objavljen zaseban PDF karte - dugme AIP iznad otvara njegov zvanični unos aerodroma."
   },
   "Chart": {
     "allCharts": "Sve karte ({count})",

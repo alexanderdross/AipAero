@@ -137,6 +137,21 @@ einzige Option.
 falls ja, **OurAirports-CC0** als Quelle nehmen (umgeht die OpenAIP-NC-Lizenz)
 und **ein** Land als Piloten (z.B. IE oder HR) durchziehen, bevor der Rest folgt.
 
+**✅ Update 16.07.2026 - das Info-Seiten-Muster ist entschieden und live:** Der
+OurAirports-CC0-Weg ist als **`gatedCountries`-Mechanismus** umgesetzt und mit
+**CH, MT, MD** live (Info-Seiten: OurAirports-Liste + OpenAIP-Anreicherung +
+Wetter + AIP-Portal-Button mit "Registrierung nötig"-Hinweis, kein Chart-Crawl).
+**IE und SK waren gar nicht gated** - beide haben offene eurocontrol-eAIPs
+(AirNav Ireland / LPS SR) und sind mit echten Charts live. Bleibt für die
+gated-Info-Seiten-Option nur noch **IT/HR/BG**: am 16.07.2026 neu geprobt (Run
+29510248413) - **alle drei weiterhin gated**: Kroatiens öffentlicher
+Statik-eAIP-Baum liefert für die Editions-Ordner jetzt **404** (bewusste
+AIM-Portal-Umstellung, `aim.crocontrol.hr` = Login-Portal), Bulgarien (BULATSA)
+reicht an das registrierungspflichtige `b-flip.bulatsa.com`-Portal weiter, Italien
+unverändert (ENAV Self-Briefing login-only, `aip.enav.it` ohne DNS). Falls der
+Owner sie will, gehen sie **nur** als CH-artige Info-Seiten (kein Chart-Crawl,
+Gate respektieren) - siehe CLAUDE.md "paywalled / blocked".
+
 ## ✅ 1. `CRON_SECRET` als GitHub-Actions-Secret anlegen (Owner) - ERLEDIGT
 
 Als Repo-Actions-Secret gesetzt. Sorgt für die sofortige Befüllung aller

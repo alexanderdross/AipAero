@@ -60,7 +60,8 @@
       "name": "Seznam letališč v Sloveniji",
       "alternateName": "Seznam letališč v Sloveniji",
       "description": "Vsa letališča in vzletišča v Sloveniji na enem mestu"
-    }
+    },
+    "coverage": "{bucket, select, gated {Uradni AIP te države je na portalu, ki lahko zahteva brezplačno registracijo - nanj se neposredno povezujemo in za vsako letališče dodamo podatke o letališču in vreme.} full {Neposredni PDF-ji priletnih in VFR kart so na voljo za vseh {total} spodaj navedenih letališč.} partial {Neposredni PDF-ji kart so na voljo za {withCharts} od {total} letališč; manjša letališča namesto tega povezujejo svoj uradni vnos v AIP.} none {Povezave odprejo uradno stran AIP vsakega letališča - ta organ ne objavlja ločenih PDF-jev kart.} other {}}"
   },
   "VfrPage": {
     "title": "Iskalnik kart prileta AIP VFR Slovenija",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Odprta letališča se bodo tukaj samodejno prikazala za hiter dostop.",
     "borderCrossing": "Prehod meje",
     "alsoAvailable": "Na voljo tudi:",
-    "aipLoginHint": "Morda bo potrebna prijava ali registracija."
+    "aipLoginHint": "Morda bo potrebna prijava ali registracija.",
+    "noChartPdf": "Za to letališče ni objavljen ločen PDF karte - gumb AIP zgoraj odpre njegov uradni vnos letališča."
   },
   "Chart": {
     "allCharts": "Vse karte ({count})",

@@ -27,6 +27,11 @@ export const env = createEnv({
     // list pages (src/lib/indexnow.ts). A plain `var` in wrangler.jsonc, NOT a
     // secret. Unset = the ping is a no-op. Must equal the public/<key>.txt name.
     INDEXNOW_KEY: z.string().optional(),
+    // Optional: shared Bearer token for the public read-only data API
+    // (`/api/v1/*`, src/lib/api-auth.ts). Issued to integration partners. When
+    // unset the API returns 503 (inert / not provisioned), so a deploy without
+    // it exposes nothing. Set with `wrangler secret put PUBLIC_API_KEY`.
+    PUBLIC_API_KEY: z.string().optional(),
   },
 
   /**
@@ -48,6 +53,7 @@ export const env = createEnv({
     ADSENSE_ID: process.env.ADSENSE_ID,
     OPENAIP_API_KEY: process.env.OPENAIP_API_KEY,
     INDEXNOW_KEY: process.env.INDEXNOW_KEY,
+    PUBLIC_API_KEY: process.env.PUBLIC_API_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

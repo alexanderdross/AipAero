@@ -60,7 +60,8 @@
       "name": "Lista aeroporturilor din România",
       "alternateName": "Lista aeroporturilor din România",
       "description": "Prezentare generală a tuturor aeroporturilor din România"
-    }
+    },
+    "coverage": "{bucket, select, gated {AIP-ul oficial al acestei țări se află pe un portal care poate necesita o înregistrare gratuită - îl legăm direct și adăugăm date despre aerodrom și meteo pentru fiecare aerodrom.} full {PDF-uri directe cu hărți de apropiere și VFR sunt disponibile pentru toate cele {total} aerodromuri enumerate mai jos.} partial {PDF-uri directe cu hărți sunt disponibile pentru {withCharts} din {total} aerodromuri; aerodromurile mai mici trimit în schimb către fișa lor AIP oficială.} none {Linkurile deschid pagina AIP oficială a fiecărui aerodrom - această autoritate nu publică PDF-uri de hărți separate.} other {}}"
   },
   "VfrPage": {
     "title": "Indexul AIP VFR și al hărților de apropiere vizuală România",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Aeroporturile pe care le deschideți vor apărea aici automat pentru acces rapid.",
     "borderCrossing": "Trecerea frontierei",
     "alsoAvailable": "Disponibil și:",
-    "aipLoginHint": "Poate fi necesară autentificarea sau înregistrarea."
+    "aipLoginHint": "Poate fi necesară autentificarea sau înregistrarea.",
+    "noChartPdf": "Pentru acest aerodrom nu este publicat un PDF de hartă separat - butonul AIP de mai sus deschide fișa sa oficială de aerodrom."
   },
   "Chart": {
     "allCharts": "Toate hărțile ({count})",

@@ -151,6 +151,13 @@ automatically; a localized CTA on the country landing + airport-list pages; SEO/
 - **Cross-country search** on the root page (`src/components/global-search-input-field.tsx`).
 - **Sitelinks Search Box** (`WebSite` `SearchAction` JSON-LD on the root, executed via the site's
   valueless `?<term>` query-key scheme) so Google may surface a search box under the aip.aero result.
+- **Chart-availability signal** (`chartCoverage()` in `src/lib/utils.ts`, 16.07.2026): an honest note on
+  the airport-list page (direct chart PDFs for all / most / no fields, or a login-gated portal) plus a
+  per-field "no separate chart PDF - the AIP link opens the official entry" note on the detail pages.
+  Computed from the loaded rows, so it never drifts. Tells users what to expect instead of clicking blind.
+- **Public read-only data API** (`/api/v1/airports/{country}`, `/api/v1/airport/{ICAO}`, 16.07.2026):
+  key-gated (`PUBLIC_API_KEY`), inert (503) until a key is provisioned, for EFB / flight-planning
+  integration partners. Advertised on the Pilot Tools & EFB page. See CLAUDE.md "Public data API".
 - **Crawler reach**: JS-rendering fallback (`PlaywrightCrawlerBase`, DK) + Bright Data Web Unlocker
   wiring (GR) so the last two blocked national sources can be crawled once their host prerequisites are
   set (browser install / unlocker zone).

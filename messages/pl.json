@@ -68,7 +68,8 @@
       "name": "Lista lotnisk w Polsce",
       "alternateName": "Lista lotnisk w Polsce",
       "description": "Wszystkie lotniska w Polsce w jednym miejscu"
-    }
+    },
+    "coverage": "{bucket, select, gated {Oficjalny AIP tego kraju znajduje się na portalu, który może wymagać bezpłatnej rejestracji - podajemy do niego bezpośredni odnośnik i dodajemy dane lotniska oraz pogodę dla każdego lotniska.} full {Bezpośrednie pliki PDF map podejścia i VFR są dostępne dla wszystkich {total} lotnisk wymienionych poniżej.} partial {Bezpośrednie pliki PDF map są dostępne dla {withCharts} z {total} lotnisk; mniejsze lotniska odsyłają zamiast tego do swojego oficjalnego wpisu w AIP.} none {Odnośniki otwierają oficjalną stronę AIP każdego lotniska - ten organ nie publikuje oddzielnych plików PDF map.} other {}}"
   },
   "HeliportPage": {
     "title": "Wyszukiwarka map podejścia AIP VFR HEL AD heliportów w Polsce",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Otwierane lotniska pojawią się tutaj automatycznie dla szybkiego dostępu.",
     "borderCrossing": "Przekroczenie granicy",
     "alsoAvailable": "Dostępne również:",
-    "aipLoginHint": "Może być wymagane logowanie lub rejestracja."
+    "aipLoginHint": "Może być wymagane logowanie lub rejestracja.",
+    "noChartPdf": "Dla tego lotniska nie publikuje się oddzielnego pliku PDF mapy - przycisk AIP powyżej otwiera jego oficjalny wpis lotniska."
   },
   "Chart": {
     "allCharts": "Wszystkie mapy ({count})",

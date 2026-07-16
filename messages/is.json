@@ -60,7 +60,8 @@
       "name": "Listi yfir flugvelli á Íslandi",
       "alternateName": "Listi yfir flugvelli á Íslandi",
       "description": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi"
-    }
+    },
+    "coverage": "{bucket, select, gated {Opinbert AIP þessa lands er á vefgátt sem gæti þurft ókeypis skráningu - við tengjum beint í það og bætum við flugvallargögnum og veðri fyrir hvern flugvöll.} full {Beinar PDF-skrár aðflugs- og VFR-korta eru í boði fyrir alla {total} flugvellina sem taldir eru upp hér að neðan.} partial {Beinar kort-PDF-skrár eru í boði fyrir {withCharts} af {total} flugvöllum; minni vellirnir tengja í staðinn í opinbera AIP-færslu sína.} none {Tenglarnir opna opinbera AIP-síðu hvers flugvallar - þetta yfirvald birtir ekki sérstakar kort-PDF-skrár.} other {}}"
   },
   "VfrPage": {
     "title": "Leit að AIP VFR aðflugskortum fyrir Ísland",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Flugvellir sem þú opnar birtast hér sjálfkrafa fyrir skjótan aðgang.",
     "borderCrossing": "För yfir landamæri",
     "alsoAvailable": "Einnig í boði:",
-    "aipLoginHint": "Innskráning eða skráning gæti verið nauðsynleg."
+    "aipLoginHint": "Innskráning eða skráning gæti verið nauðsynleg.",
+    "noChartPdf": "Engin sérstök kort-PDF-skrá er birt fyrir þennan flugvöll - AIP-hnappurinn að ofan opnar opinbera flugvallarfærslu hans."
   },
   "Chart": {
     "allCharts": "Öll kort ({count})",

@@ -68,7 +68,8 @@
       "name": "Eesti lennuväljade nimekiri",
       "alternateName": "Eesti lennuväljade nimekiri",
       "description": "Ülevaade kõigist Eesti lennuväljadest"
-    }
+    },
+    "coverage": "{bucket, select, gated {Selle riigi ametlik AIP asub portaalis, mis võib vajada tasuta registreerimist - lingime selle otse ja lisame iga lennuvälja kohta lennuvälja andmed ja ilma.} full {Otsesed lähenemis- ja VFR-kaartide PDF-id on saadaval kõigi allpool loetletud {total} lennuvälja jaoks.} partial {Otsesed kaartide PDF-id on saadaval {withCharts} lennuvälja jaoks {total}-st; väiksemad väljakud lingivad selle asemel oma ametliku AIP-kirje.} none {Lingid avavad iga lennuvälja ametliku AIP-lehe - see amet ei avalda eraldi kaartide PDF-e.} other {}}"
   },
   "HeliportPage": {
     "title": "AIP VFR HEL AD lähenemiskaartide otsing Eesti kopteriväljakutele",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Avatud lennuväljad ilmuvad siia automaatselt kiireks juurdepääsuks.",
     "borderCrossing": "Piiriületus",
     "alsoAvailable": "Samuti saadaval:",
-    "aipLoginHint": "Võib olla vajalik sisselogimine või registreerimine."
+    "aipLoginHint": "Võib olla vajalik sisselogimine või registreerimine.",
+    "noChartPdf": "Sellele lennuväljale eraldi kaardi PDF-i ei avaldata - ülalolev AIP-nupp avab selle ametliku lennuvälja kirje."
   },
   "Chart": {
     "allCharts": "Kõik kaardid ({count})",
