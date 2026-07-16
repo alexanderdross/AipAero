@@ -335,6 +335,14 @@ All twenty-five active country crawlers run on httpx (RS and DK via Playwright);
 - **POST**: array of facts rows (`airportFactsApiInsertSchema`), upserted by ICAO (`MUTATIONS.upsertAirportFacts`, `COALESCE`-preserving on the enrichment columns). Used by `crawlers/import_ourairports.py` and the OpenAIP backfill.
 - **GET**: `{ count, missing: [{icao, country, title}] }` - every airport that has an ICAO but **no `airport_facts` row** (`QUERIES.airportsMissingFacts`, uncached). Read by the OpenAIP coord backfill (`crawlers/import_openaip_backfill.py`) so it only queries OpenAIP for the fields OurAirports never carried (hospital heliports / small ULM strips) instead of all ~3k. See the Aerodrome-facts gadget + `docs/data-backfill-runbook.md` section C.
 
+### Public data API (`/api/v1/*`, key-gated, read-only)
+
+A structured read-only JSON API offered to integration partners (EFB / flight-planning vendors), advertised on the Pilot-Tools & EFB page (`EfbPage.apiTitle`/`apiText`). Auth + CORS helpers live in `src/lib/api-auth.ts` (`apiKeyError()` is pure/unit-tested, `API_CORS` = any-origin GET).
+
+- **Auth**: shared Bearer token `PUBLIC_API_KEY` (optional Worker secret). **Inert by default**: when the secret is unset every endpoint returns **503 "API not configured"**, so deploying the routes exposes nothing until a key is provisioned (`wrangler secret put PUBLIC_API_KEY`). Wrong/missing Bearer -> 401.
+- **`GET /api/v1/airports/{country}`** - a live country's aerodrome index: `{ country, count, airports: [{icao, title, type, slug, url, pdfUrl}] }`. Reuses the website's cached `QUERIES.airportsByCountry` (no extra DB load), 404 for a non-live country, `Cache-Control: public, max-age=3600`.
+- **`GET /api/v1/airport/{ICAO}`** - one aerodrome: the AIP/chart links (`url`, `pdfUrl`, full captured `charts[]`) merged with its `airport_facts` (coords, elevation, runways, frequencies, fuel, opening hours, PPR, customs, ...) under a `facts` sub-object. 400 for a malformed ICAO, 404 when not held. Both routes fail soft on DB errors and carry an `OPTIONS` preflight handler.
+
 ## Server Actions
 
 ### `searchAirports` (src/server/actions.ts)
@@ -439,6 +447,7 @@ New i18n namespaces backing these - `Weather` (incl. `decode`, `openingHours`), 
 | CRON_SECRET                | Bearer token for API auth (Worker secret)                                                                                                                                                                                                                                                  |
 | ADSENSE_ID                 | Google AdSense publisher ID                                                                                                                                                                                                                                                                |
 | OPENAIP_API_KEY (optional) | OpenAIP core API key for the embedded aerodrome-facts card (`x-openaip-api-key`); unset = OurAirports + AWC (NOAA) only. Without it the card still fills coordinates / elevation / runways / frequencies from AWC (free, no key), but loses fuel / PPR / opening hours / circuit direction |
+| PUBLIC_API_KEY (optional)  | Shared Bearer token for the public read-only data API (`/api/v1/*`, `src/lib/api-auth.ts`), issued to integration partners. **Unset = the API returns 503** (inert / not provisioned), so shipping the routes exposes nothing until a key is set with `wrangler secret put PUBLIC_API_KEY`                       |
 
 The database is a Cloudflare **D1 binding** (`DB` in `wrangler.jsonc`), not env vars. OpenNext caching uses the `NEXT_INC_CACHE_R2_BUCKET` (R2) and `NEXT_TAG_CACHE_D1` (D1) bindings. `NODE_ENV` is set as a plain `var`.
 
