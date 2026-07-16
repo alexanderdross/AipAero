@@ -130,6 +130,9 @@ jobs:
             "https://aip.aero/al/aeroportet-shqiperi/"
             "https://aip.aero/mk/aerodromi-severna-makedonija/"
             "https://aip.aero/ro/lista-aeroporturi-romania/"
+            "https://aip.aero/cy/aerolimenes-kypros/"
+            "https://aip.aero/mt/airport-list-malta/"
+            "https://aip.aero/md/lista-aeroporturi-moldova/"
           )
           # NOTE: this list MUST carry EVERY live country's airport-list URL
           # (liveCountries in src/lib/utils.ts x the /airport-list slug in

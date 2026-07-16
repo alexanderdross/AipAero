@@ -131,6 +131,9 @@ jobs:
             "https://aip.aero/al/aeroportet-shqiperi/"
             "https://aip.aero/mk/aerodromi-severna-makedonija/"
             "https://aip.aero/ro/lista-aeroporturi-romania/"
+            "https://aip.aero/cy/aerolimenes-kypros/"
+            "https://aip.aero/mt/airport-list-malta/"
+            "https://aip.aero/md/lista-aeroporturi-moldova/"
           )
           # NOTE: keep this in sync with liveCountries x the /airport-list slug
           # (src/lib/utils.ts + src/i18n/routing.ts). A launched country missing
