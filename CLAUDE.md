@@ -93,7 +93,7 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 ├── src/
 │   ├── app/
 │   │   ├── layout.tsx              # Root layout (metadata, OG tags, AdSense)
-│   │   ├── page.tsx                # Root page (/) - country selector landing
+│   │   ├── page.tsx                # Root page (/) - country selector landing + global search + WebSite SearchAction
 │   │   ├── not-found.tsx           # Global 404
 │   │   ├── api/airports/route.ts   # POST endpoint for crawler data ingestion
 │   │   ├── api/airport-coords/     # GET map markers (client-fetched, per locale)
@@ -120,7 +120,8 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 │   │   ├── box.tsx                 # Card component for country/type selection
 │   │   ├── about-box.tsx           # About section container
 │   │   ├── about-country-box.tsx   # Country-specific about section
-│   │   ├── search-input-field.tsx  # Search input (client component, debounced)
+│   │   ├── search-input-field.tsx  # Per-country search input (client component, debounced)
+│   │   ├── global-search-input-field.tsx # Homepage cross-country search (client, debounced; ?ICAO deep-link + SearchAction target)
 │   │   ├── title.tsx               # Page title/description component
 │   │   ├── breadcrumbs.tsx         # Server-rendered breadcrumb trail + BreadcrumbList JSON-LD (rendered by the pages)
 │   │   ├── external-link.tsx       # External link with noopener/noreferrer
@@ -347,9 +348,15 @@ A structured read-only JSON API offered to integration partners (EFB / flight-pl
 
 ### `searchAirports` (src/server/actions.ts)
 
-- Used by `SearchInputField` client component
+- Used by `SearchInputField` client component (the per-country search on the search pages)
 - Validates: search (1-50 chars), country (2 chars), type (vfr/ifr/heliport)
 - Returns up to 5 matching airports via `QUERIES.airports()`
+
+### `searchAirportsGlobal` (src/server/actions.ts)
+
+- Powers the **global cross-country search on the homepage** (`GlobalSearchInputField` in `src/app/page.tsx`) - type any airport name or ICAO ("EDNY", "Friedrichshafen") and jump straight to its native-locale detail page (`/de/vfr/?EDDF`), no country pre-selection needed. So a **global search already exists**; the homepage is not a "pick a country first" gate.
+- Validates search (1-50 chars) only (no country/type filter), returns matches across **all** countries/types via `QUERIES.airportsGlobal()` (uncached, like the per-country as-you-type search - one call per settled keystroke burst).
+- Also the target of the **WebSite `SearchAction`** (Google Sitelinks Search Box) JSON-LD on the root page: the `?{search_term}` valueless-query scheme (`https://aip.aero/?EDNY`, mirroring the `?ICAO` detail URLs) is read on mount by `GlobalSearchInputField` and executed, so a Sitelinks search lands on results directly.
 
 ## Caching Strategy
 
