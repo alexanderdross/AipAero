@@ -60,7 +60,8 @@
       "name": "Lista de aeropuertos de España",
       "alternateName": "Lista de aeropuertos de España",
       "description": "Todos los aeropuertos y aeródromos de España de un vistazo"
-    }
+    },
+    "coverage": "{bucket, select, gated {El AIP oficial de este país está en un portal que puede requerir un registro gratuito - lo enlazamos directamente y añadimos datos del aeródromo y meteorología para cada aeródromo.} full {Hay PDF directos de cartas de aproximación y VFR disponibles para los {total} aeródromos enumerados a continuación.} partial {Hay PDF de cartas directos disponibles para {withCharts} de {total} aeródromos; los campos más pequeños enlazan en su lugar su ficha AIP oficial.} none {Los enlaces abren la página AIP oficial de cada aeródromo - esta autoridad no publica PDF de cartas por separado.} other {}}"
   },
   "VfrPage": {
     "title": "Buscador de cartas de aproximación AIP VFR España",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Los aeródromos que abras aparecerán aquí automáticamente para un acceso rápido.",
     "borderCrossing": "Cruce de fronteras",
     "alsoAvailable": "También disponible:",
-    "aipLoginHint": "Puede requerirse iniciar sesión o registrarse."
+    "aipLoginHint": "Puede requerirse iniciar sesión o registrarse.",
+    "noChartPdf": "No se publica ningún PDF de carta por separado para este aeródromo - el botón AIP de arriba abre su ficha de aeródromo oficial."
   },
   "Chart": {
     "allCharts": "Todas las cartas ({count})",

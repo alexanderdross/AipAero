@@ -60,7 +60,8 @@
       "name": "Lista e aeroporteve Shqipëri",
       "alternateName": "Lista e aeroporteve në Shqipëri",
       "description": "Pasqyrë e të gjitha aeroporteve në Shqipëri"
-    }
+    },
+    "coverage": "{bucket, select, gated {AIP-ja zyrtare e këtij vendi ndodhet në një portal që mund të kërkojë regjistrim falas - ne e lidhim drejtpërdrejt dhe shtojmë të dhëna dhe motin për çdo aerodrom.} full {PDF-të e drejtpërdrejta të hartave të afrimit dhe VFR janë të disponueshme për të gjitha {total} aerodromet e listuara më poshtë.} partial {PDF-të e drejtpërdrejta të hartave janë të disponueshme për {withCharts} nga {total} aerodrome; fushat më të vogla lidhin në vend të kësaj hyrjen e tyre zyrtare AIP.} none {Lidhjet hapin faqen zyrtare AIP të çdo aerodromi - ky autoritet nuk publikon PDF të veçanta hartash.} other {}}"
   },
   "VfrPage": {
     "title": "Indeksi i AIP VFR dhe hartave vizuale të afrimit Shqipëri",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Aeroportet që hapni do të shfaqen këtu automatikisht për qasje të shpejtë.",
     "borderCrossing": "Kalimi kufitar",
     "alsoAvailable": "Gjithashtu në dispozicion:",
-    "aipLoginHint": "Mund të kërkohet identifikimi ose regjistrimi."
+    "aipLoginHint": "Mund të kërkohet identifikimi ose regjistrimi.",
+    "noChartPdf": "Për këtë aerodrom nuk publikohet asnjë PDF i veçantë harte - butoni AIP më sipër hap hyrjen e tij zyrtare të aerodromit."
   },
   "Chart": {
     "allCharts": "Të gjitha hartat ({count})",

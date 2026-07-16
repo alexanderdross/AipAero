@@ -60,7 +60,8 @@
       "name": "Lista aerodroma u Srbiji",
       "alternateName": "Lista aerodroma u Srbiji",
       "description": "Pregled svih aerodroma u Srbiji"
-    }
+    },
+    "coverage": "{bucket, select, gated {Zvanični AIP ove zemlje nalazi se na portalu koji može zahtevati besplatnu registraciju - povezujemo ga direktno i dodajemo podatke o aerodromu i vremensku prognozu za svaki aerodrom.} full {Direktni PDF-ovi prilaznih i VFR karata dostupni su za svih {total} aerodroma navedenih ispod.} partial {Direktni PDF-ovi karata dostupni su za {withCharts} od {total} aerodroma; manji aerodromi umesto toga povezuju svoj zvanični AIP unos.} none {Linkovi otvaraju zvaničnu AIP stranicu svakog aerodroma - ovaj organ ne objavljuje zasebne PDF-ove karata.} other {}}"
   },
   "VfrPage": {
     "title": "Indeks AIP VFR i karata vizuelnog prilaza Srbija",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Aerodromi koje otvorite automatski će se pojaviti ovde za brz pristup.",
     "borderCrossing": "Prelazak granice",
     "alsoAvailable": "Takođe dostupno:",
-    "aipLoginHint": "Možda će biti potrebna prijava ili registracija."
+    "aipLoginHint": "Možda će biti potrebna prijava ili registracija.",
+    "noChartPdf": "Za ovaj aerodrom nije objavljen zaseban PDF karte - dugme AIP iznad otvara njegov zvanični unos aerodroma."
   },
   "Chart": {
     "allCharts": "Sve karte ({count})",

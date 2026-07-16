@@ -68,7 +68,8 @@
       "name": "Latvijas lidlauku saraksts",
       "alternateName": "Latvijas lidlauku saraksts",
       "description": "Visi Latvijas lidlauki un lidostas vienuviet"
-    }
+    },
+    "coverage": "{bucket, select, gated {Šīs valsts oficiālais AIP atrodas portālā, kuram var būt nepieciešama bezmaksas reģistrācija - mēs uz to sniedzam tiešu saiti un katram lidlaukam pievienojam lidlauka datus un laikapstākļus.} full {Tiešie pieejas un VFR karšu PDF faili ir pieejami visiem {total} zemāk uzskaitītajiem lidlaukiem.} partial {Tiešie karšu PDF faili ir pieejami {withCharts} no {total} lidlaukiem; mazākie lidlauki tā vietā sniedz saiti uz savu oficiālo AIP ierakstu.} none {Saites atver katra lidlauka oficiālo AIP lapu - šī iestāde nepublicē atsevišķus karšu PDF failus.} other {}}"
   },
   "HeliportPage": {
     "title": "AIP VFR HEL AD pieejas karšu meklētājs Latvijas helikopteru lidlaukiem",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Atvērtie lidlauki šeit parādīsies automātiski ātrai piekļuvei.",
     "borderCrossing": "Robežšķērsošana",
     "alsoAvailable": "Pieejams arī:",
-    "aipLoginHint": "Var būt nepieciešama pieteikšanās vai reģistrācija."
+    "aipLoginHint": "Var būt nepieciešama pieteikšanās vai reģistrācija.",
+    "noChartPdf": "Šim lidlaukam netiek publicēts atsevišķs kartes PDF - iepriekš redzamā AIP poga atver tā oficiālo lidlauka ierakstu."
   },
   "Chart": {
     "allCharts": "Visas kartes ({count})",

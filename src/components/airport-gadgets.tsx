@@ -16,7 +16,7 @@ import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { airacDateFromUrl, parseCharts } from "~/lib/charts";
-import { isPdfUrl } from "~/lib/utils";
+import { isGatedCountry, isPdfUrl } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 import type { Airport } from "~/server/db/schema";
 
@@ -265,6 +265,16 @@ export async function AirportGadgets({
               lang={lang}
             />
           </>
+        )}
+        {/* Per-field chart-availability note (owner directive #5b): when this
+            field has no direct chart PDF and the country is NOT a login-gated
+            portal (those already show the aipLoginHint next to the AIP button),
+            say so honestly - the AIP link opens the official aerodrome entry
+            rather than a chart sheet. */}
+        {!chartPdfUrl && !isGatedCountry(airport.country) && (
+          <p className="text-drossgray-dark text-center text-sm">
+            {tCommon("noChartPdf")}
+          </p>
         )}
         {/* AIRAC edition line for detail pages WITHOUT a chart-PDF box (DE's
             DFS BasicVFR HTML permalinks, BE/FI eAIP aliases, ...) - the box

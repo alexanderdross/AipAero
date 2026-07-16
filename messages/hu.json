@@ -60,7 +60,8 @@
       "name": "Magyarország repülőtereinek listája",
       "alternateName": "Magyarország repülőtereinek listája",
       "description": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben"
-    }
+    },
+    "coverage": "{bucket, select, gated {Ennek az országnak a hivatalos AIP-je egy olyan portálon található, amely ingyenes regisztrációt igényelhet - közvetlenül hivatkozunk rá, és minden repülőtérhez repülőtéri adatokat és időjárást adunk.} full {Közvetlen megközelítési és VFR-térkép PDF-ek érhetők el mind a(z) {total} alább felsorolt repülőtérhez.} partial {Közvetlen térkép PDF-ek {withCharts} repülőtérhez érhetők el a(z) {total} közül; a kisebb repülőterek helyette a hivatalos AIP-bejegyzésükre hivatkoznak.} none {A hivatkozások az egyes repülőterek hivatalos AIP-oldalát nyitják meg - ez a hatóság nem tesz közzé külön térkép PDF-eket.} other {}}"
   },
   "VfrPage": {
     "title": "Magyarországi AIP VFR megközelítési térképek keresője",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "A megnyitott repülőterek automatikusan megjelennek itt a gyors eléréshez.",
     "borderCrossing": "Határátlépés",
     "alsoAvailable": "Szintén elérhető:",
-    "aipLoginHint": "Bejelentkezés vagy regisztráció szükséges lehet."
+    "aipLoginHint": "Bejelentkezés vagy regisztráció szükséges lehet.",
+    "noChartPdf": "Ehhez a repülőtérhez nem jelenik meg külön térkép PDF - a fenti AIP gomb a hivatalos repülőtéri bejegyzését nyitja meg."
   },
   "Chart": {
     "allCharts": "Összes térkép ({count})",

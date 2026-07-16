@@ -59,7 +59,8 @@
       "name": "Seznam letišť v Česku",
       "alternateName": "Seznam letišť v Česku",
       "description": "Přehled všech letišť v Česku"
-    }
+    },
+    "coverage": "{bucket, select, gated {Oficiální AIP této země je na portálu, který může vyžadovat bezplatnou registraci - odkazujeme na něj přímo a ke každému letišti přidáváme údaje o letišti a počasí.} full {Přímé PDF přibližovacích a VFR map jsou k dispozici pro všech {total} letišť uvedených níže.} partial {Přímé PDF map jsou k dispozici pro {withCharts} z {total} letišť; menší letiště místo toho odkazují na svůj oficiální záznam v AIP.} none {Odkazy otevírají oficiální stránku AIP každého letiště - tento úřad nezveřejňuje samostatná PDF map.} other {}}"
   },
   "IfrPage": {
     "title": "Vyhledávání přibližovacích map AIP IFR Česko",
@@ -278,7 +279,8 @@
     "recentlyViewedEmpty": "Otevřená letiště se zde automaticky zobrazí pro rychlý přístup.",
     "borderCrossing": "Překročení hranice",
     "alsoAvailable": "K dispozici také:",
-    "aipLoginHint": "Může být vyžadováno přihlášení nebo registrace."
+    "aipLoginHint": "Může být vyžadováno přihlášení nebo registrace.",
+    "noChartPdf": "Pro toto letiště není zveřejněno samostatné PDF mapy - tlačítko AIP výše otevře jeho oficiální záznam letiště."
   },
   "Chart": {
     "allCharts": "Všechny mapy ({count})",

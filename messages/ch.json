@@ -60,7 +60,8 @@
       "name": "Flugplatz Liste Schweiz",
       "alternateName": "Liste der Flugplätze in der Schweiz",
       "description": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick"
-    }
+    },
+    "coverage": "{bucket, select, gated {Das offizielle AIP dieses Landes liegt auf einem Portal, das eine kostenlose Registrierung erfordern kann - wir verlinken es direkt und ergänzen für jeden Flugplatz Flugplatzdaten und Wetter.} full {Direkte Anflug- und VFR-Karten-PDFs sind für alle {total} unten aufgeführten Flugplätze verfügbar.} partial {Direkte Karten-PDFs sind für {withCharts} von {total} Flugplätzen verfügbar; die kleineren Plätze verlinken stattdessen ihren offiziellen AIP-Eintrag.} none {Die Links öffnen die offizielle AIP-Seite jedes Flugplatzes - diese Behörde veröffentlicht keine separaten Karten-PDFs.} other {}}"
   },
   "VfrPage": {
     "title": "Suchmaske für Flugplätze AIP VFR Schweiz",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Geöffnete Flugplätze erscheinen hier automatisch für den schnellen Wiedereinstieg.",
     "borderCrossing": "Grenzübertritt",
     "alsoAvailable": "Auch verfügbar:",
-    "aipLoginHint": "Login oder Registrierung bei skybriefing kann erforderlich sein."
+    "aipLoginHint": "Login oder Registrierung bei skybriefing kann erforderlich sein.",
+    "noChartPdf": "Für diesen Flugplatz wird kein separates Karten-PDF veröffentlicht - der AIP-Button oben öffnet seinen offiziellen Flugplatzeintrag."
   },
   "Chart": {
     "allCharts": "Alle Karten ({count})",

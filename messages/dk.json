@@ -68,7 +68,8 @@
       "name": "Liste over flyvepladser i Danmark",
       "alternateName": "Liste over flyvepladser i Danmark",
       "description": "Oversigt over alle flyvepladser/ lufthavne i Danmark"
-    }
+    },
+    "coverage": "{bucket, select, gated {Dette lands officielle AIP ligger på en portal, der kan kræve gratis registrering - vi linker direkte til den og tilføjer flyvepladsdata og vejr for hver flyveplads.} full {Direkte PDF'er med indflyvnings- og VFR-kort er tilgængelige for alle {total} flyvepladser, der er anført nedenfor.} partial {Direkte kort-PDF'er er tilgængelige for {withCharts} af {total} flyvepladser; de mindre pladser linker i stedet til deres officielle AIP-post.} none {Linkene åbner hver flyveplads' officielle AIP-side - denne myndighed udgiver ikke separate kort-PDF'er.} other {}}"
   },
   "HeliportPage": {
     "title": "Søgemaske for indflyvningskort AIP VFR helikopterpladser i Danmark",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Flyvepladser du åbner vises automatisk her for hurtig adgang.",
     "borderCrossing": "Grænsepassage",
     "alsoAvailable": "Også tilgængelig:",
-    "aipLoginHint": "Login eller registrering kan være påkrævet."
+    "aipLoginHint": "Login eller registrering kan være påkrævet.",
+    "noChartPdf": "Der udgives ikke et separat kort-PDF for denne flyveplads - AIP-knappen ovenfor åbner dens officielle flyvepladspost."
   },
   "Chart": {
     "allCharts": "Alle kort ({count})",

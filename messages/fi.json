@@ -68,7 +68,8 @@
       "name": "Luettelo Suomen lentopaikoista",
       "alternateName": "Luettelo Suomen lentopaikoista",
       "description": "Kaikki Suomen lentopaikat ja lentoasemat yhdellä silmäyksellä"
-    }
+    },
+    "coverage": "{bucket, select, gated {Tämän maan virallinen AIP on portaalissa, joka voi vaatia maksuttoman rekisteröitymisen - linkitämme siihen suoraan ja lisäämme jokaiselle lentopaikalle lentopaikkatiedot ja sään.} full {Suorat lähestymis- ja VFR-karttojen PDF-tiedostot ovat saatavilla kaikille {total} alla luetellulle lentopaikalle.} partial {Suorat kartta-PDF:t ovat saatavilla {withCharts}/{total} lentopaikalle; pienemmät kentät linkittävät sen sijaan viralliseen AIP-merkintäänsä.} none {Linkit avaavat kunkin lentopaikan virallisen AIP-sivun - tämä viranomainen ei julkaise erillisiä kartta-PDF-tiedostoja.} other {}}"
   },
   "HeliportPage": {
     "title": "AIP VFR HEL AD -lähestymiskarttojen haku - helikopterilentopaikat Suomessa",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Avaamasi kentät ilmestyvät tähän automaattisesti nopeaa käyttöä varten.",
     "borderCrossing": "Rajanylitys",
     "alsoAvailable": "Myös saatavilla:",
-    "aipLoginHint": "Kirjautuminen tai rekisteröityminen voi olla tarpeen."
+    "aipLoginHint": "Kirjautuminen tai rekisteröityminen voi olla tarpeen.",
+    "noChartPdf": "Tälle lentopaikalle ei julkaista erillistä kartta-PDF:ää - yllä oleva AIP-painike avaa sen virallisen lentopaikkamerkinnän."
   },
   "Chart": {
     "allCharts": "Kaikki kartat ({count})",

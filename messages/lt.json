@@ -60,7 +60,8 @@
       "name": "Oro uostų sąrašas Lietuvoje",
       "alternateName": "Oro uostų sąrašas Lietuvoje",
       "description": "Visų Lietuvos oro uostų ir aerodromų apžvalga"
-    }
+    },
+    "coverage": "{bucket, select, gated {Oficialus šios šalies AIP yra portale, kuriame gali reikėti nemokamos registracijos - pateikiame tiesioginę nuorodą į jį ir kiekvienam aerodromui pridedame aerodromo duomenis ir orus.} full {Tiesioginiai artėjimo ir VFR žemėlapių PDF failai prieinami visiems {total} žemiau išvardytiems aerodromams.} partial {Tiesioginiai žemėlapių PDF failai prieinami {withCharts} iš {total} aerodromų; mažesni aerodromai vietoj to pateikia nuorodą į savo oficialų AIP įrašą.} none {Nuorodos atveria kiekvieno aerodromo oficialų AIP puslapį - ši institucija neskelbia atskirų žemėlapių PDF failų.} other {}}"
   },
   "VfrPage": {
     "title": "AIP VFR ir vizualaus artėjimo kortelių rodyklė Lietuva",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Jūsų atidaryti oro uostai automatiškai atsiras čia greitai prieigai.",
     "borderCrossing": "Sienos kirtimas",
     "alsoAvailable": "Taip pat prieinama:",
-    "aipLoginHint": "Gali reikėti prisijungimo arba registracijos."
+    "aipLoginHint": "Gali reikėti prisijungimo arba registracijos.",
+    "noChartPdf": "Šiam aerodromui atskiras žemėlapio PDF neskelbiamas - viršuje esantis AIP mygtukas atveria jo oficialų aerodromo įrašą."
   },
   "Chart": {
     "allCharts": "Visos kortelės ({count})",

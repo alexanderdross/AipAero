@@ -60,7 +60,8 @@
       "name": "Zoznam letísk na Slovensku",
       "alternateName": "Zoznam letísk na Slovensku",
       "description": "Prehľad všetkých letísk na Slovensku"
-    }
+    },
+    "coverage": "{bucket, select, gated {Oficiálny AIP tejto krajiny sa nachádza na portáli, ktorý môže vyžadovať bezplatnú registráciu - odkazujeme naň priamo a ku každému letisku pridávame údaje o letisku a počasie.} full {Priame PDF priblížovacích a VFR máp sú k dispozícii pre všetkých {total} letísk uvedených nižšie.} partial {Priame PDF máp sú k dispozícii pre {withCharts} z {total} letísk; menšie letiská namiesto toho odkazujú na svoj oficiálny záznam v AIP.} none {Odkazy otvárajú oficiálnu stránku AIP každého letiska - tento úrad nezverejňuje samostatné PDF máp.} other {}}"
   },
   "VfrPage": {
     "title": "Vyhľadávanie približovacích máp AIP VFR Slovensko",
@@ -264,7 +265,8 @@
     "recentlyViewedEmpty": "Otvorené letiská sa tu automaticky zobrazia pre rýchly prístup.",
     "borderCrossing": "Prekročenie hranice",
     "alsoAvailable": "K dispozícii aj:",
-    "aipLoginHint": "Môže byť potrebné prihlásenie alebo registrácia."
+    "aipLoginHint": "Môže byť potrebné prihlásenie alebo registrácia.",
+    "noChartPdf": "Pre toto letisko nie je zverejnené samostatné PDF mapy - tlačidlo AIP vyššie otvorí jeho oficiálny záznam letiska."
   },
   "Chart": {
     "allCharts": "Všetky mapy ({count})",

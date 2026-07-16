@@ -68,7 +68,8 @@
       "name": "Lista över flygplatser i Sverige",
       "alternateName": "Lista över flygplatser i Sverige",
       "description": "Alla flygplatser i Sverige i överblick"
-    }
+    },
+    "coverage": "{bucket, select, gated {Det här landets officiella AIP finns på en portal som kan kräva gratis registrering - vi länkar direkt till den och lägger till flygplatsdata och väder för varje flygplats.} full {Direkta PDF:er med inflygnings- och VFR-kartor finns tillgängliga för alla {total} flygplatser som anges nedan.} partial {Direkta kart-PDF:er finns tillgängliga för {withCharts} av {total} flygplatser; de mindre fälten länkar i stället till sin officiella AIP-post.} none {Länkarna öppnar varje flygplats officiella AIP-sida - denna myndighet publicerar inte separata kart-PDF:er.} other {}}"
   },
   "HeliportPage": {
     "title": "Sökmask för inflygningskartor AIP VFR HEL AD helikopterflygplatser i Sverige",
@@ -294,7 +295,8 @@
     "recentlyViewedEmpty": "Fält du öppnar visas automatiskt här för snabb åtkomst.",
     "borderCrossing": "Gränspassage",
     "alsoAvailable": "Även tillgänglig:",
-    "aipLoginHint": "Inloggning eller registrering kan krävas."
+    "aipLoginHint": "Inloggning eller registrering kan krävas.",
+    "noChartPdf": "Ingen separat kart-PDF publiceras för denna flygplats - AIP-knappen ovan öppnar dess officiella flygplatspost."
   },
   "Chart": {
     "allCharts": "Alla kartor ({count})",
