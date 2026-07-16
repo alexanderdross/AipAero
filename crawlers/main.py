@@ -20,6 +20,7 @@ from crawlers.at import AT
 from crawlers.ba import BA
 from crawlers.be import BE
 from crawlers.ch import CH
+from crawlers.cy import CY
 from crawlers.cz import CZ
 from crawlers.de import DE
 from crawlers.ee import EE
@@ -33,7 +34,9 @@ from crawlers.hu import HU
 from crawlers.ie import IE
 from crawlers.is_ import IS
 from crawlers.lt import LT
+from crawlers.md import MD
 from crawlers.mk import MK
+from crawlers.mt import MT
 from crawlers.nl import NL
 from crawlers.no import NO
 from crawlers.pl import PL
@@ -57,6 +60,7 @@ COUNTRY_CRAWLERS = {
     "AT": AT,
     "BA": BA,
     "CH": CH,
+    "CY": CY,
     "DE": DE,
     "EE": EE,
     "ES": ES,
@@ -73,7 +77,9 @@ COUNTRY_CRAWLERS = {
     "IE": IE,
     "IS": IS,
     "LT": LT,
+    "MD": MD,
     "MK": MK,
+    "MT": MT,
     "NO": NO,
     "PL": PL,
     "PT": PT,
