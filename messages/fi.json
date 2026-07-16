@@ -26,7 +26,7 @@
       "hrefTitle": "Käyttöehdot - AIP:Aero Suomi"
     },
     "/efb": {
-      "title": "EFB-opas",
+      "title": "Lentäjän työkalut & EFB",
       "hrefTitle": "EFB-opas - AIP:Aero tabletilla"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Käyttöehdot - AIP:Aero Suomi"
     },
     "efb": {
-      "title": "EFB-opas",
+      "title": "Lentäjän työkalut & EFB",
       "hrefTitle": "AIP:Aero EFB-laitteellasi - asennus, offline-kartat, tuonti"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "AIP:Aeron käyttöehdot - maksuton AIP- ja lähestymiskarttahaku Suomelle ja Euroopalle: palvelukuvaus, vastuuvapauslauseke ja tietolähteet."
   },
   "EfbPage": {
-    "title": "Käytä AIP:Aeroa EFB (Electronic Flight Bag)-laitteellasi",
+    "title": "AIP:Aero lentäjän työkalut: EFB-sovellus, offline-kartat, tuonnit ja data",
     "intro": "Näin asennat AIP:Aeron EFB (Electronic Flight Bag)-tabletillesi, tallennat lähestymiskartat offline-käyttöön, lataat kokonaisia maita ja siirrät kentät suunnittelutyökaluihisi - vaihe vaiheelta.",
     "metaTitle": "EFB-opas Suomi - AIP ja lähestymiskartat tabletilla | AIP:Aero",
     "metaDescription": "Asenna AIP:Aero sovelluksena EFB-tabletillesi, tallenna lähestymiskartat offline-käyttöön, lataa kokonaisia maita ja tuo kartta-PDF:t ForeFlightiin, SkyDemoniin ym. (Suomi).",
@@ -353,6 +353,8 @@
     "customsText": "Lentopaikkasivut näyttävät, tarjoaako kenttä tulliselvityksen; kun kansallinen AIP listaa sen kohdassa GEN 1.2, arvo on varmennettu virallisesta lähteestä. Rajanylitysmuodollisuuksia varten sijaintilaatikko linkittää virallisiin lomakkeisiin (esim. Ison-Britannian General Aviation Report), ja kartta voi suodattaa tullikentät. Säännöt muuttuvat - varmista ne aina voimassa olevasta AIP:stä ja paikalliselta viranomaiselta.",
     "disclaimerTitle": "Turvallisuushuomautus",
     "disclaimerText": "AIP:Aero linkittää virallisiin AIP-julkaisuihin, mutta ei ole virallinen lähde. Offline-kopiot on merkitty latauspäivämäärällään ja voivat vanhentua jokaisen AIRAC-jakson myötä - tarkista karttojen voimassaolo ennen jokaista lentoa ja hanki aina virallinen lennonvalmistelubriiffaus.",
+    "apiTitle": "API ja datayhteistyö",
+    "apiText": "Kehittäjille ja EFB-palveluntarjoajille: AIP:Aeron jäsennelty lentopaikkadata (normalisoitu lentopaikkahakemisto, karttojen PDF-suoralinkit, AIRAC-jaksot, koordinaatit, kiitotiet, taajuudet ja tullitiedot) on saatavilla API:n kautta integraatioita varten. Olemme avoimia yhteistyölle; <contact>ota yhteyttä</contact>.",
     "installButton": "Asenna nyt",
     "ctaTitle": "Kokeile nyt",
     "faqTitle": "Usein kysytyt kysymykset",

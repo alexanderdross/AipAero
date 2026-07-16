@@ -22,7 +22,7 @@
       "hrefTitle": "Termeni de utilizare - AIP:Aero Moldova"
     },
     "/efb": {
-      "title": "Ghid EFB",
+      "title": "Instrumente pentru piloți & EFB",
       "hrefTitle": "Ghid EFB - AIP:Aero pe tableta ta"
     }
   },
@@ -173,7 +173,7 @@
       "hrefTitle": "Termeni de utilizare - AIP:Aero Moldova"
     },
     "efb": {
-      "title": "Ghid EFB",
+      "title": "Instrumente pentru piloți & EFB",
       "hrefTitle": "AIP:Aero pe EFB-ul tău - instalare, hărți offline, import"
     }
   },
@@ -298,7 +298,7 @@
     "metaDescription": "Termenii de utilizare ai AIP:Aero, căutarea gratuită de AIP și hărți de apropiere pentru Moldova și Europa: descrierea serviciului, declinarea răspunderii și sursele de date."
   },
   "EfbPage": {
-    "title": "Utilizarea AIP:Aero pe EFB-ul tău (Electronic Flight Bag)",
+    "title": "AIP:Aero instrumente pentru piloți: aplicație EFB, hărți offline, importuri și date",
     "intro": "Cum să instalezi AIP:Aero pe tableta ta EFB (Electronic Flight Bag), să salvezi hărțile de apropiere offline, să descarci pachete de țări și să transferi aeroporturile către instrumentele tale de planificare - pas cu pas.",
     "metaTitle": "Ghid EFB Moldova - AIP & hărți de apropiere pe tableta ta | AIP:Aero",
     "metaDescription": "Instalează AIP:Aero ca aplicație pe tableta ta EFB, salvează hărțile de apropiere offline, descarcă țări întregi și importă PDF-urile hărților în ForeFlight, SkyDemon & Co (Moldova).",
@@ -323,6 +323,8 @@
     "customsText": "Paginile de detalii arată dacă un aeroport oferă vămuire; acolo unde un AIP național o listează în GEN 1.2, valoarea este verificată în raport cu acea sursă oficială. Pentru documentele de trecere a frontierei, caseta de locație oferă linkuri către formularele oficiale (de ex. UK General Aviation Report), iar harta poate filtra aeroporturile cu vamă. Regulile se schimbă - confirmă întotdeauna cu AIP-ul actual și autoritatea locală.",
     "disclaimerTitle": "Notă de siguranță",
     "disclaimerText": "AIP:Aero oferă linkuri către publicații AIP oficiale, dar nu este o sursă oficială. Copiile offline sunt marcate cu data descărcării lor și pot deveni învechite cu fiecare ciclu AIRAC - verifică actualitatea hărților înainte de fiecare zbor și obține întotdeauna un briefing oficial dinaintea zborului.",
+    "apiTitle": "API și cooperare pentru date",
+    "apiText": "Pentru dezvoltatori și furnizori EFB: datele structurate despre aerodromuri ale AIP:Aero (indexul normalizat de aerodromuri, linkurile directe către PDF-urile hărților, ciclurile AIRAC, coordonatele, pistele, frecvențele și informațiile vamale) sunt disponibile printr-un API pentru integrări. Suntem deschiși la cooperări; <contact>contactați-ne</contact>.",
     "installButton": "Instalează acum",
     "ctaTitle": "Încearcă acum",
     "faqTitle": "Întrebări frecvente",

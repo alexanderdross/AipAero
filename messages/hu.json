@@ -22,7 +22,7 @@
       "hrefTitle": "Felhasználási feltételek - AIP:Aero Magyarország"
     },
     "/efb": {
-      "title": "EFB útmutató",
+      "title": "Pilótaeszközök és EFB",
       "hrefTitle": "EFB útmutató - AIP:Aero a tableteden"
     }
   },
@@ -173,7 +173,7 @@
       "hrefTitle": "Felhasználási feltételek - AIP:Aero Magyarország"
     },
     "efb": {
-      "title": "EFB útmutató",
+      "title": "Pilótaeszközök és EFB",
       "hrefTitle": "AIP:Aero az EFB-den - telepítés, offline térképek, importálás"
     }
   },
@@ -298,7 +298,7 @@
     "metaDescription": "Az AIP:Aero, a Magyarországra és Európára vonatkozó ingyenes AIP- és megközelítésitérkép-kereső felhasználási feltételei: szolgáltatásleírás, felelősségkizárás és adatforrások."
   },
   "EfbPage": {
-    "title": "Használd az AIP:Aero-t az EFB (Electronic Flight Bag)-den",
+    "title": "AIP:Aero pilótaeszközök: EFB-alkalmazás, offline térképek, importok és adatok",
     "intro": "Így telepítheted az AIP:Aero-t az EFB (Electronic Flight Bag) tabletedre, menthetsz megközelítési térképeket offline, tölthetsz le teljes országokat, és adhatod át a repülőtereket a tervezőeszközeidnek - lépésről lépésre.",
     "metaTitle": "EFB útmutató Magyarország - AIP és megközelítési térképek a tableteden | AIP:Aero",
     "metaDescription": "Telepítsd az AIP:Aero-t alkalmazásként az EFB tabletedre, ments megközelítési térképeket offline, tölts le teljes országokat, és importálj térkép PDF-eket a ForeFlight, SkyDemon és más alkalmazásokba (Magyarország).",
@@ -323,6 +323,8 @@
     "customsText": "A részletoldalak mutatják, hogy egy repülőtér kínál-e vámkezelést; ahol a nemzeti AIP a GEN 1.2 fejezetben feltünteti, az érték ezzel a hivatalos forrással van ellenőrizve. A határátlépési ügyintézéshez a helyszíndoboz a hivatalos űrlapokra hivatkozik (pl. a brit General Aviation Report), a térkép pedig szűrhető a vámkezelést kínáló repülőterekre. A szabályok változnak - mindig ellenőrizd az aktuális AIP-ben és a helyi hatóságnál.",
     "disclaimerTitle": "Biztonsági figyelmeztetés",
     "disclaimerText": "Az AIP:Aero hivatalos AIP-kiadványokra hivatkozik, de nem hivatalos forrás. Az offline másolatok a letöltésük dátumával vannak megjelölve, és minden AIRAC-ciklussal elavulhatnak - minden repülés előtt ellenőrizd a térképek érvényességét, és mindig kérj hivatalos repülés-előkészítő eligazítást.",
+    "apiTitle": "API és adategyüttműködés",
+    "apiText": "Fejlesztőknek és EFB-szolgáltatóknak: az AIP:Aero strukturált repülőtéri adatai (a normalizált repülőtéri index, a térkép-PDF-ek közvetlen hivatkozásai, az AIRAC-ciklusok, a koordináták, a futópályák, a frekvenciák és a váminformációk) API-n keresztül elérhetők integrációkhoz. Nyitottak vagyunk az együttműködésekre; <contact>lépjen kapcsolatba velünk</contact>.",
     "installButton": "Telepítés most",
     "ctaTitle": "Próbáld ki most",
     "faqTitle": "Gyakori kérdések",

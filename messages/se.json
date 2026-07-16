@@ -26,7 +26,7 @@
       "hrefTitle": "Användarvillkor - AIP:Aero Sverige"
     },
     "/efb": {
-      "title": "EFB-guide",
+      "title": "Pilotverktyg & EFB",
       "hrefTitle": "EFB-guide - AIP:Aero på plattan"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Användarvillkor - AIP:Aero Sverige"
     },
     "efb": {
-      "title": "EFB-guide",
+      "title": "Pilotverktyg & EFB",
       "hrefTitle": "AIP:Aero på din EFB - installation, offline-kartor, import"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "Användarvillkor för AIP:Aero, den kostnadsfria AIP- och inflygningskartssökningen för Sverige och Europa: tjänstebeskrivning, ansvarsfriskrivning och datakällor."
   },
   "EfbPage": {
-    "title": "Använd AIP:Aero på din EFB (Electronic Flight Bag)",
+    "title": "AIP:Aero pilotverktyg: EFB-app, offlinekartor, importer och data",
     "intro": "Så installerar du AIP:Aero på din EFB (Electronic Flight Bag)-platta, sparar inflygningskartor offline, laddar ner hela länder och skickar fält vidare till dina planeringsverktyg - steg för steg.",
     "metaTitle": "EFB-guide Sverige - AIP och inflygningskartor på plattan | AIP:Aero",
     "metaDescription": "Installera AIP:Aero som app på din EFB-platta, spara inflygningskartor offline, ladda ner hela länder och importera kart-PDF:er i ForeFlight, SkyDemon m.fl (Sverige).",
@@ -353,6 +353,8 @@
     "customsText": "Detaljsidor visar om ett fält erbjuder tullklarering; där den nationella AIP:en listar det i GEN 1.2 är värdet verifierat mot den officiella källan. För gränsformaliteter länkar platsrutan till de officiella formulären (t.ex. brittiska General Aviation Report), och kartan kan filtrera på tullfält. Regler ändras - bekräfta dem alltid med gällande AIP och den lokala myndigheten.",
     "disclaimerTitle": "Säkerhetsanmärkning",
     "disclaimerText": "AIP:Aero länkar till officiella AIP-publikationer men är ingen officiell källa. Offline-kopior bär sitt nedladdningsdatum och kan bli inaktuella med varje AIRAC-cykel - kontrollera kartornas giltighet före varje flygning och inhämta alltid en officiell briefing.",
+    "apiTitle": "API och datasamarbete",
+    "apiText": "För utvecklare och EFB-leverantörer: AIP:Aeros strukturerade flygplatsdata (det normaliserade flygplatsindexet, direktlänkar till kart-PDF:er, AIRAC-cykler, koordinater, banor, frekvenser och tullinformation) är tillgängliga via API för integrationer. Vi är öppna för samarbeten; <contact>hör av dig</contact>.",
     "installButton": "Installera nu",
     "ctaTitle": "Prova nu",
     "faqTitle": "Vanliga frågor",

@@ -22,7 +22,7 @@
       "hrefTitle": "Uslovi korištenja - AIP:Aero Bosna i Hercegovina"
     },
     "/efb": {
-      "title": "EFB vodič",
+      "title": "Alati za pilote & EFB",
       "hrefTitle": "EFB vodič - AIP:Aero na vašem tabletu"
     }
   },
@@ -173,7 +173,7 @@
       "hrefTitle": "Uslovi korištenja - AIP:Aero Bosna i Hercegovina"
     },
     "efb": {
-      "title": "EFB vodič",
+      "title": "Alati za pilote & EFB",
       "hrefTitle": "AIP:Aero na vašem EFB-u - instalacija, offline karte, uvoz"
     }
   },
@@ -298,7 +298,7 @@
     "metaDescription": "Uslovi korištenja AIP:Aero, besplatne pretrage AIP-a i prilaznih karata za Bosnu i Hercegovinu i Evropu: opis usluge, odricanje od odgovornosti i izvori podataka."
   },
   "EfbPage": {
-    "title": "Korištenje AIP:Aero na vašem EFB-u (Electronic Flight Bag)",
+    "title": "AIP:Aero alati za pilote: EFB aplikacija, offline karte, uvozi i podaci",
     "intro": "Kako instalirati AIP:Aero na vaš EFB (Electronic Flight Bag) tablet, sačuvati prilazne karte offline, preuzeti pakete država i proslijediti aerodrome vašim alatima za planiranje - korak po korak.",
     "metaTitle": "EFB vodič Bosna i Hercegovina - AIP i prilazne karte na tabletu | AIP:Aero",
     "metaDescription": "Instalirajte AIP:Aero kao aplikaciju na vaš EFB tablet, čuvajte prilazne karte offline, preuzimajte cijele države i uvezite PDF karte u ForeFlight, SkyDemon i druge (Bosna i Hercegovina).",
@@ -323,6 +323,8 @@
     "customsText": "Stranice s detaljima pokazuju nudi li aerodrom carinsko odobrenje; gdje to nacionalni AIP navodi u GEN 1.2, vrijednost je provjerena naspram tog zvaničnog izvora. Za graničnu papirologiju okvir s lokacijom povezuje zvanične obrasce (npr. britanski General Aviation Report), a karta može filtrirati carinske aerodrome. Pravila se mijenjaju - uvijek potvrdite s aktuelnim AIP-om i lokalnom vlašću.",
     "disclaimerTitle": "Sigurnosna napomena",
     "disclaimerText": "AIP:Aero povezuje zvanične AIP publikacije, ali nije zvanični izvor. Offline kopije označene su datumom preuzimanja i mogu zastarjeti sa svakim AIRAC ciklusom - provjerite ažurnost karata prije svakog leta i uvijek pribavite zvanični predletni brifing.",
+    "apiTitle": "API i saradnja na podacima",
+    "apiText": "Za programere i pružaoce EFB usluga: strukturirani podaci o aerodromima AIP:Aero (normalizovani indeks aerodroma, direktni linkovi ka PDF kartama, AIRAC ciklusi, koordinate, piste, frekvencije i carinske informacije) dostupni su putem API-ja za integracije. Otvoreni smo za saradnju; <contact>kontaktirajte nas</contact>.",
     "installButton": "Instaliraj sada",
     "ctaTitle": "Isprobajte sada",
     "faqTitle": "Često postavljana pitanja",

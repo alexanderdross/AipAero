@@ -26,7 +26,7 @@
       "hrefTitle": "Conditions d'utilisation - AIP:Aero France"
     },
     "/efb": {
-      "title": "Guide EFB",
+      "title": "Outils pilote & EFB",
       "hrefTitle": "Guide EFB - AIP:Aero sur votre tablette"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Conditions d'utilisation - AIP:Aero France"
     },
     "efb": {
-      "title": "Guide EFB",
+      "title": "Outils pilote & EFB",
       "hrefTitle": "AIP:Aero sur votre EFB - installation, cartes hors ligne, import"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "Conditions d'utilisation d'AIP:Aero, la recherche gratuite d'AIP et de cartes d'approche pour France et l'Europe : description du service, clause de non-responsabilité et sources de données."
   },
   "EfbPage": {
-    "title": "Utiliser AIP:Aero sur votre EFB (Electronic Flight Bag)",
+    "title": "AIP:Aero outils pilote : application EFB, cartes hors ligne, imports et données",
     "intro": "Comment installer AIP:Aero sur votre tablette EFB (Electronic Flight Bag), enregistrer des cartes d'approche hors ligne, télécharger des pays entiers et transférer des terrains vers vos outils de préparation - pas à pas.",
     "metaTitle": "Guide EFB France - AIP et cartes d'approche sur tablette | AIP:Aero",
     "metaDescription": "Installez AIP:Aero comme application sur votre tablette EFB, enregistrez des cartes hors ligne, téléchargez des pays entiers et importez les PDF dans ForeFlight, SkyDemon et autres (France).",
@@ -353,6 +353,8 @@
     "customsText": "Les pages de détail indiquent si un terrain offre le dédouanement ; quand l'AIP nationale le liste en GEN 1.2, la valeur est vérifiée contre cette source officielle. Pour les formalités de passage de frontière, la boîte localisation renvoie aux formulaires officiels (p. ex. le General Aviation Report britannique), et la carte peut filtrer les terrains douaniers. Les règles changent - confirmez toujours avec l'AIP en vigueur et l'autorité locale.",
     "disclaimerTitle": "Avertissement de sécurité",
     "disclaimerText": "AIP:Aero renvoie vers les publications AIP officielles mais n'est pas une source officielle. Les copies hors ligne portent leur date de téléchargement et peuvent devenir obsolètes à chaque cycle AIRAC - vérifiez la validité des cartes avant chaque vol et obtenez toujours un briefing officiel avant le départ.",
+    "apiTitle": "API et coopération de données",
+    "apiText": "Pour les développeurs et les fournisseurs d'EFB : les données d'aérodrome structurées d'AIP:Aero (l'index d'aérodromes normalisé, les liens directs vers les PDF des cartes, les cycles AIRAC, les coordonnées, les pistes, les fréquences et les informations douanières) sont disponibles via une API pour les intégrations. Nous sommes ouverts aux coopérations ; <contact>contactez-nous</contact>.",
     "installButton": "Installer maintenant",
     "ctaTitle": "Essayez maintenant",
     "faqTitle": "Questions fréquentes",

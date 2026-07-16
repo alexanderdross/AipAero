@@ -26,7 +26,7 @@
       "hrefTitle": "Lietošanas noteikumi - AIP:Aero Latvija"
     },
     "/efb": {
-      "title": "EFB ceļvedis",
+      "title": "Pilota rīki un EFB",
       "hrefTitle": "EFB ceļvedis - AIP:Aero jūsu planšetē"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Lietošanas noteikumi - AIP:Aero Latvija"
     },
     "efb": {
-      "title": "EFB ceļvedis",
+      "title": "Pilota rīki un EFB",
       "hrefTitle": "AIP:Aero jūsu EFB - instalēšana, bezsaistes kartes, imports"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "AIP:Aero lietošanas noteikumi - bezmaksas AIP un pieejas karšu meklētājs Latvijai un Eiropai: pakalpojuma apraksts, atbildības atruna un datu avoti."
   },
   "EfbPage": {
-    "title": "Izmantojiet AIP:Aero savā EFB (Electronic Flight Bag)",
+    "title": "AIP:Aero pilota rīki: EFB lietotne, bezsaistes kartes, importi un dati",
     "intro": "Kā instalēt AIP:Aero savā EFB (Electronic Flight Bag) planšetē, saglabāt pieejas kartes bezsaistē, lejupielādēt veselas valstis un nodot lidlaukus saviem plānošanas rīkiem - soli pa solim.",
     "metaTitle": "EFB ceļvedis Latvijai - AIP un pieejas kartes planšetē | AIP:Aero",
     "metaDescription": "Instalējiet AIP:Aero kā lietotni savā EFB planšetē, saglabājiet pieejas kartes bezsaistē, lejupielādējiet veselas valstis un importējiet karšu PDF failus ForeFlight, SkyDemon u.c. (Latvija).",
@@ -353,6 +353,8 @@
     "customsText": "Detaļu lapas rāda, vai lidlaukā ir pieejama muitas kontrole; ja nacionālā AIP to norāda GEN 1.2 sadaļā, vērtība ir pārbaudīta pret šo oficiālo avotu. Robežšķērsošanas formalitātēm atrašanās vietas lodziņš norāda saites uz oficiālajām veidlapām (piemēram, Apvienotās Karalistes General Aviation Report), un kartē var filtrēt muitas lidlaukus. Noteikumi mainās - vienmēr pārliecinieties aktuālajā AIP un pie vietējās iestādes.",
     "disclaimerTitle": "Drošības piezīme",
     "disclaimerText": "AIP:Aero norāda saites uz oficiālajām AIP publikācijām, bet pats nav oficiāls avots. Bezsaistes kopijas ir marķētas ar to lejupielādes datumu un var novecot ar katru AIRAC ciklu - pirms katra lidojuma pārbaudiet karšu aktualitāti un vienmēr saņemiet oficiālu pirmslidojuma pārskatu.",
+    "apiTitle": "API un datu sadarbība",
+    "apiText": "Izstrādātājiem un EFB nodrošinātājiem: AIP:Aero strukturētie lidlauku dati (normalizētais lidlauku indekss, karšu PDF tiešās saites, AIRAC cikli, koordinātes, skrejceļi, frekvences un muitas informācija) ir pieejami integrācijām, izmantojot API. Mēs esam atvērti sadarbībai; <contact>sazinieties ar mums</contact>.",
     "installButton": "Instalēt tūlīt",
     "ctaTitle": "Izmēģini tagad",
     "faqTitle": "Biežāk uzdotie jautājumi",

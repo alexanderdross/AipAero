@@ -26,7 +26,7 @@
       "hrefTitle": "Vilkår for brug - AIP:Aero Danmark"
     },
     "/efb": {
-      "title": "EFB-guide",
+      "title": "Pilotværktøjer & EFB",
       "hrefTitle": "EFB-guide - AIP:Aero på tabletten"
     }
   },
@@ -203,7 +203,7 @@
       "hrefTitle": "Vilkår for brug - AIP:Aero Danmark"
     },
     "efb": {
-      "title": "EFB-guide",
+      "title": "Pilotværktøjer & EFB",
       "hrefTitle": "AIP:Aero på din EFB - installation, offline kort, import"
     }
   },
@@ -328,7 +328,7 @@
     "metaDescription": "Vilkår for brug af AIP:Aero, den gratis AIP- og indflyvningskort-søgning for Danmark og Europa: beskrivelse af tjenesten, ansvarsfraskrivelse og datakilder."
   },
   "EfbPage": {
-    "title": "Brug AIP:Aero på din EFB (Electronic Flight Bag)",
+    "title": "AIP:Aero pilotværktøjer: EFB-app, offline-kort, imports og data",
     "intro": "Sådan installerer du AIP:Aero på din EFB (Electronic Flight Bag)-tablet, gemmer indflyvningskort offline, downloader hele lande og sender pladser videre til dine planlægningsværktøjer - trin for trin.",
     "metaTitle": "EFB-guide Danmark - AIP og indflyvningskort på tabletten | AIP:Aero",
     "metaDescription": "Installer AIP:Aero som app på din EFB-tablet, gem indflyvningskort offline, download hele lande og importer kort-PDF'er i ForeFlight, SkyDemon m.fl (Danmark).",
@@ -353,6 +353,8 @@
     "customsText": "Detaljesider viser, om en plads tilbyder toldbehandling; hvor den nationale AIP angiver det i GEN 1.2, er værdien verificeret mod denne officielle kilde. Til grænseformaliteter linker lokationsboksen til de officielle formularer (f.eks. det britiske General Aviation Report), og kortet kan filtrere efter toldpladser. Regler ændrer sig - bekræft dem altid med den gældende AIP og den lokale myndighed.",
     "disclaimerTitle": "Sikkerhedsbemærkning",
     "disclaimerText": "AIP:Aero linker til officielle AIP-publikationer, men er ikke en officiel kilde. Offline-kopier bærer deres downloaddato og kan forældes med hver AIRAC-cyklus - kontrollér kortenes gyldighed før hver flyvning, og indhent altid en officiel briefing.",
+    "apiTitle": "API og datasamarbejde",
+    "apiText": "For udviklere og EFB-udbydere: AIP:Aeros strukturerede flyvepladsdata (det normaliserede flyvepladsindeks, direkte links til kort-PDF'er, AIRAC-cyklusser, koordinater, baner, frekvenser og toldoplysninger) er tilgængelige via API til integrationer. Vi er åbne for samarbejder; <contact>kontakt os</contact>.",
     "installButton": "Installer nu",
     "ctaTitle": "Prøv det nu",
     "faqTitle": "Ofte stillede spørgsmål",
