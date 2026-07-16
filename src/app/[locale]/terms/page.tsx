@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 import { BreadCrumbs } from "~/components/breadcrumbs";
+import { SectionHeading } from "~/components/section-heading";
 import { Title } from "~/components/title";
 import {
   getPathname,
@@ -170,9 +171,12 @@ export default async function TermsPage(
       <div className="mx-auto mt-12 max-w-3xl px-4 pb-8 sm:px-6 lg:px-8">
         <div className="border-drossgray-dark/15 flex flex-col gap-8 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
           <section>
-            <h2 className="text-xl font-semibold tracking-tight">
+            <SectionHeading
+              className="text-xl font-semibold tracking-tight"
+              linkTitle={`${t("title")} - ${t("servicesTitle")}`}
+            >
               {t("servicesTitle")}
-            </h2>
+            </SectionHeading>
             <p className="mt-3">
               {t.rich("servicesText", {
                 // The brand mention links to the global homepage (permanent
@@ -191,19 +195,31 @@ export default async function TermsPage(
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold tracking-tight">
+            <SectionHeading
+              className="text-xl font-semibold tracking-tight"
+              linkTitle={`${t("title")} - ${t("disclaimerTitle")}`}
+            >
               {t("disclaimerTitle")}
-            </h2>
+            </SectionHeading>
             <p className="mt-3">{t("disclaimerText")}</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold tracking-tight">
+            <SectionHeading
+              className="text-xl font-semibold tracking-tight"
+              linkTitle={`${t("title")} - ${t("sourcesTitle")}`}
+            >
               {t("sourcesTitle")}
-            </h2>
+            </SectionHeading>
             <p className="mt-3">{t("sourcesIntro")}</p>
 
-            <h3 className="mt-5 font-medium">{t("sourcesAip")}</h3>
+            <SectionHeading
+              as="h3"
+              className="mt-5 font-medium"
+              linkTitle={`${t("sourcesTitle")} - ${t("sourcesAip")}`}
+            >
+              {t("sourcesAip")}
+            </SectionHeading>
             <ul className="mt-2 flex flex-col gap-y-1 text-sm">
               {AIP_SOURCES.map((s) => (
                 <li key={s.url}>
@@ -215,7 +231,13 @@ export default async function TermsPage(
               ))}
             </ul>
 
-            <h3 className="mt-5 font-medium">{t("sourcesData")}</h3>
+            <SectionHeading
+              as="h3"
+              className="mt-5 font-medium"
+              linkTitle={`${t("sourcesTitle")} - ${t("sourcesData")}`}
+            >
+              {t("sourcesData")}
+            </SectionHeading>
             <ul className="mt-2 flex flex-col gap-y-1 text-sm">
               {DATA_SOURCES.map((s) => (
                 <li key={s.url}>
