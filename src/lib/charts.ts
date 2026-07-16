@@ -108,8 +108,18 @@ const AIRAC_PATTERNS: {
     rx: /_EFF_(\d{2})([A-Z]{3})(\d{4})/i,
     toIso: (m) => {
       const months: Record<string, string> = {
-        jan: "01", feb: "02", mar: "03", apr: "04", may: "05", jun: "06",
-        jul: "07", aug: "08", sep: "09", oct: "10", nov: "11", dec: "12",
+        jan: "01",
+        feb: "02",
+        mar: "03",
+        apr: "04",
+        may: "05",
+        jun: "06",
+        jul: "07",
+        aug: "08",
+        sep: "09",
+        oct: "10",
+        nov: "11",
+        dec: "12",
       };
       const month = months[m[2]!.toLowerCase()];
       return month ? `${m[3]}-${month}-${m[1]}` : "";
