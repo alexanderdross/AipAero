@@ -42,14 +42,17 @@ def test_extract_airports_reads_aerodrome_links(mk: MK):
     assert all(a.airport_type == "vfr" and a.country == "MK" for a in airports)
     skopje = next(a for a in airports if a.icao == "LWSK")
     assert skopje.title == "Skopje LWSK"
-    assert skopje.url.endswith("/html/lwsk.htm")
+    # url + pdf_url point at the combined AD 2 PDF built from the ICAO.
+    assert skopje.url.endswith("/pdf/aerodromes/LW_AD_2_LWSK_en.pdf")
+    assert skopje.pdf_url == skopje.url
+    assert skopje.charts and skopje.charts[0].url == skopje.url
 
 
 def test_extract_airports_skips_section_header_and_index(mk: MK):
     airports = mk._extract_airports(_NAV)
     # "AD 2 Aerodromes" (aerodromes.htm) and the AD 1.3 index PDF are not fields.
     assert all(a.icao in {"LWSK", "LWOH"} for a in airports)
-    assert not any("aerodromes.htm" in a.url for a in airports)
+    assert all(a.url.endswith("_en.pdf") for a in airports)
 
 
 def test_extract_airports_no_links_raises(mk: MK):

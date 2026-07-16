@@ -8,33 +8,35 @@ details">` menu that `HttpEurocontrolBase` parses - so it gets its own small
 `HttpCrawlerBase` parser.
 
 The no-JavaScript navigation page `eAIP/current/en/index-nonframe.htm` lists
-every aerodrome directly as an anchor:
-
-    <a href="../html/lwsk.htm">LWSK - Skopje</a>
-    <a href="../html/lwoh.htm">LWOH - Ohrid</a>
-
-so the crawler reads that page and emits one "vfr" field per `LWxx - <name>`
-link (LW is the North Macedonia ICAO prefix). Each field's `url` is its AD 2
-aerodrome page; the AD 2.24 chart PDFs it links (under `../pdf/aerodromes/`)
-are captured as `pdf_url` by the Stage-2 chart extraction. Pure HTML, no JS
-render, no login, no proxy.
+every aerodrome as an anchor ("LWSK - Skopje", "LWOH - Ohrid"; LW is the North
+Macedonia ICAO prefix). The linked per-field HTML pages do NOT exist as static
+files (the framed viewer needs JavaScript), but each aerodrome's complete AD 2
+document IS published as a single combined PDF in the browsable directory
+`eAIP/current/pdf/aerodromes/LW_AD_2_<ICAO>_en.pdf` (verified 200). So the
+crawler reads the nav for the ICAO + name and points each field's url / pdf_url
+straight at that AD 2 PDF (it carries the aerodrome chart). Pure HTML nav +
+static PDFs, no JS render, no login, no proxy.
 """
 
 import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.models import ChartLink
 
 COUNTRY = "MK"
 
 # The `current` alias resolves the effective edition; the no-JS nav page lists
 # the aerodrome links inline (the framed menu.htm needs JavaScript).
 NAV_URL = "https://ais.m-nav.info/eAIP/current/en/index-nonframe.htm"
+# Browsable directory of the per-aerodrome AD 2 PDFs (one combined doc each).
+PDF_BASE = "https://ais.m-nav.info/eAIP/current/pdf/aerodromes/"
 
 # Aerodrome anchors read "LWSK - Skopje" and link "../html/lwsk.htm". Match the
 # ICAO + name in the text and confirm the href points at a per-field AD 2 page
 # (`html/lw<xx>.htm`), so the "AD 2 Aerodromes" section header and the GEN/AD
-# index PDF links are skipped.
+# index PDF links are skipped. (The linked HTML 404s; the URL we keep is the
+# AD 2 PDF built from the ICAO, not this href.)
 _AD_TEXT_RE = re.compile(r"^(LW[A-Z]{2})\s*-\s*(.+)$")
 _AD_HREF_RE = re.compile(r"/html/lw[a-z]{2}\.htm(?:[?#].*)?$", re.I)
 
@@ -43,24 +45,25 @@ class MK(HttpCrawlerBase):
     """North Macedonia (M-NAV) AIP crawler - open custom eAIP.
 
     Reads the no-JS nav page and emits each aerodrome (LWSK/LWOH) as a "vfr"
-    field pointing at its AD 2 page; the AD 2.24 chart PDFs become pdf_url.
+    field whose url / pdf_url is its combined AD 2 chart PDF.
     """
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
-    # Chart-PDF extraction: M-NAV's AD 2.24 charts sit under pdf/aerodromes/ as
-    # LW_AD_2_<ICAO>_..._en.pdf; prefer the VAC / ADC aerodrome sheet.
-    FETCH_PDF_URLS = True
-    PDF_HREF_PRIORITY = (r"_VAC", r"_ADC", r"AD_2.*24", r"_en\.pdf")
+    @staticmethod
+    def _pdf_url(icao: str) -> str:
+        """The aerodrome's combined AD 2 PDF (carries the aerodrome chart)."""
+        return urljoin(PDF_BASE, f"LW_AD_2_{icao.upper()}_en.pdf")
 
     def _extract_airports(self, nav_html: str) -> list[Airport]:
         """Parse the no-JS nav page into one "vfr" Airport per aerodrome link.
 
         Matches anchors whose text reads "LWxx - <name>" and whose href points
-        at a per-field AD 2 page (`html/lw<xx>.htm`), so the "AD 2 Aerodromes"
-        section header and the GEN/AD index PDF links are skipped. Deduped by
-        ICAO. Raises when nothing matches (markup drift -> caught by the crawl).
+        at a per-field AD 2 page, so the "AD 2 Aerodromes" section header and
+        the GEN/AD index PDF links are skipped. Each field's url / pdf_url is
+        the combined AD 2 PDF built from its ICAO. Deduped by ICAO. Raises when
+        nothing matches (markup drift -> caught by the crawl).
         """
         soup = self.soup(nav_html)
         airports: list[Airport] = []
@@ -77,12 +80,15 @@ class MK(HttpCrawlerBase):
                 continue
             seen.add(icao)
             name = m.group(2).strip()
+            pdf = self._pdf_url(icao)
             airports.append(
                 Airport(
                     country=self.country,
                     icao=icao,
                     title=f"{name} {icao}",
-                    url=urljoin(NAV_URL, a["href"]),
+                    url=pdf,
+                    pdf_url=pdf,
+                    charts=[ChartLink(name=f"AD 2 {icao} - Aerodrome chart", url=pdf)],
                     type="vfr",
                 )
             )
@@ -103,9 +109,6 @@ class MK(HttpCrawlerBase):
             nav_html = self.fetch(NAV_URL)
             last_html = nav_html
             airports = self._extract_airports(nav_html)
-
-            # Stage 2: capture direct AD 2.24 chart-PDF links (fail-soft).
-            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"MK crawl failed: {e}")
             if last_html is not None:
