@@ -58,3 +58,9 @@ def test_extract_airports_skips_section_header_and_index(mk: MK):
 def test_extract_airports_no_links_raises(mk: MK):
     with pytest.raises(ValueError):
         mk._extract_airports("<html><a href='/x'>nothing</a></html>")
+
+
+def test_airac_from_top_parses_edition(mk: MK):
+    top = '<a href="index.htm">AIP (15-JUL-2026)</a>'
+    assert mk._airac_from_top(top) == "2026-07-15"
+    assert mk._airac_from_top("<a>no edition here</a>") is None

@@ -118,10 +118,23 @@ export async function AirportGadgets({
   // edition-dated URL (IS/FR); fall back to the country's stamped edition
   // (crawl_meta.airac) for sources whose URLs carry no date (DE permalinks,
   // BE/FI eAIP aliases). Only query the country edition when actually needed.
+  const chartUrlAiracIso = chartPdfUrl ? airacDateFromUrl(chartPdfUrl) : null;
+  const boxlessUrlAiracIso = chartPdfUrl ? null : airacDateFromUrl(airport.url);
+  // Query the country's stamped edition (crawl_meta.airac) only when the
+  // field's own URL carries NO date - a dateless chart box (MK's `current`
+  // alias) or a boxless source (DE permalinks). Every detail page must show the
+  // AIRAC cycle, so the box falls back to the country edition too, not just the
+  // boxless line.
+  const needCountryAirac =
+    (chartPdfUrl && chartUrlAiracIso === null) ||
+    (!chartPdfUrl && boxlessUrlAiracIso === null);
+  const countryAiracIso = needCountryAirac
+    ? await QUERIES.crawlAirac(airport.country)
+    : null;
+  // Boxless AIRAC line: the field's URL date, else the country edition.
   const detailAiracIso = chartPdfUrl
     ? null
-    : (airacDateFromUrl(airport.url) ??
-      (await QUERIES.crawlAirac(airport.country)));
+    : (boxlessUrlAiracIso ?? countryAiracIso);
   const detailAiracLabel = detailAiracIso
     ? new Intl.DateTimeFormat(lang, {
         year: "numeric",
@@ -236,6 +249,7 @@ export async function AirportGadgets({
               url={chartPdfUrl}
               charts={chartList}
               locale={locale}
+              fallbackAiracIso={countryAiracIso}
             />
             {/* Structured-data twin of the chart box: marks the PDF up as a
                 DigitalDocument that is part of this airport page, dated by
@@ -246,7 +260,7 @@ export async function AirportGadgets({
               description={schemaDescription}
               url={chartPdfUrl}
               isPartOfUrl={schemaUrl}
-              datePublished={airacDateFromUrl(chartPdfUrl)}
+              datePublished={chartUrlAiracIso ?? countryAiracIso}
               charts={chartList}
               lang={lang}
             />

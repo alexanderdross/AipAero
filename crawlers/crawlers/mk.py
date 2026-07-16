@@ -31,6 +31,15 @@ COUNTRY = "MK"
 NAV_URL = "https://ais.m-nav.info/eAIP/current/en/index-nonframe.htm"
 # Browsable directory of the per-aerodrome AD 2 PDFs (one combined doc each).
 PDF_BASE = "https://ais.m-nav.info/eAIP/current/pdf/aerodromes/"
+# The top frame carries the effective edition as `AIP (15-JUL-2026)`; the chart
+# URLs use the date-less `current` alias, so the crawler forwards this edition
+# to crawl_meta.airac (like DE) so the detail page can show the AIRAC cycle.
+TOP_URL = "https://ais.m-nav.info/eAIP/current/en/top.htm"
+_AIRAC_RE = re.compile(r"AIP\s*\((\d{2})-([A-Z]{3})-(\d{4})\)", re.I)
+_MONTHS = {
+    "jan": "01", "feb": "02", "mar": "03", "apr": "04", "may": "05", "jun": "06",
+    "jul": "07", "aug": "08", "sep": "09", "oct": "10", "nov": "11", "dec": "12",
+}
 
 # Aerodrome anchors read "LWSK - Skopje" and link "../html/lwsk.htm". Match the
 # ICAO + name in the text and confirm the href points at a per-field AD 2 page
@@ -55,6 +64,15 @@ class MK(HttpCrawlerBase):
     def _pdf_url(icao: str) -> str:
         """The aerodrome's combined AD 2 PDF (carries the aerodrome chart)."""
         return urljoin(PDF_BASE, f"LW_AD_2_{icao.upper()}_en.pdf")
+
+    @staticmethod
+    def _airac_from_top(html: str) -> str | None:
+        """Parse the effective edition ("AIP (15-JUL-2026)") into an ISO date."""
+        m = _AIRAC_RE.search(html)
+        if not m:
+            return None
+        month = _MONTHS.get(m.group(2).lower())
+        return f"{m.group(3)}-{month}-{m.group(1)}" if month else None
 
     def _extract_airports(self, nav_html: str) -> list[Airport]:
         """Parse the no-JS nav page into one "vfr" Airport per aerodrome link.
@@ -109,6 +127,13 @@ class MK(HttpCrawlerBase):
             nav_html = self.fetch(NAV_URL)
             last_html = nav_html
             airports = self._extract_airports(nav_html)
+
+            # Forward the effective edition to crawl_meta.airac (the chart URLs
+            # use the date-less `current` alias). Fail-soft: no AIRAC on error.
+            try:
+                self.airac = self._airac_from_top(self.fetch(TOP_URL))
+            except Exception as e:
+                self.logger.info(f"MK: could not resolve AIRAC edition: {e}")
         except Exception as e:
             self.logger.error(f"MK crawl failed: {e}")
             if last_html is not None:

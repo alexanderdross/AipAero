@@ -133,9 +133,12 @@ def test_parse_menu_ad2_and_ad3(gr: GR):
     assert lgad.pdf_url.endswith("/LG_AD_2_LGAD_VFR_en.pdf")
     assert lgad.url == lgad.pdf_url
     assert {c.name for c in lgad.charts} == {"LGAD VFR", "AD 2 LGAD"}
+    # AD 2 titles now carry the place name from the _NAMES map (name + ICAO).
+    assert lgad.title == "Andravida LGAD"
 
     lgav = by_key[("vfr", "LGAV")]
     assert len(lgav.charts) == 1
+    assert lgav.title == "Athens / Eleftherios Venizelos LGAV"
 
     alonissos = by_key[("heliport", "ALONISSOS")]
     assert alonissos.icao is None

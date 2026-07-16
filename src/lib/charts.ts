@@ -77,6 +77,36 @@ const AIRAC_PATTERNS: {
       return month ? `${m[1]}-${month}-${m[3]}` : "";
     },
   },
+  // GR: https://aisgr.hasp.gov.gr/aipgr_incl_amdt_0626_wef_09jul2026/... - the
+  // HASP edition folder carries the effective date as `wef_<dd><mmm><yyyy>`.
+  {
+    rx: /_wef_(\d{2})([a-z]{3})(\d{4})/i,
+    toIso: (m) => {
+      const months: Record<string, string> = {
+        jan: "01",
+        feb: "02",
+        mar: "03",
+        apr: "04",
+        may: "05",
+        jun: "06",
+        jul: "07",
+        aug: "08",
+        sep: "09",
+        oct: "10",
+        nov: "11",
+        dec: "12",
+      };
+      const month = months[m[2]!.toLowerCase()];
+      return month ? `${m[3]}-${month}-${m[1]}` : "";
+    },
+  },
+  // Generic dated edition folder `/YYYY-MM-DD/` (RO: .../aip/2026-07-09/DOCS/...).
+  // LAST + most general so the specific `-AIRAC` / `AIRAC-` / `_YYYY_MM_DD_`
+  // forms above win first; only a bare slash-delimited ISO date reaches here.
+  {
+    rx: /\/(\d{4})-(\d{2})-(\d{2})\//,
+    toIso: (m) => `${m[1]}-${m[2]}-${m[3]}`,
+  },
 ];
 
 /**
