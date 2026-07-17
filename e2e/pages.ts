@@ -78,7 +78,7 @@ const countryPages: TestPage[] = [
   { path: "/bg/en/", lang: "en", label: "country bg-EN" },
   { path: "/tr/", lang: "tr", label: "country tr" },
   { path: "/tr/en/", lang: "en", label: "country tr-EN" },
-  { path: "/ge/", lang: "ge", label: "country ge" },
+  { path: "/ge/", lang: "ka", label: "country ge" },
   { path: "/ge/en/", lang: "en", label: "country ge-EN" },
 ];
 
@@ -154,7 +154,7 @@ const airportListPages: TestPage[] = [
   { path: "/bg/en/airport-list-bulgaria/", lang: "en", label: "list bg-EN" },
   { path: "/tr/havalimanlari-turkiye/", lang: "tr", label: "list tr" },
   { path: "/tr/en/airport-list-turkey/", lang: "en", label: "list tr-EN" },
-  { path: "/ge/aeroportebi-sakartvelo/", lang: "ge", label: "list ge" },
+  { path: "/ge/aeroportebi-sakartvelo/", lang: "ka", label: "list ge" },
   { path: "/ge/en/airport-list-georgia/", lang: "en", label: "list ge-EN" },
 ];
 
@@ -239,7 +239,7 @@ const searchPages: TestPage[] = [
   { path: "/bg/en/vfr/", lang: "en", label: "vfr bg-EN" },
   { path: "/tr/vfr/", lang: "tr", label: "vfr tr" },
   { path: "/tr/en/vfr/", lang: "en", label: "vfr tr-EN" },
-  { path: "/ge/vfr/", lang: "ge", label: "vfr ge" },
+  { path: "/ge/vfr/", lang: "ka", label: "vfr ge" },
   { path: "/ge/en/vfr/", lang: "en", label: "vfr ge-EN" },
 ];
 
@@ -313,7 +313,7 @@ const termsPages: TestPage[] = [
   { path: "/bg/en/terms/", lang: "en", label: "terms bg-EN" },
   { path: "/tr/terms/", lang: "tr", label: "terms tr" },
   { path: "/tr/en/terms/", lang: "en", label: "terms tr-EN" },
-  { path: "/ge/terms/", lang: "ge", label: "terms ge" },
+  { path: "/ge/terms/", lang: "ka", label: "terms ge" },
   { path: "/ge/en/terms/", lang: "en", label: "terms ge-EN" },
 ];
 
