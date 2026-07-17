@@ -118,6 +118,11 @@ const AIP_SOURCES: { cc: string; name: string; url: string }[] = [
   },
   { cc: "bg", name: "BULATSA (България)", url: "https://www.bulatsa.com" },
   { cc: "tr", name: "DHMI (Türkiye)", url: "https://dhmi.gov.tr" },
+  {
+    cc: "ge",
+    name: "Sakaeronavigatsia (საქართველო)",
+    url: "https://airnav.ge",
+  },
 ];
 
 // Descriptor for each embedded source comes from i18n (srcAwc etc.).

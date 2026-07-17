@@ -1,0 +1,351 @@
+{
+  "BreadCrumbs": {
+    "label": "Breadcrumb",
+    "root": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP Index"
+    },
+    "/": {
+      "title": "Georgia (English)",
+      "hrefTitle": "AIP Georgia"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Georgia"
+    },
+    "/airport-list": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Georgia"
+    },
+    "/terms": {
+      "title": "Terms of Service",
+      "hrefTitle": "Terms of Service - AIP:Aero Georgia"
+    },
+    "/efb": {
+      "title": "Pilot Tools & EFB",
+      "hrefTitle": "EFB Guide - AIP:Aero on your tablet"
+    }
+  },
+  "Menu": {
+    "label": "Menu",
+    "home": {
+      "title": "AIP Georgia",
+      "hrefTitle": "AIP Georgia"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Georgia"
+    },
+    "airports": {
+      "title": "Airport List",
+      "hrefTitle": "List of Airfields/ Airports Georgia"
+    }
+  },
+  "AirportsPage": {
+    "title": "List of Airfields in Georgia",
+    "metaTitle": "List of Airfields in Georgia",
+    "description": "Overview of all airfields/ airports in Georgia",
+    "metaDescription": "Overview of all airfields/ airports in Georgia🗺️",
+    "vfrCard": {
+      "title": "VFR Airports",
+      "description": "VFR airfields/ airports in Georgia",
+      "linkTitle": "Click on the link below to access AIP VFR and visual approach chart of {airport}"
+    },
+    "heliportCard": {
+      "title": "Helicopter Aerodromes",
+      "description": "Helicopter Aerodromes in Georgia",
+      "linkTitle": "Click on the link below to access AIP VFR Helicopter Aerodromes and visual approach chart of {airport}"
+    },
+    "breadcrumb": {
+      "name": "List of Airfields/ Airports Georgia",
+      "alternateName": "List of Airfields in Georgia",
+      "description": "Overview of all airfields/ airports in Georgia"
+    },
+    "coverage": "{bucket, select, gated {The official AIP for this country is on a portal that may need free registration - we link it directly and add airport data and weather for each aerodrome.} full {Direct approach and VFR chart PDFs are available for all {total} aerodromes listed below.} partial {Direct chart PDFs are available for {withCharts} of {total} aerodromes; the smaller fields link their official AIP entry instead.} none {The links open each aerodrome's official AIP page - this authority does not publish separate chart PDFs.} other {}}"
+  },
+  "VfrPage": {
+    "title": "Index of AIP VFR and visual approach charts Georgia",
+    "metaTitle": "Index of AIP VFR and visual approach charts Georgia",
+    "description": "Enter airport name or ICAO code (e.g. UGTB, UGKO) to access the AIP VFR approach charts provided by Sakaeronavigatsia.",
+    "metaDescription": "Browse AIP VFR Georgia and download airport approach charts for free🗺️",
+    "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
+    "searchPlaceholder": "Enter airport name or its ICAO code to access AIP VFR",
+    "resultTitle": "AIP VFR Charts of {airport}",
+    "resultDescription": "Click on the link below to access AIP VFR and visual approach chart of {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Georgia",
+      "alternateName": "Index of AIP VFR and visual approach charts Georgia",
+      "description": "Browse AIP VFR Georgia and download airport approach charts for free"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Switch language",
+    "locale": "{locale, select, ge {🇬🇪 ქართული} en {🇬🇧 English} other {Unknown}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP and approach charts of Georgia",
+    "alternateName": "AIP Georgia",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Georgia",
+    "inLanguage": "en",
+    "url": "https://aip.aero/ge/en/"
+  },
+  "CountryPage": {
+    "title": "AIP and approach charts of Georgia",
+    "metaTitle": "AIP and approach charts of Georgia",
+    "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Georgia",
+    "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Georgia🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Georgia",
+      "description": "Browse AIP VFR Georgia and download airport approach charts for free",
+      "buttonTitle": "AIP VFR approach charts",
+      "buttonHref": "/ge/en/vfr/",
+      "buttonHrefTitle": "AIP VFR Georgia"
+    },
+    "airportListCard": {
+      "title": "Airport List",
+      "description": "Overview of all airfields/ airports in Georgia - with offline download, customs and fuel info",
+      "buttonTitle": "Airport List",
+      "buttonHref": "/ge/en/airport-list-georgia/",
+      "buttonHrefTitle": "List of Airfields/ Airports Georgia"
+    },
+    "breadcrumb": {
+      "name": "AIP Georgia",
+      "alternateName": "AIP and approach charts of Georgia",
+      "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Georgia"
+    }
+  },
+  "About": {
+    "title": "What is this website for?",
+    "description": "The <aip>Georgia Aeronautical Information Publication AIP</aip> is available as a free version, published by Sakaeronavigatsia (the Georgian air navigation services provider). This website aims to simplify the search for airfields, as the official eAIP does not include a search function. We do not accept any liability for the accuracy or timeliness of the AIP (Aeronautical Information Publication), as it is not published by us. We only provide convenient links to the respective approach charts.",
+    "aipUrl": "https://airnav.ge/eaip/history-en-GB.html",
+    "aipTitle": "AIP Georgia"
+  },
+  "TradeAero": {
+    "title": "Buying or selling an aircraft?",
+    "description": "Browse aircraft for sale in Georgia on Trade:Aero - the marketplace for buying and selling aircraft.",
+    "buttonTitle": "Trade:Aero - Europe's largest aircraft marketplace",
+    "buttonHrefTitle": "Trade:Aero - Europe's largest aircraft marketplace"
+  },
+  "Footer": {
+    "navTitle": "Navigation",
+    "legalTitle": "Legal & contact",
+    "partnersTitle": "Partners",
+    "aipHome": {
+      "title": "AIP Index",
+      "hrefTitle": "AIP:Aero Home - AIPs & approach charts for Europe"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Imprint",
+      "hrefTitle": "Imprint - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contact",
+      "hrefTitle": "Contact - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Privacy Policy - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Website of Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "hrefTitle": "Terms of Service - AIP:Aero Georgia"
+    },
+    "efb": {
+      "title": "Pilot Tools & EFB",
+      "hrefTitle": "AIP:Aero on your EFB - install, offline charts, import"
+    }
+  },
+  "Error": {
+    "description": "<p>Unfortunately, an error occurred.</p><p>You can try to <retry>reload this page</retry>.</p>",
+    "title": "Something went wrong!"
+  },
+  "NotFound": {
+    "title": "404 - Page not found",
+    "description": "This page or airport code does not exist. Try searching for the airport instead:",
+    "searchPlaceholder": "Search any airport by name or ICAO code",
+    "home": "Back to the home page"
+  },
+  "Weather": {
+    "title": "Weather",
+    "observed": "Observed",
+    "forecast": "Forecast",
+    "wind": "Wind",
+    "visibility": "Visibility",
+    "clouds": "Clouds",
+    "temperature": "Temperature",
+    "qnh": "QNH",
+    "source": "Source",
+    "elevation": "Elevation",
+    "sunrise": "Sunrise",
+    "sunset": "Sunset",
+    "civilTwilight": "Civil twilight",
+    "facts": "Aerodrome data",
+    "runways": "Runways",
+    "frequencies": "Frequencies",
+    "decode": "Show decoded",
+    "openingHours": "Opening hours",
+    "fuel": "Fuel",
+    "ppr": "PPR",
+    "pprRequired": "Prior permission required",
+    "nearest": "Weather from the nearest airport {station} ({km} km away)",
+    "circuit": "Traffic pattern",
+    "circuitLeft": "left",
+    "circuitRight": "right",
+    "windComponents": "Wind components",
+    "headwind": "Headwind",
+    "tailwind": "Tailwind",
+    "crosswind": "Crosswind",
+    "fromLeft": "from the left",
+    "fromRight": "from the right",
+    "landingDirection": "Likely landing direction",
+    "aerodromeType": "Aerodrome type",
+    "surface": "Surface",
+    "variable": "variable",
+    "calm": "calm"
+  },
+  "Common": {
+    "openIn": "Open in",
+    "homeLink": "AIP:Aero - Aeronautical Information Publications (AIP) & approach charts for Europe",
+    "lastUpdated": "Last updated",
+    "viewOnMap": "View on Google Maps",
+    "location": "Location",
+    "website": "Website",
+    "address": "Address",
+    "coordinates": "Coordinates",
+    "phone": "Phone",
+    "map": "Map",
+    "locate": "Find my location",
+    "locateError": "Could not determine your location",
+    "nearby": "Nearby airfields",
+    "restaurant": "Restaurant",
+    "customs": "Customs",
+    "yes": "Yes",
+    "no": "No",
+    "saveOffline": "Save for offline",
+    "savedOffline": "Saved for offline",
+    "installHint": "Install as an app: open your browser's Share menu and choose 'Add to Home Screen'. Then open the app once while online and save your fields there again - the app has its own offline storage.",
+    "installHintMac": "On a Mac: install via Safari's Share menu using 'Add to Dock'. Then open the app once while online and save your fields there again - the app has its own offline storage.",
+    "bulkDownload": "Save all {count} pages offline (approx. {size} MB)",
+    "bulkDownloaded": "Available offline",
+    "bulkUpdate": "Update",
+    "bulkRemove": "Remove",
+    "bulkProgress": "Saving pages",
+    "bulkCancel": "Cancel",
+    "bulkError": "Download failed - please try again",
+    "bulkNoSpace": "Not enough free storage on this device",
+    "bulkScope": "Included: all airfield pages with aerodrome data. Not included: approach chart PDFs (can be saved per airfield) and live weather (needs a connection).",
+    "moreInfo": "More info",
+    "pavedRunway": "Paved runway",
+    "favorites": "Favourites",
+    "favoritesEmpty": "No favorites yet - save an airfield offline on its detail page and it will appear here.",
+    "recentlyViewed": "Recently viewed",
+    "recentlyViewedEmpty": "Airfields you open will appear here automatically for quick access.",
+    "borderCrossing": "Border crossing",
+    "alsoAvailable": "Also available:",
+    "aipLoginHint": "A login or registration may be required.",
+    "noChartPdf": "No separate chart PDF is published for this aerodrome - the AIP button above opens its official aerodrome entry."
+  },
+  "Chart": {
+    "allCharts": "All charts ({count})",
+    "title": "Approach chart",
+    "openPdf": "Open chart PDF",
+    "group": {
+      "aerodrome": "Aerodrome",
+      "visual": "Visual (VFR)",
+      "approach": "Approach",
+      "arrival": "Arrival",
+      "departure": "Departure",
+      "other": "Other"
+    }
+  },
+  "TermsPage": {
+    "title": "Terms of Service",
+    "intro": "AIP:Aero is a free search and index service for Aeronautical Information Publications (AIP), approach charts and airport data across Europe.",
+    "servicesTitle": "Our service",
+    "servicesText": "<home>AIP:Aero</home> lets you find aerodromes by name or ICAO code and takes you directly to the official AIP publication of the respective country. In addition, our airport pages embed supplementary information such as weather reports (METAR/TAF), aerodrome data (runways, frequencies, elevation), maps and contact details, and pages can be saved for offline use. The service is provided free of charge and without registration.",
+    "disclaimerTitle": "Disclaimer of liability",
+    "disclaimerText": "AIP:Aero cannot be held liable under any circumstances. We do not publish aeronautical documents ourselves: we only link to the latest Aeronautical Information Publication (AIP) made available by the official provider of the respective country. The same applies to weather data (METAR/TAF) and airport data: we embed this information on our pages, but it originates from the external sources listed below. We assume no liability or warranty for the accuracy, completeness or timeliness of any linked or embedded content, nor for the availability of this website. This website does not replace the official pre-flight briefing: the pilot in command remains solely responsible for obtaining and verifying all information required for a flight.",
+    "sourcesTitle": "Data sources",
+    "sourcesIntro": "We obtain the linked and embedded data from the following sources (addresses shown as plain text, deliberately not clickable):",
+    "sourcesAip": "Official AIP publications we link to",
+    "sourcesData": "Embedded external data",
+    "srcAwc": "weather METAR/TAF and airport data",
+    "srcOurAirports": "airport base data",
+    "srcOpenAip": "extended aerodrome data: runways, frequencies, fuel",
+    "srcOsm": "maps and addresses",
+    "metaTitle": "Terms of Service - AIP:Aero Georgia",
+    "metaDescription": "Terms of service of AIP:Aero, the free AIP and approach chart search for Georgia and Europe: service description, disclaimer of liability and data sources."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero pilot tools: EFB app, offline charts, imports and data",
+    "intro": "How to install AIP:Aero on your EFB (Electronic Flight Bag) tablet, save approach charts offline, download country packs and hand fields over to your planning tools - step by step.",
+    "metaTitle": "EFB Guide Georgia - AIP & approach charts on your tablet | AIP:Aero",
+    "metaDescription": "Install AIP:Aero as an app on your EFB tablet, save approach charts offline, download whole countries and import chart PDFs into ForeFlight, SkyDemon & Co (Georgia).",
+    "installTitle": "Install as an app (PWA)",
+    "installText": "AIP:Aero is an installable web app: it opens full-screen like a native app and everything you save is available offline. No app store needed.",
+    "installIos": "iPad / iPhone (Safari): open aip.aero, tap the share icon, then \"Add to Home Screen\".",
+    "installAndroid": "Android (Chrome): open aip.aero, tap the menu, then \"Add to home screen\" / \"Install app\".",
+    "installDesktop": "Desktop (Chrome/Edge): click the install icon in the address bar - or use the button below. macOS (Safari): Share icon, then \"Add to Dock\".",
+    "offlineTitle": "Save single airfields offline",
+    "offlineText": "Every airport detail page has a \"Save offline\" button. It stores the page and, where the AIP publishes one, the approach-chart PDF on your device; the field then appears under Favorites on the country page. Saved copies show their download date.",
+    "bulkTitle": "Download a whole country",
+    "bulkText": "On the <list>airport list</list> you can download all of a country's detail pages in one go (pages only, without chart PDFs - save those per field). The pack shows its size before downloading and can be updated or removed at any time.",
+    "favoritesTitle": "Favorites & recently viewed",
+    "favoritesText": "Fields you save for offline use automatically appear as favorites, and the last airfields you opened are listed under \"Recently viewed\" - both are stored only on your device, no account needed. You will find both lists <country>on the country page</country>.",
+    "importTitle": "Chart PDFs in ForeFlight, SkyDemon & Co.",
+    "importText": "Where the national AIP publishes chart PDFs, the chart box on the detail page links the current PDF including its AIRAC date. Download it and import it into your EFB app as custom content, e.g. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) or Garmin Pilot. Germany publishes HTML pages instead of PDFs - use the AIP link there.",
+    "toolsTitle": "Hand-offs to planning tools",
+    "toolsText": "The location box on every detail page opens the same field directly in SkyVector, Windy and autorouter - handy for route planning, weather models and flight-plan filing.",
+    "weatherTitle": "Weather briefing on the page",
+    "weatherText": "Detail pages show live METAR/TAF with plain-language decoding, the flight-category badge and a per-runway head- and crosswind breakdown - a quick cross-check, not a substitute for your official briefing.",
+    "customsTitle": "Customs & border crossing",
+    "customsText": "Detail pages show whether a field offers customs clearance; where a national AIP lists it in GEN 1.2, the value is verified against that official source. For border-crossing paperwork the location box links the official forms (e.g. the UK General Aviation Report), and the map can filter for customs airfields. Rules change - always confirm with the current AIP and the local authority.",
+    "disclaimerTitle": "Safety notice",
+    "disclaimerText": "AIP:Aero links official AIP publications but is not an official source. Offline copies are marked with their download date and can become outdated with every AIRAC cycle - verify chart currency before every flight and always obtain an official pre-flight briefing.",
+    "apiTitle": "API and data cooperation",
+    "apiText": "For developers and EFB providers: AIP:Aero's structured aerodrome data (the normalized aerodrome index, chart-PDF deep links, AIRAC cycles, coordinates, runways, frequencies and customs information) is available via API for integrations. We are open for cooperations; <contact>get in touch</contact>.",
+    "installButton": "Install now",
+    "ctaTitle": "Try it now",
+    "faqTitle": "Frequently asked questions",
+    "faq1q": "Does AIP:Aero work fully offline?",
+    "faq1a": "Saved airfields and downloaded country packs work without internet; every offline copy shows a banner with its save date. Live weather (METAR/TAF) always needs a connection.",
+    "faq2q": "Which countries are covered?",
+    "faq2a": "All countries currently live are listed on the <home>homepage</home> - the coverage grows continuously. Each country card shows the available chart types.",
+    "faq3q": "Are the charts current?",
+    "faq3a": "Chart links point to the official national AIP publications, including the AIRAC date where published. Always verify against the official source before flight."
+  },
+  "CountryFaq": {
+    "title": "Frequently asked questions",
+    "q1": "What is the AIP Georgia?",
+    "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Georgia, published by Sakaeronavigatsia (the Georgian air navigation services provider): aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
+    "q2": "Are the approach charts free?",
+    "a2": "Yes - Sakaeronavigatsia publishes the AIP of Georgia including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
+    "q3": "Which charts and airfields are available for Georgia?",
+    "a3": "For Georgia you will find the <vfr>VFR airfields</vfr> - including the main airports such as Tbilisi (UGTB) and Kutaisi/Kopitnari (UGKO), each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
+    "q4": "Can I use AIP:Aero offline or on my EFB?",
+    "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
+  }
+}
