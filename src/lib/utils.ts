@@ -144,7 +144,23 @@ export const gatedCountries = new Set<string>(["ch", "mt", "md"]);
 
 /** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
 export function isGatedCountry(country: string): boolean {
-  return gatedCountries.has(country);
+  // Normalize case: the DB stores country codes uppercase ("CH"), while
+  // gatedCountries + locale-derived callers use lowercase ("ch").
+  return gatedCountries.has(country.toLowerCase());
+}
+
+/**
+ * Countries whose official AIP is a self-service HTML portal from which the
+ * pilot generates the chart PDF themselves (DE: DFS BasicVFR / BasicIFR), so
+ * the detail-page "no separate chart PDF is published" note would be
+ * misleading - the chart IS available, just exported on demand - and is
+ * suppressed for these. Keyed by the two-letter code (case-insensitive).
+ */
+export const selfServicePdfCountries = new Set<string>(["de"]);
+
+/** True if `country` publishes its charts via a self-service PDF export (DE/DFS). */
+export function isSelfServicePdfCountry(country: string): boolean {
+  return selfServicePdfCountries.has(country.toLowerCase());
 }
 
 /** True if `country` (two-letter code) exposes the given search page type. */
