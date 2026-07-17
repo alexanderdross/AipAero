@@ -1,0 +1,351 @@
+{
+  "BreadCrumbs": {
+    "label": "Gezinme yolu",
+    "root": {
+      "title": "AIP Dizini",
+      "hrefTitle": "AIP Dizini"
+    },
+    "/": {
+      "title": "Türkiye (Türkçe)",
+      "hrefTitle": "AIP Türkiye"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Türkiye"
+    },
+    "/airport-list": {
+      "title": "Havalimanı listesi",
+      "hrefTitle": "Türkiye'deki havalimanları listesi"
+    },
+    "/terms": {
+      "title": "Kullanım koşulları",
+      "hrefTitle": "Kullanım koşulları - AIP:Aero Türkiye"
+    },
+    "/efb": {
+      "title": "Pilot araçları & EFB",
+      "hrefTitle": "EFB kılavuzu - AIP:Aero tabletinizde"
+    }
+  },
+  "Menu": {
+    "label": "Menü",
+    "home": {
+      "title": "AIP Türkiye",
+      "hrefTitle": "AIP Türkiye"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Türkiye"
+    },
+    "airports": {
+      "title": "Havalimanı listesi",
+      "hrefTitle": "Türkiye'deki havalimanları listesi"
+    }
+  },
+  "AirportsPage": {
+    "title": "Türkiye'deki havalimanları listesi",
+    "metaTitle": "Türkiye'deki havalimanları listesi",
+    "description": "Türkiye'deki tüm havalimanlarına genel bakış",
+    "metaDescription": "Türkiye'deki tüm havalimanlarına genel bakış🗺️",
+    "vfrCard": {
+      "title": "VFR havalimanları",
+      "description": "Türkiye'deki VFR havalimanları",
+      "linkTitle": "{airport} havalimanının AIP VFR bilgilerine ve görerek yaklaşma kartına erişmek için aşağıdaki bağlantıya tıklayın"
+    },
+    "heliportCard": {
+      "title": "Heliportlar",
+      "description": "Türkiye'deki heliportlar",
+      "linkTitle": "{airport} heliportunun AIP VFR bilgilerine ve görerek yaklaşma kartına erişmek için aşağıdaki bağlantıya tıklayın"
+    },
+    "breadcrumb": {
+      "name": "Türkiye'deki havalimanları listesi",
+      "alternateName": "Türkiye'deki havalimanları listesi",
+      "description": "Türkiye'deki tüm havalimanlarına genel bakış"
+    },
+    "coverage": "{bucket, select, gated {Bu ülkenin resmi AIP'si, ücretsiz kayıt veya abonelik gerektirebilen bir portaldadır - doğrudan bağlantı veriyor ve her aerodrom için havalimanı verileri ile hava durumunu ekliyoruz.} full {Aşağıda listelenen {total} aerodromun tümü için doğrudan yaklaşma ve VFR kartı PDF'leri mevcuttur.} partial {{total} aerodromun {withCharts} tanesi için doğrudan kart PDF'leri mevcuttur; daha küçük meydanlar bunun yerine resmi AIP kayıtlarına bağlanır.} none {Bağlantılar her aerodromun resmi AIP sayfasını açar - bu otorite ayrı kart PDF'leri yayınlamaz.} other {}}"
+  },
+  "VfrPage": {
+    "title": "AIP VFR ve görerek yaklaşma kartları dizini Türkiye",
+    "metaTitle": "AIP VFR ve görerek yaklaşma kartları dizini Türkiye",
+    "description": "DHMI tarafından sağlanan AIP VFR yaklaşma kartlarına erişmek için havalimanı adını veya ICAO kodunu (ör. LTFM) girin.",
+    "metaDescription": "AIP VFR Türkiye'ye göz atın ve havalimanı yaklaşma kartlarını ücretsiz indirin🗺️",
+    "searchTitle": "AIP VFR bilgilerine erişmek için havalimanı adını veya ICAO kodunu girin",
+    "searchPlaceholder": "AIP VFR bilgilerine erişmek için havalimanı adını veya ICAO kodunu girin",
+    "resultTitle": "{airport} havalimanının AIP VFR kartları",
+    "resultDescription": "{airport} havalimanının AIP VFR bilgilerine ve görerek yaklaşma kartına erişmek için aşağıdaki bağlantıya tıklayın",
+    "breadcrumb": {
+      "name": "AIP VFR Türkiye",
+      "alternateName": "AIP VFR ve görerek yaklaşma kartları dizini Türkiye",
+      "description": "AIP VFR Türkiye'ye göz atın ve havalimanı yaklaşma kartlarını ücretsiz indirin"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Dili değiştir",
+    "locale": "{locale, select, tr {🇹🇷 Türkçe} en {🇬🇧 English} other {Bilinmiyor}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Türkiye'nin AIP ve yaklaşma kartları",
+    "alternateName": "AIP Türkiye",
+    "description": "Türkiye'deki havacılık bilgi yayını (AIP) VFR ve yaklaşma kartlarının arama dizini",
+    "inLanguage": "tr",
+    "url": "https://aip.aero/tr/"
+  },
+  "CountryPage": {
+    "title": "Türkiye'nin AIP ve yaklaşma kartları",
+    "metaTitle": "Türkiye'nin AIP ve yaklaşma kartları",
+    "description": "Türkiye'deki havacılık bilgi yayını (AIP) VFR ve yaklaşma kartlarının arama dizini",
+    "metaDescription": "Türkiye'deki havacılık bilgi yayını (AIP) VFR ve yaklaşma kartlarının arama dizini🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Türkiye",
+      "description": "AIP VFR Türkiye'ye göz atın ve havalimanı yaklaşma kartlarını ücretsiz indirin",
+      "buttonTitle": "AIP VFR yaklaşma kartları",
+      "buttonHref": "/tr/vfr/",
+      "buttonHrefTitle": "AIP VFR Türkiye"
+    },
+    "airportListCard": {
+      "title": "Havalimanı listesi",
+      "description": "Türkiye'deki tüm havalimanlarına genel bakış - çevrimdışı indirme, gümrük ve yakıt bilgileriyle",
+      "buttonTitle": "Havalimanı listesi",
+      "buttonHref": "/tr/havalimanlari-turkiye/",
+      "buttonHrefTitle": "Türkiye'deki havalimanları listesi"
+    },
+    "breadcrumb": {
+      "name": "AIP Türkiye",
+      "alternateName": "Türkiye'nin AIP ve yaklaşma kartları",
+      "description": "Türkiye'deki havacılık bilgi yayını (AIP) VFR ve yaklaşma kartlarının arama dizini"
+    }
+  },
+  "About": {
+    "title": "Bu web sitesi ne işe yarar?",
+    "description": "<aip>Türkiye Havacılık Bilgi Yayını AIP'si</aip> DHMI (Devlet Hava Meydanları İşletmesi) tarafından yayınlanır; resmi portala erişim kayıt ve ücretli abonelik gerektirebilir. Bu web sitesinin amacı, resmi eAIP bir arama işlevi içermediğinden havalimanı aramasını basitleştirmektir. AIP (Havacılık Bilgi Yayını) tarafımızca yayınlanmadığından, doğruluğu veya güncelliği için hiçbir sorumluluk kabul etmiyoruz. Yalnızca ilgili yaklaşma kartlarına uygun bağlantılar sağlıyoruz.",
+    "aipUrl": "https://dhmi.gov.tr/Sayfalar/aipturkey.aspx",
+    "aipTitle": "AIP Türkiye"
+  },
+  "TradeAero": {
+    "title": "Uçak mı alıyorsunuz yoksa satıyorsunuz?",
+    "description": "Türkiye'de satılık uçaklara Trade:Aero'da göz atın - uçak alım satımı için pazar yeri.",
+    "buttonTitle": "Trade:Aero - Avrupa'nın en büyük uçak pazar yeri",
+    "buttonHrefTitle": "Trade:Aero - Avrupa'nın en büyük uçak pazar yeri"
+  },
+  "Footer": {
+    "navTitle": "Gezinme",
+    "legalTitle": "Yasal bilgiler & iletişim",
+    "partnersTitle": "Ortaklar",
+    "aipHome": {
+      "title": "AIP Dizini",
+      "hrefTitle": "AIP:Aero Ana Sayfa - Avrupa için AIP'ler & yaklaşma kartları"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Künye",
+      "hrefTitle": "Künye - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "İletişim",
+      "hrefTitle": "İletişim - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Gizlilik",
+      "hrefTitle": "Gizlilik politikası - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Alexander Dross'un web sitesi",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Kullanım koşulları",
+      "hrefTitle": "Kullanım koşulları - AIP:Aero Türkiye"
+    },
+    "efb": {
+      "title": "Pilot araçları & EFB",
+      "hrefTitle": "AIP:Aero EFB cihazınızda - kurulum, çevrimdışı kartlar, içe aktarma"
+    }
+  },
+  "Error": {
+    "description": "<p>Maalesef bir hata oluştu.</p><p><retry>Bu sayfayı yeniden yüklemeyi</retry> deneyebilirsiniz.</p>",
+    "title": "Bir şeyler ters gitti!"
+  },
+  "NotFound": {
+    "title": "404 - Sayfa bulunamadı",
+    "description": "Bu sayfa veya havalimanı kodu mevcut değil. Bunun yerine havalimanını aramayı deneyin:",
+    "searchPlaceholder": "Herhangi bir havalimanını ada veya ICAO koduna göre arayın",
+    "home": "Ana sayfaya dön"
+  },
+  "Weather": {
+    "title": "Hava durumu",
+    "observed": "Gözlemlenen",
+    "forecast": "Tahmin",
+    "wind": "Rüzgar",
+    "visibility": "Görüş",
+    "clouds": "Bulutlar",
+    "temperature": "Sıcaklık",
+    "qnh": "QNH",
+    "source": "Kaynak",
+    "elevation": "Rakım",
+    "sunrise": "Gün doğumu",
+    "sunset": "Gün batımı",
+    "civilTwilight": "Sivil alacakaranlık",
+    "facts": "Aerodrom verileri",
+    "runways": "Pistler",
+    "frequencies": "Frekanslar",
+    "decode": "Çözümlenmiş göster",
+    "openingHours": "Açılış saatleri",
+    "fuel": "Yakıt",
+    "ppr": "PPR",
+    "pprRequired": "Ön izin gereklidir",
+    "nearest": "En yakın havalimanı {station} hava durumu ({km} km uzaklıkta)",
+    "circuit": "Trafik paterni",
+    "circuitLeft": "sol",
+    "circuitRight": "sağ",
+    "windComponents": "Rüzgar bileşenleri",
+    "headwind": "Karşı rüzgar",
+    "tailwind": "Arka rüzgar",
+    "crosswind": "Yan rüzgar",
+    "fromLeft": "soldan",
+    "fromRight": "sağdan",
+    "landingDirection": "Olası iniş yönü",
+    "aerodromeType": "Aerodrom tipi",
+    "surface": "Yüzey",
+    "variable": "değişken",
+    "calm": "sakin"
+  },
+  "Common": {
+    "openIn": "Şurada aç",
+    "homeLink": "AIP:Aero - Avrupa için Havacılık Bilgi Yayınları (AIP) & yaklaşma kartları",
+    "lastUpdated": "Son güncelleme",
+    "viewOnMap": "Google Haritalar'da görüntüle",
+    "location": "Konum",
+    "website": "Web sitesi",
+    "address": "Adres",
+    "coordinates": "Koordinatlar",
+    "phone": "Telefon",
+    "map": "Harita",
+    "locate": "Konumumu bul",
+    "locateError": "Konumunuz belirlenemedi",
+    "nearby": "Yakındaki havalimanları",
+    "restaurant": "Restoran",
+    "customs": "Gümrük",
+    "yes": "Evet",
+    "no": "Hayır",
+    "saveOffline": "Çevrimdışı kaydet",
+    "savedOffline": "Çevrimdışı kaydedildi",
+    "installHint": "Uygulama olarak yükleyin: tarayıcınızın Paylaş menüsünü açın ve 'Ana Ekrana Ekle'yi seçin. Ardından çevrimiçiyken uygulamayı bir kez açın ve meydanları orada tekrar kaydedin - uygulamanın kendi çevrimdışı depolaması vardır.",
+    "installHintMac": "Mac'te: Safari'nin Paylaş menüsünden 'Dock'a Ekle' ile yükleyin. Ardından çevrimiçiyken uygulamayı bir kez açın ve meydanları orada tekrar kaydedin - uygulamanın kendi çevrimdışı depolaması vardır.",
+    "bulkDownload": "Tüm {count} sayfayı çevrimdışı kaydet (yaklaşık {size} MB)",
+    "bulkDownloaded": "Çevrimdışı kullanılabilir",
+    "bulkUpdate": "Güncelle",
+    "bulkRemove": "Kaldır",
+    "bulkProgress": "Sayfalar kaydediliyor",
+    "bulkCancel": "İptal",
+    "bulkError": "İndirme başarısız - lütfen tekrar deneyin",
+    "bulkNoSpace": "Bu cihazda yeterli boş depolama alanı yok",
+    "bulkScope": "Dahil: aerodrom verileriyle birlikte tüm havalimanı sayfaları. Dahil değil: yaklaşma kartı PDF'leri (her havalimanı için kaydedilebilir) ve canlı hava durumu (bağlantı gerektirir).",
+    "moreInfo": "Daha fazla bilgi",
+    "pavedRunway": "Asfalt pist",
+    "favorites": "Favoriler",
+    "favoritesEmpty": "Henüz favori yok - detay sayfasından bir havalimanını çevrimdışı kaydedin, burada görünecektir.",
+    "recentlyViewed": "Son görüntülenenler",
+    "recentlyViewedEmpty": "Açtığınız havalimanları hızlı erişim için burada otomatik olarak görünecektir.",
+    "borderCrossing": "Sınır geçişi",
+    "alsoAvailable": "Ayrıca mevcut:",
+    "aipLoginHint": "Giriş veya kayıt gerekebilir.",
+    "noChartPdf": "Bu aerodrom için ayrı bir kart PDF'i yayınlanmadı - yukarıdaki AIP düğmesi resmi aerodrom kaydını açar."
+  },
+  "Chart": {
+    "allCharts": "Tüm kartlar ({count})",
+    "title": "Yaklaşma kartı",
+    "openPdf": "Kart PDF'ini aç",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Görerek (VFR)",
+      "approach": "Yaklaşma",
+      "arrival": "Varış",
+      "departure": "Kalkış",
+      "other": "Diğer"
+    }
+  },
+  "TermsPage": {
+    "title": "Kullanım koşulları",
+    "intro": "AIP:Aero, tüm Avrupa'daki Havacılık Bilgi Yayınları (AIP), yaklaşma kartları ve havalimanı verileri için ücretsiz bir arama ve dizinleme hizmetidir.",
+    "servicesTitle": "Hizmetimiz",
+    "servicesText": "<home>AIP:Aero</home>, aerodromları ada veya ICAO koduna göre bulmanızı sağlar ve sizi doğrudan ilgili ülkenin resmi AIP yayınına götürür. Ayrıca havalimanı sayfalarımız, hava durumu raporları (METAR/TAF), aerodrom verileri (pistler, frekanslar, rakım), haritalar ve iletişim bilgileri gibi ek bilgiler içerir ve sayfalar çevrimdışı kullanım için kaydedilebilir. Hizmet ücretsiz olarak ve kayıt gerektirmeden sunulmaktadır.",
+    "disclaimerTitle": "Sorumluluk reddi",
+    "disclaimerText": "AIP:Aero hiçbir koşulda sorumlu tutulamaz. Havacılık belgelerini kendimiz yayınlamıyoruz: yalnızca ilgili ülkenin resmi sağlayıcısı tarafından sunulan en güncel Havacılık Bilgi Yayınına (AIP) bağlantı veriyoruz. Aynısı hava durumu verileri (METAR/TAF) ve havalimanı verileri için de geçerlidir: bu bilgileri sayfalarımızda gösteriyoruz, ancak bunlar aşağıda listelenen harici kaynaklardan gelmektedir. Bağlantılı veya gösterilen içeriğin doğruluğu, eksiksizliği veya güncelliği ile bu web sitesinin kullanılabilirliği için hiçbir sorumluluk veya garanti kabul etmiyoruz. Bu web sitesi resmi uçuş öncesi brifingin yerini tutmaz: sorumlu pilot, bir uçuş için gerekli tüm bilgileri edinme ve doğrulamada tek başına sorumlu kalır.",
+    "sourcesTitle": "Veri kaynakları",
+    "sourcesIntro": "Bağlantılı ve gösterilen verileri aşağıdaki kaynaklardan alıyoruz (adresler kasıtlı olarak tıklanamaz düz metin olarak gösterilir):",
+    "sourcesAip": "Bağlantı verdiğimiz resmi AIP yayınları",
+    "sourcesData": "Gösterilen harici veriler",
+    "srcAwc": "METAR/TAF hava durumu ve havalimanı verileri",
+    "srcOurAirports": "temel havalimanı verileri",
+    "srcOpenAip": "genişletilmiş aerodrom verileri: pistler, frekanslar, yakıt",
+    "srcOsm": "haritalar ve adresler",
+    "metaTitle": "Kullanım koşulları - AIP:Aero Türkiye",
+    "metaDescription": "Türkiye ve Avrupa için ücretsiz AIP ve yaklaşma kartı araması AIP:Aero'nun kullanım koşulları: hizmet açıklaması, sorumluluk reddi ve veri kaynakları."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero pilot araçları: EFB uygulaması, çevrimdışı kartlar, içe aktarmalar ve veriler",
+    "intro": "AIP:Aero'yu EFB (Elektronik Uçuş Çantası) tabletinize nasıl yükleyeceğiniz, yaklaşma kartlarını çevrimdışı nasıl kaydedeceğiniz, ülke paketlerini nasıl indireceğiniz ve havalimanlarını planlama araçlarınıza nasıl aktaracağınız - adım adım.",
+    "metaTitle": "EFB Kılavuzu Türkiye - AIP & yaklaşma kartları tabletinizde | AIP:Aero",
+    "metaDescription": "AIP:Aero'yu EFB tabletinize uygulama olarak yükleyin, yaklaşma kartlarını çevrimdışı kaydedin, tüm ülkeleri indirin ve kart PDF'lerini ForeFlight, SkyDemon & Co'ya aktarın (Türkiye).",
+    "installTitle": "Uygulama olarak yükle (PWA)",
+    "installText": "AIP:Aero yüklenebilir bir web uygulamasıdır: yerel bir uygulama gibi tam ekran açılır ve kaydettiğiniz her şey çevrimdışı kullanılabilir. Uygulama mağazası gerekmez.",
+    "installIos": "iPad / iPhone (Safari): aip.aero'yu açın, paylaş simgesine dokunun, ardından \"Ana Ekrana Ekle\".",
+    "installAndroid": "Android (Chrome): aip.aero'yu açın, menüye dokunun, ardından \"Ana ekrana ekle\" / \"Uygulamayı yükle\".",
+    "installDesktop": "Masaüstü (Chrome/Edge): adres çubuğundaki yükleme simgesine tıklayın - veya aşağıdaki düğmeyi kullanın. macOS (Safari): Paylaş simgesi, ardından \"Dock'a Ekle\".",
+    "offlineTitle": "Tek tek havalimanlarını çevrimdışı kaydet",
+    "offlineText": "Her havalimanı detay sayfasında bir \"Çevrimdışı kaydet\" düğmesi vardır. Sayfayı ve AIP'nin yayınladığı yerlerde yaklaşma kartı PDF'ini cihazınıza kaydeder; havalimanı daha sonra ülke sayfasında Favoriler altında görünür. Kaydedilen kopyalar indirme tarihlerini gösterir.",
+    "bulkTitle": "Tüm bir ülkeyi indir",
+    "bulkText": "<list>Havalimanı listesinde</list> bir ülkenin tüm detay sayfalarını tek seferde indirebilirsiniz (yalnızca sayfalar, kart PDF'leri olmadan - bunları her havalimanı için kaydedin). Paket indirmeden önce boyutunu gösterir ve istediğiniz zaman güncellenebilir veya kaldırılabilir.",
+    "favoritesTitle": "Favoriler & son görüntülenenler",
+    "favoritesText": "Çevrimdışı kullanım için kaydettiğiniz havalimanları otomatik olarak favoriler olarak görünür ve açtığınız son havalimanları \"Son görüntülenenler\" altında listelenir - her ikisi de yalnızca cihazınızda saklanır, hesap gerekmez. Her iki listeyi de <country>ülke sayfasında</country> bulabilirsiniz.",
+    "importTitle": "ForeFlight, SkyDemon & Co.'da kart PDF'leri",
+    "importText": "Ulusal AIP'nin kart PDF'leri yayınladığı yerlerde, detay sayfasındaki kart kutusu AIRAC tarihi dahil güncel PDF'e bağlantı verir. İndirin ve EFB uygulamanıza özel içerik olarak aktarın, ör. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) veya Garmin Pilot. Almanya PDF yerine HTML sayfaları yayınlar - orada AIP bağlantısını kullanın.",
+    "toolsTitle": "Planlama araçlarına aktarımlar",
+    "toolsText": "Her detay sayfasındaki konum kutusu aynı havalimanını doğrudan SkyVector, Windy ve autorouter'da açar - rota planlaması, hava durumu modelleri ve uçuş planı sunumu için kullanışlıdır.",
+    "weatherTitle": "Sayfada hava durumu brifingi",
+    "weatherText": "Detay sayfaları, düz dil çözümlemesiyle canlı METAR/TAF, uçuş kategorisi rozeti ve her pist için karşı ve yan rüzgar dökümü gösterir - hızlı bir çapraz kontrol, resmi brifinginizin yerini tutmaz.",
+    "customsTitle": "Gümrük & sınır geçişi",
+    "customsText": "Detay sayfaları bir havalimanının gümrük hizmeti sunup sunmadığını gösterir; bir ulusal AIP bunu GEN 1.2'de listelediğinde, değer o resmi kaynağa göre doğrulanır. Sınır geçişi belgeleri için konum kutusu resmi formlara bağlantı verir (ör. UK General Aviation Report) ve harita gümrüklü havalimanlarını filtreleyebilir. Kurallar değişir - her zaman güncel AIP ve yerel otorite ile teyit edin.",
+    "disclaimerTitle": "Güvenlik notu",
+    "disclaimerText": "AIP:Aero resmi AIP yayınlarına bağlantı verir ancak resmi bir kaynak değildir. Çevrimdışı kopyalar indirme tarihleriyle işaretlenir ve her AIRAC döngüsünde güncelliğini yitirebilir - her uçuştan önce kart güncelliğini doğrulayın ve her zaman resmi bir uçuş öncesi brifing alın.",
+    "apiTitle": "API ve veri iş birliği",
+    "apiText": "Geliştiriciler ve EFB sağlayıcıları için: AIP:Aero'nun yapılandırılmış aerodrom verileri (normalleştirilmiş aerodrom dizini, kart PDF derin bağlantıları, AIRAC döngüleri, koordinatlar, pistler, frekanslar ve gümrük bilgileri) entegrasyonlar için API aracılığıyla mevcuttur. İş birliğine açığız; <contact>bize ulaşın</contact>.",
+    "installButton": "Şimdi yükle",
+    "ctaTitle": "Şimdi deneyin",
+    "faqTitle": "Sıkça sorulan sorular",
+    "faq1q": "AIP:Aero tamamen çevrimdışı çalışır mı?",
+    "faq1a": "Kaydedilen havalimanları ve indirilen ülke paketleri internet olmadan çalışır; her çevrimdışı kopya kaydetme tarihiyle bir banner gösterir. Canlı hava durumu (METAR/TAF) her zaman bir bağlantı gerektirir.",
+    "faq2q": "Hangi ülkeler kapsanıyor?",
+    "faq2a": "Şu anda mevcut olan tüm ülkeler <home>ana sayfada</home> listelenmiştir - kapsam sürekli büyüyor. Her ülke kartı mevcut kart türlerini gösterir.",
+    "faq3q": "Kartlar güncel mi?",
+    "faq3a": "Kart bağlantıları, yayınlandığı yerde AIRAC tarihi dahil olmak üzere resmi ulusal AIP yayınlarına işaret eder. Uçuştan önce her zaman resmi kaynağa göre doğrulayın."
+  },
+  "CountryFaq": {
+    "title": "Sıkça sorulan sorular",
+    "q1": "AIP Türkiye nedir?",
+    "a1": "AIP (Havacılık Bilgi Yayını), Türkiye'nin resmi havacılık el kitabıdır ve DHMI (Devlet Hava Meydanları İşletmesi) tarafından yayınlanır: aerodrom verileri, prosedürler ve yaklaşma kartları, 28 günlük AIRAC döngüsünde güncellenir. AIP:Aero sizi doğrudan resmi yayına götürür.",
+    "q2": "Yaklaşma kartları ücretsiz mi?",
+    "a2": "AIP:Aero ücretsizdir: hesap yok, abonelik yok. DHMI, <list>yaklaşma kartları</list> dahil Türkiye'nin AIP'sini yayınlar; resmi portala erişim kayıt ve ücretli abonelik gerektirebilir.",
+    "q3": "Türkiye için hangi kartlar ve havalimanları mevcut?",
+    "a3": "Türkiye için <vfr>VFR havalimanlarını</vfr> bulacaksınız - başlıca havalimanı İstanbul (LTFM) dahil, her biri resmi karta doğrudan bağlantı, çözümlenmiş hava durumu (METAR/TAF) ve aerodrom verileriyle.",
+    "q4": "AIP:Aero'yu çevrimdışı veya EFB'imde kullanabilir miyim?",
+    "a4": "Evet - AIP:Aero bir uygulama (PWA) olarak yüklenir ve tek tek aerodromlar veya tüm ülke çevrimdışı kaydedilebilir. <efb>EFB kılavuzuna</efb> bakın."
+  }
+}

@@ -69,6 +69,8 @@ export const routing = defineRouting({
     "hr-EN",
     "bg",
     "bg-EN",
+    "tr",
+    "tr-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -105,6 +107,7 @@ export const routing = defineRouting({
       "it-EN": "/it/en",
       "hr-EN": "/hr/en",
       "bg-EN": "/bg/en",
+      "tr-EN": "/tr/en",
     },
   },
   pathnames: {
@@ -184,6 +187,8 @@ export const routing = defineRouting({
       "hr-EN": "/airport-list-croatia",
       bg: "/letishta-balgariya",
       "bg-EN": "/airport-list-bulgaria",
+      tr: "/havalimanlari-turkiye",
+      "tr-EN": "/airport-list-turkey",
     },
   },
   localeCookie: false,
@@ -315,6 +320,10 @@ export const localeLangMapping: Record<
   // LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
   bg: "bg",
   "bg-EN": "en",
+  // Turkey: prefix "tr" == ISO language code "tr" (Turkish), so the
+  // LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
+  tr: "tr",
+  "tr-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -387,4 +396,6 @@ export const localeCountryMapping: Record<
   "hr-EN": "hr",
   bg: "bg",
   "bg-EN": "bg",
+  tr: "tr",
+  "tr-EN": "tr",
 };
