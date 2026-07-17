@@ -20,7 +20,9 @@ NOT the eurocontrol positional `_24-1_` scheme - so PDF_HREF_PRIORITY prefers
 `-VAC-` then `-ADC-`. UG is the Georgia ICAO prefix.
 """
 
+import csv
 import datetime
+import io
 import re
 from urllib.parse import urljoin
 
@@ -30,6 +32,12 @@ from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 COUNTRY = "GE"
 # The eAIP edition-history page: lists every issue's index, each a dated folder.
 ROOT_URL = "https://airnav.ge/eaip/history-en-GB.html"
+
+# OurAirports airports export (CC0 / public domain) - used only to enrich the
+# aerodrome NAME. airnav.ge's AD-2 menu labels each chapter with the bare ICAO
+# (no place name), but the site's hard rule is titles must read "<name> <ICAO>"
+# (map label / list / detail heading), so the name is looked up here.
+AIRPORTS_CSV = "https://davidmegginson.github.io/ourairports-data/airports.csv"
 
 # Edition folders embed their effective date as `<YYYY-MM-DD>-000000` (current
 # scheme) or `<YYYY-MM-DD>-AIRAC` (older archives); both sit above `/html`.
@@ -128,11 +136,35 @@ class GE(HttpEurocontrolBase):
         assert last_error is not None
         raise last_error
 
-    # Chart-PDF extraction: Georgia's AD 2.24 charts are `<ICAO>-<TYPE>-<seq>.pdf`
-    # under html/graphics/ (VAC = visual approach, ADC = aerodrome chart, IAC =
-    # instrument approach). Prefer the VAC, then the ADC, as the primary chart.
+    def _ourairports_names(self) -> dict[str, str]:
+        """ICAO -> aerodrome name for Georgia, from OurAirports (CC0). Fail-soft
+        to an empty map (the crawl still works, titles just stay bare ICAO)."""
+        try:
+            resp = self.client.get(AIRPORTS_CSV, timeout=60)
+            resp.raise_for_status()
+            names: dict[str, str] = {}
+            for row in csv.DictReader(io.StringIO(resp.text)):
+                if (row.get("iso_country") or "").strip().upper() != COUNTRY:
+                    continue
+                for key in ("icao_code", "ident"):
+                    code = (row.get(key) or "").strip().upper()
+                    if len(code) == 4 and code.isalpha():
+                        name = (row.get("name") or "").strip()
+                        if name:
+                            names.setdefault(code, name)
+                        break
+            return names
+        except Exception as e:
+            self.logger.warning(f"GE: OurAirports name lookup failed ({e})")
+            return {}
+
+    # Chart-PDF extraction: Georgia's AD 2.24 charts sit under the edition's
+    # `pdf/` folder as `UG-AD-2-<ICAO>-<Chart-name>.pdf` (Visual approach /
+    # Aerodrome chart / instrument approaches). Prefer the visual approach, then
+    # the aerodrome chart, as the primary; the base falls back to the first
+    # chart if neither token is present, so coverage stays complete.
     FETCH_PDF_URLS = True
-    PDF_HREF_PRIORITY = (r"-VAC-", r"-ADC-")
+    PDF_HREF_PRIORITY = (r"Visual-approach", r"Aerodrome-chart")
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
@@ -195,6 +227,16 @@ class GE(HttpEurocontrolBase):
                 seen_icao.add(key)
                 deduped.append(a)
             airports = deduped
+
+            # Enrich the NAME: airnav.ge's menu labels each chapter with the
+            # bare ICAO, so upgrade "<ICAO>" -> "<name> <ICAO>" from OurAirports
+            # (CC0). Only override a bare-ICAO title, never a real eAIP name.
+            names = self._ourairports_names()
+            for a in airports:
+                if a.icao and a.title.strip().upper() == a.icao and (
+                    name := names.get(a.icao)
+                ):
+                    a.title = f"{name} {a.icao}"
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)

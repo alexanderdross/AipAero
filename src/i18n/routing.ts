@@ -71,6 +71,8 @@ export const routing = defineRouting({
     "bg-EN",
     "tr",
     "tr-EN",
+    "ge",
+    "ge-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
