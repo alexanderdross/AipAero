@@ -42,8 +42,12 @@ _MENU_SUFFIX = "eAIP/UG-menu-en-GB.html"
 # per-airport chapter fallback ("AD <n>.<ICAO>...details", CZ/PT/IE layout).
 _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 _AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD-3details", "AD 3details"]
-_AD2_CHAPTER_RE = re.compile(r"AD[ -]2\.([A-Z]{4}).*details$")
-_AD3_CHAPTER_RE = re.compile(r"AD[ -]3\.([A-Z0-9]{3,4}).*details$")
+# airnav.ge keys each aerodrome chapter as `iAD-2-<ICAO>details` - a HYPHEN
+# between "2" and the ICAO (not the "AD 2.<ICAO>" dot other eAIPs use), and no
+# aggregate "AD 2" container, so only the per-chapter fallback matches. Accept
+# both separators ([-.]) so the regex is robust across editions.
+_AD2_CHAPTER_RE = re.compile(r"AD[ -]2[-.]([A-Z]{4}).*details$")
+_AD3_CHAPTER_RE = re.compile(r"AD[ -]3[-.]([A-Z0-9]{3,4}).*details$")
 
 
 class GE(HttpEurocontrolBase):
