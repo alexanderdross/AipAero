@@ -24,7 +24,7 @@ import {
   localeLangMapping,
   routing,
 } from "~/i18n/routing";
-import { cn, orgUrl } from "~/lib/utils";
+import { cn, orgUrl, serpTitle } from "~/lib/utils";
 
 // Decorative icon per card type (keyed by the card message key). aria-hidden in
 // Box, so it adds visual scent without changing the heading's accessible name.
@@ -65,7 +65,7 @@ export async function generateMetadata(
   const locales = [...new Set([nativeLocale, englishLocale])];
 
   return {
-    title: t("metaTitle"),
+    title: serpTitle(t("metaTitle")),
     description: t("metaDescription"),
     alternates: {
       canonical: trailingSlash(currentUrl),
@@ -157,7 +157,7 @@ export default async function CountryPage(
     <>
       <Hero title={t("title")} description={t("description")} />
       <SchemaProduct
-        name={t("breadcrumb.alternateName")}
+        name={serpTitle(t("breadcrumb.alternateName"))}
         alternateName={t("breadcrumb.name")}
         description={t("breadcrumb.description")}
         publishedDate={modifiedDate}

@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Luchthavenlijst Nederland",
-    "metaTitle": "🛩️ Luchthavenlijst Nederland",
+    "metaTitle": "Luchthavenlijst Nederland",
     "description": "Alle vliegvelden/luchthavens in Nederland op een rij",
     "metaDescription": "Alle vliegvelden/luchthavens in Nederland op een rij🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
-    "metaTitle": "🛩️ Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
+    "metaTitle": "Zoekmasker voor naderingskaarten AIP VFR HEL AD helihavens Nederland",
     "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten voor helikopterplatforms van Luchtverkeersleiding Nederland (LVNL)",
     "metaDescription": "AIP VFR Nederland HEL AD Zoek helihavens en download naderingskaarten🗺️",
     "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP Helihavens te gaan",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Zoekmasker voor naderingskaarten AIP VFR Nederland",
-    "metaTitle": "🛩️ Zoekmasker voor naderingskaarten AIP VFR Nederland",
+    "metaTitle": "Zoekmasker voor naderingskaarten AIP VFR Nederland",
     "description": "Voer de naam of ICAO-code van de luchthaven in om toegang te krijgen tot de VFR-naderingskaarten van Luchtverkeersleiding Nederland (LVNL).",
     "metaDescription": "AIP VFR Nederland AD Zoek luchthavens en download naderingskaarten🗺️",
     "searchTitle": "Voer de luchthaven- of ICAO-code in om naar VFR AIP te gaan",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
-    "metaTitle": "🛩️ Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
+    "metaTitle": "Naderingskaarten & luchtvaarthandleiding AIP voor Nederland",
     "description": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden",
     "metaDescription": "Hier kunt u alle AIP (Aeronautical Information Publication) luchtvaarthandleidingen en naderingskaarten voor Nederland downloaden🗺️",
     "vfrCard": {

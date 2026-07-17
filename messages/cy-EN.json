@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Cyprus",
-    "metaTitle": "🛩️ List of Airfields in Cyprus",
+    "metaTitle": "List of Airfields in Cyprus",
     "description": "Overview of all airfields/ airports in Cyprus",
     "metaDescription": "Overview of all airfields/ airports in Cyprus🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "AIP VFR Charts for Heliports in Cyprus",
-    "metaTitle": "🛩️ AIP VFR Charts for Heliports in Cyprus",
+    "metaTitle": "AIP VFR Charts for Heliports in Cyprus",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Heliports provided by the Aeronautical Information Service of Cyprus.",
     "metaDescription": "Browse AIP VFR Heliports Cyprus and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for heliports",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Cyprus",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Cyprus",
+    "metaTitle": "Index of AIP VFR and visual approach charts Cyprus",
     "description": "Enter airport name or ICAO code (e.g. LCLK, LCPH) to access the AIP VFR approach charts provided by the Aeronautical Information Service of Cyprus.",
     "metaDescription": "Browse AIP VFR Cyprus and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Cyprus",
-    "metaTitle": "🛩️ AIP and approach charts of Cyprus",
+    "metaTitle": "AIP and approach charts of Cyprus",
     "description": "Search Index of aeronautical information publication (AIP) VFR and heliports in Cyprus",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and heliports in Cyprus🗺️",
     "vfrCard": {

@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Latvijas lidlauku saraksts",
-    "metaTitle": "🛩️ Latvijas lidlauku saraksts",
+    "metaTitle": "Latvijas lidlauku saraksts",
     "description": "Visi Latvijas lidlauki un lidostas vienuviet",
     "metaDescription": "Visi Latvijas lidlauki un lidostas vienuviet🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "AIP VFR HEL AD pieejas karšu meklētājs Latvijas helikopteru lidlaukiem",
-    "metaTitle": "🛩️ AIP VFR HEL AD pieejas karšu meklētājs Latvijas helikopteru lidlaukiem",
+    "metaTitle": "AIP VFR HEL AD pieejas karšu meklētājs Latvijas helikopteru lidlaukiem",
     "description": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu LGS publicētajām helikopteru lidlauku VFR pieejas kartēm.",
     "metaDescription": "Meklējiet AIP VFR Latvija HEL AD helikopteru lidlaukus un lejupielādējiet pieejas kartes🗺️",
     "searchTitle": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu helikopteru lidlauku VFR AIP",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "AIP VFR pieejas karšu meklētājs Latvijai",
-    "metaTitle": "🛩️ AIP VFR pieejas karšu meklētājs Latvijai",
+    "metaTitle": "AIP VFR pieejas karšu meklētājs Latvijai",
     "description": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu LGS publicētajām VFR pieejas kartēm.",
     "metaDescription": "Meklējiet AIP VFR Latvija AD lidlaukus un lejupielādējiet pieejas kartes🗺️",
     "searchTitle": "Ievadiet lidlauka nosaukumu vai ICAO kodu, lai piekļūtu VFR AIP",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Pieejas kartes & aeronavigācijas informācijas publikācija AIP Latvijai",
-    "metaTitle": "🛩️ Pieejas kartes & aeronavigācijas informācijas publikācija AIP Latvijai",
+    "metaTitle": "Pieejas kartes & aeronavigācijas informācijas publikācija AIP Latvijai",
     "description": "Šeit varat lejupielādēt visas Latvijas AIP (Aeronautical Information Publication) aeronavigācijas publikācijas un pieejas kartes",
     "metaDescription": "Šeit varat lejupielādēt visas Latvijas AIP (Aeronautical Information Publication) aeronavigācijas publikācijas un pieejas kartes🗺️",
     "vfrCard": {

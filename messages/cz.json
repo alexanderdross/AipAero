@@ -47,7 +47,7 @@
   },
   "AirportsPage": {
     "title": "Seznam letišť v Česku",
-    "metaTitle": "🛩️ Seznam letišť v Česku",
+    "metaTitle": "Seznam letišť v Česku",
     "description": "Přehled všech letišť v Česku",
     "metaDescription": "Přehled všech letišť v Česku🗺️",
     "ifrCard": {
@@ -64,7 +64,7 @@
   },
   "IfrPage": {
     "title": "Vyhledávání přibližovacích map AIP IFR Česko",
-    "metaTitle": "🛩️ Vyhledávání přibližovacích map AIP IFR Česko",
+    "metaTitle": "Vyhledávání přibližovacích map AIP IFR Česko",
     "description": "Zadejte název nebo ICAO kód letiště pro přístup k přibližovacím mapám AIP IFR.",
     "metaDescription": "Prohledávejte AIP IFR Česko a stahujte přibližovací mapy letišť🗺️",
     "searchTitle": "Zadejte název letiště nebo jeho ICAO kód pro přístup k AIP IFR",
@@ -79,7 +79,7 @@
   },
   "VfrPage": {
     "title": "Vyhledávání přibližovacích map AIP VFR Česko",
-    "metaTitle": "🛩️ Vyhledávání přibližovacích map AIP VFR Česko",
+    "metaTitle": "Vyhledávání přibližovacích map AIP VFR Česko",
     "description": "Zadejte název nebo ICAO kód letiště pro přístup k přibližovacím mapám VFR, které vydává ANS CR ve VFR příručce (včetně letišť SLZ pro ultralehká letadla).",
     "metaDescription": "Prohledávejte AIP VFR Česko a stahujte přibližovací mapy letišť zdarma🗺️",
     "searchTitle": "Zadejte název letiště nebo jeho ICAO kód pro přístup k AIP VFR",
@@ -105,7 +105,7 @@
   },
   "CountryPage": {
     "title": "Přibližovací mapy a letecká informační příručka AIP pro Česko",
-    "metaTitle": "🛩️ Přibližovací mapy a letecká informační příručka AIP pro Česko",
+    "metaTitle": "Přibližovací mapy a letecká informační příručka AIP pro Česko",
     "description": "Zde najdete ke stažení všechny letecké informační příručky AIP (Aeronautical Information Publication) a přibližovací mapy pro Česko",
     "metaDescription": "Zde najdete ke stažení všechny letecké informační příručky AIP (Aeronautical Information Publication) a přibližovací mapy pro Česko🗺️",
     "ifrCard": {

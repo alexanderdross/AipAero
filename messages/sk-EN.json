@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Slovakia",
-    "metaTitle": "🛩️ List of Airfields in Slovakia",
+    "metaTitle": "List of Airfields in Slovakia",
     "description": "Overview of all airfields/ airports in Slovakia",
     "metaDescription": "Overview of all airfields/ airports in Slovakia🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Slovakia",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Slovakia",
+    "metaTitle": "Index of AIP VFR and visual approach charts Slovakia",
     "description": "Enter airport name or ICAO code (e.g. LZIB, LZKZ, LZZI) to access the AIP VFR approach charts provided by LPS SR.",
     "metaDescription": "Browse AIP VFR Slovakia and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Slovakia",
-    "metaTitle": "🛩️ AIP and approach charts of Slovakia",
+    "metaTitle": "AIP and approach charts of Slovakia",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Slovakia",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Slovakia🗺️",
     "vfrCard": {

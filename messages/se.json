@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Lista över flygplatser i Sverige",
-    "metaTitle": "🛩️ Lista över flygplatser i Sverige",
+    "metaTitle": "Lista över flygplatser i Sverige",
     "description": "Alla flygplatser i Sverige i överblick",
     "metaDescription": "Alla flygplatser i Sverige i överblick🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "Sökmask för inflygningskartor AIP VFR HEL AD helikopterflygplatser i Sverige",
-    "metaTitle": "🛩️ Sökmask för inflygningskartor AIP VFR HEL AD helikopterflygplatser i Sverige",
+    "metaTitle": "Sökmask för inflygningskartor AIP VFR HEL AD helikopterflygplatser i Sverige",
     "description": "Ange flygplatsens namn eller ICAO-kod för att komma åt VFR-inflygningskartorna för helikopterflygplatser som tillhandahålls av LFV.",
     "metaDescription": "Sök AIP VFR Sverige HEL AD helikopterflygplatser och ladda ner inflygningskartor🗺️",
     "searchTitle": "Ange flygplatsens namn eller ICAO-kod för att komma till VFR AIP för helikopterflygplatser",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Sökmask för inflygningskartor AIP VFR Sverige",
-    "metaTitle": "🛩️ Sökmask för inflygningskartor AIP VFR Sverige",
+    "metaTitle": "Sökmask för inflygningskartor AIP VFR Sverige",
     "description": "Ange flygplatsens namn eller ICAO-kod för att komma åt VFR-inflygningskartorna som tillhandahålls av LFV.",
     "metaDescription": "Sök AIP VFR Sverige AD flygplatser och ladda ner inflygningskartor🗺️",
     "searchTitle": "Ange flygplatsens namn eller ICAO-kod för att komma till VFR AIP",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Inflygningskartor & luftfartspublikation AIP för Sverige",
-    "metaTitle": "🛩️ Inflygningskartor & luftfartspublikation AIP för Sverige",
+    "metaTitle": "Inflygningskartor & luftfartspublikation AIP för Sverige",
     "description": "Här kan du ladda ner alla AIP (Aeronautical Information Publication) luftfartspublikationer och inflygningskartor för Sverige",
     "metaDescription": "Här kan du ladda ner alla AIP (Aeronautical Information Publication) luftfartspublikationer och inflygningskartor för Sverige🗺️",
     "vfrCard": {

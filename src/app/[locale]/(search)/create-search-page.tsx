@@ -26,6 +26,7 @@ import {
   i18nPathMapping,
   isGatedCountry,
   orgUrl,
+  serpTitle,
 } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 import { type Airport } from "~/server/db/schema";
@@ -172,8 +173,8 @@ export function createSearchPage(config: SearchPageConfig) {
 
     return {
       title: data
-        ? `🛩️ ${t("resultTitle", { airport: data.title })}✔️`
-        : t("metaTitle"),
+        ? serpTitle(t("resultTitle", { airport: data.title }), { type })
+        : serpTitle(t("metaTitle"), { type }),
       description: data
         ? `${t("resultDescription", { airport: data.title })}🗺️`
         : t("metaDescription"),
@@ -204,7 +205,7 @@ export function createSearchPage(config: SearchPageConfig) {
         ...previousOpenGraph,
         url: currentUrl,
         siteName: data
-          ? `🛩️ ${t("resultTitle", { airport: data.title })}✔️`
+          ? t("resultTitle", { airport: data.title })
           : t("metaTitle"),
       },
       other: {
@@ -281,7 +282,7 @@ export function createSearchPage(config: SearchPageConfig) {
           }
         />
         <SchemaProduct
-          name={schemaProductName}
+          name={serpTitle(schemaProductName, { type })}
           alternateName={schemaAlternateName}
           description={schemaDescription}
           publishedDate={modifiedDate}

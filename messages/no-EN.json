@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Norway",
-    "metaTitle": "🛩️ List of Airfields in Norway",
+    "metaTitle": "List of Airfields in Norway",
     "description": "Overview of all airfields/ airports in Norway",
     "metaDescription": "Overview of all airfields/ airports in Norway🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "AIP VFR Charts for Helicopter Aerodromes in Norway",
-    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Norway",
+    "metaTitle": "AIP VFR Charts for Helicopter Aerodromes in Norway",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
     "metaDescription": "Browse AIP VFR Helicopter Aerodromes Norway and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Norway",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Norway",
+    "metaTitle": "Index of AIP VFR and visual approach charts Norway",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
     "metaDescription": "Browse AIP VFR Norway and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Norway",
-    "metaTitle": "🛩️ AIP and approach charts of Norway",
+    "metaTitle": "AIP and approach charts of Norway",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Norway",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Norway🗺️",
     "vfrCard": {

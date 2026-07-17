@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Magyarország repülőtereinek listája",
-    "metaTitle": "🛩️ Magyarország repülőtereinek listája",
+    "metaTitle": "Magyarország repülőtereinek listája",
     "description": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben",
     "metaDescription": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Magyarországi AIP VFR megközelítési térképek keresője",
-    "metaTitle": "🛩️ Magyarországi AIP VFR megközelítési térképek keresője",
+    "metaTitle": "Magyarországi AIP VFR megközelítési térképek keresője",
     "description": "Add meg a repülőtér nevét vagy ICAO-kódját (pl. LHBP, LHDC, LHPP) a HungaroControl által közzétett VFR megközelítési térképek eléréséhez.",
     "metaDescription": "Keress magyarországi AIP VFR repülőtereket és tölts le megközelítési térképeket ingyen🗺️",
     "searchTitle": "Add meg a repülőtér nevét vagy ICAO-kódját az AIP VFR eléréséhez",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "Magyarország AIP légiforgalmi tájékoztató kiadványa és megközelítési térképei",
-    "metaTitle": "🛩️ Magyarország AIP légiforgalmi tájékoztató kiadványa és megközelítési térképei",
+    "metaTitle": "Magyarország AIP légiforgalmi tájékoztató kiadványa és megközelítési térképei",
     "description": "Itt töltheted le Magyarország összes AIP légiforgalmi tájékoztató kiadványát (Aeronautical Information Publication) és megközelítési térképét",
     "metaDescription": "Itt töltheted le Magyarország összes AIP légiforgalmi tájékoztató kiadványát (Aeronautical Information Publication) és megközelítési térképét🗺️",
     "vfrCard": {

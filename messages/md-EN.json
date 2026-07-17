@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Moldova",
-    "metaTitle": "🛩️ List of Airfields in Moldova",
+    "metaTitle": "List of Airfields in Moldova",
     "description": "Overview of all airfields/ airports in Moldova",
     "metaDescription": "Overview of all airfields/ airports in Moldova🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Moldova",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Moldova",
+    "metaTitle": "Index of AIP VFR and visual approach charts Moldova",
     "description": "Enter airport name or ICAO code (e.g. LUKK) to access the AIP VFR approach charts provided by MOLDATSA.",
     "metaDescription": "Browse AIP VFR Moldova and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Moldova",
-    "metaTitle": "🛩️ AIP and approach charts of Moldova",
+    "metaTitle": "AIP and approach charts of Moldova",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Moldova",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Moldova🗺️",
     "vfrCard": {

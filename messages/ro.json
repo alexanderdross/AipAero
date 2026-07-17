@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Lista aeroporturilor din România",
-    "metaTitle": "🛩️ Lista aeroporturilor din România",
+    "metaTitle": "Lista aeroporturilor din România",
     "description": "Prezentare generală a tuturor aeroporturilor din România",
     "metaDescription": "Prezentare generală a tuturor aeroporturilor din România🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Indexul AIP VFR și al hărților de apropiere vizuală România",
-    "metaTitle": "🛩️ Indexul AIP VFR și al hărților de apropiere vizuală România",
+    "metaTitle": "Indexul AIP VFR și al hărților de apropiere vizuală România",
     "description": "Introduceți numele aeroportului sau codul ICAO (de ex. LROP, LRCL) pentru a accesa hărțile de apropiere AIP VFR furnizate de ROMATSA.",
     "metaDescription": "Răsfoiți AIP VFR România și descărcați gratuit hărțile de apropiere ale aeroporturilor🗺️",
     "searchTitle": "Introduceți numele aeroportului sau codul său ICAO pentru a accesa AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP și hărțile de apropiere ale României",
-    "metaTitle": "🛩️ AIP și hărțile de apropiere ale României",
+    "metaTitle": "AIP și hărțile de apropiere ale României",
     "description": "Index de căutare al publicației de informare aeronautică (AIP) VFR și al hărților de apropiere din România",
     "metaDescription": "Index de căutare al publicației de informare aeronautică (AIP) VFR și al hărților de apropiere din România🗺️",
     "vfrCard": {

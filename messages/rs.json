@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Lista aerodroma u Srbiji",
-    "metaTitle": "🛩️ Lista aerodroma u Srbiji",
+    "metaTitle": "Lista aerodroma u Srbiji",
     "description": "Pregled svih aerodroma u Srbiji",
     "metaDescription": "Pregled svih aerodroma u Srbiji🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Indeks AIP VFR i karata vizuelnog prilaza Srbija",
-    "metaTitle": "🛩️ Indeks AIP VFR i karata vizuelnog prilaza Srbija",
+    "metaTitle": "Indeks AIP VFR i karata vizuelnog prilaza Srbija",
     "description": "Unesite naziv aerodroma ili ICAO kod da biste pristupili AIP VFR kartama prilaza koje objavljuje SMATSA.",
     "metaDescription": "Pregledajte AIP VFR Srbija i besplatno preuzmite karte prilaza aerodroma🗺️",
     "searchTitle": "Unesite naziv aerodroma ili njegov ICAO kod da biste pristupili AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP i karte prilaza Srbije",
-    "metaTitle": "🛩️ AIP i karte prilaza Srbije",
+    "metaTitle": "AIP i karte prilaza Srbije",
     "description": "Pretražite indeks Zbornika vazduhoplovnih informacija (AIP) za VFR i helikopterske aerodrome u Srbiji",
     "metaDescription": "Pretražite indeks Zbornika vazduhoplovnih informacija (AIP) za VFR i helikopterske aerodrome u Srbiji🗺️",
     "vfrCard": {

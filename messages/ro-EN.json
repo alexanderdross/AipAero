@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Romania",
-    "metaTitle": "🛩️ List of Airfields in Romania",
+    "metaTitle": "List of Airfields in Romania",
     "description": "Overview of all airfields/ airports in Romania",
     "metaDescription": "Overview of all airfields/ airports in Romania🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Romania",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Romania",
+    "metaTitle": "Index of AIP VFR and visual approach charts Romania",
     "description": "Enter airport name or ICAO code (e.g. LROP, LRCL) to access the AIP VFR approach charts provided by ROMATSA.",
     "metaDescription": "Browse AIP VFR Romania and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Romania",
-    "metaTitle": "🛩️ AIP and approach charts of Romania",
+    "metaTitle": "AIP and approach charts of Romania",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Romania",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Romania🗺️",
     "vfrCard": {

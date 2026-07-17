@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Greece",
-    "metaTitle": "🛩️ List of Airfields in Greece",
+    "metaTitle": "List of Airfields in Greece",
     "description": "Overview of all airfields/ airports in Greece",
     "metaDescription": "Overview of all airfields/ airports in Greece🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "AIP VFR Charts for Heliports in Greece",
-    "metaTitle": "🛩️ AIP VFR Charts for Heliports in Greece",
+    "metaTitle": "AIP VFR Charts for Heliports in Greece",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Heliports provided by the Aeronautical Information Service of Greece.",
     "metaDescription": "Browse AIP VFR Heliports Greece and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for heliports",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Greece",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Greece",
+    "metaTitle": "Index of AIP VFR and visual approach charts Greece",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by the Aeronautical Information Service of Greece.",
     "metaDescription": "Browse AIP VFR Greece and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Greece",
-    "metaTitle": "🛩️ AIP and approach charts of Greece",
+    "metaTitle": "AIP and approach charts of Greece",
     "description": "Search Index of aeronautical information publication (AIP) VFR and heliports in Greece",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and heliports in Greece🗺️",
     "vfrCard": {

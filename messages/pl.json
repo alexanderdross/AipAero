@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Lista lotnisk w Polsce",
-    "metaTitle": "🛩️ Lista lotnisk w Polsce",
+    "metaTitle": "Lista lotnisk w Polsce",
     "description": "Wszystkie lotniska w Polsce w jednym miejscu",
     "metaDescription": "Wszystkie lotniska w Polsce w jednym miejscu🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "Wyszukiwarka map podejścia AIP VFR HEL AD heliportów w Polsce",
-    "metaTitle": "🛩️ Wyszukiwarka map podejścia AIP VFR HEL AD heliportów w Polsce",
+    "metaTitle": "Wyszukiwarka map podejścia AIP VFR HEL AD heliportów w Polsce",
     "description": "Wprowadź nazwę lotniska lub kod ICAO, aby uzyskać dostęp do map podejścia VFR dla heliportów Polskiej Agencji Żeglugi Powietrznej (PAŻP).",
     "metaDescription": "AIP VFR Polska HEL AD Wyszukaj heliporty i pobierz mapy podejścia🗺️",
     "searchTitle": "Wprowadź nazwę lotniska lub kod ICAO, aby przejść do heliportów AIP VFR",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Wyszukiwarka map podejścia AIP VFR Polska",
-    "metaTitle": "🛩️ Wyszukiwarka map podejścia AIP VFR Polska",
+    "metaTitle": "Wyszukiwarka map podejścia AIP VFR Polska",
     "description": "Wprowadź nazwę lotniska lub kod ICAO, aby uzyskać dostęp do map podejścia VFR.",
     "metaDescription": "AIP VFR Polska AD Wyszukaj lotniska i pobierz mapy podejścia🗺️",
     "searchTitle": "Wprowadź nazwę lotniska lub kod ICAO, aby przejść do AIP VFR",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Mapy podejścia i zbiór informacji lotniczych AIP dla Polski",
-    "metaTitle": "🛩️ Mapy podejścia i zbiór informacji lotniczych AIP dla Polski",
+    "metaTitle": "Mapy podejścia i zbiór informacji lotniczych AIP dla Polski",
     "description": "Tutaj możesz pobrać wszystkie zbiory informacji lotniczych AIP (Aeronautical Information Publication) oraz mapy podejścia dla Polski",
     "metaDescription": "Tutaj możesz pobrać wszystkie zbiory informacji lotniczych AIP (Aeronautical Information Publication) oraz mapy podejścia dla Polski🗺️",
     "vfrCard": {

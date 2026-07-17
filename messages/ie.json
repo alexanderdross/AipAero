@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Ireland",
-    "metaTitle": "🛩️ List of Airfields in Ireland",
+    "metaTitle": "List of Airfields in Ireland",
     "description": "Overview of all airfields/ airports in Ireland",
     "metaDescription": "Overview of all airfields/ airports in Ireland🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Ireland",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Ireland",
+    "metaTitle": "Index of AIP VFR and visual approach charts Ireland",
     "description": "Enter airport name or ICAO code (e.g. EIDW, EICK, EINN) to access the AIP VFR approach charts provided by AirNav Ireland.",
     "metaDescription": "Browse AIP VFR Ireland and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Ireland",
-    "metaTitle": "🛩️ AIP and approach charts of Ireland",
+    "metaTitle": "AIP and approach charts of Ireland",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Ireland",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Ireland🗺️",
     "vfrCard": {

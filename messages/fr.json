@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Liste des aérodromes en France",
-    "metaTitle": "🛩️ Liste des aérodromes en France",
+    "metaTitle": "Liste des aérodromes en France",
     "description": "Vue d'ensemble de tous les aérodromes/aéroports en France",
     "metaDescription": "Vue d'ensemble de tous les aérodromes/aéroports en France 🗺️",
     "militaryCard": {
@@ -73,7 +73,7 @@
   },
   "MilitaryPage": {
     "title": "Recherche de cartes d'approche AIP MIL France",
-    "metaTitle": "🛩️ Recherche de cartes d'approche AIP MIL France",
+    "metaTitle": "Recherche de cartes d'approche AIP MIL France",
     "description": "Entrez le nom ou le code OACI de l'aéroport pour accéder aux cartes d'approche MIL fournies par la DSNA",
     "metaDescription": "Recherchez les aérodromes AIP MIL France et téléchargez les cartes d'approche 🗺️",
     "searchTitle": "Entrez le nom ou le code OACI de l'aéroport pour accéder à l'AIP MIL",
@@ -88,7 +88,7 @@
   },
   "AeroportPage": {
     "title": "Recherche de cartes d'approche AIP France",
-    "metaTitle": "🛩️ Recherche de cartes d'approche AIP France",
+    "metaTitle": "Recherche de cartes d'approche AIP France",
     "description": "Entrez le nom ou le code OACI de l'aéroport pour accéder aux cartes d'approche fournies par la DSNA",
     "metaDescription": "Recherchez les aérodromes AIP France et téléchargez les cartes d'approche 🗺️",
     "searchTitle": "Entrez le nom ou le code OACI de l'aéroport pour accéder à l'AIP",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Cartes d'approche & Manuel d'aviation AIP pour la France",
-    "metaTitle": "🛩️ Cartes d'approche & Manuel d'aviation AIP pour la France",
+    "metaTitle": "Cartes d'approche & Manuel d'aviation AIP pour la France",
     "description": "Téléchargez ici tous les manuels d'aviation AIP (Aeronautical Information Publication) et les cartes d'approche pour la France",
     "metaDescription": "Téléchargez ici tous les manuels d'aviation AIP (Aeronautical Information Publication) et les cartes d'approche pour la France 🗺️",
     "militaryCard": {
