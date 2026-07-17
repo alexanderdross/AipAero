@@ -1,0 +1,351 @@
+{
+  "BreadCrumbs": {
+    "label": "Percorso di navigazione",
+    "root": {
+      "title": "Indice AIP",
+      "hrefTitle": "Indice AIP"
+    },
+    "/": {
+      "title": "Italia (Italiano)",
+      "hrefTitle": "AIP Italia"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Italia"
+    },
+    "/airport-list": {
+      "title": "Elenco degli aeroporti",
+      "hrefTitle": "Elenco degli aeroporti in Italia"
+    },
+    "/terms": {
+      "title": "Termini di utilizzo",
+      "hrefTitle": "Termini di utilizzo - AIP:Aero Italia"
+    },
+    "/efb": {
+      "title": "Strumenti per piloti & EFB",
+      "hrefTitle": "Guida EFB - AIP:Aero sul tuo tablet"
+    }
+  },
+  "Menu": {
+    "label": "Menu",
+    "home": {
+      "title": "AIP Italia",
+      "hrefTitle": "AIP Italia"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Italia"
+    },
+    "airports": {
+      "title": "Elenco degli aeroporti",
+      "hrefTitle": "Elenco degli aeroporti in Italia"
+    }
+  },
+  "AirportsPage": {
+    "title": "Elenco degli aeroporti in Italia",
+    "metaTitle": "Elenco degli aeroporti in Italia",
+    "description": "Panoramica di tutti gli aeroporti in Italia",
+    "metaDescription": "Panoramica di tutti gli aeroporti in Italia🗺️",
+    "vfrCard": {
+      "title": "Aeroporti VFR",
+      "description": "Aeroporti VFR in Italia",
+      "linkTitle": "Fai clic sul link qui sotto per accedere all'AIP VFR e alla carta di avvicinamento a vista di {airport}"
+    },
+    "heliportCard": {
+      "title": "Eliporti",
+      "description": "Eliporti in Italia",
+      "linkTitle": "Fai clic sul link qui sotto per accedere all'AIP VFR per gli eliporti e alla carta di avvicinamento a vista di {airport}"
+    },
+    "breadcrumb": {
+      "name": "Elenco degli aeroporti in Italia",
+      "alternateName": "Elenco degli aeroporti in Italia",
+      "description": "Panoramica di tutti gli aeroporti in Italia"
+    },
+    "coverage": "{bucket, select, gated {L'AIP ufficiale di questo paese si trova su un portale che potrebbe richiedere una registrazione gratuita - lo colleghiamo direttamente e aggiungiamo i dati dell'aerodromo e il meteo per ogni aerodromo.} full {PDF diretti delle carte di avvicinamento e VFR sono disponibili per tutti i {total} aerodromi elencati qui sotto.} partial {PDF diretti delle carte sono disponibili per {withCharts} dei {total} aerodromi; gli aerodromi più piccoli rimandano invece alla loro scheda AIP ufficiale.} none {I link aprono la pagina AIP ufficiale di ciascun aerodromo - questa autorità non pubblica PDF di carte separati.} other {}}"
+  },
+  "VfrPage": {
+    "title": "Indice dell'AIP VFR e delle carte di avvicinamento a vista Italia",
+    "metaTitle": "Indice dell'AIP VFR e delle carte di avvicinamento a vista Italia",
+    "description": "Inserisci il nome dell'aeroporto o il codice ICAO (ad es. LIRF) per accedere alle carte di avvicinamento AIP VFR fornite da ENAV.",
+    "metaDescription": "Sfoglia l'AIP VFR Italia e scarica gratuitamente le carte di avvicinamento degli aeroporti🗺️",
+    "searchTitle": "Inserisci il nome dell'aeroporto o il suo codice ICAO per accedere all'AIP VFR",
+    "searchPlaceholder": "Inserisci il nome dell'aeroporto o il suo codice ICAO per accedere all'AIP VFR",
+    "resultTitle": "Carte AIP VFR di {airport}",
+    "resultDescription": "Fai clic sul link qui sotto per accedere all'AIP VFR e alla carta di avvicinamento a vista di {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Italia",
+      "alternateName": "Indice dell'AIP VFR e delle carte di avvicinamento a vista Italia",
+      "description": "Sfoglia l'AIP VFR Italia e scarica gratuitamente le carte di avvicinamento degli aeroporti"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Cambia lingua",
+    "locale": "{locale, select, it {🇮🇹 Italiano} en {🇬🇧 English} other {Sconosciuto}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP e carte di avvicinamento dell'Italia",
+    "alternateName": "AIP Italia",
+    "description": "Indice di ricerca della pubblicazione di informazioni aeronautiche (AIP) VFR e delle carte di avvicinamento in Italia",
+    "inLanguage": "it",
+    "url": "https://aip.aero/it/"
+  },
+  "CountryPage": {
+    "title": "AIP e carte di avvicinamento dell'Italia",
+    "metaTitle": "AIP e carte di avvicinamento dell'Italia",
+    "description": "Indice di ricerca della pubblicazione di informazioni aeronautiche (AIP) VFR e delle carte di avvicinamento in Italia",
+    "metaDescription": "Indice di ricerca della pubblicazione di informazioni aeronautiche (AIP) VFR e delle carte di avvicinamento in Italia🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Italia",
+      "description": "Sfoglia l'AIP VFR Italia e scarica gratuitamente le carte di avvicinamento degli aeroporti",
+      "buttonTitle": "Carte di avvicinamento AIP VFR",
+      "buttonHref": "/it/vfr/",
+      "buttonHrefTitle": "AIP VFR Italia"
+    },
+    "airportListCard": {
+      "title": "Elenco degli aeroporti",
+      "description": "Panoramica di tutti gli aeroporti in Italia - con download offline e informazioni su dogana e carburante",
+      "buttonTitle": "Elenco degli aeroporti",
+      "buttonHref": "/it/elenco-aeroporti-italia/",
+      "buttonHrefTitle": "Elenco degli aeroporti in Italia"
+    },
+    "breadcrumb": {
+      "name": "AIP Italia",
+      "alternateName": "AIP e carte di avvicinamento dell'Italia",
+      "description": "Indice di ricerca della pubblicazione di informazioni aeronautiche (AIP) VFR e delle carte di avvicinamento in Italia"
+    }
+  },
+  "About": {
+    "title": "A cosa serve questo sito?",
+    "description": "La <aip>Pubblicazione di Informazioni Aeronautiche AIP dell'Italia</aip> è pubblicata da ENAV (il fornitore di servizi di navigazione aerea italiano); l'accesso al portale ufficiale potrebbe richiedere la registrazione. Questo sito ha lo scopo di semplificare la ricerca degli aeroporti, poiché l'eAIP ufficiale non include una funzione di ricerca. Non ci assumiamo alcuna responsabilità per l'accuratezza o l'attualità dell'AIP (Pubblicazione di Informazioni Aeronautiche), poiché non è pubblicato da noi. Forniamo solo comodi link alle rispettive carte di avvicinamento.",
+    "aipUrl": "https://www.enav.it/cosa-facciamo/spazio-aereo/self-briefing",
+    "aipTitle": "AIP Italia"
+  },
+  "TradeAero": {
+    "title": "Comprare o vendere un aeromobile?",
+    "description": "Scopri gli aeromobili in vendita in Italia su Trade:Aero - il marketplace per comprare e vendere aeromobili.",
+    "buttonTitle": "Trade:Aero - il più grande marketplace di aeromobili d'Europa",
+    "buttonHrefTitle": "Trade:Aero - il più grande marketplace di aeromobili d'Europa"
+  },
+  "Footer": {
+    "navTitle": "Navigazione",
+    "legalTitle": "Note legali & contatto",
+    "partnersTitle": "Partner",
+    "aipHome": {
+      "title": "Indice AIP",
+      "hrefTitle": "AIP:Aero Home - AIP & carte di avvicinamento per l'Europa"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impressum",
+      "hrefTitle": "Impressum - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Contatto",
+      "hrefTitle": "Contatto - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privacy",
+      "hrefTitle": "Informativa sulla privacy - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Sito web di Alexander Dross",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Termini di utilizzo",
+      "hrefTitle": "Termini di utilizzo - AIP:Aero Italia"
+    },
+    "efb": {
+      "title": "Strumenti per piloti & EFB",
+      "hrefTitle": "AIP:Aero sul tuo EFB - installazione, carte offline, importazione"
+    }
+  },
+  "Error": {
+    "description": "<p>Purtroppo si è verificato un errore.</p><p>Puoi provare a <retry>ricaricare questa pagina</retry>.</p>",
+    "title": "Qualcosa è andato storto!"
+  },
+  "NotFound": {
+    "title": "404 - Pagina non trovata",
+    "description": "Questa pagina o questo codice aeroporto non esiste. Prova invece a cercare l'aeroporto:",
+    "searchPlaceholder": "Cerca qualsiasi aeroporto per nome o codice ICAO",
+    "home": "Torna alla pagina principale"
+  },
+  "Weather": {
+    "title": "Meteo",
+    "observed": "Osservato",
+    "forecast": "Previsione",
+    "wind": "Vento",
+    "visibility": "Visibilità",
+    "clouds": "Nuvole",
+    "temperature": "Temperatura",
+    "qnh": "QNH",
+    "source": "Fonte",
+    "elevation": "Altitudine",
+    "sunrise": "Alba",
+    "sunset": "Tramonto",
+    "civilTwilight": "Crepuscolo civile",
+    "facts": "Dati dell'aerodromo",
+    "runways": "Piste",
+    "frequencies": "Frequenze",
+    "decode": "Mostra decodificato",
+    "openingHours": "Orari di apertura",
+    "fuel": "Carburante",
+    "ppr": "PPR",
+    "pprRequired": "È richiesta l'autorizzazione preventiva",
+    "nearest": "Meteo dall'aeroporto più vicino {station} (a {km} km di distanza)",
+    "circuit": "Circuito di traffico",
+    "circuitLeft": "sinistra",
+    "circuitRight": "destra",
+    "windComponents": "Componenti del vento",
+    "headwind": "Vento frontale",
+    "tailwind": "Vento in coda",
+    "crosswind": "Vento al traverso",
+    "fromLeft": "da sinistra",
+    "fromRight": "da destra",
+    "landingDirection": "Direzione probabile di atterraggio",
+    "aerodromeType": "Tipo di aerodromo",
+    "surface": "Superficie",
+    "variable": "variabile",
+    "calm": "calmo"
+  },
+  "Common": {
+    "openIn": "Apri in",
+    "homeLink": "AIP:Aero - Pubblicazioni di Informazioni Aeronautiche (AIP) & carte di avvicinamento per l'Europa",
+    "lastUpdated": "Ultimo aggiornamento",
+    "viewOnMap": "Visualizza su Google Maps",
+    "location": "Posizione",
+    "website": "Sito web",
+    "address": "Indirizzo",
+    "coordinates": "Coordinate",
+    "phone": "Telefono",
+    "map": "Mappa",
+    "locate": "Trova la mia posizione",
+    "locateError": "Impossibile determinare la tua posizione",
+    "nearby": "Aeroporti nelle vicinanze",
+    "restaurant": "Ristorante",
+    "customs": "Dogana",
+    "yes": "Sì",
+    "no": "No",
+    "saveOffline": "Salva offline",
+    "savedOffline": "Salvato offline",
+    "installHint": "Installa come app: apri il menu Condividi del tuo browser e scegli 'Aggiungi alla schermata Home'. Poi apri l'app una volta mentre sei online e salva di nuovo gli aeroporti lì - l'app ha il proprio spazio di archiviazione offline.",
+    "installHintMac": "Su Mac: installa tramite il menu Condividi di Safari usando 'Aggiungi al Dock'. Poi apri l'app una volta mentre sei online e salva di nuovo gli aeroporti lì - l'app ha il proprio spazio di archiviazione offline.",
+    "bulkDownload": "Salva tutte le {count} pagine offline (circa {size} MB)",
+    "bulkDownloaded": "Disponibile offline",
+    "bulkUpdate": "Aggiorna",
+    "bulkRemove": "Rimuovi",
+    "bulkProgress": "Salvataggio delle pagine",
+    "bulkCancel": "Annulla",
+    "bulkError": "Download non riuscito - riprova",
+    "bulkNoSpace": "Spazio di archiviazione insufficiente su questo dispositivo",
+    "bulkScope": "Incluso: tutte le pagine degli aeroporti con i dati dell'aerodromo. Non incluso: i PDF delle carte di avvicinamento (possono essere salvati per ogni aeroporto) e il meteo in tempo reale (richiede una connessione).",
+    "moreInfo": "Maggiori informazioni",
+    "pavedRunway": "Pista asfaltata",
+    "favorites": "Preferiti",
+    "favoritesEmpty": "Ancora nessun preferito - salva un aeroporto offline dalla sua pagina di dettaglio e apparirà qui.",
+    "recentlyViewed": "Visualizzati di recente",
+    "recentlyViewedEmpty": "Gli aeroporti che apri appariranno qui automaticamente per un accesso rapido.",
+    "borderCrossing": "Attraversamento del confine",
+    "alsoAvailable": "Disponibile anche:",
+    "aipLoginHint": "Potrebbe essere necessario l'accesso o la registrazione.",
+    "noChartPdf": "Per questo aerodromo non è pubblicato un PDF di carta separato - il pulsante AIP qui sopra apre la sua scheda ufficiale dell'aerodromo."
+  },
+  "Chart": {
+    "allCharts": "Tutte le carte ({count})",
+    "title": "Carta di avvicinamento",
+    "openPdf": "Apri il PDF della carta",
+    "group": {
+      "aerodrome": "Aerodromo",
+      "visual": "Vista (VFR)",
+      "approach": "Avvicinamento",
+      "arrival": "Arrivo",
+      "departure": "Partenza",
+      "other": "Altro"
+    }
+  },
+  "TermsPage": {
+    "title": "Termini di utilizzo",
+    "intro": "AIP:Aero è un servizio gratuito di ricerca e indicizzazione per le Pubblicazioni di Informazioni Aeronautiche (AIP), le carte di avvicinamento e i dati degli aeroporti in tutta Europa.",
+    "servicesTitle": "Il nostro servizio",
+    "servicesText": "<home>AIP:Aero</home> ti permette di trovare aerodromi per nome o codice ICAO e ti porta direttamente alla pubblicazione AIP ufficiale del rispettivo paese. Inoltre, le nostre pagine degli aeroporti includono informazioni supplementari come bollettini meteo (METAR/TAF), dati dell'aerodromo (piste, frequenze, altitudine), mappe e dettagli di contatto, e le pagine possono essere salvate per l'uso offline. Il servizio è offerto gratuitamente e senza registrazione.",
+    "disclaimerTitle": "Esclusione di responsabilità",
+    "disclaimerText": "AIP:Aero non può essere ritenuta responsabile in alcuna circostanza. Non pubblichiamo noi stessi documenti aeronautici: forniamo solo link alla più recente Pubblicazione di Informazioni Aeronautiche (AIP) messa a disposizione dal fornitore ufficiale del rispettivo paese. Lo stesso vale per i dati meteo (METAR/TAF) e i dati degli aeroporti: mostriamo queste informazioni sulle nostre pagine, ma provengono da fonti esterne elencate qui sotto. Non ci assumiamo alcuna responsabilità o garanzia per l'accuratezza, la completezza o l'attualità dei contenuti collegati o mostrati, né per la disponibilità di questo sito. Questo sito non sostituisce il briefing ufficiale prima del volo: il pilota comandante rimane l'unico responsabile dell'ottenimento e della verifica di tutte le informazioni necessarie per un volo.",
+    "sourcesTitle": "Fonti dei dati",
+    "sourcesIntro": "Otteniamo i dati collegati e mostrati dalle seguenti fonti (indirizzi mostrati come testo semplice, deliberatamente non cliccabili):",
+    "sourcesAip": "Pubblicazioni AIP ufficiali a cui forniamo link",
+    "sourcesData": "Dati esterni mostrati",
+    "srcAwc": "meteo METAR/TAF e dati degli aeroporti",
+    "srcOurAirports": "dati di base degli aeroporti",
+    "srcOpenAip": "dati estesi sull'aerodromo: piste, frequenze, carburante",
+    "srcOsm": "mappe e indirizzi",
+    "metaTitle": "Termini di utilizzo - AIP:Aero Italia",
+    "metaDescription": "I termini di utilizzo di AIP:Aero, la ricerca gratuita di AIP e carte di avvicinamento per l'Italia e l'Europa: descrizione del servizio, esclusione di responsabilità e fonti dei dati."
+  },
+  "EfbPage": {
+    "title": "Strumenti per piloti AIP:Aero: app EFB, carte offline, importazioni e dati",
+    "intro": "Come installare AIP:Aero sul tuo tablet EFB (Electronic Flight Bag), salvare le carte di avvicinamento offline, scaricare pacchetti di paesi e trasferire gli aeroporti ai tuoi strumenti di pianificazione - passo dopo passo.",
+    "metaTitle": "Guida EFB Italia - AIP & carte di avvicinamento sul tuo tablet | AIP:Aero",
+    "metaDescription": "Installa AIP:Aero come app sul tuo tablet EFB, salva le carte di avvicinamento offline, scarica interi paesi e importa i PDF delle carte in ForeFlight, SkyDemon & Co (Italia).",
+    "installTitle": "Installa come app (PWA)",
+    "installText": "AIP:Aero è un'app web installabile: si apre a schermo intero come un'app nativa e tutto ciò che salvi è disponibile offline. Non serve alcun app store.",
+    "installIos": "iPad / iPhone (Safari): apri aip.aero, tocca l'icona di condivisione, poi \"Aggiungi alla schermata Home\".",
+    "installAndroid": "Android (Chrome): apri aip.aero, tocca il menu, poi \"Aggiungi alla schermata Home\" / \"Installa app\".",
+    "installDesktop": "Desktop (Chrome/Edge): fai clic sull'icona di installazione nella barra degli indirizzi - oppure usa il pulsante qui sotto. macOS (Safari): icona Condividi, poi \"Aggiungi al Dock\".",
+    "offlineTitle": "Salva singoli aeroporti offline",
+    "offlineText": "Ogni pagina di dettaglio dell'aeroporto ha un pulsante \"Salva offline\". Memorizza la pagina e, dove l'AIP ne pubblica uno, il PDF della carta di avvicinamento sul tuo dispositivo; l'aeroporto appare poi tra i Preferiti sulla pagina del paese. Le copie salvate mostrano la loro data di download.",
+    "bulkTitle": "Scarica un intero paese",
+    "bulkText": "Nell'<list>elenco degli aeroporti</list> puoi scaricare tutte le pagine di dettaglio di un paese in una sola volta (solo le pagine, senza i PDF delle carte - salvali per ogni aeroporto). Il pacchetto mostra la sua dimensione prima del download e può essere aggiornato o rimosso in qualsiasi momento.",
+    "favoritesTitle": "Preferiti & visualizzati di recente",
+    "favoritesText": "Gli aeroporti che salvi per l'uso offline appaiono automaticamente come preferiti, e gli ultimi aeroporti che hai aperto sono elencati sotto \"Visualizzati di recente\" - entrambi sono memorizzati solo sul tuo dispositivo, senza bisogno di un account. Troverai entrambi gli elenchi <country>sulla pagina del paese</country>.",
+    "importTitle": "PDF delle carte in ForeFlight, SkyDemon & Co.",
+    "importText": "Dove l'AIP nazionale pubblica i PDF delle carte, il riquadro delle carte sulla pagina di dettaglio fornisce il link al PDF attuale, inclusa la sua data AIRAC. Scaricalo e importalo nella tua app EFB come contenuto personalizzato, ad es. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) o Garmin Pilot. La Germania pubblica pagine HTML invece dei PDF - usa lì il link AIP.",
+    "toolsTitle": "Trasferimenti agli strumenti di pianificazione",
+    "toolsText": "Il riquadro della posizione su ogni pagina di dettaglio apre lo stesso aeroporto direttamente in SkyVector, Windy e autorouter - utile per la pianificazione della rotta, i modelli meteo e la presentazione del piano di volo.",
+    "weatherTitle": "Briefing meteo sulla pagina",
+    "weatherText": "Le pagine di dettaglio mostrano METAR/TAF in tempo reale con decodifica in linguaggio semplice, il badge della categoria di volo e una suddivisione del vento frontale e al traverso per ogni pista - un controllo rapido, non un sostituto del tuo briefing ufficiale.",
+    "customsTitle": "Dogana & attraversamento del confine",
+    "customsText": "Le pagine di dettaglio mostrano se un aeroporto offre lo sdoganamento; dove un AIP nazionale lo elenca in GEN 1.2, il valore è verificato rispetto a quella fonte ufficiale. Per i documenti di attraversamento del confine, il riquadro della posizione fornisce link ai moduli ufficiali (ad es. il UK General Aviation Report), e la mappa può filtrare gli aeroporti con dogana. Le regole cambiano - conferma sempre con l'AIP attuale e l'autorità locale.",
+    "disclaimerTitle": "Nota di sicurezza",
+    "disclaimerText": "AIP:Aero fornisce link alle pubblicazioni AIP ufficiali, ma non è una fonte ufficiale. Le copie offline sono contrassegnate con la loro data di download e possono diventare obsolete a ogni ciclo AIRAC - verifica l'attualità delle carte prima di ogni volo e ottieni sempre un briefing ufficiale prima del volo.",
+    "apiTitle": "API e cooperazione sui dati",
+    "apiText": "Per sviluppatori e fornitori EFB: i dati strutturati sugli aerodromi di AIP:Aero (l'indice normalizzato degli aerodromi, i link diretti ai PDF delle carte, i cicli AIRAC, le coordinate, le piste, le frequenze e le informazioni doganali) sono disponibili tramite API per le integrazioni. Siamo aperti a collaborazioni; <contact>contattaci</contact>.",
+    "installButton": "Installa ora",
+    "ctaTitle": "Provalo ora",
+    "faqTitle": "Domande frequenti",
+    "faq1q": "AIP:Aero funziona completamente offline?",
+    "faq1a": "Gli aeroporti salvati e i pacchetti di paesi scaricati funzionano senza internet; ogni copia offline mostra un banner con la sua data di salvataggio. Il meteo in tempo reale (METAR/TAF) richiede sempre una connessione.",
+    "faq2q": "Quali paesi sono coperti?",
+    "faq2a": "Tutti i paesi attualmente disponibili sono elencati sulla <home>pagina principale</home> - la copertura cresce continuamente. Ogni scheda di paese mostra i tipi di carte disponibili.",
+    "faq3q": "Le carte sono aggiornate?",
+    "faq3a": "I link delle carte rimandano alle pubblicazioni AIP nazionali ufficiali, inclusa la data AIRAC dove pubblicata. Verifica sempre rispetto alla fonte ufficiale prima del volo."
+  },
+  "CountryFaq": {
+    "title": "Domande frequenti",
+    "q1": "Cos'è l'AIP Italia?",
+    "a1": "L'AIP (Pubblicazione di Informazioni Aeronautiche) è il manuale aeronautico ufficiale dell'Italia, pubblicato da ENAV (il fornitore di servizi di navigazione aerea italiano): dati degli aerodromi, procedure e carte di avvicinamento, aggiornati nel ciclo AIRAC di 28 giorni. AIP:Aero ti porta direttamente alla pubblicazione ufficiale.",
+    "q2": "Le carte di avvicinamento sono gratuite?",
+    "a2": "AIP:Aero è gratuito: nessun account, nessun abbonamento. ENAV pubblica l'AIP dell'Italia, incluse le <list>carte di avvicinamento</list>; l'accesso al portale ufficiale potrebbe richiedere la registrazione.",
+    "q3": "Quali carte e aeroporti sono disponibili per l'Italia?",
+    "a3": "Per l'Italia troverai gli <vfr>aeroporti VFR</vfr> - incluso il principale aeroporto di Roma Fiumicino (LIRF), ognuno con un link diretto alla carta ufficiale, il meteo decodificato (METAR/TAF) e i dati dell'aerodromo.",
+    "q4": "Posso usare AIP:Aero offline o sul mio EFB?",
+    "a4": "Sì - AIP:Aero si installa come app (PWA), e i singoli aerodromi o l'intero paese possono essere salvati offline. Consulta la <efb>guida EFB</efb>."
+  }
+}

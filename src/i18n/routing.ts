@@ -63,6 +63,12 @@ export const routing = defineRouting({
     "mt",
     "md",
     "md-EN",
+    "it",
+    "it-EN",
+    "hr",
+    "hr-EN",
+    "bg",
+    "bg-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -96,6 +102,9 @@ export const routing = defineRouting({
       "ro-EN": "/ro/en",
       "cy-EN": "/cy/en",
       "md-EN": "/md/en",
+      "it-EN": "/it/en",
+      "hr-EN": "/hr/en",
+      "bg-EN": "/bg/en",
     },
   },
   pathnames: {
@@ -169,6 +178,12 @@ export const routing = defineRouting({
       mt: "/airport-list-malta",
       md: "/lista-aeroporturi-moldova",
       "md-EN": "/airport-list-moldova",
+      it: "/elenco-aeroporti-italia",
+      "it-EN": "/airport-list-italy",
+      hr: "/popis-zracnih-luka-hrvatska",
+      "hr-EN": "/airport-list-croatia",
+      bg: "/letishta-balgariya",
+      "bg-EN": "/airport-list-bulgaria",
     },
   },
   localeCookie: false,
@@ -288,6 +303,18 @@ export const localeLangMapping: Record<
   // CLAUDE.md), so messages/md.json keys its native branch on "md".
   md: "ro",
   "md-EN": "en",
+  // Italy: prefix "it" == ISO language code "it" (Italian), so the
+  // LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
+  it: "it",
+  "it-EN": "en",
+  // Croatia: prefix "hr" == ISO language code "hr" (Croatian), so the
+  // LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
+  hr: "hr",
+  "hr-EN": "en",
+  // Bulgaria: prefix "bg" == ISO language code "bg" (Bulgarian), so the
+  // LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
+  bg: "bg",
+  "bg-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -354,4 +381,10 @@ export const localeCountryMapping: Record<
   mt: "mt",
   md: "md",
   "md-EN": "md",
+  it: "it",
+  "it-EN": "it",
+  hr: "hr",
+  "hr-EN": "hr",
+  bg: "bg",
+  "bg-EN": "bg",
 };
