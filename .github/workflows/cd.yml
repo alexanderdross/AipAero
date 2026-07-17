@@ -133,6 +133,9 @@ jobs:
             "https://aip.aero/cy/aerolimenes-kypros/"
             "https://aip.aero/mt/airport-list-malta/"
             "https://aip.aero/md/lista-aeroporturi-moldova/"
+            "https://aip.aero/it/elenco-aeroporti-italia/"
+            "https://aip.aero/hr/popis-zracnih-luka-hrvatska/"
+            "https://aip.aero/bg/letishta-balgariya/"
           )
           # NOTE: this list MUST carry EVERY live country's airport-list URL
           # (liveCountries in src/lib/utils.ts x the /airport-list slug in

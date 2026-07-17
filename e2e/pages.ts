@@ -70,6 +70,12 @@ const countryPages: TestPage[] = [
   { path: "/mt/", lang: "en", label: "country mt" },
   { path: "/md/", lang: "ro", label: "country md" },
   { path: "/md/en/", lang: "en", label: "country md-EN" },
+  { path: "/it/", lang: "it", label: "country it" },
+  { path: "/it/en/", lang: "en", label: "country it-EN" },
+  { path: "/hr/", lang: "hr", label: "country hr" },
+  { path: "/hr/en/", lang: "en", label: "country hr-EN" },
+  { path: "/bg/", lang: "bg", label: "country bg" },
+  { path: "/bg/en/", lang: "en", label: "country bg-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -136,6 +142,12 @@ const airportListPages: TestPage[] = [
   { path: "/mt/airport-list-malta/", lang: "en", label: "list mt" },
   { path: "/md/lista-aeroporturi-moldova/", lang: "ro", label: "list md" },
   { path: "/md/en/airport-list-moldova/", lang: "en", label: "list md-EN" },
+  { path: "/it/elenco-aeroporti-italia/", lang: "it", label: "list it" },
+  { path: "/it/en/airport-list-italy/", lang: "en", label: "list it-EN" },
+  { path: "/hr/popis-zracnih-luka-hrvatska/", lang: "hr", label: "list hr" },
+  { path: "/hr/en/airport-list-croatia/", lang: "en", label: "list hr-EN" },
+  { path: "/bg/letishta-balgariya/", lang: "bg", label: "list bg" },
+  { path: "/bg/en/airport-list-bulgaria/", lang: "en", label: "list bg-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -211,6 +223,12 @@ const searchPages: TestPage[] = [
   { path: "/mt/vfr/", lang: "en", label: "vfr mt" },
   { path: "/md/vfr/", lang: "ro", label: "vfr md" },
   { path: "/md/en/vfr/", lang: "en", label: "vfr md-EN" },
+  { path: "/it/vfr/", lang: "it", label: "vfr it" },
+  { path: "/it/en/vfr/", lang: "en", label: "vfr it-EN" },
+  { path: "/hr/vfr/", lang: "hr", label: "vfr hr" },
+  { path: "/hr/en/vfr/", lang: "en", label: "vfr hr-EN" },
+  { path: "/bg/vfr/", lang: "bg", label: "vfr bg" },
+  { path: "/bg/en/vfr/", lang: "en", label: "vfr bg-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -275,6 +293,12 @@ const termsPages: TestPage[] = [
   { path: "/mt/terms/", lang: "en", label: "terms mt" },
   { path: "/md/terms/", lang: "ro", label: "terms md" },
   { path: "/md/en/terms/", lang: "en", label: "terms md-EN" },
+  { path: "/it/terms/", lang: "it", label: "terms it" },
+  { path: "/it/en/terms/", lang: "en", label: "terms it-EN" },
+  { path: "/hr/terms/", lang: "hr", label: "terms hr" },
+  { path: "/hr/en/terms/", lang: "en", label: "terms hr-EN" },
+  { path: "/bg/terms/", lang: "bg", label: "terms bg" },
+  { path: "/bg/en/terms/", lang: "en", label: "terms bg-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).

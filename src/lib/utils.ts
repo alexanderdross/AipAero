@@ -131,6 +131,15 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // MD: info-page only (the MOLDATSA AIM portal is registration-gated).
   // OurAirports aerodrome list, "vfr", OpenAIP data + weather + AIP button.
   md: ["vfr"],
+  // IT: info-page only (ENAV Self Briefing is login-only, no open eAIP).
+  // OurAirports aerodrome list, "vfr", OpenAIP data + weather + AIP button.
+  it: ["vfr"],
+  // HR: info-page only (Crocontrol moved to the subscription AIM Portal on
+  // 01.01.2026). OurAirports aerodrome list, "vfr", OpenAIP data + weather.
+  hr: ["vfr"],
+  // BG: info-page only (BULATSA's b-flip AIP portal is registration-gated).
+  // OurAirports aerodrome list, "vfr", OpenAIP data + weather + AIP button.
+  bg: ["vfr"],
 };
 
 /**
@@ -140,7 +149,14 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
  * "registration may be required" hint next to the AIP button. Keyed by the
  * two-letter country code (`localeCountryMapping[locale]`).
  */
-export const gatedCountries = new Set<string>(["ch", "mt", "md"]);
+export const gatedCountries = new Set<string>([
+  "ch",
+  "mt",
+  "md",
+  "it",
+  "hr",
+  "bg",
+]);
 
 /** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
 export function isGatedCountry(country: string): boolean {
@@ -352,6 +368,24 @@ export const liveCountries: string[] = [
   // weather come from the website. Live-validated (run 29490801719 - 5 fields,
   // LUKK Chisinau + others). First data published via the manual crawl dispatch.
   "md",
+  // Italy (17.07.2026): info-page. ENAV's AIP + charts are behind the login-only
+  // Self Briefing portal (no open eAIP - www.enav.it/eAIP/ 404s, aip.enav.it no
+  // DNS), so - like CH/MT/MD - no chart crawl: it.py reads the Italian aerodromes
+  // from OurAirports and points each at the ENAV Self Briefing portal (gated -
+  // see gatedCountries). OpenAIP data + weather come from the website.
+  "it",
+  // Croatia (17.07.2026): info-page. Croatia Control moved its AIP + charts fully
+  // behind the subscription AIM Portal on 01.01.2026 (the former public static
+  // eAIP tree now 404s, re-probed 16.07.2026), so - like CH/MT/MD - no chart
+  // crawl: hr.py reads the Croatian aerodromes from OurAirports and points each
+  // at the AIM Portal (gated). OpenAIP data + weather come from the website.
+  "hr",
+  // Bulgaria (17.07.2026): info-page. BULATSA's AIP is behind the registration-
+  // gated b-flip portal (no open AD-2 tree, re-probed 16.07.2026), so - like
+  // CH/MT/MD - no chart crawl: bg.py reads the Bulgarian aerodromes from
+  // OurAirports and points each at the b-flip portal (gated). OpenAIP data +
+  // weather come from the website.
+  "bg",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -413,4 +447,7 @@ export const countryMeta: Record<
   cy: { lang: "el", name: "Cyprus", flag: "🇨🇾", nativeLang: "Greek" },
   mt: { lang: "en", name: "Malta", flag: "🇲🇹", nativeLang: "English" },
   md: { lang: "ro", name: "Moldova", flag: "🇲🇩", nativeLang: "Romanian" },
+  it: { lang: "it", name: "Italy", flag: "🇮🇹", nativeLang: "Italian" },
+  hr: { lang: "hr", name: "Croatia", flag: "🇭🇷", nativeLang: "Croatian" },
+  bg: { lang: "bg", name: "Bulgaria", flag: "🇧🇬", nativeLang: "Bulgarian" },
 };

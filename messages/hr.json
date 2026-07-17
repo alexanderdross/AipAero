@@ -1,0 +1,351 @@
+{
+  "BreadCrumbs": {
+    "label": "Navigacijski trag",
+    "root": {
+      "title": "AIP indeks",
+      "hrefTitle": "AIP indeks"
+    },
+    "/": {
+      "title": "Hrvatska (Hrvatski)",
+      "hrefTitle": "AIP Hrvatska"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Hrvatska"
+    },
+    "/airport-list": {
+      "title": "Popis zračnih luka",
+      "hrefTitle": "Popis zračnih luka u Hrvatskoj"
+    },
+    "/terms": {
+      "title": "Uvjeti korištenja",
+      "hrefTitle": "Uvjeti korištenja - AIP:Aero Hrvatska"
+    },
+    "/efb": {
+      "title": "Alati za pilote & EFB",
+      "hrefTitle": "EFB vodič - AIP:Aero na tvom tabletu"
+    }
+  },
+  "Menu": {
+    "label": "Izbornik",
+    "home": {
+      "title": "AIP Hrvatska",
+      "hrefTitle": "AIP Hrvatska"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Hrvatska"
+    },
+    "airports": {
+      "title": "Popis zračnih luka",
+      "hrefTitle": "Popis zračnih luka u Hrvatskoj"
+    }
+  },
+  "AirportsPage": {
+    "title": "Popis zračnih luka u Hrvatskoj",
+    "metaTitle": "Popis zračnih luka u Hrvatskoj",
+    "description": "Pregled svih zračnih luka u Hrvatskoj",
+    "metaDescription": "Pregled svih zračnih luka u Hrvatskoj🗺️",
+    "vfrCard": {
+      "title": "VFR zračne luke",
+      "description": "VFR zračne luke u Hrvatskoj",
+      "linkTitle": "Kliknite na poveznicu ispod za pristup AIP VFR-u i karti vizualnog prilaza za {airport}"
+    },
+    "heliportCard": {
+      "title": "Helidromi",
+      "description": "Helidromi u Hrvatskoj",
+      "linkTitle": "Kliknite na poveznicu ispod za pristup AIP VFR-u za helidrome i karti vizualnog prilaza za {airport}"
+    },
+    "breadcrumb": {
+      "name": "Popis zračnih luka u Hrvatskoj",
+      "alternateName": "Popis zračnih luka u Hrvatskoj",
+      "description": "Pregled svih zračnih luka u Hrvatskoj"
+    },
+    "coverage": "{bucket, select, gated {Službeni AIP ove zemlje nalazi se na portalu koji može zahtijevati besplatnu registraciju - povezujemo ga izravno i dodajemo podatke o aerodromu i vremenske prilike za svaki aerodrom.} full {Izravni PDF-ovi prilaznih i VFR karata dostupni su za svih {total} aerodroma navedenih ispod.} partial {Izravni PDF-ovi karata dostupni su za {withCharts} od {total} aerodroma; manji aerodromi umjesto toga upućuju na svoju službenu AIP stranicu.} none {Poveznice otvaraju službenu AIP stranicu svakog aerodroma - ovo tijelo ne objavljuje zasebne PDF-ove karata.} other {}}"
+  },
+  "VfrPage": {
+    "title": "Indeks AIP VFR-a i karata vizualnog prilaza Hrvatska",
+    "metaTitle": "Indeks AIP VFR-a i karata vizualnog prilaza Hrvatska",
+    "description": "Unesite naziv zračne luke ili ICAO kod (npr. LDZA) za pristup AIP VFR prilaznim kartama koje pruža Croatia Control.",
+    "metaDescription": "Pregledajte AIP VFR Hrvatska i besplatno preuzmite prilazne karte zračnih luka🗺️",
+    "searchTitle": "Unesite naziv zračne luke ili njezin ICAO kod za pristup AIP VFR-u",
+    "searchPlaceholder": "Unesite naziv zračne luke ili njezin ICAO kod za pristup AIP VFR-u",
+    "resultTitle": "AIP VFR karte za {airport}",
+    "resultDescription": "Kliknite na poveznicu ispod za pristup AIP VFR-u i karti vizualnog prilaza za {airport}",
+    "breadcrumb": {
+      "name": "AIP VFR Hrvatska",
+      "alternateName": "Indeks AIP VFR-a i karata vizualnog prilaza Hrvatska",
+      "description": "Pregledajte AIP VFR Hrvatska i besplatno preuzmite prilazne karte zračnih luka"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Promijeni jezik",
+    "locale": "{locale, select, hr {🇭🇷 Hrvatski} en {🇬🇧 English} other {Nepoznato}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "AIP i prilazne karte Hrvatske",
+    "alternateName": "AIP Hrvatska",
+    "description": "Indeks pretraživanja zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Hrvatskoj",
+    "inLanguage": "hr",
+    "url": "https://aip.aero/hr/"
+  },
+  "CountryPage": {
+    "title": "AIP i prilazne karte Hrvatske",
+    "metaTitle": "AIP i prilazne karte Hrvatske",
+    "description": "Indeks pretraživanja zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Hrvatskoj",
+    "metaDescription": "Indeks pretraživanja zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Hrvatskoj🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Hrvatska",
+      "description": "Pregledajte AIP VFR Hrvatska i besplatno preuzmite prilazne karte zračnih luka",
+      "buttonTitle": "AIP VFR prilazne karte",
+      "buttonHref": "/hr/vfr/",
+      "buttonHrefTitle": "AIP VFR Hrvatska"
+    },
+    "airportListCard": {
+      "title": "Popis zračnih luka",
+      "description": "Pregled svih zračnih luka u Hrvatskoj - s izvanmrežnim preuzimanjem te informacijama o carini i gorivu",
+      "buttonTitle": "Popis zračnih luka",
+      "buttonHref": "/hr/popis-zracnih-luka-hrvatska/",
+      "buttonHrefTitle": "Popis zračnih luka u Hrvatskoj"
+    },
+    "breadcrumb": {
+      "name": "AIP Hrvatska",
+      "alternateName": "AIP i prilazne karte Hrvatske",
+      "description": "Indeks pretraživanja zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Hrvatskoj"
+    }
+  },
+  "About": {
+    "title": "Čemu služi ova web stranica?",
+    "description": "<aip>Zbornik zrakoplovnih informacija AIP Hrvatske</aip> objavljuje Croatia Control (hrvatski pružatelj usluga u zračnoj plovidbi); pristup službenom portalu može zahtijevati registraciju. Ova web stranica ima za cilj pojednostaviti pretraživanje zračnih luka, jer službeni eAIP ne uključuje funkciju pretraživanja. Ne preuzimamo nikakvu odgovornost za točnost ili ažurnost AIP-a (Zbornika zrakoplovnih informacija), budući da ga ne objavljujemo mi. Pružamo samo praktične poveznice do odgovarajućih prilaznih karata.",
+    "aipUrl": "https://aim.crocontrol.hr/",
+    "aipTitle": "AIP Hrvatska"
+  },
+  "TradeAero": {
+    "title": "Kupujete ili prodajete zrakoplov?",
+    "description": "Otkrijte zrakoplove na prodaju u Hrvatskoj na Trade:Aero - tržnici za kupnju i prodaju zrakoplova.",
+    "buttonTitle": "Trade:Aero - najveća tržnica zrakoplova u Europi",
+    "buttonHrefTitle": "Trade:Aero - najveća tržnica zrakoplova u Europi"
+  },
+  "Footer": {
+    "navTitle": "Navigacija",
+    "legalTitle": "Pravne informacije & kontakt",
+    "partnersTitle": "Partneri",
+    "aipHome": {
+      "title": "AIP indeks",
+      "hrefTitle": "AIP:Aero početna - AIP-ovi & prilazne karte za Europu"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Početna",
+      "hrefTitle": "Početna - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Impressum",
+      "hrefTitle": "Impressum - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Kontakt",
+      "hrefTitle": "Kontakt - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Privatnost",
+      "hrefTitle": "Pravila o privatnosti - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Web stranica Alexandera Drossa",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Uvjeti korištenja",
+      "hrefTitle": "Uvjeti korištenja - AIP:Aero Hrvatska"
+    },
+    "efb": {
+      "title": "Alati za pilote & EFB",
+      "hrefTitle": "AIP:Aero na tvom EFB-u - instalacija, izvanmrežne karte, uvoz"
+    }
+  },
+  "Error": {
+    "description": "<p>Nažalost, došlo je do pogreške.</p><p>Možete pokušati <retry>ponovno učitati ovu stranicu</retry>.</p>",
+    "title": "Nešto je pošlo po zlu!"
+  },
+  "NotFound": {
+    "title": "404 - Stranica nije pronađena",
+    "description": "Ova stranica ili kod zračne luke ne postoji. Umjesto toga pokušajte potražiti zračnu luku:",
+    "searchPlaceholder": "Pretražite bilo koju zračnu luku po nazivu ili ICAO kodu",
+    "home": "Natrag na početnu stranicu"
+  },
+  "Weather": {
+    "title": "Vrijeme",
+    "observed": "Promatrano",
+    "forecast": "Prognoza",
+    "wind": "Vjetar",
+    "visibility": "Vidljivost",
+    "clouds": "Oblaci",
+    "temperature": "Temperatura",
+    "qnh": "QNH",
+    "source": "Izvor",
+    "elevation": "Nadmorska visina",
+    "sunrise": "Izlazak sunca",
+    "sunset": "Zalazak sunca",
+    "civilTwilight": "Građanski sumrak",
+    "facts": "Podaci o aerodromu",
+    "runways": "Uzletno-sletne staze",
+    "frequencies": "Frekvencije",
+    "decode": "Prikaži dekodirano",
+    "openingHours": "Radno vrijeme",
+    "fuel": "Gorivo",
+    "ppr": "PPR",
+    "pprRequired": "Potrebno je prethodno odobrenje",
+    "nearest": "Vrijeme s najbliže zračne luke {station} (udaljene {km} km)",
+    "circuit": "Uzletno-sletni krug",
+    "circuitLeft": "lijevo",
+    "circuitRight": "desno",
+    "windComponents": "Komponente vjetra",
+    "headwind": "Čeoni vjetar",
+    "tailwind": "Leđni vjetar",
+    "crosswind": "Bočni vjetar",
+    "fromLeft": "s lijeva",
+    "fromRight": "s desna",
+    "landingDirection": "Vjerojatni smjer slijetanja",
+    "aerodromeType": "Vrsta aerodroma",
+    "surface": "Podloga",
+    "variable": "promjenjiv",
+    "calm": "tiho"
+  },
+  "Common": {
+    "openIn": "Otvori u",
+    "homeLink": "AIP:Aero - Zbornici zrakoplovnih informacija (AIP) & prilazne karte za Europu",
+    "lastUpdated": "Zadnje ažurirano",
+    "viewOnMap": "Prikaži na Google Maps",
+    "location": "Lokacija",
+    "website": "Web stranica",
+    "address": "Adresa",
+    "coordinates": "Koordinate",
+    "phone": "Telefon",
+    "map": "Karta",
+    "locate": "Pronađi moju lokaciju",
+    "locateError": "Nije moguće utvrditi vašu lokaciju",
+    "nearby": "Obližnje zračne luke",
+    "restaurant": "Restoran",
+    "customs": "Carina",
+    "yes": "Da",
+    "no": "Ne",
+    "saveOffline": "Spremi izvanmrežno",
+    "savedOffline": "Spremljeno izvanmrežno",
+    "installHint": "Instalirajte kao aplikaciju: otvorite izbornik Dijeljenje u pregledniku i odaberite 'Dodaj na početni zaslon'. Zatim jednom otvorite aplikaciju dok ste na mreži i ponovno spremite zračne luke ondje - aplikacija ima vlastitu izvanmrežnu pohranu.",
+    "installHintMac": "Na Macu: instalirajte putem izbornika Dijeljenje u Safariju pomoću 'Dodaj u Dock'. Zatim jednom otvorite aplikaciju dok ste na mreži i ponovno spremite zračne luke ondje - aplikacija ima vlastitu izvanmrežnu pohranu.",
+    "bulkDownload": "Spremi svih {count} stranica izvanmrežno (otprilike {size} MB)",
+    "bulkDownloaded": "Dostupno izvanmrežno",
+    "bulkUpdate": "Ažuriraj",
+    "bulkRemove": "Ukloni",
+    "bulkProgress": "Spremanje stranica",
+    "bulkCancel": "Odustani",
+    "bulkError": "Preuzimanje nije uspjelo - pokušajte ponovno",
+    "bulkNoSpace": "Nedovoljno slobodnog prostora na ovom uređaju",
+    "bulkScope": "Uključeno: sve stranice zračnih luka s podacima o aerodromu. Nije uključeno: PDF-ovi prilaznih karata (mogu se spremiti za svaku zračnu luku) i vrijeme uživo (zahtijeva vezu).",
+    "moreInfo": "Više informacija",
+    "pavedRunway": "Asfaltirana staza",
+    "favorites": "Favoriti",
+    "favoritesEmpty": "Još nema favorita - spremite zračnu luku izvanmrežno na njezinoj stranici s pojedinostima i pojavit će se ovdje.",
+    "recentlyViewed": "Nedavno pregledano",
+    "recentlyViewedEmpty": "Zračne luke koje otvorite automatski će se pojaviti ovdje za brz pristup.",
+    "borderCrossing": "Prijelaz granice",
+    "alsoAvailable": "Također dostupno:",
+    "aipLoginHint": "Možda će biti potrebna prijava ili registracija.",
+    "noChartPdf": "Za ovaj aerodrom nije objavljen zaseban PDF karte - gumb AIP iznad otvara njegovu službenu stranicu aerodroma."
+  },
+  "Chart": {
+    "allCharts": "Sve karte ({count})",
+    "title": "Prilazna karta",
+    "openPdf": "Otvori PDF karte",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Vizualna (VFR)",
+      "approach": "Prilaz",
+      "arrival": "Dolazak",
+      "departure": "Odlazak",
+      "other": "Ostalo"
+    }
+  },
+  "TermsPage": {
+    "title": "Uvjeti korištenja",
+    "intro": "AIP:Aero je besplatna usluga pretraživanja i indeksiranja Zbornika zrakoplovnih informacija (AIP), prilaznih karata i podataka o zračnim lukama diljem Europe.",
+    "servicesTitle": "Naša usluga",
+    "servicesText": "<home>AIP:Aero</home> vam omogućuje pronalaženje aerodroma po nazivu ili ICAO kodu i vodi vas izravno do službene AIP publikacije odgovarajuće zemlje. Osim toga, naše stranice zračnih luka uključuju dodatne informacije poput vremenskih izvješća (METAR/TAF), podataka o aerodromu (staze, frekvencije, nadmorska visina), karata i kontaktnih podataka, a stranice se mogu spremiti za izvanmrežnu upotrebu. Usluga je besplatna i bez registracije.",
+    "disclaimerTitle": "Odricanje od odgovornosti",
+    "disclaimerText": "AIP:Aero se ni pod kojim okolnostima ne može smatrati odgovornim. Sami ne objavljujemo zrakoplovne dokumente: pružamo samo poveznice na najnoviji Zbornik zrakoplovnih informacija (AIP) koji stavlja na raspolaganje službeni pružatelj odgovarajuće zemlje. Isto vrijedi za vremenske podatke (METAR/TAF) i podatke o zračnim lukama: prikazujemo te informacije na našim stranicama, ali potječu iz vanjskih izvora navedenih ispod. Ne preuzimamo nikakvu odgovornost ni jamstvo za točnost, potpunost ili ažurnost povezanog ili prikazanog sadržaja, niti za dostupnost ove web stranice. Ova web stranica ne zamjenjuje službeni brifing prije leta: zapovjednik zrakoplova ostaje jedini odgovoran za pribavljanje i provjeru svih informacija potrebnih za let.",
+    "sourcesTitle": "Izvori podataka",
+    "sourcesIntro": "Povezane i prikazane podatke dobivamo iz sljedećih izvora (adrese prikazane kao običan tekst, namjerno se ne mogu kliknuti):",
+    "sourcesAip": "Službene AIP publikacije na koje upućujemo",
+    "sourcesData": "Prikazani vanjski podaci",
+    "srcAwc": "vrijeme METAR/TAF i podaci o zračnim lukama",
+    "srcOurAirports": "osnovni podaci o zračnim lukama",
+    "srcOpenAip": "prošireni podaci o aerodromu: staze, frekvencije, gorivo",
+    "srcOsm": "karte i adrese",
+    "metaTitle": "Uvjeti korištenja - AIP:Aero Hrvatska",
+    "metaDescription": "Uvjeti korištenja AIP:Aero, besplatnog pretraživanja AIP-a i prilaznih karata za Hrvatsku i Europu: opis usluge, odricanje od odgovornosti i izvori podataka."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero alati za pilote: EFB aplikacija, izvanmrežne karte, uvozi i podaci",
+    "intro": "Kako instalirati AIP:Aero na svoj EFB (Electronic Flight Bag) tablet, spremiti prilazne karte izvanmrežno, preuzeti pakete zemalja i prenijeti zračne luke u svoje alate za planiranje - korak po korak.",
+    "metaTitle": "EFB vodič Hrvatska - AIP & prilazne karte na tvom tabletu | AIP:Aero",
+    "metaDescription": "Instalirajte AIP:Aero kao aplikaciju na svoj EFB tablet, spremite prilazne karte izvanmrežno, preuzmite cijele zemlje i uvezite PDF-ove karata u ForeFlight, SkyDemon & Co (Hrvatska).",
+    "installTitle": "Instaliraj kao aplikaciju (PWA)",
+    "installText": "AIP:Aero je aplikacija koja se može instalirati: otvara se preko cijelog zaslona poput izvorne aplikacije i sve što spremite dostupno je izvanmrežno. Nije potrebna trgovina aplikacija.",
+    "installIos": "iPad / iPhone (Safari): otvorite aip.aero, dodirnite ikonu dijeljenja, zatim \"Dodaj na početni zaslon\".",
+    "installAndroid": "Android (Chrome): otvorite aip.aero, dodirnite izbornik, zatim \"Dodaj na početni zaslon\" / \"Instaliraj aplikaciju\".",
+    "installDesktop": "Stolno računalo (Chrome/Edge): kliknite ikonu za instalaciju u adresnoj traci - ili upotrijebite gumb ispod. macOS (Safari): ikona Dijeljenje, zatim \"Dodaj u Dock\".",
+    "offlineTitle": "Spremi pojedinačne zračne luke izvanmrežno",
+    "offlineText": "Svaka stranica s pojedinostima zračne luke ima gumb \"Spremi izvanmrežno\". Sprema stranicu i, gdje AIP objavljuje, PDF prilazne karte na vaš uređaj; zračna luka se zatim pojavljuje pod Favoritima na stranici zemlje. Spremljene kopije prikazuju datum preuzimanja.",
+    "bulkTitle": "Preuzmi cijelu zemlju",
+    "bulkText": "Na <list>popisu zračnih luka</list> možete preuzeti sve stranice s pojedinostima jedne zemlje odjednom (samo stranice, bez PDF-ova karata - njih spremite za svaku zračnu luku). Paket prikazuje svoju veličinu prije preuzimanja i može se ažurirati ili ukloniti u bilo kojem trenutku.",
+    "favoritesTitle": "Favoriti & nedavno pregledano",
+    "favoritesText": "Zračne luke koje spremite za izvanmrežnu upotrebu automatski se pojavljuju kao favoriti, a posljednje zračne luke koje ste otvorili navedene su pod \"Nedavno pregledano\" - oboje se pohranjuje samo na vašem uređaju, bez potrebe za računom. Oba popisa pronaći ćete <country>na stranici zemlje</country>.",
+    "importTitle": "PDF-ovi karata u ForeFlight, SkyDemon & Co.",
+    "importText": "Gdje nacionalni AIP objavljuje PDF-ove karata, okvir s kartama na stranici s pojedinostima nudi poveznicu na trenutni PDF, uključujući njegov AIRAC datum. Preuzmite ga i uvezite u svoju EFB aplikaciju kao prilagođeni sadržaj, npr. ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ili Garmin Pilot. Njemačka objavljuje HTML stranice umjesto PDF-ova - ondje upotrijebite AIP poveznicu.",
+    "toolsTitle": "Prijenosi u alate za planiranje",
+    "toolsText": "Okvir s lokacijom na svakoj stranici s pojedinostima otvara istu zračnu luku izravno u SkyVectoru, Windyju i autorouteru - korisno za planiranje rute, vremenske modele i predaju plana leta.",
+    "weatherTitle": "Vremenski brifing na stranici",
+    "weatherText": "Stranice s pojedinostima prikazuju METAR/TAF uživo s dekodiranjem na jednostavnom jeziku, oznaku kategorije leta i razradu čeonog i bočnog vjetra za svaku stazu - brza provjera, a ne zamjena za vaš službeni brifing.",
+    "customsTitle": "Carina & prijelaz granice",
+    "customsText": "Stranice s pojedinostima prikazuju nudi li zračna luka carinjenje; gdje ga nacionalni AIP navodi u GEN 1.2, vrijednost je provjerena u odnosu na taj službeni izvor. Za dokumentaciju za prijelaz granice, okvir s lokacijom nudi poveznice na službene obrasce (npr. UK General Aviation Report), a karta može filtrirati zračne luke s carinom. Pravila se mijenjaju - uvijek potvrdite s trenutnim AIP-om i lokalnim tijelom.",
+    "disclaimerTitle": "Sigurnosna napomena",
+    "disclaimerText": "AIP:Aero pruža poveznice na službene AIP publikacije, ali nije službeni izvor. Izvanmrežne kopije označene su datumom preuzimanja i mogu zastarjeti sa svakim AIRAC ciklusom - provjerite ažurnost karata prije svakog leta i uvijek pribavite službeni brifing prije leta.",
+    "apiTitle": "API i suradnja na podacima",
+    "apiText": "Za razvojne programere i EFB pružatelje: strukturirani podaci o aerodromima AIP:Aero (normalizirani indeks aerodroma, izravne poveznice na PDF-ove karata, AIRAC ciklusi, koordinate, staze, frekvencije i carinske informacije) dostupni su putem API-ja za integracije. Otvoreni smo za suradnju; <contact>javite nam se</contact>.",
+    "installButton": "Instaliraj sada",
+    "ctaTitle": "Isprobaj sada",
+    "faqTitle": "Često postavljana pitanja",
+    "faq1q": "Radi li AIP:Aero potpuno izvanmrežno?",
+    "faq1a": "Spremljene zračne luke i preuzeti paketi zemalja rade bez interneta; svaka izvanmrežna kopija prikazuje natpis s datumom spremanja. Vrijeme uživo (METAR/TAF) uvijek zahtijeva vezu.",
+    "faq2q": "Koje su zemlje pokrivene?",
+    "faq2a": "Sve trenutno dostupne zemlje navedene su na <home>početnoj stranici</home> - pokrivenost neprestano raste. Svaka kartica zemlje prikazuje dostupne vrste karata.",
+    "faq3q": "Jesu li karte ažurne?",
+    "faq3a": "Poveznice karata upućuju na službene nacionalne AIP publikacije, uključujući AIRAC datum gdje je objavljen. Uvijek provjerite u odnosu na službeni izvor prije leta."
+  },
+  "CountryFaq": {
+    "title": "Često postavljana pitanja",
+    "q1": "Što je AIP Hrvatska?",
+    "a1": "AIP (Zbornik zrakoplovnih informacija) službeni je zrakoplovni priručnik Hrvatske, koji objavljuje Croatia Control (hrvatski pružatelj usluga u zračnoj plovidbi): podaci o aerodromima, procedure i prilazne karte, ažurirani u 28-dnevnom AIRAC ciklusu. AIP:Aero vas vodi izravno do službene publikacije.",
+    "q2": "Jesu li prilazne karte besplatne?",
+    "a2": "AIP:Aero je besplatan: bez računa, bez pretplate. Croatia Control objavljuje AIP Hrvatske uključujući <list>prilazne karte</list>; pristup službenom portalu može zahtijevati registraciju.",
+    "q3": "Koje su karte i zračne luke dostupne za Hrvatsku?",
+    "a3": "Za Hrvatsku ćete pronaći <vfr>VFR zračne luke</vfr> - uključujući glavnu zračnu luku Zagreb (LDZA), svaku s izravnom poveznicom na službenu kartu, dekodiranim vremenom (METAR/TAF) i podacima o aerodromu.",
+    "q4": "Mogu li koristiti AIP:Aero izvanmrežno ili na svom EFB-u?",
+    "a4": "Da - AIP:Aero se instalira kao aplikacija (PWA), a pojedinačni aerodromi ili cijela zemlja mogu se spremiti izvanmrežno. Pogledajte <efb>EFB vodič</efb>."
+  }
+}
