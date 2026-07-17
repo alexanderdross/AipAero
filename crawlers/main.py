@@ -30,6 +30,7 @@ from crawlers.fi import FI
 from crawlers.lv import LV
 from crawlers.dk import DK
 from crawlers.fr import FR
+from crawlers.ge import GE
 from crawlers.gr import GR
 from crawlers.hr import HR
 from crawlers.hu import HU
@@ -77,6 +78,7 @@ COUNTRY_CRAWLERS = {
     "BE": BE,
     "CZ": CZ,
     "DK": DK,
+    "GE": GE,
     "GR": GR,
     "HR": HR,
     "HU": HU,
