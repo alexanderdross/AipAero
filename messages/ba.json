@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Lista aerodroma u Bosni i Hercegovini",
-    "metaTitle": "🛩️ Lista aerodroma u Bosni i Hercegovini",
+    "metaTitle": "Lista aerodroma u Bosni i Hercegovini",
     "description": "Pregled svih aerodroma u Bosni i Hercegovini",
     "metaDescription": "Pregled svih aerodroma u Bosni i Hercegovini🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Indeks AIP VFR i vizuelnih prilaznih karata Bosna i Hercegovina",
-    "metaTitle": "🛩️ Indeks AIP VFR i vizuelnih prilaznih karata Bosna i Hercegovina",
+    "metaTitle": "Indeks AIP VFR i vizuelnih prilaznih karata Bosna i Hercegovina",
     "description": "Unesite naziv aerodroma ili ICAO kod (npr. LQSA, LQMO, LQBK) za pristup AIP VFR prilaznim kartama koje objavljuje BHANSA.",
     "metaDescription": "Pretražite AIP VFR Bosna i Hercegovina i besplatno preuzmite prilazne karte aerodroma🗺️",
     "searchTitle": "Unesite naziv aerodroma ili njegov ICAO kod za pristup AIP VFR-u",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP i prilazne karte Bosne i Hercegovine",
-    "metaTitle": "🛩️ AIP i prilazne karte Bosne i Hercegovine",
+    "metaTitle": "AIP i prilazne karte Bosne i Hercegovine",
     "description": "Indeks za pretragu zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Bosni i Hercegovini",
     "metaDescription": "Indeks za pretragu zbornika zrakoplovnih informacija (AIP) VFR i prilaznih karata u Bosni i Hercegovini🗺️",
     "vfrCard": {

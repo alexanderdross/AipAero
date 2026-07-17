@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Liste over flyvepladser i Danmark",
-    "metaTitle": "🛩️ Liste over flyvepladser i Danmark",
+    "metaTitle": "Liste over flyvepladser i Danmark",
     "description": "Oversigt over alle flyvepladser/ lufthavne i Danmark",
     "metaDescription": "Oversigt over alle flyvepladser/ lufthavne i Danmark🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "Søgemaske for indflyvningskort AIP VFR helikopterpladser i Danmark",
-    "metaTitle": "🛩️ Søgemaske for indflyvningskort AIP VFR helikopterpladser i Danmark",
+    "metaTitle": "Søgemaske for indflyvningskort AIP VFR helikopterpladser i Danmark",
     "description": "Indtast lufthavnens navn eller ICAO-kode for at få adgang til VFR-indflyvningskortene for helikopterpladser.",
     "metaDescription": "Gennemsøg AIP VFR helikopterpladser i Danmark og download indflyvningskort🗺️",
     "searchTitle": "Indtast lufthavnens navn eller ICAO-kode for at komme til AIP VFR for helikopterpladser",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Søgemaske for indflyvningskort AIP VFR Danmark",
-    "metaTitle": "🛩️ Søgemaske for indflyvningskort AIP VFR Danmark",
+    "metaTitle": "Søgemaske for indflyvningskort AIP VFR Danmark",
     "description": "Indtast lufthavnens navn eller ICAO-kode for at få adgang til VFR-indflyvningskortene.",
     "metaDescription": "Gennemsøg AIP VFR Danmark AD-flyvepladser og download indflyvningskort🗺️",
     "searchTitle": "Indtast lufthavnens navn eller ICAO-kode for at komme til AIP VFR",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Indflyvningskort & luftfartsinformationspublikation AIP for Danmark",
-    "metaTitle": "🛩️ Indflyvningskort & luftfartsinformationspublikation AIP for Danmark",
+    "metaTitle": "Indflyvningskort & luftfartsinformationspublikation AIP for Danmark",
     "description": "Her finder du alle AIP (Aeronautical Information Publication) luftfartsinformationspublikationer og indflyvningskort for Danmark til download",
     "metaDescription": "Her finder du alle AIP (Aeronautical Information Publication) luftfartsinformationspublikationer og indflyvningskort for Danmark til download🗺️",
     "vfrCard": {

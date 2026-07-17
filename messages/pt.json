@@ -47,7 +47,7 @@
   },
   "AirportsPage": {
     "title": "Lista de aeródromos de Portugal",
-    "metaTitle": "🛩️ Lista de aeródromos de Portugal",
+    "metaTitle": "Lista de aeródromos de Portugal",
     "description": "Panorâmica de todos os aeroportos e aeródromos de Portugal",
     "metaDescription": "Panorâmica de todos os aeroportos e aeródromos de Portugal🗺️",
     "vfrCard": {
@@ -69,7 +69,7 @@
   },
   "HeliportPage": {
     "title": "Máscara de pesquisa de cartas de aproximação AIP VFR HEL AD heliportos Portugal",
-    "metaTitle": "🛩️ Máscara de pesquisa de cartas de aproximação AIP VFR HEL AD heliportos Portugal",
+    "metaTitle": "Máscara de pesquisa de cartas de aproximação AIP VFR HEL AD heliportos Portugal",
     "description": "Introduza o nome ou o código ICAO do aeródromo para aceder às cartas de aproximação VFR dos heliportos de Portugal (NAV Portugal)",
     "metaDescription": "AIP VFR Portugal HEL AD Pesquise heliportos e descarregue cartas de aproximação🗺️",
     "searchTitle": "Introduza o nome do aeródromo ou o código ICAO para aceder aos heliportos AIP VFR",
@@ -84,7 +84,7 @@
   },
   "VfrPage": {
     "title": "Pesquisa de cartas de aproximação AIP VFR Portugal",
-    "metaTitle": "🛩️ Pesquisa de cartas de aproximação AIP VFR Portugal",
+    "metaTitle": "Pesquisa de cartas de aproximação AIP VFR Portugal",
     "description": "Introduz o nome do aeródromo ou o seu código OACI para aceder às cartas de aproximação VFR publicadas pela NAV Portugal.",
     "metaDescription": "Pesquisa aeródromos AIP VFR em Portugal e descarrega gratuitamente as cartas de aproximação🗺️",
     "searchTitle": "Introduz o nome do aeródromo ou o seu código OACI para aceder ao AIP VFR",
@@ -110,7 +110,7 @@
   },
   "CountryPage": {
     "title": "Cartas de aproximação e publicação de informação aeronáutica AIP de Portugal",
-    "metaTitle": "🛩️ Cartas de aproximação e publicação de informação aeronáutica AIP de Portugal",
+    "metaTitle": "Cartas de aproximação e publicação de informação aeronáutica AIP de Portugal",
     "description": "Aqui podes descarregar todas as publicações de informação aeronáutica AIP (Aeronautical Information Publication) e cartas de aproximação de Portugal",
     "metaDescription": "Descarrega aqui todas as publicações de informação aeronáutica AIP e cartas de aproximação dos aeródromos de Portugal🗺️",
     "vfrCard": {

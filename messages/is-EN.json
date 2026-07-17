@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Iceland",
-    "metaTitle": "🛩️ List of Airfields in Iceland",
+    "metaTitle": "List of Airfields in Iceland",
     "description": "Overview of all airfields/ airports in Iceland",
     "metaDescription": "Overview of all airfields/ airports in Iceland🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Iceland",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Iceland",
+    "metaTitle": "Index of AIP VFR and visual approach charts Iceland",
     "description": "Enter airport name or ICAO code (e.g. BIKF Keflavik, BIRK Reykjavik, BIAR Akureyri) to access the AIP VFR approach charts provided by Isavia.",
     "metaDescription": "Browse AIP VFR Iceland and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Iceland",
-    "metaTitle": "🛩️ AIP and approach charts of Iceland",
+    "metaTitle": "AIP and approach charts of Iceland",
     "description": "Search Index of aeronautical information publication (AIP) VFR aerodromes in Iceland",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR aerodromes in Iceland🗺️",
     "vfrCard": {

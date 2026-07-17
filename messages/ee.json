@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Eesti lennuväljade nimekiri",
-    "metaTitle": "🛩️ Eesti lennuväljade nimekiri",
+    "metaTitle": "Eesti lennuväljade nimekiri",
     "description": "Ülevaade kõigist Eesti lennuväljadest",
     "metaDescription": "Ülevaade kõigist Eesti lennuväljadest ja lennujaamadest🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "AIP VFR HEL AD lähenemiskaartide otsing Eesti kopteriväljakutele",
-    "metaTitle": "🛩️ AIP VFR HEL AD lähenemiskaartide otsing Eesti kopteriväljakutele",
+    "metaTitle": "AIP VFR HEL AD lähenemiskaartide otsing Eesti kopteriväljakutele",
     "description": "Sisesta lennuvälja nimi või ICAO-kood, et avada EANS-i avaldatud kopteriväljakute VFR-lähenemiskaardid.",
     "metaDescription": "Otsi AIP VFR Eesti HEL AD kopteriväljakuid ja laadi lähenemiskaardid alla🗺️",
     "searchTitle": "Sisesta lennuvälja nimi või ICAO-kood, et avada kopteriväljakute VFR AIP",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "AIP VFR lähenemiskaartide otsing Eesti",
-    "metaTitle": "🛩️ AIP VFR lähenemiskaartide otsing Eesti",
+    "metaTitle": "AIP VFR lähenemiskaartide otsing Eesti",
     "description": "Sisesta lennuvälja nimi või ICAO-kood, et avada EANS-i avaldatud VFR-lähenemiskaardid.",
     "metaDescription": "Otsi AIP VFR Eesti AD lennuvälju ja laadi lähenemiskaardid alla🗺️",
     "searchTitle": "Sisesta lennuvälja nimi või ICAO-kood, et avada VFR AIP",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Lähenemiskaardid ja aeronavigatsiooniteabe kogumik AIP Eesti jaoks",
-    "metaTitle": "🛩️ Lähenemiskaardid ja aeronavigatsiooniteabe kogumik AIP Eesti jaoks",
+    "metaTitle": "Lähenemiskaardid ja aeronavigatsiooniteabe kogumik AIP Eesti jaoks",
     "description": "Siit saad alla laadida kõik Eesti AIP (Aeronautical Information Publication) aeronavigatsiooniteabe kogumikud ja lähenemiskaardid",
     "metaDescription": "Siit saad alla laadida kõik Eesti AIP (Aeronautical Information Publication) aeronavigatsiooniteabe kogumikud ja lähenemiskaardid🗺️",
     "vfrCard": {

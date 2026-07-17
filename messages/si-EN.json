@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Slovenia",
-    "metaTitle": "🛩️ List of Airfields in Slovenia",
+    "metaTitle": "List of Airfields in Slovenia",
     "description": "Overview of all airfields/ airports in Slovenia",
     "metaDescription": "Overview of all airfields/ airports in Slovenia🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Slovenia",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Slovenia",
+    "metaTitle": "Index of AIP VFR and visual approach charts Slovenia",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by Slovenia Control.",
     "metaDescription": "Browse AIP VFR Slovenia and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Slovenia",
-    "metaTitle": "🛩️ AIP and approach charts of Slovenia",
+    "metaTitle": "AIP and approach charts of Slovenia",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Slovenia",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Slovenia🗺️",
     "vfrCard": {

@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Poland",
-    "metaTitle": "🛩️ List of Airfields in Poland",
+    "metaTitle": "List of Airfields in Poland",
     "description": "Overview of all airfields/ airports/ heliports in Poland",
     "metaDescription": "Overview of all airfields/ airports/ heliports in Poland🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "AIP VFR Charts for Helicopter Aerodromes in Poland",
-    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Poland",
+    "metaTitle": "AIP VFR Charts for Helicopter Aerodromes in Poland",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes.",
     "metaDescription": "Browse AIP VFR Helicopter Aerodromes of Poland and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts of Poland",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts of Poland",
+    "metaTitle": "Index of AIP VFR and visual approach charts of Poland",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts.",
     "metaDescription": "Browse AIP VFR of Poland and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Poland",
-    "metaTitle": "🛩️ AIP and approach charts of Poland",
+    "metaTitle": "AIP and approach charts of Poland",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Poland",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Poland🗺️",
     "vfrCard": {

@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Sweden",
-    "metaTitle": "🛩️ List of Airfields in Sweden",
+    "metaTitle": "List of Airfields in Sweden",
     "description": "Overview of all airfields/ airports in Sweden",
     "metaDescription": "Overview of all airfields/ airports in Sweden🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "AIP VFR Charts for Helicopter Aerodromes in Sweden",
-    "metaTitle": "🛩️ AIP VFR Charts for Helicopter Aerodromes in Sweden",
+    "metaTitle": "AIP VFR Charts for Helicopter Aerodromes in Sweden",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts of Helicopter Aerodromes provided by LFV.",
     "metaDescription": "Browse AIP VFR Helicopter Aerodromes Sweden and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR for helicopters",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Sweden",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Sweden",
+    "metaTitle": "Index of AIP VFR and visual approach charts Sweden",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by LFV.",
     "metaDescription": "Browse AIP VFR Sweden and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Sweden",
-    "metaTitle": "🛩️ AIP and approach charts of Sweden",
+    "metaTitle": "AIP and approach charts of Sweden",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Sweden",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Sweden🗺️",
     "vfrCard": {

@@ -23,7 +23,7 @@ import {
   localeLangMapping,
   routing,
 } from "~/i18n/routing";
-import { orgUrl } from "~/lib/utils";
+import { orgUrl, serpTitle } from "~/lib/utils";
 
 // All slugs besides the static ones will be 404
 export const dynamicParams = false;
@@ -63,7 +63,7 @@ export async function generateMetadata(
   const locales = [...new Set([nativeLocale, englishLocale])];
 
   return {
-    title: t("metaTitle"),
+    title: serpTitle(t("metaTitle")),
     description: t("metaDescription"),
     alternates: {
       canonical: currentUrl,

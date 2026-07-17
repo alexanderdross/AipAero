@@ -17,7 +17,7 @@ import {
 import { type Airport } from "~/server/db/schema";
 import LoadingList from "./loading-list";
 import { QUERIES } from "~/server/db/queries";
-import { chartCoverage, i18nPathMapping, orgUrl } from "~/lib/utils";
+import { chartCoverage, i18nPathMapping, orgUrl, serpTitle } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
@@ -52,7 +52,7 @@ export async function generateMetadata(
   const locales = [...new Set([nativeLocale, englishLocale])];
 
   return {
-    title: t("metaTitle"),
+    title: serpTitle(t("metaTitle")),
     description: t("metaDescription"),
     alternates: {
       canonical: currentUrl,
@@ -119,7 +119,7 @@ export default async function IndexPage(
       <Title title={t("title")} description={t("description")} />
       <LastUpdated timestamp={crawledAt} airacIso={airacIso} />
       <SchemaProduct
-        name={t("breadcrumb.alternateName")}
+        name={serpTitle(t("breadcrumb.alternateName"))}
         alternateName={t("breadcrumb.name")}
         description={t("breadcrumb.description")}
         publishedDate={modifiedDate}

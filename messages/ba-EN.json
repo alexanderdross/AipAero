@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Bosnia and Herzegovina",
-    "metaTitle": "🛩️ List of Airfields in Bosnia and Herzegovina",
+    "metaTitle": "List of Airfields in Bosnia and Herzegovina",
     "description": "Overview of all airfields/ airports in Bosnia and Herzegovina",
     "metaDescription": "Overview of all airfields/ airports in Bosnia and Herzegovina🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Bosnia and Herzegovina",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Bosnia and Herzegovina",
+    "metaTitle": "Index of AIP VFR and visual approach charts Bosnia and Herzegovina",
     "description": "Enter airport name or ICAO code (e.g. LQSA, LQMO, LQBK) to access the AIP VFR approach charts provided by BHANSA.",
     "metaDescription": "Browse AIP VFR Bosnia and Herzegovina and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Bosnia and Herzegovina",
-    "metaTitle": "🛩️ AIP and approach charts of Bosnia and Herzegovina",
+    "metaTitle": "AIP and approach charts of Bosnia and Herzegovina",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Bosnia and Herzegovina",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Bosnia and Herzegovina🗺️",
     "vfrCard": {

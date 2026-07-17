@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Spain",
-    "metaTitle": "🛩️ List of Airfields in Spain",
+    "metaTitle": "List of Airfields in Spain",
     "description": "Overview of all airfields/ airports in Spain",
     "metaDescription": "Overview of all airfields/ airports in Spain🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Spain",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Spain",
+    "metaTitle": "Index of AIP VFR and visual approach charts Spain",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by ENAIRE.",
     "metaDescription": "Browse AIP VFR Spain and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Spain",
-    "metaTitle": "🛩️ AIP and approach charts of Spain",
+    "metaTitle": "AIP and approach charts of Spain",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Spain",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Spain🗺️",
     "vfrCard": {

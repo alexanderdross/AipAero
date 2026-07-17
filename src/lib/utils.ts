@@ -163,6 +163,23 @@ export function isSelfServicePdfCountry(country: string): boolean {
   return selfServicePdfCountries.has(country.toLowerCase());
 }
 
+/**
+ * SERP `<title>` decorator (CTR): prefixes an aircraft emoji - a helicopter for
+ * heliport pages - and appends a `✔️` "hook" suffix. These emojis live ONLY in
+ * the metadata `<title>` (which Next.js mirrors into og:title / twitter:title)
+ * and in the Product JSON-LD `name`; never in the visible on-page heading -
+ * callers pass the same UNDECORATED text to `<Title>`/`<Hero>`. The message JSON
+ * carries no emoji, so this is the single source of truth. Multi-type pages
+ * (country landing, airport-list) are aggregate and pass no type -> aircraft.
+ */
+export function serpTitle(
+  text: string,
+  opts?: { type?: Airport["type"] },
+): string {
+  const emoji = opts?.type === "heliport" ? "🚁" : "🛩️";
+  return `${emoji} ${text}✔️`;
+}
+
 /** True if `country` (two-letter code) exposes the given search page type. */
 export function countryHasType(
   country: string,

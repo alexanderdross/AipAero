@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Switzerland",
-    "metaTitle": "🛩️ List of Airfields in Switzerland",
+    "metaTitle": "List of Airfields in Switzerland",
     "description": "Overview of all airfields/ airports in Switzerland",
     "metaDescription": "Overview of all airfields/ airports in Switzerland🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Aerodrome search AIP VFR Switzerland",
-    "metaTitle": "🛩️ Aerodrome search AIP VFR Switzerland",
+    "metaTitle": "Aerodrome search AIP VFR Switzerland",
     "description": "Enter airport name or ICAO code (e.g. LSZH, LSGG, LSZR) to view aerodrome data and weather and to reach the official AIP published by skybriefing (registration may be required).",
     "metaDescription": "Search AIP VFR Switzerland aerodromes: aerodrome data, weather and a link to the official AIP by skybriefing🗺️",
     "searchTitle": "Enter airport name or its ICAO code to find aerodrome data and the VFR AIP",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "Aerodrome data & AIP for Switzerland",
-    "metaTitle": "🛩️ Aerodrome data & AIP for Switzerland",
+    "metaTitle": "Aerodrome data & AIP for Switzerland",
     "description": "Aerodrome data, weather and links to the official AIP (Aeronautical Information Publication) by skybriefing for Switzerland",
     "metaDescription": "Aerodrome data, weather and links to the official AIP (Aeronautical Information Publication) by skybriefing for Switzerland🗺️",
     "vfrCard": {

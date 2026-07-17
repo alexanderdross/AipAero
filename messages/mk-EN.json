@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in North Macedonia",
-    "metaTitle": "🛩️ List of Airfields in North Macedonia",
+    "metaTitle": "List of Airfields in North Macedonia",
     "description": "Overview of all airfields/ airports in North Macedonia",
     "metaDescription": "Overview of all airfields/ airports in North Macedonia🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts North Macedonia",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts North Macedonia",
+    "metaTitle": "Index of AIP VFR and visual approach charts North Macedonia",
     "description": "Enter airport name or ICAO code (e.g. LWSK, LWOH) to access the AIP VFR approach charts provided by M-NAV.",
     "metaDescription": "Browse AIP VFR North Macedonia and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of North Macedonia",
-    "metaTitle": "🛩️ AIP and approach charts of North Macedonia",
+    "metaTitle": "AIP and approach charts of North Macedonia",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in North Macedonia",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in North Macedonia🗺️",
     "vfrCard": {

@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "List of Aerodromes in France",
-    "metaTitle": "🛩️ List of Aerodromes in France",
+    "metaTitle": "List of Aerodromes in France",
     "description": "Overview of all aerodromes/airports in France",
     "metaDescription": "Overview of all aerodromes/airports in France 🗺️",
     "militaryCard": {
@@ -73,7 +73,7 @@
   },
   "AeroportPage": {
     "title": "Search for Approach Charts AIP France",
-    "metaTitle": "🛩️ Search for Approach Charts AIP France",
+    "metaTitle": "Search for Approach Charts AIP France",
     "description": "Enter the name or ICAO code of the airport to access approach charts provided by DSNA",
     "metaDescription": "Search AIP France aerodromes and download approach charts 🗺️",
     "searchTitle": "Enter airport name or ICAO code to access AIP",
@@ -88,7 +88,7 @@
   },
   "MilitaryPage": {
     "title": "Search for Approach Charts AIP MIL France",
-    "metaTitle": "🛩️ Search for Approach Charts AIP MIL France",
+    "metaTitle": "Search for Approach Charts AIP MIL France",
     "description": "Enter the name or ICAO code of the airport to access MIL approach charts provided by DSNA",
     "metaDescription": "Search AIP MIL France aerodromes and download approach charts 🗺️",
     "searchTitle": "Enter airport name or ICAO code to access MIL AIP",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Approach Charts & Aeronautical Information Publication AIP for France",
-    "metaTitle": "🛩️ Approach Charts & Aeronautical Information Publication AIP for France",
+    "metaTitle": "Approach Charts & Aeronautical Information Publication AIP for France",
     "description": "Download all AIP (Aeronautical Information Publication) manuals and approach charts for France here",
     "metaDescription": "Download all AIP (Aeronautical Information Publication) manuals and approach charts for France here 🗺️",
     "militaryCard": {

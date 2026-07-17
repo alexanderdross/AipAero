@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Serbia",
-    "metaTitle": "🛩️ List of Airfields in Serbia",
+    "metaTitle": "List of Airfields in Serbia",
     "description": "Overview of all airfields/ airports in Serbia",
     "metaDescription": "Overview of all airfields/ airports in Serbia🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Serbia",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Serbia",
+    "metaTitle": "Index of AIP VFR and visual approach charts Serbia",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by SMATSA.",
     "metaDescription": "Browse AIP VFR Serbia and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Serbia",
-    "metaTitle": "🛩️ AIP and approach charts of Serbia",
+    "metaTitle": "AIP and approach charts of Serbia",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Serbia",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Serbia🗺️",
     "vfrCard": {

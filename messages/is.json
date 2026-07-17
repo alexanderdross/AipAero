@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Listi yfir flugvelli á Íslandi",
-    "metaTitle": "🛩️ Listi yfir flugvelli á Íslandi",
+    "metaTitle": "Listi yfir flugvelli á Íslandi",
     "description": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi",
     "metaDescription": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Leit að AIP VFR aðflugskortum fyrir Ísland",
-    "metaTitle": "🛩️ Leit að AIP VFR aðflugskortum fyrir Ísland",
+    "metaTitle": "Leit að AIP VFR aðflugskortum fyrir Ísland",
     "description": "Sláðu inn nafn flugvallar eða ICAO-kóða hans (t.d. BIKF Keflavík, BIRK Reykjavík, BIAR Akureyri) til að opna VFR-aðflugskortin sem Isavia gefur út.",
     "metaDescription": "Leitaðu að AIP VFR flugvöllum á Íslandi og sæktu aðflugskort ókeypis🗺️",
     "searchTitle": "Sláðu inn nafn flugvallar eða ICAO-kóða hans til að opna AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "Aðflugskort og flugmálahandbók (AIP) Íslands",
-    "metaTitle": "🛩️ Aðflugskort og flugmálahandbók (AIP) Íslands",
+    "metaTitle": "Aðflugskort og flugmálahandbók (AIP) Íslands",
     "description": "Hér getur þú sótt allar flugmálahandbækur (AIP, Aeronautical Information Publication) og aðflugskort fyrir Ísland",
     "metaDescription": "Hér getur þú sótt allar flugmálahandbækur (AIP, Aeronautical Information Publication) og aðflugskort fyrir Ísland🗺️",
     "vfrCard": {

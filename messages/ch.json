@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Liste der Flugplätze in der Schweiz",
-    "metaTitle": "🛩️ Liste der Flugplätze in der Schweiz",
+    "metaTitle": "Liste der Flugplätze in der Schweiz",
     "description": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick",
     "metaDescription": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Suchmaske für Flugplätze AIP VFR Schweiz",
-    "metaTitle": "🛩️ Suchmaske für Flugplätze AIP VFR Schweiz",
+    "metaTitle": "Suchmaske für Flugplätze AIP VFR Schweiz",
     "description": "Namen oder ICAO Code des Flugplatzes eingeben (z.B. LSZH, LSGG, LSZR), um Flugplatzdaten und Wetter anzusehen und zur offiziellen AIP von skybriefing zu gelangen (Registrierung ggf. erforderlich).",
     "metaDescription": "AIP VFR Schweiz Flugplätze durchsuchen: Flugplatzdaten, Wetter und Link zur offiziellen AIP von skybriefing🗺️",
     "searchTitle": "Flugplatz oder ICAO Code eingeben, um Flugplatzdaten und die VFR AIP zu finden",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "Flugplatzdaten & Luftfahrthandbuch AIP für die Schweiz",
-    "metaTitle": "🛩️ Flugplatzdaten & Luftfahrthandbuch AIP für die Schweiz",
+    "metaTitle": "Flugplatzdaten & Luftfahrthandbuch AIP für die Schweiz",
     "description": "Flugplatzdaten, Wetter und Links zum offiziellen AIP (Aeronautical Information Publication) von skybriefing für die Schweiz",
     "metaDescription": "Flugplatzdaten, Wetter und Links zum offiziellen AIP (Aeronautical Information Publication) von skybriefing für die Schweiz🗺️",
     "vfrCard": {

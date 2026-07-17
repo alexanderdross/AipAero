@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Lista de aeropuertos de España",
-    "metaTitle": "🛩️ Lista de aeropuertos de España",
+    "metaTitle": "Lista de aeropuertos de España",
     "description": "Todos los aeropuertos y aeródromos de España de un vistazo",
     "metaDescription": "Todos los aeropuertos y aeródromos de España de un vistazo🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Buscador de cartas de aproximación AIP VFR España",
-    "metaTitle": "🛩️ Buscador de cartas de aproximación AIP VFR España",
+    "metaTitle": "Buscador de cartas de aproximación AIP VFR España",
     "description": "Introduce el nombre del aeródromo o su código OACI para acceder a las cartas de aproximación VFR publicadas por ENAIRE.",
     "metaDescription": "Busca aeródromos AIP VFR España AD y descarga cartas de aproximación🗺️",
     "searchTitle": "Introduce el nombre del aeródromo o su código OACI para acceder al AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "Cartas de aproximación y publicación de información aeronáutica AIP de España",
-    "metaTitle": "🛩️ Cartas de aproximación y publicación de información aeronáutica AIP de España",
+    "metaTitle": "Cartas de aproximación y publicación de información aeronáutica AIP de España",
     "description": "Aquí puedes descargar todas las publicaciones de información aeronáutica AIP (Aeronautical Information Publication) y cartas de aproximación de España",
     "metaDescription": "Aquí puedes descargar todas las publicaciones de información aeronáutica AIP (Aeronautical Information Publication) y cartas de aproximación de España🗺️",
     "vfrCard": {

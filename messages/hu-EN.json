@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Hungary",
-    "metaTitle": "🛩️ List of Airfields in Hungary",
+    "metaTitle": "List of Airfields in Hungary",
     "description": "Overview of all airfields/ airports in Hungary",
     "metaDescription": "Overview of all airfields/ airports in Hungary🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Hungary",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Hungary",
+    "metaTitle": "Index of AIP VFR and visual approach charts Hungary",
     "description": "Enter airport name or ICAO code (e.g. LHBP, LHDC, LHPP) to access the AIP VFR approach charts provided by HungaroControl.",
     "metaDescription": "Browse AIP VFR Hungary and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Hungary",
-    "metaTitle": "🛩️ AIP and approach charts of Hungary",
+    "metaTitle": "AIP and approach charts of Hungary",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Hungary",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Hungary🗺️",
     "vfrCard": {

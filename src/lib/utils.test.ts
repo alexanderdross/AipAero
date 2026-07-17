@@ -5,6 +5,7 @@ import {
   i18nPathMapping,
   isGatedCountry,
   isSelfServicePdfCountry,
+  serpTitle,
 } from "~/lib/utils";
 
 describe("cn", () => {
@@ -59,6 +60,24 @@ describe("isSelfServicePdfCountry", () => {
   it("is false for countries that publish (or gate) real chart PDFs", () => {
     expect(isSelfServicePdfCountry("no")).toBe(false);
     expect(isSelfServicePdfCountry("ch")).toBe(false);
+  });
+});
+
+describe("serpTitle", () => {
+  it("adds the aircraft prefix and the check-mark hook by default", () => {
+    expect(serpTitle("AIP VFR Charts")).toBe("🛩️ AIP VFR Charts✔️");
+  });
+
+  it("uses the helicopter prefix for heliport pages", () => {
+    expect(serpTitle("Heliports Germany", { type: "heliport" })).toBe(
+      "🚁 Heliports Germany✔️",
+    );
+  });
+
+  it("uses the aircraft prefix for every non-heliport type", () => {
+    for (const type of ["vfr", "ifr", "mil", "aeroport"] as const) {
+      expect(serpTitle("X", { type })).toBe("🛩️ X✔️");
+    }
   });
 });
 

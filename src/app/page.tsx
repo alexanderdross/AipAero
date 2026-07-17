@@ -18,6 +18,7 @@ import {
   rootBreadcrumb,
   rootDescription,
   rootTitle,
+  serpTitle,
 } from "~/lib/utils";
 import { HashDetailsOpener } from "~/components/hash-details-opener";
 import { SectionHeading, slugify } from "~/components/section-heading";
@@ -37,7 +38,7 @@ export async function generateMetadata(
   const previousOpenGraph = parentMetadata.openGraph ?? {};
   const previousOther = parentMetadata.other ?? {};
   return {
-    title: `🛩️ ${rootTitle}`,
+    title: serpTitle(rootTitle),
     description: `🛩️ ${rootDescription}`,
     alternates: {
       canonical: orgUrl,
@@ -48,7 +49,7 @@ export async function generateMetadata(
     openGraph: {
       ...previousOpenGraph,
       url: orgUrl.toString(),
-      siteName: `🛩️ ${rootTitle}`,
+      siteName: rootTitle,
     },
     other: {
       ...(previousOther as Omit<
@@ -330,7 +331,7 @@ export default async function RootPage() {
             }}
           />
           <SchemaProduct
-            name={rootTitle}
+            name={serpTitle(rootTitle)}
             alternateName="AIP:Aero"
             description={rootDescription}
             publishedDate={modifiedDate}

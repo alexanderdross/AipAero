@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Lithuania",
-    "metaTitle": "🛩️ List of Airfields in Lithuania",
+    "metaTitle": "List of Airfields in Lithuania",
     "description": "Overview of all airfields/ airports in Lithuania",
     "metaDescription": "Overview of all airfields/ airports in Lithuania🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Lithuania",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Lithuania",
+    "metaTitle": "Index of AIP VFR and visual approach charts Lithuania",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts provided by Oro navigacija.",
     "metaDescription": "Browse AIP VFR Lithuania and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Lithuania",
-    "metaTitle": "🛩️ AIP and approach charts of Lithuania",
+    "metaTitle": "AIP and approach charts of Lithuania",
     "description": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Lithuania",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and helicopter aerodromes in Lithuania🗺️",
     "vfrCard": {

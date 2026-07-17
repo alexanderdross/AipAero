@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Malta",
-    "metaTitle": "🛩️ List of Airfields in Malta",
+    "metaTitle": "List of Airfields in Malta",
     "description": "Overview of all airfields/ airports in Malta",
     "metaDescription": "Overview of all airfields/ airports in Malta🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Malta",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Malta",
+    "metaTitle": "Index of AIP VFR and visual approach charts Malta",
     "description": "Enter airport name or ICAO code (e.g. LMML) to access the AIP VFR approach charts provided by Malta Air Traffic Services (MATS).",
     "metaDescription": "Browse AIP VFR Malta and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Malta",
-    "metaTitle": "🛩️ AIP and approach charts of Malta",
+    "metaTitle": "AIP and approach charts of Malta",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Malta",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Malta🗺️",
     "vfrCard": {

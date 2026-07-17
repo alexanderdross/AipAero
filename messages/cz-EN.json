@@ -47,7 +47,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Czechia",
-    "metaTitle": "🛩️ List of Airfields in Czechia",
+    "metaTitle": "List of Airfields in Czechia",
     "description": "Overview of all airfields/ airports in Czechia",
     "metaDescription": "Overview of all airfields/ airports in Czechia🗺️",
     "ifrCard": {
@@ -64,7 +64,7 @@
   },
   "IfrPage": {
     "title": "Index of AIP IFR and approach charts Czechia",
-    "metaTitle": "🛩️ Index of AIP IFR and approach charts Czechia",
+    "metaTitle": "Index of AIP IFR and approach charts Czechia",
     "description": "Enter airport name or ICAO code to access the AIP IFR approach charts.",
     "metaDescription": "Browse AIP IFR Czechia and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP IFR",
@@ -79,7 +79,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Czechia",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Czechia",
+    "metaTitle": "Index of AIP VFR and visual approach charts Czechia",
     "description": "Enter airport name or ICAO code to access the AIP VFR approach charts from the ANS CR VFR Manual, including SLZ ultralight fields.",
     "metaDescription": "Browse AIP VFR Czechia and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -105,7 +105,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Czechia",
-    "metaTitle": "🛩️ AIP and approach charts of Czechia",
+    "metaTitle": "AIP and approach charts of Czechia",
     "description": "Search Index of aeronautical information publication (AIP) IFR aerodromes in Czechia",
     "metaDescription": "Search Index of aeronautical information publication (AIP) IFR aerodromes in Czechia🗺️",
     "ifrCard": {

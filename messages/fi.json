@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Luettelo Suomen lentopaikoista",
-    "metaTitle": "🛩️ Luettelo Suomen lentopaikoista",
+    "metaTitle": "Luettelo Suomen lentopaikoista",
     "description": "Kaikki Suomen lentopaikat ja lentoasemat yhdellä silmäyksellä",
     "metaDescription": "Kaikki Suomen lentopaikat ja lentoasemat yhdellä silmäyksellä🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "AIP VFR HEL AD -lähestymiskarttojen haku - helikopterilentopaikat Suomessa",
-    "metaTitle": "🛩️ AIP VFR HEL AD -lähestymiskarttojen haku - helikopterilentopaikat Suomessa",
+    "metaTitle": "AIP VFR HEL AD -lähestymiskarttojen haku - helikopterilentopaikat Suomessa",
     "description": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi Fintraffic ANS:n julkaisemiin helikopterilentopaikkojen VFR-lähestymiskarttoihin.",
     "metaDescription": "Hae AIP VFR Suomi HEL AD helikopterilentopaikkoja ja lataa lähestymiskartat🗺️",
     "searchTitle": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi helikopterilentopaikkojen VFR AIP -tietoihin",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "AIP VFR -lähestymiskarttojen haku Suomi",
-    "metaTitle": "🛩️ AIP VFR -lähestymiskarttojen haku Suomi",
+    "metaTitle": "AIP VFR -lähestymiskarttojen haku Suomi",
     "description": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi Fintraffic ANS:n julkaisemiin VFR-lähestymiskarttoihin.",
     "metaDescription": "Hae AIP VFR Suomi AD lentopaikkoja ja lataa lähestymiskartat🗺️",
     "searchTitle": "Syötä lentopaikan nimi tai ICAO-tunnus päästäksesi VFR AIP -tietoihin",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Suomen lähestymiskartat & ilmailukäsikirja AIP",
-    "metaTitle": "🛩️ Suomen lähestymiskartat & ilmailukäsikirja AIP",
+    "metaTitle": "Suomen lähestymiskartat & ilmailukäsikirja AIP",
     "description": "Täältä voit ladata kaikki Suomen AIP (Aeronautical Information Publication) -ilmailukäsikirjat ja lähestymiskartat",
     "metaDescription": "Täältä voit ladata kaikki Suomen AIP (Aeronautical Information Publication) -ilmailukäsikirjat ja lähestymiskartat🗺️",
     "vfrCard": {

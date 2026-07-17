@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Zoznam letísk na Slovensku",
-    "metaTitle": "🛩️ Zoznam letísk na Slovensku",
+    "metaTitle": "Zoznam letísk na Slovensku",
     "description": "Prehľad všetkých letísk na Slovensku",
     "metaDescription": "Prehľad všetkých letísk na Slovensku🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Vyhľadávanie približovacích máp AIP VFR Slovensko",
-    "metaTitle": "🛩️ Vyhľadávanie približovacích máp AIP VFR Slovensko",
+    "metaTitle": "Vyhľadávanie približovacích máp AIP VFR Slovensko",
     "description": "Zadajte názov alebo ICAO kód letiska (napr. LZIB, LZKZ, LZZI) pre prístup k približovacím mapám AIP VFR, ktoré vydáva LPS SR.",
     "metaDescription": "Prehľadávajte AIP VFR Slovensko a sťahujte približovacie mapy letísk zadarmo🗺️",
     "searchTitle": "Zadajte názov letiska alebo jeho ICAO kód pre prístup k AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "Približovacie mapy a letecká informačná príručka AIP pre Slovensko",
-    "metaTitle": "🛩️ Približovacie mapy a letecká informačná príručka AIP pre Slovensko",
+    "metaTitle": "Približovacie mapy a letecká informačná príručka AIP pre Slovensko",
     "description": "Vyhľadávanie leteckých informačných príručiek AIP (Aeronautical Information Publication) VFR a približovacích máp pre Slovensko",
     "metaDescription": "Vyhľadávanie leteckých informačných príručiek AIP (Aeronautical Information Publication) VFR a približovacích máp pre Slovensko🗺️",
     "vfrCard": {

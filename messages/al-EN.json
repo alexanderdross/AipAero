@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "List of Airfields in Albania",
-    "metaTitle": "🛩️ List of Airfields in Albania",
+    "metaTitle": "List of Airfields in Albania",
     "description": "Overview of all airfields/ airports in Albania",
     "metaDescription": "Overview of all airfields/ airports in Albania🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Index of AIP VFR and visual approach charts Albania",
-    "metaTitle": "🛩️ Index of AIP VFR and visual approach charts Albania",
+    "metaTitle": "Index of AIP VFR and visual approach charts Albania",
     "description": "Enter airport name or ICAO code (e.g. LATI, LAKU) to access the AIP VFR approach charts provided by Albcontrol.",
     "metaDescription": "Browse AIP VFR Albania and download airport approach charts for free🗺️",
     "searchTitle": "Enter airport name or its ICAO code to access AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP and approach charts of Albania",
-    "metaTitle": "🛩️ AIP and approach charts of Albania",
+    "metaTitle": "AIP and approach charts of Albania",
     "description": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Albania",
     "metaDescription": "Search Index of aeronautical information publication (AIP) VFR and approach charts in Albania🗺️",
     "vfrCard": {

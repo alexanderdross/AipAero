@@ -51,7 +51,7 @@
   },
   "AirportsPage": {
     "title": "Liste over flyplasser i Norge",
-    "metaTitle": "🛩️ Liste over flyplasser i Norge",
+    "metaTitle": "Liste over flyplasser i Norge",
     "description": "Oversikt over alle flyplasser i Norge",
     "metaDescription": "Oversikt over alle flyplasser i Norge🗺️",
     "vfrCard": {
@@ -73,7 +73,7 @@
   },
   "HeliportPage": {
     "title": "Søkefelt for innflygingskart AIP VFR HEL AD helikopterplasser i Norge",
-    "metaTitle": "🛩️ Søkefelt for innflygingskart AIP VFR HEL AD helikopterplasser i Norge",
+    "metaTitle": "Søkefelt for innflygingskart AIP VFR HEL AD helikopterplasser i Norge",
     "description": "Skriv inn navnet eller ICAO-koden til flyplassen for å få tilgang til Avinors VFR-innflygingskart for helikopterplasser.",
     "metaDescription": "AIP VFR Norge HEL AD Søk i helikopterplasser og last ned innflygingskart🗺️",
     "searchTitle": "Skriv inn flyplass eller ICAO-kode for å gå til VFR AIP for helikopterplasser",
@@ -88,7 +88,7 @@
   },
   "VfrPage": {
     "title": "Søkefelt for innflygingskart AIP VFR Norge",
-    "metaTitle": "🛩️ Søkefelt for innflygingskart AIP VFR Norge",
+    "metaTitle": "Søkefelt for innflygingskart AIP VFR Norge",
     "description": "Skriv inn navnet eller ICAO-koden til flyplassen for å få tilgang til Avinors VFR-innflygingskart.",
     "metaDescription": "AIP VFR Norge AD Søk i flyplasser og last ned innflygingskart🗺️",
     "searchTitle": "Skriv inn flyplass eller ICAO-kode for å gå til VFR AIP",
@@ -114,7 +114,7 @@
   },
   "CountryPage": {
     "title": "Innflygingskart og luftfartshåndbok AIP for Norge",
-    "metaTitle": "🛩️ Innflygingskart og luftfartshåndbok AIP for Norge",
+    "metaTitle": "Innflygingskart og luftfartshåndbok AIP for Norge",
     "description": "Her kan du laste ned alle AIP (Aeronautical Information Publication) luftfartshåndbøker og innflygingskart for Norge",
     "metaDescription": "Her kan du laste ned alle AIP (Aeronautical Information Publication) luftfartshåndbøker og innflygingskart for Norge🗺️",
     "vfrCard": {

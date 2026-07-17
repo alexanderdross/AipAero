@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Oro uostų sąrašas Lietuvoje",
-    "metaTitle": "🛩️ Oro uostų sąrašas Lietuvoje",
+    "metaTitle": "Oro uostų sąrašas Lietuvoje",
     "description": "Visų Lietuvos oro uostų ir aerodromų apžvalga",
     "metaDescription": "Visų Lietuvos oro uostų ir aerodromų apžvalga🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "AIP VFR ir vizualaus artėjimo kortelių rodyklė Lietuva",
-    "metaTitle": "🛩️ AIP VFR ir vizualaus artėjimo kortelių rodyklė Lietuva",
+    "metaTitle": "AIP VFR ir vizualaus artėjimo kortelių rodyklė Lietuva",
     "description": "Įveskite oro uosto pavadinimą arba ICAO kodą, kad pasiektumėte AIP VFR artėjimo korteles, kurias teikia Oro navigacija.",
     "metaDescription": "Naršykite AIP VFR Lietuva ir nemokamai atsisiųskite oro uostų artėjimo korteles🗺️",
     "searchTitle": "Įveskite oro uosto pavadinimą arba jo ICAO kodą, kad pasiektumėte AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "Lietuvos AIP ir artėjimo kortelės",
-    "metaTitle": "🛩️ Lietuvos AIP ir artėjimo kortelės",
+    "metaTitle": "Lietuvos AIP ir artėjimo kortelės",
     "description": "Ieškokite aeronautikos informacijos rinkinio (AIP) VFR ir sraigtasparnių aerodromų rodyklės Lietuvoje",
     "metaDescription": "Ieškokite aeronautikos informacijos rinkinio (AIP) VFR ir sraigtasparnių aerodromų rodyklės Lietuvoje🗺️",
     "vfrCard": {

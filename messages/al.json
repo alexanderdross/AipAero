@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Lista e aeroporteve në Shqipëri",
-    "metaTitle": "🛩️ Lista e aeroporteve në Shqipëri",
+    "metaTitle": "Lista e aeroporteve në Shqipëri",
     "description": "Pasqyrë e të gjitha aeroporteve në Shqipëri",
     "metaDescription": "Pasqyrë e të gjitha aeroporteve në Shqipëri🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Indeksi i AIP VFR dhe hartave vizuale të afrimit Shqipëri",
-    "metaTitle": "🛩️ Indeksi i AIP VFR dhe hartave vizuale të afrimit Shqipëri",
+    "metaTitle": "Indeksi i AIP VFR dhe hartave vizuale të afrimit Shqipëri",
     "description": "Shkruani emrin e aeroportit ose kodin ICAO (p.sh. LATI, LAKU) për të hyrë në hartat e afrimit AIP VFR të ofruara nga Albcontrol.",
     "metaDescription": "Shfletoni AIP VFR Shqipëri dhe shkarkoni hartat e afrimit të aeroporteve falas🗺️",
     "searchTitle": "Shkruani emrin e aeroportit ose kodin e tij ICAO për të hyrë në AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "AIP dhe hartat e afrimit të Shqipërisë",
-    "metaTitle": "🛩️ AIP dhe hartat e afrimit të Shqipërisë",
+    "metaTitle": "AIP dhe hartat e afrimit të Shqipërisë",
     "description": "Indeks kërkimi i publikimit të informacionit aeronautik (AIP) VFR dhe hartave të afrimit në Shqipëri",
     "metaDescription": "Indeks kërkimi i publikimit të informacionit aeronautik (AIP) VFR dhe hartave të afrimit në Shqipëri🗺️",
     "vfrCard": {

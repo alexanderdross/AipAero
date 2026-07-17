@@ -43,7 +43,7 @@
   },
   "AirportsPage": {
     "title": "Seznam letališč v Sloveniji",
-    "metaTitle": "🛩️ Seznam letališč v Sloveniji",
+    "metaTitle": "Seznam letališč v Sloveniji",
     "description": "Vsa letališča in vzletišča v Sloveniji na enem mestu",
     "metaDescription": "Vsa letališča in vzletišča v Sloveniji na enem mestu🗺️",
     "vfrCard": {
@@ -65,7 +65,7 @@
   },
   "VfrPage": {
     "title": "Iskalnik kart prileta AIP VFR Slovenija",
-    "metaTitle": "🛩️ Iskalnik kart prileta AIP VFR Slovenija",
+    "metaTitle": "Iskalnik kart prileta AIP VFR Slovenija",
     "description": "Vnesi ime letališča ali njegovo kodo ICAO za dostop do kart prileta VFR, ki jih objavlja Kontrola zračnega prometa Slovenije.",
     "metaDescription": "Poišči letališča AIP VFR Slovenija in brezplačno prenesi karte prileta🗺️",
     "searchTitle": "Vnesi ime letališča ali njegovo kodo ICAO za dostop do AIP VFR",
@@ -91,7 +91,7 @@
   },
   "CountryPage": {
     "title": "Karte prileta in zbornik letalskih informacij AIP Slovenije",
-    "metaTitle": "🛩️ Karte prileta in zbornik letalskih informacij AIP Slovenije",
+    "metaTitle": "Karte prileta in zbornik letalskih informacij AIP Slovenije",
     "description": "Tukaj lahko preneseš vse zbornike letalskih informacij AIP (Aeronautical Information Publication) in karte prileta za Slovenijo",
     "metaDescription": "Tukaj lahko preneseš vse zbornike letalskih informacij AIP (Aeronautical Information Publication) in karte prileta za Slovenijo🗺️",
     "vfrCard": {
