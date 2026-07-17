@@ -140,6 +140,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // BG: info-page only (BULATSA's b-flip AIP portal is registration-gated).
   // OurAirports aerodrome list, "vfr", OpenAIP data + weather + AIP button.
   bg: ["vfr"],
+  // TR: info-page only (DHMI's AIP Turkiye portal is login + paid subscription).
+  // OurAirports aerodrome list, "vfr", OpenAIP data + weather + AIP button.
+  tr: ["vfr"],
 };
 
 /**
@@ -156,6 +159,7 @@ export const gatedCountries = new Set<string>([
   "it",
   "hr",
   "bg",
+  "tr",
 ]);
 
 /** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
@@ -386,6 +390,13 @@ export const liveCountries: string[] = [
   // OurAirports and points each at the b-flip portal (gated). OpenAIP data +
   // weather come from the website.
   "bg",
+  // Turkey (17.07.2026): info-page. DHMI's AIP Turkiye portal
+  // (dhmi.gov.tr/Sayfalar/aipturkey.aspx) is a JS/SharePoint page whose AIP
+  // download area needs a login + paid subscription (no open AD-2 or charts,
+  // probed 17.07.2026), so - like CH/MT/MD - no chart crawl: tr.py reads the
+  // Turkish aerodromes from OurAirports and points each at the DHMI portal
+  // (gated). OpenAIP data + weather come from the website.
+  "tr",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -450,4 +461,5 @@ export const countryMeta: Record<
   it: { lang: "it", name: "Italy", flag: "🇮🇹", nativeLang: "Italian" },
   hr: { lang: "hr", name: "Croatia", flag: "🇭🇷", nativeLang: "Croatian" },
   bg: { lang: "bg", name: "Bulgaria", flag: "🇧🇬", nativeLang: "Bulgarian" },
+  tr: { lang: "tr", name: "Turkey", flag: "🇹🇷", nativeLang: "Turkish" },
 };

@@ -117,6 +117,7 @@ const AIP_SOURCES: { cc: string; name: string; url: string }[] = [
     url: "https://www.crocontrol.hr",
   },
   { cc: "bg", name: "BULATSA (България)", url: "https://www.bulatsa.com" },
+  { cc: "tr", name: "DHMI (Türkiye)", url: "https://dhmi.gov.tr" },
 ];
 
 // Descriptor for each embedded source comes from i18n (srcAwc etc.).

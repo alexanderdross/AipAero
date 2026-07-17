@@ -76,6 +76,8 @@ const countryPages: TestPage[] = [
   { path: "/hr/en/", lang: "en", label: "country hr-EN" },
   { path: "/bg/", lang: "bg", label: "country bg" },
   { path: "/bg/en/", lang: "en", label: "country bg-EN" },
+  { path: "/tr/", lang: "tr", label: "country tr" },
+  { path: "/tr/en/", lang: "en", label: "country tr-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -148,6 +150,8 @@ const airportListPages: TestPage[] = [
   { path: "/hr/en/airport-list-croatia/", lang: "en", label: "list hr-EN" },
   { path: "/bg/letishta-balgariya/", lang: "bg", label: "list bg" },
   { path: "/bg/en/airport-list-bulgaria/", lang: "en", label: "list bg-EN" },
+  { path: "/tr/havalimanlari-turkiye/", lang: "tr", label: "list tr" },
+  { path: "/tr/en/airport-list-turkey/", lang: "en", label: "list tr-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -229,6 +233,8 @@ const searchPages: TestPage[] = [
   { path: "/hr/en/vfr/", lang: "en", label: "vfr hr-EN" },
   { path: "/bg/vfr/", lang: "bg", label: "vfr bg" },
   { path: "/bg/en/vfr/", lang: "en", label: "vfr bg-EN" },
+  { path: "/tr/vfr/", lang: "tr", label: "vfr tr" },
+  { path: "/tr/en/vfr/", lang: "en", label: "vfr tr-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -299,6 +305,8 @@ const termsPages: TestPage[] = [
   { path: "/hr/en/terms/", lang: "en", label: "terms hr-EN" },
   { path: "/bg/terms/", lang: "bg", label: "terms bg" },
   { path: "/bg/en/terms/", lang: "en", label: "terms bg-EN" },
+  { path: "/tr/terms/", lang: "tr", label: "terms tr" },
+  { path: "/tr/en/terms/", lang: "en", label: "terms tr-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).
