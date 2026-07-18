@@ -1,226 +1,107 @@
-"""Bulgaria (BULATSA) AIP crawler - the b-flip Flight Information Portal.
+"""Bulgaria (BULATSA) info-page crawler.
 
-BULATSA publishes the official Bulgarian AIP + charts **openly** (no login) on
-the b-flip portal (`b-flip.bulatsa.com`). The earlier "gated" verdict was wrong:
-the AD-2/AD-4/AD-5 chart PDFs are free static files under `/_aip/AD_files/`,
-e.g.
+Bulgaria's official AIP + charts are published by **BULATSA** through the
+registration-gated **b-flip** portal (`b-flip.bulatsa.com`); the services page
+serves a login/registration form and there is no open AD-2 chart tree
+(re-probed 16.07.2026), so we deliberately do NOT scrape charts (respecting the
+access control). Bulgaria is onboarded as an **info-page** country: each
+aerodrome gets a detail page with OpenAIP aerodrome data + live weather (both
+filled by the website from the field's ICAO, no chart crawl needed), and the
+primary blue "AIP" button links to the BULATSA b-flip AIP portal (a login /
+registration may be required - the website shows a hint for gated countries).
 
-    https://b-flip.bulatsa.com/_aip/AD_files/LB_AD_2_LBBG_59_1_2_3_4_en.pdf
-
-The catch is the navigation: b-flip is a bespoke Angular SPA (built by
-TechnoLogica), so a plain httpx fetch of `/publications/aip/aerodromes` returns
-only the app shell - the aerodrome table is injected client-side. So BG renders
-the Aerodromes page with headless Chromium (like DK/RS) and parses the rendered
-`#aip_content` table.
-
-The table groups fields under three AD parts, each a chart PDF family:
-
-  * AD 2 - the 5 international aerodromes (LBSF Sofia, LBBG Burgas, LBWN Varna,
-    LBGO Gorna Oryahovitsa, LBPD Plovdiv) - full chart sets (ADC/PDC/SID/STAR/
-    IAC/VAC ...), type `vfr`.
-  * AD 4 - ~31 small VFR aerodromes (< 5700 kg) - a textual-data sheet, some
-    with a VAC, type `vfr`.
-  * AD 5 - 5 heliports - a textual-data sheet, type `heliport`.
-
-Every chart PDF is named `LB_AD_<part>_<ICAO>_<section>_en.pdf` (section absent
-= the textual-data sheet, `59` = Visual Approach Chart / VAC, `41` = Aerodrome
-Chart / ADC). PDFs are grouped by the ICAO in their OWN filename (the source
-table carries a few stray cross-links, so grouping by header would mis-assign
-them - the RS pattern); the VAC is the primary chart, then the ADC, then the
-data sheet. Names come from the table's header rows (Cyrillic / Latin, the
-Latin half kept). LB is the Bulgaria ICAO prefix.
+The aerodrome LIST comes from OurAirports (public domain / CC0): the Bulgarian
+(`iso_country = BG`) aerodromes with a real ICAO (LB**), emitted as `vfr` rows
+whose `url` is the b-flip portal and with no `pdf_url` (so the website renders
+no chart-PDF box). Pure HTTP, no login, no browser.
 """
 
-from __future__ import annotations
+import csv
+import io
 
-import re
-from urllib.parse import urljoin
-
-from crawlers.http_base import Airport, current_airac_date
-from crawlers.models import ChartLink
-from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
+from crawlers.http_base import Airport, HttpCrawlerBase
 
 COUNTRY = "BG"
-ROOT_URL = "https://b-flip.bulatsa.com/"
-# Deep-links the Aerodromes tab directly (its `aria-selected` is set on load),
-# so the AD table renders without any in-app navigation.
-AD_PAGE_URL = "https://b-flip.bulatsa.com/publications/aip/aerodromes"
 
-# A per-aerodrome chart/data PDF: LB_AD_<part>_<ICAO>[_<section...>]_en.pdf.
-# <part> is 2/4/5 (AD 2 / AD 4 / AD 5); <section> (41, 43, 53, 59, ...) is the
-# eAIP chart index, absent on the textual-data sheet. The AIC circulars linked
-# in the same table live under /cd/... and never match this AD_files pattern.
-_AD_PDF_RE = re.compile(
-    r"/_aip/AD_files/LB_AD_(\d)_(LB[A-Z0-9]{2})((?:_\d+)*)_en\.pdf$", re.I
-)
-_ICAO_RE = re.compile(r"\bLB[A-Z0-9]{2}\b")
-_MAX_CHARTS = 50
+# OurAirports airports export (stable GitHub Pages mirror), same source the
+# facts importer uses. CC0 / public domain.
+AIRPORTS_CSV = "https://davidmegginson.github.io/ourairports-data/airports.csv"
+
+# BULATSA b-flip AIP portal (login / registration required). The website flags
+# Bulgaria as a gated country so the detail page shows a "registration may be
+# required" hint next to this button. Verified reachable from the self-hosted
+# runner via the live-test `check_urls` step before launch.
+BULATSA_AIP_URL = "https://b-flip.bulatsa.com/publications/aip/home"
+
+# OurAirports `type` values that are real aerodromes (not closed / seaplane /
+# balloonport / heliport - BG exposes VFR aerodromes only).
+_AERODROME_TYPES = {"small_airport", "medium_airport", "large_airport"}
 
 
-class BG(PlaywrightCrawlerBase):
-    """Bulgaria (BULATSA b-flip) chart crawler.
+class BG(HttpCrawlerBase):
+    """Bulgaria info-page crawler.
 
-    Renders the Angular Aerodromes page, reads aerodrome names from the header
-    rows and groups the `/_aip/AD_files/LB_AD_*` chart PDFs by ICAO. Fails soft
-    (0 airports) when the headless browser is unavailable, like DK/RS.
+    No chart crawl (BULATSA charts are behind the b-flip registration): the
+    aerodrome list is read from OurAirports and every field points at the
+    b-flip AIP portal. OpenAIP facts + weather are added by the website per
+    ICAO.
     """
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
     @staticmethod
-    def _latin_name(cell_text: str) -> str:
-        """The aerodrome name from a header cell "<Cyrillic> / <Latin>".
-
-        The table names each field bilingually ("БУРГАС / BURGAS"); keep the
-        Latin half (after the last "/") and title-case the ALL-CAPS source
-        ("VASIL LEVSKI - SOFIA" -> "Vasil Levski - Sofia"). Falls back to the
-        whole (title-cased) string when there is no "/".
-        """
-        name = " ".join((cell_text or "").split())
-        if "/" in name:
-            name = name.rsplit("/", 1)[-1].strip()
-        return name.title() if name.isupper() else name
-
-    def _read_names(self, html: str) -> dict[str, str]:
-        """Map ICAO -> Latin aerodrome name from the AD table's header rows.
-
-        Header rows carry `class="tr_head"`; an aerodrome header has the ICAO
-        (LB**) in its code cell and the bilingual name in the next cell, while a
-        part header ("AD 2", "AERODROMES") has no LB** code and is skipped.
-        """
-        names: dict[str, str] = {}
-        for tr in self.soup(html).select("tr.tr_head"):
-            cells = tr.find_all("td")
-            if len(cells) < 4:
-                continue
-            code_text = cells[2].get_text(" ", strip=True)
-            m = _ICAO_RE.search(code_text)
-            # Skip part headers ("AD 2", "AD 4", ...) - no LB** code, or the
-            # cell reads "AD <n>" rather than an ICAO.
-            if not m or code_text.strip().upper().startswith("AD "):
-                continue
-            icao = m.group(0).upper()
-            name = self._latin_name(cells[3].get_text(" ", strip=True))
-            if name and icao not in names:
-                names[icao] = name
-        return names
-
-    def _parse_ad_table(self, html: str) -> list[Airport]:
-        """Turn the rendered Aerodromes-page HTML into a list of Airports.
-
-        Pure (no network / browser) so it is unit-testable against a captured
-        fragment: reads the header-row names, groups every `/_aip/AD_files/`
-        chart PDF by the ICAO in its own filename, picks the primary chart
-        (VAC > ADC > data sheet) and emits one Airport per aerodrome.
-        """
-        names = self._read_names(html)
-
-        # Group every AD_files PDF by the ICAO IN ITS OWN filename (robust
-        # against the table's stray cross-links), preserving first-seen order
-        # so the listing follows the AIP's own sequence.
-        order: list[str] = []
-        parts: dict[str, str] = {}
-        by_icao: dict[str, list[ChartLink]] = {}
-        for a in self.soup(html).find_all("a", href=True):
-            abs_url = urljoin(ROOT_URL, a["href"].strip())
-            match = _AD_PDF_RE.search(abs_url)
-            if not match:
-                continue
-            part, icao = match.group(1), match.group(2).upper()
-            label = " ".join(a.get_text(" ", strip=True).split())
-            if not label:
-                label = abs_url.rsplit("/", 1)[-1][:-4]
-            if icao not in by_icao:
-                by_icao[icao] = []
-                parts[icao] = part
-                order.append(icao)
-            if not any(c.url == abs_url for c in by_icao[icao]):
-                by_icao[icao].append(ChartLink(name=label[:120], url=abs_url))
-
-        self.logger.info(f"BG: AD table lists {len(order)} aerodromes: {order}")
-
-        airports: list[Airport] = []
-        for icao in order:
-            charts = by_icao[icao][:_MAX_CHARTS]
-            # Primary chart: VAC (section 59, best for VFR), then ADC (41),
-            # then the textual-data sheet (no section suffix), else the first.
-            vac = next((c.url for c in charts if _section_is(c.url, "59")), None)
-            adc = next((c.url for c in charts if _section_is(c.url, "41")), None)
-            data = next(
-                (
-                    c.url
-                    for c in charts
-                    if (m := _AD_PDF_RE.search(c.url)) and not m.group(3)
-                ),
-                None,
-            )
-            primary = vac or adc or data or charts[0].url
-            # AD 5 = heliports; AD 2 / AD 4 = vfr aerodromes.
-            category = "heliport" if parts[icao] == "5" else "vfr"
-            # Title convention "<name> <ICAO>" (drives the list, the map popup
-            # label and the detail heading); fall back to the code when the
-            # header row carried no Latin name.
-            name = names.get(icao)
-            title = f"{name} {icao}" if name else icao
-            airports.append(
-                Airport(
-                    country=COUNTRY,
-                    icao=icao,
-                    title=title,
-                    url=primary,
-                    pdf_url=primary,
-                    charts=charts or None,
-                    type=category,  # type: ignore[call-arg]
-                )
-            )
-        return airports
+    def _icao(row: dict[str, str]) -> str | None:
+        """Best-effort ICAO for an OurAirports row (icao_code, else a 4-letter
+        ident), upper-cased; None when neither is a plain 4-letter code."""
+        for key in ("icao_code", "ident"):
+            code = (row.get(key) or "").strip().upper()
+            if len(code) == 4 and code.isalpha():
+                return code
+        return None
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
 
         try:
-            # The AD table is Angular-injected; render it before parsing. Wait
-            # for the first chart PDF anchor so the content (not just the shell)
-            # is present, with a short settle for late XHRs.
-            html = self.render_html(
-                AD_PAGE_URL,
-                wait_until="networkidle",
-                wait_selector="a[href*='AD_files']",
-                wait_ms=1500,
-            )
-        except PlaywrightUnavailable as e:
-            self.logger.error(f"BG: headless render unavailable: {e}")
-            self.close()
-            return airports
-        except Exception as e:
-            self.logger.error(f"BG: rendering {AD_PAGE_URL} failed: {e}")
-            self.close()
-            return airports
+            # OurAirports CSV is text, not the eAIP HTML the base's fetch()
+            # expects - read it through the raw pooled client (which follows
+            # the GitHub Pages redirect) and parse it.
+            resp = self.client.get(AIRPORTS_CSV, timeout=60)
+            resp.raise_for_status()
+            rows = list(csv.DictReader(io.StringIO(resp.text)))
 
-        # The b-flip chart PDFs carry no edition date in their filenames (they
-        # are replaced in place each cycle), so stamp the current AIRAC so the
-        # detail page still shows the cycle.
-        self.airac = current_airac_date()
-
-        try:
-            airports = self._parse_ad_table(html)
+            seen: set[str] = set()
+            for row in rows:
+                if (row.get("iso_country") or "").strip().upper() != COUNTRY:
+                    continue
+                if (row.get("type") or "").strip() not in _AERODROME_TYPES:
+                    continue
+                icao = self._icao(row)
+                if not icao or icao in seen:
+                    continue
+                seen.add(icao)
+                # Title convention across the site is "<name> <ICAO>" (shown on
+                # the map label, the list and the detail heading). Append the
+                # ICAO to the OurAirports name; fall back to the bare code when
+                # the name is missing (never "<ICAO> <ICAO>").
+                name = (row.get("name") or "").strip()
+                title = f"{name} {icao}" if name else icao
+                airports.append(
+                    Airport(
+                        country=COUNTRY,
+                        icao=icao,
+                        title=title,
+                        url=BULATSA_AIP_URL,
+                        type="vfr",  # type: ignore[call-arg]
+                    )
+                )
         except Exception as e:
             self.logger.error(f"BG crawl failed: {e}")
-            self.save_response(AD_PAGE_URL, html, prefix="crawl_error")
             raise
         finally:
             self.close()
 
         self.logger.info(f"Found {len(airports)} airports for {self.country}.")
         return airports
-
-
-def _section_is(url: str, section: str) -> bool:
-    """True if the AD_files PDF ``url``'s first section token equals ``section``
-    (e.g. "59" for a VAC: LB_AD_2_LBBG_59_1_2_3_4_en.pdf)."""
-    m = _AD_PDF_RE.search(url)
-    if not m or not m.group(3):
-        return False
-    return m.group(3).lstrip("_").split("_")[0] == section
