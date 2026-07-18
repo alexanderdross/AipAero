@@ -9,7 +9,7 @@ import {
   groupChartsByCategory,
   type ChartLink,
 } from "~/lib/charts";
-import { localeLangMapping } from "~/i18n/routing";
+import { getPathname, localeLangMapping } from "~/i18n/routing";
 
 /**
  * Chart-PDF box, shown when the airport's chart URL points directly at a PDF
@@ -43,7 +43,14 @@ export async function AirportChart({
   fallbackAiracIso?: string | null;
 }) {
   const t = await getTranslations("Chart");
+  const tFooter = await getTranslations({ locale, namespace: "Footer" });
   const lang = localeLangMapping[locale] ?? "en";
+  // Contextual internal link from the AIRAC label to the pilot guides hub (the
+  // "Understanding the AIRAC cycle" guide). Reuses the Footer namespace's
+  // localized label - no new i18n string. `withSlash` mirrors the footer.
+  const guidesHref = ((p: string) => (p.endsWith("/") ? p : p + "/"))(
+    getPathname({ href: "/guides", locale }),
+  );
 
   const primary = charts.find((c) => c.url === url) ?? null;
   const others = charts.filter((c) => c.url !== url);
@@ -51,12 +58,9 @@ export async function AirportChart({
   const airacLabel = airacIso
     ? new Date(airacIso).toLocaleDateString(locale.replace("-EN", ""))
     : null;
-  const designationLine = [
-    primary && chartDisplayName(primary.name, lang),
-    airacLabel && `AIRAC ${airacLabel}`,
-  ]
-    .filter(Boolean)
-    .join(" · ");
+  // The chart's own designation (e.g. "ESNX VAC"); the AIRAC part is rendered
+  // separately below so the "AIRAC" word can carry the guides link.
+  const designation = primary ? chartDisplayName(primary.name, lang) : null;
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
@@ -74,9 +78,22 @@ export async function AirportChart({
           <span>{t("openPdf")}</span>
         </ExternalLink>
       </p>
-      {designationLine && (
+      {(designation || airacLabel) && (
         <p className="text-drossgray-dark mt-1 text-center text-xs">
-          {designationLine}
+          {designation}
+          {designation && airacLabel && " · "}
+          {airacLabel && (
+            <>
+              <a
+                href={guidesHref}
+                title={tFooter("guides.hrefTitle")}
+                className="text-drossblue underline"
+              >
+                AIRAC
+              </a>{" "}
+              {airacLabel}
+            </>
+          )}
         </p>
       )}
 

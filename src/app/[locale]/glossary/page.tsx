@@ -100,11 +100,17 @@ export default async function GlossaryPage(
   setRequestLocale(locale);
   const t = await getTranslations("GlossaryPage");
   const tMenu = await getTranslations("Menu");
+  const tFooter = await getTranslations("Footer");
 
   const airportListPath = getPathname({ href: "/airport-list", locale });
   const airportListHref = airportListPath.endsWith("/")
     ? airportListPath
     : airportListPath + "/";
+
+  // Content-hub cross-link to the sibling pilot guides page (reuses the Footer
+  // namespace's localized label - no new i18n string).
+  const guidesPath = getPathname({ href: "/guides", locale });
+  const guidesHref = guidesPath.endsWith("/") ? guidesPath : guidesPath + "/";
 
   const glossaryPath = getPathname({ href: "/glossary", locale });
   const currentUrl = new URL(
@@ -163,7 +169,8 @@ export default async function GlossaryPage(
             </div>
           ))}
 
-          {/* Closing CTA: from the glossary straight into the product. */}
+          {/* Closing CTA: from the glossary straight into the product, plus a
+              discreet cross-link to the sibling pilot guides (content hub). */}
           <div className="border-drossgray-dark/15 border-t pt-6 text-center">
             <a
               href={airportListHref}
@@ -173,6 +180,15 @@ export default async function GlossaryPage(
               <span>{tMenu("airports.title")}</span>
               <ArrowRightIcon className="size-4" aria-hidden="true" />
             </a>
+            <p className="text-drossgray-dark mt-4 text-sm">
+              <a
+                href={guidesHref}
+                title={tFooter("guides.hrefTitle")}
+                className="text-drossblue underline"
+              >
+                {tFooter("guides.title")}
+              </a>
+            </p>
           </div>
         </dl>
       </div>
