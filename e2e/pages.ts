@@ -313,14 +313,17 @@ const searchPages: TestPage[] = [
   { path: "/kg/en/vfr/", lang: "en", label: "vfr kg-EN" },
 ];
 
-// Legal pages - ROOT-level, bilingual (DE+EN), one canonical URL each (outside
-// `[locale]`, like the homepage). `<html lang>` is English (site default); the
-// German block carries its own `lang="de"`. Old `/<locale>/terms` URLs
-// 301-redirect here (middleware.ts).
+// Legal pages - ROOT-level, single-language, paired by topic and cross-linked
+// with hreflang (outside `[locale]`, like the homepage): English at /terms
+// /imprint /privacy, German at /agb /impressum /datenschutz. Old
+// `/<locale>/terms` URLs 301-redirect to /terms (middleware.ts).
 const legalPages: TestPage[] = [
   { path: "/terms/", lang: "en", label: "terms" },
   { path: "/imprint/", lang: "en", label: "imprint" },
   { path: "/privacy/", lang: "en", label: "privacy" },
+  { path: "/agb/", lang: "de", label: "agb" },
+  { path: "/impressum/", lang: "de", label: "impressum" },
+  { path: "/datenschutz/", lang: "de", label: "datenschutz" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).
