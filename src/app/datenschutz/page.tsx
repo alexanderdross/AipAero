@@ -48,8 +48,18 @@ const sections: { title: string; body: React.ReactNode }[] = [
     body: (
       <>
         Verantwortlich für die Datenverarbeitung auf dieser Website ist{" "}
-        {IMPRINT.name} (Dross:Media). Kontaktmöglichkeiten findest du auf
-        unserer{" "}
+        {ext(
+          IMPRINT.personUrl,
+          "Alexander Dross - Gründer von AIP:Aero und Dross:Media",
+          IMPRINT.name,
+        )}{" "}
+        (
+        {ext(
+          IMPRINT.mediaUrl,
+          "Dross:Media - digitale Projekte von Alexander Dross",
+          "Dross:Media",
+        )}
+        ). Kontaktmöglichkeiten findest du auf unserer{" "}
         {ext(IMPRINT.contactUrl, `Kontakt - ${IMPRINT.brand}`, "Kontaktseite")}{" "}
         sowie im Impressum.
       </>

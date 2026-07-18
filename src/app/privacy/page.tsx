@@ -48,7 +48,18 @@ const sections: { title: string; body: React.ReactNode }[] = [
     body: (
       <>
         The controller responsible for data processing on this website is{" "}
-        {IMPRINT.name} (Dross:Media). For contact details please see our{" "}
+        {ext(
+          IMPRINT.personUrl,
+          "Alexander Dross - founder of AIP:Aero and Dross:Media",
+          IMPRINT.name,
+        )}{" "}
+        (
+        {ext(
+          IMPRINT.mediaUrl,
+          "Dross:Media - digital projects by Alexander Dross",
+          "Dross:Media",
+        )}
+        ). For contact details please see our{" "}
         {ext(IMPRINT.contactUrl, `Contact - ${IMPRINT.brand}`, "contact page")}{" "}
         and our imprint.
       </>

@@ -89,8 +89,8 @@ export default function ImpressumPage() {
         <p className="mt-3">
           AIP:Aero ist ein Projekt von{" "}
           <ExternalLink
-            href={IMPRINT.brandUrl}
-            hrefTitle={`${IMPRINT.brand} - Dross:Network`}
+            href={IMPRINT.mediaUrl}
+            hrefTitle="Dross:Media - digitale Projekte von Alexander Dross"
             className={inlineLink}
           >
             Dross:Media
