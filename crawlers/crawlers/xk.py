@@ -226,13 +226,15 @@ class XK(HttpEurocontrolBase):
                 deduped.append(a)
             airports = deduped
 
-            # Enrich the NAME when the menu labelled a chapter with the bare
-            # ICAO: upgrade "<ICAO>" -> "<name> <ICAO>" from OurAirports (CC0).
+            # Kosovo's aggregate AD 2 parse mislabels the aerodrome with a deep
+            # AD-2 subsection heading (e.g. "AD 2.25 VISUAL SEGMENT SURFACE
+            # (VSS) PENETRATION BKPR"), so the OurAirports place name is
+            # authoritative here: override the title whenever OurAirports
+            # resolves the ICAO (BKPR is Kosovo's single civil aerodrome). This
+            # keeps the hard "<name> <ICAO>" title rule (map label / heading).
             names = self._ourairports_names()
             for a in airports:
-                if a.icao and a.title.strip().upper() == a.icao and (
-                    name := names.get(a.icao)
-                ):
+                if a.icao and (name := names.get(a.icao)):
                     a.title = f"{name} {a.icao}"
 
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
