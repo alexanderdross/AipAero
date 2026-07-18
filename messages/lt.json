@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Žodynas",
       "hrefTitle": "Aviacijos žodynas - paaiškinti AIP, AIRAC, VFR, METAR ir tūpimo schemos"
+    },
+    "/guides": {
+      "title": "Vadovai",
+      "hrefTitle": "Pilotų vadovai - artėjimo kortelių skaitymas, AIRAC ciklas ir METAR/TAF iššifravimas"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Žodynas",
       "hrefTitle": "Aviacijos žodynas - paaiškinti pagrindiniai AIP ir schemų terminai"
+    },
+    "guides": {
+      "title": "Vadovai",
+      "hrefTitle": "Pilotų vadovai - kortelių skaitymas, AIRAC ciklas ir orų iššifravimas"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Oficialios schemos, kurias pilotai naudoja atskristi į aerodromą ir judėti jame: vizualiojo tūpimo schema (VAC) VFR skrydžiams, tūpimo pagal prietaisus schema (IAC) IFR skrydžiams ir aerodromo schema (ADC) antžeminei išdėstymai. AIP:Aero pateikia tikslią schemos PDF nuorodą visur, kur nacionalinis AIP ją paskelbia."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilotų vadovai - kortelių skaitymas, AIRAC ciklas, METAR/TAF iššifravimas",
+    "metaDescription": "Trumpi, praktiški vadovai privatiems pilotams: kaip skaityti artėjimo kortelę, kaip veikia AIRAC ciklas ir kaip iššifruoti METAR bei TAF orų pranešimus.",
+    "title": "Pilotų vadovai",
+    "intro": "Trumpi, praktiški vadovai apie aeronautikos dokumentus ir duomenis, kuriuos naudojate AIP:Aero, parašyti privatiems pilotams. Kiekvienas nukreipia atgal į aerodromų puslapius, kur galite tai pritaikyti praktikoje.",
+    "guides": {
+      "charts": {
+        "title": "Kaip skaityti artėjimo kortelę",
+        "intro": "Artėjimo kortelėje į vieną lapą sudėtos aerodromo atvykimo ir išvykimo procedūros. Perskaitykite ją nuo viršaus iki apačios prieš skrydį.",
+        "s1": "Pirmiausia patikrinkite antraštę: aerodromo pavadinimą, ICAO kodą, kortelės tipą ir AIRAC įsigaliojimo datą. AIP:Aero rodo AIRAC leidimą kiekviename aerodromo puslapyje, kad galėtumėte įsitikinti, jog kortelė galiojanti.",
+        "s2": "Perskaitykite plano vaizdą, iš paukščio skrydžio matomą kilimo ir tūpimo takų, navigacijos priemonių, laukimo schemų ir oro erdvės išdėstymą su kursais ir atstumais tarp fiksuotų taškų.",
+        "s3": "Perskaitykite profilio vaizdą ir minimumus: leidimosi profilį, aukštį kiekviename fiksuotame taške ir sprendimo aukštį arba minimalų leidimosi aukštį artėjimui.",
+        "s4": "Atkreipkite dėmesį į nutraukto artėjimo procedūrą bei ryšio ir apšvietimo langelius, kad žinotumėte pakartotinio artėjimo kursą ir dažnius dar prieš tai, kai jų prireiks."
+      },
+      "airac": {
+        "title": "AIRAC ciklo supratimas",
+        "intro": "AIRAC yra fiksuotas kalendorius, kuris palaiko pasaulio aeronautikos duomenų suderinamumą, todėl kortelės keičiasi nuspėjamomis datomis, o ne atsitiktinai.",
+        "s1": "Pakeitimai įsigalioja kas 28 dienas, tą pačią datą visame pasaulyje. Per metus yra 13 ciklų, kiekvienas žymimas metais ir numeriu (pavyzdžiui, 2026-07).",
+        "s2": "Naujas leidimas paskelbiamas gerokai prieš įsigaliojimo datą, kad galėtumėte pasiruošti, tačiau jis tampa galiojantis tik tą dieną. Visada skriskite pagal galiojantį leidimą.",
+        "s3": "AIP:Aero kiekvienas aerodromo puslapis rodo susietos kortelės AIRAC leidimą, kad iš pirmo žvilgsnio galėtumėte patikrinti, ar žiūrite dabartinį ciklą."
+      },
+      "metar": {
+        "title": "METAR ir TAF iššifravimas",
+        "intro": "METAR yra dabartiniai stebimi orai aerodrome; TAF yra prognozė aplinkinei zonai. Abu naudoja tą patį kompaktišką kodą.",
+        "s1": "Skaitykite grupes iš eilės: stotis, diena ir laikas, vėjas (kryptis ir greitis), matomumas, orai ir debesys, tada temperatūra ir rasos taškas bei QNH slėgis.",
+        "s2": "Skrydžio kategorija tai apibendrina: VFR, MVFR, IFR arba LIFR, remiantis debesų apatine riba ir matomumu, kad iš pirmo žvilgsnio galėtumėte įvertinti tinkamumą.",
+        "s3": "AIP:Aero iššifruoja naujausią METAR ir TAF į paprastą kalbą kiekviename aerodromo puslapyje, kuris turi stebėjimo stotį, o šalia paliekamas neapdorotas pranešimas."
+      }
+    },
+    "faqTitle": "Dažnai užduodami klausimai",
+    "faq": {
+      "q1": "Ar man vis dar reikia oficialaus AIP, jei naudoju AIP:Aero?",
+      "a1": "Taip. AIP:Aero susieja oficialų nacionalinį AIP ir korteles bei prideda konteksto, tačiau nacionalinis AIP visada yra autoritetingas šaltinis, todėl patikrinkite jį prieš kiekvieną skrydį.",
+      "q2": "Kaip žinoti, ar kortelė galiojanti?",
+      "a2": "Kiekvienas aerodromo puslapis rodo susietos kortelės AIRAC leidimą. Palyginkite jį su AIRAC ciklu, galiojančiu jūsų skrydžio dieną.",
+      "q3": "Kur galiu tai išbandyti?",
+      "a3": "Atverkite bet kurį aerodromo puslapį iš savo šalies aerodromų sąrašo ir rasite kortelę, iššifruotus orus ir aerodromo duomenis, aprašytus šiuose vadovuose."
+    },
+    "ctaTitle": "Raskite savo aerodromą"
   }
 }

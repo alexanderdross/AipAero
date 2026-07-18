@@ -32,6 +32,10 @@
     "/glossary": {
       "title": "Słownik",
       "hrefTitle": "Słownik lotniczy - AIP, AIRAC, VFR, METAR i karty podejścia wyjaśnione"
+    },
+    "/guides": {
+      "title": "Poradniki",
+      "hrefTitle": "Poradniki dla pilotów - czytanie kart podejścia, cykl AIRAC i dekodowanie METAR/TAF"
     }
   },
   "Menu": {
@@ -214,6 +218,10 @@
     "glossary": {
       "title": "Słownik",
       "hrefTitle": "Słownik lotniczy - kluczowe pojęcia AIP i kart wyjaśnione"
+    },
+    "guides": {
+      "title": "Poradniki",
+      "hrefTitle": "Poradniki dla pilotów - czytanie kart, cykl AIRAC i dekodowanie pogody"
     }
   },
   "Error": {
@@ -437,5 +445,45 @@
         "def": "Oficjalne schematy, których piloci używają do przylotu na lotnisko i poruszania się po nim: karta podejścia z widocznością (VAC) dla VFR, instrumentalna karta podejścia (IAC) dla IFR oraz karta lotniska (ADC) dla układu naziemnego. AIP:Aero podlinkowuje dokładny plik PDF karty wszędzie tam, gdzie krajowy AIP go publikuje."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Poradniki dla pilotów - czytanie kart, cykl AIRAC, dekodowanie METAR/TAF",
+    "metaDescription": "Krótkie, praktyczne poradniki dla pilotów prywatnych: jak czytać kartę podejścia, jak działa cykl AIRAC oraz jak dekodować komunikaty pogodowe METAR i TAF.",
+    "title": "Poradniki dla pilotów",
+    "intro": "Krótkie, praktyczne poradniki dotyczące dokumentów i danych lotniczych, których używasz na AIP:Aero, napisane dla pilotów prywatnych. Każdy z nich odsyła do stron lotnisk, gdzie możesz zastosować je w praktyce.",
+    "guides": {
+      "charts": {
+        "title": "Jak czytać kartę podejścia",
+        "intro": "Karta podejścia zawiera procedury przylotu i odlotu lotniska na jednym arkuszu. Przeczytaj ją od góry do dołu przed lotem.",
+        "s1": "Najpierw sprawdź nagłówek: nazwę lotniska, kod ICAO, rodzaj karty oraz datę obowiązywania AIRAC. AIP:Aero pokazuje edycję AIRAC na każdej stronie lotniska, aby można było potwierdzić, że karta jest aktualna.",
+        "s2": "Przeczytaj widok planu, rzut z lotu ptaka dróg startowych, urządzeń nawigacyjnych, kręgów oczekiwania i przestrzeni powietrznej, wraz z kursami i odległościami między punktami.",
+        "s3": "Przeczytaj widok profilu i minima: profil zniżania, wysokość w każdym punkcie oraz wysokość decyzji lub minimalną wysokość zniżania dla podejścia.",
+        "s4": "Zwróć uwagę na procedurę nieudanego podejścia oraz ramki łączności i oświetlenia, aby znać kurs odejścia i częstotliwości, zanim będą potrzebne."
+      },
+      "airac": {
+        "title": "Zrozumienie cyklu AIRAC",
+        "intro": "AIRAC to stały kalendarz, który utrzymuje światowe dane lotnicze w zgodności, dzięki czemu karty zmieniają się w przewidywalnych terminach, a nie losowo.",
+        "s1": "Zmiany wchodzą w życie co 28 dni, tego samego dnia na całym świecie. Rocznie jest 13 cykli, każdy oznaczony rokiem i numerem (na przykład 2026-07).",
+        "s2": "Nowa edycja jest publikowana z dużym wyprzedzeniem przed datą obowiązywania, abyś mógł się przygotować, ale staje się aktualna dopiero w tym dniu. Zawsze lataj według obowiązującej edycji.",
+        "s3": "Na AIP:Aero każda strona lotniska pokazuje edycję AIRAC powiązanej karty, dzięki czemu jednym spojrzeniem sprawdzisz, czy patrzysz na aktualny cykl."
+      },
+      "metar": {
+        "title": "Dekodowanie METAR i TAF",
+        "intro": "METAR to aktualnie obserwowana pogoda na lotnisku; TAF to prognoza dla jego okolicy. Oba używają tego samego zwięzłego kodu.",
+        "s1": "Czytaj grupy w kolejności: stacja, dzień i godzina, wiatr (kierunek i prędkość), widzialność, zjawiska pogodowe i zachmurzenie, następnie temperatura i punkt rosy oraz ciśnienie QNH.",
+        "s2": "Kategoria lotu podsumowuje wszystko: VFR, MVFR, IFR lub LIFR, na podstawie podstawy chmur i widzialności, dzięki czemu jednym spojrzeniem ocenisz przydatność.",
+        "s3": "AIP:Aero dekoduje najnowszy METAR i TAF na prosty język na każdej stronie lotniska, które ma stację meteorologiczną, zachowując obok surowy komunikat."
+      }
+    },
+    "faqTitle": "Najczęściej zadawane pytania",
+    "faq": {
+      "q1": "Czy nadal potrzebuję oficjalnego AIP, jeśli korzystam z AIP:Aero?",
+      "a1": "Tak. AIP:Aero linkuje oficjalny krajowy AIP i karty oraz dodaje kontekst, ale krajowy AIP zawsze jest źródłem miarodajnym, dlatego sprawdź go przed każdym lotem.",
+      "q2": "Skąd wiem, że karta jest aktualna?",
+      "a2": "Każda strona lotniska pokazuje edycję AIRAC powiązanej karty. Porównaj ją z cyklem AIRAC obowiązującym w dniu twojego lotu.",
+      "q3": "Gdzie mogę tego spróbować?",
+      "a3": "Otwórz dowolną stronę lotniska z listy lotnisk dla twojego kraju, a znajdziesz kartę, zdekodowaną pogodę i dane lotniska opisane w tych poradnikach."
+    },
+    "ctaTitle": "Znajdź swoje lotnisko"
   }
 }

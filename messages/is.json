@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Orðasafn",
       "hrefTitle": "Flugorðasafn - AIP, AIRAC, VFR, METAR og aðflugskort útskýrð"
+    },
+    "/guides": {
+      "title": "Leiðbeiningar",
+      "hrefTitle": "Flugmannaleiðbeiningar - að lesa aðflugskort, AIRAC-hringrásin og að afkóða METAR/TAF"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Orðasafn",
       "hrefTitle": "Flugorðasafn - helstu AIP- og kortahugtök útskýrð"
+    },
+    "guides": {
+      "title": "Leiðbeiningar",
+      "hrefTitle": "Flugmannaleiðbeiningar - að lesa kort, AIRAC-hringrásin og að afkóða veður"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Opinberu skýringarmyndirnar sem flugmenn nota til að koma að og hreyfa sig um flugvöll: sjónaðflugskortið (VAC) fyrir VFR, blindaðflugskortið (IAC) fyrir IFR og flugvallakortið (ADC) fyrir uppsetningu á jörðu. AIP:Aero tengir nákvæmlega rétta kort-PDF-ið hvar sem landsbundna AIP-ið gefur eitt út."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Flugmannaleiðbeiningar - að lesa kort, AIRAC-hringrásin, að afkóða METAR/TAF",
+    "metaDescription": "Stuttar, hagnýtar leiðbeiningar fyrir einkaflugmenn: hvernig á að lesa aðflugskort, hvernig AIRAC-hringrásin virkar og hvernig á að afkóða METAR- og TAF-veðurskeyti.",
+    "title": "Flugmannaleiðbeiningar",
+    "intro": "Stuttar, hagnýtar leiðbeiningar um flugmálagögnin og -skjölin sem þú notar á AIP:Aero, skrifaðar fyrir einkaflugmenn. Hver þeirra tengir aftur á flugvallarsíðurnar þar sem þú getur beitt þeim í raun.",
+    "guides": {
+      "charts": {
+        "title": "Hvernig á að lesa aðflugskort",
+        "intro": "Aðflugskort þjappar komu- og brottfararferlum flugvallar á eitt blað. Lestu það ofan frá og niður áður en þú flýgur.",
+        "s1": "Athugaðu hausinn fyrst: nafn flugvallarins, ICAO-kóðann, korttegundina og AIRAC-gildistökudaginn. AIP:Aero sýnir AIRAC-útgáfuna á hverri flugvallarsíðu svo þú getir staðfest að kortið sé í gildi.",
+        "s2": "Lestu grunnmyndina, fuglsaugasýn yfir flugbrautir, flugleiðsögutæki, biðmynstur og loftrými, með stefnum og fjarlægðum milli fastpunkta.",
+        "s3": "Lestu sniðmyndina og lágmörkin: lækkunarsniðið, hæðina við hvern fastpunkt og ákvörðunarhæðina eða lágmarkslækkunarhæðina fyrir aðflugið.",
+        "s4": "Taktu eftir fráhvarfsflugsferlinu og reitunum fyrir fjarskipti og lýsingu, svo þú þekkir fráhvarfsstefnuna og tíðnirnar áður en þú þarft á þeim að halda."
+      },
+      "airac": {
+        "title": "Að skilja AIRAC-hringrásina",
+        "intro": "AIRAC er fasta dagatalið sem heldur flugmálagögnum heimsins í takt, svo að kort breytast á fyrirsjáanlegum dögum frekar en af handahófi.",
+        "s1": "Breytingar taka gildi á 28 daga fresti, á sama degi um allan heim. Það eru 13 hringrásir á ári, hver auðkennd með ári og númeri (til dæmis 2026-07).",
+        "s2": "Ný útgáfa er gefin út með góðum fyrirvara fyrir gildistökudaginn svo þú getir undirbúið þig, en hún tekur ekki gildi fyrr en þann dag. Fljúgðu alltaf þeirri útgáfu sem er í gildi.",
+        "s3": "Á AIP:Aero sýnir hver flugvallarsíða AIRAC-útgáfu tengda kortsins, svo þú getir séð með einu augnabliki hvort þú ert að skoða núverandi hringrás."
+      },
+      "metar": {
+        "title": "Að afkóða METAR og TAF",
+        "intro": "METAR er núverandi mælt veður á flugvelli; TAF er spá fyrir svæðið í kringum hann. Bæði nota sama þjappaða kóðann.",
+        "s1": "Lestu hópana í röð: stöð, dag og tíma, vind (stefnu og hraða), skyggni, veður og ský, síðan hita og daggarmark og QNH-þrýstinginn.",
+        "s2": "Flugflokkurinn dregur það saman: VFR, MVFR, IFR eða LIFR, byggt á skýjahæð og skyggni, svo þú getir metið hentugleikann með einu augnabliki.",
+        "s3": "AIP:Aero afkóðar nýjustu METAR og TAF á einfalt mál á hverri flugvallarsíðu sem hefur veðurmælingarstöð, með óunna skeytið til hliðar."
+      }
+    },
+    "faqTitle": "Algengar spurningar",
+    "faq": {
+      "q1": "Þarf ég enn hina opinberu AIP ef ég nota AIP:Aero?",
+      "a1": "Já. AIP:Aero tengir hina opinberu landsbundnu AIP og kort og bætir við samhengi, en landsbundna AIP er alltaf hin viðurkennda heimild, svo athugaðu hana fyrir hvert flug.",
+      "q2": "Hvernig veit ég hvort kort er í gildi?",
+      "a2": "Hver flugvallarsíða sýnir AIRAC-útgáfu tengda kortsins. Berðu hana saman við AIRAC-hringrásina sem er í gildi á flugdegi þínum.",
+      "q3": "Hvar get ég prófað þetta?",
+      "a3": "Opnaðu hvaða flugvallarsíðu sem er af flugvallalistanum fyrir landið þitt og þú finnur kortið, afkóðaða veðrið og flugvallargögnin sem lýst er í þessum leiðbeiningum."
+    },
+    "ctaTitle": "Finndu flugvöllinn þinn"
   }
 }

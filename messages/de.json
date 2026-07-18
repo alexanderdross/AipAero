@@ -36,6 +36,10 @@
     "/glossary": {
       "title": "Glossar",
       "hrefTitle": "Luftfahrt-Glossar - AIP, AIRAC, VFR, METAR und Anflugkarten erklärt"
+    },
+    "/guides": {
+      "title": "Guides",
+      "hrefTitle": "Piloten-Guides - Anflugkarten lesen, der AIRAC-Zyklus und METAR/TAF entschlüsseln"
     }
   },
   "Menu": {
@@ -249,6 +253,10 @@
     "glossary": {
       "title": "Glossar",
       "hrefTitle": "Luftfahrt-Glossar - wichtige AIP- und Karten-Begriffe erklärt"
+    },
+    "guides": {
+      "title": "Guides",
+      "hrefTitle": "Piloten-Guides - Karten lesen, der AIRAC-Zyklus und Wetter entschlüsseln"
     }
   },
   "Error": {
@@ -472,5 +480,45 @@
         "def": "Die offiziellen Karten, mit denen Piloten einen Flugplatz anfliegen und sich dort bewegen: die Sichtanflugkarte (VAC) für VFR, die Instrumentenanflugkarte (IAC) für IFR und die Flugplatzkarte (ADC) für das Rollfeld. AIP:Aero verlinkt genau die Karten-PDF, wo das nationale AIP eine veröffentlicht."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Piloten-Guides - Karten lesen, der AIRAC-Zyklus, METAR/TAF entschlüsseln",
+    "metaDescription": "Kurze, praxisnahe Guides für Privatpiloten: wie man eine Anflugkarte liest, wie der AIRAC-Zyklus funktioniert und wie man METAR- und TAF-Wettermeldungen entschlüsselt.",
+    "title": "Piloten-Guides",
+    "intro": "Kurze, praxisnahe Guides zu den Luftfahrtdokumenten und -daten, die du auf AIP:Aero nutzt, geschrieben für Privatpiloten. Jeder verlinkt zurück auf die Flugplatzseiten, wo du das Gelesene anwenden kannst.",
+    "guides": {
+      "charts": {
+        "title": "Wie man eine Anflugkarte liest",
+        "intro": "Eine Anflugkarte fasst die An- und Abflugverfahren eines Flugplatzes auf einem Blatt zusammen. Lies sie vor dem Flug von oben nach unten.",
+        "s1": "Prüfe zuerst den Kopf: Flugplatzname, ICAO-Code, Kartentyp und das AIRAC-Wirksamkeitsdatum. AIP:Aero zeigt die AIRAC-Ausgabe auf jeder Flugplatzseite, damit du die Aktualität der Karte bestätigen kannst.",
+        "s2": "Lies die Draufsicht, die Vogelperspektive auf Pisten, Navigationshilfen, Warteschleifen und Lufträume, mit Kursen und Distanzen zwischen den Punkten.",
+        "s3": "Lies die Seitenansicht und die Minima: das Sinkflugprofil, die Höhe an jedem Punkt und die Entscheidungshöhe oder Mindestsinkflughöhe für den Anflug.",
+        "s4": "Beachte das Fehlanflugverfahren sowie die Funk- und Befeuerungsfelder, damit du den Durchstartkurs und die Frequenzen kennst, bevor du sie brauchst."
+      },
+      "airac": {
+        "title": "Den AIRAC-Zyklus verstehen",
+        "intro": "AIRAC ist der feste Kalender, der die Luftfahrtdaten weltweit synchron hält, damit Karten sich zu vorhersehbaren Terminen ändern und nicht zufällig.",
+        "s1": "Änderungen werden alle 28 Tage wirksam, weltweit am selben Datum. Es gibt 13 Zyklen pro Jahr, jeder mit Jahr und Nummer bezeichnet (zum Beispiel 2026-07).",
+        "s2": "Eine neue Ausgabe wird lange vor ihrem Wirksamkeitsdatum veröffentlicht, damit du dich vorbereiten kannst, gültig wird sie aber erst an diesem Datum. Fliege stets die gültige Ausgabe.",
+        "s3": "Auf AIP:Aero zeigt jede Flugplatzseite die AIRAC-Ausgabe der verlinkten Karte, sodass du auf einen Blick siehst, ob du den aktuellen Zyklus vor dir hast."
+      },
+      "metar": {
+        "title": "METAR und TAF entschlüsseln",
+        "intro": "METAR ist das aktuell gemeldete Wetter an einem Flugplatz, TAF die Vorhersage für dessen Umgebung. Beide nutzen denselben kompakten Code.",
+        "s1": "Lies die Gruppen der Reihe nach: Station, Tag und Uhrzeit, Wind (Richtung und Stärke), Sicht, Wetter und Wolken, dann Temperatur und Taupunkt sowie den QNH-Druck.",
+        "s2": "Die Flugkategorie fasst es zusammen: VFR, MVFR, IFR oder LIFR, basierend auf Hauptwolkenuntergrenze und Sicht, sodass du die Eignung auf einen Blick beurteilst.",
+        "s3": "AIP:Aero entschlüsselt das aktuelle METAR und TAF auf jeder Flugplatzseite mit Meldestation in Klartext, die Rohmeldung bleibt daneben erhalten."
+      }
+    },
+    "faqTitle": "Häufige Fragen",
+    "faq": {
+      "q1": "Brauche ich das offizielle AIP noch, wenn ich AIP:Aero nutze?",
+      "a1": "Ja. AIP:Aero verlinkt das offizielle nationale AIP samt Karten und ergänzt Kontext, doch das nationale AIP ist immer die maßgebliche Quelle, prüfe es vor jedem Flug.",
+      "q2": "Woran erkenne ich, dass eine Karte aktuell ist?",
+      "a2": "Jede Flugplatzseite zeigt die AIRAC-Ausgabe der verlinkten Karte. Vergleiche sie mit dem am Flugtag gültigen AIRAC-Zyklus.",
+      "q3": "Wo kann ich das ausprobieren?",
+      "a3": "Öffne eine beliebige Flugplatzseite aus der Flughafenliste deines Landes, und du findest die Karte, das entschlüsselte Wetter und die Flugplatzdaten, die in diesen Guides beschrieben sind."
+    },
+    "ctaTitle": "Finde deinen Flugplatz"
   }
 }

@@ -32,6 +32,10 @@
     "/glossary": {
       "title": "Vārdnīca",
       "hrefTitle": "Aviācijas vārdnīca - skaidroti AIP, AIRAC, VFR, METAR un pieejas kartes"
+    },
+    "/guides": {
+      "title": "Ceļveži",
+      "hrefTitle": "Pilotu ceļveži - pieejas karšu lasīšana, AIRAC cikls un METAR/TAF atšifrēšana"
     }
   },
   "Menu": {
@@ -214,6 +218,10 @@
     "glossary": {
       "title": "Vārdnīca",
       "hrefTitle": "Aviācijas vārdnīca - skaidroti galvenie AIP un karšu termini"
+    },
+    "guides": {
+      "title": "Ceļveži",
+      "hrefTitle": "Pilotu ceļveži - karšu lasīšana, AIRAC cikls un laikapstākļu atšifrēšana"
     }
   },
   "Error": {
@@ -437,5 +445,45 @@
         "def": "Oficiālās shēmas, ko piloti izmanto, lai ielidotu lidlaukā un pārvietotos pa to: vizuālā pieejas karte (VAC) VFR lidojumiem, instrumentālā pieejas karte (IAC) IFR lidojumiem un lidlauka karte (ADC) zemes izkārtojumam. AIP:Aero saista precīzu kartes PDF visur, kur nacionālais AIP to publicē."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilotu ceļveži - karšu lasīšana, AIRAC cikls, METAR/TAF atšifrēšana",
+    "metaDescription": "Īsi, praktiski ceļveži privātpilotiem: kā lasīt pieejas karti, kā darbojas AIRAC cikls un kā atšifrēt METAR un TAF laikapstākļu ziņojumus.",
+    "title": "Pilotu ceļveži",
+    "intro": "Īsi, praktiski ceļveži par aeronavigācijas dokumentiem un datiem, ko izmantojat vietnē AIP:Aero, rakstīti privātpilotiem. Katrs no tiem ved atpakaļ uz lidlauku lapām, kur to varat izmantot praksē.",
+    "guides": {
+      "charts": {
+        "title": "Kā lasīt pieejas karti",
+        "intro": "Pieejas karte apvieno lidlauka ielidošanas un izlidošanas procedūras vienā lapā. Izlasiet to no augšas uz leju pirms lidojuma.",
+        "s1": "Vispirms pārbaudiet galveni: lidlauka nosaukumu, ICAO kodu, kartes tipu un AIRAC spēkā stāšanās datumu. AIP:Aero rāda AIRAC izdevumu katrā lidlauka lapā, lai jūs varētu pārliecināties, ka karte ir aktuāla.",
+        "s2": "Izlasiet plāna skatu, no putna lidojuma redzamo skrejceļu, navigācijas līdzekļu, gaidīšanas shēmu un gaisa telpas izkārtojumu ar kursiem un attālumiem starp fiksētajiem punktiem.",
+        "s3": "Izlasiet profila skatu un minimumus: nolaišanās profilu, augstumu katrā fiksētajā punktā un lēmuma augstumu vai minimālo nolaišanās augstumu pieejai.",
+        "s4": "Ievērojiet pārtrauktās pieejas procedūru un sakaru un apgaismojuma lodziņus, lai jūs zinātu atkārtotās pieejas kursu un frekvences, pirms tās jums vajadzīgas."
+      },
+      "airac": {
+        "title": "AIRAC cikla izpratne",
+        "intro": "AIRAC ir fiksēts kalendārs, kas notur pasaules aeronavigācijas datus vienā ritmā, tāpēc kartes mainās paredzamos datumos, nevis nejauši.",
+        "s1": "Izmaiņas stājas spēkā ik pēc 28 dienām, vienā un tajā pašā datumā visā pasaulē. Gadā ir 13 cikli, katrs apzīmēts ar gadu un numuru (piemēram, 2026-07).",
+        "s2": "Jauns izdevums tiek publicēts krietni pirms spēkā stāšanās datuma, lai jūs varētu sagatavoties, bet tas kļūst aktuāls tikai tajā datumā. Vienmēr lidojiet pēc spēkā esošā izdevuma.",
+        "s3": "Vietnē AIP:Aero katra lidlauka lapa rāda saistītās kartes AIRAC izdevumu, lai jūs uzreiz varētu pārbaudīt, vai skatāties uz pašreizējo ciklu."
+      },
+      "metar": {
+        "title": "METAR un TAF atšifrēšana",
+        "intro": "METAR ir lidlaukā pašlaik novērotie laikapstākļi; TAF ir prognoze apkārtējam apgabalam. Abi izmanto vienu un to pašu kompakto kodu.",
+        "s1": "Lasiet grupas secībā: stacija, diena un laiks, vējš (virziens un ātrums), redzamība, laikapstākļi un mākoņi, tad temperatūra un rasas punkts un QNH spiediens.",
+        "s2": "Lidojuma kategorija to apkopo: VFR, MVFR, IFR vai LIFR, pamatojoties uz mākoņu apakšējo robežu un redzamību, lai jūs uzreiz varētu novērtēt piemērotību.",
+        "s3": "AIP:Aero atšifrē jaunāko METAR un TAF vienkāršā valodā katrā lidlauka lapā, kurai ir novērojumu stacija, saglabājot neapstrādāto ziņojumu blakus."
+      }
+    },
+    "faqTitle": "Bieži uzdotie jautājumi",
+    "faq": {
+      "q1": "Vai man joprojām ir vajadzīgs oficiālais AIP, ja izmantoju AIP:Aero?",
+      "a1": "Jā. AIP:Aero saista oficiālo nacionālo AIP un kartes un pievieno kontekstu, taču nacionālais AIP vienmēr ir autoritatīvais avots, tāpēc pārbaudiet to pirms katra lidojuma.",
+      "q2": "Kā es zinu, ka karte ir aktuāla?",
+      "a2": "Katra lidlauka lapa rāda saistītās kartes AIRAC izdevumu. Salīdziniet to ar AIRAC ciklu, kas ir spēkā jūsu lidojuma datumā.",
+      "q3": "Kur es varu to izmēģināt?",
+      "a3": "Atveriet jebkuru lidlauka lapu no savas valsts lidlauku saraksta, un jūs atradīsiet karti, atšifrētos laikapstākļus un lidlauka datus, kas aprakstīti šajos ceļvežos."
+    },
+    "ctaTitle": "Atrodiet savu lidlauku"
   }
 }

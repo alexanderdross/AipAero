@@ -32,6 +32,10 @@
     "/glossary": {
       "title": "Sanasto",
       "hrefTitle": "Ilmailusanasto - AIP, AIRAC, VFR, METAR ja lähestymiskartat selitettyinä"
+    },
+    "/guides": {
+      "title": "Oppaat",
+      "hrefTitle": "Lentäjän oppaat - lähestymiskarttojen lukeminen, AIRAC-jakso ja METAR/TAF:n tulkinta"
     }
   },
   "Menu": {
@@ -214,6 +218,10 @@
     "glossary": {
       "title": "Sanasto",
       "hrefTitle": "Ilmailusanasto - keskeiset AIP- ja karttatermit selitettyinä"
+    },
+    "guides": {
+      "title": "Oppaat",
+      "hrefTitle": "Lentäjän oppaat - karttojen lukeminen, AIRAC-jakso ja sään tulkinta"
     }
   },
   "Error": {
@@ -437,5 +445,45 @@
         "def": "Viralliset kaaviot, joita lentäjät käyttävät saapuakseen lentopaikalle ja liikkuakseen sillä: näkölähestymiskartta (VAC) VFR:lle, mittarilähestymiskartta (IAC) IFR:lle ja lentopaikkakartta (ADC) maa-alueen järjestelyä varten. AIP:Aero linkittää tarkan kartta-PDF:n aina, kun kansallinen AIP julkaisee sellaisen."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Lentäjän oppaat - karttojen lukeminen, AIRAC-jakso, METAR/TAF:n tulkinta",
+    "metaDescription": "Lyhyitä, käytännöllisiä oppaita yksityislentäjille: kuinka lukea lähestymiskarttaa, kuinka AIRAC-jakso toimii ja kuinka tulkita METAR- ja TAF-sääsanomia.",
+    "title": "Lentäjän oppaat",
+    "intro": "Lyhyitä, käytännöllisiä oppaita ilmailuasiakirjoihin ja -tietoihin, joita käytät AIP:Aero-palvelussa, kirjoitettu yksityislentäjille. Jokainen linkittää takaisin lentopaikkasivuille, joilla voit soveltaa niitä käytännössä.",
+    "guides": {
+      "charts": {
+        "title": "Kuinka lukea lähestymiskarttaa",
+        "intro": "Lähestymiskartta kokoaa lentopaikan tulo- ja lähtömenetelmät yhteen lehteen. Lue se ylhäältä alas ennen lentoa.",
+        "s1": "Tarkista ensin otsikko: lentopaikan nimi, ICAO-koodi, kartan tyyppi ja AIRAC-voimaantulopäivä. AIP:Aero näyttää AIRAC-version jokaisella lentopaikkasivulla, jotta voit varmistaa, että kartta on ajantasainen.",
+        "s2": "Lue tasokuva, lintuperspektiivinen esitys kiitoteistä, suunnistuslaitteista, odotuskuvioista ja ilmatilasta, sekä reitit ja etäisyydet kiintopisteiden välillä.",
+        "s3": "Lue profiilikuva ja minimit: laskeutumisprofiili, korkeus kussakin kiintopisteessä sekä lähestymisen ratkaisukorkeus tai vähimmäislaskeutumiskorkeus.",
+        "s4": "Huomioi keskeytetyn lähestymisen menetelmä sekä viestintä- ja valaistuslaatikot, jotta tunnet ylösvedon reitin ja taajuudet ennen kuin tarvitset niitä."
+      },
+      "airac": {
+        "title": "AIRAC-jakson ymmärtäminen",
+        "intro": "AIRAC on kiinteä kalenteri, joka pitää maailman ilmailutiedot tahdissa, joten kartat muuttuvat ennustettavina päivinä satunnaisten sijaan.",
+        "s1": "Muutokset astuvat voimaan 28 päivän välein, samana päivänä maailmanlaajuisesti. Vuodessa on 13 jaksoa, joista kukin on tunnistettu vuodella ja numerolla (esimerkiksi 2026-07).",
+        "s2": "Uusi versio julkaistaan hyvissä ajoin ennen voimaantulopäivää, jotta voit valmistautua, mutta se tulee ajantasaiseksi vasta sinä päivänä. Lennä aina voimassa olevaa versiota.",
+        "s3": "AIP:Aerossa jokainen lentopaikkasivu näyttää linkitetyn kartan AIRAC-version, joten näet yhdellä silmäyksellä, katsotko nykyistä jaksoa."
+      },
+      "metar": {
+        "title": "METAR:n ja TAF:n tulkinta",
+        "intro": "METAR on lentopaikan tämänhetkinen havaittu sää; TAF on ennuste sen ympäristölle. Molemmat käyttävät samaa tiivistä koodia.",
+        "s1": "Lue ryhmät järjestyksessä: asema, päivä ja aika, tuuli (suunta ja nopeus), näkyvyys, sää ja pilvet, sitten lämpötila ja kastepiste sekä QNH-paine.",
+        "s2": "Lentoluokka tiivistää sen: VFR, MVFR, IFR tai LIFR, pilvikorkeuden ja näkyvyyden perusteella, jotta voit arvioida soveltuvuuden yhdellä silmäyksellä.",
+        "s3": "AIP:Aero tulkitsee uusimman METAR:n ja TAF:n selkokielelle jokaisella lentopaikkasivulla, jolla on havaintoasema, ja säilyttää raa'an sanoman sen vieressä."
+      }
+    },
+    "faqTitle": "Usein kysytyt kysymykset",
+    "faq": {
+      "q1": "Tarvitsenko yhä virallisen AIP:n, jos käytän AIP:Aeroa?",
+      "a1": "Kyllä. AIP:Aero linkittää virallisen kansallisen AIP:n ja kartat ja lisää asiayhteyttä, mutta kansallinen AIP on aina auktoritatiivinen lähde, joten tarkista se ennen jokaista lentoa.",
+      "q2": "Kuinka tiedän, että kartta on ajantasainen?",
+      "a2": "Jokainen lentopaikkasivu näyttää linkitetyn kartan AIRAC-version. Vertaa sitä lentopäivänäsi voimassa olevaan AIRAC-jaksoon.",
+      "q3": "Missä voin kokeilla tätä?",
+      "a3": "Avaa mikä tahansa lentopaikkasivu maasi lentopaikkaluettelosta, niin löydät kartan, tulkitun sään ja lentopaikkatiedot, jotka näissä oppaissa kuvataan."
+    },
+    "ctaTitle": "Etsi lentopaikkasi"
   }
 }

@@ -32,6 +32,10 @@
     "/glossary": {
       "title": "Glossary",
       "hrefTitle": "Aviation glossary - AIP, AIRAC, VFR, METAR and approach charts explained"
+    },
+    "/guides": {
+      "title": "Guides",
+      "hrefTitle": "Pilot guides - reading approach charts, the AIRAC cycle and decoding METAR/TAF"
     }
   },
   "Menu": {
@@ -214,6 +218,10 @@
     "glossary": {
       "title": "Glossary",
       "hrefTitle": "Aviation glossary - key AIP and chart terms explained"
+    },
+    "guides": {
+      "title": "Guides",
+      "hrefTitle": "Pilot guides - reading charts, the AIRAC cycle and decoding weather"
     }
   },
   "Error": {
@@ -437,5 +445,45 @@
         "def": "The official diagrams pilots use to arrive at and move around an aerodrome: the Visual Approach Chart (VAC) for VFR, the Instrument Approach Chart (IAC) for IFR, and the Aerodrome Chart (ADC) for the ground layout. AIP:Aero links the exact chart PDF wherever the national AIP publishes one."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilot Guides - Reading Charts, the AIRAC Cycle, Decoding METAR/TAF",
+    "metaDescription": "Short, practical guides for private pilots: how to read an approach chart, how the AIRAC cycle works, and how to decode METAR and TAF weather reports.",
+    "title": "Pilot guides",
+    "intro": "Short, practical guides to the aeronautical documents and data you use on AIP:Aero, written for private pilots. Each one links back to the airport pages where you can put it into practice.",
+    "guides": {
+      "charts": {
+        "title": "How to read an approach chart",
+        "intro": "An approach chart packs an aerodrome's arrival and departure procedures into one sheet. Read it top to bottom before you fly.",
+        "s1": "Check the header first: the aerodrome name, ICAO code, chart type and the AIRAC effective date. AIP:Aero shows the AIRAC edition on every airport page so you can confirm the chart is current.",
+        "s2": "Read the plan view, the bird's-eye layout of runways, navaids, holding patterns and airspace, with tracks and distances between the fixes.",
+        "s3": "Read the profile view and the minima: the descent profile, the altitude at each fix, and the decision altitude or minimum descent altitude for the approach.",
+        "s4": "Note the missed-approach procedure and the communication and lighting boxes, so you know the go-around track and the frequencies before you need them."
+      },
+      "airac": {
+        "title": "Understanding the AIRAC cycle",
+        "intro": "AIRAC is the fixed calendar that keeps the world's aeronautical data in step, so charts change on predictable dates rather than at random.",
+        "s1": "Changes take effect every 28 days, on the same date worldwide. There are 13 cycles a year, each identified by year and number (for example 2026-07).",
+        "s2": "A new edition is published well before its effective date so you can prepare, but it only becomes current on that date. Always fly the edition in force.",
+        "s3": "On AIP:Aero every airport page shows the AIRAC edition of the linked chart, so you can check at a glance whether you are looking at the current cycle."
+      },
+      "metar": {
+        "title": "Decoding METAR and TAF",
+        "intro": "METAR is the current observed weather at an aerodrome; TAF is the forecast for the area around it. Both use the same compact code.",
+        "s1": "Read the groups in order: station, day and time, wind (direction and speed), visibility, weather and cloud, then temperature and dew point and the QNH pressure.",
+        "s2": "The flight category sums it up: VFR, MVFR, IFR or LIFR, based on the ceiling and visibility, so you can judge suitability at a glance.",
+        "s3": "AIP:Aero decodes the latest METAR and TAF into plain language on every airport page that has a reporting station, with the raw report kept alongside."
+      }
+    },
+    "faqTitle": "Frequently asked questions",
+    "faq": {
+      "q1": "Do I still need the official AIP if I use AIP:Aero?",
+      "a1": "Yes. AIP:Aero links the official national AIP and charts and adds context, but the national AIP is always the authoritative source, so check it before every flight.",
+      "q2": "How do I know a chart is current?",
+      "a2": "Every airport page shows the AIRAC edition of the linked chart. Compare it with the AIRAC cycle in force on your flight date.",
+      "q3": "Where can I try this out?",
+      "a3": "Open any airport page from the airport list for your country and you will find the chart, the decoded weather and the aerodrome data described in these guides."
+    },
+    "ctaTitle": "Find your airport"
   }
 }

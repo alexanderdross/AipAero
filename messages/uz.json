@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Lug'at",
       "hrefTitle": "Aviatsiya lug'ati - AIP, AIRAC, VFR, METAR va yaqinlashish xaritalari tushuntirilgan"
+    },
+    "/guides": {
+      "title": "Qo'llanmalar",
+      "hrefTitle": "Uchuvchi qo'llanmalari - yaqinlashish xaritalarini o'qish, AIRAC sikli va METAR/TAF'ni deshifrlash"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Lug'at",
       "hrefTitle": "Aviatsiya lug'ati - asosiy AIP va xarita atamalari tushuntirilgan"
+    },
+    "guides": {
+      "title": "Qo'llanmalar",
+      "hrefTitle": "Uchuvchi qo'llanmalari - xaritalarni o'qish, AIRAC sikli va ob-havoni deshifrlash"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Uchuvchilar aerodromga kelish va uning hududida harakatlanish uchun foydalanadigan rasmiy sxemalar: VFR uchun Vizual yaqinlashish xaritasi (VAC), IFR uchun Asboblar yaqinlashish xaritasi (IAC) va yer joylashuvi uchun Aerodrom xaritasi (ADC). AIP:Aero milliy AIP nashr etadigan har bir joyda aniq xarita PDF-siga bog'laydi."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Uchuvchi qo'llanmalari - Xaritalarni o'qish, AIRAC sikli, METAR/TAF'ni deshifrlash",
+    "metaDescription": "Xususiy uchuvchilar uchun qisqa, amaliy qo'llanmalar: yaqinlashish xaritasini qanday o'qish, AIRAC sikli qanday ishlaydi va METAR hamda TAF ob-havo xabarlarini qanday deshifrlash.",
+    "title": "Uchuvchi qo'llanmalari",
+    "intro": "AIP:Aero'da foydalanadigan aeronavigatsiya hujjatlari va ma'lumotlari bo'yicha xususiy uchuvchilar uchun yozilgan qisqa, amaliy qo'llanmalar. Har biri uni amalda qo'llash mumkin bo'lgan aeroport sahifalariga qaytadan havola beradi.",
+    "guides": {
+      "charts": {
+        "title": "Yaqinlashish xaritasini qanday o'qish kerak",
+        "intro": "Yaqinlashish xaritasi aerodromning kelish va jo'nash tartiblarini bitta varaqqa jamlaydi. Parvozdan oldin uni yuqoridan pastga o'qing.",
+        "s1": "Avval sarlavhani tekshiring: aerodrom nomi, ICAO kodi, xarita turi va AIRAC kuchga kirish sanasi. AIP:Aero har bir aeroport sahifasida AIRAC nashrini ko'rsatadi, shunda xaritaning joriy ekanini tasdiqlashingiz mumkin.",
+        "s2": "Reja ko'rinishini o'qing, ya'ni uchish-qo'nish yo'laklari, navigatsiya vositalari, kutish sxemalari va havo makonining qushqo'nmas joylashuvi, nuqtalar orasidagi kurs va masofalar bilan.",
+        "s3": "Profil ko'rinishi va minimumlarni o'qing: pasayish profili, har bir nuqtadagi balandlik va yaqinlashish uchun qaror balandligi yoki minimal pasayish balandligi.",
+        "s4": "O'tkazib yuborilgan yaqinlashish tartibini hamda aloqa va yoritish katakchalarini belgilab qo'ying, shunda aylanma kursi va chastotalarni kerak bo'lishidan oldin bilib olasiz."
+      },
+      "airac": {
+        "title": "AIRAC siklini tushunish",
+        "intro": "AIRAC dunyoning aeronavigatsiya ma'lumotlarini muvofiqlashtirib turadigan qat'iy taqvimdir, shunda xaritalar tasodifiy emas, oldindan aytib bo'ladigan sanalarda o'zgaradi.",
+        "s1": "O'zgarishlar har 28 kunda, butun dunyo bo'ylab bir xil sanada kuchga kiradi. Yiliga 13 ta sikl bo'lib, har biri yil va raqam bilan belgilanadi (masalan 2026-07).",
+        "s2": "Yangi nashr kuchga kirish sanasidan ancha oldin e'lon qilinadi, shunda tayyorlanishga ulguradiganingiz uchun, lekin u faqat o'sha sanada joriy bo'ladi. Har doim kuchda bo'lgan nashr bilan uching.",
+        "s3": "AIP:Aero'da har bir aeroport sahifasi havola qilingan xaritaning AIRAC nashrini ko'rsatadi, shunda bir qarashda joriy siklga qarayotganingizni tekshirishingiz mumkin."
+      },
+      "metar": {
+        "title": "METAR va TAF'ni deshifrlash",
+        "intro": "METAR aerodromdagi hozirgi kuzatilgan ob-havo; TAF esa uning atrofidagi hudud uchun prognoz. Ikkalasi ham bir xil ixcham koddan foydalanadi.",
+        "s1": "Guruhlarni tartib bilan o'qing: stansiya, kun va vaqt, shamol (yo'nalish va tezlik), ko'rinish, ob-havo va bulut, so'ng harorat va shudring nuqtasi hamda QNH bosimi.",
+        "s2": "Parvoz toifasi buni jamlaydi: bulut shifti va ko'rinishga asosan VFR, MVFR, IFR yoki LIFR, shunda yaroqliligini bir qarashda baholaysiz.",
+        "s3": "AIP:Aero xabar beruvchi stansiyaga ega har bir aeroport sahifasida eng so'nggi METAR va TAF'ni sodda tilga deshifrlaydi, xom xabarni esa yonida saqlaydi."
+      }
+    },
+    "faqTitle": "Ko'p beriladigan savollar",
+    "faq": {
+      "q1": "AIP:Aero'dan foydalansam ham, rasmiy AIP kerakmi?",
+      "a1": "Ha. AIP:Aero rasmiy milliy AIP va xaritalarga havola beradi hamda kontekst qo'shadi, lekin milliy AIP har doim asosiy obro'li manba, shuning uchun har parvozdan oldin uni tekshiring.",
+      "q2": "Xaritaning joriy ekanini qanday bilaman?",
+      "a2": "Har bir aeroport sahifasi havola qilingan xaritaning AIRAC nashrini ko'rsatadi. Uni parvoz sanangizda kuchda bo'lgan AIRAC sikli bilan solishtiring.",
+      "q3": "Buni qayerda sinab ko'rsam bo'ladi?",
+      "a3": "Mamlakatingizning aeroportlar ro'yxatidan istalgan aeroport sahifasini oching va bu qo'llanmalarda tasvirlangan xarita, deshifrlangan ob-havo va aerodrom ma'lumotlarini topasiz."
+    },
+    "ctaTitle": "Aeroportingizni toping"
   }
 }

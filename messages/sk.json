@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Slovník",
       "hrefTitle": "Letecký slovník - AIP, AIRAC, VFR, METAR a približovacie mapy vysvetlené"
+    },
+    "/guides": {
+      "title": "Sprievodcovia",
+      "hrefTitle": "Sprievodcovia pre pilotov - čítanie približovacích máp, cyklus AIRAC a dekódovanie METAR/TAF"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Slovník",
       "hrefTitle": "Letecký slovník - kľúčové pojmy AIP a máp vysvetlené"
+    },
+    "guides": {
+      "title": "Sprievodcovia",
+      "hrefTitle": "Sprievodcovia pre pilotov - čítanie máp, cyklus AIRAC a dekódovanie počasia"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Oficiálne schémy, ktoré piloti používajú na prílet na letisko a pohyb po ňom: vizuálna približovacia mapa (VAC) pre VFR, prístrojová približovacia mapa (IAC) pre IFR a letisková mapa (ADC) pre pozemné usporiadanie. AIP:Aero odkazuje presné PDF mapy všade tam, kde ich národná AIP vydáva."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Sprievodcovia pre pilotov - čítanie máp, cyklus AIRAC, dekódovanie METAR/TAF",
+    "metaDescription": "Krátke praktické sprievodcovia pre súkromných pilotov: ako čítať približovaciu mapu, ako funguje cyklus AIRAC a ako dekódovať meteorologické správy METAR a TAF.",
+    "title": "Sprievodcovia pre pilotov",
+    "intro": "Krátke praktické sprievodcovia leteckými dokumentmi a údajmi, ktoré používate na AIP:Aero, napísané pre súkromných pilotov. Každý z nich odkazuje späť na stránky letísk, kde si ich môžete vyskúšať v praxi.",
+    "guides": {
+      "charts": {
+        "title": "Ako čítať približovaciu mapu",
+        "intro": "Približovacia mapa zhŕňa príletové a odletové postupy letiska do jedného listu. Prečítajte si ju zhora nadol pred letom.",
+        "s1": "Najprv skontrolujte hlavičku: názov letiska, kód ICAO, typ mapy a dátum účinnosti AIRAC. AIP:Aero zobrazuje edíciu AIRAC na každej stránke letiska, aby ste si mohli overiť, že mapa je aktuálna.",
+        "s2": "Prečítajte si plánový pohľad, pôdorysné usporiadanie dráh, navigačných zariadení, vyčkávacích obrazcov a vzdušných priestorov, s traťami a vzdialenosťami medzi bodmi.",
+        "s3": "Prečítajte si profilový pohľad a minimá: profil klesania, výšku v každom bode a rozhodovaciu výšku alebo minimálnu výšku klesania pre priblíženie.",
+        "s4": "Všimnite si postup nevydareného priblíženia a rámčeky s komunikáciou a osvetlením, aby ste poznali trať priblíženia na pristátie a frekvencie skôr, než ich budete potrebovať."
+      },
+      "airac": {
+        "title": "Pochopenie cyklu AIRAC",
+        "intro": "AIRAC je pevný kalendár, ktorý udržiava svetové letecké údaje v súlade, takže sa mapy menia v predvídateľných termínoch, a nie náhodne.",
+        "s1": "Zmeny nadobúdajú účinnosť každých 28 dní, v rovnaký dátum na celom svete. Ročne je 13 cyklov, každý označený rokom a číslom (napríklad 2026-07).",
+        "s2": "Nová edícia sa zverejňuje s dostatočným predstihom pred dátumom účinnosti, aby ste sa mohli pripraviť, ale platnou sa stáva až v tento deň. Vždy leťte podľa platnej edície.",
+        "s3": "Na AIP:Aero každá stránka letiska zobrazuje edíciu AIRAC odkazovanej mapy, takže na prvý pohľad zistíte, či sa pozeráte na aktuálny cyklus."
+      },
+      "metar": {
+        "title": "Dekódovanie METAR a TAF",
+        "intro": "METAR je aktuálne pozorované počasie na letisku; TAF je predpoveď pre jeho okolie. Oba používajú rovnaký úsporný kód.",
+        "s1": "Čítajte skupiny v poradí: stanica, deň a čas, vietor (smer a rýchlosť), dohľadnosť, počasie a oblačnosť, potom teplota a rosný bod a tlak QNH.",
+        "s2": "Kategória letu to zhŕňa: VFR, MVFR, IFR alebo LIFR, na základe výšky základne oblačnosti a dohľadnosti, takže na prvý pohľad posúdite vhodnosť.",
+        "s3": "AIP:Aero dekóduje najnovší METAR a TAF do zrozumiteľného jazyka na každej stránke letiska, ktoré má hlásnu stanicu, pričom je vedľa uchovaná aj surová správa."
+      }
+    },
+    "faqTitle": "Často kladené otázky",
+    "faq": {
+      "q1": "Potrebujem stále oficiálny AIP, ak používam AIP:Aero?",
+      "a1": "Áno. AIP:Aero odkazuje na oficiálny národný AIP a mapy a pridáva kontext, ale národný AIP je vždy smerodajným zdrojom, preto ho skontrolujte pred každým letom.",
+      "q2": "Ako spoznám, že je mapa aktuálna?",
+      "a2": "Každá stránka letiska zobrazuje edíciu AIRAC odkazovanej mapy. Porovnajte ju s cyklom AIRAC platným v deň vášho letu.",
+      "q3": "Kde si to môžem vyskúšať?",
+      "a3": "Otvorte ktorúkoľvek stránku letiska zo zoznamu letísk pre vašu krajinu a nájdete mapu, dekódované počasie a údaje letiska opísané v týchto sprievodcoch."
+    },
+    "ctaTitle": "Nájdite svoje letisko"
   }
 }

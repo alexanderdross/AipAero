@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Sözlük",
       "hrefTitle": "Awiasiýa sözlügi - AIP, AIRAC, VFR, METAR we golaýlaşma kartalary düşündirilýär"
+    },
+    "/guides": {
+      "title": "Gollanmalar",
+      "hrefTitle": "Uçarman gollanmalary - golaýlaşma kartalaryny okamak, AIRAC sikli we METAR/TAF çözmek"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Sözlük",
       "hrefTitle": "Awiasiýa sözlügi - esasy AIP we karta adalgalary düşündirilýär"
+    },
+    "guides": {
+      "title": "Gollanmalar",
+      "hrefTitle": "Uçarman gollanmalary - kartalary okamak, AIRAC sikli we howany çözmek"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Uçarmanlaryň aerodroma gelmek we onuň çäginde hereket etmek üçin ulanýan resmi çyzgylary: VFR üçin Wizual golaýlaşma kartasy (VAC), IFR üçin Gural golaýlaşma kartasy (IAC) we ýerdäki ýerleşiş üçin Aerodrom kartasy (ADC). AIP:Aero milli AIP neşir edýän her ýerde takyk karta PDF-ine baglaýar."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Uçarman gollanmalary - Kartalary okamak, AIRAC sikli, METAR/TAF çözmek",
+    "metaDescription": "Hususy uçarmanlar üçin gysga, amaly gollanmalar: golaýlaşma kartasyny nädip okamaly, AIRAC sikli nähili işleýär we METAR bilen TAF howa maglumatlaryny nädip çözmeli.",
+    "title": "Uçarman gollanmalary",
+    "intro": "AIP:Aero'da ulanýan aeronawigasiýa resminamalaryňyz we maglumatlaryňyz boýunça hususy uçarmanlar üçin ýazylan gysga, amaly gollanmalar. Her biri ony amalda ulanyp boljak howa menzili sahypalaryna yzyna baglanyşyk berýär.",
+    "guides": {
+      "charts": {
+        "title": "Golaýlaşma kartasyny nädip okamaly",
+        "intro": "Golaýlaşma kartasy aerodromyň geliş we gidiş tertiplerini bir sahypa jemleýär. Uçuşdan öň ony ýokardan aşak okaň.",
+        "s1": "Ilki başlygy barlaň: aerodromyň ady, ICAO kody, karta görnüşi we AIRAC güýje girýän senesi. AIP:Aero her howa menzili sahypasynda AIRAC neşirini görkezýär, şeýlelik bilen kartanyň häzirki wagtdakydygyny tassyklap bilersiňiz.",
+        "s2": "Meýilnama görnüşini okaň, ýagny uçuş-gonuş zolaklarynyň, nawigasiýa serişdeleriniň, garaşma shemalarynyň we howa giňişliginiň guş uçuşyndan görnüşini, nokatlaryň arasyndaky kurslar we aralyklar bilen bilelikde.",
+        "s3": "Profil görnüşini we minimumlary okaň: aşak düşme profili, her nokatdaky beýiklik we golaýlaşma üçin karar beýikligi ýa-da iň pes aşak düşme beýikligi.",
+        "s4": "Goýberilen golaýlaşma tertibini we aragatnaşyk hem yşyklandyryş öýjüklerini belläň, şeýlelik bilen aýlaw kursuny we ýygylyklary size gerek bolmazyndan öň bilersiňiz."
+      },
+      "airac": {
+        "title": "AIRAC siklini düşünmek",
+        "intro": "AIRAC dünýäniň aeronawigasiýa maglumatlaryny sazlaşdyryp durýan berk senenamadyr, şeýlelik bilen kartalar tötänleýin däl-de, öňünden çaklap boljak senelerde üýtgeýär.",
+        "s1": "Üýtgeşmeler her 28 günden, dünýä ýüzünde birmeňzeş senede güýje girýär. Ýylda 13 sikl bar, her biri ýyl we belgi bilen bellenýär (mysal üçin 2026-07).",
+        "s2": "Täze neşir taýýarlanmagyňyz üçin güýje girýän senesinden has öň çap edilýär, ýöne ol diňe şol senede häzirki wagtdaky bolýar. Elmydama güýçdäki neşir bilen uçuň.",
+        "s3": "AIP:Aero'da her howa menzili sahypasy baglanan kartanyň AIRAC neşirini görkezýär, şeýlelik bilen bir garaýyşda häzirki sikle seredýändigiňizi barlap bilersiňiz."
+      },
+      "metar": {
+        "title": "METAR we TAF çözmek",
+        "intro": "METAR aerodromdaky häzirki synlanan howa; TAF onuň töweregindäki sebit üçin çaklamadyr. Ikisi hem birmeňzeş jem kody ulanýar.",
+        "s1": "Toparlary tertip bilen okaň: stansiýa, gün we wagt, ýel (ugur we tizlik), görnüş, howa we bulut, soňra temperatura we çyg nokady hem QNH basyşy.",
+        "s2": "Uçuş kategoriýasy muny jemleýär: bulut potology we görnüşe esaslanyp VFR, MVFR, IFR ýa-da LIFR, şeýlelik bilen ýaramlylygy bir garaýyşda bahalandyryp bilersiňiz.",
+        "s3": "AIP:Aero habar berýän stansiýasy bolan her howa menzili sahypasynda iň soňky METAR we TAF'y sada dile çözýär, işlenilmedik habary ýanynda saklaýar."
+      }
+    },
+    "faqTitle": "Ýygy-ýygydan berilýän soraglar",
+    "faq": {
+      "q1": "AIP:Aero'ny ulansam-da, resmi AIP henizem gerekmi?",
+      "a1": "Hawa. AIP:Aero resmi milli AIP we kartalara baglanyşyk berýär hem kontekst goşýar, ýöne milli AIP elmydama abraýly çeşmedir, şonuň üçin her uçuşdan öň ony barlaň.",
+      "q2": "Kartanyň häzirki wagtdakydygyny nädip bilerin?",
+      "a2": "Her howa menzili sahypasy baglanan kartanyň AIRAC neşirini görkezýär. Ony uçuş seneňizde güýçdäki AIRAC sikli bilen deňeşdiriň.",
+      "q3": "Muny nirede synap görüp bilerin?",
+      "a3": "Ýurduňyzyň howa menzilleri sanawyndan islendik howa menzili sahypasyny açyň we bu gollanmalarda beýan edilen kartany, çözülen howany we aerodrom maglumatlaryny taparsyňyz."
+    },
+    "ctaTitle": "Howa menziliňizi tapyň"
   }
 }

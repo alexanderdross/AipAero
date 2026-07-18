@@ -32,6 +32,10 @@
     "/glossary": {
       "title": "Sõnastik",
       "hrefTitle": "Lennundussõnastik - AIP, AIRAC, VFR, METAR ja lähenemiskaardid selgitatud"
+    },
+    "/guides": {
+      "title": "Juhendid",
+      "hrefTitle": "Piloodijuhendid - lähenemiskaartide lugemine, AIRAC-tsükkel ja METAR/TAF dekodeerimine"
     }
   },
   "Menu": {
@@ -214,6 +218,10 @@
     "glossary": {
       "title": "Sõnastik",
       "hrefTitle": "Lennundussõnastik - peamised AIP- ja kaarditerminid selgitatud"
+    },
+    "guides": {
+      "title": "Juhendid",
+      "hrefTitle": "Piloodijuhendid - kaartide lugemine, AIRAC-tsükkel ja ilma dekodeerimine"
     }
   },
   "Error": {
@@ -437,5 +445,45 @@
         "def": "Ametlikud skeemid, mida piloodid kasutavad lennuväljale saabumiseks ja seal liikumiseks: visuaallähenemiskaart (VAC) VFR jaoks, instrumentaallähenemiskaart (IAC) IFR jaoks ja lennuväljakaart (ADC) maapealse paigutuse jaoks. AIP:Aero seob täpse kaardi-PDF-i kõikjal, kus riiklik AIP selle avaldab."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Piloodijuhendid - kaartide lugemine, AIRAC-tsükkel, METAR/TAF dekodeerimine",
+    "metaDescription": "Lühikesed, praktilised juhendid eralenduritele: kuidas lugeda lähenemiskaarti, kuidas AIRAC-tsükkel toimib ja kuidas dekodeerida METAR- ja TAF-ilmateateid.",
+    "title": "Piloodijuhendid",
+    "intro": "Lühikesed, praktilised juhendid aeronavigatsioonidokumentide ja -andmete kohta, mida kasutad AIP:Aeros, kirjutatud eralenduritele. Iga juhend viitab tagasi lennuvälja lehtedele, kus saad seda praktikas rakendada.",
+    "guides": {
+      "charts": {
+        "title": "Kuidas lugeda lähenemiskaarti",
+        "intro": "Lähenemiskaart koondab lennuvälja saabumis- ja lahkumisprotseduurid ühele lehele. Loe see ülevalt alla enne lendu.",
+        "s1": "Kontrolli esmalt päist: lennuvälja nimi, ICAO-kood, kaardi tüüp ja AIRAC-i jõustumiskuupäev. AIP:Aero näitab AIRAC-i väljaannet igal lennuvälja lehel, et saaksid kinnitada, et kaart on ajakohane.",
+        "s2": "Loe plaanivaadet, linnulennuvaadet radadest, navigatsiooniseadmetest, ooteringidest ja õhuruumist koos kursside ja vahemaadega punktide vahel.",
+        "s3": "Loe profiilivaadet ja miinimume: laskumisprofiili, kõrgust igas punktis ning otsustuskõrgust või minimaalset laskumiskõrgust lähenemiseks.",
+        "s4": "Pane tähele katkestatud lähenemise protseduuri ning side- ja valgustuskaste, et tunneksid kordusringi kurssi ja sagedusi enne, kui neid vajad."
+      },
+      "airac": {
+        "title": "AIRAC-tsükli mõistmine",
+        "intro": "AIRAC on kindel kalender, mis hoiab maailma aeronavigatsiooniandmed sammus, nii et kaardid muutuvad ettearvatavatel kuupäevadel, mitte juhuslikult.",
+        "s1": "Muudatused jõustuvad iga 28 päeva järel, samal kuupäeval üle kogu maailma. Aastas on 13 tsüklit, igaüks tähistatud aasta ja numbriga (näiteks 2026-07).",
+        "s2": "Uus väljaanne avaldatakse tublisti enne jõustumiskuupäeva, et saaksid valmistuda, kuid see muutub kehtivaks alles sel kuupäeval. Lenda alati kehtivat väljaannet.",
+        "s3": "AIP:Aeros näitab iga lennuvälja leht lingitud kaardi AIRAC-i väljaannet, nii et saad ühe pilguga kontrollida, kas vaatad praegust tsüklit."
+      },
+      "metar": {
+        "title": "METAR-i ja TAF-i dekodeerimine",
+        "intro": "METAR on lennuvälja hetkel vaadeldud ilm; TAF on prognoos selle ümbruse kohta. Mõlemad kasutavad sama kompaktset koodi.",
+        "s1": "Loe rühmi järjekorras: jaam, päev ja aeg, tuul (suund ja kiirus), nähtavus, ilm ja pilved, seejärel temperatuur ja kastepunkt ning QNH-rõhk.",
+        "s2": "Lennukategooria võtab selle kokku: VFR, MVFR, IFR või LIFR, tuginedes pilvelaele ja nähtavusele, nii et saad sobivust ühe pilguga hinnata.",
+        "s3": "AIP:Aero dekodeerib uusima METAR-i ja TAF-i lihtsasse keelde igal lennuvälja lehel, millel on vaatlusjaam, hoides toorteate kõrval."
+      }
+    },
+    "faqTitle": "Korduma kippuvad küsimused",
+    "faq": {
+      "q1": "Kas vajan endiselt ametlikku AIP-i, kui kasutan AIP:Aerot?",
+      "a1": "Jah. AIP:Aero lingib ametliku riikliku AIP-i ja kaardid ning lisab konteksti, kuid riiklik AIP on alati autoriteetne allikas, seega kontrolli seda enne iga lendu.",
+      "q2": "Kuidas tean, et kaart on ajakohane?",
+      "a2": "Iga lennuvälja leht näitab lingitud kaardi AIRAC-i väljaannet. Võrdle seda AIRAC-tsükliga, mis kehtib sinu lennukuupäeval.",
+      "q3": "Kus saan seda proovida?",
+      "a3": "Ava ükskõik milline lennuvälja leht oma riigi lennuväljade loendist ja leiad kaardi, dekodeeritud ilma ja lennuvälja andmed, mida nendes juhendites kirjeldatakse."
+    },
+    "ctaTitle": "Leia oma lennuväli"
   }
 }

@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Sözlük",
       "hrefTitle": "Havacılık sözlüğü - AIP, AIRAC, VFR, METAR ve yaklaşma haritaları açıklandı"
+    },
+    "/guides": {
+      "title": "Rehberler",
+      "hrefTitle": "Pilot rehberleri - yaklaşma haritalarını okuma, AIRAC döngüsü ve METAR/TAF çözümleme"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Sözlük",
       "hrefTitle": "Havacılık sözlüğü - temel AIP ve harita terimleri açıklandı"
+    },
+    "guides": {
+      "title": "Rehberler",
+      "hrefTitle": "Pilot rehberleri - harita okuma, AIRAC döngüsü ve hava durumu çözümleme"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Pilotların bir havaalanına varmak ve içinde hareket etmek için kullandığı resmi çizimler: VFR için Görerek Yaklaşma Haritası (VAC), IFR için Aletli Yaklaşma Haritası (IAC) ve yer yerleşimi için Havaalanı Haritası (ADC). AIP:Aero, ulusal AIP birini yayımladığı her yerde tam harita PDF'ini bağlar."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilot rehberleri - harita okuma, AIRAC döngüsü, METAR/TAF çözümleme",
+    "metaDescription": "Özel pilotlar için kısa ve pratik rehberler: bir yaklaşma haritasının nasıl okunacağı, AIRAC döngüsünün nasıl işlediği ve METAR ile TAF hava raporlarının nasıl çözümleneceği.",
+    "title": "Pilot rehberleri",
+    "intro": "AIP:Aero üzerinde kullandığınız havacılık belgeleri ve verileri için özel pilotlara yönelik yazılmış kısa ve pratik rehberler. Her biri, uygulamaya dökebileceğiniz havaalanı sayfalarına geri bağlantı verir.",
+    "guides": {
+      "charts": {
+        "title": "Bir yaklaşma haritası nasıl okunur",
+        "intro": "Bir yaklaşma haritası, bir havaalanının varış ve kalkış prosedürlerini tek bir sayfada toplar. Uçmadan önce yukarıdan aşağıya okuyun.",
+        "s1": "Önce başlığı kontrol edin: havaalanı adı, ICAO kodu, harita türü ve AIRAC yürürlük tarihi. AIP:Aero, haritanın güncel olduğunu doğrulayabilmeniz için her havaalanı sayfasında AIRAC sürümünü gösterir.",
+        "s2": "Plan görünümünü okuyun: pistlerin, seyrüsefer yardımcılarının, bekleme paternlerinin ve hava sahasının kuşbakışı yerleşimini, noktalar arasındaki rotalar ve mesafelerle birlikte.",
+        "s3": "Profil görünümünü ve minimumları okuyun: alçalma profilini, her noktadaki irtifayı ve yaklaşma için karar irtifasını veya asgari alçalma irtifasını.",
+        "s4": "Pas geçme prosedürünü ve muhabere ile ışıklandırma kutularını not edin, böylece pas geçiş rotasını ve frekansları ihtiyaç duymadan önce bilirsiniz."
+      },
+      "airac": {
+        "title": "AIRAC döngüsünü anlamak",
+        "intro": "AIRAC, dünyanın havacılık verilerini uyum içinde tutan sabit takvimdir; böylece haritalar rastgele değil, öngörülebilir tarihlerde değişir.",
+        "s1": "Değişiklikler her 28 günde bir, dünya genelinde aynı tarihte yürürlüğe girer. Yılda 13 döngü vardır ve her biri yıl ve numarayla tanımlanır (örneğin 2026-07).",
+        "s2": "Yeni bir sürüm, hazırlanabilmeniz için yürürlük tarihinden çok önce yayımlanır, ancak yalnızca o tarihte geçerli hale gelir. Her zaman yürürlükteki sürümle uçun.",
+        "s3": "AIP:Aero'da her havaalanı sayfası, bağlantılı haritanın AIRAC sürümünü gösterir; böylece güncel döngüye mi baktığınızı bir bakışta kontrol edebilirsiniz."
+      },
+      "metar": {
+        "title": "METAR ve TAF çözümleme",
+        "intro": "METAR, bir havaalanında o anki gözlemlenen havadır; TAF, çevresindeki bölge için tahmindir. Her ikisi de aynı sıkıştırılmış kodu kullanır.",
+        "s1": "Grupları sırayla okuyun: istasyon, gün ve saat, rüzgar (yön ve hız), görüş, hava durumu ve bulut, ardından sıcaklık ve çiy noktası ile QNH basıncı.",
+        "s2": "Uçuş kategorisi hepsini özetler: tavan ve görüşe göre VFR, MVFR, IFR veya LIFR; böylece uygunluğu bir bakışta değerlendirebilirsiniz.",
+        "s3": "AIP:Aero, rapor istasyonu bulunan her havaalanı sayfasında en son METAR ve TAF'ı sade bir dile çözümler ve ham raporu yanında saklar."
+      }
+    },
+    "faqTitle": "Sık sorulan sorular",
+    "faq": {
+      "q1": "AIP:Aero kullanıyorsam yine de resmi AIP'ye ihtiyacım var mı?",
+      "a1": "Evet. AIP:Aero resmi ulusal AIP ve haritalara bağlantı verir ve bağlam ekler, ancak ulusal AIP her zaman yetkili kaynaktır, bu yüzden her uçuştan önce kontrol edin.",
+      "q2": "Bir haritanın güncel olduğunu nasıl anlarım?",
+      "a2": "Her havaalanı sayfası, bağlantılı haritanın AIRAC sürümünü gösterir. Bunu uçuş tarihinizde yürürlükte olan AIRAC döngüsüyle karşılaştırın.",
+      "q3": "Bunu nerede deneyebilirim?",
+      "a3": "Ülkeniz için havaalanı listesinden herhangi bir havaalanı sayfasını açın; bu rehberlerde anlatılan haritayı, çözümlenmiş hava durumunu ve havaalanı verilerini bulacaksınız."
+    },
+    "ctaTitle": "Havaalanınızı bulun"
   }
 }

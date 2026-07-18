@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Szószedet",
       "hrefTitle": "Repülési szószedet - AIP, AIRAC, VFR, METAR és megközelítési térképek magyarázata"
+    },
+    "/guides": {
+      "title": "Kalauzok",
+      "hrefTitle": "Pilótakalauzok - megközelítési térképek olvasása, az AIRAC-ciklus és a METAR/TAF dekódolása"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Szószedet",
       "hrefTitle": "Repülési szószedet - a legfontosabb AIP- és térképfogalmak magyarázata"
+    },
+    "guides": {
+      "title": "Kalauzok",
+      "hrefTitle": "Pilótakalauzok - térképolvasás, az AIRAC-ciklus és az időjárás dekódolása"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "A hivatalos ábrák, amelyeket a pilóták a repülőtérre érkezéshez és a rajta való mozgáshoz használnak: a vizuális megközelítési térkép (VAC) a VFR-hez, a műszeres megközelítési térkép (IAC) az IFR-hez, és a repülőtéri térkép (ADC) a földi elrendezéshez. Az AIP:Aero mindenhol a pontos térkép PDF-jét kapcsolja, ahol a nemzeti AIP közzétesz egyet."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilótakalauzok - térképolvasás, az AIRAC-ciklus, a METAR/TAF dekódolása",
+    "metaDescription": "Rövid, gyakorlatias útmutatók magánpilótáknak: hogyan olvassunk megközelítési térképet, hogyan működik az AIRAC-ciklus, és hogyan dekódoljuk a METAR és TAF időjárás-jelentéseket.",
+    "title": "Pilótakalauzok",
+    "intro": "Rövid, gyakorlatias útmutatók azokhoz a légiforgalmi dokumentumokhoz és adatokhoz, amelyeket az AIP:Aero oldalon használ, magánpilótáknak írva. Mindegyik visszavezet a repülőterek oldalaira, ahol a gyakorlatban is kipróbálhatja.",
+    "guides": {
+      "charts": {
+        "title": "Hogyan olvassunk megközelítési térképet",
+        "intro": "A megközelítési térkép egyetlen lapba sűríti egy repülőtér érkezési és indulási eljárásait. Olvassa végig fentről lefelé a repülés előtt.",
+        "s1": "Először ellenőrizze a fejlécet: a repülőtér nevét, az ICAO-kódot, a térkép típusát és az AIRAC hatálybalépési dátumát. Az AIP:Aero minden repülőtéri oldalon megjeleníti az AIRAC-kiadást, így megerősítheti, hogy a térkép aktuális.",
+        "s2": "Olvassa el az alaprajzi nézetet, a futópályák, navigációs berendezések, várakozási minták és légterek madártávlati elrendezését, a pontok közötti irányokkal és távolságokkal.",
+        "s3": "Olvassa el a metszeti nézetet és a minimumokat: a süllyedési profilt, az egyes pontokhoz tartozó magasságot, valamint a megközelítés elhatározási magasságát vagy minimális süllyedési magasságát.",
+        "s4": "Jegyezze meg az eljárási átstartolást, valamint a kommunikációs és fényrendszeri rovatokat, hogy ismerje az átstartolási irányt és a frekvenciákat, mielőtt szüksége lenne rájuk."
+      },
+      "airac": {
+        "title": "Az AIRAC-ciklus megértése",
+        "intro": "Az AIRAC az a rögzített naptár, amely szinkronban tartja a világ légiforgalmi adatait, így a térképek kiszámítható időpontokban változnak, nem pedig véletlenszerűen.",
+        "s1": "A változások 28 naponta lépnek hatályba, a világon mindenütt ugyanazon a napon. Évente 13 ciklus van, mindegyiket év és szám azonosítja (például 2026-07).",
+        "s2": "Az új kiadás jóval a hatálybalépési dátuma előtt jelenik meg, hogy felkészülhessen, de csak azon a napon válik érvényessé. Mindig az érvényben lévő kiadás szerint repüljön.",
+        "s3": "Az AIP:Aero oldalon minden repülőtéri oldal megjeleníti a hivatkozott térkép AIRAC-kiadását, így egy pillantással ellenőrizheti, hogy az aktuális ciklust nézi-e."
+      },
+      "metar": {
+        "title": "A METAR és TAF dekódolása",
+        "intro": "A METAR egy repülőtér aktuálisan megfigyelt időjárása; a TAF a körülötte lévő terület előrejelzése. Mindkettő ugyanazt a tömör kódot használja.",
+        "s1": "Olvassa a csoportokat sorrendben: állomás, nap és idő, szél (irány és sebesség), látástávolság, időjárás és felhőzet, majd hőmérséklet és harmatpont, valamint a QNH nyomás.",
+        "s2": "A repülési kategória mindezt összegzi: VFR, MVFR, IFR vagy LIFR, a felhőalap és a látástávolság alapján, így egy pillantással megítélheti az alkalmasságot.",
+        "s3": "Az AIP:Aero minden repülőtéri oldalon, amelynek van jelentő állomása, közérthető nyelvre dekódolja a legfrissebb METAR-t és TAF-ot, a nyers jelentést mellette megtartva."
+      }
+    },
+    "faqTitle": "Gyakran ismételt kérdések",
+    "faq": {
+      "q1": "Szükségem van-e még a hivatalos AIP-re, ha az AIP:Aero oldalt használom?",
+      "a1": "Igen. Az AIP:Aero a hivatalos nemzeti AIP-re és térképekre hivatkozik, és kontextust ad hozzá, de a nemzeti AIP mindig a mérvadó forrás, ezért minden repülés előtt ellenőrizze.",
+      "q2": "Honnan tudom, hogy egy térkép aktuális?",
+      "a2": "Minden repülőtéri oldal megjeleníti a hivatkozott térkép AIRAC-kiadását. Hasonlítsa össze a repülése napján érvényben lévő AIRAC-ciklussal.",
+      "q3": "Hol próbálhatom ki ezt?",
+      "a3": "Nyisson meg bármelyik repülőtéri oldalt az országa repülőtéri listájáról, és megtalálja a térképet, a dekódolt időjárást és a repülőtéri adatokat, amelyeket ezek az útmutatók leírnak."
+    },
+    "ctaTitle": "Keresse meg a repülőterét"
   }
 }

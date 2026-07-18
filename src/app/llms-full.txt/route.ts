@@ -87,6 +87,7 @@ ${countryBlocks.join("\n\n")}
 
 - [EFB guide](${url("/efb", "uk")}): install AIP:Aero on an Electronic Flight Bag, save fields and whole countries offline, import chart PDFs into ForeFlight, SkyDemon and other EFB apps.
 - [Aviation glossary](${url("/glossary", "uk")}): plain-language definitions of AIP, eAIP, the AIRAC cycle, VFR/IFR, METAR/TAF, ICAO codes and approach charts.
+- [Pilot guides](${url("/guides", "uk")}): how to read an approach chart, how the AIRAC cycle works, and how to decode METAR and TAF weather reports.
 
 ## About
 

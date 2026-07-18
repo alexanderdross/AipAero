@@ -79,6 +79,13 @@ export default async function Footer({ global = false }: { global?: boolean }) {
           title: t("glossary.title"),
           titleAttr: t("glossary.hrefTitle"),
         },
+        // Pilot guides (reading charts, AIRAC cycle, decoding METAR/TAF).
+        {
+          key: "guides",
+          href: withSlash(getPathname({ href: "/guides", locale })),
+          title: t("guides.title"),
+          titleAttr: t("guides.hrefTitle"),
+        },
       ];
 
   // Our own legal pages are ROOT-level, single-language pages paired by topic
