@@ -1,11 +1,9 @@
-"""Unit tests for the Bulgaria crawler (BULATSA b-flip chart crawl).
+"""Unit tests for the Bulgaria info-page crawler.
 
-The live Aerodromes page is an Angular SPA rendered with headless Chromium; the
-parsing that turns its `#aip_content` table into Airports is pure, so these
-tests exercise it against a captured fragment (no network / browser). They lock
-in the two things that drive the site: the "<name> <ICAO>" title rule + map
-labels, and grouping the `/_aip/AD_files/LB_AD_*` chart PDFs by the ICAO in
-their own filename (robust against the table's stray cross-links).
+Bulgaria is not a chart crawl: the aerodrome list comes from OurAirports and
+every field points at the BULATSA b-flip AIP portal (charts are registration-
+gated). These tests feed a small CSV through a mocked client and check the
+filtering (Bulgarian aerodromes with a real ICAO only, no charts) - no network.
 """
 
 from __future__ import annotations
@@ -15,110 +13,65 @@ import pytest
 from crawlers import bg as bg_module
 from crawlers.bg import BG
 
-# A trimmed but structurally faithful capture of the rendered AD table: an AD 2
-# aerodrome (full chart set), an AD 4 small field (data sheet + VAC), an AD 5
-# heliport (data sheet only), a STRAY cross-link to LBPD inside the LBBG block
-# (must group under LBPD, not LBBG), and an AIC circular under /cd/ (ignored).
-_TABLE = """
-<div id="aip_content" class="aip_ad"><table class="content"><tbody>
-<tr class="tr_head"><td><br></td><td><br></td><td><big>AD 2</big></td>
-  <td><big>AERODROMES</big></td><td><br></td></tr>
-<tr class="tr_head"><td><br></td><td><br></td><td><big>LBBG</big></td>
-  <td><big>БУРГАС / BURGAS</big></td><td><br></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/AD_files/LB_AD_2_LBBG_en.pdf">Burgas - Textual data</a></td><td></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/AD_files/LB_AD_2_LBBG_41_1_2_en.pdf">Aerodrome Chart - ICAO (BURGAS)</a></td><td></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/AD_files/LB_AD_2_LBBG_59_1_2_3_4_en.pdf">Visual Approach Chart - ICAO (BURGAS)</a></td><td></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/AD_files/LB_AD_2_LBPD_61_1_2_en.pdf">Waypoint list (stray cross-link)</a></td><td></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/../cd/CD-ROM_01_2016/AIC_files/2016/LB_Circ_2016_01_en.pdf">circular</a></td><td></td></tr>
-<tr class="tr_head"><td><br></td><td><br></td><td><big><span>LBPD</span></big></td>
-  <td><big>ПЛОВДИВ / PLOVDIV</big></td><td><br></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/AD_files/LB_AD_2_LBPD_en.pdf">Plovdiv - Textual data</a></td><td></td></tr>
-<tr class="tr_head"><td><br></td><td><br></td><td><big>AD 4</big></td>
-  <td><big>AERODROMES &lt; 5700 KG</big></td><td><br></td></tr>
-<tr class="tr_head"><td><br></td><td><br></td><td><big>LBBM</big></td>
-  <td><big>БЕЛОЗЕМ / BELOZEM</big></td><td><br></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/AD_files/LB_AD_4_LBBM_en.pdf">Belozem - Textual data</a></td><td></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/AD_files/LB_AD_4_LBBM_59_1_en.pdf">Visual Approach Chart - ICAO (BELOZEM)</a></td><td></td></tr>
-<tr class="tr_head"><td><br></td><td><br></td><td><big>AD 5</big></td>
-  <td><big>HELIPORTS</big></td><td><br></td></tr>
-<tr class="tr_head"><td><br></td><td><br></td><td><big>LBSL</big></td>
-  <td><big>СЛИВЕН / SLIVEN</big></td><td><br></td></tr>
-<tr><td></td><td></td><td></td>
-  <td><a href="_aip/AD_files/LB_AD_5_LBSL_en.pdf">Sliven Heliport - Textual data</a></td><td></td></tr>
-</tbody></table></div>
+
+class _FakeResp:
+    def __init__(self, text: str) -> None:
+        self.text = text
+
+    def raise_for_status(self) -> None:
+        pass
+
+
+_CSV = """\
+"id","ident","type","name","iso_country","icao_code"
+"1","LBSF","large_airport","Sofia Airport","BG","LBSF"
+"2","LBBG","medium_airport","Burgas Airport","BG","LBBG"
+"3","LBPL","small_airport","Plovdiv Krumovo","BG",""
+"4","LBXX","heliport","Some Hospital Helipad","BG","LBXX"
+"5","LB99","small_airport","Closed strip","BG","LB99"
+"6","XXCLOSED","closed","Old field","BG","LBZZ"
+"7","LOWW","large_airport","Vienna","AT","LOWW"
 """
 
 
 @pytest.fixture
-def bg() -> BG:
+def bg(monkeypatch) -> BG:
     crawler = BG()
+
+    def _fake_get(url, timeout=60):
+        assert url == bg_module.AIRPORTS_CSV
+        return _FakeResp(_CSV)
+
+    monkeypatch.setattr(crawler.client, "get", _fake_get)
     yield crawler
     crawler.close()
 
 
 def test_module_constants():
-    assert bg_module.ROOT_URL == "https://b-flip.bulatsa.com/"
-    assert bg_module.AD_PAGE_URL.endswith("/publications/aip/aerodromes")
+    assert bg_module.BULATSA_AIP_URL.startswith("https://b-flip.bulatsa.com")
+    assert bg_module.AIRPORTS_CSV.endswith("airports.csv")
 
 
-def test_latin_name_keeps_english_half_and_title_cases(bg: BG):
-    assert bg._latin_name("БУРГАС / BURGAS") == "Burgas"
-    assert (
-        bg._latin_name("ВАСИЛ ЛЕВСКИ - СОФИЯ / VASIL LEVSKI - SOFIA")
-        == "Vasil Levski - Sofia"
-    )
+def test_crawl_filters_to_bulgarian_aerodromes(bg: BG):
+    airports = bg.crawl()
+    icaos = {a.icao for a in airports}
+    # LBSF (icao_code), LBBG, LBPL (ident, no icao_code) are Bulgarian aerodromes.
+    assert icaos == {"LBSF", "LBBG", "LBPL"}
+    assert "LBXX" not in icaos  # heliport type
+    assert "LOWW" not in icaos  # wrong country
+    assert "LB99" not in icaos  # not a 4-letter code
 
 
-def test_parse_groups_by_filename_icao(bg: BG):
-    airports = bg._parse_ad_table(_TABLE)
-    icaos = [a.icao for a in airports]
-    # The stray LBPD_61 link inside the LBBG block is grouped under LBPD, so
-    # exactly four fields surface (LBBG, LBPD, LBBM, LBSL) - no cross-contamination.
-    assert set(icaos) == {"LBBG", "LBPD", "LBBM", "LBSL"}
-    # The AIC circular under /cd/ is not an AD_files PDF and must be dropped.
+def test_crawl_rows_point_at_bulatsa_no_charts(bg: BG):
+    airports = bg.crawl()
     for a in airports:
-        for c in a.charts or []:
-            assert "AD_files" in c.url and "LB_Circ" not in c.url
-
-
-def test_primary_chart_prefers_vac_then_data(bg: BG):
-    by = {a.icao: a for a in bg._parse_ad_table(_TABLE)}
-    # LBBG has a VAC (section 59) - it wins over the ADC (41) and data sheet.
-    assert by["LBBG"].url.endswith("LB_AD_2_LBBG_59_1_2_3_4_en.pdf")
-    assert by["LBBG"].pdf_url == by["LBBG"].url
-    assert len(by["LBBG"].charts) == 3
-    # LBPD only carries a waypoint + data sheet (no VAC/ADC): data sheet primary.
-    assert by["LBPD"].url.endswith("LB_AD_2_LBPD_en.pdf")
-
-
-def test_type_and_title_rules(bg: BG):
-    by = {a.icao: a for a in bg._parse_ad_table(_TABLE)}
-    # AD 5 field is a heliport; AD 2 / AD 4 fields are vfr.
-    assert by["LBSL"].airport_type == "heliport"
-    assert by["LBBG"].airport_type == "vfr"
-    assert by["LBBM"].airport_type == "vfr"
-    # Hard "<name> <ICAO>" title rule (list row + map marker label).
-    assert by["LBBG"].title == "Burgas LBBG"
-    assert by["LBSL"].title == "Sliven LBSL"
-    for a in by.values():
         assert a.country == "BG"
-        assert a.icao and a.title.endswith(a.icao)
-        assert a.title.strip().upper() != a.icao
-        assert a.url.startswith("https://b-flip.bulatsa.com/_aip/AD_files/")
-
-
-def test_urls_resolve_against_site_root_not_page(bg: BG):
-    # Relative hrefs are "_aip/AD_files/..."; they must resolve against the site
-    # ROOT (/_aip/...), not the /publications/aip/ page path.
-    airports = bg._parse_ad_table(_TABLE)
+        assert a.airport_type == "vfr"
+        assert a.url == bg_module.BULATSA_AIP_URL
+        assert a.pdf_url is None
+        assert a.charts is None
+    # Title convention is "<name> <ICAO>" (map label / list / detail heading).
+    sofia = next(a for a in airports if a.icao == "LBSF")
+    assert sofia.title == "Sofia Airport LBSF"
     for a in airports:
-        assert "/publications/aip/_aip/" not in a.url
-        assert a.url.startswith("https://b-flip.bulatsa.com/_aip/AD_files/")
+        assert a.icao and a.title.endswith(a.icao)
