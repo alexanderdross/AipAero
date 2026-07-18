@@ -22,6 +22,7 @@ from crawlers.az import AZ
 from crawlers.ba import BA
 from crawlers.be import BE
 from crawlers.bg import BG
+from crawlers.by import BY
 from crawlers.ch import CH
 from crawlers.cy import CY
 from crawlers.cz import CZ
@@ -72,6 +73,7 @@ COUNTRY_CRAWLERS = {
     "AZ": AZ,
     "BA": BA,
     "BG": BG,
+    "BY": BY,
     "CH": CH,
     "CY": CY,
     "DE": DE,
