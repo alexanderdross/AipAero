@@ -10,7 +10,7 @@ import { IMPRINT, PRIVACY_LINKS } from "~/lib/legal";
 import { orgUrl } from "~/lib/utils";
 
 const EN = new URL("/privacy/", orgUrl).toString();
-const DE = new URL("/datenschutz/", orgUrl).toString();
+const DE = new URL("/de/datenschutz/", orgUrl).toString();
 
 export function generateMetadata(
   _props: { params: Promise<Record<string, never>> },

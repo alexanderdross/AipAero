@@ -82,7 +82,7 @@ export default async function Footer({ global = false }: { global?: boolean }) {
   // target language. contact/home (dross.net) follow, external home last.
   const germanLegal = ["de", "at", "ch"].includes(locale);
   const legalSlug: Record<"terms" | "imprint" | "privacy", string> = germanLegal
-    ? { terms: "agb", imprint: "impressum", privacy: "datenschutz" }
+    ? { terms: "de/agb", imprint: "de/impressum", privacy: "de/datenschutz" }
     : { terms: "terms", imprint: "imprint", privacy: "privacy" };
   const legalInternal = ["terms", "imprint", "privacy"] as const;
   const legalExternal = ["contact", "home"] as const;

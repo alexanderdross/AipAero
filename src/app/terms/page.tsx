@@ -10,7 +10,7 @@ import { AIP_SOURCES, DATA_SOURCES } from "~/lib/legal";
 import { orgUrl } from "~/lib/utils";
 
 const EN = new URL("/terms/", orgUrl).toString();
-const DE = new URL("/agb/", orgUrl).toString();
+const DE = new URL("/de/agb/", orgUrl).toString();
 
 export function generateMetadata(
   _props: { params: Promise<Record<string, never>> },
@@ -38,7 +38,7 @@ export default function TermsPage() {
       title="Terms of Service"
       intro="AIP:Aero is a free search and index service for Aeronautical Information Publications (AIP), approach charts and airport data across Europe."
       altLink={{
-        href: "/agb/",
+        href: "/de/agb/",
         label: "Deutsch",
         hrefLang: "de",
         title: "Nutzungsbedingungen - deutsche Fassung",
