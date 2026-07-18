@@ -139,6 +139,7 @@ jobs:
             "https://aip.aero/bg/letishta-balgariya/"
             "https://aip.aero/tr/havalimanlari-turkiye/"
             "https://aip.aero/ge/aeroportebi-sakartvelo/"
+            "https://aip.aero/am/odanavakayanner-hayastan/"
           )
           # NOTE: keep this in sync with liveCountries x the /airport-list slug
           # (src/lib/utils.ts + src/i18n/routing.ts). A launched country missing
