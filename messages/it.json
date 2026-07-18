@@ -347,5 +347,13 @@
     "a3": "Per l'Italia troverai gli <vfr>aeroporti VFR</vfr> - incluso il principale aeroporto di Roma Fiumicino (LIRF), ognuno con un link diretto alla carta ufficiale, il meteo decodificato (METAR/TAF) e i dati dell'aerodromo.",
     "q4": "Posso usare AIP:Aero offline o sul mio EFB?",
     "a4": "Sì - AIP:Aero si installa come app (PWA), e i singoli aerodromi o l'intero paese possono essere salvati offline. Consulta la <efb>guida EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} è un aerodromo pubblicato nella pubblicazione di informazioni aeronautiche ufficiale (AIP).",
+    "identityTown": "{place} è un aerodromo vicino a {town}, pubblicato nella pubblicazione di informazioni aeronautiche ufficiale (AIP).",
+    "runways": "{count, plural, one {Dispone di una pista.} other {Dispone di # piste.}}",
+    "charts": "AIP:Aero collega la carta {type} ufficiale insieme alle informazioni su pista, frequenza e meteo attuale.",
+    "chartsAirac": "AIP:Aero collega la carta {type} ufficiale dell'edizione AIRAC {airac}, insieme alle informazioni su pista, frequenza e meteo attuale.",
+    "noCharts": "AIP:Aero collega la voce AIP ufficiale insieme alle informazioni su pista, frequenza e meteo attuale."
   }
 }

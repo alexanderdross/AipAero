@@ -377,5 +377,13 @@
     "a3": "For Danmark finder du <vfr>VFR-flyvepladser</vfr> og <heli>helikopterlandingspladser</heli> - hver med direkte link til det officielle kort, afkodet vejr (METAR/TAF) og flyvepladsdata.",
     "q4": "Kan jeg bruge AIP:Aero offline eller på min EFB?",
     "a4": "Ja - AIP:Aero kan installeres som app (PWA), og enkelte pladser eller hele landet kan gemmes offline. Se <efb>EFB-guiden</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} er en flyveplads offentliggjort i den officielle luftfartsinformationspublikation (AIP).",
+    "identityTown": "{place} er en flyveplads nær {town}, offentliggjort i den officielle luftfartsinformationspublikation (AIP).",
+    "runways": "{count, plural, one {Den har én bane.} other {Den har # baner.}}",
+    "charts": "AIP:Aero linker til det officielle {type}-kort sammen med oplysninger om bane, frekvens og aktuelt vejr.",
+    "chartsAirac": "AIP:Aero linker til det officielle {type}-kort fra AIRAC-udgave {airac} sammen med oplysninger om bane, frekvens og aktuelt vejr.",
+    "noCharts": "AIP:Aero linker til den officielle AIP-post sammen med oplysninger om bane, frekvens og aktuelt vejr."
   }
 }

@@ -347,5 +347,13 @@
     "a3": "Türkmenistan üçin <vfr>VFR howa menzillerini</vfr> taparsyňyz - esasy howa menzili Aşgabat (UTAA) goşmak bilen, hersi resmi karta göni baglanyşyk, çözlenen howa maglumaty (METAR/TAF) we aerodrom maglumatlary bilen.",
     "q4": "AIP:Aero-ny offline ýa-da EFB-mde ulanyp bilerinmi?",
     "a4": "Hawa - AIP:Aero programma (PWA) hökmünde gurnalýar we aýry-aýry aerodromlar ýa-da tutuş ýurt offline saklanyp bilner. <efb>EFB gollanmasyna</efb> serediň."
+  },
+  "AirportSummary": {
+    "identity": "{place} resmi Aeronawigasiýa maglumat neşirinde (AIP) çap edilen aerodromdyr.",
+    "identityTown": "{place} {town} golaýynda ýerleşýän, resmi Aeronawigasiýa maglumat neşirinde (AIP) çap edilen aerodromdyr.",
+    "runways": "{count, plural, one {Onuň bir uçuş-gonuş zolagy bar.} other {Onuň # uçuş-gonuş zolagy bar.}}",
+    "charts": "AIP:Aero onuň resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
+    "chartsAirac": "AIP:Aero onuň AIRAC {airac} neşirindäki resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
+    "noCharts": "AIP:Aero onuň resmi AIP ýazgysyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar."
   }
 }

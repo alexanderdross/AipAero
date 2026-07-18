@@ -347,5 +347,13 @@
     "a3": "Fyrir Ísland finnur þú <vfr>VFR-flugvelli</vfr> - hver með beinum tengli á opinbera kortið, afkóðað veður (METAR/TAF) og flugvallagögn.",
     "q4": "Get ég notað AIP:Aero án nettengingar eða á EFB?",
     "a4": "Já - AIP:Aero má setja upp sem app (PWA), og hægt er að vista einstaka velli eða allt landið til notkunar án nettengingar. Sjá <efb>EFB-leiðbeiningarnar</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} er flugvöllur sem birtur er í hinni opinberu flugmálahandbók (AIP).",
+    "identityTown": "{place} er flugvöllur nálægt {town}, birtur í hinni opinberu flugmálahandbók (AIP).",
+    "runways": "{count, plural, one {Hann er með eina flugbraut.} other {Hann er með # flugbrautir.}}",
+    "charts": "AIP:Aero tengir í opinbera {type}-kortið ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
+    "chartsAirac": "AIP:Aero tengir í opinbera {type}-kortið úr AIRAC-útgáfu {airac}, ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
+    "noCharts": "AIP:Aero tengir í opinberu AIP-færsluna ásamt upplýsingum um flugbraut, tíðni og núverandi veður."
   }
 }

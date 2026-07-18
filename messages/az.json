@@ -347,5 +347,13 @@
     "a3": "Azərbaycan üçün <vfr>VFR meydanlarını</vfr> tapacaqsınız - əsas hava limanı Bakı (UBBB) daxil olmaqla, hər biri rəsmi karta birbaşa link, deşifrə edilmiş hava (METAR/TAF) və aerodrom məlumatları ilə.",
     "q4": "AIP:Aero-nu offline və ya EFB-imdə istifadə edə bilərəm?",
     "a4": "Bəli - AIP:Aero tətbiq (PWA) kimi quraşdırılır və ayrı-ayrı aerodromlar və ya bütün ölkə offline yadda saxlanıla bilər. <efb>EFB bələdçisinə</efb> baxın."
+  },
+  "AirportSummary": {
+    "identity": "{place} rəsmi Aeronaviqasiya Məlumat Nəşrində (AIP) dərc edilmiş bir aerodromdur.",
+    "identityTown": "{place} {town} yaxınlığında yerləşən, rəsmi Aeronaviqasiya Məlumat Nəşrində (AIP) dərc edilmiş bir aerodromdur.",
+    "runways": "{count, plural, one {Onun bir uçuş-enmə zolağı var.} other {Onun # uçuş-enmə zolağı var.}}",
+    "charts": "AIP:Aero onun rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
+    "chartsAirac": "AIP:Aero onun AIRAC {airac} buraxılışından olan rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
+    "noCharts": "AIP:Aero onun rəsmi AIP qeydini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir."
   }
 }

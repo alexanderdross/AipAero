@@ -377,5 +377,13 @@
     "a3": "Dla Polski znajdziesz <vfr>lotniska VFR</vfr> i <heli>lądowiska śmigłowcowe</heli> - każde z bezpośrednim linkiem do oficjalnej mapy, odkodowaną pogodą (METAR/TAF) i danymi lotniska.",
     "q4": "Czy mogę korzystać z AIP:Aero offline lub na moim EFB?",
     "a4": "Tak - AIP:Aero można zainstalować jako aplikację (PWA), a pojedyncze lotniska lub cały kraj można zapisać offline. Zobacz <efb>przewodnik EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} to lotnisko opublikowane w oficjalnym Zbiorze Informacji Lotniczych (AIP).",
+    "identityTown": "{place} to lotnisko w pobliżu {town}, opublikowane w oficjalnym Zbiorze Informacji Lotniczych (AIP).",
+    "runways": "{count, plural, one {Ma jedną drogę startową.} few {Ma # drogi startowe.} many {Ma # dróg startowych.} other {Ma # drogi startowej.}}",
+    "charts": "AIP:Aero podaje link do oficjalnej mapy {type} wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie.",
+    "chartsAirac": "AIP:Aero podaje link do oficjalnej mapy {type} z edycji AIRAC {airac} wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie.",
+    "noCharts": "AIP:Aero podaje link do oficjalnego wpisu w AIP wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie."
   }
 }

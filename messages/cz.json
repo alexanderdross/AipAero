@@ -361,5 +361,13 @@
     "a3": "Pro Česko najdete <ifr>IFR letiště</ifr> - každé s přímým odkazem na oficiální mapu, dekódovaným počasím (METAR/TAF) a daty letiště.",
     "q4": "Mohu AIP:Aero používat offline nebo na svém EFB?",
     "a4": "Ano - AIP:Aero lze nainstalovat jako aplikaci (PWA) a jednotlivá letiště nebo celou zemi lze uložit offline. Viz <efb>průvodce EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} je letiště publikované v oficiální letecké informační příručce (AIP).",
+    "identityTown": "{place} je letiště poblíž {town}, publikované v oficiální letecké informační příručce (AIP).",
+    "runways": "{count, plural, one {Má jednu dráhu.} few {Má # dráhy.} many {Má # dráhy.} other {Má # drah.}}",
+    "charts": "AIP:Aero odkazuje na její oficiální mapu {type} spolu s informacemi o dráze, frekvenci a aktuálním počasí.",
+    "chartsAirac": "AIP:Aero odkazuje na její oficiální mapu {type} z edice AIRAC {airac} spolu s informacemi o dráze, frekvenci a aktuálním počasí.",
+    "noCharts": "AIP:Aero odkazuje na její oficiální záznam v AIP spolu s informacemi o dráze, frekvenci a aktuálním počasí."
   }
 }

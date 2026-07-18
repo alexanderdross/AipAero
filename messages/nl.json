@@ -377,5 +377,13 @@
     "a3": "Voor Nederland vindt u <vfr>VFR-vliegvelden</vfr> en <heli>helihavens</heli> - elk met een directe link naar de officiële kaart, gedecodeerd weer (METAR/TAF) en vliegvelddata.",
     "q4": "Kan ik AIP:Aero offline of op mijn EFB gebruiken?",
     "a4": "Ja - AIP:Aero is te installeren als app (PWA), en losse velden of het hele land kunnen offline worden opgeslagen. Zie de <efb>EFB-gids</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} is een luchtvaartterrein dat is gepubliceerd in de officiële luchtvaartgids (AIP).",
+    "identityTown": "{place} is een luchtvaartterrein bij {town}, gepubliceerd in de officiële luchtvaartgids (AIP).",
+    "runways": "{count, plural, one {Het heeft één baan.} other {Het heeft # banen.}}",
+    "charts": "AIP:Aero koppelt de officiële {type}-kaart samen met baan-, frequentie- en actuele weersinformatie.",
+    "chartsAirac": "AIP:Aero koppelt de officiële {type}-kaart uit AIRAC-editie {airac}, samen met baan-, frequentie- en actuele weersinformatie.",
+    "noCharts": "AIP:Aero koppelt de officiële AIP-vermelding samen met baan-, frequentie- en actuele weersinformatie."
   }
 }

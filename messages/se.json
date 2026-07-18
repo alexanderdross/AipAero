@@ -377,5 +377,13 @@
     "a3": "För Sverige hittar du <vfr>VFR-flygplatser</vfr> och <heli>helikopterflygplatser</heli> - var och en med direktlänk till den officiella kartan, avkodat väder (METAR/TAF) och flygplatsdata.",
     "q4": "Kan jag använda AIP:Aero offline eller på min EFB?",
     "a4": "Ja - AIP:Aero kan installeras som app (PWA), och enskilda fält eller hela landet kan sparas offline. Se <efb>EFB-guiden</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} är en flygplats som publiceras i den officiella luftfartspublikationen (AIP).",
+    "identityTown": "{place} är en flygplats nära {town}, publicerad i den officiella luftfartspublikationen (AIP).",
+    "runways": "{count, plural, one {Den har en bana.} other {Den har # banor.}}",
+    "charts": "AIP:Aero länkar till det officiella {type}-kortet tillsammans med information om bana, frekvens och aktuellt väder.",
+    "chartsAirac": "AIP:Aero länkar till det officiella {type}-kortet från AIRAC-utgåva {airac}, tillsammans med information om bana, frekvens och aktuellt väder.",
+    "noCharts": "AIP:Aero länkar till den officiella AIP-posten tillsammans med information om bana, frekvens och aktuellt väder."
   }
 }

@@ -377,5 +377,13 @@
     "a3": "Suomelle löydät <vfr>VFR-lentopaikat</vfr> ja <heli>helikopterikentät</heli> - jokaisella suora linkki viralliseen karttaan, tulkittu sää (METAR/TAF) ja lentopaikan tiedot.",
     "q4": "Voinko käyttää AIP:Aeroa offline-tilassa tai EFB:lläni?",
     "a4": "Kyllä - AIP:Aero asennetaan sovelluksena (PWA), ja yksittäiset kentät tai koko maan voi tallentaa offline-käyttöön. Katso <efb>EFB-opas</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} on lentopaikka, joka on julkaistu virallisessa ilmailukäsikirjassa (AIP).",
+    "identityTown": "{place} on lentopaikka lähellä paikkakuntaa {town}, ja se on julkaistu virallisessa ilmailukäsikirjassa (AIP).",
+    "runways": "{count, plural, one {Sillä on yksi kiitotie.} other {Sillä on # kiitotietä.}}",
+    "charts": "AIP:Aero linkittää sen virallisen {type}-kartan sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
+    "chartsAirac": "AIP:Aero linkittää sen virallisen {type}-kartan AIRAC-julkaisusta {airac} sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
+    "noCharts": "AIP:Aero linkittää sen virallisen AIP-merkinnän sekä kiitotie-, taajuus- ja ajantasaiset säätiedot."
   }
 }

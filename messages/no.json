@@ -377,5 +377,13 @@
     "a3": "For Norge finner du <vfr>VFR-flyplasser</vfr> og <heli>helikopterplasser</heli> - hver med direkte lenke til det offisielle kartet, dekodet vær (METAR/TAF) og flyplassdata.",
     "q4": "Kan jeg bruke AIP:Aero offline eller på min EFB?",
     "a4": "Ja - AIP:Aero kan installeres som app (PWA), og enkeltplasser eller hele landet kan lagres offline. Se <efb>EFB-guiden</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} er en flyplass som er publisert i den offisielle luftfartspublikasjonen (AIP).",
+    "identityTown": "{place} er en flyplass nær {town}, publisert i den offisielle luftfartspublikasjonen (AIP).",
+    "runways": "{count, plural, one {Den har én rullebane.} other {Den har # rullebaner.}}",
+    "charts": "AIP:Aero lenker til det offisielle {type}-kartet sammen med informasjon om rullebane, frekvens og gjeldende vær.",
+    "chartsAirac": "AIP:Aero lenker til det offisielle {type}-kartet fra AIRAC-utgave {airac} sammen med informasjon om rullebane, frekvens og gjeldende vær.",
+    "noCharts": "AIP:Aero lenker til den offisielle AIP-oppføringen sammen med informasjon om rullebane, frekvens og gjeldende vær."
   }
 }

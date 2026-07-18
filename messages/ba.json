@@ -347,5 +347,13 @@
     "a3": "Za Bosnu i Hercegovinu pronaći ćete <vfr>VFR aerodrome</vfr> - svaki s direktnim linkom ka zvaničnoj karti, dekodiranim vremenom (METAR/TAF) i podacima o aerodromu.",
     "q4": "Mogu li koristiti AIP:Aero offline ili na svom EFB-u?",
     "a4": "Da - AIP:Aero se instalira kao aplikacija (PWA), a pojedinačni aerodromi ili cijela država mogu se sačuvati offline. Pogledajte <efb>EFB vodič</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} je aerodrom objavljen u zvaničnom Zborniku vazduhoplovnih informacija (AIP).",
+    "identityTown": "{place} je aerodrom u blizini mjesta {town}, objavljen u zvaničnom Zborniku vazduhoplovnih informacija (AIP).",
+    "runways": "{count, plural, one {Ima jednu poletno-sletnu stazu.} few {Ima # poletno-sletne staze.} other {Ima # poletno-sletnih staza.}}",
+    "charts": "AIP:Aero povezuje njegovu zvaničnu {type} kartu zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu.",
+    "chartsAirac": "AIP:Aero povezuje njegovu zvaničnu {type} kartu iz AIRAC izdanja {airac} zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu.",
+    "noCharts": "AIP:Aero povezuje njegov zvanični unos u AIP zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu."
   }
 }

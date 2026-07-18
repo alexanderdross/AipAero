@@ -377,5 +377,13 @@
     "a3": "Eesti jaoks leiad <vfr>VFR-lennuväljad</vfr> ja <heli>kopteriväljakud</heli> - igaühel otselink ametlikule kaardile, dekodeeritud ilm (METAR/TAF) ja lennuvälja andmed.",
     "q4": "Kas AIP:Aero't saab kasutada võrguühenduseta või EFB-l?",
     "a4": "Jah - AIP:Aero on installitav rakendusena (PWA) ning üksikuid väljakuid või kogu riiki saab salvestada võrguühenduseta kasutamiseks. Vaata <efb>EFB-juhendit</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} on lennuväli, mis on avaldatud ametlikus lennundusteabe kogumikus (AIP).",
+    "identityTown": "{place} on lennuväli linna {town} lähedal, mis on avaldatud ametlikus lennundusteabe kogumikus (AIP).",
+    "runways": "{count, plural, one {Sellel on üks rada.} other {Sellel on # rada.}}",
+    "charts": "AIP:Aero lingib selle ametliku {type}-kaardi koos raja, sageduse ja praeguse ilma teabega.",
+    "chartsAirac": "AIP:Aero lingib selle ametliku {type}-kaardi AIRAC-väljaandest {airac} koos raja, sageduse ja praeguse ilma teabega.",
+    "noCharts": "AIP:Aero lingib selle ametliku AIP-kande koos raja, sageduse ja praeguse ilma teabega."
   }
 }

@@ -347,5 +347,13 @@
     "a3": "Pentru Moldova veți găsi <vfr>aeroporturile VFR</vfr> - inclusiv principalul aeroport Chișinău (LUKK), fiecare cu un link direct către harta oficială, vremea decodată (METAR/TAF) și datele despre aerodrom.",
     "q4": "Pot folosi AIP:Aero offline sau pe EFB-ul meu?",
     "a4": "Da - AIP:Aero se instalează ca aplicație (PWA), iar aerodromurile individuale sau întreaga țară pot fi salvate offline. Consultați <efb>ghidul EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} este un aerodrom publicat în Publicația oficială de informare aeronautică (AIP).",
+    "identityTown": "{place} este un aerodrom aflat în apropierea localității {town}, publicat în Publicația oficială de informare aeronautică (AIP).",
+    "runways": "{count, plural, one {Are o pistă.} few {Are # piste.} other {Are # de piste.}}",
+    "charts": "AIP:Aero leagă harta oficială {type} împreună cu informații despre pistă, frecvențe și vremea curentă.",
+    "chartsAirac": "AIP:Aero leagă harta oficială {type} din ediția AIRAC {airac}, împreună cu informații despre pistă, frecvențe și vremea curentă.",
+    "noCharts": "AIP:Aero leagă înregistrarea oficială din AIP împreună cu informații despre pistă, frecvențe și vremea curentă."
   }
 }
