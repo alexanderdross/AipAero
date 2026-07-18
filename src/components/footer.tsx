@@ -74,11 +74,16 @@ export default async function Footer({ global = false }: { global?: boolean }) {
         },
       ];
 
-  // Our own legal pages are ROOT-level, bilingual (DE+EN) pages at a single
-  // clean URL each (/terms, /imprint, /privacy) - NOT locale-prefixed. The link
-  // LABELS stay localized (the keys already exist in every Footer namespace);
-  // only the target is the fixed root path. The remaining dross.net links
-  // (contact/home) follow, the external home last.
+  // Our own legal pages are ROOT-level, single-language pages paired by topic
+  // (/terms + /agb, /imprint + /impressum, /privacy + /datenschutz), NOT
+  // locale-prefixed. German-native locales (de/at/ch) link to the German page;
+  // every other locale links to the English one. The link LABELS are already
+  // localized (the keys exist in every Footer namespace), so they match the
+  // target language. contact/home (dross.net) follow, external home last.
+  const germanLegal = ["de", "at", "ch"].includes(locale);
+  const legalSlug: Record<"terms" | "imprint" | "privacy", string> = germanLegal
+    ? { terms: "agb", imprint: "impressum", privacy: "datenschutz" }
+    : { terms: "terms", imprint: "imprint", privacy: "privacy" };
   const legalInternal = ["terms", "imprint", "privacy"] as const;
   const legalExternal = ["contact", "home"] as const;
 
@@ -124,10 +129,10 @@ export default async function Footer({ global = false }: { global?: boolean }) {
               <ul className="mt-2 flex flex-col">
                 {legalInternal.map((key) => (
                   <li key={key}>
-                    {/* Root-level bilingual pages: plain followed same-tab link
-                        at a fixed, non-locale-prefixed path. */}
+                    {/* Root-level single-language page: plain followed same-tab
+                        link at a fixed, non-locale-prefixed path. */}
                     <a
-                      href={`/${key}/`}
+                      href={`/${legalSlug[key]}/`}
                       title={t(`${key}.hrefTitle`)}
                       className={linkRow}
                     >

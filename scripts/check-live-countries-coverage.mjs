@@ -69,12 +69,11 @@ function codesFromE2E() {
   return set;
 }
 
-/** Codes with a `cc:` tag in the Terms-page AIP_SOURCES attribution list. */
+/** Codes with a `cc:` tag in the shared AIP_SOURCES attribution list (rendered
+ * on both terms pages /terms + /agb). */
 function codesFromTermsSources() {
   const set = new Set();
-  for (const m of read("src/app/terms/page.tsx").matchAll(
-    /cc:\s*"([a-z]{2})"/g,
-  ))
+  for (const m of read("src/lib/legal.ts").matchAll(/cc:\s*"([a-z]{2})"/g))
     set.add(m[1]);
   return set;
 }
