@@ -149,6 +149,57 @@ jobs:
             "https://aip.aero/tj/ruyxati-furudgohhoi-tojikiston/"
             "https://aip.aero/tm/turkmenistan-howa-menzilleri/"
             "https://aip.aero/kg/kyrgyzstan-aeroporttor-tizmesi/"
+            # English-locale (`<cc>/en`) lists are SEPARATE prerenders; the
+            # native + English list read the same country-tagged data, but
+            # each page HTML is cached per route, so an un-warmed English
+            # list serves the empty build seed while the native one is filled
+            # (the it/en list-empty bug, 18.07.2026). x-default points at the
+            # English page, so it must never be empty. Single-locale countries
+            # (uk/be/ie/mt) have no -EN partner and are already covered above.
+            "https://aip.aero/at/en/airport-list-austria/"
+            "https://aip.aero/de/en/airport-list-germany/"
+            "https://aip.aero/fr/en/airport-list-france/"
+            "https://aip.aero/nl/en/airport-list-netherlands/"
+            "https://aip.aero/cz/en/airport-list-czechia/"
+            "https://aip.aero/no/en/airport-list-norway/"
+            "https://aip.aero/pl/en/airport-list-poland/"
+            "https://aip.aero/se/en/airport-list-sweden/"
+            "https://aip.aero/ee/en/airport-list-estonia/"
+            "https://aip.aero/fi/en/airport-list-finland/"
+            "https://aip.aero/es/en/airport-list-spain/"
+            "https://aip.aero/lv/en/airport-list-latvia/"
+            "https://aip.aero/is/en/airport-list-iceland/"
+            "https://aip.aero/pt/en/airport-list-portugal/"
+            "https://aip.aero/hu/en/airport-list-hungary/"
+            "https://aip.aero/si/en/airport-list-slovenia/"
+            "https://aip.aero/dk/en/airport-list-denmark/"
+            "https://aip.aero/lt/en/airport-list-lithuania/"
+            "https://aip.aero/rs/en/airport-list-serbia/"
+            "https://aip.aero/sk/en/airport-list-slovakia/"
+            "https://aip.aero/gr/en/airport-list-greece/"
+            "https://aip.aero/ba/en/airport-list-bosnia/"
+            "https://aip.aero/ch/en/airport-list-switzerland/"
+            "https://aip.aero/al/en/airport-list-albania/"
+            "https://aip.aero/mk/en/airport-list-north-macedonia/"
+            "https://aip.aero/ro/en/airport-list-romania/"
+            "https://aip.aero/cy/en/airport-list-cyprus/"
+            "https://aip.aero/md/en/airport-list-moldova/"
+            "https://aip.aero/it/en/airport-list-italy/"
+            "https://aip.aero/hr/en/airport-list-croatia/"
+            "https://aip.aero/bg/en/airport-list-bulgaria/"
+            "https://aip.aero/tr/en/airport-list-turkey/"
+            "https://aip.aero/ge/en/airport-list-georgia/"
+            "https://aip.aero/am/en/airport-list-armenia/"
+            "https://aip.aero/az/en/airport-list-azerbaijan/"
+            "https://aip.aero/ua/en/airport-list-ukraine/"
+            "https://aip.aero/uz/en/airport-list-uzbekistan/"
+            "https://aip.aero/by/en/airport-list-belarus/"
+            "https://aip.aero/kz/en/airport-list-kazakhstan/"
+            "https://aip.aero/xk/en/airport-list-kosovo/"
+            "https://aip.aero/ru/en/airport-list-russia/"
+            "https://aip.aero/tj/en/airport-list-tajikistan/"
+            "https://aip.aero/tm/en/airport-list-turkmenistan/"
+            "https://aip.aero/kg/en/airport-list-kyrgyzstan/"
           )
           # NOTE: this list MUST carry EVERY live country's airport-list URL
           # (liveCountries in src/lib/utils.ts x the /airport-list slug in

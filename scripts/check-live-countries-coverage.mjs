@@ -34,6 +34,30 @@ function codesFromWarmList(path) {
   return set;
 }
 
+/** Codes with an English-locale list URL (`/<cc>/en/airport-list-...`) in a
+ * workflow file. The English list is a separate prerender that also needs
+ * warming - an un-warmed one serves the empty build seed (the it/en list-empty
+ * bug, 18.07.2026). */
+function enCodesFromWarmList(path) {
+  const set = new Set();
+  for (const m of read(path).matchAll(
+    /aip\.aero\/([a-z]{2})\/en\/airport-list-/g,
+  ))
+    set.add(m[1]);
+  return set;
+}
+
+/** Live countries that have an `<cc>-EN` locale (so a distinct English list
+ * page that must be warmed). Single-locale countries (uk/be/ie/mt) have none.
+ * Derived from routing.ts so a newly added country is classified automatically. */
+function twoLocaleLive(live) {
+  const routing = read("src/i18n/routing.ts");
+  const en = new Set(
+    [...routing.matchAll(/"([a-z]{2})-EN":/g)].map((m) => m[1]),
+  );
+  return live.filter((cc) => en.has(cc));
+}
+
 /** Codes with a native country-landing entry in the e2e page matrix. */
 function codesFromE2E() {
   const set = new Set();
@@ -69,6 +93,21 @@ const checks = [
   ["cd.yml warm-up URL list", codesFromWarmList(".github/workflows/cd.yml")],
 ];
 
+// English-locale list warm-up: only the two-locale countries have a distinct
+// `/<cc>/en/airport-list-...` page, and each must be warmed alongside its
+// native list.
+const twoLocale = twoLocaleLive(live);
+const enChecks = [
+  [
+    "crawl.yml English-locale (`/<cc>/en/`) warm-up list",
+    enCodesFromWarmList(".github/workflows/crawl.yml"),
+  ],
+  [
+    "cd.yml English-locale (`/<cc>/en/`) warm-up list",
+    enCodesFromWarmList(".github/workflows/cd.yml"),
+  ],
+];
+
 let failed = false;
 for (const [label, present] of checks) {
   const missing = live.filter((cc) => !present.has(cc));
@@ -79,6 +118,20 @@ for (const [label, present] of checks) {
     );
   } else {
     console.log(`✓ ${label} (${live.length} live countries covered)`);
+  }
+}
+
+for (const [label, present] of enChecks) {
+  const missing = twoLocale.filter((cc) => !present.has(cc));
+  if (missing.length > 0) {
+    failed = true;
+    console.error(
+      `✗ ${label}\n    missing English-locale list URLs for: ${missing.join(", ")}`,
+    );
+  } else {
+    console.log(
+      `✓ ${label} (${twoLocale.length} two-locale countries covered)`,
+    );
   }
 }
 
