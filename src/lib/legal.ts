@@ -14,8 +14,10 @@ export const IMPRINT = {
   name: "Alexander Dross",
   /** The brand AIP:Aero is a project of. */
   brand: "Dross:Media",
-  /** Owner network home (the brand link target). */
+  /** Owner network home. */
   brandUrl: "https://dross.net",
+  /** The Dross:Media brand page (the "Dross:Media" link target). */
+  mediaUrl: "https://dross.net/media/",
   /** Personal page of the responsible person (the name link target). */
   personUrl: "https://dross.net/alexander/",
   /** Contact e-mail shown to the user... */

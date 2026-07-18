@@ -89,8 +89,8 @@ export default function ImprintPage() {
         <p className="mt-3">
           AIP:Aero is a project of{" "}
           <ExternalLink
-            href={IMPRINT.brandUrl}
-            hrefTitle={`${IMPRINT.brand} - Dross:Network`}
+            href={IMPRINT.mediaUrl}
+            hrefTitle="Dross:Media - digital projects by Alexander Dross"
             className={inlineLink}
           >
             Dross:Media
