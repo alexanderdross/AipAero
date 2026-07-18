@@ -1,3 +1,4 @@
+import type { Metadata, ResolvingMetadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import type React from "react";
 import Footer from "~/components/footer";
@@ -5,6 +6,31 @@ import { Header } from "~/components/header";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { Title } from "~/components/title";
 import { inter } from "~/lib/fonts";
+import { serpTitle } from "~/lib/utils";
+
+/**
+ * Shared metadata for the root legal pages. Spreads the parent (root layout)
+ * openGraph so the site's default OG images + type survive - a page that sets
+ * its own `openGraph` object otherwise REPLACES the parent's, dropping og:image
+ * (the e2e SEO contract requires it). Twitter/robots stay inherited. The SERP
+ * <title> gets the emoji decoration; og:site_name stays the plain title.
+ */
+export async function legalMetadata(
+  parent: ResolvingMetadata,
+  opts: { title: string; description: string; canonical: string },
+): Promise<Metadata> {
+  const previousOpenGraph = (await parent).openGraph ?? {};
+  return {
+    title: serpTitle(opts.title),
+    description: opts.description,
+    alternates: { canonical: opts.canonical },
+    openGraph: {
+      ...previousOpenGraph,
+      url: opts.canonical,
+      siteName: opts.title,
+    },
+  };
+}
 
 /**
  * Full-document shell for the root-level legal pages (`/terms`, `/imprint`,

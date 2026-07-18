@@ -1,18 +1,26 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
-import { LegalBreadcrumbJsonLd, LegalShell } from "~/components/legal-shell";
+import {
+  LegalBreadcrumbJsonLd,
+  LegalShell,
+  legalMetadata,
+} from "~/components/legal-shell";
 import { SectionHeading } from "~/components/section-heading";
-import { orgUrl, serpTitle } from "~/lib/utils";
+import { orgUrl } from "~/lib/utils";
 
 const CANONICAL = new URL("/terms/", orgUrl).toString();
 
-export const metadata: Metadata = {
-  title: serpTitle("Terms of Service - AIP:Aero"),
-  description:
-    "Terms of service of AIP:Aero, the free AIP and approach chart search for Europe: service description, disclaimer of liability and data sources.",
-  alternates: { canonical: CANONICAL },
-  openGraph: { url: CANONICAL, siteName: "Terms of Service - AIP:Aero" },
-};
+export function generateMetadata(
+  _props: { params: Promise<Record<string, never>> },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  return legalMetadata(parent, {
+    title: "Terms of Service - AIP:Aero",
+    description:
+      "Terms of service of AIP:Aero, the free AIP and approach chart search for Europe: service description, disclaimer of liability and data sources.",
+    canonical: CANONICAL,
+  });
+}
 
 // The AIP providers are language-independent data, so they live in code (only
 // the section headings / descriptors are translated). Addresses render as PLAIN

@@ -1,19 +1,27 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { ExternalLink } from "~/components/external-link";
-import { LegalBreadcrumbJsonLd, LegalShell } from "~/components/legal-shell";
+import {
+  LegalBreadcrumbJsonLd,
+  LegalShell,
+  legalMetadata,
+} from "~/components/legal-shell";
 import { SectionHeading } from "~/components/section-heading";
 import { IMPRINT } from "~/lib/legal";
-import { orgUrl, serpTitle } from "~/lib/utils";
+import { orgUrl } from "~/lib/utils";
 
 const CANONICAL = new URL("/imprint/", orgUrl).toString();
 
-export const metadata: Metadata = {
-  title: serpTitle("Imprint - AIP:Aero"),
-  description:
-    "Legal notice (imprint) for AIP:Aero - provider, contact and VAT details. AIP:Aero is a project of Dross:Media.",
-  alternates: { canonical: CANONICAL },
-  openGraph: { url: CANONICAL, siteName: "Imprint - AIP:Aero" },
-};
+export function generateMetadata(
+  _props: { params: Promise<Record<string, never>> },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  return legalMetadata(parent, {
+    title: "Imprint - AIP:Aero",
+    description:
+      "Legal notice (imprint) for AIP:Aero - provider, contact and VAT details. AIP:Aero is a project of Dross:Media.",
+    canonical: CANONICAL,
+  });
+}
 
 const rowLabel = "text-drossgray-dark text-sm";
 const rowValue = "font-medium break-all";

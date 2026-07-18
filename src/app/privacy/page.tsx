@@ -1,19 +1,27 @@
-import type { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 import { ExternalLink } from "~/components/external-link";
-import { LegalBreadcrumbJsonLd, LegalShell } from "~/components/legal-shell";
+import {
+  LegalBreadcrumbJsonLd,
+  LegalShell,
+  legalMetadata,
+} from "~/components/legal-shell";
 import { SectionHeading } from "~/components/section-heading";
 import { IMPRINT, PRIVACY_LINKS } from "~/lib/legal";
-import { orgUrl, serpTitle } from "~/lib/utils";
+import { orgUrl } from "~/lib/utils";
 
 const CANONICAL = new URL("/privacy/", orgUrl).toString();
 
-export const metadata: Metadata = {
-  title: serpTitle("Privacy Policy - AIP:Aero"),
-  description:
-    "How AIP:Aero handles data: Cloudflare hosting, Google AdSense, local storage for favorites - no accounts, no analytics, no tracking pixels.",
-  alternates: { canonical: CANONICAL },
-  openGraph: { url: CANONICAL, siteName: "Privacy Policy - AIP:Aero" },
-};
+export function generateMetadata(
+  _props: { params: Promise<Record<string, never>> },
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  return legalMetadata(parent, {
+    title: "Privacy Policy - AIP:Aero",
+    description:
+      "How AIP:Aero handles data: Cloudflare hosting, Google AdSense, local storage for favorites - no accounts, no analytics, no tracking pixels.",
+    canonical: CANONICAL,
+  });
+}
 
 const h2 = "text-xl font-semibold tracking-tight";
 

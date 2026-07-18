@@ -37,9 +37,20 @@ test("breadcrumb trail: links, localized labels and aria-current", async ({
   await expect(nav.getByRole("link", { name: "VFR" })).toHaveCount(0);
 });
 
-test("terms page now carries BreadcrumbList JSON-LD", async ({ page }) => {
-  const res = await page.request.get("/de/terms/");
+test("root terms page carries BreadcrumbList JSON-LD", async ({ page }) => {
+  // Terms/imprint/privacy are now root-level bilingual pages (outside
+  // [locale]); like the homepage they emit BreadcrumbList JSON-LD directly and
+  // carry no visible localized breadcrumb <nav>.
+  const res = await page.request.get("/terms/");
   const html = await res.text();
   expect(html).toContain('"@type":"BreadcrumbList"');
-  expect(html).toMatch(/<nav[^>]*aria-label="Brotkrümelnavigation"/);
+  expect(html).toContain("Terms of Service");
+});
+
+test("legacy /<locale>/terms 301-redirects to the root /terms", async ({
+  page,
+}) => {
+  const res = await page.request.get("/de/terms/", { maxRedirects: 0 });
+  expect(res.status()).toBe(301);
+  expect(res.headers()["location"]).toContain("/terms/");
 });
