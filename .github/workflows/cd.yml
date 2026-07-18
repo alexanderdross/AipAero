@@ -153,8 +153,6 @@ jobs:
           # (skeleton) until the 1h ISR TTL - the CH/BA regression of 15.07.2026.
           # Heaviest list; a full render carries per-row row-link-icon <use>
           # markers, the empty build seed has zero - the proof of regeneration.
-          verify_url="https://aip.aero/de/flughafen-liste-deutschland/"
-
           revalidate() {
             for i in 1 2 3; do
               code=$(curl -sSL -o /tmp/revalidate.out -w '%{http_code}' -X POST \
@@ -166,10 +164,19 @@ jobs:
             done
             return 1
           }
-          warm() {
+          # Fetch EVERY live-country list and count its per-row markers (a full
+          # render carries many `use href="#row-link-icon"`; an empty build seed
+          # or a stale cache has zero). This both warms and VERIFIES each list,
+          # so a single country going empty - the TR/cache-stale class of bug,
+          # 18.07.2026 - is caught per-country on every deploy, not just DE.
+          # Sets the global EMPTY to the space-separated list of empty URLs.
+          check_all() {
+            EMPTY=""
             for u in "${urls[@]}"; do
-              code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000
-              echo "warm $u -> HTTP $code"
+              rows=$(curl -sSL --max-time 60 "$u" \
+                | grep -o 'use href="#row-link-icon"' | wc -l | tr -d ' ')
+              echo "verify $u -> ${rows:-0} rows"
+              [ "${rows:-0}" -ge 1 ] || EMPTY="$EMPTY $u"
             done
           }
 
@@ -180,16 +187,14 @@ jobs:
           for round in 1 2 3 4 5; do
             echo "== refresh round $round =="
             revalidate || echo "::warning::revalidate failed in round $round"
-            warm
-            rows=$(curl -sSL --max-time 60 "$verify_url" \
-              | grep -o 'use href="#row-link-icon"' | wc -l | tr -d ' ')
-            echo "verify: $verify_url carries ${rows:-0} row markers"
-            if [ "${rows:-0}" -ge 1 ]; then
-              echo "Lists verified full after round $round."
+            check_all
+            if [ -z "$EMPTY" ]; then
+              echo "All ${#urls[@]} live-country lists verified non-empty after round $round."
               exit 0
             fi
+            echo "::warning::Empty airport lists after round $round:$EMPTY"
             echo "Still empty; waiting before the next round."
             sleep 45
           done
-          echo "::warning::Lists still empty after all refresh rounds - ISR heals within 1h or on the next crawler POST"
+          echo "::warning::Airport lists still EMPTY after all refresh rounds:$EMPTY - a launched country with no data yet heals on its next crawler POST; an already-populated country going empty here is a cache/regression to investigate"
           exit 0
