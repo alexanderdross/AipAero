@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Pilótaeszközök és EFB",
       "hrefTitle": "EFB útmutató - AIP:Aero a tableteden"
+    },
+    "/glossary": {
+      "title": "Szószedet",
+      "hrefTitle": "Repülési szószedet - AIP, AIRAC, VFR, METAR és megközelítési térképek magyarázata"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Pilótaeszközök és EFB",
       "hrefTitle": "AIP:Aero az EFB-den - telepítés, offline térképek, importálás"
+    },
+    "glossary": {
+      "title": "Szószedet",
+      "hrefTitle": "Repülési szószedet - a legfontosabb AIP- és térképfogalmak magyarázata"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "Az AIP:Aero a hivatalos {type} térképét a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
     "chartsAirac": "Az AIP:Aero a hivatalos {type} térképét a(z) {airac} AIRAC kiadásból, a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
     "noCharts": "Az AIP:Aero a hivatalos AIP-bejegyzését a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Repülési szószedet - AIP, AIRAC, VFR, METAR és több",
+    "metaDescription": "A legfontosabb repülési fogalmak közérthető meghatározásai: AIP és eAIP, az AIRAC ciklus, VFR és IFR, METAR és TAF, ICAO kódok és megközelítési térképek.",
+    "title": "Repülési szószedet",
+    "intro": "Rövid, közérthető meghatározások azokról a repülési fogalmakról, amelyekkel az AIP:Aero oldalain találkozol, az AIP-től és az AIRAC ciklustól a METAR-ig, a TAF-ig és a megközelítési térképekig.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Légiforgalmi Tájékoztató Kiadvány)",
+        "def": "Az adott ország légügyi hatósága által kiadott hivatalos kézikönyv, amely tartalmazza a repüléshez szükséges összes információt, beleértve a repülőterek adatait, a légteret, az eljárásokat és a megközelítési térképeket. Az AIP:Aero minden térképet közvetlenül a nemzeti AIP-hez, mindig a hiteles forráshoz kapcsol."
+      },
+      "eaip": {
+        "name": "eAIP (elektronikus AIP)",
+        "def": "Az AIP webalapú, hivatkozásokkal ellátott változata, amelyet ma már a legtöbb európai hatóság közzétesz. Szabványos EUROCONTROL elrendezése az, amit az AIP:Aero robotjai olvasnak, amikor felépítik az egyes országok repülőtér-jegyzékét."
+      },
+      "airac": {
+        "name": "AIRAC ciklus",
+        "def": "A rögzített 28 napos ütemterv, amely szerint a légiforgalmi adatok változásai világszerte hatályba lépnek, így a pilóták mindenhol ugyanazon a napon frissítik térképeiket. Az AIP:Aero minden repülőtér-oldala megjeleníti a hivatkozott térkép AIRAC kiadását, hogy megerősíthesd az aktualitását."
+      },
+      "vfr": {
+        "name": "VFR (Látvarepülési szabályok)",
+        "def": "A jó időben, külső vizuális tájékozódás alapján történő repülés szabályai, amelyeket az általános és a szabadidős célú repülés pilótáinak többsége használ. Az AIP:Aero minden országra felsorolja a VFR repülőtereket és azok vizuális megközelítési térképeit."
+      },
+      "ifr": {
+        "name": "IFR (Műszerrepülési szabályok)",
+        "def": "A kizárólag műszerek és légiforgalmi irányítói engedélyek alapján, felhőben vagy rossz látási viszonyok között történő repülés szabályai. Az IFR repülőterek műszeres megközelítési térképekkel (IAC) rendelkeznek a pontos, eljárás alapú megközelítésekhez."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Egy repülőtér tényleges időjárásának kódolt, óránként kétszeri megfigyelése: szél, látástávolság, felhőzet, hőmérséklet és légnyomás. Az AIP:Aero minden olyan repülőtér-oldalon közérthető nyelvre fejti a legfrissebb METAR-t, ahol van jelentőállomás."
+      },
+      "taf": {
+        "name": "TAF (Repülőtéri előrejelzés)",
+        "def": "Egy repülőtér környezetére vonatkozó kódolt időjárás-előrejelzés, jellemzően 24-30 órára érvényes. Ugyanazokat a rövidítéseket használja, mint a METAR, és az AIP:Aero azzal együtt fejti meg."
+      },
+      "icao": {
+        "name": "ICAO helymeghatározó jel",
+        "def": "A négybetűs kód, amely világszerte egyedileg azonosít egy repülőteret (például EDDF Frankfurt esetében), a Nemzetközi Polgári Repülési Szervezet által kiosztva. Az AIP:Aero minden repülőtér-oldalt az ICAO kódjával címez."
+      },
+      "charts": {
+        "name": "Megközelítési és repülőtéri térképek (VAC, IAC, ADC)",
+        "def": "A hivatalos ábrák, amelyeket a pilóták a repülőtérre érkezéshez és a rajta való mozgáshoz használnak: a vizuális megközelítési térkép (VAC) a VFR-hez, a műszeres megközelítési térkép (IAC) az IFR-hez, és a repülőtéri térkép (ADC) a földi elrendezéshez. Az AIP:Aero mindenhol a pontos térkép PDF-jét kapcsolja, ahol a nemzeti AIP közzétesz egyet."
+      }
+    }
   }
 }

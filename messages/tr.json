@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Pilot araçları & EFB",
       "hrefTitle": "EFB kılavuzu - AIP:Aero tabletinizde"
+    },
+    "/glossary": {
+      "title": "Sözlük",
+      "hrefTitle": "Havacılık sözlüğü - AIP, AIRAC, VFR, METAR ve yaklaşma haritaları açıklandı"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Pilot araçları & EFB",
       "hrefTitle": "AIP:Aero EFB cihazınızda - kurulum, çevrimdışı kartlar, içe aktarma"
+    },
+    "glossary": {
+      "title": "Sözlük",
+      "hrefTitle": "Havacılık sözlüğü - temel AIP ve harita terimleri açıklandı"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero, resmi {type} kartını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar.",
     "chartsAirac": "AIP:Aero, AIRAC {airac} sürümündeki resmi {type} kartını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar.",
     "noCharts": "AIP:Aero, resmi AIP kaydını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Havacılık sözlüğü - AIP, AIRAC, VFR, METAR ve dahası",
+    "metaDescription": "Temel havacılık terimlerinin sade dilde tanımları: AIP ve eAIP, AIRAC döngüsü, VFR ve IFR, METAR ve TAF, ICAO kodları ve yaklaşma haritaları.",
+    "title": "Havacılık sözlüğü",
+    "intro": "AIP:Aero genelinde karşılaştığınız havacılık terimlerinin kısa, sade dilde tanımları; AIP ve AIRAC döngüsünden METAR, TAF ve yaklaşma haritalarına kadar.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Havacılık Enformasyon Yayını)",
+        "def": "Bir ülkenin havacılık otoritesi tarafından yayımlanan ve uçuş için gereken tüm bilgileri içeren resmi el kitabı; havaalanı verileri, hava sahası, prosedürler ve yaklaşma haritaları dahil. AIP:Aero her haritayı doğrudan ulusal AIP'sine bağlar; bu her zaman yetkili kaynaktır."
+      },
+      "eaip": {
+        "name": "eAIP (elektronik AIP)",
+        "def": "AIP'nin çoğu Avrupa otoritesinin artık yayımladığı, web tabanlı ve köprü bağlantılı sürümü. Standart EUROCONTROL düzeni, AIP:Aero tarayıcılarının her ülkenin havaalanı dizinini oluşturmak için okuduğu yapıdır."
+      },
+      "airac": {
+        "name": "AIRAC döngüsü",
+        "def": "Havacılık verilerindeki değişikliklerin dünya genelinde yürürlüğe girdiği sabit 28 günlük takvim; böylece her yerdeki pilotlar haritalarını aynı tarihte günceller. AIP:Aero'daki her havaalanı sayfası, bağlantılı haritanın AIRAC sürümünü gösterir, böylece güncel olduğunu doğrulayabilirsiniz."
+      },
+      "vfr": {
+        "name": "VFR (Görerek Uçuş Kuralları)",
+        "def": "İyi hava koşullarında dış görsel referanslarla uçuş kuralları; çoğu genel havacılık ve amatör pilot tarafından kullanılır. AIP:Aero, her ülke için VFR havaalanlarını ve görerek yaklaşma haritalarını listeler."
+      },
+      "ifr": {
+        "name": "IFR (Aletli Uçuş Kuralları)",
+        "def": "Bulut içinde veya düşük görüşte, yalnızca aletlerle ve hava trafik kontrol izinleriyle uçuş kuralları. IFR havaalanları, hassas ve prosedüre dayalı yaklaşmalar için aletli yaklaşma haritaları (IAC) taşır."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Bir havaalanındaki gerçek havanın saatte iki kez yayımlanan kodlu gözlemi: rüzgar, görüş, bulut, sıcaklık ve basınç. AIP:Aero, rapor istasyonu bulunan her havaalanı sayfasında en son METAR'ı sade dile çözümler."
+      },
+      "taf": {
+        "name": "TAF (Havaalanı Meydan Tahmini)",
+        "def": "Bir havaalanının çevresindeki bölge için kodlu hava tahmini; genellikle 24 ila 30 saat geçerlidir. METAR ile aynı kısaltmaları kullanır ve AIP:Aero'da onunla birlikte çözümlenir."
+      },
+      "icao": {
+        "name": "ICAO konum göstergesi",
+        "def": "Bir havaalanını dünya genelinde benzersiz şekilde tanımlayan dört harfli kod (örneğin Frankfurt için EDDF), Uluslararası Sivil Havacılık Örgütü tarafından atanır. AIP:Aero her havaalanı sayfasını ICAO koduyla adresler."
+      },
+      "charts": {
+        "name": "Yaklaşma ve havaalanı haritaları (VAC, IAC, ADC)",
+        "def": "Pilotların bir havaalanına varmak ve içinde hareket etmek için kullandığı resmi çizimler: VFR için Görerek Yaklaşma Haritası (VAC), IFR için Aletli Yaklaşma Haritası (IAC) ve yer yerleşimi için Havaalanı Haritası (ADC). AIP:Aero, ulusal AIP birini yayımladığı her yerde tam harita PDF'ini bağlar."
+      }
+    }
   }
 }

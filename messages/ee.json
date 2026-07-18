@@ -28,6 +28,10 @@
     "/efb": {
       "title": "Piloodi tööriistad & EFB",
       "hrefTitle": "EFB juhend - AIP:Aero tahvelarvutis"
+    },
+    "/glossary": {
+      "title": "Sõnastik",
+      "hrefTitle": "Lennundussõnastik - AIP, AIRAC, VFR, METAR ja lähenemiskaardid selgitatud"
     }
   },
   "Menu": {
@@ -206,6 +210,10 @@
     "efb": {
       "title": "Piloodi tööriistad & EFB",
       "hrefTitle": "AIP:Aero sinu EFB-s - paigaldus, offline-kaardid, import"
+    },
+    "glossary": {
+      "title": "Sõnastik",
+      "hrefTitle": "Lennundussõnastik - peamised AIP- ja kaarditerminid selgitatud"
     }
   },
   "Error": {
@@ -385,5 +393,49 @@
     "charts": "AIP:Aero lingib selle ametliku {type}-kaardi koos raja, sageduse ja praeguse ilma teabega.",
     "chartsAirac": "AIP:Aero lingib selle ametliku {type}-kaardi AIRAC-väljaandest {airac} koos raja, sageduse ja praeguse ilma teabega.",
     "noCharts": "AIP:Aero lingib selle ametliku AIP-kande koos raja, sageduse ja praeguse ilma teabega."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Lennundussõnastik - AIP, AIRAC, VFR, METAR ja muu",
+    "metaDescription": "Lihtsas keeles määratlused peamistele lennundusterminitele: AIP ja eAIP, AIRAC-tsükkel, VFR ja IFR, METAR ja TAF, ICAO-koodid ja lähenemiskaardid.",
+    "title": "Lennundussõnastik",
+    "intro": "Lühikesed, lihtsas keeles määratlused lennundusterminitele, mida kohtad kõikjal AIP:Aeros, alates AIP-st ja AIRAC-tsüklist kuni METAR-i, TAF-i ja lähenemiskaartideni.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronautical Information Publication, lennundusteabe kogumik)",
+        "def": "Riigi lennundusametkonna välja antud ametlik käsiraamat, mis sisaldab kogu lendamiseks vajalikku teavet, sealhulgas lennuvälja andmeid, õhuruumi, protseduure ja lähenemiskaarte. AIP:Aero seob iga kaardi otse selle riikliku AIP-ga, mis on alati autoriteetne allikas."
+      },
+      "eaip": {
+        "name": "eAIP (elektrooniline AIP)",
+        "def": "AIP-i veebipõhine, hüperlinkidega versioon, mida enamik Euroopa ametkondi nüüd avaldab. Selle standardset EUROCONTROLi paigutust loevad AIP:Aero roomajad, et koostada iga riigi lennuväljade register."
+      },
+      "airac": {
+        "name": "AIRAC-tsükkel",
+        "def": "Kindel 28-päevane ajakava, mille järgi lennundusandmete muudatused kogu maailmas jõustuvad, nii et piloodid kõikjal uuendavad oma kaarte samal kuupäeval. Iga AIP:Aero lennuvälja lehekülg näitab seotud kaardi AIRAC-väljaannet, et saaksid kinnitada selle ajakohasust."
+      },
+      "vfr": {
+        "name": "VFR (Visual Flight Rules, visuaallennureeglid)",
+        "def": "Reeglid lendamiseks väliste visuaalsete orientiiride järgi heade ilmaoludega, mida kasutavad enamik üldlennunduse ja harrastuslennunduse piloote. AIP:Aero loetleb iga riigi VFR-lennuväljad ja nende visuaallähenemiskaardid."
+      },
+      "ifr": {
+        "name": "IFR (Instrument Flight Rules, instrumentaallennureeglid)",
+        "def": "Reeglid lendamiseks üksnes instrumentide ja lennujuhtimise lubade järgi, pilvedes või halva nähtavuse korral. IFR-lennuväljadel on instrumentaallähenemiskaardid (IAC) täpseteks, protseduuripõhisteks lähenemisteks."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Kodeeritud, kaks korda tunnis tehtav vaatlus lennuvälja tegeliku ilma kohta: tuul, nähtavus, pilved, temperatuur ja rõhk. AIP:Aero dekodeerib uusima METAR-i lihtsasse keelde igal lennuvälja leheküljel, millel on vaatlusjaam."
+      },
+      "taf": {
+        "name": "TAF (Terminal Aerodrome Forecast, lennuvälja ilmaprognoos)",
+        "def": "Kodeeritud ilmaprognoos lennuvälja ümbruse kohta, tavaliselt kehtiv 24 kuni 30 tundi. See kasutab samu lühendeid nagu METAR ja dekodeeritakse selle kõrval AIP:Aeros."
+      },
+      "icao": {
+        "name": "ICAO asukohatähis",
+        "def": "Neljatäheline kood, mis identifitseerib lennuvälja kogu maailmas üheselt (näiteks EDDF Frankfurdi puhul), määratud Rahvusvahelise Tsiviillennunduse Organisatsiooni (ICAO) poolt. AIP:Aero adresseerib iga lennuvälja lehekülge selle ICAO-koodi järgi."
+      },
+      "charts": {
+        "name": "Lähenemis- ja lennuväljakaardid (VAC, IAC, ADC)",
+        "def": "Ametlikud skeemid, mida piloodid kasutavad lennuväljale saabumiseks ja seal liikumiseks: visuaallähenemiskaart (VAC) VFR jaoks, instrumentaallähenemiskaart (IAC) IFR jaoks ja lennuväljakaart (ADC) maapealse paigutuse jaoks. AIP:Aero seob täpse kaardi-PDF-i kõikjal, kus riiklik AIP selle avaldab."
+      }
+    }
   }
 }

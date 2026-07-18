@@ -382,6 +382,26 @@ const efbPages: TestPage[] = [
   { path: "/al/en/efb/", lang: "en", label: "efb al-EN" },
 ];
 
+// Glossary pages - one uniform slug /glossary, fully localized CONTENT. The
+// meta description is identical across same-language countries (de/at/ch share
+// the German block, and every English locale shares the English one), so this
+// matrix carries ONE representative page per distinct LANGUAGE - adding two
+// same-language glossary pages would trip the SEO test's global meta-description
+// uniqueness check. A spread across scripts (Latin, Greek, Cyrillic, Georgian)
+// catches render regressions.
+const glossaryPages: TestPage[] = [
+  { path: "/uk/glossary/", lang: "en", label: "glossary uk" },
+  { path: "/de/glossary/", lang: "de", label: "glossary de" },
+  { path: "/fr/glossary/", lang: "fr", label: "glossary fr" },
+  { path: "/es/glossary/", lang: "es", label: "glossary es" },
+  { path: "/nl/glossary/", lang: "nl", label: "glossary nl" },
+  { path: "/pl/glossary/", lang: "pl", label: "glossary pl" },
+  { path: "/gr/glossary/", lang: "el", label: "glossary gr" },
+  { path: "/ru/glossary/", lang: "ru", label: "glossary ru" },
+  { path: "/ge/glossary/", lang: "ka", label: "glossary ge" },
+  { path: "/tr/glossary/", lang: "tr", label: "glossary tr" },
+];
+
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */
 export const rootPage: TestPage = { path: "/", lang: "en", label: "root" };
 
@@ -393,6 +413,7 @@ export const allPages: TestPage[] = [
   ...searchPages,
   ...legalPages,
   ...efbPages,
+  ...glossaryPages,
 ];
 
 /** A representative subset for the (slower) accessibility sweep. */

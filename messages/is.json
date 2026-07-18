@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Flugmannatól og EFB",
       "hrefTitle": "EFB-leiðbeiningar - AIP:Aero í spjaldtölvunni þinni"
+    },
+    "/glossary": {
+      "title": "Orðasafn",
+      "hrefTitle": "Flugorðasafn - AIP, AIRAC, VFR, METAR og aðflugskort útskýrð"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Flugmannatól og EFB",
       "hrefTitle": "AIP:Aero á EFB-tækinu þínu - uppsetning, kort án nettengingar, innflutningur"
+    },
+    "glossary": {
+      "title": "Orðasafn",
+      "hrefTitle": "Flugorðasafn - helstu AIP- og kortahugtök útskýrð"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero tengir í opinbera {type}-kortið ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
     "chartsAirac": "AIP:Aero tengir í opinbera {type}-kortið úr AIRAC-útgáfu {airac}, ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
     "noCharts": "AIP:Aero tengir í opinberu AIP-færsluna ásamt upplýsingum um flugbraut, tíðni og núverandi veður."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Flugorðasafn - AIP, AIRAC, VFR, METAR og fleira",
+    "metaDescription": "Skýrar skilgreiningar á helstu flugmálahugtökum: AIP og eAIP, AIRAC-lotan, VFR og IFR, METAR og TAF, ICAO-kóðar og aðflugskort.",
+    "title": "Flugorðasafn",
+    "intro": "Stuttar, skýrar skilgreiningar á flugmálahugtökunum sem þú rekst á víðs vegar um AIP:Aero, allt frá AIP og AIRAC-lotunni til METAR, TAF og aðflugskorta.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronautical Information Publication, flugmálaupplýsingarit)",
+        "def": "Opinbera handbókin sem flugmálayfirvöld hvers lands gefa út og inniheldur allar upplýsingar sem þarf til flugs, þar á meðal flugvallargögn, loftrými, aðferðir og aðflugskort. AIP:Aero tengir hvert kort beint við landsbundna AIP-ið, sem er ávallt hin opinbera heimild."
+      },
+      "eaip": {
+        "name": "eAIP (rafrænt AIP)",
+        "def": "Vefútgáfa AIP með tenglum sem flest evrópsk yfirvöld gefa nú út. Staðlaða EUROCONTROL-uppsetningin er það sem AIP:Aero-skriðlarnir lesa til að byggja upp flugvallaskrá hvers lands."
+      },
+      "airac": {
+        "name": "AIRAC-lota",
+        "def": "Fasta 28 daga áætlunin sem breytingar á flugmálagögnum taka gildi eftir um allan heim, svo að flugmenn alls staðar uppfæra kortin sín á sama degi. Hver flugvallarsíða á AIP:Aero sýnir AIRAC-útgáfu tengda kortsins svo þú getir staðfest að það sé í gildi."
+      },
+      "vfr": {
+        "name": "VFR (Visual Flight Rules, sjónflugsreglur)",
+        "def": "Reglurnar um að fljúga eftir sjónrænum viðmiðunum utan flugvélar í góðu veðri, sem flestir flugmenn í almennu flugi og tómstundaflugi nota. AIP:Aero listar VFR-flugvelli og sjónaðflugskort þeirra fyrir hvert land."
+      },
+      "ifr": {
+        "name": "IFR (Instrument Flight Rules, blindflugsreglur)",
+        "def": "Reglurnar um að fljúga eingöngu eftir mælitækjum og heimildum flugumferðarstjórnar, í skýjum eða við lélegt skyggni. IFR-flugvellir hafa blindaðflugskort (IAC) fyrir nákvæm, aðferðabundin aðflug."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Kóðuð athugun á raunverulegu veðri á flugvelli, gerð tvisvar á klukkustund: vindur, skyggni, ský, hiti og loftþrýstingur. AIP:Aero afkóðar nýjustu METAR yfir á skýrt mál á hverri flugvallarsíðu sem hefur athugunarstöð."
+      },
+      "taf": {
+        "name": "TAF (Terminal Aerodrome Forecast, flugvallarspá)",
+        "def": "Kóðuð veðurspá fyrir svæðið umhverfis flugvöll, yfirleitt í gildi í 24 til 30 klukkustundir. Hún notar sömu skammstafanir og METAR og er afkóðuð samhliða henni á AIP:Aero."
+      },
+      "icao": {
+        "name": "ICAO-staðsetningarkóði",
+        "def": "Fjögurra stafa kóðinn sem auðkennir flugvöll með einkvæmum hætti um allan heim (til dæmis EDDF fyrir Frankfurt), úthlutað af Alþjóðaflugmálastofnuninni (ICAO). AIP:Aero vísar á hverja flugvallarsíðu með ICAO-kóða hennar."
+      },
+      "charts": {
+        "name": "Aðflugs- og flugvallakort (VAC, IAC, ADC)",
+        "def": "Opinberu skýringarmyndirnar sem flugmenn nota til að koma að og hreyfa sig um flugvöll: sjónaðflugskortið (VAC) fyrir VFR, blindaðflugskortið (IAC) fyrir IFR og flugvallakortið (ADC) fyrir uppsetningu á jörðu. AIP:Aero tengir nákvæmlega rétta kort-PDF-ið hvar sem landsbundna AIP-ið gefur eitt út."
+      }
+    }
   }
 }

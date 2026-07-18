@@ -36,6 +36,10 @@
     "/efb": {
       "title": "Pilot Tools & EFB",
       "hrefTitle": "EFB Guide - AIP:Aero on your tablet"
+    },
+    "/glossary": {
+      "title": "Glossary",
+      "hrefTitle": "Aviation glossary - AIP, AIRAC, VFR, METAR and approach charts explained"
     }
   },
   "Menu": {
@@ -276,6 +280,10 @@
     "efb": {
       "title": "Pilot Tools & EFB",
       "hrefTitle": "AIP:Aero on your EFB - install, offline charts, import"
+    },
+    "glossary": {
+      "title": "Glossary",
+      "hrefTitle": "Aviation glossary - key AIP and chart terms explained"
     }
   },
   "Error": {
@@ -455,5 +463,49 @@
     "charts": "AIP:Aero links its official {type} chart together with runway, frequency and current weather information.",
     "chartsAirac": "AIP:Aero links its official {type} chart from AIRAC edition {airac}, together with runway, frequency and current weather information.",
     "noCharts": "AIP:Aero links its official AIP entry together with runway, frequency and current weather information."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Aviation Glossary - AIP, AIRAC, VFR, METAR and More",
+    "metaDescription": "Plain-language definitions of the key aeronautical terms: AIP and eAIP, the AIRAC cycle, VFR and IFR, METAR and TAF, ICAO codes and approach charts.",
+    "title": "Aviation glossary",
+    "intro": "Short, plain-language definitions of the aeronautical terms you meet across AIP:Aero, from the AIP and the AIRAC cycle to METAR, TAF and approach charts.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronautical Information Publication)",
+        "def": "The official manual published by a country's aviation authority containing all information needed for flight, including aerodrome data, airspace, procedures and approach charts. AIP:Aero links every chart directly to its national AIP, always the authoritative source."
+      },
+      "eaip": {
+        "name": "eAIP (electronic AIP)",
+        "def": "The web-based, hyperlinked version of the AIP that most European authorities now publish. Its standard EUROCONTROL layout is what the AIP:Aero crawlers read to build each country's airport index."
+      },
+      "airac": {
+        "name": "AIRAC cycle",
+        "def": "The fixed 28-day schedule on which aeronautical data changes take effect worldwide, so pilots everywhere update their charts on the same date. Every airport page on AIP:Aero shows the AIRAC edition of the linked chart so you can confirm it is current."
+      },
+      "vfr": {
+        "name": "VFR (Visual Flight Rules)",
+        "def": "The rules for flying by outside visual reference in good weather, used by most general-aviation and recreational pilots. AIP:Aero lists VFR aerodromes and their visual approach charts for each country."
+      },
+      "ifr": {
+        "name": "IFR (Instrument Flight Rules)",
+        "def": "The rules for flying solely by instruments and air-traffic-control clearances, in cloud or poor visibility. IFR airports carry instrument approach charts (IAC) for precise, procedure-based approaches."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "A coded, twice-hourly observation of the actual weather at an aerodrome: wind, visibility, cloud, temperature and pressure. AIP:Aero decodes the latest METAR into plain language on every airport page that has a reporting station."
+      },
+      "taf": {
+        "name": "TAF (Terminal Aerodrome Forecast)",
+        "def": "A coded weather forecast for the area around an aerodrome, typically valid for 24 to 30 hours. It uses the same abbreviations as the METAR and is decoded alongside it on AIP:Aero."
+      },
+      "icao": {
+        "name": "ICAO location indicator",
+        "def": "The four-letter code that uniquely identifies an aerodrome worldwide (for example EDDF for Frankfurt), assigned by the International Civil Aviation Organization. AIP:Aero addresses every airport page by its ICAO code."
+      },
+      "charts": {
+        "name": "Approach and aerodrome charts (VAC, IAC, ADC)",
+        "def": "The official diagrams pilots use to arrive at and move around an aerodrome: the Visual Approach Chart (VAC) for VFR, the Instrument Approach Chart (IAC) for IFR, and the Aerodrome Chart (ADC) for the ground layout. AIP:Aero links the exact chart PDF wherever the national AIP publishes one."
+      }
+    }
   }
 }

@@ -28,6 +28,10 @@
     "/efb": {
       "title": "Pilota rīki un EFB",
       "hrefTitle": "EFB ceļvedis - AIP:Aero jūsu planšetē"
+    },
+    "/glossary": {
+      "title": "Vārdnīca",
+      "hrefTitle": "Aviācijas vārdnīca - skaidroti AIP, AIRAC, VFR, METAR un pieejas kartes"
     }
   },
   "Menu": {
@@ -206,6 +210,10 @@
     "efb": {
       "title": "Pilota rīki un EFB",
       "hrefTitle": "AIP:Aero jūsu EFB - instalēšana, bezsaistes kartes, imports"
+    },
+    "glossary": {
+      "title": "Vārdnīca",
+      "hrefTitle": "Aviācijas vārdnīca - skaidroti galvenie AIP un karšu termini"
     }
   },
   "Error": {
@@ -385,5 +393,49 @@
     "charts": "AIP:Aero sasaista tā oficiālo {type} karti ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
     "chartsAirac": "AIP:Aero sasaista tā oficiālo {type} karti no AIRAC izdevuma {airac} ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
     "noCharts": "AIP:Aero sasaista tā oficiālo AIP ierakstu ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Aviācijas vārdnīca - AIP, AIRAC, VFR, METAR un vairāk",
+    "metaDescription": "Saprotamā valodā skaidroti galvenie aviācijas termini: AIP un eAIP, AIRAC cikls, VFR un IFR, METAR un TAF, ICAO kodi un pieejas kartes.",
+    "title": "Aviācijas vārdnīca",
+    "intro": "Īsi, saprotamā valodā skaidroti aviācijas termini, ar kuriem sastopaties visā AIP:Aero, sākot no AIP un AIRAC cikla līdz METAR, TAF un pieejas kartēm.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronautical Information Publication, aeronavigācijas informācijas publikācija)",
+        "def": "Oficiāla rokasgrāmata, ko izdod valsts aviācijas iestāde un kas satur visu lidojumam nepieciešamo informāciju, tostarp lidlauka datus, gaisa telpu, procedūras un pieejas kartes. AIP:Aero saista katru karti tieši ar tās nacionālo AIP, kas vienmēr ir autoritatīvs avots."
+      },
+      "eaip": {
+        "name": "eAIP (elektroniskais AIP)",
+        "def": "AIP tīmekļa versija ar hipersaitēm, ko tagad izdod lielākā daļa Eiropas iestāžu. Tieši tās standarta EUROCONTROL izkārtojumu nolasa AIP:Aero rāpuļprogrammas, lai izveidotu katras valsts lidostu rādītāju."
+      },
+      "airac": {
+        "name": "AIRAC cikls",
+        "def": "Fiksēts 28 dienu grafiks, pēc kura aeronavigācijas datu izmaiņas stājas spēkā visā pasaulē, lai piloti visur atjauninātu savas kartes vienā un tajā pašā datumā. Katrā AIP:Aero lidostas lapā tiek parādīts saistītās kartes AIRAC izdevums, lai jūs varētu apstiprināt, ka tā ir aktuāla."
+      },
+      "vfr": {
+        "name": "VFR (Visual Flight Rules, vizuālo lidojumu noteikumi)",
+        "def": "Noteikumi lidošanai pēc ārējām vizuālām atsaucēm labos laikapstākļos, ko izmanto lielākā daļa vispārējās aviācijas un amatieru pilotu. AIP:Aero uzskaita VFR lidlaukus un to vizuālās pieejas kartes katrai valstij."
+      },
+      "ifr": {
+        "name": "IFR (Instrument Flight Rules, instrumentālo lidojumu noteikumi)",
+        "def": "Noteikumi lidošanai vienīgi pēc instrumentiem un gaisa satiksmes vadības atļaujām, mākoņos vai sliktas redzamības apstākļos. IFR lidostās ir instrumentālās pieejas kartes (IAC) precīzām, uz procedūrām balstītām pieejām."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Kodēts, divreiz stundā veikts faktisko laikapstākļu novērojums lidlaukā: vējš, redzamība, mākoņi, temperatūra un spiediens. AIP:Aero atšifrē jaunāko METAR saprotamā valodā katrā lidostas lapā, kurai ir novērojumu stacija."
+      },
+      "taf": {
+        "name": "TAF (Terminal Aerodrome Forecast, lidlauka laika prognoze)",
+        "def": "Kodēta laika prognoze lidlauka apkārtnei, parasti spēkā 24 līdz 30 stundas. Tā izmanto tos pašus saīsinājumus kā METAR un tiek atšifrēta tam līdzās vietnē AIP:Aero."
+      },
+      "icao": {
+        "name": "ICAO atrašanās vietas indikators",
+        "def": "Četru burtu kods, kas unikāli identificē lidlauku visā pasaulē (piemēram, EDDF Frankfurtei), ko piešķir Starptautiskā Civilās aviācijas organizācija (ICAO). AIP:Aero adresē katru lidostas lapu pēc tās ICAO koda."
+      },
+      "charts": {
+        "name": "Pieejas un lidlauka kartes (VAC, IAC, ADC)",
+        "def": "Oficiālās shēmas, ko piloti izmanto, lai ielidotu lidlaukā un pārvietotos pa to: vizuālā pieejas karte (VAC) VFR lidojumiem, instrumentālā pieejas karte (IAC) IFR lidojumiem un lidlauka karte (ADC) zemes izkārtojumam. AIP:Aero saista precīzu kartes PDF visur, kur nacionālais AIP to publicē."
+      }
+    }
   }
 }

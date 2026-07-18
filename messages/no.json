@@ -28,6 +28,10 @@
     "/efb": {
       "title": "Pilotverktøy & EFB",
       "hrefTitle": "EFB-guide - AIP:Aero på nettbrettet"
+    },
+    "/glossary": {
+      "title": "Ordliste",
+      "hrefTitle": "Luftfartsordliste - AIP, AIRAC, VFR, METAR og innflygingskart forklart"
     }
   },
   "Menu": {
@@ -206,6 +210,10 @@
     "efb": {
       "title": "Pilotverktøy & EFB",
       "hrefTitle": "AIP:Aero på din EFB - installasjon, offline kart, import"
+    },
+    "glossary": {
+      "title": "Ordliste",
+      "hrefTitle": "Luftfartsordliste - viktige AIP- og kartbegreper forklart"
     }
   },
   "Error": {
@@ -385,5 +393,49 @@
     "charts": "AIP:Aero lenker til det offisielle {type}-kartet sammen med informasjon om rullebane, frekvens og gjeldende vær.",
     "chartsAirac": "AIP:Aero lenker til det offisielle {type}-kartet fra AIRAC-utgave {airac} sammen med informasjon om rullebane, frekvens og gjeldende vær.",
     "noCharts": "AIP:Aero lenker til den offisielle AIP-oppføringen sammen med informasjon om rullebane, frekvens og gjeldende vær."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Luftfartsordliste - AIP, AIRAC, VFR, METAR og mer",
+    "metaDescription": "Definisjoner i klart språk av de viktigste luftfartsbegrepene: AIP og eAIP, AIRAC-syklusen, VFR og IFR, METAR og TAF, ICAO-koder og innflygingskart.",
+    "title": "Luftfartsordliste",
+    "intro": "Korte definisjoner i klart språk av luftfartsbegrepene du møter overalt på AIP:Aero, fra AIP og AIRAC-syklusen til METAR, TAF og innflygingskart.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronautical Information Publication, luftfartsinformasjonspublikasjon)",
+        "def": "Den offisielle håndboken utgitt av et lands luftfartsmyndighet som inneholder all informasjon som trengs for flyging, inkludert flyplassdata, luftrom, prosedyrer og innflygingskart. AIP:Aero lenker hvert kart direkte til dets nasjonale AIP, alltid den autoritative kilden."
+      },
+      "eaip": {
+        "name": "eAIP (elektronisk AIP)",
+        "def": "Den nettbaserte versjonen av AIP med hyperlenker som de fleste europeiske myndigheter nå utgir. Dens standardoppsett fra EUROCONTROL er det AIP:Aero-crawlerne leser for å bygge hvert lands flyplassindeks."
+      },
+      "airac": {
+        "name": "AIRAC-syklus",
+        "def": "Den faste 28-dagers planen som endringer i luftfartsdata trer i kraft etter over hele verden, slik at piloter overalt oppdaterer kartene sine på samme dato. Hver flyplassside på AIP:Aero viser AIRAC-utgaven av det lenkede kartet, så du kan bekrefte at det er gjeldende."
+      },
+      "vfr": {
+        "name": "VFR (Visual Flight Rules, visuelle flygeregler)",
+        "def": "Reglene for å fly etter ytre visuelle referanser i godt vær, som brukes av de fleste piloter innen allmennflyging og fritidsflyging. AIP:Aero lister opp VFR-flyplasser og deres visuelle innflygingskart for hvert land."
+      },
+      "ifr": {
+        "name": "IFR (Instrument Flight Rules, instrumentflygeregler)",
+        "def": "Reglene for å fly utelukkende etter instrumenter og klareringer fra flygekontrollen, i skyer eller ved dårlig sikt. IFR-flyplasser har instrumentinnflygingskart (IAC) for presise, prosedyrebaserte innflyginger."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "En kodet observasjon av det faktiske været på en flyplass, gjort hver halvtime: vind, sikt, skyer, temperatur og trykk. AIP:Aero dekoder den siste METAR-en til klart språk på hver flyplassside som har en rapporterende stasjon."
+      },
+      "taf": {
+        "name": "TAF (Terminal Aerodrome Forecast, flyplassvarsel)",
+        "def": "En kodet værmelding for området rundt en flyplass, vanligvis gyldig i 24 til 30 timer. Den bruker de samme forkortelsene som METAR og dekodes sammen med den på AIP:Aero."
+      },
+      "icao": {
+        "name": "ICAO-stedsindikator",
+        "def": "Den firebokstavskoden som entydig identifiserer en flyplass over hele verden (for eksempel EDDF for Frankfurt), tildelt av Den internasjonale organisasjonen for sivil luftfart (ICAO). AIP:Aero adresserer hver flyplassside med dens ICAO-kode."
+      },
+      "charts": {
+        "name": "Innflygings- og flyplasskart (VAC, IAC, ADC)",
+        "def": "De offisielle diagrammene piloter bruker for å ankomme og bevege seg rundt på en flyplass: det visuelle innflygingskartet (VAC) for VFR, instrumentinnflygingskartet (IAC) for IFR og flyplasskartet (ADC) for bakkeoppsettet. AIP:Aero lenker den nøyaktige kart-PDF-en der den nasjonale AIP-en publiserer en."
+      }
+    }
   }
 }

@@ -155,6 +155,9 @@ export const routing = defineRouting({
     // `/<locale>/terms` URLs 301-redirect to /terms in middleware.ts.
     // "EFB" is the term pilots search in every language - one slug for all.
     "/efb": "/efb",
+    // Aviation glossary (AIP, AIRAC, VFR/IFR, METAR/TAF, ...): one uniform slug
+    // (like /efb), fully localized CONTENT - an evergreen GEO/SEO reference.
+    "/glossary": "/glossary",
     "/vfr": "/vfr",
     "/ifr": "/ifr",
     "/heliports": "/heliports",

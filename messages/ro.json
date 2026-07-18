@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Instrumente pentru piloți & EFB",
       "hrefTitle": "Ghid EFB - AIP:Aero pe tableta ta"
+    },
+    "/glossary": {
+      "title": "Glosar",
+      "hrefTitle": "Glosar aeronautic - AIP, AIRAC, VFR, METAR și hărțile de apropiere explicate"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Instrumente pentru piloți & EFB",
       "hrefTitle": "AIP:Aero pe EFB-ul tău - instalare, hărți offline, import"
+    },
+    "glossary": {
+      "title": "Glosar",
+      "hrefTitle": "Glosar aeronautic - termenii cheie despre AIP și hărți explicați"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero leagă harta oficială {type} împreună cu informații despre pistă, frecvențe și vremea curentă.",
     "chartsAirac": "AIP:Aero leagă harta oficială {type} din ediția AIRAC {airac}, împreună cu informații despre pistă, frecvențe și vremea curentă.",
     "noCharts": "AIP:Aero leagă înregistrarea oficială din AIP împreună cu informații despre pistă, frecvențe și vremea curentă."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Glosar aeronautic - AIP, AIRAC, VFR, METAR și altele",
+    "metaDescription": "Definiții pe înțelesul tuturor ale termenilor aeronautici cheie: AIP și eAIP, ciclul AIRAC, VFR și IFR, METAR și TAF, codurile ICAO și hărțile de apropiere.",
+    "title": "Glosar aeronautic",
+    "intro": "Definiții scurte, pe înțelesul tuturor, ale termenilor aeronautici pe care îi întâlniți pe AIP:Aero, de la AIP și ciclul AIRAC până la METAR, TAF și hărțile de apropiere.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Publicația de Informare Aeronautică)",
+        "def": "Manualul oficial publicat de autoritatea aeronautică a unei țări, care conține toate informațiile necesare pentru zbor, inclusiv datele aerodromului, spațiul aerian, procedurile și hărțile de apropiere. AIP:Aero leagă fiecare hartă direct de AIP-ul său național, întotdeauna sursa oficială."
+      },
+      "eaip": {
+        "name": "eAIP (AIP electronic)",
+        "def": "Versiunea web, cu hyperlinkuri, a AIP-ului, pe care majoritatea autorităților europene o publică acum. Structura sa standard EUROCONTROL este cea pe care o citesc crawlerele AIP:Aero pentru a construi indexul de aerodromuri al fiecărei țări."
+      },
+      "airac": {
+        "name": "Ciclul AIRAC",
+        "def": "Programul fix de 28 de zile după care modificările datelor aeronautice intră în vigoare la nivel mondial, astfel încât piloții de pretutindeni își actualizează hărțile la aceeași dată. Fiecare pagină de aerodrom de pe AIP:Aero afișează ediția AIRAC a hărții asociate, ca să puteți confirma că este actuală."
+      },
+      "vfr": {
+        "name": "VFR (Reguli de Zbor la Vedere)",
+        "def": "Regulile de zbor după repere vizuale exterioare pe vreme bună, folosite de majoritatea piloților din aviația generală și recreativă. AIP:Aero listează aerodromurile VFR și hărțile lor de apropiere vizuală pentru fiecare țară."
+      },
+      "ifr": {
+        "name": "IFR (Reguli de Zbor Instrumental)",
+        "def": "Regulile de zbor exclusiv după instrumente și autorizări ale controlului traficului aerian, în nori sau la vizibilitate redusă. Aerodromurile IFR dispun de hărți de apropiere instrumentală (IAC) pentru apropieri precise, bazate pe proceduri."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "O observație codificată, de două ori pe oră, a vremii reale de la un aerodrom: vânt, vizibilitate, nori, temperatură și presiune. AIP:Aero decodifică cel mai recent METAR pe înțelesul tuturor pe fiecare pagină de aerodrom care are o stație de raportare."
+      },
+      "taf": {
+        "name": "TAF (Prognoza Meteo de Aerodrom)",
+        "def": "O prognoză meteo codificată pentru zona din jurul unui aerodrom, valabilă de regulă între 24 și 30 de ore. Folosește aceleași abrevieri ca METAR-ul și este decodificată alături de acesta pe AIP:Aero."
+      },
+      "icao": {
+        "name": "Indicatorul de locație ICAO",
+        "def": "Codul din patru litere care identifică în mod unic un aerodrom la nivel mondial (de exemplu EDDF pentru Frankfurt), atribuit de Organizația Aviației Civile Internaționale. AIP:Aero adresează fiecare pagină de aerodrom prin codul său ICAO."
+      },
+      "charts": {
+        "name": "Hărți de apropiere și de aerodrom (VAC, IAC, ADC)",
+        "def": "Diagramele oficiale pe care piloții le folosesc pentru a ajunge la un aerodrom și a se deplasa în cadrul lui: Harta de Apropiere Vizuală (VAC) pentru VFR, Harta de Apropiere Instrumentală (IAC) pentru IFR și Harta de Aerodrom (ADC) pentru dispunerea la sol. AIP:Aero leagă exact PDF-ul hărții oriunde AIP-ul național publică unul."
+      }
+    }
   }
 }

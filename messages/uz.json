@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Uchuvchi vositalari & EFB",
       "hrefTitle": "EFB qoʻllanmasi - AIP:Aero planshetingizda"
+    },
+    "/glossary": {
+      "title": "Lug'at",
+      "hrefTitle": "Aviatsiya lug'ati - AIP, AIRAC, VFR, METAR va yaqinlashish xaritalari tushuntirilgan"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Uchuvchi vositalari & EFB",
       "hrefTitle": "AIP:Aero EFB qurilmangizda - oʻrnatish, oflayn kartalar, import"
+    },
+    "glossary": {
+      "title": "Lug'at",
+      "hrefTitle": "Aviatsiya lug'ati - asosiy AIP va xarita atamalari tushuntirilgan"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero uning rasmiy {type} kartasini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi.",
     "chartsAirac": "AIP:Aero uning AIRAC {airac} nashridagi rasmiy {type} kartasini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi.",
     "noCharts": "AIP:Aero uning rasmiy AIP yozuvini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Aviatsiya lug'ati - AIP, AIRAC, VFR, METAR va boshqalar",
+    "metaDescription": "Asosiy aeronavigatsiya atamalarining sodda tildagi ta'riflari: AIP va eAIP, AIRAC tsikli, VFR va IFR, METAR va TAF, ICAO kodlari va yaqinlashish xaritalari.",
+    "title": "Aviatsiya lug'ati",
+    "intro": "AIP:Aero bo'ylab uchraydigan aeronavigatsiya atamalarining qisqa, sodda tildagi ta'riflari, AIP va AIRAC tsiklidan METAR, TAF va yaqinlashish xaritalarigacha.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronavigatsiya axboroti nashri)",
+        "def": "Mamlakatning aviatsiya organi tomonidan nashr etiladigan rasmiy qo'llanma bo'lib, unda parvoz uchun zarur bo'lgan barcha ma'lumotlar, jumladan aerodrom ma'lumotlari, havo maydoni, protseduralar va yaqinlashish xaritalari mavjud. AIP:Aero har bir xaritani to'g'ridan-to'g'ri uning milliy AIP-siga bog'laydi, bu esa doimo vakolatli manba hisoblanadi."
+      },
+      "eaip": {
+        "name": "eAIP (elektron AIP)",
+        "def": "AIP-ning veb-asosidagi, giperhavolali versiyasi bo'lib, aksariyat Yevropa organlari uni endi nashr etadi. Uning standart EUROCONTROL tuzilishi AIP:Aero crawler-lari har bir mamlakat aeroportlari indeksini tuzish uchun o'qiydigan narsadir."
+      },
+      "airac": {
+        "name": "AIRAC tsikli",
+        "def": "Aeronavigatsiya ma'lumotlaridagi o'zgarishlar butun dunyoda kuchga kiradigan qat'iy 28 kunlik jadval bo'lib, shu tariqa hamma joyda uchuvchilar o'z xaritalarini bir xil sanada yangilaydi. AIP:Aero-da har bir aeroport sahifasi bog'langan xaritaning AIRAC nashrini ko'rsatadi, shunda uning dolzarbligini tasdiqlashingiz mumkin."
+      },
+      "vfr": {
+        "name": "VFR (Vizual parvoz qoidalari)",
+        "def": "Yaxshi ob-havoda tashqi vizual mo'ljal bo'yicha uchish qoidalari bo'lib, ko'pchilik umumiy maqsadli va havaskor aviatsiya uchuvchilari tomonidan qo'llaniladi. AIP:Aero har bir mamlakat uchun VFR aerodromlari va ularning vizual yaqinlashish xaritalarini sanab o'tadi."
+      },
+      "ifr": {
+        "name": "IFR (Asboblar bo'yicha parvoz qoidalari)",
+        "def": "Faqat asboblar va havo harakatini boshqarish ruxsatnomalari yordamida, bulutda yoki yomon ko'rinishda uchish qoidalari. IFR aeroportlari aniq, protseduraga asoslangan yaqinlashishlar uchun asboblar yaqinlashish xaritalarini (IAC) o'z ichiga oladi."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Aerodromdagi haqiqiy ob-havoning kodlangan, soatiga ikki marta kuzatuvi: shamol, ko'rinish, bulut, harorat va bosim. AIP:Aero kuzatuv stansiyasi bo'lgan har bir aeroport sahifasida so'nggi METAR-ni sodda tilga ochib beradi."
+      },
+      "taf": {
+        "name": "TAF (Aerodrom terminal prognozi)",
+        "def": "Aerodrom atrofi uchun kodlangan ob-havo prognozi bo'lib, odatda 24-30 soat davomida amal qiladi. U METAR bilan bir xil qisqartmalardan foydalanadi va AIP:Aero-da u bilan birga ochib beriladi."
+      },
+      "icao": {
+        "name": "ICAO joylashuv ko'rsatkichi",
+        "def": "Aerodromni butun dunyoda yagona tarzda aniqlaydigan to'rt harfli kod (masalan, Frankfurt uchun EDDF), Xalqaro fuqaro aviatsiyasi tashkiloti tomonidan tayinlangan. AIP:Aero har bir aeroport sahifasini uning ICAO kodi bo'yicha manzillaydi."
+      },
+      "charts": {
+        "name": "Yaqinlashish va aerodrom xaritalari (VAC, IAC, ADC)",
+        "def": "Uchuvchilar aerodromga kelish va uning hududida harakatlanish uchun foydalanadigan rasmiy sxemalar: VFR uchun Vizual yaqinlashish xaritasi (VAC), IFR uchun Asboblar yaqinlashish xaritasi (IAC) va yer joylashuvi uchun Aerodrom xaritasi (ADC). AIP:Aero milliy AIP nashr etadigan har bir joyda aniq xarita PDF-siga bog'laydi."
+      }
+    }
   }
 }

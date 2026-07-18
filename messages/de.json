@@ -32,6 +32,10 @@
     "/efb": {
       "title": "Piloten-Tools & EFB",
       "hrefTitle": "EFB-Anleitung - AIP:Aero auf dem Tablet"
+    },
+    "/glossary": {
+      "title": "Glossar",
+      "hrefTitle": "Luftfahrt-Glossar - AIP, AIRAC, VFR, METAR und Anflugkarten erklärt"
     }
   },
   "Menu": {
@@ -241,6 +245,10 @@
     "efb": {
       "title": "Piloten-Tools & EFB",
       "hrefTitle": "AIP:Aero auf dem EFB - installieren, Offline-Karten, Import"
+    },
+    "glossary": {
+      "title": "Glossar",
+      "hrefTitle": "Luftfahrt-Glossar - wichtige AIP- und Karten-Begriffe erklärt"
     }
   },
   "Error": {
@@ -420,5 +428,49 @@
     "charts": "AIP:Aero verlinkt die offizielle {type}-Karte samt Pisten-, Frequenz- und aktuellen Wetterinformationen.",
     "chartsAirac": "AIP:Aero verlinkt die offizielle {type}-Karte aus der AIRAC-Ausgabe {airac} samt Pisten-, Frequenz- und aktuellen Wetterinformationen.",
     "noCharts": "AIP:Aero verlinkt den offiziellen AIP-Eintrag samt Pisten-, Frequenz- und aktuellen Wetterinformationen."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Luftfahrt-Glossar - AIP, AIRAC, VFR, METAR und mehr",
+    "metaDescription": "Verständliche Definitionen der wichtigsten Luftfahrtbegriffe: AIP und eAIP, der AIRAC-Zyklus, VFR und IFR, METAR und TAF, ICAO-Codes und Anflugkarten.",
+    "title": "Luftfahrt-Glossar",
+    "intro": "Kurze, verständliche Definitionen der Luftfahrtbegriffe, die dir auf AIP:Aero begegnen, vom AIP und dem AIRAC-Zyklus bis zu METAR, TAF und Anflugkarten.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Luftfahrthandbuch)",
+        "def": "Das offizielle Handbuch der nationalen Luftfahrtbehörde mit allen für den Flug nötigen Informationen: Flugplatzdaten, Lufträume, Verfahren und Anflugkarten. AIP:Aero verlinkt jede Karte direkt zum nationalen AIP, immer die maßgebliche Quelle."
+      },
+      "eaip": {
+        "name": "eAIP (elektronisches AIP)",
+        "def": "Die webbasierte, verlinkte Fassung des AIP, die die meisten europäischen Behörden heute veröffentlichen. Ihr standardisiertes EUROCONTROL-Layout lesen die AIP:Aero-Crawler aus, um den Flugplatzindex jedes Landes zu erstellen."
+      },
+      "airac": {
+        "name": "AIRAC-Zyklus",
+        "def": "Der feste 28-Tage-Rhythmus, in dem luftfahrtbezogene Datenänderungen weltweit wirksam werden, damit alle Piloten ihre Karten am selben Datum aktualisieren. Jede Flugplatzseite auf AIP:Aero zeigt die AIRAC-Ausgabe der verlinkten Karte, damit du ihre Aktualität prüfen kannst."
+      },
+      "vfr": {
+        "name": "VFR (Sichtflugregeln)",
+        "def": "Die Regeln für den Flug nach Außensicht bei guter Witterung, genutzt von den meisten Privat- und Freizeitpiloten. AIP:Aero listet VFR-Flugplätze und ihre Sichtanflugkarten für jedes Land."
+      },
+      "ifr": {
+        "name": "IFR (Instrumentenflugregeln)",
+        "def": "Die Regeln für den Flug allein nach Instrumenten und Flugverkehrsfreigaben, in Wolken oder bei schlechter Sicht. IFR-Flughäfen führen Instrumentenanflugkarten (IAC) für präzise, verfahrensbasierte Anflüge."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Eine codierte, halbstündliche Beobachtung des tatsächlichen Wetters an einem Flugplatz: Wind, Sicht, Wolken, Temperatur und Luftdruck. AIP:Aero dekodiert das aktuelle METAR auf jeder Flugplatzseite mit Meldestation in Klartext."
+      },
+      "taf": {
+        "name": "TAF (Flugplatzwettervorhersage)",
+        "def": "Eine codierte Wettervorhersage für das Gebiet um einen Flugplatz, meist 24 bis 30 Stunden gültig. Sie nutzt dieselben Abkürzungen wie das METAR und wird auf AIP:Aero daneben dekodiert."
+      },
+      "icao": {
+        "name": "ICAO-Ortskennung",
+        "def": "Der vierstellige Code, der einen Flugplatz weltweit eindeutig bezeichnet (zum Beispiel EDDF für Frankfurt), vergeben von der Internationalen Zivilluftfahrtorganisation. AIP:Aero adressiert jede Flugplatzseite über ihren ICAO-Code."
+      },
+      "charts": {
+        "name": "Anflug- und Flugplatzkarten (VAC, IAC, ADC)",
+        "def": "Die offiziellen Karten, mit denen Piloten einen Flugplatz anfliegen und sich dort bewegen: die Sichtanflugkarte (VAC) für VFR, die Instrumentenanflugkarte (IAC) für IFR und die Flugplatzkarte (ADC) für das Rollfeld. AIP:Aero verlinkt genau die Karten-PDF, wo das nationale AIP eine veröffentlicht."
+      }
+    }
   }
 }

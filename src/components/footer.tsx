@@ -72,6 +72,13 @@ export default async function Footer({ global = false }: { global?: boolean }) {
           title: t("efb.title"),
           titleAttr: t("efb.hrefTitle"),
         },
+        // The aviation glossary (AIP, AIRAC, VFR/IFR, METAR/TAF, charts).
+        {
+          key: "glossary",
+          href: withSlash(getPathname({ href: "/glossary", locale })),
+          title: t("glossary.title"),
+          titleAttr: t("glossary.hrefTitle"),
+        },
       ];
 
   // Our own legal pages are ROOT-level, single-language pages paired by topic

@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Piloto įrankiai ir EFB",
       "hrefTitle": "EFB vadovas - AIP:Aero jūsų planšetėje"
+    },
+    "/glossary": {
+      "title": "Žodynas",
+      "hrefTitle": "Aviacijos žodynas - paaiškinti AIP, AIRAC, VFR, METAR ir tūpimo schemos"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Piloto įrankiai ir EFB",
       "hrefTitle": "AIP:Aero jūsų EFB - įdiegimas, kortelės neprisijungus, importas"
+    },
+    "glossary": {
+      "title": "Žodynas",
+      "hrefTitle": "Aviacijos žodynas - paaiškinti pagrindiniai AIP ir schemų terminai"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę kartu su tako, dažnio ir dabartinės oro būklės informacija.",
     "chartsAirac": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę iš AIRAC leidimo {airac} kartu su tako, dažnio ir dabartinės oro būklės informacija.",
     "noCharts": "AIP:Aero pateikia nuorodą į oficialų AIP įrašą kartu su tako, dažnio ir dabartinės oro būklės informacija."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Aviacijos žodynas - AIP, AIRAC, VFR, METAR ir daugiau",
+    "metaDescription": "Aiškūs pagrindinių aviacijos terminų apibrėžimai: AIP ir eAIP, AIRAC ciklas, VFR ir IFR, METAR ir TAF, ICAO kodai ir tūpimo schemos.",
+    "title": "Aviacijos žodynas",
+    "intro": "Trumpi, aiškūs aviacijos terminų, kuriuos sutinkate visame AIP:Aero, apibrėžimai, nuo AIP ir AIRAC ciklo iki METAR, TAF ir tūpimo schemų.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronautical Information Publication, oro navigacijos informacijos rinkinys)",
+        "def": "Oficialus šalies aviacijos institucijos leidžiamas žinynas, kuriame pateikiama visa skrydžiui reikalinga informacija, įskaitant aerodromo duomenis, oro erdvę, procedūras ir tūpimo schemas. AIP:Aero sieja kiekvieną schemą tiesiogiai su jos nacionaliniu AIP, kuris visada yra autoritetingas šaltinis."
+      },
+      "eaip": {
+        "name": "eAIP (elektroninis AIP)",
+        "def": "Internetinė, hipersaitais susieta AIP versija, kurią dabar leidžia dauguma Europos institucijų. Būtent jos standartinę EUROCONTROL struktūrą skaito AIP:Aero naršyklės, kad sudarytų kiekvienos šalies oro uostų rodyklę."
+      },
+      "airac": {
+        "name": "AIRAC ciklas",
+        "def": "Fiksuotas 28 dienų grafikas, pagal kurį aviacijos duomenų pakeitimai įsigalioja visame pasaulyje, kad pilotai visur atnaujintų savo schemas tą pačią dieną. Kiekviename AIP:Aero oro uosto puslapyje rodoma susietos schemos AIRAC laida, kad galėtumėte patvirtinti, jog ji galiojanti."
+      },
+      "vfr": {
+        "name": "VFR (Visual Flight Rules, vizualiųjų skrydžių taisyklės)",
+        "def": "Taisyklės skristi pagal išorines vizualias orientyras esant geram orui, kurias taiko dauguma bendrosios aviacijos ir mėgėjų pilotų. AIP:Aero išvardija VFR aerodromus ir jų vizualiojo tūpimo schemas kiekvienai šaliai."
+      },
+      "ifr": {
+        "name": "IFR (Instrument Flight Rules, skrydžių pagal prietaisus taisyklės)",
+        "def": "Taisyklės skristi vien pagal prietaisus ir skrydžių valdymo leidimus, debesyse arba esant prastam matomumui. IFR oro uostuose yra tūpimo pagal prietaisus schemos (IAC), skirtos tiksliems, procedūromis grįstiems tūpimams."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Užkoduotas, du kartus per valandą atliekamas faktinių oro sąlygų aerodrome stebėjimas: vėjas, matomumas, debesys, temperatūra ir slėgis. AIP:Aero iššifruoja naujausią METAR į aiškią kalbą kiekviename oro uosto puslapyje, turinčiame stebėjimo stotį."
+      },
+      "taf": {
+        "name": "TAF (Terminal Aerodrome Forecast, aerodromo orų prognozė)",
+        "def": "Užkoduota oro prognozė aerodromo apylinkėms, paprastai galiojanti 24-30 valandų. Ji naudoja tuos pačius sutrumpinimus kaip METAR ir iššifruojama greta jo AIP:Aero."
+      },
+      "icao": {
+        "name": "ICAO vietovės indeksas",
+        "def": "Keturių raidžių kodas, unikaliai identifikuojantis aerodromą visame pasaulyje (pavyzdžiui, EDDF Frankfurtui), suteiktas Tarptautinės civilinės aviacijos organizacijos (ICAO). AIP:Aero kiekvieną oro uosto puslapį adresuoja pagal jo ICAO kodą."
+      },
+      "charts": {
+        "name": "Tūpimo ir aerodromo schemos (VAC, IAC, ADC)",
+        "def": "Oficialios schemos, kurias pilotai naudoja atskristi į aerodromą ir judėti jame: vizualiojo tūpimo schema (VAC) VFR skrydžiams, tūpimo pagal prietaisus schema (IAC) IFR skrydžiams ir aerodromo schema (ADC) antžeminei išdėstymai. AIP:Aero pateikia tikslią schemos PDF nuorodą visur, kur nacionalinis AIP ją paskelbia."
+      }
+    }
   }
 }
