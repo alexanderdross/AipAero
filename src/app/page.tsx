@@ -118,6 +118,30 @@ export default async function RootPage() {
     {
       q: "What is an AIP (Aeronautical Information Publication)?",
       a: "An AIP is the official aeronautical manual a state publishes for pilots: aerodrome data, operational procedures and approach charts, maintained by the national air navigation service provider (DFS in Germany, Austro Control in Austria, and so on) and amended in the 28-day AIRAC cycle. AIP:Aero links you straight to these official publications.",
+      render: (
+        <>
+          An{" "}
+          <Link
+            href="/uk/glossary/"
+            title="Aviation glossary: AIP, eAIP, AIRAC, VFR/IFR, METAR/TAF and chart types explained"
+            className={inlineLink}
+          >
+            AIP
+          </Link>{" "}
+          is the official aeronautical manual a state publishes for pilots:
+          aerodrome data, operational procedures and approach charts, maintained
+          by the national air navigation service provider (DFS in Germany,
+          Austro Control in Austria, and so on) and amended in the 28-day{" "}
+          <Link
+            href="/uk/glossary/"
+            title="Aviation glossary: what the AIRAC cycle is and why it matters"
+            className={inlineLink}
+          >
+            AIRAC
+          </Link>{" "}
+          cycle. AIP:Aero links you straight to these official publications.
+        </>
+      ),
     },
     {
       q: "Where can I get free VFR and IFR approach charts?",
@@ -196,6 +220,33 @@ export default async function RootPage() {
             See the EFB guide
           </Link>
           .
+        </>
+      ),
+    },
+    {
+      q: "Where can I learn to read a chart or decode METAR and TAF?",
+      a: "Our pilot guides walk through reading a VFR/IFR approach chart, understanding the AIRAC cycle and decoding METAR and TAF, and the aviation glossary explains the key terms - AIP, eAIP, AIRAC, VFR/IFR, ICAO codes and chart types.",
+      render: (
+        <>
+          Our{" "}
+          <Link
+            href="/uk/guides/"
+            title="Pilot guides: reading approach charts, the AIRAC cycle, decoding METAR/TAF"
+            className={inlineLink}
+          >
+            pilot guides
+          </Link>{" "}
+          walk through reading a VFR/IFR approach chart, understanding the AIRAC
+          cycle and decoding METAR and TAF, and the{" "}
+          <Link
+            href="/uk/glossary/"
+            title="Aviation glossary: AIP, eAIP, AIRAC, VFR/IFR, METAR/TAF and chart types explained"
+            className={inlineLink}
+          >
+            aviation glossary
+          </Link>{" "}
+          explains the key terms - AIP, eAIP, AIRAC, VFR/IFR, ICAO codes and
+          chart types.
         </>
       ),
     },

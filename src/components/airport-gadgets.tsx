@@ -11,7 +11,7 @@ import { SchemaAirport } from "~/components/schemas/schema-airport";
 import { SaveOfflineButton } from "~/components/save-offline-button";
 import { SchemaDigitalDocument } from "~/components/schemas/schema-digital-document";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
-import { localeLangMapping } from "~/i18n/routing";
+import { getPathname, localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { buildAirportSummary } from "~/lib/airport-summary";
@@ -53,13 +53,23 @@ export async function AirportGadgets({
   /** Cross-type sibling pages of the same field ("also available as IFR"). */
   related?: { type: string; url: string; label: string; title: string }[];
 }) {
-  const [locale, messages, facts, tCommon, tSummary] = await Promise.all([
-    getLocale(),
-    getMessages(),
-    getAirportFacts(airport.icao),
-    getTranslations("Common"),
-    getTranslations("AirportSummary"),
-  ]);
+  const [locale, messages, facts, tCommon, tSummary, tFooter] =
+    await Promise.all([
+      getLocale(),
+      getMessages(),
+      getAirportFacts(airport.icao),
+      getTranslations("Common"),
+      getTranslations("AirportSummary"),
+      getTranslations("Footer"),
+    ]);
+  // Contextual internal link from the AIRAC line to the pilot guides hub (the
+  // "Understanding the AIRAC cycle" guide explains the word). SSR, reuses the
+  // Footer namespace's localized label - no new i18n string. `withSlash` mirrors
+  // the footer: getPathname omits the trailing slash for sub-paths, and a "//"
+  // link would cost a 308 redirect hop.
+  const guidesHref = ((p: string) => (p.endsWith("/") ? p : p + "/"))(
+    getPathname({ href: "/guides", locale }),
+  );
 
   // Direct chart PDF (chart-PDF plan Stage 2): prefer the crawler-captured
   // `pdf_url` where a country's crawler stores an index page as `url`; fall
@@ -320,7 +330,14 @@ export async function AirportGadgets({
             box, surfacing the data currency there too. */}
         {detailAiracLabel && (
           <p className="text-drossgray-dark text-center text-sm">
-            AIRAC {detailAiracLabel}
+            <a
+              href={guidesHref}
+              title={tFooter("guides.hrefTitle")}
+              className="text-drossblue underline"
+            >
+              AIRAC
+            </a>{" "}
+            {detailAiracLabel}
           </p>
         )}
         {/* Generated descriptive paragraph (GEO/SEO): a unique, human-readable
