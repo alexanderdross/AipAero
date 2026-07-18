@@ -75,8 +75,11 @@ const TYPE_TO_HREF = {
   mil: "/military",
   aeroport: "/aeroports",
 };
-// Page crumbs rendered on every country (uniform slugs, all locales).
-const ALWAYS_PAGES = ["/airport-list", "/terms", "/efb"];
+// Page crumbs rendered on every country (uniform slugs, all locales). NOTE:
+// /terms is NOT here anymore - the legal pages (terms/imprint/privacy) are now
+// root-level bilingual pages outside `[locale]` and emit their breadcrumb
+// directly (not via the BreadCrumbs i18n namespace).
+const ALWAYS_PAGES = ["/airport-list", "/efb"];
 
 function loadAvailability() {
   const src = readFileSync(UTILS, "utf8");

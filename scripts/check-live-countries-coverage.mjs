@@ -72,7 +72,7 @@ function codesFromE2E() {
 /** Codes with a `cc:` tag in the Terms-page AIP_SOURCES attribution list. */
 function codesFromTermsSources() {
   const set = new Set();
-  for (const m of read("src/app/[locale]/terms/page.tsx").matchAll(
+  for (const m of read("src/app/terms/page.tsx").matchAll(
     /cc:\s*"([a-z]{2})"/g,
   ))
     set.add(m[1]);

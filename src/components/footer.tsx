@@ -74,9 +74,13 @@ export default async function Footer({ global = false }: { global?: boolean }) {
         },
       ];
 
-  // Owner-requested order: our own terms first, the dross.net links after
-  // (privacy/imprint/contact), the external home last.
-  const legalExternal = ["privacy", "imprint", "contact", "home"] as const;
+  // Our own legal pages are ROOT-level, bilingual (DE+EN) pages at a single
+  // clean URL each (/terms, /imprint, /privacy) - NOT locale-prefixed. The link
+  // LABELS stay localized (the keys already exist in every Footer namespace);
+  // only the target is the fixed root path. The remaining dross.net links
+  // (contact/home) follow, the external home last.
+  const legalInternal = ["terms", "imprint", "privacy"] as const;
+  const legalExternal = ["contact", "home"] as const;
 
   const groupLabel =
     "text-drossgray-dark text-xs font-semibold tracking-wider uppercase";
@@ -118,16 +122,19 @@ export default async function Footer({ global = false }: { global?: boolean }) {
             <div>
               <p className={groupLabel}>{t("legalTitle")}</p>
               <ul className="mt-2 flex flex-col">
-                <li>
-                  {/* Our own localized page: plain followed same-tab link. */}
-                  <a
-                    href={withSlash(getPathname({ href: "/terms", locale }))}
-                    title={t("terms.hrefTitle")}
-                    className={linkRow}
-                  >
-                    {t("terms.title")}
-                  </a>
-                </li>
+                {legalInternal.map((key) => (
+                  <li key={key}>
+                    {/* Root-level bilingual pages: plain followed same-tab link
+                        at a fixed, non-locale-prefixed path. */}
+                    <a
+                      href={`/${key}/`}
+                      title={t(`${key}.hrefTitle`)}
+                      className={linkRow}
+                    >
+                      {t(`${key}.title`)}
+                    </a>
+                  </li>
+                ))}
                 {legalExternal.map((key) => (
                   <li key={key}>
                     <ExternalLink
