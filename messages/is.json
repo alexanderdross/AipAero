@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Algengar spurningar",
     "q1": "Hvað er AIP Ísland?",
-    "a1": "AIP (flugmálahandbókin) er opinber flughandbók Íslands, gefin út af Isavia: flugvallagögn, verklag og aðflugskort, uppfærð í 28 daga AIRAC-hringrásinni. AIP:Aero vísar beint á opinberu útgáfuna.",
+    "a1": "<glossary>AIP</glossary> (flugmálahandbókin) er opinber flughandbók Íslands, gefin út af Isavia: flugvallagögn, verklag og aðflugskort, uppfærð í 28 daga <guides>AIRAC</guides>-hringrásinni. AIP:Aero vísar beint á opinberu útgáfuna.",
     "q2": "Eru aðflugskortin ókeypis?",
     "a2": "Já - Isavia gefur út AIP Íslands ásamt <list>aðflugskortum</list> án endurgjalds, og AIP:Aero er einnig ókeypis: enginn aðgangur, engin áskrift.",
     "q3": "Hvaða kort og flugvellir eru í boði fyrir Ísland?",
     "a3": "Fyrir Ísland finnur þú <vfr>VFR-flugvelli</vfr> - hver með beinum tengli á opinbera kortið, afkóðað veður (METAR/TAF) og flugvallagögn.",
     "q4": "Get ég notað AIP:Aero án nettengingar eða á EFB?",
-    "a4": "Já - AIP:Aero má setja upp sem app (PWA), og hægt er að vista einstaka velli eða allt landið til notkunar án nettengingar. Sjá <efb>EFB-leiðbeiningarnar</efb>."
+    "a4": "Já - AIP:Aero má setja upp sem app (PWA), og hægt er að vista einstaka velli eða allt landið til notkunar án nettengingar. Sjá <efb>EFB-leiðbeiningarnar</efb>.",
+    "q5": "Hvar get ég lært að lesa kort eða afkóða METAR/TAF?",
+    "a5": "Ertu nýliði í flugkortum? <guides>Flugmannaleiðbeiningarnar</guides> fara yfir hvernig á að lesa VFR/IFR-aðflugskort, AIRAC-hringrásina og afkóðun á METAR og TAF, og <glossary>flugorðalistinn</glossary> útskýrir helstu hugtökin eins og AIP, VFR/IFR, ICAO-kóða og kortategundir."
   },
   "AirportSummary": {
-    "identity": "{place} er flugvöllur sem birtur er í hinni opinberu flugmálahandbók (AIP).",
-    "identityTown": "{place} er flugvöllur nálægt {town}, birtur í hinni opinberu flugmálahandbók (AIP).",
+    "identity": "{place} er flugvöllur sem birtur er í hinni opinberu flugmálahandbók (<glossary>AIP</glossary>).",
+    "identityTown": "{place} er flugvöllur nálægt {town}, birtur í hinni opinberu flugmálahandbók (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Hann er með eina flugbraut.} other {Hann er með # flugbrautir.}}",
     "charts": "AIP:Aero tengir í opinbera {type}-kortið ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
-    "chartsAirac": "AIP:Aero tengir í opinbera {type}-kortið úr AIRAC-útgáfu {airac}, ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
+    "chartsAirac": "AIP:Aero tengir í opinbera {type}-kortið úr <guides>AIRAC</guides>-útgáfu {airac}, ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
     "noCharts": "AIP:Aero tengir í opinberu AIP-færsluna ásamt upplýsingum um flugbraut, tíðni og núverandi veður."
   },
   "GlossaryPage": {

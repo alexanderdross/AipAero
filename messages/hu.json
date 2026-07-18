@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Gyakori kérdések",
     "q1": "Mi az AIP Magyarország?",
-    "a1": "Az AIP (légiforgalmi tájékoztató kiadvány) Magyarország hivatalos légiforgalmi kézikönyve, amelyet a HungaroControl ad ki: repülőtéri adatok, eljárások és megközelítési térképek, a 28 napos AIRAC-ciklusban frissítve. Az AIP:Aero közvetlenül a hivatalos kiadványra mutat.",
+    "a1": "Az <glossary>AIP</glossary> (légiforgalmi tájékoztató kiadvány) Magyarország hivatalos légiforgalmi kézikönyve, amelyet a HungaroControl ad ki: repülőtéri adatok, eljárások és megközelítési térképek, a 28 napos <guides>AIRAC</guides>-ciklusban frissítve. Az AIP:Aero közvetlenül a hivatalos kiadványra mutat.",
     "q2": "Ingyenesek a megközelítési térképek?",
     "a2": "Igen - a HungaroControl ingyenesen teszi közzé Magyarország AIP-jét a <list>megközelítési térképekkel</list> együtt, és az AIP:Aero is ingyenes: fiók és előfizetés nélkül.",
     "q3": "Milyen térképek és repülőterek érhetők el Magyarországhoz?",
     "a3": "Magyarországhoz <vfr>VFR repülőtereket</vfr> talál - mindegyikhez közvetlen link a hivatalos térképre, dekódolt időjárás (METAR/TAF) és repülőtéri adatok.",
     "q4": "Használhatom az AIP:Aerót offline vagy az EFB-men?",
-    "a4": "Igen - az AIP:Aero alkalmazásként (PWA) telepíthető, és egyes repülőterek vagy az egész ország offline is elmenthető. Lásd az <efb>EFB-útmutatót</efb>."
+    "a4": "Igen - az AIP:Aero alkalmazásként (PWA) telepíthető, és egyes repülőterek vagy az egész ország offline is elmenthető. Lásd az <efb>EFB-útmutatót</efb>.",
+    "q5": "Hol tanulhatom meg a térkép olvasását vagy a METAR/TAF dekódolását?",
+    "a5": "Most ismerkedik a repülési térképekkel? A <guides>pilótakalauzok</guides> végigvezetik Önt a VFR/IFR megközelítési térkép olvasásán, az AIRAC-cikluson, valamint a METAR és TAF dekódolásán, a <glossary>repülési szószedet</glossary> pedig elmagyarázza az olyan kulcsfogalmakat, mint az AIP, VFR/IFR, az ICAO-kódok és a térképtípusok."
   },
   "AirportSummary": {
-    "identity": "A(z) {place} egy repülőtér, amelyet a hivatalos Légiforgalmi Tájékoztató Kiadványban (AIP) tettek közzé.",
-    "identityTown": "A(z) {place} egy repülőtér {town} közelében, amelyet a hivatalos Légiforgalmi Tájékoztató Kiadványban (AIP) tettek közzé.",
+    "identity": "A(z) {place} egy repülőtér, amelyet a hivatalos Légiforgalmi Tájékoztató Kiadványban (<glossary>AIP</glossary>) tettek közzé.",
+    "identityTown": "A(z) {place} egy repülőtér {town} közelében, amelyet a hivatalos Légiforgalmi Tájékoztató Kiadványban (<glossary>AIP</glossary>) tettek közzé.",
     "runways": "{count, plural, one {Egy futópályája van.} other {# futópályája van.}}",
     "charts": "Az AIP:Aero a hivatalos {type} térképét a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
-    "chartsAirac": "Az AIP:Aero a hivatalos {type} térképét a(z) {airac} AIRAC kiadásból, a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
+    "chartsAirac": "Az AIP:Aero a hivatalos {type} térképét a(z) {airac} <guides>AIRAC</guides> kiadásból, a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
     "noCharts": "Az AIP:Aero a hivatalos AIP-bejegyzését a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza."
   },
   "GlossaryPage": {

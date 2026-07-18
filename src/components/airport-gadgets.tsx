@@ -67,9 +67,34 @@ export async function AirportGadgets({
   // Footer namespace's localized label - no new i18n string. `withSlash` mirrors
   // the footer: getPathname omits the trailing slash for sub-paths, and a "//"
   // link would cost a 308 redirect hop.
-  const guidesHref = ((p: string) => (p.endsWith("/") ? p : p + "/"))(
-    getPathname({ href: "/guides", locale }),
-  );
+  const withSlash = (p: string) => (p.endsWith("/") ? p : p + "/");
+  const guidesHref = withSlash(getPathname({ href: "/guides", locale }));
+  // Glossary hub, linked from the "AIP" word in the descriptive prose below.
+  const glossaryHref = withSlash(getPathname({ href: "/glossary", locale }));
+  // Tag handlers for the two content-hub links inside the per-airport prose:
+  // the `<glossary>AIP</glossary>` and `<guides>AIRAC</guides>` acronyms wrapped
+  // in every AirportSummary locale string. Permanent underline (axe
+  // link-in-text-block).
+  const summaryLinks = {
+    glossary: (chunks: React.ReactNode) => (
+      <a
+        href={glossaryHref}
+        title={tFooter("glossary.hrefTitle")}
+        className="text-drossblue underline"
+      >
+        {chunks}
+      </a>
+    ),
+    guides: (chunks: React.ReactNode) => (
+      <a
+        href={guidesHref}
+        title={tFooter("guides.hrefTitle")}
+        className="text-drossblue underline"
+      >
+        {chunks}
+      </a>
+    ),
+  };
 
   // Direct chart PDF (chart-PDF plan Stage 2): prefer the crawler-captured
   // `pdf_url` where a country's crawler stores an index page as `url`; fall
@@ -180,15 +205,19 @@ export async function AirportGadgets({
         timeZone: "UTC",
       }).format(new Date(`${summaryAiracIso}T00:00:00Z`))
     : null;
-  const airportSummary = buildAirportSummary(tSummary, {
-    name: summaryPlaceName,
-    icao: airport.icao,
-    type: airport.type,
-    town: city,
-    runwayCount: runways.length,
-    hasChart: chartPdfUrl != null,
-    airac: summaryAiracLabel,
-  });
+  const airportSummary = buildAirportSummary(
+    tSummary,
+    {
+      name: summaryPlaceName,
+      icao: airport.icao,
+      type: airport.type,
+      town: city,
+      runwayCount: runways.length,
+      hasChart: chartPdfUrl != null,
+      airac: summaryAiracLabel,
+    },
+    summaryLinks,
+  );
   const props: Array<{ name: string; value: string }> = [];
   const addProp = (name: string, value: string | null | undefined) => {
     if (value) props.push({ name, value });

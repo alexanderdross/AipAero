@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Često postavljana pitanja",
     "q1": "Što je AIP Hrvatska?",
-    "a1": "AIP (Zbornik zrakoplovnih informacija) službeni je zrakoplovni priručnik Hrvatske, koji objavljuje Croatia Control (hrvatski pružatelj usluga u zračnoj plovidbi): podaci o aerodromima, procedure i prilazne karte, ažurirani u 28-dnevnom AIRAC ciklusu. AIP:Aero vas vodi izravno do službene publikacije.",
+    "a1": "<glossary>AIP</glossary> (Zbornik zrakoplovnih informacija) službeni je zrakoplovni priručnik Hrvatske, koji objavljuje Croatia Control (hrvatski pružatelj usluga u zračnoj plovidbi): podaci o aerodromima, procedure i prilazne karte, ažurirani u 28-dnevnom <guides>AIRAC</guides> ciklusu. AIP:Aero vas vodi izravno do službene publikacije.",
     "q2": "Jesu li prilazne karte besplatne?",
     "a2": "AIP:Aero je besplatan: bez računa, bez pretplate. Croatia Control objavljuje AIP Hrvatske uključujući <list>prilazne karte</list>; pristup službenom portalu može zahtijevati registraciju.",
     "q3": "Koje su karte i zračne luke dostupne za Hrvatsku?",
     "a3": "Za Hrvatsku ćete pronaći <vfr>VFR zračne luke</vfr> - uključujući glavnu zračnu luku Zagreb (LDZA), svaku s izravnom poveznicom na službenu kartu, dekodiranim vremenom (METAR/TAF) i podacima o aerodromu.",
     "q4": "Mogu li koristiti AIP:Aero izvanmrežno ili na svom EFB-u?",
-    "a4": "Da - AIP:Aero se instalira kao aplikacija (PWA), a pojedinačni aerodromi ili cijela zemlja mogu se spremiti izvanmrežno. Pogledajte <efb>EFB vodič</efb>."
+    "a4": "Da - AIP:Aero se instalira kao aplikacija (PWA), a pojedinačni aerodromi ili cijela zemlja mogu se spremiti izvanmrežno. Pogledajte <efb>EFB vodič</efb>.",
+    "q5": "Gdje mogu naučiti čitati kartu ili dekodirati METAR/TAF?",
+    "a5": "Tek počinjete s zrakoplovnim kartama? <guides>Pilotski vodiči</guides> vode vas kroz čitanje prilazne karte VFR/IFR, ciklus AIRAC te dekodiranje METAR i TAF, a <glossary>zrakoplovni pojmovnik</glossary> objašnjava ključne pojmove poput AIP, VFR/IFR, ICAO kodova i vrsta karata."
   },
   "AirportSummary": {
-    "identity": "{place} je aerodrom objavljen u službenom Zborniku zrakoplovnih informacija (AIP).",
-    "identityTown": "{place} je aerodrom u blizini mjesta {town}, objavljen u službenom Zborniku zrakoplovnih informacija (AIP).",
+    "identity": "{place} je aerodrom objavljen u službenom Zborniku zrakoplovnih informacija (<glossary>AIP</glossary>).",
+    "identityTown": "{place} je aerodrom u blizini mjesta {town}, objavljen u službenom Zborniku zrakoplovnih informacija (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Ima jednu uzletno-sletnu stazu.} few {Ima # uzletno-sletne staze.} other {Ima # uzletno-sletnih staza.}}",
     "charts": "AIP:Aero povezuje njegovu službenu {type} kartu zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu.",
-    "chartsAirac": "AIP:Aero povezuje njegovu službenu {type} kartu iz AIRAC izdanja {airac} zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu.",
+    "chartsAirac": "AIP:Aero povezuje njegovu službenu {type} kartu iz <guides>AIRAC</guides> izdanja {airac} zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu.",
     "noCharts": "AIP:Aero povezuje njegov službeni unos u AIP zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu."
   },
   "GlossaryPage": {

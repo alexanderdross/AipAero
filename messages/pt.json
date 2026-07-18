@@ -375,20 +375,22 @@
   "CountryFaq": {
     "title": "Perguntas frequentes",
     "q1": "O que é o AIP Portugal?",
-    "a1": "O AIP (publicação de informação aeronáutica) é o manual aeronáutico oficial de Portugal, publicado pela NAV Portugal: dados de aeródromos, procedimentos e cartas de aproximação, atualizados no ciclo AIRAC de 28 dias. O AIP:Aero remete diretamente para a publicação oficial.",
+    "a1": "O <glossary>AIP</glossary> (publicação de informação aeronáutica) é o manual aeronáutico oficial de Portugal, publicado pela NAV Portugal: dados de aeródromos, procedimentos e cartas de aproximação, atualizados no ciclo <guides>AIRAC</guides> de 28 dias. O AIP:Aero remete diretamente para a publicação oficial.",
     "q2": "As cartas de aproximação são gratuitas?",
     "a2": "Sim - a NAV Portugal publica o AIP de Portugal, <list>cartas de aproximação</list> incluídas, gratuitamente, e o AIP:Aero também é gratuito: sem conta, sem subscrição.",
     "q3": "Que cartas e aeródromos estão disponíveis para Portugal?",
     "a3": "Para Portugal encontra <vfr>aeródromos VFR</vfr> - cada um com ligação direta à carta oficial, meteorologia descodificada (METAR/TAF) e dados do aeródromo.",
     "q4": "Posso usar o AIP:Aero offline ou no meu EFB?",
-    "a4": "Sim - o AIP:Aero instala-se como aplicação (PWA), e aeródromos individuais ou o país inteiro podem ser guardados offline. Consulte o <efb>guia EFB</efb>."
+    "a4": "Sim - o AIP:Aero instala-se como aplicação (PWA), e aeródromos individuais ou o país inteiro podem ser guardados offline. Consulte o <efb>guia EFB</efb>.",
+    "q5": "Onde posso aprender a ler uma carta ou a descodificar METAR/TAF?",
+    "a5": "Está a começar com as cartas aeronáuticas? Os <guides>guias do piloto</guides> explicam como ler uma carta de aproximação VFR/IFR, o ciclo AIRAC e a descodificação de METAR e TAF, e o <glossary>glossário aeronáutico</glossary> esclarece os termos essenciais como AIP, VFR/IFR, os códigos ICAO e os tipos de carta."
   },
   "AirportSummary": {
-    "identity": "{place} é um aeródromo publicado na publicação de informação aeronáutica oficial (AIP).",
-    "identityTown": "{place} é um aeródromo perto de {town}, publicado na publicação de informação aeronáutica oficial (AIP).",
+    "identity": "{place} é um aeródromo publicado na publicação de informação aeronáutica oficial (<glossary>AIP</glossary>).",
+    "identityTown": "{place} é um aeródromo perto de {town}, publicado na publicação de informação aeronáutica oficial (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Tem uma pista.} other {Tem # pistas.}}",
     "charts": "A AIP:Aero associa a carta {type} oficial às informações de pista, frequência e meteorologia atual.",
-    "chartsAirac": "A AIP:Aero associa a carta {type} oficial da edição AIRAC {airac} às informações de pista, frequência e meteorologia atual.",
+    "chartsAirac": "A AIP:Aero associa a carta {type} oficial da edição <guides>AIRAC</guides> {airac} às informações de pista, frequência e meteorologia atual.",
     "noCharts": "A AIP:Aero associa a entrada oficial do AIP às informações de pista, frequência e meteorologia atual."
   },
   "GlossaryPage": {

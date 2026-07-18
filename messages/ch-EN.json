@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Frequently asked questions",
     "q1": "What is the AIP Switzerland?",
-    "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Switzerland, published by skybriefing (a skyguide company): aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero shows aerodrome data and weather for every field and links to the official skybriefing portal.",
+    "a1": "The <glossary>AIP</glossary> (Aeronautical Information Publication) is the official aeronautical manual of Switzerland, published by skybriefing (a skyguide company): aerodrome data, procedures and approach charts, amended in the 28-day <guides>AIRAC</guides> cycle. AIP:Aero shows aerodrome data and weather for every field and links to the official skybriefing portal.",
     "q2": "Are the approach charts free?",
     "a2": "The official AIP of Switzerland is published by skybriefing and requires registration or a login, so the approach charts are not freely downloadable. AIP:Aero itself is free and shows <list>aerodrome data and weather</list> for every field with a link to the skybriefing portal.",
     "q3": "Which airfields are available for Switzerland?",
     "a3": "For Switzerland you will find the <vfr>VFR airfields</vfr> - each with aerodrome data (runways, frequencies, elevation), decoded weather (METAR/TAF) and a link to the official AIP by skybriefing.",
     "q4": "Can I use AIP:Aero offline or on my EFB?",
-    "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
+    "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>.",
+    "q5": "Where can I learn to read a chart or decode METAR/TAF?",
+    "a5": "New to aeronautical charts? The <guides>pilot guides</guides> walk through reading a VFR/IFR approach chart, the AIRAC cycle and decoding METAR and TAF, and the <glossary>aviation glossary</glossary> explains the key terms like AIP, VFR/IFR, ICAO codes and chart types."
   },
   "AirportSummary": {
-    "identity": "{place} is an aerodrome published in the official Aeronautical Information Publication (AIP).",
-    "identityTown": "{place} is an aerodrome near {town}, published in the official Aeronautical Information Publication (AIP).",
+    "identity": "{place} is an aerodrome published in the official Aeronautical Information Publication (<glossary>AIP</glossary>).",
+    "identityTown": "{place} is an aerodrome near {town}, published in the official Aeronautical Information Publication (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {It has one runway.} other {It has # runways.}}",
     "charts": "AIP:Aero links its official {type} chart together with runway, frequency and current weather information.",
-    "chartsAirac": "AIP:Aero links its official {type} chart from AIRAC edition {airac}, together with runway, frequency and current weather information.",
+    "chartsAirac": "AIP:Aero links its official {type} chart from <guides>AIRAC</guides> edition {airac}, together with runway, frequency and current weather information.",
     "noCharts": "AIP:Aero links its official AIP entry together with runway, frequency and current weather information."
   },
   "GlossaryPage": {

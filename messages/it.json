@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Domande frequenti",
     "q1": "Cos'è l'AIP Italia?",
-    "a1": "L'AIP (Pubblicazione di Informazioni Aeronautiche) è il manuale aeronautico ufficiale dell'Italia, pubblicato da ENAV (il fornitore di servizi di navigazione aerea italiano): dati degli aerodromi, procedure e carte di avvicinamento, aggiornati nel ciclo AIRAC di 28 giorni. AIP:Aero ti porta direttamente alla pubblicazione ufficiale.",
+    "a1": "L’<glossary>AIP</glossary> (Pubblicazione di Informazioni Aeronautiche) è il manuale aeronautico ufficiale dell'Italia, pubblicato da ENAV (il fornitore di servizi di navigazione aerea italiano): dati degli aerodromi, procedure e carte di avvicinamento, aggiornati nel ciclo <guides>AIRAC</guides> di 28 giorni. AIP:Aero ti porta direttamente alla pubblicazione ufficiale.",
     "q2": "Le carte di avvicinamento sono gratuite?",
     "a2": "AIP:Aero è gratuito: nessun account, nessun abbonamento. ENAV pubblica l'AIP dell'Italia, incluse le <list>carte di avvicinamento</list>; l'accesso al portale ufficiale potrebbe richiedere la registrazione.",
     "q3": "Quali carte e aeroporti sono disponibili per l'Italia?",
     "a3": "Per l'Italia troverai gli <vfr>aeroporti VFR</vfr> - incluso il principale aeroporto di Roma Fiumicino (LIRF), ognuno con un link diretto alla carta ufficiale, il meteo decodificato (METAR/TAF) e i dati dell'aerodromo.",
     "q4": "Posso usare AIP:Aero offline o sul mio EFB?",
-    "a4": "Sì - AIP:Aero si installa come app (PWA), e i singoli aerodromi o l'intero paese possono essere salvati offline. Consulta la <efb>guida EFB</efb>."
+    "a4": "Sì - AIP:Aero si installa come app (PWA), e i singoli aerodromi o l'intero paese possono essere salvati offline. Consulta la <efb>guida EFB</efb>.",
+    "q5": "Dove posso imparare a leggere una carta o a decodificare i METAR/TAF?",
+    "a5": "Sei alle prime armi con le carte aeronautiche? Le <guides>guide del pilota</guides> spiegano come leggere una carta di avvicinamento VFR/IFR, il ciclo AIRAC e la decodifica di METAR e TAF, e il <glossary>glossario aeronautico</glossary> chiarisce i termini chiave come AIP, VFR/IFR, i codici ICAO e i tipi di carta."
   },
   "AirportSummary": {
-    "identity": "{place} è un aerodromo pubblicato nella pubblicazione di informazioni aeronautiche ufficiale (AIP).",
-    "identityTown": "{place} è un aerodromo vicino a {town}, pubblicato nella pubblicazione di informazioni aeronautiche ufficiale (AIP).",
+    "identity": "{place} è un aerodromo pubblicato nella pubblicazione di informazioni aeronautiche ufficiale (<glossary>AIP</glossary>).",
+    "identityTown": "{place} è un aerodromo vicino a {town}, pubblicato nella pubblicazione di informazioni aeronautiche ufficiale (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Dispone di una pista.} other {Dispone di # piste.}}",
     "charts": "AIP:Aero collega la carta {type} ufficiale insieme alle informazioni su pista, frequenza e meteo attuale.",
-    "chartsAirac": "AIP:Aero collega la carta {type} ufficiale dell'edizione AIRAC {airac}, insieme alle informazioni su pista, frequenza e meteo attuale.",
+    "chartsAirac": "AIP:Aero collega la carta {type} ufficiale dell'edizione <guides>AIRAC</guides> {airac}, insieme alle informazioni su pista, frequenza e meteo attuale.",
     "noCharts": "AIP:Aero collega la voce AIP ufficiale insieme alle informazioni su pista, frequenza e meteo attuale."
   },
   "GlossaryPage": {

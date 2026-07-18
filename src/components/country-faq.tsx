@@ -29,6 +29,8 @@ export async function CountryFaq({ locale }: { locale: string }) {
     return path.endsWith("/") ? path : path + "/";
   };
   const efbHref = canonical("/efb");
+  const glossaryHref = canonical("/glossary");
+  const guidesHref = canonical("/guides");
 
   // Inline-link tags used by the locale files' answers. Only the tags present
   // in a country's messages are rendered; Menu carries the localized SEO
@@ -61,13 +63,13 @@ export async function CountryFaq({ locale }: { locale: string }) {
   );
   // Strip ALL inline-link tags for the JSON-LD text.
   const markupStrip = Object.fromEntries(
-    [...Object.keys(linkTargets), "efb"].map((tag) => [
+    [...Object.keys(linkTargets), "efb", "glossary", "guides"].map((tag) => [
       tag,
       (chunks: string) => chunks,
     ]),
   );
 
-  const nums = [1, 2, 3, 4] as const;
+  const nums = [1, 2, 3, 4, 5] as const;
   // Canonical page URL for the schema @id/url values: each Question's @id is
   // its hash deep link (the accordion ids), so crawlers/LLMs get a directly
   // citable jump target per question.
@@ -139,6 +141,27 @@ export async function CountryFaq({ locale }: { locale: string }) {
                       <a
                         href={efbHref}
                         title={tFooter("efb.hrefTitle")}
+                        className="text-drossblue underline"
+                      >
+                        {chunks}
+                      </a>
+                    ),
+                    // Content-hub links: the "AIP" acronym -> glossary, the
+                    // "AIRAC" acronym -> pilot guides (wrapped in the a1 string
+                    // of every locale). Labels reuse the Footer namespace.
+                    glossary: (chunks) => (
+                      <a
+                        href={glossaryHref}
+                        title={tFooter("glossary.hrefTitle")}
+                        className="text-drossblue underline"
+                      >
+                        {chunks}
+                      </a>
+                    ),
+                    guides: (chunks) => (
+                      <a
+                        href={guidesHref}
+                        title={tFooter("guides.hrefTitle")}
                         className="text-drossblue underline"
                       >
                         {chunks}

@@ -386,20 +386,22 @@
   "CountryFaq": {
     "title": "Biežāk uzdotie jautājumi",
     "q1": "Kas ir AIP Latvija?",
-    "a1": "AIP (aeronavigācijas informācijas publikācija) ir Latvijas oficiālā aviācijas rokasgrāmata, ko izdod LGS: lidlauku dati, procedūras un pieejas kartes, atjauninātas 28 dienu AIRAC ciklā. AIP:Aero ved tieši uz oficiālo publikāciju.",
+    "a1": "<glossary>AIP</glossary> (aeronavigācijas informācijas publikācija) ir Latvijas oficiālā aviācijas rokasgrāmata, ko izdod LGS: lidlauku dati, procedūras un pieejas kartes, atjauninātas 28 dienu <guides>AIRAC</guides> ciklā. AIP:Aero ved tieši uz oficiālo publikāciju.",
     "q2": "Vai pieejas kartes ir bez maksas?",
     "a2": "Jā - LGS publicē Latvijas AIP kopā ar <list>pieejas kartēm</list> bez maksas, un arī AIP:Aero ir bezmaksas: bez konta, bez abonementa.",
     "q3": "Kādas kartes un lidlauki ir pieejami Latvijai?",
     "a3": "Latvijai atradīsiet <vfr>VFR lidlaukus</vfr> un <heli>helikopteru nosēšanās laukumus</heli> - katram ir tieša saite uz oficiālo karti, dekodēti laikapstākļi (METAR/TAF) un lidlauka dati.",
     "q4": "Vai varu izmantot AIP:Aero bezsaistē vai savā EFB?",
-    "a4": "Jā - AIP:Aero var instalēt kā lietotni (PWA), un atsevišķus lidlaukus vai visu valsti var saglabāt bezsaistē. Skatiet <efb>EFB ceļvedi</efb>."
+    "a4": "Jā - AIP:Aero var instalēt kā lietotni (PWA), un atsevišķus lidlaukus vai visu valsti var saglabāt bezsaistē. Skatiet <efb>EFB ceļvedi</efb>.",
+    "q5": "Kur es varu iemācīties lasīt karti vai atšifrēt METAR/TAF?",
+    "a5": "Vai esat jauniņš aeronavigācijas karšu jomā? <guides>Pilotu ceļveži</guides> soli pa solim izskaidro, kā lasīt VFR/IFR pieejas karti, AIRAC ciklu un atšifrēt METAR un TAF, savukārt <glossary>aviācijas terminu vārdnīca</glossary> skaidro galvenos jēdzienus, piemēram, AIP, VFR/IFR, ICAO kodus un karšu veidus."
   },
   "AirportSummary": {
-    "identity": "{place} ir lidlauks, kas publicēts oficiālajā aeronavigācijas informācijas krājumā (AIP).",
-    "identityTown": "{place} ir lidlauks netālu no {town}, publicēts oficiālajā aeronavigācijas informācijas krājumā (AIP).",
+    "identity": "{place} ir lidlauks, kas publicēts oficiālajā aeronavigācijas informācijas krājumā (<glossary>AIP</glossary>).",
+    "identityTown": "{place} ir lidlauks netālu no {town}, publicēts oficiālajā aeronavigācijas informācijas krājumā (<glossary>AIP</glossary>).",
     "runways": "{count, plural, zero {Tam ir # skrejceļu.} one {Tam ir viens skrejceļš.} other {Tam ir # skrejceļi.}}",
     "charts": "AIP:Aero sasaista tā oficiālo {type} karti ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
-    "chartsAirac": "AIP:Aero sasaista tā oficiālo {type} karti no AIRAC izdevuma {airac} ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
+    "chartsAirac": "AIP:Aero sasaista tā oficiālo {type} karti no <guides>AIRAC</guides> izdevuma {airac} ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
     "noCharts": "AIP:Aero sasaista tā oficiālo AIP ierakstu ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem."
   },
   "GlossaryPage": {

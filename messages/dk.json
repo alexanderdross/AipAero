@@ -386,20 +386,22 @@
   "CountryFaq": {
     "title": "Ofte stillede spørgsmål",
     "q1": "Hvad er AIP Danmark?",
-    "a1": "AIP (Aeronautical Information Publication) er Danmarks officielle luftfartshåndbog, udgivet af Naviair: flyvepladsdata, procedurer og indflyvningskort, opdateret i den 28-dages AIRAC-cyklus. AIP:Aero linker direkte til den officielle publikation.",
+    "a1": "<glossary>AIP</glossary> (Aeronautical Information Publication) er Danmarks officielle luftfartshåndbog, udgivet af Naviair: flyvepladsdata, procedurer og indflyvningskort, opdateret i den 28-dages <guides>AIRAC</guides>-cyklus. AIP:Aero linker direkte til den officielle publikation.",
     "q2": "Er indflyvningskortene gratis?",
     "a2": "Ja - Naviair udgiver AIP Danmark inklusive <list>indflyvningskort</list> gratis, og AIP:Aero er også gratis: ingen konto, intet abonnement.",
     "q3": "Hvilke kort og flyvepladser findes for Danmark?",
     "a3": "For Danmark finder du <vfr>VFR-flyvepladser</vfr> og <heli>helikopterlandingspladser</heli> - hver med direkte link til det officielle kort, afkodet vejr (METAR/TAF) og flyvepladsdata.",
     "q4": "Kan jeg bruge AIP:Aero offline eller på min EFB?",
-    "a4": "Ja - AIP:Aero kan installeres som app (PWA), og enkelte pladser eller hele landet kan gemmes offline. Se <efb>EFB-guiden</efb>."
+    "a4": "Ja - AIP:Aero kan installeres som app (PWA), og enkelte pladser eller hele landet kan gemmes offline. Se <efb>EFB-guiden</efb>.",
+    "q5": "Hvor kan jeg lære at læse et kort eller afkode METAR/TAF?",
+    "a5": "Er du ny inden for luftfartskort? <guides>Pilotguiderne</guides> gennemgår, hvordan man læser et VFR/IFR-indflyvningskort, AIRAC-cyklussen og afkodning af METAR og TAF, og <glossary>luftfartsordlisten</glossary> forklarer de vigtigste begreber som AIP, VFR/IFR, ICAO-koder og korttyper."
   },
   "AirportSummary": {
-    "identity": "{place} er en flyveplads offentliggjort i den officielle luftfartsinformationspublikation (AIP).",
-    "identityTown": "{place} er en flyveplads nær {town}, offentliggjort i den officielle luftfartsinformationspublikation (AIP).",
+    "identity": "{place} er en flyveplads offentliggjort i den officielle luftfartsinformationspublikation (<glossary>AIP</glossary>).",
+    "identityTown": "{place} er en flyveplads nær {town}, offentliggjort i den officielle luftfartsinformationspublikation (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Den har én bane.} other {Den har # baner.}}",
     "charts": "AIP:Aero linker til det officielle {type}-kort sammen med oplysninger om bane, frekvens og aktuelt vejr.",
-    "chartsAirac": "AIP:Aero linker til det officielle {type}-kort fra AIRAC-udgave {airac} sammen med oplysninger om bane, frekvens og aktuelt vejr.",
+    "chartsAirac": "AIP:Aero linker til det officielle {type}-kort fra <guides>AIRAC</guides>-udgave {airac} sammen med oplysninger om bane, frekvens og aktuelt vejr.",
     "noCharts": "AIP:Aero linker til den officielle AIP-post sammen med oplysninger om bane, frekvens og aktuelt vejr."
   },
   "GlossaryPage": {

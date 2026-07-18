@@ -386,20 +386,22 @@
   "CountryFaq": {
     "title": "Korduma kippuvad küsimused",
     "q1": "Mis on AIP Eesti?",
-    "a1": "AIP (aeronavigatsiooniteabe kogumik) on Eesti ametlik lennundusteatmik, mille annab välja EANS: lennuväljade andmed, protseduurid ja lähenemiskaardid, uuendatakse 28-päevases AIRAC-tsüklis. AIP:Aero viib otse ametliku väljaandeni.",
+    "a1": "<glossary>AIP</glossary> (aeronavigatsiooniteabe kogumik) on Eesti ametlik lennundusteatmik, mille annab välja EANS: lennuväljade andmed, protseduurid ja lähenemiskaardid, uuendatakse 28-päevases <guides>AIRAC</guides>-tsüklis. AIP:Aero viib otse ametliku väljaandeni.",
     "q2": "Kas lähenemiskaardid on tasuta?",
     "a2": "Jah - EANS avaldab Eesti AIP koos <list>lähenemiskaartidega</list> tasuta ja ka AIP:Aero on tasuta: konto pole vaja, tellimust pole.",
     "q3": "Millised kaardid ja lennuväljad on Eesti jaoks saadaval?",
     "a3": "Eesti jaoks leiad <vfr>VFR-lennuväljad</vfr> ja <heli>kopteriväljakud</heli> - igaühel otselink ametlikule kaardile, dekodeeritud ilm (METAR/TAF) ja lennuvälja andmed.",
     "q4": "Kas AIP:Aero't saab kasutada võrguühenduseta või EFB-l?",
-    "a4": "Jah - AIP:Aero on installitav rakendusena (PWA) ning üksikuid väljakuid või kogu riiki saab salvestada võrguühenduseta kasutamiseks. Vaata <efb>EFB-juhendit</efb>."
+    "a4": "Jah - AIP:Aero on installitav rakendusena (PWA) ning üksikuid väljakuid või kogu riiki saab salvestada võrguühenduseta kasutamiseks. Vaata <efb>EFB-juhendit</efb>.",
+    "q5": "Kust saan õppida kaarti lugema või METAR/TAF-i dekodeerima?",
+    "a5": "Oled lennunduskaartides algaja? <guides>Piloodijuhendid</guides> tutvustavad VFR/IFR-lähenemiskaardi lugemist, AIRAC-tsüklit ning METAR- ja TAF-teadete dekodeerimist, ja <glossary>lennundussõnastik</glossary> selgitab olulisi mõisteid nagu AIP, VFR/IFR, ICAO-koodid ja kaarditüübid."
   },
   "AirportSummary": {
-    "identity": "{place} on lennuväli, mis on avaldatud ametlikus lennundusteabe kogumikus (AIP).",
-    "identityTown": "{place} on lennuväli linna {town} lähedal, mis on avaldatud ametlikus lennundusteabe kogumikus (AIP).",
+    "identity": "{place} on lennuväli, mis on avaldatud ametlikus lennundusteabe kogumikus (<glossary>AIP</glossary>).",
+    "identityTown": "{place} on lennuväli linna {town} lähedal, mis on avaldatud ametlikus lennundusteabe kogumikus (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Sellel on üks rada.} other {Sellel on # rada.}}",
     "charts": "AIP:Aero lingib selle ametliku {type}-kaardi koos raja, sageduse ja praeguse ilma teabega.",
-    "chartsAirac": "AIP:Aero lingib selle ametliku {type}-kaardi AIRAC-väljaandest {airac} koos raja, sageduse ja praeguse ilma teabega.",
+    "chartsAirac": "AIP:Aero lingib selle ametliku {type}-kaardi <guides>AIRAC</guides>-väljaandest {airac} koos raja, sageduse ja praeguse ilma teabega.",
     "noCharts": "AIP:Aero lingib selle ametliku AIP-kande koos raja, sageduse ja praeguse ilma teabega."
   },
   "GlossaryPage": {
