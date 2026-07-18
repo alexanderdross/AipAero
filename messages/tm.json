@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Pilot gurallary & EFB",
       "hrefTitle": "EFB gollanmasy - AIP:Aero planşetiňizde"
+    },
+    "/glossary": {
+      "title": "Sözlük",
+      "hrefTitle": "Awiasiýa sözlügi - AIP, AIRAC, VFR, METAR we golaýlaşma kartalary düşündirilýär"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Pilot gurallary & EFB",
       "hrefTitle": "AIP:Aero EFB-ňizde - gurnamak, offline kartalar, import"
+    },
+    "glossary": {
+      "title": "Sözlük",
+      "hrefTitle": "Awiasiýa sözlügi - esasy AIP we karta adalgalary düşündirilýär"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero onuň resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
     "chartsAirac": "AIP:Aero onuň AIRAC {airac} neşirindäki resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
     "noCharts": "AIP:Aero onuň resmi AIP ýazgysyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Awiasiýa sözlügi - AIP, AIRAC, VFR, METAR we başgalar",
+    "metaDescription": "Esasy aeronawigasiýa adalgalarynyň sada dildäki kesgitlemeleri: AIP we eAIP, AIRAC sikli, VFR we IFR, METAR we TAF, ICAO kodlary we golaýlaşma kartalary.",
+    "title": "Awiasiýa sözlügi",
+    "intro": "AIP:Aero boýunça duşýan aeronawigasiýa adalgalarynyň gysga, sada dildäki kesgitlemeleri, AIP we AIRAC siklinden METAR, TAF we golaýlaşma kartalaryna çenli.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronawigasiýa maglumat neşiri)",
+        "def": "Ýurduň awiasiýa edarasy tarapyndan neşir edilýän resmi gollanma bolup, uçuş üçin zerur bolan ähli maglumaty, şol sanda aerodrom maglumatlaryny, howa giňişligini, tertipleri we golaýlaşma kartalaryny öz içine alýar. AIP:Aero her kartany göni onuň milli AIP-sine baglaýar, bu bolsa hemişe abraýly çeşmedir."
+      },
+      "eaip": {
+        "name": "eAIP (elektron AIP)",
+        "def": "AIP-niň web esasly, giperbaglanyşykly wersiýasy bolup, Ýewropa edaralarynyň köpüsi ony indi neşir edýär. Onuň standart EUROCONTROL gurluşy AIP:Aero crawler-leriniň her ýurduň aeroport indeksini gurmak üçin okaýan zadydyr."
+      },
+      "airac": {
+        "name": "AIRAC sikli",
+        "def": "Aeronawigasiýa maglumatlaryndaky üýtgeşmeleriň bütin dünýäde güýje girýän berk 28 günlük tertibi, şeýlelik bilen her ýerde uçarmanlar öz kartalaryny şol bir senede täzeleýär. AIP:Aero-da her aeroport sahypasy baglanan kartanyň AIRAC neşirini görkezýär, şonuň bilen onuň häzirki wagtdadygyny tassyklap bilersiňiz."
+      },
+      "vfr": {
+        "name": "VFR (Wizual uçuş kadalary)",
+        "def": "Gowy howada daşky wizual gözükdirme boýunça uçmak üçin kadalar, olary umumy maksatly we höwesjeň awiasiýa uçarmanlarynyň köpüsi ulanýar. AIP:Aero her ýurt üçin VFR aerodromlaryny we olaryň wizual golaýlaşma kartalaryny sanaýar."
+      },
+      "ifr": {
+        "name": "IFR (Gural uçuş kadalary)",
+        "def": "Diňe gurallar we howa hereketini dolandyrmak rugsatlary bilen, bulutda ýa-da erbet görnüşde uçmak üçin kadalar. IFR aeroportlary takyk, tertibe esaslanan golaýlaşmalar üçin gural golaýlaşma kartalaryny (IAC) göterýär."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Aerodromdaky hakyky howanyň kodlanan, sagatda iki gezek synlanmasy: ýel, görnüş, bulut, temperatura we basyş. AIP:Aero synag stansiýasy bolan her aeroport sahypasynda iň soňky METAR-y sada dile açýar."
+      },
+      "taf": {
+        "name": "TAF (Aerodrom terminal çaklamasy)",
+        "def": "Aerodromyň töweregine niýetlenen kodlanan howa çaklamasy, adatça 24-30 sagat güýçde bolýar. Ol METAR bilen birmeňzeş gysgaltmalary ulanýar we AIP:Aero-da onuň bilen bilelikde açylýar."
+      },
+      "icao": {
+        "name": "ICAO ýerleşiş görkezijisi",
+        "def": "Aerodromy bütin dünýäde özboluşly kesgitleýän dört harply kod (mysal üçin, Frankfurt üçin EDDF), Halkara raýat awiasiýasy guramasy tarapyndan bellenýär. AIP:Aero her aeroport sahypasyny onuň ICAO kody bilen salgylaýar."
+      },
+      "charts": {
+        "name": "Golaýlaşma we aerodrom kartalary (VAC, IAC, ADC)",
+        "def": "Uçarmanlaryň aerodroma gelmek we onuň çäginde hereket etmek üçin ulanýan resmi çyzgylary: VFR üçin Wizual golaýlaşma kartasy (VAC), IFR üçin Gural golaýlaşma kartasy (IAC) we ýerdäki ýerleşiş üçin Aerodrom kartasy (ADC). AIP:Aero milli AIP neşir edýän her ýerde takyk karta PDF-ine baglaýar."
+      }
+    }
   }
 }

@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Herramientas para pilotos y EFB",
       "hrefTitle": "Guía EFB - AIP:Aero en tu tableta"
+    },
+    "/glossary": {
+      "title": "Glosario",
+      "hrefTitle": "Glosario aeronáutico - AIP, AIRAC, VFR, METAR y cartas de aproximación explicados"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Herramientas para pilotos y EFB",
       "hrefTitle": "AIP:Aero en tu EFB - instalación, cartas sin conexión, importación"
+    },
+    "glossary": {
+      "title": "Glosario",
+      "hrefTitle": "Glosario aeronáutico - términos clave del AIP y las cartas explicados"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero enlaza su carta {type} oficial junto con información de pista, frecuencia y meteorología actual.",
     "chartsAirac": "AIP:Aero enlaza su carta {type} oficial de la edición AIRAC {airac}, junto con información de pista, frecuencia y meteorología actual.",
     "noCharts": "AIP:Aero enlaza su entrada oficial del AIP junto con información de pista, frecuencia y meteorología actual."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Glosario aeronáutico - AIP, AIRAC, VFR, METAR y más",
+    "metaDescription": "Definiciones en lenguaje sencillo de los términos aeronáuticos clave: AIP y eAIP, el ciclo AIRAC, VFR e IFR, METAR y TAF, códigos ICAO y cartas de aproximación.",
+    "title": "Glosario aeronáutico",
+    "intro": "Definiciones breves y en lenguaje sencillo de los términos aeronáuticos que encuentra en AIP:Aero, desde el AIP y el ciclo AIRAC hasta el METAR, el TAF y las cartas de aproximación.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Publicación de Información Aeronáutica)",
+        "def": "El manual oficial publicado por la autoridad de aviación de un país que contiene toda la información necesaria para el vuelo, incluidos los datos del aeródromo, el espacio aéreo, los procedimientos y las cartas de aproximación. AIP:Aero enlaza cada carta directamente a su AIP nacional, siempre la fuente autorizada."
+      },
+      "eaip": {
+        "name": "eAIP (AIP electrónico)",
+        "def": "La versión web con hipervínculos del AIP que la mayoría de las autoridades europeas publican ahora. Su diseño estándar de EUROCONTROL es lo que leen los rastreadores de AIP:Aero para construir el índice de aeródromos de cada país."
+      },
+      "airac": {
+        "name": "Ciclo AIRAC",
+        "def": "El calendario fijo de 28 días en el que los cambios en los datos aeronáuticos entran en vigor en todo el mundo, de modo que los pilotos de cualquier lugar actualizan sus cartas en la misma fecha. Cada página de aeropuerto en AIP:Aero muestra la edición AIRAC de la carta enlazada para que pueda confirmar que está vigente."
+      },
+      "vfr": {
+        "name": "VFR (Reglas de Vuelo Visual)",
+        "def": "Las reglas para volar con referencias visuales exteriores con buen tiempo, utilizadas por la mayoría de los pilotos de aviación general y recreativa. AIP:Aero enumera los aeródromos VFR y sus cartas de aproximación visual para cada país."
+      },
+      "ifr": {
+        "name": "IFR (Reglas de Vuelo por Instrumentos)",
+        "def": "Las reglas para volar únicamente por instrumentos y con autorizaciones del control de tránsito aéreo, entre nubes o con visibilidad reducida. Los aeropuertos IFR disponen de cartas de aproximación por instrumentos (IAC) para aproximaciones precisas y basadas en procedimientos."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Una observación codificada, dos veces por hora, del tiempo real en un aeródromo: viento, visibilidad, nubes, temperatura y presión. AIP:Aero descodifica el último METAR a lenguaje sencillo en cada página de aeropuerto que dispone de una estación de observación."
+      },
+      "taf": {
+        "name": "TAF (Pronóstico de Aeródromo)",
+        "def": "Un pronóstico meteorológico codificado para la zona que rodea un aeródromo, normalmente válido de 24 a 30 horas. Utiliza las mismas abreviaturas que el METAR y se descodifica junto a él en AIP:Aero."
+      },
+      "icao": {
+        "name": "Indicador de lugar ICAO",
+        "def": "El código de cuatro letras que identifica de forma única a un aeródromo en todo el mundo (por ejemplo, EDDF para Frankfurt), asignado por la Organización de Aviación Civil Internacional. AIP:Aero direcciona cada página de aeropuerto por su código ICAO."
+      },
+      "charts": {
+        "name": "Cartas de aproximación y de aeródromo (VAC, IAC, ADC)",
+        "def": "Los diagramas oficiales que los pilotos utilizan para llegar a un aeródromo y desplazarse por él: la carta de aproximación visual (VAC) para VFR, la carta de aproximación por instrumentos (IAC) para IFR, y la carta de aeródromo (ADC) para la disposición en tierra. AIP:Aero enlaza el PDF exacto de la carta allí donde el AIP nacional publica uno."
+      }
+    }
   }
 }

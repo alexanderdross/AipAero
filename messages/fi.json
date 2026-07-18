@@ -28,6 +28,10 @@
     "/efb": {
       "title": "Lentäjän työkalut & EFB",
       "hrefTitle": "EFB-opas - AIP:Aero tabletilla"
+    },
+    "/glossary": {
+      "title": "Sanasto",
+      "hrefTitle": "Ilmailusanasto - AIP, AIRAC, VFR, METAR ja lähestymiskartat selitettyinä"
     }
   },
   "Menu": {
@@ -206,6 +210,10 @@
     "efb": {
       "title": "Lentäjän työkalut & EFB",
       "hrefTitle": "AIP:Aero EFB-laitteellasi - asennus, offline-kartat, tuonti"
+    },
+    "glossary": {
+      "title": "Sanasto",
+      "hrefTitle": "Ilmailusanasto - keskeiset AIP- ja karttatermit selitettyinä"
     }
   },
   "Error": {
@@ -385,5 +393,49 @@
     "charts": "AIP:Aero linkittää sen virallisen {type}-kartan sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
     "chartsAirac": "AIP:Aero linkittää sen virallisen {type}-kartan AIRAC-julkaisusta {airac} sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
     "noCharts": "AIP:Aero linkittää sen virallisen AIP-merkinnän sekä kiitotie-, taajuus- ja ajantasaiset säätiedot."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Ilmailusanasto - AIP, AIRAC, VFR, METAR ja muuta",
+    "metaDescription": "Selkokieliset määritelmät keskeisistä ilmailutermeistä: AIP ja eAIP, AIRAC-jakso, VFR ja IFR, METAR ja TAF, ICAO-koodit ja lähestymiskartat.",
+    "title": "Ilmailusanasto",
+    "intro": "Lyhyet, selkokieliset määritelmät ilmailutermeistä, joita kohtaat kaikkialla AIP:Aerossa, AIP:stä ja AIRAC-jaksosta aina METARiin, TAFiin ja lähestymiskarttoihin.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronautical Information Publication, ilmailukäsikirja)",
+        "def": "Maan ilmailuviranomaisen julkaisema virallinen käsikirja, joka sisältää kaikki lentämiseen tarvittavat tiedot, kuten lentopaikkatiedot, ilmatilan, menetelmät ja lähestymiskartat. AIP:Aero linkittää jokaisen kartan suoraan sen kansalliseen AIP:hen, joka on aina auktoritatiivinen lähde."
+      },
+      "eaip": {
+        "name": "eAIP (sähköinen AIP)",
+        "def": "AIP:n verkkopohjainen, hyperlinkitetty versio, jonka useimmat eurooppalaiset viranomaiset nykyään julkaisevat. Sen vakiomuotoisen EUROCONTROL-asettelun AIP:Aeron indeksointirobotit lukevat kunkin maan lentopaikkahakemiston rakentamiseksi."
+      },
+      "airac": {
+        "name": "AIRAC-jakso",
+        "def": "Kiinteä 28 päivän aikataulu, jonka mukaan ilmailutietojen muutokset tulevat voimaan maailmanlaajuisesti, jotta lentäjät kaikkialla päivittävät karttansa samana päivänä. Jokainen AIP:Aeron lentopaikkasivu näyttää linkitetyn kartan AIRAC-julkaisun, jotta voit varmistaa sen olevan ajan tasalla."
+      },
+      "vfr": {
+        "name": "VFR (Visual Flight Rules, näkölentosäännöt)",
+        "def": "Säännöt lentämiselle ulkoisten näköhavaintojen mukaan hyvässä säässä, joita useimmat yleisilmailun ja harrastelentämisen lentäjät käyttävät. AIP:Aero luettelee VFR-lentopaikat ja niiden näkölähestymiskartat kunkin maan osalta."
+      },
+      "ifr": {
+        "name": "IFR (Instrument Flight Rules, mittarilentosäännöt)",
+        "def": "Säännöt lentämiselle pelkästään mittareiden ja lennonjohdon selvitysten varassa, pilvissä tai huonossa näkyvyydessä. IFR-lentopaikoilla on mittarilähestymiskartat (IAC) tarkkoja, menetelmäpohjaisia lähestymisiä varten."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Koodattu, kahdesti tunnissa tehtävä havainto lentopaikan todellisesta säästä: tuuli, näkyvyys, pilvet, lämpötila ja paine. AIP:Aero purkaa uusimman METARin selkokielelle jokaisella lentopaikkasivulla, jolla on havaintoasema."
+      },
+      "taf": {
+        "name": "TAF (Terminal Aerodrome Forecast, lentopaikkaennuste)",
+        "def": "Koodattu sääennuste lentopaikan ympäristölle, yleensä voimassa 24-30 tuntia. Se käyttää samoja lyhenteitä kuin METAR ja puretaan sen rinnalla AIP:Aerossa."
+      },
+      "icao": {
+        "name": "ICAO-paikkatunnus",
+        "def": "Nelikirjaiminen koodi, joka yksilöi lentopaikan yksiselitteisesti maailmanlaajuisesti (esimerkiksi EDDF Frankfurtille), Kansainvälisen siviili-ilmailujärjestön (ICAO) myöntämä. AIP:Aero osoittaa jokaisen lentopaikkasivun sen ICAO-koodin perusteella."
+      },
+      "charts": {
+        "name": "Lähestymis- ja lentopaikkakartat (VAC, IAC, ADC)",
+        "def": "Viralliset kaaviot, joita lentäjät käyttävät saapuakseen lentopaikalle ja liikkuakseen sillä: näkölähestymiskartta (VAC) VFR:lle, mittarilähestymiskartta (IAC) IFR:lle ja lentopaikkakartta (ADC) maa-alueen järjestelyä varten. AIP:Aero linkittää tarkan kartta-PDF:n aina, kun kansallinen AIP julkaisee sellaisen."
+      }
+    }
   }
 }

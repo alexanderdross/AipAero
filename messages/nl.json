@@ -28,6 +28,10 @@
     "/efb": {
       "title": "Pilotentools & EFB",
       "hrefTitle": "EFB-gids - AIP:Aero op je tablet"
+    },
+    "/glossary": {
+      "title": "Glossarium",
+      "hrefTitle": "Luchtvaartglossarium - AIP, AIRAC, VFR, METAR en naderingskaarten uitgelegd"
     }
   },
   "Menu": {
@@ -206,6 +210,10 @@
     "efb": {
       "title": "Pilotentools & EFB",
       "hrefTitle": "AIP:Aero op je EFB - installeren, offline kaarten, import"
+    },
+    "glossary": {
+      "title": "Glossarium",
+      "hrefTitle": "Luchtvaartglossarium - belangrijke AIP- en kaarttermen uitgelegd"
     }
   },
   "Error": {
@@ -385,5 +393,49 @@
     "charts": "AIP:Aero koppelt de officiële {type}-kaart samen met baan-, frequentie- en actuele weersinformatie.",
     "chartsAirac": "AIP:Aero koppelt de officiële {type}-kaart uit AIRAC-editie {airac}, samen met baan-, frequentie- en actuele weersinformatie.",
     "noCharts": "AIP:Aero koppelt de officiële AIP-vermelding samen met baan-, frequentie- en actuele weersinformatie."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Luchtvaartglossarium - AIP, AIRAC, VFR, METAR en meer",
+    "metaDescription": "Definities in gewone taal van de belangrijkste luchtvaartkundige termen: AIP en eAIP, de AIRAC-cyclus, VFR en IFR, METAR en TAF, ICAO-codes en naderingskaarten.",
+    "title": "Luchtvaartglossarium",
+    "intro": "Korte definities in gewone taal van de luchtvaartkundige termen die u overal op AIP:Aero tegenkomt, van de AIP en de AIRAC-cyclus tot METAR, TAF en naderingskaarten.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Luchtvaartgids)",
+        "def": "Het officiële handboek dat door de luchtvaartautoriteit van een land wordt gepubliceerd en alle informatie bevat die nodig is voor de vlucht, waaronder luchthavengegevens, luchtruim, procedures en naderingskaarten. AIP:Aero koppelt elke kaart rechtstreeks aan de nationale AIP, altijd de gezaghebbende bron."
+      },
+      "eaip": {
+        "name": "eAIP (elektronische AIP)",
+        "def": "De webgebaseerde versie met hyperlinks van de AIP die de meeste Europese autoriteiten nu publiceren. De standaard EUROCONTROL-opmaak ervan is wat de crawlers van AIP:Aero lezen om de luchthavenindex van elk land op te bouwen."
+      },
+      "airac": {
+        "name": "AIRAC-cyclus",
+        "def": "Het vaste schema van 28 dagen waarop wijzigingen in luchtvaartgegevens wereldwijd van kracht worden, zodat piloten overal hun kaarten op dezelfde datum bijwerken. Elke luchthavenpagina op AIP:Aero toont de AIRAC-editie van de gekoppelde kaart, zodat u kunt bevestigen dat deze actueel is."
+      },
+      "vfr": {
+        "name": "VFR (zichtvliegvoorschriften)",
+        "def": "De voorschriften voor het vliegen op zicht met behulp van externe visuele referenties bij goed weer, gebruikt door de meeste piloten in de algemene en recreatieve luchtvaart. AIP:Aero somt de VFR-vliegvelden en hun visuele naderingskaarten voor elk land op."
+      },
+      "ifr": {
+        "name": "IFR (instrumentvliegvoorschriften)",
+        "def": "De voorschriften voor het vliegen uitsluitend op instrumenten en klaringen van de luchtverkeersleiding, in wolken of bij slecht zicht. IFR-luchthavens beschikken over instrumentnaderingskaarten (IAC) voor precieze, op procedures gebaseerde naderingen."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Een gecodeerde waarneming, twee keer per uur, van het werkelijke weer op een vliegveld: wind, zicht, bewolking, temperatuur en druk. AIP:Aero decodeert de meest recente METAR naar gewone taal op elke luchthavenpagina met een waarnemingsstation."
+      },
+      "taf": {
+        "name": "TAF (luchthavenverwachting)",
+        "def": "Een gecodeerde weersverwachting voor het gebied rond een vliegveld, doorgaans geldig voor 24 tot 30 uur. Deze gebruikt dezelfde afkortingen als de METAR en wordt er op AIP:Aero naast gedecodeerd."
+      },
+      "icao": {
+        "name": "ICAO-locatie-indicator",
+        "def": "De code van vier letters die een vliegveld wereldwijd uniek identificeert (bijvoorbeeld EDDF voor Frankfurt), toegekend door de Internationale Burgerluchtvaartorganisatie. AIP:Aero adresseert elke luchthavenpagina met zijn ICAO-code."
+      },
+      "charts": {
+        "name": "Naderings- en luchthavenkaarten (VAC, IAC, ADC)",
+        "def": "De officiële diagrammen die piloten gebruiken om op een vliegveld aan te komen en zich er te verplaatsen: de visuele naderingskaart (VAC) voor VFR, de instrumentnaderingskaart (IAC) voor IFR, en de luchthavenkaart (ADC) voor de indeling op de grond. AIP:Aero koppelt de exacte kaart-PDF overal waar de nationale AIP er een publiceert."
+      }
+    }
   }
 }

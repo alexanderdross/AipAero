@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Nástroje pre pilotov & EFB",
       "hrefTitle": "Sprievodca EFB - AIP:Aero na tablete"
+    },
+    "/glossary": {
+      "title": "Slovník",
+      "hrefTitle": "Letecký slovník - AIP, AIRAC, VFR, METAR a približovacie mapy vysvetlené"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Nástroje pre pilotov & EFB",
       "hrefTitle": "AIP:Aero na EFB - inštalácia, offline mapy, import"
+    },
+    "glossary": {
+      "title": "Slovník",
+      "hrefTitle": "Letecký slovník - kľúčové pojmy AIP a máp vysvetlené"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero odkazuje na jej oficiálnu mapu {type} spolu s informáciami o dráhe, frekvencii a aktuálnom počasí.",
     "chartsAirac": "AIP:Aero odkazuje na jej oficiálnu mapu {type} z edície AIRAC {airac} spolu s informáciami o dráhe, frekvencii a aktuálnom počasí.",
     "noCharts": "AIP:Aero odkazuje na jej oficiálny záznam v AIP spolu s informáciami o dráhe, frekvencii a aktuálnom počasí."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Letecký slovník - AIP, AIRAC, VFR, METAR a ďalšie",
+    "metaDescription": "Zrozumiteľné definície kľúčových leteckých pojmov: AIP a eAIP, cyklus AIRAC, VFR a IFR, METAR a TAF, kódy ICAO a približovacie mapy.",
+    "title": "Letecký slovník",
+    "intro": "Krátke, zrozumiteľné definície leteckých pojmov, s ktorými sa na AIP:Aero stretnete, od AIP a cyklu AIRAC až po METAR, TAF a približovacie mapy.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Letecká informačná príručka)",
+        "def": "Oficiálna príručka vydávaná leteckým úradom danej krajiny, ktorá obsahuje všetky informácie potrebné na let, vrátane údajov o letiskách, vzdušnom priestore, postupov a približovacích máp. AIP:Aero odkazuje každú mapu priamo na národnú AIP, vždy smerodajný zdroj."
+      },
+      "eaip": {
+        "name": "eAIP (elektronická AIP)",
+        "def": "Webová, preklikateľná verzia AIP, ktorú teraz vydáva väčšina európskych úradov. Jej štandardné rozloženie EUROCONTROL je to, čo čítajú crawlery AIP:Aero pri zostavovaní registra letísk každej krajiny."
+      },
+      "airac": {
+        "name": "Cyklus AIRAC",
+        "def": "Pevný 28-dňový harmonogram, podľa ktorého na celom svete vstupujú do platnosti zmeny leteckých údajov, takže piloti všade aktualizujú svoje mapy v ten istý deň. Každá stránka letiska na AIP:Aero uvádza edíciu AIRAC odkazovanej mapy, aby ste si mohli overiť, že je aktuálna."
+      },
+      "vfr": {
+        "name": "VFR (Pravidlá letu za viditeľnosti)",
+        "def": "Pravidlá pre lietanie podľa vonkajšej vizuálnej referencie za dobrého počasia, používané väčšinou pilotov všeobecného a rekreačného lietania. AIP:Aero uvádza VFR letiská a ich vizuálne približovacie mapy pre každú krajinu."
+      },
+      "ifr": {
+        "name": "IFR (Pravidlá letu podľa prístrojov)",
+        "def": "Pravidlá pre lietanie výhradne podľa prístrojov a povolení riadenia letovej prevádzky, v oblačnosti alebo za zníženej viditeľnosti. Letiská IFR majú prístrojové približovacie mapy (IAC) na presné približovania založené na postupoch."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Kódované pozorovanie skutočného počasia na letisku, vykonávané dvakrát za hodinu: vietor, dohľadnosť, oblačnosť, teplota a tlak. AIP:Aero dekóduje najnovší METAR do zrozumiteľného jazyka na každej stránke letiska, ktoré má hlásnu stanicu."
+      },
+      "taf": {
+        "name": "TAF (Letisková predpoveď)",
+        "def": "Kódovaná predpoveď počasia pre oblasť okolo letiska, zvyčajne platná 24 až 30 hodín. Používa rovnaké skratky ako METAR a na AIP:Aero sa dekóduje spolu s ním."
+      },
+      "icao": {
+        "name": "Smerový znak ICAO",
+        "def": "Štvorpísmenový kód, ktorý jednoznačne identifikuje letisko na celom svete (napríklad EDDF pre Frankfurt), prideľovaný Medzinárodnou organizáciou civilného letectva. AIP:Aero adresuje každú stránku letiska jeho kódom ICAO."
+      },
+      "charts": {
+        "name": "Približovacie a letiskové mapy (VAC, IAC, ADC)",
+        "def": "Oficiálne schémy, ktoré piloti používajú na prílet na letisko a pohyb po ňom: vizuálna približovacia mapa (VAC) pre VFR, prístrojová približovacia mapa (IAC) pre IFR a letisková mapa (ADC) pre pozemné usporiadanie. AIP:Aero odkazuje presné PDF mapy všade tam, kde ich národná AIP vydáva."
+      }
+    }
   }
 }

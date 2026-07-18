@@ -28,6 +28,10 @@
     "/efb": {
       "title": "Narzędzia dla pilotów & EFB",
       "hrefTitle": "Przewodnik EFB - AIP:Aero na tablecie"
+    },
+    "/glossary": {
+      "title": "Słownik",
+      "hrefTitle": "Słownik lotniczy - AIP, AIRAC, VFR, METAR i karty podejścia wyjaśnione"
     }
   },
   "Menu": {
@@ -206,6 +210,10 @@
     "efb": {
       "title": "Narzędzia dla pilotów & EFB",
       "hrefTitle": "AIP:Aero na EFB - instalacja, mapy offline, import"
+    },
+    "glossary": {
+      "title": "Słownik",
+      "hrefTitle": "Słownik lotniczy - kluczowe pojęcia AIP i kart wyjaśnione"
     }
   },
   "Error": {
@@ -385,5 +393,49 @@
     "charts": "AIP:Aero podaje link do oficjalnej mapy {type} wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie.",
     "chartsAirac": "AIP:Aero podaje link do oficjalnej mapy {type} z edycji AIRAC {airac} wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie.",
     "noCharts": "AIP:Aero podaje link do oficjalnego wpisu w AIP wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Słownik lotniczy - AIP, AIRAC, VFR, METAR i więcej",
+    "metaDescription": "Zrozumiałe definicje kluczowych pojęć lotniczych: AIP i eAIP, cykl AIRAC, VFR i IFR, METAR i TAF, kody ICAO oraz karty podejścia.",
+    "title": "Słownik lotniczy",
+    "intro": "Krótkie, zrozumiałe definicje pojęć lotniczych, które spotkasz w AIP:Aero, od AIP i cyklu AIRAC po METAR, TAF i karty podejścia.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Zbiór Informacji Lotniczych)",
+        "def": "Oficjalny dokument publikowany przez urząd lotnictwa danego kraju, zawierający wszystkie informacje niezbędne do wykonania lotu, w tym dane lotnisk, przestrzeni powietrznej, procedury i karty podejścia. AIP:Aero odsyła każdą kartę bezpośrednio do krajowego AIP, zawsze do miarodajnego źródła."
+      },
+      "eaip": {
+        "name": "eAIP (elektroniczny AIP)",
+        "def": "Internetowa, hipertekstowa wersja AIP, którą publikuje obecnie większość europejskich urzędów. Jego standardowy układ EUROCONTROL jest tym, co odczytują roboty AIP:Aero, budując indeks lotnisk każdego kraju."
+      },
+      "airac": {
+        "name": "Cykl AIRAC",
+        "def": "Stały, 28-dniowy harmonogram, według którego na całym świecie wchodzą w życie zmiany danych lotniczych, dzięki czemu piloci wszędzie aktualizują swoje karty w tym samym dniu. Każda strona lotniska w AIP:Aero pokazuje edycję AIRAC podlinkowanej karty, abyś mógł potwierdzić, że jest aktualna."
+      },
+      "vfr": {
+        "name": "VFR (Przepisy wykonywania lotów z widocznością)",
+        "def": "Przepisy dotyczące lotów według zewnętrznych odniesień wzrokowych przy dobrej pogodzie, stosowane przez większość pilotów lotnictwa ogólnego i rekreacyjnego. AIP:Aero wymienia lotniska VFR i ich karty podejścia z widocznością dla każdego kraju."
+      },
+      "ifr": {
+        "name": "IFR (Przepisy wykonywania lotów według wskazań przyrządów)",
+        "def": "Przepisy dotyczące lotów wyłącznie według wskazań przyrządów i zezwoleń kontroli ruchu lotniczego, w chmurach lub przy słabej widoczności. Lotniska IFR posiadają instrumentalne karty podejścia (IAC) do precyzyjnych podejść opartych na procedurach."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Zakodowana, wykonywana dwa razy na godzinę obserwacja rzeczywistej pogody na lotnisku: wiatr, widzialność, chmury, temperatura i ciśnienie. AIP:Aero dekoduje najnowszy METAR na zrozumiały język na każdej stronie lotniska, które ma stację meldunkową."
+      },
+      "taf": {
+        "name": "TAF (Prognoza dla lotniska)",
+        "def": "Zakodowana prognoza pogody dla obszaru wokół lotniska, zwykle ważna od 24 do 30 godzin. Używa tych samych skrótów co METAR i jest dekodowana obok niego w AIP:Aero."
+      },
+      "icao": {
+        "name": "Wskaźnik lokalizacji ICAO",
+        "def": "Czteroliterowy kod, który jednoznacznie identyfikuje lotnisko na całym świecie (na przykład EDDF dla Frankfurtu), przydzielany przez Organizację Międzynarodowego Lotnictwa Cywilnego. AIP:Aero adresuje każdą stronę lotniska jego kodem ICAO."
+      },
+      "charts": {
+        "name": "Karty podejścia i karty lotniska (VAC, IAC, ADC)",
+        "def": "Oficjalne schematy, których piloci używają do przylotu na lotnisko i poruszania się po nim: karta podejścia z widocznością (VAC) dla VFR, instrumentalna karta podejścia (IAC) dla IFR oraz karta lotniska (ADC) dla układu naziemnego. AIP:Aero podlinkowuje dokładny plik PDF karty wszędzie tam, gdzie krajowy AIP go publikuje."
+      }
+    }
   }
 }

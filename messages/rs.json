@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Alati za pilote & EFB",
       "hrefTitle": "EFB vodič - AIP:Aero na vašem tabletu"
+    },
+    "/glossary": {
+      "title": "Rečnik",
+      "hrefTitle": "Vazduhoplovni rečnik - objašnjeni AIP, AIRAC, VFR, METAR i karte prilaza"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Alati za pilote & EFB",
       "hrefTitle": "AIP:Aero na vašem EFB-u - instalacija, karte van mreže, uvoz"
+    },
+    "glossary": {
+      "title": "Rečnik",
+      "hrefTitle": "Vazduhoplovni rečnik - objašnjeni ključni pojmovi o AIP i kartama"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero povezuje zvaničnu {type} kartu zajedno sa informacijama o pisti, frekvencijama i trenutnom vremenu.",
     "chartsAirac": "AIP:Aero povezuje zvaničnu {type} kartu iz AIRAC izdanja {airac}, zajedno sa informacijama o pisti, frekvencijama i trenutnom vremenu.",
     "noCharts": "AIP:Aero povezuje zvaničan AIP unos zajedno sa informacijama o pisti, frekvencijama i trenutnom vremenu."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Vazduhoplovni rečnik - AIP, AIRAC, VFR, METAR i još",
+    "metaDescription": "Definicije na jednostavnom jeziku ključnih vazduhoplovnih pojmova: AIP i eAIP, ciklus AIRAC, VFR i IFR, METAR i TAF, ICAO kodovi i karte prilaza.",
+    "title": "Vazduhoplovni rečnik",
+    "intro": "Kratke definicije na jednostavnom jeziku vazduhoplovnih pojmova na koje nailazite kroz AIP:Aero, od AIP i ciklusa AIRAC do METAR, TAF i karata prilaza.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Zbornik vazduhoplovnih informacija)",
+        "def": "Zvanični priručnik koji izdaje vazduhoplovna vlast jedne države i koji sadrži sve informacije potrebne za let, uključujući podatke o aerodromima, vazdušni prostor, procedure i karte prilaza. AIP:Aero povezuje svaku kartu direktno sa njenim nacionalnim AIP, koji je uvek merodavan izvor."
+      },
+      "eaip": {
+        "name": "eAIP (elektronski AIP)",
+        "def": "Veb verzija AIP sa hipervezama, koju sada izdaje većina evropskih vlasti. Njegov standardni EUROCONTROL raspored je ono što čitaju pretraživači AIP:Aero da bi izgradili indeks aerodroma za svaku državu."
+      },
+      "airac": {
+        "name": "Ciklus AIRAC",
+        "def": "Fiksni 28-dnevni raspored po kom promene vazduhoplovnih podataka stupaju na snagu širom sveta, tako da piloti svuda ažuriraju svoje karte istog datuma. Svaka stranica aerodroma na AIP:Aero prikazuje AIRAC izdanje povezane karte kako biste mogli da potvrdite da je aktuelna."
+      },
+      "vfr": {
+        "name": "VFR (Pravila vizuelnog letenja)",
+        "def": "Pravila za letenje po spoljnoj vizuelnoj referenci pri dobrom vremenu, koja koristi većina pilota u opštem i rekreativnom vazduhoplovstvu. AIP:Aero navodi VFR aerodrome i njihove karte vizuelnog prilaza za svaku državu."
+      },
+      "ifr": {
+        "name": "IFR (Pravila instrumentalnog letenja)",
+        "def": "Pravila za letenje isključivo po instrumentima i odobrenjima kontrole letenja, u oblacima ili pri lošoj vidljivosti. IFR aerodromi nose karte instrumentalnog prilaza (IAC) za precizne, proceduralne prilaze."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Kodirano osmatranje stvarnog vremena na aerodromu, koje se izdaje dva puta na sat: vetar, vidljivost, oblačnost, temperatura i pritisak. AIP:Aero dekodira najnoviji METAR na jednostavan jezik na svakoj stranici aerodroma koji ima meteorološku stanicu."
+      },
+      "taf": {
+        "name": "TAF (Prognoza za područje aerodroma)",
+        "def": "Kodirana vremenska prognoza za područje oko aerodroma, obično važeća 24 do 30 sati. Koristi iste skraćenice kao METAR i dekodira se zajedno sa njim na AIP:Aero."
+      },
+      "icao": {
+        "name": "ICAO lokacijski indikator",
+        "def": "Četvoroslovni kod koji jedinstveno identifikuje aerodrom širom sveta (na primer EDDF za Frankfurt), koji dodeljuje Međunarodna organizacija civilnog vazduhoplovstva. AIP:Aero adresira svaku stranicu aerodroma preko njegovog ICAO koda."
+      },
+      "charts": {
+        "name": "Karte prilaza i aerodromske karte (VAC, IAC, ADC)",
+        "def": "Zvanični dijagrami koje piloti koriste da dođu do aerodroma i kreću se po njemu: karta vizuelnog prilaza (VAC) za VFR, karta instrumentalnog prilaza (IAC) za IFR i aerodromska karta (ADC) za raspored na zemlji. AIP:Aero povezuje tačan PDF karte svuda gde nacionalni AIP objavljuje takav."
+      }
+    }
   }
 }

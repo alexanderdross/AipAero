@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Mjete për pilotë & EFB",
       "hrefTitle": "Udhëzuesi EFB - AIP:Aero në tabletin tuaj"
+    },
+    "/glossary": {
+      "title": "Fjalor",
+      "hrefTitle": "Fjalor aeronautik - shpjegim i AIP, AIRAC, VFR, METAR dhe hartave të afrimit"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Mjete për pilotë & EFB",
       "hrefTitle": "AIP:Aero në EFB-në tuaj - instalim, harta offline, importim"
+    },
+    "glossary": {
+      "title": "Fjalor",
+      "hrefTitle": "Fjalor aeronautik - shpjegim i termave kryesorë të AIP dhe hartave"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero lidh hartën zyrtare {type} së bashku me informacione për pistën, frekuencat dhe motin aktual.",
     "chartsAirac": "AIP:Aero lidh hartën zyrtare {type} nga edicioni AIRAC {airac}, së bashku me informacione për pistën, frekuencat dhe motin aktual.",
     "noCharts": "AIP:Aero lidh hyrjen zyrtare në AIP së bashku me informacione për pistën, frekuencat dhe motin aktual."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Fjalor aeronautik - AIP, AIRAC, VFR, METAR dhe më shumë",
+    "metaDescription": "Përkufizime në gjuhë të thjeshtë të termave kryesorë aeronautikë: AIP dhe eAIP, cikli AIRAC, VFR dhe IFR, METAR dhe TAF, kodet ICAO dhe hartat e afrimit.",
+    "title": "Fjalor aeronautik",
+    "intro": "Përkufizime të shkurtra në gjuhë të thjeshtë të termave aeronautikë që hasni në AIP:Aero, nga AIP dhe cikli AIRAC te METAR, TAF dhe hartat e afrimit.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Publikimi i Informacionit Aeronautik)",
+        "def": "Manuali zyrtar i botuar nga autoriteti i aviacionit të një vendi, që përmban të gjithë informacionin e nevojshëm për fluturim, përfshirë të dhënat e aerodromit, hapësirën ajrore, procedurat dhe hartat e afrimit. AIP:Aero e lidh çdo hartë drejtpërdrejt me AIP-në e saj kombëtare, gjithmonë burimi zyrtar."
+      },
+      "eaip": {
+        "name": "eAIP (AIP elektronik)",
+        "def": "Versioni në internet i AIP-së me hiperlidhje, të cilin tani e botojnë shumica e autoriteteve evropiane. Struktura e tij standarde EUROCONTROL është ajo që lexojnë crawler-at e AIP:Aero për të ndërtuar indeksin e aerodromeve për çdo vend."
+      },
+      "airac": {
+        "name": "Cikli AIRAC",
+        "def": "Orari fiks 28-ditor sipas të cilit ndryshimet e të dhënave aeronautike hyjnë në fuqi në mbarë botën, kështu që pilotët kudo i përditësojnë hartat e tyre në të njëjtën datë. Çdo faqe aerodromi në AIP:Aero shfaq botimin AIRAC të hartës së lidhur, që të konfirmoni se është aktuale."
+      },
+      "vfr": {
+        "name": "VFR (Rregullat e Fluturimit Vizual)",
+        "def": "Rregullat për fluturimin me referencë vizuale të jashtme në kushte të mira moti, të përdorura nga shumica e pilotëve të aviacionit të përgjithshëm dhe rekreativ. AIP:Aero rendit aerodromet VFR dhe hartat e tyre të afrimit vizual për çdo vend."
+      },
+      "ifr": {
+        "name": "IFR (Rregullat e Fluturimit me Instrumente)",
+        "def": "Rregullat për fluturimin vetëm me instrumente dhe lejime të kontrollit të trafikut ajror, në re ose në dukshmëri të dobët. Aerodromet IFR mbajnë harta afrimi me instrumente (IAC) për afrime të sakta, të bazuara në procedura."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Një vëzhgim i koduar, dy herë në orë, i motit aktual në një aerodrom: era, dukshmëria, retë, temperatura dhe presioni. AIP:Aero e dekodon METAR-in më të fundit në gjuhë të thjeshtë në çdo faqe aerodromi që ka një stacion meteorologjik."
+      },
+      "taf": {
+        "name": "TAF (Parashikimi i Motit të Aerodromit)",
+        "def": "Një parashikim i koduar i motit për zonën rreth një aerodromi, zakonisht i vlefshëm për 24 deri në 30 orë. Përdor të njëjtat shkurtime si METAR-i dhe dekodohet së bashku me të në AIP:Aero."
+      },
+      "icao": {
+        "name": "Treguesi i vendndodhjes ICAO",
+        "def": "Kodi katërshkronjor që identifikon në mënyrë unike një aerodrom në mbarë botën (për shembull EDDF për Frankfurtin), i caktuar nga Organizata Ndërkombëtare e Aviacionit Civil. AIP:Aero e adreson çdo faqe aerodromi sipas kodit të saj ICAO."
+      },
+      "charts": {
+        "name": "Hartat e afrimit dhe të aerodromit (VAC, IAC, ADC)",
+        "def": "Diagramet zyrtare që pilotët përdorin për të mbërritur dhe për t'u lëvizur brenda një aerodromi: Harta e Afrimit Vizual (VAC) për VFR, Harta e Afrimit me Instrumente (IAC) për IFR dhe Harta e Aerodromit (ADC) për paraqitjen në tokë. AIP:Aero e lidh PDF-në e saktë të hartës kudo që AIP-ja kombëtare boton një të tillë."
+      }
+    }
   }
 }

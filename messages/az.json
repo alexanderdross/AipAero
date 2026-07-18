@@ -24,6 +24,10 @@
     "/efb": {
       "title": "Pilot alətləri və EFB",
       "hrefTitle": "EFB bələdçisi - AIP:Aero planşetinizdə"
+    },
+    "/glossary": {
+      "title": "Lüğət",
+      "hrefTitle": "Aviasiya lüğəti - AIP, AIRAC, VFR, METAR və enmə xəritələri izah olunur"
     }
   },
   "Menu": {
@@ -176,6 +180,10 @@
     "efb": {
       "title": "Pilot alətləri və EFB",
       "hrefTitle": "AIP:Aero EFB cihazınızda - quraşdırma, offline kartlar, idxal"
+    },
+    "glossary": {
+      "title": "Lüğət",
+      "hrefTitle": "Aviasiya lüğəti - əsas AIP və xəritə terminləri izah olunur"
     }
   },
   "Error": {
@@ -355,5 +363,49 @@
     "charts": "AIP:Aero onun rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
     "chartsAirac": "AIP:Aero onun AIRAC {airac} buraxılışından olan rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
     "noCharts": "AIP:Aero onun rəsmi AIP qeydini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir."
+  },
+  "GlossaryPage": {
+    "metaTitle": "Aviasiya lüğəti - AIP, AIRAC, VFR, METAR və daha çox",
+    "metaDescription": "Əsas aeronaviqasiya terminlərinin sadə dildə tərifləri: AIP və eAIP, AIRAC dövrü, VFR və IFR, METAR və TAF, ICAO kodları və enmə xəritələri.",
+    "title": "Aviasiya lüğəti",
+    "intro": "AIP:Aero boyunca rastlaşdığınız aeronaviqasiya terminlərinin qısa, sadə dildə tərifləri, AIP və AIRAC dövründən METAR, TAF və enmə xəritələrinə qədər.",
+    "terms": {
+      "aip": {
+        "name": "AIP (Aeronaviqasiya Məlumat Nəşri)",
+        "def": "Ölkənin aviasiya orqanı tərəfindən nəşr olunan, uçuş üçün lazım olan bütün məlumatları, o cümlədən aerodrom məlumatlarını, hava məkanını, prosedurları və enmə xəritələrini əhatə edən rəsmi təlimat. AIP:Aero hər xəritəni birbaşa onun milli AIP-nə bağlayır, ki bu da həmişə səlahiyyətli mənbədir."
+      },
+      "eaip": {
+        "name": "eAIP (elektron AIP)",
+        "def": "AIP-nin veb əsaslı, hiperlinkli versiyası, ki əksər Avropa orqanları indi onu nəşr edir. Onun standart EUROCONTROL formatı AIP:Aero crawler-larının hər ölkənin aeroport indeksini qurmaq üçün oxuduğu şeydir."
+      },
+      "airac": {
+        "name": "AIRAC dövrü",
+        "def": "Aeronaviqasiya məlumatlarındakı dəyişikliklərin bütün dünyada qüvvəyə mindiyi sabit 28 günlük cədvəl, beləliklə hər yerdə pilotlar öz xəritələrini eyni tarixdə yeniləyir. AIP:Aero-da hər aeroport səhifəsi bağlanmış xəritənin AIRAC nəşrini göstərir ki, onun aktual olduğunu təsdiq edə biləsiniz."
+      },
+      "vfr": {
+        "name": "VFR (Vizual Uçuş Qaydaları)",
+        "def": "Yaxşı hava şəraitində xarici vizual istinadla uçmaq üçün qaydalar, əksər ümumi təyinatlı və həvəskar aviasiya pilotları tərəfindən istifadə olunur. AIP:Aero hər ölkə üçün VFR aerodromlarını və onların vizual enmə xəritələrini sadalayır."
+      },
+      "ifr": {
+        "name": "IFR (Alət Uçuş Qaydaları)",
+        "def": "Yalnız alətlərlə və hava hərəkəti idarəetmə icazələri ilə, buludda və ya zəif görünüşdə uçmaq üçün qaydalar. IFR aeroportları dəqiq, prosedur əsaslı enmələr üçün alət enmə xəritələri (IAC) daşıyır."
+      },
+      "metar": {
+        "name": "METAR",
+        "def": "Aerodromdakı faktiki havanın kodlanmış, saatda iki dəfə müşahidəsi: külək, görünüş, bulud, temperatur və təzyiq. AIP:Aero müşahidə stansiyası olan hər aeroport səhifəsində ən son METAR-ı sadə dilə açır."
+      },
+      "taf": {
+        "name": "TAF (Aerodrom Terminal Proqnozu)",
+        "def": "Aerodrom ətrafı üçün kodlanmış hava proqnozu, adətən 24-30 saat qüvvədə. O, METAR ilə eyni abreviaturalardan istifadə edir və AIP:Aero-da onunla birlikdə açılır."
+      },
+      "icao": {
+        "name": "ICAO yer göstəricisi",
+        "def": "Aerodromu bütün dünyada unikal şəkildə müəyyən edən dörd hərfli kod (məsələn, Frankfurt üçün EDDF), Beynəlxalq Mülki Aviasiya Təşkilatı tərəfindən təyin olunub. AIP:Aero hər aeroport səhifəsini onun ICAO kodu ilə ünvanlayır."
+      },
+      "charts": {
+        "name": "Enmə və aerodrom xəritələri (VAC, IAC, ADC)",
+        "def": "Pilotların aerodroma gəlmək və onun ərazisində hərəkət etmək üçün istifadə etdikləri rəsmi sxemlər: VFR üçün Vizual Enmə Xəritəsi (VAC), IFR üçün Alət Enmə Xəritəsi (IAC) və yerüstü yerləşim üçün Aerodrom Xəritəsi (ADC). AIP:Aero milli AIP-nin nəşr etdiyi hər yerdə dəqiq xəritə PDF-nə bağlayır."
+      }
+    }
   }
 }

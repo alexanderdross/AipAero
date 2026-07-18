@@ -48,12 +48,13 @@ export function GET() {
 
   // Canonical trailing-slash URLs (trailingSlash: true), same normalization
   // as the EFB page's internal links.
-  const localizedUrl = (href: "/efb" | "/airport-list") => {
+  const localizedUrl = (href: "/efb" | "/airport-list" | "/glossary") => {
     const path = getPathname({ href, locale: "uk" });
     return new URL(path.endsWith("/") ? path : path + "/", orgUrl).toString();
   };
   const efbUrl = localizedUrl("/efb");
   const listUrl = localizedUrl("/airport-list");
+  const glossaryUrl = localizedUrl("/glossary");
 
   const text = `# AIP:Aero
 
@@ -74,6 +75,7 @@ ${countryLines.join("\n")}
 
 - [EFB guide](${efbUrl}): install AIP:Aero on an Electronic Flight Bag, save fields and whole countries offline, import chart PDFs into ForeFlight, SkyDemon and other EFB apps
 - [Airport list (UK example)](${listUrl}): every country has a full airport list page with an interactive map and offline download
+- [Aviation glossary](${glossaryUrl}): plain-language definitions of AIP, eAIP, the AIRAC cycle, VFR/IFR, METAR/TAF, ICAO codes and approach charts
 
 ## Data
 
