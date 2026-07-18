@@ -1,56 +1,62 @@
-"""Kazakhstan (Kazaeronavigatsia) eAIP crawler.
+"""Kosovo (ASHNA / CAA Kosovo) eAIP crawler.
 
-Source: Kazakhstan publishes a standard, OPEN eurocontrol frameset eAIP at
-`ans.kz` (no login, no proxy). The AIS landing page (`ans.kz/en/ais/eaip`) lists
-every current/upcoming edition, each at a date-stamped path:
+Source: Kosovo publishes a standard, OPEN eurocontrol frameset eAIP at
+`kans-ks.org` (also reachable via `ashna-ks.org`, which redirects there; no login,
+no proxy). The edition-history page (`/eAIP/default.html`) lists every issue, each
+in a date-stamped folder whose href is irregular - it contains a SPACE and a
+Windows BACKSLASH before `index.html`, e.g.:
 
-    https://www.ans.kz/AIP/eAIP/<YYYY-MM-DD>-AIRAC/html/index-en-GB.html
+    /eAIP/AIRAC AMDT 07-2026_2026_07_09\\index.html
 
-This crawler reads the effective date out of each edition path on the landing
-page, picks the one in effect today, and fetches the navigation menu frame
-directly (`.../html/eAIP/UA-menu-en-GB.html` - the classic 3-frame eurocontrol
-layout; UA is the Kazakhstan AIP document prefix, matching the ICAO UA** region).
-AD 2 aerodromes are read with an aggregate-section then per-chapter fallback (the
-AL/GE pattern), all "vfr". Pure HTML, no JS/browser, no login.
+so the crawler reads the effective date from the trailing `_YYYY_MM_DD`, picks the
+edition in effect today, URL-encodes the folder name (space -> %20, backslash ->
+`/`), and fetches the navigation menu frame directly at
+`<edition>/eAIP/menu.html` (the frame chain is index.html -> toc-frameset.html ->
+eAIP/menu.html). AD 2 aerodromes are read with an aggregate-section then
+per-chapter fallback (the GE/KZ pattern), all "vfr". BK is the Kosovo ICAO prefix
+(BKPR Pristina is the single civil aerodrome). Pure HTML, no JS/browser, no login.
 """
 
 import csv
 import datetime
 import io
 import re
-from urllib.parse import urljoin
+from urllib.parse import quote, urljoin
 
 from crawlers.http_base import Airport
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
-COUNTRY = "KZ"
-# The AIS eAIP landing page: lists every edition's index, each a dated folder.
-ROOT_URL = "https://www.ans.kz/en/ais/eaip"
+COUNTRY = "XK"
+# The eAIP edition-history page: lists every issue's index (dated folders).
+ROOT_URL = "https://kans-ks.org/eAIP/default.html"
 
 # OurAirports airports export (CC0 / public domain) - used only to enrich the
 # aerodrome NAME when the eAIP menu labels a chapter with the bare ICAO.
 AIRPORTS_CSV = "https://davidmegginson.github.io/ourairports-data/airports.csv"
 
-# Edition folders embed their effective date as `<YYYY-MM-DD>-AIRAC`, above
-# `/html`; e.g. `/AIP/eAIP/2026-07-09-AIRAC/html/index-en-GB.html`.
-_EDITION_RE = re.compile(r"(\d{4})-(\d{2})-(\d{2})-AIRAC/html", re.I)
+# Editions live in folders named like `AIRAC AMDT 07-2026_2026_07_09` (also
+# `AIP AMDT NN-YYYY_...`, `A 02-2025_...`); the effective date is the trailing
+# `_YYYY_MM_DD` immediately before the `\index.html` / `/index.html` file. The
+# href uses a literal backslash and un-encoded spaces.
+_EDITION_RE = re.compile(r"_(\d{4})_(\d{2})_(\d{2})[\\/]index\.html", re.I)
 
-# Menu frame (the nav tree) sits under the edition's html/eAIP/ folder.
-_MENU_SUFFIX = "eAIP/UA-menu-en-GB.html"
+# Menu frame (the nav tree) sits under the edition's eAIP/ folder.
+_MENU_SUFFIX = "eAIP/menu.html"
 
 # Aggregate AD 2 menu-section id variants (tried in order), then the per-airport
-# chapter fallback ("AD 2.<ICAO>...details", CZ/GE layout).
+# chapter fallback ("AD 2.<ICAO>...details", GE/KZ layout).
 _AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
 _AD2_CHAPTER_RE = re.compile(r"AD[ -]2[-.]([A-Z]{4}).*details$")
 _AD3_SECTION_IDS = ["AD 3en-GBdetails", "AD-3details", "AD 3details"]
 _AD3_CHAPTER_RE = re.compile(r"AD[ -]3[-.]([A-Z0-9]{3,4}).*details$")
 
 
-class KZ(HttpEurocontrolBase):
-    """Kazakhstan (Kazaeronavigatsia) AIP crawler - standard eurocontrol eAIP.
+class XK(HttpEurocontrolBase):
+    """Kosovo (CAA Kosovo / ASHNA) AIP crawler - standard eurocontrol eAIP.
 
-    The current edition is picked by date from the AIS landing page, then the
-    menu frame is fetched directly (deterministic path) and AD 2 read.
+    The current edition is picked by date from the eAIP history page (folder
+    names carry a space + backslash, so they are URL-encoded), then the menu
+    frame is fetched directly and AD 2 read.
     """
 
     def __init__(self) -> None:
@@ -61,46 +67,52 @@ class KZ(HttpEurocontrolBase):
     ) -> str:
         """Return the currently effective edition's navigation-menu URL.
 
-        Reads the effective date out of each edition path and picks the latest
-        edition on/before ``today`` (earliest if all are in the future).
+        Reads the effective date out of each edition href (the trailing
+        `_YYYY_MM_DD`) and picks the latest edition on/before ``today``
+        (earliest if all are in the future). The folder name contains a space
+        and a backslash, both of which are normalised/encoded for the request.
         """
         today = today or datetime.date.today()
         soup = self.soup(html)
         candidates: list[tuple[datetime.date, str]] = []
         seen: set[str] = set()
         for a in soup.find_all("a", href=True):
-            m = _EDITION_RE.search(a["href"])
+            href = a["href"]
+            m = _EDITION_RE.search(href)
             if not m:
                 continue
             try:
                 eff = datetime.date(*(int(g) for g in m.groups()))
             except ValueError:
                 continue
-            # Edition root is everything up to and including `.../html`.
-            root = urljoin(ROOT_URL, a["href"][: m.end()])
-            if root in seen:
+            # Folder = everything before the `\index.html` / `/index.html` file;
+            # normalise the backslash to a forward slash, then percent-encode.
+            folder = re.split(r"[\\/]index\.html", href, maxsplit=1)[0]
+            folder = folder.replace("\\", "/")
+            menu_rel = quote(f"{folder}/{_MENU_SUFFIX}", safe="/")
+            menu_url = urljoin(ROOT_URL, menu_rel)
+            if menu_url in seen:
                 continue
-            seen.add(root)
-            candidates.append((eff, root))
+            seen.add(menu_url)
+            candidates.append((eff, menu_url))
 
         if not candidates:
             hrefs = [a["href"][:100] for a in soup.find_all("a", href=True)][:40]
             raise ValueError(
-                f"KZ: no eAIP edition links found in {ROOT_URL}. Hrefs: {hrefs}"
+                f"XK: no eAIP edition links found in {ROOT_URL}. Hrefs: {hrefs}"
             )
 
         in_effect = [c for c in candidates if c[0] <= today]
-        eff, root = (
+        eff, menu_url = (
             max(in_effect, key=lambda c: c[0])
             if in_effect
             else min(candidates, key=lambda c: c[0])
         )
-        menu_url = urljoin(root.rstrip("/") + "/", _MENU_SUFFIX)
         # Forward the effective edition to crawl_meta.airac so the detail page
-        # shows the AIRAC (the chart URLs may carry no parseable date).
+        # shows the AIRAC (the chart URLs carry no parseable date of their own).
         self.airac = eff.isoformat()
         self.logger.info(
-            f"KZ current edition (effective {eff.isoformat()}): {menu_url}"
+            f"XK current edition (effective {eff.isoformat()}): {menu_url}"
         )
         return menu_url
 
@@ -124,8 +136,8 @@ class KZ(HttpEurocontrolBase):
         raise last_error
 
     def _ourairports_names(self) -> dict[str, str]:
-        """ICAO -> aerodrome name for Kazakhstan, from OurAirports (CC0).
-        Fail-soft to an empty map (titles then stay whatever the eAIP gave)."""
+        """ICAO -> aerodrome name for Kosovo, from OurAirports (CC0). Fail-soft
+        to an empty map (titles then stay whatever the eAIP gave)."""
         try:
             resp = self.client.get(AIRPORTS_CSV, timeout=60)
             resp.raise_for_status()
@@ -142,16 +154,15 @@ class KZ(HttpEurocontrolBase):
                         break
             return names
         except Exception as e:
-            self.logger.warning(f"KZ: OurAirports name lookup failed ({e})")
+            self.logger.warning(f"XK: OurAirports name lookup failed ({e})")
             return {}
 
-    # Chart-PDF extraction (Stage 2). Confirmed from a live pdf_recon run:
-    # Kazakhstan's AD 2.24 charts are `graphics/eAIP/<ICAO> AD 2.24.<n>.pdf`
-    # (plain sheet numbers, no VAC/ADC designator tokens), and `AD 2.24.1` is
-    # consistently the primary sheet. Prefer it; the base falls back to the
-    # first chart otherwise (live run measured 27/27 = 100% coverage).
+    # Chart-PDF extraction (Stage 2). Kosovo AD 2.24 charts are named by chart
+    # type (e.g. `IAC_ILS_or_LOC_RWY35.pdf`, a VAC/visual sheet); prefer the
+    # visual/VAC sheet, else let the base fall back to the first chart so
+    # coverage stays complete. Refine after a live pdf_recon if needed.
     FETCH_PDF_URLS = True
-    PDF_HREF_PRIORITY = (r"AD 2\.24\.1\.pdf",)
+    PDF_HREF_PRIORITY = (r"VAC", r"Visual", r"VFR", r"ADC", r"Aerodrome")
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
@@ -160,7 +171,7 @@ class KZ(HttpEurocontrolBase):
         last_html: str | None = None
 
         try:
-            # 1. AIS landing page -> currently effective edition's menu frame.
+            # 1. Edition-history page -> currently effective edition's menu frame.
             landing = self.fetch(ROOT_URL)
             last_html = landing
             menu_url = self._resolve_menu_url(landing)
@@ -178,7 +189,7 @@ class KZ(HttpEurocontrolBase):
                 )
             except ValueError as e:
                 self.logger.warning(
-                    f"KZ: aggregate AD 2 parse failed ({e}); "
+                    f"XK: aggregate AD 2 parse failed ({e}); "
                     "trying per-airport chapters"
                 )
                 airports.extend(
@@ -202,7 +213,7 @@ class KZ(HttpEurocontrolBase):
                         )
                     )
                 except ValueError:
-                    self.logger.info("KZ: no AD 3 heliport section - skipping")
+                    self.logger.info("XK: no AD 3 heliport section - skipping")
 
             # Dedup by ICAO (keep first occurrence).
             seen_icao: set[str] = set()
@@ -227,7 +238,7 @@ class KZ(HttpEurocontrolBase):
             # Stage 2: capture direct chart-PDF links (fail-soft per field).
             self.attach_pdf_urls(airports)
         except Exception as e:
-            self.logger.error(f"KZ crawl failed: {e}")
+            self.logger.error(f"XK crawl failed: {e}")
             if last_html is not None:
                 self.save_response(last_url, last_html, prefix="crawl_error")
             raise

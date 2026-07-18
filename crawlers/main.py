@@ -58,6 +58,7 @@ from crawlers.tr import TR
 from crawlers.ua import UA
 from crawlers.uk import UK
 from crawlers.uz import UZ
+from crawlers.xk import XK
 from output_handler import OutputHandler
 from settings import Settings
 
@@ -110,6 +111,7 @@ COUNTRY_CRAWLERS = {
     "TR": TR,
     "UA": UA,
     "UZ": UZ,
+    "XK": XK,
 }
 
 
