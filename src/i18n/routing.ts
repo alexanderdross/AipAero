@@ -73,6 +73,8 @@ export const routing = defineRouting({
     "tr-EN",
     "ge",
     "ge-EN",
+    "am",
+    "am-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -111,6 +113,7 @@ export const routing = defineRouting({
       "bg-EN": "/bg/en",
       "tr-EN": "/tr/en",
       "ge-EN": "/ge/en",
+      "am-EN": "/am/en",
     },
   },
   pathnames: {
@@ -194,6 +197,8 @@ export const routing = defineRouting({
       "tr-EN": "/airport-list-turkey",
       ge: "/aeroportebi-sakartvelo",
       "ge-EN": "/airport-list-georgia",
+      am: "/odanavakayanner-hayastan",
+      "am-EN": "/airport-list-armenia",
     },
   },
   localeCookie: false,
@@ -335,6 +340,12 @@ export const localeLangMapping: Record<
   // hreflang uses "ka".
   ge: "ka",
   "ge-EN": "en",
+  // Armenia: prefix "am", ISO language code "hy" (Armenian) - the
+  // LocaleSwitcher ICU branches key on the PREFIX "am" (see the gotcha in
+  // CLAUDE.md), so messages/am.json keys its native branch on "am"; the
+  // hreflang uses "hy".
+  am: "hy",
+  "am-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -411,4 +422,6 @@ export const localeCountryMapping: Record<
   "tr-EN": "tr",
   ge: "ge",
   "ge-EN": "ge",
+  am: "am",
+  "am-EN": "am",
 };

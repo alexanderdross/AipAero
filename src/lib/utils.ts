@@ -146,6 +146,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // GE: Sakaeronavigatsia's open eurocontrol eAIP (airnav.ge) lists the AD-2
   // aerodromes (UG**), all "vfr" with real chart PDFs; no AD-3 heliport chapter.
   ge: ["vfr"],
+  // AM: ARMATS's open eurocontrol eAIP (armats.am) lists the AD-2 aerodromes
+  // (UD**), all "vfr" with real chart PDFs; no AD-3 heliport chapter.
+  am: ["vfr"],
 };
 
 /**
@@ -408,6 +411,15 @@ export const liveCountries: string[] = [
   // chapters with the bare ICAO). Live-validated (run 29603175978 - 7 aerodromes,
   // 7/7 chart-PDF coverage, 124 charts). NOT gated (real charts).
   "ge",
+  // Armenia (18.07.2026): ARMATS publishes an OPEN eurocontrol eAIP (armats.am,
+  // no login, no proxy). am.py resolves the current edition from the eAIP
+  // landing page (dated storage/attachments/<id>-<amdt>(<DDMONYYYY>) links),
+  // reads the AD 2 aerodromes (UD** - 3 fields: UDYZ Yerevan/Zvartnots, UDYE
+  // Yerevan/Erebuni, UDSG Gyumri/Shirak), all "vfr", and captures the AD 2.24
+  // chart PDFs. Live-validated (run 29622603614 - 3 aerodromes, 3/3 chart-PDF
+  // coverage, 93 charts). NOT gated (real charts). (Azerbaijan probed the same
+  // day: azans.gov.az no DNS, asec.az broken TLS - no usable source, skipped.)
+  "am",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -474,4 +486,5 @@ export const countryMeta: Record<
   bg: { lang: "bg", name: "Bulgaria", flag: "🇧🇬", nativeLang: "Bulgarian" },
   tr: { lang: "tr", name: "Turkey", flag: "🇹🇷", nativeLang: "Turkish" },
   ge: { lang: "ka", name: "Georgia", flag: "🇬🇪", nativeLang: "Georgian" },
+  am: { lang: "hy", name: "Armenia", flag: "🇦🇲", nativeLang: "Armenian" },
 };
