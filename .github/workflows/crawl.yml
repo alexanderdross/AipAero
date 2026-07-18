@@ -140,6 +140,9 @@ jobs:
             "https://aip.aero/tr/havalimanlari-turkiye/"
             "https://aip.aero/ge/aeroportebi-sakartvelo/"
             "https://aip.aero/am/odanavakayanner-hayastan/"
+            "https://aip.aero/az/hava-limanlari-azerbaycan/"
+            "https://aip.aero/ua/perelik-aeroportiv-ukrayina/"
+            "https://aip.aero/uz/aeroportlar-royxati-ozbekiston/"
           )
           # NOTE: keep this in sync with liveCountries x the /airport-list slug
           # (src/lib/utils.ts + src/i18n/routing.ts). A launched country missing

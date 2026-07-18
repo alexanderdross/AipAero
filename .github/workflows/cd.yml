@@ -139,6 +139,9 @@ jobs:
             "https://aip.aero/tr/havalimanlari-turkiye/"
             "https://aip.aero/ge/aeroportebi-sakartvelo/"
             "https://aip.aero/am/odanavakayanner-hayastan/"
+            "https://aip.aero/az/hava-limanlari-azerbaycan/"
+            "https://aip.aero/ua/perelik-aeroportiv-ukrayina/"
+            "https://aip.aero/uz/aeroportlar-royxati-ozbekiston/"
           )
           # NOTE: this list MUST carry EVERY live country's airport-list URL
           # (liveCountries in src/lib/utils.ts x the /airport-list slug in

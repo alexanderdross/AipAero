@@ -1,0 +1,351 @@
+{
+  "BreadCrumbs": {
+    "label": "Navigatsiya izi",
+    "root": {
+      "title": "AIP indeksi",
+      "hrefTitle": "AIP indeksi"
+    },
+    "/": {
+      "title": "Oʻzbekiston (Oʻzbekcha)",
+      "hrefTitle": "AIP Oʻzbekiston"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Oʻzbekiston"
+    },
+    "/airport-list": {
+      "title": "Aeroportlar roʻyxati",
+      "hrefTitle": "Oʻzbekistondagi aeroportlar roʻyxati"
+    },
+    "/terms": {
+      "title": "Foydalanish shartlari",
+      "hrefTitle": "Foydalanish shartlari - AIP:Aero Oʻzbekiston"
+    },
+    "/efb": {
+      "title": "Uchuvchi vositalari & EFB",
+      "hrefTitle": "EFB qoʻllanmasi - AIP:Aero planshetingizda"
+    }
+  },
+  "Menu": {
+    "label": "Menyu",
+    "home": {
+      "title": "AIP Oʻzbekiston",
+      "hrefTitle": "AIP Oʻzbekiston"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Oʻzbekiston"
+    },
+    "airports": {
+      "title": "Aeroportlar roʻyxati",
+      "hrefTitle": "Oʻzbekistondagi aeroportlar roʻyxati"
+    }
+  },
+  "AirportsPage": {
+    "title": "Oʻzbekistondagi aeroportlar roʻyxati",
+    "metaTitle": "Oʻzbekistondagi aeroportlar roʻyxati",
+    "description": "Oʻzbekistondagi barcha aeroportlarga umumiy koʻrinish",
+    "metaDescription": "Oʻzbekistondagi barcha aeroportlarga umumiy koʻrinish🗺️",
+    "vfrCard": {
+      "title": "VFR aeroportlari",
+      "description": "Oʻzbekistondagi VFR aeroportlari",
+      "linkTitle": "{airport} aeroportining AIP VFR maʼlumotlari va vizual yaqinlashuv kartasiga kirish uchun quyidagi havolani bosing"
+    },
+    "heliportCard": {
+      "title": "Heliportlar",
+      "description": "Oʻzbekistondagi heliportlar",
+      "linkTitle": "{airport} heliportining AIP VFR maʼlumotlari va vizual yaqinlashuv kartasiga kirish uchun quyidagi havolani bosing"
+    },
+    "breadcrumb": {
+      "name": "Oʻzbekistondagi aeroportlar roʻyxati",
+      "alternateName": "Oʻzbekistondagi aeroportlar roʻyxati",
+      "description": "Oʻzbekistondagi barcha aeroportlarga umumiy koʻrinish"
+    },
+    "coverage": "{bucket, select, gated {Ushbu davlatning rasmiy AIP hujjati bepul roʻyxatdan oʻtish yoki obunani talab qilishi mumkin boʻlgan portalda joylashgan - biz unga bevosita havola beramiz va har bir aerodrom uchun aeroport maʼlumotlari hamda ob-havoni qoʻshamiz.} full {Quyida keltirilgan barcha {total} aerodrom uchun bevosita yaqinlashuv va VFR karta PDF fayllari mavjud.} partial {{total} aerodromdan {withCharts} tasi uchun bevosita karta PDF fayllari mavjud; kichikroq maydonlar buning oʻrniga oʻzlarining rasmiy AIP yozuviga havola qiladi.} none {Havolalar har bir aerodromning rasmiy AIP sahifasini ochadi - bu organ alohida karta PDF fayllarini chop etmaydi.} other {}}"
+  },
+  "VfrPage": {
+    "title": "Oʻzbekiston AIP VFR va vizual yaqinlashuv kartalari indeksi",
+    "metaTitle": "Oʻzbekiston AIP VFR va vizual yaqinlashuv kartalari indeksi",
+    "description": "Uzaeronavigation tomonidan taqdim etilgan AIP VFR yaqinlashuv kartalariga kirish uchun aeroport nomini yoki ICAO kodini (masalan, UZTT) kiriting.",
+    "metaDescription": "AIP VFR Oʻzbekistonni koʻrib chiqing va aeroport yaqinlashuv kartalarini bepul yuklab oling🗺️",
+    "searchTitle": "AIP VFR maʼlumotlariga kirish uchun aeroport nomini yoki ICAO kodini kiriting",
+    "searchPlaceholder": "AIP VFR maʼlumotlariga kirish uchun aeroport nomini yoki ICAO kodini kiriting",
+    "resultTitle": "{airport} aeroportining AIP VFR kartalari",
+    "resultDescription": "{airport} aeroportining AIP VFR maʼlumotlari va vizual yaqinlashuv kartasiga kirish uchun quyidagi havolani bosing",
+    "breadcrumb": {
+      "name": "AIP VFR Oʻzbekiston",
+      "alternateName": "Oʻzbekiston AIP VFR va vizual yaqinlashuv kartalari indeksi",
+      "description": "AIP VFR Oʻzbekistonni koʻrib chiqing va aeroport yaqinlashuv kartalarini bepul yuklab oling"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Tilni oʻzgartirish",
+    "locale": "{locale, select, uz {🇺🇿 Oʻzbekcha} en {🇬🇧 English} other {Nomaʼlum}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Oʻzbekiston AIP va yaqinlashuv kartalari",
+    "alternateName": "AIP Oʻzbekiston",
+    "description": "Oʻzbekistondagi havo kemalari harakati haqidagi maʼlumotlar toʻplami (AIP) VFR va yaqinlashuv kartalarining qidiruv indeksi",
+    "inLanguage": "uz",
+    "url": "https://aip.aero/uz/"
+  },
+  "CountryPage": {
+    "title": "Oʻzbekiston AIP va yaqinlashuv kartalari",
+    "metaTitle": "Oʻzbekiston AIP va yaqinlashuv kartalari",
+    "description": "Oʻzbekistondagi havo kemalari harakati haqidagi maʼlumotlar toʻplami (AIP) VFR va yaqinlashuv kartalarining qidiruv indeksi",
+    "metaDescription": "Oʻzbekistondagi havo kemalari harakati haqidagi maʼlumotlar toʻplami (AIP) VFR va yaqinlashuv kartalarining qidiruv indeksi🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Oʻzbekiston",
+      "description": "AIP VFR Oʻzbekistonni koʻrib chiqing va aeroport yaqinlashuv kartalarini bepul yuklab oling",
+      "buttonTitle": "AIP VFR yaqinlashuv kartalari",
+      "buttonHref": "/uz/vfr/",
+      "buttonHrefTitle": "AIP VFR Oʻzbekiston"
+    },
+    "airportListCard": {
+      "title": "Aeroportlar roʻyxati",
+      "description": "Oʻzbekistondagi barcha aeroportlarga umumiy koʻrinish - oflayn yuklab olish, bojxona va yoqilgʻi maʼlumotlari bilan",
+      "buttonTitle": "Aeroportlar roʻyxati",
+      "buttonHref": "/uz/aeroportlar-royxati-ozbekiston/",
+      "buttonHrefTitle": "Oʻzbekistondagi aeroportlar roʻyxati"
+    },
+    "breadcrumb": {
+      "name": "AIP Oʻzbekiston",
+      "alternateName": "Oʻzbekiston AIP va yaqinlashuv kartalari",
+      "description": "Oʻzbekistondagi havo kemalari harakati haqidagi maʼlumotlar toʻplami (AIP) VFR va yaqinlashuv kartalarining qidiruv indeksi"
+    }
+  },
+  "About": {
+    "title": "Bu veb-sayt nima uchun?",
+    "description": "<aip>Oʻzbekiston havo kemalari harakati haqidagi maʼlumotlar toʻplami AIP</aip> Uzaeronavigation tomonidan chop etiladi; rasmiy portalga kirish roʻyxatdan oʻtish va pullik obunani talab qilishi mumkin. Ushbu veb-saytning maqsadi aeroport qidiruvini soddalashtirishdir, chunki rasmiy eAIP qidiruv funksiyasiga ega emas. AIP (havo kemalari harakati haqidagi maʼlumotlar toʻplami) biz tomonimizdan chop etilmagani uchun uning aniqligi yoki dolzarbligi uchun hech qanday javobgarlikni oʻz zimmamizga olmaymiz. Biz faqat tegishli yaqinlashuv kartalariga qulay havolalarni taqdim etamiz.",
+    "aipUrl": "https://uzaeronavigation.com/ais/",
+    "aipTitle": "AIP Oʻzbekiston"
+  },
+  "TradeAero": {
+    "title": "Uchuvchi qurilmasini sotib olyapsizmi yoki sotyapsizmi?",
+    "description": "Oʻzbekistonda sotuvdagi uchuvchi qurilmalarni Trade:Aero'da koʻrib chiqing - uchuvchi qurilmalarni sotib olish va sotish bozori.",
+    "buttonTitle": "Trade:Aero - Yevropadagi eng yirik uchuvchi qurilmalar bozori",
+    "buttonHrefTitle": "Trade:Aero - Yevropadagi eng yirik uchuvchi qurilmalar bozori"
+  },
+  "Footer": {
+    "navTitle": "Navigatsiya",
+    "legalTitle": "Huquqiy maʼlumot & aloqa",
+    "partnersTitle": "Hamkorlar",
+    "aipHome": {
+      "title": "AIP indeksi",
+      "hrefTitle": "AIP:Aero bosh sahifa - Yevropa uchun AIP va yaqinlashuv kartalari"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Rekvizitlar",
+      "hrefTitle": "Rekvizitlar - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Aloqa",
+      "hrefTitle": "Aloqa - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Maxfiylik",
+      "hrefTitle": "Maxfiylik siyosati - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Alexander Dross'ning veb-sayti",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Foydalanish shartlari",
+      "hrefTitle": "Foydalanish shartlari - AIP:Aero Oʻzbekiston"
+    },
+    "efb": {
+      "title": "Uchuvchi vositalari & EFB",
+      "hrefTitle": "AIP:Aero EFB qurilmangizda - oʻrnatish, oflayn kartalar, import"
+    }
+  },
+  "Error": {
+    "description": "<p>Afsuski, xatolik yuz berdi.</p><p>Siz <retry>ushbu sahifani qayta yuklashga</retry> harakat qilishingiz mumkin.</p>",
+    "title": "Nimadir notoʻgʻri ketdi!"
+  },
+  "NotFound": {
+    "title": "404 - Sahifa topilmadi",
+    "description": "Bu sahifa yoki aeroport kodi mavjud emas. Buning oʻrniga aeroportni qidirib koʻring:",
+    "searchPlaceholder": "Istalgan aeroportni nom yoki ICAO kodi boʻyicha qidiring",
+    "home": "Bosh sahifaga qaytish"
+  },
+  "Weather": {
+    "title": "Ob-havo",
+    "observed": "Kuzatilgan",
+    "forecast": "Prognoz",
+    "wind": "Shamol",
+    "visibility": "Koʻrinish",
+    "clouds": "Bulutlar",
+    "temperature": "Harorat",
+    "qnh": "QNH",
+    "source": "Manba",
+    "elevation": "Balandlik",
+    "sunrise": "Quyosh chiqishi",
+    "sunset": "Quyosh botishi",
+    "civilTwilight": "Fuqarolik gorizonti",
+    "facts": "Aerodrom maʼlumotlari",
+    "runways": "Uchish-qoʻnish yoʻlaklari",
+    "frequencies": "Chastotalar",
+    "decode": "Ochib koʻrsatish",
+    "openingHours": "Ish vaqti",
+    "fuel": "Yoqilgʻi",
+    "ppr": "PPR",
+    "pprRequired": "Oldindan ruxsat talab qilinadi",
+    "nearest": "Eng yaqin aeroport {station} ob-havosi ({km} km uzoqlikda)",
+    "circuit": "Uchish sxemasi",
+    "circuitLeft": "chap",
+    "circuitRight": "oʻng",
+    "windComponents": "Shamol tarkibiy qismlari",
+    "headwind": "Qarshi shamol",
+    "tailwind": "Orqa shamol",
+    "crosswind": "Yon shamol",
+    "fromLeft": "chapdan",
+    "fromRight": "oʻngdan",
+    "landingDirection": "Ehtimoliy qoʻnish yoʻnalishi",
+    "aerodromeType": "Aerodrom turi",
+    "surface": "Sirt",
+    "variable": "oʻzgaruvchan",
+    "calm": "tinch"
+  },
+  "Common": {
+    "openIn": "Bu yerda ochish",
+    "homeLink": "AIP:Aero - Yevropa uchun havo kemalari harakati haqidagi maʼlumotlar toʻplami (AIP) & yaqinlashuv kartalari",
+    "lastUpdated": "Oxirgi yangilanish",
+    "viewOnMap": "Google Xaritalarda koʻrish",
+    "location": "Joylashuv",
+    "website": "Veb-sayt",
+    "address": "Manzil",
+    "coordinates": "Koordinatalar",
+    "phone": "Telefon",
+    "map": "Xarita",
+    "locate": "Joylashuvimni topish",
+    "locateError": "Joylashuvingizni aniqlab boʻlmadi",
+    "nearby": "Yaqin atrofdagi aeroportlar",
+    "restaurant": "Restoran",
+    "customs": "Bojxona",
+    "yes": "Ha",
+    "no": "Yoʻq",
+    "saveOffline": "Oflayn saqlash",
+    "savedOffline": "Oflayn saqlandi",
+    "installHint": "Ilova sifatida oʻrnating: brauzeringizning Ulashish menyusini oching va 'Bosh ekranga qoʻshish'ni tanlang. Soʻngra onlayn holatda ilovani bir marta oching va maydonlaringizni u yerda qayta saqlang - ilova oʻzining oflayn xotirasiga ega.",
+    "installHintMac": "Mac'da: Safari'ning Ulashish menyusidan 'Dock'ka qoʻshish' orqali oʻrnating. Soʻngra onlayn holatda ilovani bir marta oching va maydonlaringizni u yerda qayta saqlang - ilova oʻzining oflayn xotirasiga ega.",
+    "bulkDownload": "Barcha {count} sahifani oflayn saqlash (taxminan {size} MB)",
+    "bulkDownloaded": "Oflayn mavjud",
+    "bulkUpdate": "Yangilash",
+    "bulkRemove": "Oʻchirish",
+    "bulkProgress": "Sahifalar saqlanmoqda",
+    "bulkCancel": "Bekor qilish",
+    "bulkError": "Yuklab olish muvaffaqiyatsiz tugadi - iltimos, qayta urinib koʻring",
+    "bulkNoSpace": "Bu qurilmada yetarli boʻsh joy yoʻq",
+    "bulkScope": "Kiritilgan: aerodrom maʼlumotlari bilan barcha aeroport sahifalari. Kiritilmagan: yaqinlashuv karta PDF fayllari (har bir aeroport uchun saqlash mumkin) va jonli ob-havo (ulanish talab qilinadi).",
+    "moreInfo": "Batafsil maʼlumot",
+    "pavedRunway": "Asfalt uchish yoʻlagi",
+    "favorites": "Sevimlilar",
+    "favoritesEmpty": "Hali sevimlilar yoʻq - batafsil sahifada aeroportni oflayn saqlang va u shu yerda paydo boʻladi.",
+    "recentlyViewed": "Yaqinda koʻrilganlar",
+    "recentlyViewedEmpty": "Siz ochgan aeroportlar tez kirish uchun bu yerda avtomatik ravishda paydo boʻladi.",
+    "borderCrossing": "Chegara oʻtish",
+    "alsoAvailable": "Shuningdek mavjud:",
+    "aipLoginHint": "Tizimga kirish yoki roʻyxatdan oʻtish talab qilinishi mumkin.",
+    "noChartPdf": "Bu aerodrom uchun alohida karta PDF fayli chop etilmagan - yuqoridagi AIP tugmasi uning rasmiy aerodrom yozuvini ochadi."
+  },
+  "Chart": {
+    "allCharts": "Barcha kartalar ({count})",
+    "title": "Yaqinlashuv kartasi",
+    "openPdf": "Karta PDF faylini ochish",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Vizual (VFR)",
+      "approach": "Yaqinlashuv",
+      "arrival": "Kelish",
+      "departure": "Uchish",
+      "other": "Boshqa"
+    }
+  },
+  "TermsPage": {
+    "title": "Foydalanish shartlari",
+    "intro": "AIP:Aero - butun Yevropa boʻylab havo kemalari harakati haqidagi maʼlumotlar toʻplami (AIP), yaqinlashuv kartalari va aeroport maʼlumotlari uchun bepul qidiruv va indekslash xizmati.",
+    "servicesTitle": "Bizning xizmatimiz",
+    "servicesText": "<home>AIP:Aero</home> aerodromlarni nom yoki ICAO kodi boʻyicha topish imkonini beradi va sizni tegishli davlatning rasmiy AIP nashriga bevosita yoʻnaltiradi. Bundan tashqari, bizning aeroport sahifalarimiz ob-havo hisobotlari (METAR/TAF), aerodrom maʼlumotlari (uchish yoʻlaklari, chastotalar, balandlik), xaritalar va aloqa maʼlumotlari kabi qoʻshimcha maʼlumotlarni oʻz ichiga oladi va sahifalarni oflayn foydalanish uchun saqlash mumkin. Xizmat bepul va roʻyxatdan oʻtishsiz taqdim etiladi.",
+    "disclaimerTitle": "Javobgarlikdan voz kechish",
+    "disclaimerText": "AIP:Aero hech qanday holatda javobgar boʻla olmaydi. Biz havo hujjatlarini oʻzimiz chop etmaymiz: biz faqat tegishli davlatning rasmiy provayderi tomonidan taqdim etilgan eng soʻnggi havo kemalari harakati haqidagi maʼlumotlar toʻplamiga (AIP) havola beramiz. Xuddi shu narsa ob-havo maʼlumotlari (METAR/TAF) va aeroport maʼlumotlariga ham tegishli: biz bu maʼlumotlarni sahifalarimizda koʻrsatamiz, ammo ular quyida keltirilgan tashqi manbalardan kelib chiqadi. Havola qilingan yoki koʻrsatilgan kontentning aniqligi, toʻliqligi yoki dolzarbligi uchun, shuningdek, ushbu veb-saytning mavjudligi uchun hech qanday javobgarlik yoki kafolatni oʻz zimmamizga olmaymiz. Ushbu veb-sayt rasmiy uchishdan oldingi brifingni almashtirmaydi: uchishga masʼul uchuvchi uchish uchun zarur boʻlgan barcha maʼlumotlarni olish va tekshirishda yakka masʼul boʻlib qoladi.",
+    "sourcesTitle": "Maʼlumot manbalari",
+    "sourcesIntro": "Biz havola qilingan va koʻrsatilgan maʼlumotlarni quyidagi manbalardan olamiz (manzillar ataylab bosib boʻlmaydigan oddiy matn sifatida koʻrsatilgan):",
+    "sourcesAip": "Biz havola qiladigan rasmiy AIP nashrlari",
+    "sourcesData": "Koʻrsatilgan tashqi maʼlumotlar",
+    "srcAwc": "METAR/TAF ob-havo va aeroport maʼlumotlari",
+    "srcOurAirports": "asosiy aeroport maʼlumotlari",
+    "srcOpenAip": "kengaytirilgan aerodrom maʼlumotlari: uchish yoʻlaklari, chastotalar, yoqilgʻi",
+    "srcOsm": "xaritalar va manzillar",
+    "metaTitle": "Foydalanish shartlari - AIP:Aero Oʻzbekiston",
+    "metaDescription": "Oʻzbekiston va Yevropa uchun bepul AIP va yaqinlashuv kartasi qidiruvi AIP:Aero'ning foydalanish shartlari: xizmat tavsifi, javobgarlikdan voz kechish va maʼlumot manbalari."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero uchuvchi vositalari: EFB ilovasi, oflayn kartalar, importlar va maʼlumotlar",
+    "intro": "AIP:Aero'ni EFB (Elektron uchish sumkasi) planshetingizga qanday oʻrnatish, yaqinlashuv kartalarini oflayn saqlash, davlat paketlarini yuklab olish va aeroportlarni rejalashtirish vositalaringizga qanday oʻtkazish - qadam-baqadam.",
+    "metaTitle": "EFB qoʻllanmasi Oʻzbekiston - AIP & yaqinlashuv kartalari planshetingizda | AIP:Aero",
+    "metaDescription": "AIP:Aero'ni EFB planshetingizga ilova sifatida oʻrnating, yaqinlashuv kartalarini oflayn saqlang, butun davlatlarni yuklab oling va karta PDF fayllarini ForeFlight, SkyDemon & Co'ga import qiling (Oʻzbekiston).",
+    "installTitle": "Ilova sifatida oʻrnatish (PWA)",
+    "installText": "AIP:Aero - oʻrnatiladigan veb-ilova: u mahalliy ilova kabi toʻliq ekranda ochiladi va saqlagan hamma narsangiz oflayn mavjud. Ilova doʻkoni kerak emas.",
+    "installIos": "iPad / iPhone (Safari): aip.aero'ni oching, ulashish belgisiga bosing, soʻngra \"Bosh ekranga qoʻshish\".",
+    "installAndroid": "Android (Chrome): aip.aero'ni oching, menyuga bosing, soʻngra \"Bosh ekranga qoʻshish\" / \"Ilovani oʻrnatish\".",
+    "installDesktop": "Ish stoli (Chrome/Edge): manzil satridagi oʻrnatish belgisiga bosing - yoki quyidagi tugmadan foydalaning. macOS (Safari): Ulashish belgisi, soʻngra \"Dock'ka qoʻshish\".",
+    "offlineTitle": "Alohida aeroportlarni oflayn saqlash",
+    "offlineText": "Har bir aeroport batafsil sahifasida \"Oflayn saqlash\" tugmasi bor. U sahifani va AIP chop etgan joylarda yaqinlashuv karta PDF faylini qurilmangizga saqlaydi; aeroport keyin davlat sahifasida Sevimlilar ostida paydo boʻladi. Saqlangan nusxalar oʻzlarining yuklab olingan sanasini koʻrsatadi.",
+    "bulkTitle": "Butun bir davlatni yuklab olish",
+    "bulkText": "<list>Aeroportlar roʻyxatida</list> siz bir davlatning barcha batafsil sahifalarini bir vaqtning oʻzida yuklab olishingiz mumkin (faqat sahifalar, karta PDF fayllarisiz - ularni har bir maydon uchun saqlang). Paket yuklab olishdan oldin oʻz hajmini koʻrsatadi va istalgan vaqtda yangilanishi yoki oʻchirilishi mumkin.",
+    "favoritesTitle": "Sevimlilar & yaqinda koʻrilganlar",
+    "favoritesText": "Oflayn foydalanish uchun saqlagan maydonlaringiz avtomatik ravishda sevimlilar sifatida paydo boʻladi va siz ochgan soʻnggi aeroportlar \"Yaqinda koʻrilganlar\" ostida roʻyxatga olinadi - ikkalasi ham faqat qurilmangizda saqlanadi, hisob kerak emas. Ikkala roʻyxatni ham <country>davlat sahifasida</country> topasiz.",
+    "importTitle": "ForeFlight, SkyDemon & Co.'da karta PDF fayllari",
+    "importText": "Milliy AIP karta PDF fayllarini chop etgan joylarda, batafsil sahifadagi karta qutisi AIRAC sanasi bilan birga joriy PDF faylga havola beradi. Uni yuklab oling va EFB ilovangizga maxsus kontent sifatida import qiling, masalan, ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) yoki Garmin Pilot. Germaniya PDF oʻrniga HTML sahifalarni chop etadi - u yerda AIP havolasidan foydalaning.",
+    "toolsTitle": "Rejalashtirish vositalariga oʻtkazishlar",
+    "toolsText": "Har bir batafsil sahifadagi joylashuv qutisi xuddi shu aeroportni bevosita SkyVector, Windy va autorouter'da ochadi - marshrutni rejalashtirish, ob-havo modellari va uchish rejasini topshirish uchun qulay.",
+    "weatherTitle": "Sahifada ob-havo brifingi",
+    "weatherText": "Batafsil sahifalar oddiy tildagi ochib berish bilan jonli METAR/TAF, uchish toifasi nishoni va har bir uchish yoʻlagi uchun qarshi va yon shamol taqsimotini koʻrsatadi - tez taqqoslash, rasmiy brifingingizni almashtirmaydi.",
+    "customsTitle": "Bojxona & chegara oʻtish",
+    "customsText": "Batafsil sahifalar aeroport bojxona xizmatini taklif qilishini koʻrsatadi; milliy AIP buni GEN 1.2'da roʻyxatga olganda, qiymat oʻsha rasmiy manbaga nisbatan tekshiriladi. Chegara oʻtish hujjatlari uchun joylashuv qutisi rasmiy shakllarga havola beradi (masalan, UK General Aviation Report) va xarita bojxonali aeroportlarni saralashi mumkin. Qoidalar oʻzgaradi - har doim joriy AIP va mahalliy organ bilan tasdiqlang.",
+    "disclaimerTitle": "Xavfsizlik eslatmasi",
+    "disclaimerText": "AIP:Aero rasmiy AIP nashrlariga havola beradi, ammo rasmiy manba emas. Oflayn nusxalar oʻzlarining yuklab olingan sanasi bilan belgilanadi va har bir AIRAC tsiklida eskirishi mumkin - har bir uchishdan oldin karta dolzarbligini tekshiring va har doim rasmiy uchishdan oldingi brifingni oling.",
+    "apiTitle": "API va maʼlumotlar hamkorligi",
+    "apiText": "Dasturchilar va EFB provayderlari uchun: AIP:Aero'ning tuzilgan aerodrom maʼlumotlari (meʼyorlashtirilgan aerodrom indeksi, karta PDF chuqur havolalari, AIRAC tsikllari, koordinatalar, uchish yoʻlaklari, chastotalar va bojxona maʼlumotlari) integratsiyalar uchun API orqali mavjud. Biz hamkorlikka ochiqmiz; <contact>biz bilan bogʻlaning</contact>.",
+    "installButton": "Hozir oʻrnatish",
+    "ctaTitle": "Hozir sinab koʻring",
+    "faqTitle": "Koʻp beriladigan savollar",
+    "faq1q": "AIP:Aero toʻliq oflayn ishlaydimi?",
+    "faq1a": "Saqlangan aeroportlar va yuklab olingan davlat paketlari internetsiz ishlaydi; har bir oflayn nusxa saqlangan sana bilan banner koʻrsatadi. Jonli ob-havo (METAR/TAF) har doim ulanishni talab qiladi.",
+    "faq2q": "Qaysi davlatlar qamrab olingan?",
+    "faq2a": "Hozirda mavjud boʻlgan barcha davlatlar <home>bosh sahifada</home> roʻyxatga olingan - qamrov doimiy oʻsib bormoqda. Har bir davlat kartasi mavjud karta turlarini koʻrsatadi.",
+    "faq3q": "Kartalar dolzarbmi?",
+    "faq3a": "Karta havolalari chop etilgan joyda AIRAC sanasi bilan birga rasmiy milliy AIP nashrlariga ishora qiladi. Uchishdan oldin har doim rasmiy manbaga nisbatan tekshiring."
+  },
+  "CountryFaq": {
+    "title": "Koʻp beriladigan savollar",
+    "q1": "AIP Oʻzbekiston nima?",
+    "a1": "AIP (havo kemalari harakati haqidagi maʼlumotlar toʻplami) - Oʻzbekistonning rasmiy havo qoʻllanmasi boʻlib, Uzaeronavigation tomonidan chop etiladi: aerodrom maʼlumotlari, protseduralar va yaqinlashuv kartalari, 28 kunlik AIRAC tsiklida yangilanadi. AIP:Aero sizni bevosita rasmiy nashrga yoʻnaltiradi.",
+    "q2": "Yaqinlashuv kartalari bepulmi?",
+    "a2": "AIP:Aero bepul: hisob yoʻq, obuna yoʻq. Uzaeronavigation Oʻzbekiston AIP'sini, jumladan <list>yaqinlashuv kartalarini</list> chop etadi; rasmiy portalga kirish roʻyxatdan oʻtish va pullik obunani talab qilishi mumkin.",
+    "q3": "Oʻzbekiston uchun qaysi kartalar va aeroportlar mavjud?",
+    "a3": "Oʻzbekiston uchun siz <vfr>VFR aeroportlarini</vfr> topasiz - jumladan asosiy aeroport Toshkent (UZTT), har biri rasmiy kartaga bevosita havola, ochib berilgan ob-havo (METAR/TAF) va aerodrom maʼlumotlari bilan.",
+    "q4": "AIP:Aero'ni oflayn yoki EFB'imda ishlatishim mumkinmi?",
+    "a4": "Ha - AIP:Aero ilova (PWA) sifatida oʻrnatiladi va alohida aerodromlar yoki butun davlat oflayn saqlanishi mumkin. <efb>EFB qoʻllanmasiga</efb> qarang."
+  }
+}

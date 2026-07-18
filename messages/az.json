@@ -1,0 +1,351 @@
+{
+  "BreadCrumbs": {
+    "label": "Naviqasiya izi",
+    "root": {
+      "title": "AIP indeksi",
+      "hrefTitle": "AIP indeksi"
+    },
+    "/": {
+      "title": "Azərbaycan (Azərbaycanca)",
+      "hrefTitle": "AIP Azərbaycan"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Azərbaycan"
+    },
+    "/airport-list": {
+      "title": "Hava limanları siyahısı",
+      "hrefTitle": "Azərbaycandakı hava limanları siyahısı"
+    },
+    "/terms": {
+      "title": "İstifadə şərtləri",
+      "hrefTitle": "İstifadə şərtləri - AIP:Aero Azərbaycan"
+    },
+    "/efb": {
+      "title": "Pilot alətləri və EFB",
+      "hrefTitle": "EFB bələdçisi - AIP:Aero planşetinizdə"
+    }
+  },
+  "Menu": {
+    "label": "Menyu",
+    "home": {
+      "title": "AIP Azərbaycan",
+      "hrefTitle": "AIP Azərbaycan"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Azərbaycan"
+    },
+    "airports": {
+      "title": "Hava limanları siyahısı",
+      "hrefTitle": "Azərbaycandakı hava limanları siyahısı"
+    }
+  },
+  "AirportsPage": {
+    "title": "Azərbaycandakı hava limanları siyahısı",
+    "metaTitle": "Azərbaycandakı hava limanları siyahısı",
+    "description": "Azərbaycandakı bütün hava limanlarına ümumi baxış",
+    "metaDescription": "Azərbaycandakı bütün hava limanlarına ümumi baxış🗺️",
+    "vfrCard": {
+      "title": "VFR hava limanları",
+      "description": "Azərbaycandakı VFR hava limanları",
+      "linkTitle": "{airport} hava limanının AIP VFR məlumatlarına və vizual yanaşma kartına daxil olmaq üçün aşağıdakı linkə klikləyin"
+    },
+    "heliportCard": {
+      "title": "Helikopter aerodromları",
+      "description": "Azərbaycandakı helikopter aerodromları",
+      "linkTitle": "{airport} helikopter aerodromunun AIP VFR məlumatlarına və vizual yanaşma kartına daxil olmaq üçün aşağıdakı linkə klikləyin"
+    },
+    "breadcrumb": {
+      "name": "Azərbaycandakı hava limanları siyahısı",
+      "alternateName": "Azərbaycandakı hava limanları siyahısı",
+      "description": "Azərbaycandakı bütün hava limanlarına ümumi baxış"
+    },
+    "coverage": "{bucket, select, gated {Bu ölkənin rəsmi AIP-si pulsuz qeydiyyat və ya abunəlik tələb edə bilən bir portaldadır - biz ona birbaşa link veririk və hər aerodrom üçün hava limanı məlumatları ilə hava şəraitini əlavə edirik.} full {Aşağıda sadalanan bütün {total} aerodromun hamısı üçün birbaşa yanaşma və VFR kart PDF-ləri mövcuddur.} partial {{total} aerodromdan {withCharts} ədədi üçün birbaşa kart PDF-ləri mövcuddur; daha kiçik meydanlar bunun əvəzinə rəsmi AIP qeydinə link verir.} none {Linklər hər aerodromun rəsmi AIP səhifəsini açır - bu orqan ayrıca kart PDF-ləri dərc etmir.} other {}}"
+  },
+  "VfrPage": {
+    "title": "AIP VFR və vizual yanaşma kartları indeksi Azərbaycan",
+    "metaTitle": "AIP VFR və vizual yanaşma kartları indeksi Azərbaycan",
+    "description": "State Civil Aviation Agency (AZANS) tərəfindən təqdim olunan AIP VFR yanaşma kartlarına daxil olmaq üçün hava limanının adını və ya ICAO kodunu (məsələn, UBBB) daxil edin.",
+    "metaDescription": "AIP VFR Azərbaycana baxın və hava limanı yanaşma kartlarını pulsuz yükləyin🗺️",
+    "searchTitle": "AIP VFR məlumatlarına daxil olmaq üçün hava limanının adını və ya ICAO kodunu daxil edin",
+    "searchPlaceholder": "AIP VFR məlumatlarına daxil olmaq üçün hava limanının adını və ya ICAO kodunu daxil edin",
+    "resultTitle": "{airport} hava limanının AIP VFR kartları",
+    "resultDescription": "{airport} hava limanının AIP VFR məlumatlarına və vizual yanaşma kartına daxil olmaq üçün aşağıdakı linkə klikləyin",
+    "breadcrumb": {
+      "name": "AIP VFR Azərbaycan",
+      "alternateName": "AIP VFR və vizual yanaşma kartları indeksi Azərbaycan",
+      "description": "AIP VFR Azərbaycana baxın və hava limanı yanaşma kartlarını pulsuz yükləyin"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Dili dəyişdir",
+    "locale": "{locale, select, az {🇦🇿 Azərbaycanca} en {🇬🇧 English} other {Naməlum}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Azərbaycanın AIP və yanaşma kartları",
+    "alternateName": "AIP Azərbaycan",
+    "description": "Azərbaycanda aeronaviqasiya məlumat nəşrinin (AIP) VFR və yanaşma kartlarının axtarış indeksi",
+    "inLanguage": "az",
+    "url": "https://aip.aero/az/"
+  },
+  "CountryPage": {
+    "title": "Azərbaycanın AIP və yanaşma kartları",
+    "metaTitle": "Azərbaycanın AIP və yanaşma kartları",
+    "description": "Azərbaycanda aeronaviqasiya məlumat nəşrinin (AIP) VFR və yanaşma kartlarının axtarış indeksi",
+    "metaDescription": "Azərbaycanda aeronaviqasiya məlumat nəşrinin (AIP) VFR və yanaşma kartlarının axtarış indeksi🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Azərbaycan",
+      "description": "AIP VFR Azərbaycana baxın və hava limanı yanaşma kartlarını pulsuz yükləyin",
+      "buttonTitle": "AIP VFR yanaşma kartları",
+      "buttonHref": "/az/vfr/",
+      "buttonHrefTitle": "AIP VFR Azərbaycan"
+    },
+    "airportListCard": {
+      "title": "Hava limanları siyahısı",
+      "description": "Azərbaycandakı bütün hava limanlarına ümumi baxış - offline yükləmə, gömrük və yanacaq məlumatları ilə",
+      "buttonTitle": "Hava limanları siyahısı",
+      "buttonHref": "/az/hava-limanlari-azerbaycan/",
+      "buttonHrefTitle": "Azərbaycandakı hava limanları siyahısı"
+    },
+    "breadcrumb": {
+      "name": "AIP Azərbaycan",
+      "alternateName": "Azərbaycanın AIP və yanaşma kartları",
+      "description": "Azərbaycanda aeronaviqasiya məlumat nəşrinin (AIP) VFR və yanaşma kartlarının axtarış indeksi"
+    }
+  },
+  "About": {
+    "title": "Bu vebsayt nə üçündür?",
+    "description": "<aip>Azərbaycan Aeronaviqasiya Məlumat Nəşri AIP</aip> State Civil Aviation Agency (AZANS, Azərbaycanın aeronaviqasiya xidmətləri təminatçısı) tərəfindən dərc olunur; rəsmi portala giriş qeydiyyat və ödənişli abunəlik tələb edə bilər. Bu vebsaytın məqsədi hava limanı axtarışını sadələşdirməkdir, çünki rəsmi eAIP axtarış funksiyasına malik deyil. AIP (Aeronaviqasiya Məlumat Nəşri) bizim tərəfimizdən dərc olunmadığı üçün onun dəqiqliyi və ya aktuallığı üçün heç bir məsuliyyət daşımırıq. Biz yalnız müvafiq yanaşma kartlarına rahat linklər təqdim edirik.",
+    "aipUrl": "https://www.caa.gov.az/",
+    "aipTitle": "AIP Azərbaycan"
+  },
+  "TradeAero": {
+    "title": "Təyyarə alırsınız və ya satırsınız?",
+    "description": "Trade:Aero-da Azərbaycanda satılıq təyyarələrə baxın - təyyarə alqı-satqısı üçün bazar meydançası.",
+    "buttonTitle": "Trade:Aero - Avropanın ən böyük təyyarə bazar meydançası",
+    "buttonHrefTitle": "Trade:Aero - Avropanın ən böyük təyyarə bazar meydançası"
+  },
+  "Footer": {
+    "navTitle": "Naviqasiya",
+    "legalTitle": "Hüquqi məlumat və əlaqə",
+    "partnersTitle": "Tərəfdaşlar",
+    "aipHome": {
+      "title": "AIP indeksi",
+      "hrefTitle": "AIP:Aero Ana səhifə - Avropa üçün AIP-lər və yanaşma kartları"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Rekvizitlər",
+      "hrefTitle": "Rekvizitlər - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Əlaqə",
+      "hrefTitle": "Əlaqə - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Məxfilik",
+      "hrefTitle": "Məxfilik siyasəti - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Alexander Dross-un vebsaytı",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "İstifadə şərtləri",
+      "hrefTitle": "İstifadə şərtləri - AIP:Aero Azərbaycan"
+    },
+    "efb": {
+      "title": "Pilot alətləri və EFB",
+      "hrefTitle": "AIP:Aero EFB cihazınızda - quraşdırma, offline kartlar, idxal"
+    }
+  },
+  "Error": {
+    "description": "<p>Təəssüf ki, xəta baş verdi.</p><p><retry>Bu səhifəni yenidən yükləməyi</retry> cəhd edə bilərsiniz.</p>",
+    "title": "Nəsə səhv getdi!"
+  },
+  "NotFound": {
+    "title": "404 - Səhifə tapılmadı",
+    "description": "Bu səhifə və ya hava limanı kodu mövcud deyil. Bunun əvəzinə hava limanını axtarın:",
+    "searchPlaceholder": "İstənilən hava limanını ad və ya ICAO kodu ilə axtarın",
+    "home": "Ana səhifəyə qayıt"
+  },
+  "Weather": {
+    "title": "Hava şəraiti",
+    "observed": "Müşahidə edilən",
+    "forecast": "Proqnoz",
+    "wind": "Külək",
+    "visibility": "Görünüş",
+    "clouds": "Buludlar",
+    "temperature": "Temperatur",
+    "qnh": "QNH",
+    "source": "Mənbə",
+    "elevation": "Yüksəklik",
+    "sunrise": "Gün doğuşu",
+    "sunset": "Gün batışı",
+    "civilTwilight": "Mülki alaqaranlıq",
+    "facts": "Aerodrom məlumatları",
+    "runways": "Uçuş-enmə zolaqları",
+    "frequencies": "Tezliklər",
+    "decode": "Deşifrə edilmiş göstər",
+    "openingHours": "İş saatları",
+    "fuel": "Yanacaq",
+    "ppr": "PPR",
+    "pprRequired": "Əvvəlcədən icazə tələb olunur",
+    "nearest": "Ən yaxın hava limanı {station} hava şəraiti ({km} km məsafədə)",
+    "circuit": "Uçuş dövrəsi",
+    "circuitLeft": "sol",
+    "circuitRight": "sağ",
+    "windComponents": "Külək komponentləri",
+    "headwind": "Qarşı külək",
+    "tailwind": "Arxa külək",
+    "crosswind": "Yan külək",
+    "fromLeft": "soldan",
+    "fromRight": "sağdan",
+    "landingDirection": "Ehtimal olunan enmə istiqaməti",
+    "aerodromeType": "Aerodrom tipi",
+    "surface": "Örtük",
+    "variable": "dəyişkən",
+    "calm": "sakit"
+  },
+  "Common": {
+    "openIn": "Bunda aç",
+    "homeLink": "AIP:Aero - Avropa üçün Aeronaviqasiya Məlumat Nəşrləri (AIP) və yanaşma kartları",
+    "lastUpdated": "Son yenilənmə",
+    "viewOnMap": "Google Xəritələrdə göstər",
+    "location": "Yerləşmə",
+    "website": "Vebsayt",
+    "address": "Ünvan",
+    "coordinates": "Koordinatlar",
+    "phone": "Telefon",
+    "map": "Xəritə",
+    "locate": "Yerimi tap",
+    "locateError": "Yeriniz müəyyən edilə bilmədi",
+    "nearby": "Yaxınlıqdakı hava limanları",
+    "restaurant": "Restoran",
+    "customs": "Gömrük",
+    "yes": "Bəli",
+    "no": "Xeyr",
+    "saveOffline": "Offline yadda saxla",
+    "savedOffline": "Offline yadda saxlanıldı",
+    "installHint": "Tətbiq kimi quraşdırın: brauzerinizin Paylaş menyusunu açın və 'Ana ekrana əlavə et' seçin. Sonra onlayn olarkən tətbiqi bir dəfə açın və meydanları orada yenidən yadda saxlayın - tətbiqin öz offline yaddaşı var.",
+    "installHintMac": "Mac-də: Safari-nin Paylaş menyusundan 'Dock-a əlavə et' ilə quraşdırın. Sonra onlayn olarkən tətbiqi bir dəfə açın və meydanları orada yenidən yadda saxlayın - tətbiqin öz offline yaddaşı var.",
+    "bulkDownload": "Bütün {count} səhifəni offline yadda saxla (təxminən {size} MB)",
+    "bulkDownloaded": "Offline mövcuddur",
+    "bulkUpdate": "Yenilə",
+    "bulkRemove": "Sil",
+    "bulkProgress": "Səhifələr yadda saxlanılır",
+    "bulkCancel": "Ləğv et",
+    "bulkError": "Yükləmə uğursuz oldu - zəhmət olmasa yenidən cəhd edin",
+    "bulkNoSpace": "Bu cihazda kifayət qədər boş yaddaş yoxdur",
+    "bulkScope": "Daxildir: aerodrom məlumatları ilə bütün hava limanı səhifələri. Daxil deyil: yanaşma kartı PDF-ləri (hər hava limanı üçün yadda saxlanıla bilər) və canlı hava şəraiti (bağlantı tələb edir).",
+    "moreInfo": "Ətraflı məlumat",
+    "pavedRunway": "Asfalt uçuş-enmə zolağı",
+    "favorites": "Sevimlilər",
+    "favoritesEmpty": "Hələ sevimli yoxdur - detal səhifəsindən bir hava limanını offline yadda saxlayın və o burada görünəcək.",
+    "recentlyViewed": "Son baxılanlar",
+    "recentlyViewedEmpty": "Açdığınız hava limanları sürətli giriş üçün burada avtomatik görünəcək.",
+    "borderCrossing": "Sərhəd keçidi",
+    "alsoAvailable": "Həmçinin mövcuddur:",
+    "aipLoginHint": "Giriş və ya qeydiyyat tələb oluna bilər.",
+    "noChartPdf": "Bu aerodrom üçün ayrıca kart PDF-i dərc olunmayıb - yuxarıdakı AIP düyməsi onun rəsmi aerodrom qeydini açır."
+  },
+  "Chart": {
+    "allCharts": "Bütün kartlar ({count})",
+    "title": "Yanaşma kartı",
+    "openPdf": "Kart PDF-ini aç",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Vizual (VFR)",
+      "approach": "Yanaşma",
+      "arrival": "Gəliş",
+      "departure": "Gediş",
+      "other": "Digər"
+    }
+  },
+  "TermsPage": {
+    "title": "İstifadə şərtləri",
+    "intro": "AIP:Aero bütün Avropada Aeronaviqasiya Məlumat Nəşrləri (AIP), yanaşma kartları və hava limanı məlumatları üçün pulsuz axtarış və indeksləmə xidmətidir.",
+    "servicesTitle": "Xidmətimiz",
+    "servicesText": "<home>AIP:Aero</home> aerodromları ad və ya ICAO kodu ilə tapmağa imkan verir və sizi birbaşa müvafiq ölkənin rəsmi AIP nəşrinə aparır. Bundan əlavə, hava limanı səhifələrimiz hava hesabatları (METAR/TAF), aerodrom məlumatları (uçuş-enmə zolaqları, tezliklər, yüksəklik), xəritələr və əlaqə məlumatları kimi əlavə məlumatları özündə birləşdirir və səhifələr offline istifadə üçün yadda saxlanıla bilər. Xidmət pulsuz və qeydiyyatsız təqdim olunur.",
+    "disclaimerTitle": "Məsuliyyətdən imtina",
+    "disclaimerText": "AIP:Aero heç bir halda məsuliyyət daşıya bilməz. Biz aeronaviqasiya sənədlərini özümüz dərc etmirik: yalnız müvafiq ölkənin rəsmi təminatçısı tərəfindən təqdim olunan ən son Aeronaviqasiya Məlumat Nəşrinə (AIP) link veririk. Eyni şey hava məlumatlarına (METAR/TAF) və hava limanı məlumatlarına da aiddir: biz bu məlumatı səhifələrimizdə göstəririk, lakin o, aşağıda sadalanan xarici mənbələrdən gəlir. Linklənmiş və ya göstərilən məzmunun dəqiqliyi, tamlığı və ya aktuallığı, həmçinin bu vebsaytın əlçatanlığı üçün heç bir məsuliyyət və ya zəmanət daşımırıq. Bu vebsayt rəsmi uçuşqabağı brifinqi əvəz etmir: uçuşun komandiri (PIC) uçuş üçün lazım olan bütün məlumatları əldə etmək və yoxlamaqda təkbaşına məsuliyyət daşıyır.",
+    "sourcesTitle": "Məlumat mənbələri",
+    "sourcesIntro": "Linklənmiş və göstərilən məlumatları aşağıdakı mənbələrdən əldə edirik (ünvanlar qəsdən klikləyə bilinməyən düz mətn kimi göstərilir):",
+    "sourcesAip": "Link verdiyimiz rəsmi AIP nəşrləri",
+    "sourcesData": "Göstərilən xarici məlumatlar",
+    "srcAwc": "METAR/TAF hava və hava limanı məlumatları",
+    "srcOurAirports": "əsas hava limanı məlumatları",
+    "srcOpenAip": "genişləndirilmiş aerodrom məlumatları: uçuş-enmə zolaqları, tezliklər, yanacaq",
+    "srcOsm": "xəritələr və ünvanlar",
+    "metaTitle": "İstifadə şərtləri - AIP:Aero Azərbaycan",
+    "metaDescription": "Azərbaycan və Avropa üçün pulsuz AIP və yanaşma kartı axtarışı olan AIP:Aero-nun istifadə şərtləri: xidmət təsviri, məsuliyyətdən imtina və məlumat mənbələri."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero pilot alətləri: EFB tətbiqi, offline kartlar, idxallar və məlumatlar",
+    "intro": "AIP:Aero-nu EFB (Elektron Uçuş Çantası) planşetinizə necə quraşdırmaq, yanaşma kartlarını offline yadda saxlamaq, ölkə paketlərini yükləmək və meydanları planlaşdırma alətlərinizə ötürmək - addım-addım.",
+    "metaTitle": "EFB Bələdçisi Azərbaycan - AIP və yanaşma kartları planşetinizdə | AIP:Aero",
+    "metaDescription": "AIP:Aero-nu EFB planşetinizə tətbiq kimi quraşdırın, yanaşma kartlarını offline yadda saxlayın, bütün ölkələri yükləyin və kart PDF-lərini ForeFlight, SkyDemon & Co-ya idxal edin (Azərbaycan).",
+    "installTitle": "Tətbiq kimi quraşdır (PWA)",
+    "installText": "AIP:Aero quraşdırıla bilən veb tətbiqdir: yerli tətbiq kimi tam ekranda açılır və yadda saxladığınız hər şey offline mövcuddur. Tətbiq mağazası tələb olunmur.",
+    "installIos": "iPad / iPhone (Safari): aip.aero-nu açın, paylaş ikonuna toxunun, sonra \"Ana ekrana əlavə et\".",
+    "installAndroid": "Android (Chrome): aip.aero-nu açın, menyuya toxunun, sonra \"Ana ekrana əlavə et\" / \"Tətbiqi quraşdır\".",
+    "installDesktop": "Masaüstü (Chrome/Edge): ünvan zolağındakı quraşdırma ikonuna klikləyin - və ya aşağıdakı düyməni istifadə edin. macOS (Safari): Paylaş ikonu, sonra \"Dock-a əlavə et\".",
+    "offlineTitle": "Ayrı-ayrı hava limanlarını offline yadda saxla",
+    "offlineText": "Hər hava limanı detal səhifəsində \"Offline yadda saxla\" düyməsi var. O, səhifəni və AIP-nin dərc etdiyi yerlərdə yanaşma kartı PDF-ini cihazınızda saxlayır; hava limanı sonra ölkə səhifəsində Sevimlilər altında görünür. Yadda saxlanılan nüsxələr yükləmə tarixlərini göstərir.",
+    "bulkTitle": "Bütün ölkəni yüklə",
+    "bulkText": "<list>Hava limanı siyahısında</list> bir ölkənin bütün detal səhifələrini bir dəfəyə yükləyə bilərsiniz (yalnız səhifələr, kart PDF-ləri olmadan - onları hər meydan üçün yadda saxlayın). Paket yükləmədən əvvəl ölçüsünü göstərir və istənilən vaxt yenilənə və ya silinə bilər.",
+    "favoritesTitle": "Sevimlilər və son baxılanlar",
+    "favoritesText": "Offline istifadə üçün yadda saxladığınız meydanlar avtomatik olaraq sevimlilər kimi görünür və açdığınız son hava limanları \"Son baxılanlar\" altında sadalanır - hər ikisi yalnız cihazınızda saxlanılır, hesab tələb olunmur. Hər iki siyahını <country>ölkə səhifəsində</country> tapa bilərsiniz.",
+    "importTitle": "ForeFlight, SkyDemon & Co.-da kart PDF-ləri",
+    "importText": "Milli AIP kart PDF-ləri dərc etdiyi yerlərdə, detal səhifəsindəki kart qutusu AIRAC tarixi daxil olmaqla cari PDF-ə link verir. Onu yükləyin və EFB tətbiqinizə xüsusi məzmun kimi idxal edin, məsələn, ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) və ya Garmin Pilot. Almaniya PDF əvəzinə HTML səhifələri dərc edir - orada AIP linkindən istifadə edin.",
+    "toolsTitle": "Planlaşdırma alətlərinə ötürmələr",
+    "toolsText": "Hər detal səhifəsindəki yerləşmə qutusu eyni meydanı birbaşa SkyVector, Windy və autorouter-də açır - marşrut planlaşdırması, hava modelləri və uçuş planının təqdimi üçün əlverişlidir.",
+    "weatherTitle": "Səhifədə hava brifinqi",
+    "weatherText": "Detal səhifələri düz dildə deşifrə ilə canlı METAR/TAF, uçuş kateqoriyası nişanını və hər uçuş-enmə zolağı üçün qarşı və yan külək bölgüsünü göstərir - sürətli çarpaz yoxlama, rəsmi brifinqinizi əvəz etmir.",
+    "customsTitle": "Gömrük və sərhəd keçidi",
+    "customsText": "Detal səhifələri meydanın gömrük xidməti təklif edib-etmədiyini göstərir; milli AIP onu GEN 1.2-də sadaladığı yerlərdə dəyər həmin rəsmi mənbəyə qarşı yoxlanılır. Sərhəd keçidi sənədləri üçün yerləşmə qutusu rəsmi formalara link verir (məsələn, UK General Aviation Report) və xəritə gömrüklü meydanları filtrləyə bilər. Qaydalar dəyişir - həmişə cari AIP və yerli orqanla təsdiqləyin.",
+    "disclaimerTitle": "Təhlükəsizlik qeydi",
+    "disclaimerText": "AIP:Aero rəsmi AIP nəşrlərinə link verir, lakin rəsmi mənbə deyil. Offline nüsxələr yükləmə tarixləri ilə işarələnir və hər AIRAC dövrü ilə köhnələ bilər - hər uçuşdan əvvəl kart aktuallığını yoxlayın və həmişə rəsmi uçuşqabağı brifinq alın.",
+    "apiTitle": "API və məlumat əməkdaşlığı",
+    "apiText": "Tərtibatçılar və EFB təminatçıları üçün: AIP:Aero-nun strukturlaşdırılmış aerodrom məlumatları (normallaşdırılmış aerodrom indeksi, kart PDF dərin linkləri, AIRAC dövrləri, koordinatlar, uçuş-enmə zolaqları, tezliklər və gömrük məlumatları) inteqrasiyalar üçün API vasitəsilə mövcuddur. Əməkdaşlığa açığıq; <contact>bizimlə əlaqə saxlayın</contact>.",
+    "installButton": "İndi quraşdır",
+    "ctaTitle": "İndi sınayın",
+    "faqTitle": "Tez-tez verilən suallar",
+    "faq1q": "AIP:Aero tam offline işləyir?",
+    "faq1a": "Yadda saxlanılan meydanlar və yüklənmiş ölkə paketləri internetsiz işləyir; hər offline nüsxə yadda saxlama tarixi ilə banner göstərir. Canlı hava (METAR/TAF) həmişə bağlantı tələb edir.",
+    "faq2q": "Hansı ölkələr əhatə olunur?",
+    "faq2a": "Hazırda aktiv olan bütün ölkələr <home>ana səhifədə</home> sadalanır - əhatə dairəsi davamlı olaraq böyüyür. Hər ölkə kartı mövcud kart növlərini göstərir.",
+    "faq3q": "Kartlar aktualdır?",
+    "faq3a": "Kart linkləri dərc olunduğu yerdə AIRAC tarixi daxil olmaqla rəsmi milli AIP nəşrlərinə işarə edir. Uçuşdan əvvəl həmişə rəsmi mənbəyə qarşı yoxlayın."
+  },
+  "CountryFaq": {
+    "title": "Tez-tez verilən suallar",
+    "q1": "AIP Azərbaycan nədir?",
+    "a1": "AIP (Aeronaviqasiya Məlumat Nəşri) Azərbaycanın rəsmi aeronaviqasiya təlimatıdır və State Civil Aviation Agency (AZANS, Azərbaycanın aeronaviqasiya xidmətləri təminatçısı) tərəfindən dərc olunur: aerodrom məlumatları, prosedurlar və yanaşma kartları, 28 günlük AIRAC dövründə yenilənir. AIP:Aero sizi birbaşa rəsmi nəşrə aparır.",
+    "q2": "Yanaşma kartları pulsuzdur?",
+    "a2": "AIP:Aero pulsuzdur: hesab yox, abunəlik yox. State Civil Aviation Agency (AZANS) <list>yanaşma kartları</list> daxil olmaqla Azərbaycanın AIP-sini dərc edir; rəsmi portala giriş qeydiyyat və ödənişli abunəlik tələb edə bilər.",
+    "q3": "Azərbaycan üçün hansı kartlar və hava limanları mövcuddur?",
+    "a3": "Azərbaycan üçün <vfr>VFR meydanlarını</vfr> tapacaqsınız - əsas hava limanı Bakı (UBBB) daxil olmaqla, hər biri rəsmi karta birbaşa link, deşifrə edilmiş hava (METAR/TAF) və aerodrom məlumatları ilə.",
+    "q4": "AIP:Aero-nu offline və ya EFB-imdə istifadə edə bilərəm?",
+    "a4": "Bəli - AIP:Aero tətbiq (PWA) kimi quraşdırılır və ayrı-ayrı aerodromlar və ya bütün ölkə offline yadda saxlanıla bilər. <efb>EFB bələdçisinə</efb> baxın."
+  }
+}

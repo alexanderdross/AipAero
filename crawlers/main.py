@@ -18,6 +18,7 @@ from pydantic import ValidationError
 from crawlers.al import AL
 from crawlers.am import AM
 from crawlers.at import AT
+from crawlers.az import AZ
 from crawlers.ba import BA
 from crawlers.be import BE
 from crawlers.bg import BG
@@ -52,7 +53,9 @@ from crawlers.se import SE
 from crawlers.si import SI
 from crawlers.sk import SK
 from crawlers.tr import TR
+from crawlers.ua import UA
 from crawlers.uk import UK
+from crawlers.uz import UZ
 from output_handler import OutputHandler
 from settings import Settings
 
@@ -65,6 +68,7 @@ COUNTRY_CRAWLERS = {
     "AL": AL,
     "AM": AM,
     "AT": AT,
+    "AZ": AZ,
     "BA": BA,
     "BG": BG,
     "CH": CH,
@@ -100,6 +104,8 @@ COUNTRY_CRAWLERS = {
     "SI": SI,
     "SK": SK,
     "TR": TR,
+    "UA": UA,
+    "UZ": UZ,
 }
 
 
