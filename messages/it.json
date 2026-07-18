@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Glossario",
       "hrefTitle": "Glossario aeronautico - AIP, AIRAC, VFR, METAR e carte di avvicinamento spiegati"
+    },
+    "/guides": {
+      "title": "Guide",
+      "hrefTitle": "Guide per piloti - leggere le carte di avvicinamento, il ciclo AIRAC e decodificare METAR/TAF"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Glossario",
       "hrefTitle": "Glossario aeronautico - i termini chiave dell'AIP e delle carte spiegati"
+    },
+    "guides": {
+      "title": "Guide",
+      "hrefTitle": "Guide per piloti - leggere le carte, il ciclo AIRAC e decodificare il meteo"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "I diagrammi ufficiali che i piloti usano per arrivare a un aeroporto e muoversi al suo interno: la carta di avvicinamento a vista (VAC) per il VFR, la carta di avvicinamento strumentale (IAC) per l'IFR, e la carta di aeroporto (ADC) per la disposizione a terra. AIP:Aero collega il PDF esatto della carta ovunque l'AIP nazionale ne pubblichi uno."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Guide per piloti - Leggere le carte, il ciclo AIRAC, decodificare METAR/TAF",
+    "metaDescription": "Guide brevi e pratiche per piloti privati: come leggere una carta di avvicinamento, come funziona il ciclo AIRAC e come decodificare i bollettini meteo METAR e TAF.",
+    "title": "Guide per piloti",
+    "intro": "Guide brevi e pratiche sui documenti e i dati aeronautici che utilizzi su AIP:Aero, scritte per i piloti privati. Ciascuna rimanda alle pagine degli aeroporti dove puoi metterle in pratica.",
+    "guides": {
+      "charts": {
+        "title": "Come leggere una carta di avvicinamento",
+        "intro": "Una carta di avvicinamento raccoglie le procedure di arrivo e di partenza di un aeroporto in un unico foglio. Leggila dall'alto verso il basso prima di volare.",
+        "s1": "Controlla prima l'intestazione: il nome dell'aeroporto, il codice ICAO, il tipo di carta e la data di entrata in vigore AIRAC. AIP:Aero mostra l'edizione AIRAC su ogni pagina dell'aeroporto, così puoi confermare che la carta sia aggiornata.",
+        "s2": "Leggi la vista in pianta, la disposizione a volo d'uccello di piste, radioassistenze, circuiti di attesa e spazio aereo, con le rotte e le distanze tra i punti di riferimento.",
+        "s3": "Leggi la vista in profilo e i minimi: il profilo di discesa, l'altitudine a ciascun punto di riferimento e l'altitudine di decisione o l'altitudine minima di discesa per l'avvicinamento.",
+        "s4": "Annota la procedura di mancato avvicinamento e i riquadri delle comunicazioni e delle luci, così da conoscere la rotta di riattaccata e le frequenze prima di averne bisogno."
+      },
+      "airac": {
+        "title": "Capire il ciclo AIRAC",
+        "intro": "AIRAC è il calendario fisso che mantiene allineati i dati aeronautici di tutto il mondo, così le carte cambiano in date prevedibili anziché a caso.",
+        "s1": "Le modifiche entrano in vigore ogni 28 giorni, alla stessa data in tutto il mondo. Ci sono 13 cicli all'anno, ciascuno identificato da anno e numero (per esempio 2026-07).",
+        "s2": "Una nuova edizione viene pubblicata ben prima della sua data di entrata in vigore così puoi prepararti, ma diventa valida solo in quella data. Vola sempre con l'edizione in vigore.",
+        "s3": "Su AIP:Aero ogni pagina dell'aeroporto mostra l'edizione AIRAC della carta collegata, così puoi verificare a colpo d'occhio se stai consultando il ciclo attuale."
+      },
+      "metar": {
+        "title": "Decodificare METAR e TAF",
+        "intro": "Il METAR è il meteo osservato in tempo reale su un aeroporto; il TAF è la previsione per l'area circostante. Entrambi usano lo stesso codice compatto.",
+        "s1": "Leggi i gruppi nell'ordine: stazione, giorno e ora, vento (direzione e velocità), visibilità, tempo e nuvolosità, poi temperatura e punto di rugiada e la pressione QNH.",
+        "s2": "La categoria di volo riassume il tutto: VFR, MVFR, IFR o LIFR, in base al soffitto e alla visibilità, così puoi valutare l'idoneità a colpo d'occhio.",
+        "s3": "AIP:Aero decodifica l'ultimo METAR e TAF in linguaggio chiaro su ogni pagina dell'aeroporto dotata di una stazione di rilevamento, conservando accanto il bollettino grezzo."
+      }
+    },
+    "faqTitle": "Domande frequenti",
+    "faq": {
+      "q1": "Ho ancora bisogno dell'AIP ufficiale se uso AIP:Aero?",
+      "a1": "Sì. AIP:Aero collega l'AIP e le carte ufficiali nazionali e aggiunge contesto, ma l'AIP nazionale è sempre la fonte autorevole, quindi consultalo prima di ogni volo.",
+      "q2": "Come faccio a sapere se una carta è aggiornata?",
+      "a2": "Ogni pagina dell'aeroporto mostra l'edizione AIRAC della carta collegata. Confrontala con il ciclo AIRAC in vigore alla data del tuo volo.",
+      "q3": "Dove posso provare tutto questo?",
+      "a3": "Apri una qualsiasi pagina di aeroporto dall'elenco degli aeroporti del tuo paese e vi troverai la carta, il meteo decodificato e i dati dell'aeroporto descritti in queste guide."
+    },
+    "ctaTitle": "Trova il tuo aeroporto"
   }
 }

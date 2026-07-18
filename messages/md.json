@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Glosar",
       "hrefTitle": "Glosar aeronautic - AIP, AIRAC, VFR, METAR și hărțile de apropiere explicate"
+    },
+    "/guides": {
+      "title": "Ghiduri",
+      "hrefTitle": "Ghiduri pentru piloți - citirea hărților de apropiere, ciclul AIRAC și decodarea METAR/TAF"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Glosar",
       "hrefTitle": "Glosar aeronautic - termenii cheie despre AIP și hărți explicați"
+    },
+    "guides": {
+      "title": "Ghiduri",
+      "hrefTitle": "Ghiduri pentru piloți - citirea hărților, ciclul AIRAC și decodarea vremii"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Diagramele oficiale pe care piloții le folosesc pentru a ajunge la un aerodrom și a se deplasa în cadrul lui: Harta de Apropiere Vizuală (VAC) pentru VFR, Harta de Apropiere Instrumentală (IAC) pentru IFR și Harta de Aerodrom (ADC) pentru dispunerea la sol. AIP:Aero leagă exact PDF-ul hărții oriunde AIP-ul național publică unul."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Ghiduri pentru piloți - citirea hărților, ciclul AIRAC, decodarea METAR/TAF",
+    "metaDescription": "Ghiduri scurte și practice pentru piloții privați: cum să citiți o hartă de apropiere, cum funcționează ciclul AIRAC și cum să decodați rapoartele meteo METAR și TAF.",
+    "title": "Ghiduri pentru piloți",
+    "intro": "Ghiduri scurte și practice despre documentele și datele aeronautice pe care le folosiți pe AIP:Aero, scrise pentru piloții privați. Fiecare vă conduce înapoi la paginile aerodromurilor unde le puteți pune în practică.",
+    "guides": {
+      "charts": {
+        "title": "Cum să citiți o hartă de apropiere",
+        "intro": "O hartă de apropiere concentrează procedurile de sosire și de plecare ale unui aerodrom pe o singură filă. Citiți-o de sus în jos înainte de zbor.",
+        "s1": "Verificați mai întâi antetul: numele aerodromului, codul ICAO, tipul hărții și data de intrare în vigoare conform AIRAC. AIP:Aero afișează ediția AIRAC pe fiecare pagină de aerodrom pentru a confirma că harta este actuală.",
+        "s2": "Citiți vederea în plan, dispunerea de sus a pistelor, mijloacelor de navigație, schemelor de așteptare și a spațiului aerian, cu direcțiile și distanțele dintre puncte.",
+        "s3": "Citiți vederea în profil și minimele: profilul de coborâre, altitudinea la fiecare punct și altitudinea de decizie sau altitudinea minimă de coborâre pentru apropiere.",
+        "s4": "Notați procedura de apropiere ratată și casetele de comunicații și de balizaj, ca să știți direcția de reînscriere în tur de pistă și frecvențele înainte să aveți nevoie de ele."
+      },
+      "airac": {
+        "title": "Înțelegerea ciclului AIRAC",
+        "intro": "AIRAC este calendarul fix care menține datele aeronautice ale lumii sincronizate, astfel încât hărțile se schimbă la date previzibile, nu întâmplător.",
+        "s1": "Modificările intră în vigoare la fiecare 28 de zile, la aceeași dată în întreaga lume. Sunt 13 cicluri pe an, fiecare identificat prin an și număr (de exemplu 2026-07).",
+        "s2": "O ediție nouă este publicată cu mult înainte de data intrării în vigoare, ca să vă puteți pregăti, dar devine actuală abia la acea dată. Zburați întotdeauna cu ediția în vigoare.",
+        "s3": "Pe AIP:Aero fiecare pagină de aerodrom afișează ediția AIRAC a hărții asociate, astfel încât să verificați dintr-o privire dacă vă uitați la ciclul curent."
+      },
+      "metar": {
+        "title": "Decodarea METAR și TAF",
+        "intro": "METAR este vremea observată curent la un aerodrom; TAF este prognoza pentru zona din jurul acestuia. Ambele folosesc același cod compact.",
+        "s1": "Citiți grupurile în ordine: stația, ziua și ora, vântul (direcție și viteză), vizibilitatea, vremea și norii, apoi temperatura și punctul de rouă și presiunea QNH.",
+        "s2": "Categoria de zbor rezumă totul: VFR, MVFR, IFR sau LIFR, în funcție de plafonul norilor și de vizibilitate, ca să apreciați dintr-o privire dacă sunt condiții potrivite.",
+        "s3": "AIP:Aero decodează cele mai recente METAR și TAF în limbaj simplu pe fiecare pagină de aerodrom care are o stație de raportare, păstrând alături raportul brut."
+      }
+    },
+    "faqTitle": "Întrebări frecvente",
+    "faq": {
+      "q1": "Mai am nevoie de AIP-ul oficial dacă folosesc AIP:Aero?",
+      "a1": "Da. AIP:Aero face legătura către AIP-ul național oficial și hărți și adaugă context, dar AIP-ul național este întotdeauna sursa autoritară, așa că verificați-l înainte de fiecare zbor.",
+      "q2": "Cum știu că o hartă este actuală?",
+      "a2": "Fiecare pagină de aerodrom afișează ediția AIRAC a hărții asociate. Comparați-o cu ciclul AIRAC în vigoare la data zborului dumneavoastră.",
+      "q3": "Unde pot încerca asta?",
+      "a3": "Deschideți orice pagină de aerodrom din lista de aerodromuri pentru țara dumneavoastră și veți găsi harta, vremea decodată și datele aerodromului descrise în aceste ghiduri."
+    },
+    "ctaTitle": "Găsiți-vă aerodromul"
   }
 }

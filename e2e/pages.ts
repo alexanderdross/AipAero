@@ -402,6 +402,22 @@ const glossaryPages: TestPage[] = [
   { path: "/tr/glossary/", lang: "tr", label: "glossary tr" },
 ];
 
+// Guides pages - one uniform slug /guides, fully localized content. Same
+// per-language meta-description rule as the glossary: one representative page
+// per distinct LANGUAGE keeps the SEO test's uniqueness check happy.
+const guidesPages: TestPage[] = [
+  { path: "/uk/guides/", lang: "en", label: "guides uk" },
+  { path: "/de/guides/", lang: "de", label: "guides de" },
+  { path: "/fr/guides/", lang: "fr", label: "guides fr" },
+  { path: "/es/guides/", lang: "es", label: "guides es" },
+  { path: "/nl/guides/", lang: "nl", label: "guides nl" },
+  { path: "/pl/guides/", lang: "pl", label: "guides pl" },
+  { path: "/gr/guides/", lang: "el", label: "guides gr" },
+  { path: "/ru/guides/", lang: "ru", label: "guides ru" },
+  { path: "/ge/guides/", lang: "ka", label: "guides ge" },
+  { path: "/tr/guides/", lang: "tr", label: "guides tr" },
+];
+
 /** Root landing page (`/`) — its own <html> with a manually rendered <head>. */
 export const rootPage: TestPage = { path: "/", lang: "en", label: "root" };
 
@@ -414,6 +430,7 @@ export const allPages: TestPage[] = [
   ...legalPages,
   ...efbPages,
   ...glossaryPages,
+  ...guidesPages,
 ];
 
 /** A representative subset for the (slower) accessibility sweep. */

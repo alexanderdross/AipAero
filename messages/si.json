@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Slovar",
       "hrefTitle": "Letalski slovar - AIP, AIRAC, VFR, METAR in prilezne karte pojasnjeni"
+    },
+    "/guides": {
+      "title": "Vodniki",
+      "hrefTitle": "Vodniki za pilote - branje priletnih kart, cikel AIRAC in dekodiranje METAR/TAF"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Slovar",
       "hrefTitle": "Letalski slovar - ključni izrazi AIP in kart pojasnjeni"
+    },
+    "guides": {
+      "title": "Vodniki",
+      "hrefTitle": "Vodniki za pilote - branje kart, cikel AIRAC in dekodiranje vremena"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Uradne sheme, ki jih piloti uporabljajo za prihod na letališče in gibanje po njem: vizualna prilezna karta (VAC) za VFR, instrumentalna prilezna karta (IAC) za IFR in letališka karta (ADC) za razporeditev na tleh. AIP:Aero poveže natančno datoteko PDF karte povsod, kjer jo nacionalni AIP objavi."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Vodniki za pilote - branje kart, cikel AIRAC, dekodiranje METAR/TAF",
+    "metaDescription": "Kratki, praktični vodniki za zasebne pilote: kako brati priletno karto, kako deluje cikel AIRAC ter kako dekodirati vremenska poročila METAR in TAF.",
+    "title": "Vodniki za pilote",
+    "intro": "Kratki, praktični vodniki po letalskih dokumentih in podatkih, ki jih uporabljate na AIP:Aero, napisani za zasebne pilote. Vsak od njih vodi nazaj na strani letališč, kjer jih lahko uporabite v praksi.",
+    "guides": {
+      "charts": {
+        "title": "Kako brati priletno karto",
+        "intro": "Priletna karta strne prihodne in odhodne postopke letališča v en list. Preberite jo od vrha do dna pred letom.",
+        "s1": "Najprej preverite glavo: ime letališča, kodo ICAO, vrsto karte in datum veljavnosti AIRAC. AIP:Aero prikazuje izdajo AIRAC na vsaki strani letališča, da lahko potrdite, da je karta aktualna.",
+        "s2": "Preberite tlorisni pogled, ptičji pogled na razporeditev vzletno-pristajalnih stez, navigacijskih naprav, čakalnih vzorcev in zračnega prostora, s smermi in razdaljami med točkami.",
+        "s3": "Preberite profilni pogled in minimume: profil spuščanja, višino pri vsaki točki ter odločitveno višino ali najmanjšo višino spuščanja za prilet.",
+        "s4": "Bodite pozorni na postopek neuspelega prileta ter na okvirje s komunikacijami in osvetlitvijo, da poznate smer neuspelega prileta in frekvence, preden jih potrebujete."
+      },
+      "airac": {
+        "title": "Razumevanje cikla AIRAC",
+        "intro": "AIRAC je stalni koledar, ki ohranja svetovne letalske podatke usklajene, tako da se karte spreminjajo na predvidljive datume in ne naključno.",
+        "s1": "Spremembe začnejo veljati vsakih 28 dni, na isti datum po vsem svetu. Na leto je 13 ciklov, vsak označen z letom in številko (na primer 2026-07).",
+        "s2": "Nova izdaja je objavljena precej pred datumom veljavnosti, da se lahko pripravite, vendar postane veljavna šele na ta dan. Vedno letite po veljavni izdaji.",
+        "s3": "Na AIP:Aero vsaka stran letališča prikazuje izdajo AIRAC povezane karte, tako da lahko z enim pogledom preverite, ali gledate aktualni cikel."
+      },
+      "metar": {
+        "title": "Dekodiranje METAR in TAF",
+        "intro": "METAR je trenutno opazovano vreme na letališču; TAF je napoved za območje okoli njega. Oba uporabljata isto strnjeno kodo.",
+        "s1": "Berite skupine po vrsti: postaja, dan in čas, veter (smer in hitrost), vidljivost, vreme in oblačnost, nato temperatura in rosišče ter tlak QNH.",
+        "s2": "Kategorija leta vse povzame: VFR, MVFR, IFR ali LIFR, na podlagi baze oblakov in vidljivosti, tako da z enim pogledom presodite primernost.",
+        "s3": "AIP:Aero dekodira najnovejši METAR in TAF v preprost jezik na vsaki strani letališča, ki ima poročevalno postajo, pri čemer je ob njem ohranjeno tudi izvirno poročilo."
+      }
+    },
+    "faqTitle": "Pogosto zastavljena vprašanja",
+    "faq": {
+      "q1": "Ali še vedno potrebujem uradni AIP, če uporabljam AIP:Aero?",
+      "a1": "Da. AIP:Aero povezuje uradni nacionalni AIP in karte ter dodaja kontekst, vendar je nacionalni AIP vedno merodajni vir, zato ga preverite pred vsakim letom.",
+      "q2": "Kako vem, da je karta aktualna?",
+      "a2": "Vsaka stran letališča prikazuje izdajo AIRAC povezane karte. Primerjajte jo s ciklom AIRAC, veljavnim na dan vašega leta.",
+      "q3": "Kje lahko to preizkusim?",
+      "a3": "Odprite katero koli stran letališča s seznama letališč za vašo državo in našli boste karto, dekodirano vreme in podatke o letališču, opisane v teh vodnikih."
+    },
+    "ctaTitle": "Poiščite svoje letališče"
   }
 }

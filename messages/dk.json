@@ -32,6 +32,10 @@
     "/glossary": {
       "title": "Ordbog",
       "hrefTitle": "Luftfartsordbog - AIP, AIRAC, VFR, METAR og indflyvningskort forklaret"
+    },
+    "/guides": {
+      "title": "Guider",
+      "hrefTitle": "Pilotguider - laesning af indflyvningskort, AIRAC-cyklussen og afkodning af METAR/TAF"
     }
   },
   "Menu": {
@@ -214,6 +218,10 @@
     "glossary": {
       "title": "Ordbog",
       "hrefTitle": "Luftfartsordbog - vigtige AIP- og kortbegreber forklaret"
+    },
+    "guides": {
+      "title": "Guider",
+      "hrefTitle": "Pilotguider - laesning af kort, AIRAC-cyklussen og afkodning af vejr"
     }
   },
   "Error": {
@@ -437,5 +445,45 @@
         "def": "De officielle diagrammer, piloter bruger til at ankomme til og bevæge sig rundt på en flyveplads: det visuelle indflyvningskort (VAC) til VFR, instrumentindflyvningskortet (IAC) til IFR og flyvepladskortet (ADC) til jordlayoutet. AIP:Aero linker den præcise kort-PDF, hvor den nationale AIP udgiver et sådant."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilotguider - laesning af kort, AIRAC-cyklussen, afkodning af METAR/TAF",
+    "metaDescription": "Korte, praktiske guider til privatpiloter: hvordan man laeser et indflyvningskort, hvordan AIRAC-cyklussen fungerer, og hvordan man afkoder METAR- og TAF-vejrrapporter.",
+    "title": "Pilotguider",
+    "intro": "Korte, praktiske guider til de aeronautiske dokumenter og data, du bruger på AIP:Aero, skrevet til privatpiloter. Hver enkelt linker tilbage til lufthavnssiderne, hvor du kan omsaette det i praksis.",
+    "guides": {
+      "charts": {
+        "title": "Sådan laeser du et indflyvningskort",
+        "intro": "Et indflyvningskort samler en flyveplads' ankomst- og afgangsprocedurer på ét ark. Laes det fra top til bund, inden du flyver.",
+        "s1": "Tjek forst hovedet: flyvepladsens navn, ICAO-kode, korttype og AIRAC-ikrafttraedelsesdatoen. AIP:Aero viser AIRAC-udgaven på hver lufthavnsside, så du kan bekraefte, at kortet er aktuelt.",
+        "s2": "Laes planvisningen, fugleperspektivet over baner, navigationsanlaeg, ventemonstre og luftrum, med kurser og afstande mellem punkterne.",
+        "s3": "Laes profilvisningen og minima: nedstigningsprofilen, hojden ved hvert punkt og beslutningshojden eller den minimale nedstigningshojde for indflyvningen.",
+        "s4": "Bemaerk proceduren for afbrudt indflyvning samt kommunikations- og belysningsfelterne, så du kender go-around-kursen og frekvenserne, inden du får brug for dem."
+      },
+      "airac": {
+        "title": "Forstå AIRAC-cyklussen",
+        "intro": "AIRAC er den faste kalender, der holder verdens aeronautiske data i trit, så kort aendres på forudsigelige datoer i stedet for tilfaeldigt.",
+        "s1": "Aendringer traeder i kraft hver 28. dag, på samme dato verden over. Der er 13 cyklusser om året, hver identificeret ved år og nummer (for eksempel 2026-07).",
+        "s2": "En ny udgave offentliggores i god tid for ikrafttraedelsesdatoen, så du kan forberede dig, men den bliver forst aktuel på den dato. Flyv altid den gaeldende udgave.",
+        "s3": "På AIP:Aero viser hver lufthavnsside AIRAC-udgaven af det linkede kort, så du hurtigt kan se, om du kigger på den aktuelle cyklus."
+      },
+      "metar": {
+        "title": "Afkodning af METAR og TAF",
+        "intro": "METAR er det aktuelt observerede vejr på en flyveplads; TAF er prognosen for området omkring den. Begge bruger den samme kompakte kode.",
+        "s1": "Laes grupperne i raekkefolge: station, dag og tid, vind (retning og hastighed), sigtbarhed, vejr og skyer, derefter temperatur og dugpunkt samt QNH-trykket.",
+        "s2": "Flyvekategorien opsummerer det: VFR, MVFR, IFR eller LIFR, baseret på skydaekke og sigtbarhed, så du hurtigt kan vurdere egnetheden.",
+        "s3": "AIP:Aero afkoder den seneste METAR og TAF til klart sprog på hver lufthavnsside, der har en rapporterende station, med den rå rapport ved siden af."
+      }
+    },
+    "faqTitle": "Ofte stillede sporgsmål",
+    "faq": {
+      "q1": "Har jeg stadig brug for den officielle AIP, hvis jeg bruger AIP:Aero?",
+      "a1": "Ja. AIP:Aero linker den officielle nationale AIP og kort og tilfojer kontekst, men den nationale AIP er altid den autoritative kilde, så tjek den for hver flyvning.",
+      "q2": "Hvordan ved jeg, at et kort er aktuelt?",
+      "a2": "Hver lufthavnsside viser AIRAC-udgaven af det linkede kort. Sammenlign den med den AIRAC-cyklus, der er gaeldende på din flyvedato.",
+      "q3": "Hvor kan jeg prove det af?",
+      "a3": "Åbn en hvilken som helst lufthavnsside fra lufthavnslisten for dit land, så finder du kortet, det afkodede vejr og flyvepladsdataene, der beskrives i disse guider."
+    },
+    "ctaTitle": "Find din lufthavn"
   }
 }

@@ -32,6 +32,10 @@
     "/glossary": {
       "title": "Ordlista",
       "hrefTitle": "Flygordlista - AIP, AIRAC, VFR, METAR och inflygningskartor förklarade"
+    },
+    "/guides": {
+      "title": "Guider",
+      "hrefTitle": "Pilotguider - läsa inflygningskartor, AIRAC-cykeln och tolka METAR/TAF"
     }
   },
   "Menu": {
@@ -214,6 +218,10 @@
     "glossary": {
       "title": "Ordlista",
       "hrefTitle": "Flygordlista - viktiga AIP- och karttermer förklarade"
+    },
+    "guides": {
+      "title": "Guider",
+      "hrefTitle": "Pilotguider - läsa kartor, AIRAC-cykeln och tolka väder"
     }
   },
   "Error": {
@@ -437,5 +445,45 @@
         "def": "De officiella diagram piloter använder för att ankomma till och röra sig runt en flygplats: den visuella inflygningskartan (VAC) för VFR, instrumentinflygningskartan (IAC) för IFR och flygplatskartan (ADC) för markuppställningen. AIP:Aero länkar den exakta kart-PDF:en där den nationella AIP:n publicerar en."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilotguider - läsa kartor, AIRAC-cykeln, tolka METAR/TAF",
+    "metaDescription": "Korta, praktiska guider för privatpiloter: hur du läser en inflygningskarta, hur AIRAC-cykeln fungerar och hur du tolkar METAR- och TAF-väderrapporter.",
+    "title": "Pilotguider",
+    "intro": "Korta, praktiska guider till de aeronautiska dokument och data du använder på AIP:Aero, skrivna för privatpiloter. Var och en länkar tillbaka till flygplatssidorna där du kan omsätta det i praktiken.",
+    "guides": {
+      "charts": {
+        "title": "Så läser du en inflygningskarta",
+        "intro": "En inflygningskarta samlar en flygplats ankomst- och avgångsprocedurer på ett blad. Läs den uppifrån och ner innan du flyger.",
+        "s1": "Kontrollera rubriken först: flygplatsens namn, ICAO-kod, karttyp och AIRAC-ikraftträdandedatum. AIP:Aero visar AIRAC-utgåvan på varje flygplatssida så att du kan bekräfta att kartan är aktuell.",
+        "s2": "Läs planvyn, fågelperspektivet över banor, navigeringshjälpmedel, väntlägen och luftrum, med kurser och avstånd mellan fixpunkterna.",
+        "s3": "Läs profilvyn och minima: nedstigningsprofilen, höjden vid varje fixpunkt, samt beslutshöjden eller den lägsta nedstigningshöjden för inflygningen.",
+        "s4": "Notera proceduren för avbruten inflygning samt kommunikations- och belysningsrutorna, så att du känner till go-around-kursen och frekvenserna innan du behöver dem."
+      },
+      "airac": {
+        "title": "Förstå AIRAC-cykeln",
+        "intro": "AIRAC är den fasta kalender som håller världens aeronautiska data i takt, så att kartor ändras på förutsägbara datum i stället för slumpmässigt.",
+        "s1": "Ändringar träder i kraft var 28:e dag, på samma datum över hela världen. Det finns 13 cykler per år, var och en identifierad med år och nummer (till exempel 2026-07).",
+        "s2": "En ny utgåva publiceras i god tid före ikraftträdandedatumet så att du kan förbereda dig, men den blir aktuell först det datumet. Flyg alltid den gällande utgåvan.",
+        "s3": "På AIP:Aero visar varje flygplatssida AIRAC-utgåvan av den länkade kartan, så att du snabbt kan se om du tittar på den aktuella cykeln."
+      },
+      "metar": {
+        "title": "Tolka METAR och TAF",
+        "intro": "METAR är det aktuellt observerade vädret på en flygplats; TAF är prognosen för området omkring den. Båda använder samma kompakta kod.",
+        "s1": "Läs grupperna i ordning: station, dag och tid, vind (riktning och hastighet), sikt, väder och moln, sedan temperatur och daggpunkt samt QNH-trycket.",
+        "s2": "Flygkategorin sammanfattar det: VFR, MVFR, IFR eller LIFR, baserat på molnbas och sikt, så att du snabbt kan bedöma lämpligheten.",
+        "s3": "AIP:Aero tolkar den senaste METAR och TAF till klarspråk på varje flygplatssida som har en rapporterande station, med den råa rapporten bredvid."
+      }
+    },
+    "faqTitle": "Vanliga frågor",
+    "faq": {
+      "q1": "Behöver jag fortfarande den officiella AIP om jag använder AIP:Aero?",
+      "a1": "Ja. AIP:Aero länkar den officiella nationella AIP och kartorna och lägger till sammanhang, men den nationella AIP är alltid den auktoritativa källan, så kontrollera den före varje flygning.",
+      "q2": "Hur vet jag att en karta är aktuell?",
+      "a2": "Varje flygplatssida visar AIRAC-utgåvan av den länkade kartan. Jämför den med den AIRAC-cykel som gäller på ditt flygdatum.",
+      "q3": "Var kan jag prova detta?",
+      "a3": "Öppna vilken flygplatssida som helst från flygplatslistan för ditt land, så hittar du kartan, det tolkade vädret och flygplatsdatan som beskrivs i dessa guider."
+    },
+    "ctaTitle": "Hitta din flygplats"
   }
 }

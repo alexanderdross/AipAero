@@ -158,6 +158,9 @@ export const routing = defineRouting({
     // Aviation glossary (AIP, AIRAC, VFR/IFR, METAR/TAF, ...): one uniform slug
     // (like /efb), fully localized CONTENT - an evergreen GEO/SEO reference.
     "/glossary": "/glossary",
+    // Pilot guides (reading a chart, the AIRAC cycle, decoding METAR/TAF):
+    // uniform slug, fully localized how-to content - the content hub's articles.
+    "/guides": "/guides",
     "/vfr": "/vfr",
     "/ifr": "/ifr",
     "/heliports": "/heliports",

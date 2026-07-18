@@ -32,6 +32,10 @@
     "/glossary": {
       "title": "Glossarium",
       "hrefTitle": "Luchtvaartglossarium - AIP, AIRAC, VFR, METAR en naderingskaarten uitgelegd"
+    },
+    "/guides": {
+      "title": "Gidsen",
+      "hrefTitle": "Pilotengidsen - naderingskaarten lezen, de AIRAC-cyclus en METAR/TAF decoderen"
     }
   },
   "Menu": {
@@ -214,6 +218,10 @@
     "glossary": {
       "title": "Glossarium",
       "hrefTitle": "Luchtvaartglossarium - belangrijke AIP- en kaarttermen uitgelegd"
+    },
+    "guides": {
+      "title": "Gidsen",
+      "hrefTitle": "Pilotengidsen - kaarten lezen, de AIRAC-cyclus en het weer decoderen"
     }
   },
   "Error": {
@@ -437,5 +445,45 @@
         "def": "De officiële diagrammen die piloten gebruiken om op een vliegveld aan te komen en zich er te verplaatsen: de visuele naderingskaart (VAC) voor VFR, de instrumentnaderingskaart (IAC) voor IFR, en de luchthavenkaart (ADC) voor de indeling op de grond. AIP:Aero koppelt de exacte kaart-PDF overal waar de nationale AIP er een publiceert."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilotengidsen - Kaarten lezen, de AIRAC-cyclus, METAR/TAF decoderen",
+    "metaDescription": "Korte, praktische gidsen voor privépiloten: hoe je een naderingskaart leest, hoe de AIRAC-cyclus werkt en hoe je METAR- en TAF-weerberichten decodeert.",
+    "title": "Pilotengidsen",
+    "intro": "Korte, praktische gidsen over de luchtvaartdocumenten en -gegevens die je op AIP:Aero gebruikt, geschreven voor privépiloten. Elke gids verwijst terug naar de luchthavenpagina's waar je het in de praktijk kunt brengen.",
+    "guides": {
+      "charts": {
+        "title": "Hoe lees je een naderingskaart",
+        "intro": "Een naderingskaart bundelt de aankomst- en vertrekprocedures van een luchtvaartterrein op één blad. Lees hem van boven naar beneden voordat je vliegt.",
+        "s1": "Controleer eerst de kop: de naam van het luchtvaartterrein, de ICAO-code, het kaarttype en de AIRAC-ingangsdatum. AIP:Aero toont de AIRAC-editie op elke luchthavenpagina, zodat je kunt bevestigen dat de kaart actueel is.",
+        "s2": "Lees de planweergave, de vogelvluchtindeling van banen, navigatiehulpmiddelen, wachtpatronen en luchtruim, met koersen en afstanden tussen de fixes.",
+        "s3": "Lees de profielweergave en de minima: het daalprofiel, de hoogte bij elke fix, en de beslissingshoogte of minimale daalhoogte voor de nadering.",
+        "s4": "Noteer de doorstartprocedure en de communicatie- en verlichtingsvakken, zodat je de doorstartkoers en de frequenties kent voordat je ze nodig hebt."
+      },
+      "airac": {
+        "title": "De AIRAC-cyclus begrijpen",
+        "intro": "AIRAC is de vaste kalender die de luchtvaartgegevens wereldwijd gelijk houdt, zodat kaarten op voorspelbare data veranderen in plaats van willekeurig.",
+        "s1": "Wijzigingen worden elke 28 dagen van kracht, op dezelfde datum wereldwijd. Er zijn 13 cycli per jaar, elk aangeduid met een jaar en een nummer (bijvoorbeeld 2026-07).",
+        "s2": "Een nieuwe editie wordt ruim voor de ingangsdatum gepubliceerd zodat je je kunt voorbereiden, maar wordt pas op die datum geldig. Vlieg altijd met de geldende editie.",
+        "s3": "Op AIP:Aero toont elke luchthavenpagina de AIRAC-editie van de gelinkte kaart, zodat je in één oogopslag kunt controleren of je naar de actuele cyclus kijkt."
+      },
+      "metar": {
+        "title": "METAR en TAF decoderen",
+        "intro": "METAR is het actueel waargenomen weer op een luchtvaartterrein; TAF is de verwachting voor het omliggende gebied. Beide gebruiken dezelfde compacte code.",
+        "s1": "Lees de groepen op volgorde: station, dag en tijd, wind (richting en snelheid), zicht, weer en bewolking, dan temperatuur en dauwpunt en de QNH-druk.",
+        "s2": "De vluchtcategorie vat het samen: VFR, MVFR, IFR of LIFR, op basis van het wolkendek en het zicht, zodat je de geschiktheid in één oogopslag kunt inschatten.",
+        "s3": "AIP:Aero decodeert de nieuwste METAR en TAF naar begrijpelijke taal op elke luchthavenpagina met een meldstation, met het ruwe bericht ernaast bewaard."
+      }
+    },
+    "faqTitle": "Veelgestelde vragen",
+    "faq": {
+      "q1": "Heb ik de officiële AIP nog nodig als ik AIP:Aero gebruik?",
+      "a1": "Ja. AIP:Aero linkt naar de officiële nationale AIP en kaarten en voegt context toe, maar de nationale AIP is altijd de gezaghebbende bron, dus raadpleeg die voor elke vlucht.",
+      "q2": "Hoe weet ik of een kaart actueel is?",
+      "a2": "Elke luchthavenpagina toont de AIRAC-editie van de gelinkte kaart. Vergelijk die met de AIRAC-cyclus die geldig is op de datum van je vlucht.",
+      "q3": "Waar kan ik dit uitproberen?",
+      "a3": "Open een willekeurige luchthavenpagina uit de luchthavenlijst voor jouw land en je vindt er de kaart, het gedecodeerde weer en de luchtvaartterreingegevens die in deze gidsen worden beschreven."
+    },
+    "ctaTitle": "Vind je luchthaven"
   }
 }

@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Lüğət",
       "hrefTitle": "Aviasiya lüğəti - AIP, AIRAC, VFR, METAR və enmə xəritələri izah olunur"
+    },
+    "/guides": {
+      "title": "Bələdçilər",
+      "hrefTitle": "Pilot bələdçiləri - yanaşma xəritələrinin oxunması, AIRAC dövrü və METAR/TAF-ın deşifrəsi"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Lüğət",
       "hrefTitle": "Aviasiya lüğəti - əsas AIP və xəritə terminləri izah olunur"
+    },
+    "guides": {
+      "title": "Bələdçilər",
+      "hrefTitle": "Pilot bələdçiləri - xəritələrin oxunması, AIRAC dövrü və havanın deşifrəsi"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Pilotların aerodroma gəlmək və onun ərazisində hərəkət etmək üçün istifadə etdikləri rəsmi sxemlər: VFR üçün Vizual Enmə Xəritəsi (VAC), IFR üçün Alət Enmə Xəritəsi (IAC) və yerüstü yerləşim üçün Aerodrom Xəritəsi (ADC). AIP:Aero milli AIP-nin nəşr etdiyi hər yerdə dəqiq xəritə PDF-nə bağlayır."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Pilot bələdçiləri - Xəritələrin oxunması, AIRAC dövrü, METAR/TAF-ın deşifrəsi",
+    "metaDescription": "Fərdi pilotlar üçün qısa, praktiki bələdçilər: yanaşma xəritəsini necə oxumalı, AIRAC dövrü necə işləyir və METAR ilə TAF hava məlumatlarını necə deşifrə etməli.",
+    "title": "Pilot bələdçiləri",
+    "intro": "AIP:Aero-da istifadə etdiyiniz aeronaviqasiya sənədləri və məlumatları üzrə fərdi pilotlar üçün yazılmış qısa, praktiki bələdçilər. Hər biri onu tətbiq edə biləcəyiniz aeroport səhifələrinə geri keçid verir.",
+    "guides": {
+      "charts": {
+        "title": "Yanaşma xəritəsini necə oxumalı",
+        "intro": "Yanaşma xəritəsi aerodromun geliş və gediş prosedurlarını bir vərəqdə cəmləyir. Uçuşdan əvvəl onu yuxarıdan aşağı oxuyun.",
+        "s1": "Əvvəlcə başlığı yoxlayın: aerodromun adı, ICAO kodu, xəritə növü və AIRAC qüvvəyəminmə tarixi. AIP:Aero hər aeroport səhifəsində AIRAC nəşrini göstərir ki, xəritənin cari olduğunu təsdiqləyə biləsiniz.",
+        "s2": "Plan görünüşünü oxuyun, uçuş-enmə zolaqlarının, naviqasiya vasitələrinin, gözləmə sxemlərinin və hava məkanının quşbaxışı düzülüşünü, nöqtələr arası kurs və məsafələrlə birlikdə.",
+        "s3": "Profil görünüşünü və minimumları oxuyun: enmə profili, hər nöqtədəki hündürlük və yanaşma üçün qərar hündürlüyü və ya minimum enmə hündürlüyü.",
+        "s4": "Buraxılmış yanaşma prosedurunu, əlaqə və işıqlandırma xanalarını qeyd edin ki, dövrə üçün kursu və tezlikləri ehtiyacınız olmamışdan əvvəl biləsiniz."
+      },
+      "airac": {
+        "title": "AIRAC dövrünü anlamaq",
+        "intro": "AIRAC dünyanın aeronaviqasiya məlumatlarını uzlaşdıran sabit təqvimdir, belə ki xəritələr təsadüfi deyil, əvvəlcədən proqnozlaşdırıla bilən tarixlərdə dəyişir.",
+        "s1": "Dəyişikliklər hər 28 gündən bir, dünya üzrə eyni tarixdə qüvvəyə minir. İldə 13 dövr var, hər biri il və nömrə ilə işarələnir (məsələn 2026-07).",
+        "s2": "Yeni nəşr qüvvəyəminmə tarixindən xeyli əvvəl dərc olunur ki, hazırlaşa biləsiniz, lakin yalnız həmin tarixdə cari olur. Həmişə qüvvədə olan nəşrlə uçun.",
+        "s3": "AIP:Aero-da hər aeroport səhifəsi əlaqələndirilmiş xəritənin AIRAC nəşrini göstərir, belə ki bir baxışda cari dövrə baxdığınızı yoxlaya bilərsiniz."
+      },
+      "metar": {
+        "title": "METAR və TAF-ın deşifrəsi",
+        "intro": "METAR aerodromda hazırda müşahidə olunan havadır; TAF onun ətrafındakı ərazi üçün proqnozdur. Hər ikisi eyni yığcam kodu istifadə edir.",
+        "s1": "Qrupları ardıcıllıqla oxuyun: stansiya, gün və vaxt, külək (istiqamət və sürət), görünüş, hava və bulud, sonra temperatur və şeh nöqtəsi və QNH təzyiqi.",
+        "s2": "Uçuş kateqoriyası bunu yekunlaşdırır: bulud tavanı və görünüşə əsasən VFR, MVFR, IFR və ya LIFR, belə ki yararlılığı bir baxışda qiymətləndirə bilərsiniz.",
+        "s3": "AIP:Aero məlumat verən stansiyası olan hər aeroport səhifəsində ən son METAR və TAF-ı sadə dilə deşifrə edir, ilkin məlumatı isə yanında saxlayır."
+      }
+    },
+    "faqTitle": "Tez-tez verilən suallar",
+    "faq": {
+      "q1": "AIP:Aero istifadə etsəm də, rəsmi AIP hələ də lazımdırmı?",
+      "a1": "Bəli. AIP:Aero rəsmi milli AIP və xəritələrə keçid verir və kontekst əlavə edir, lakin milli AIP həmişə əsas mötəbər mənbədir, ona görə də hər uçuşdan əvvəl onu yoxlayın.",
+      "q2": "Xəritənin cari olduğunu necə bilim?",
+      "a2": "Hər aeroport səhifəsi əlaqələndirilmiş xəritənin AIRAC nəşrini göstərir. Onu uçuş tarixinizdə qüvvədə olan AIRAC dövrü ilə müqayisə edin.",
+      "q3": "Bunu harada sınaya bilərəm?",
+      "a3": "Ölkənizin aeroport siyahısından istənilən aeroport səhifəsini açın və bu bələdçilərdə təsvir olunan xəritəni, deşifrə olunmuş havanı və aerodrom məlumatlarını tapacaqsınız."
+    },
+    "ctaTitle": "Aeroportunuzu tapın"
   }
 }

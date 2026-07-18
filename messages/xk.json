@@ -28,6 +28,10 @@
     "/glossary": {
       "title": "Fjalor",
       "hrefTitle": "Fjalor aeronautik - shpjegim i AIP, AIRAC, VFR, METAR dhe hartave të afrimit"
+    },
+    "/guides": {
+      "title": "Udhëzues",
+      "hrefTitle": "Udhëzues për pilotët - leximi i hartave të afrimit, cikli AIRAC dhe dekodimi i METAR/TAF"
     }
   },
   "Menu": {
@@ -184,6 +188,10 @@
     "glossary": {
       "title": "Fjalor",
       "hrefTitle": "Fjalor aeronautik - shpjegim i termave kryesorë të AIP dhe hartave"
+    },
+    "guides": {
+      "title": "Udhëzues",
+      "hrefTitle": "Udhëzues për pilotët - leximi i hartave, cikli AIRAC dhe dekodimi i motit"
     }
   },
   "Error": {
@@ -407,5 +415,45 @@
         "def": "Diagramet zyrtare që pilotët përdorin për të mbërritur dhe për t'u lëvizur brenda një aerodromi: Harta e Afrimit Vizual (VAC) për VFR, Harta e Afrimit me Instrumente (IAC) për IFR dhe Harta e Aerodromit (ADC) për paraqitjen në tokë. AIP:Aero e lidh PDF-në e saktë të hartës kudo që AIP-ja kombëtare boton një të tillë."
       }
     }
+  },
+  "GuidesPage": {
+    "metaTitle": "Udhëzues për pilotët - leximi i hartave, cikli AIRAC, dekodimi i METAR/TAF",
+    "metaDescription": "Udhëzues të shkurtër dhe praktikë për pilotët privatë: si të lexoni një hartë afrimi, si funksionon cikli AIRAC dhe si të dekodoni raportet e motit METAR dhe TAF.",
+    "title": "Udhëzues për pilotët",
+    "intro": "Udhëzues të shkurtër dhe praktikë për dokumentet dhe të dhënat aeronautike që përdorni në AIP:Aero, të shkruar për pilotët privatë. Secili prej tyre të çon përsëri te faqet e aerodromeve ku mund t'i vini në praktikë.",
+    "guides": {
+      "charts": {
+        "title": "Si të lexoni një hartë afrimi",
+        "intro": "Një hartë afrimi përmbledh procedurat e mbërritjes dhe të nisjes së një aerodromi në një fletë të vetme. Lexojeni nga lart poshtë përpara se të fluturoni.",
+        "s1": "Kontrolloni së pari titullin: emrin e aerodromit, kodin ICAO, llojin e hartës dhe datën e vlefshmërisë sipas AIRAC. AIP:Aero shfaq edicionin AIRAC në çdo faqe aerodromi që të konfirmoni se harta është e përditësuar.",
+        "s2": "Lexoni pamjen planimetrike, paraqitjen nga lart të pistave, ndihmësve të navigimit, skemave të pritjes dhe hapësirës ajrore, me kurset dhe distancat midis pikave.",
+        "s3": "Lexoni pamjen anësore dhe minimumet: profilin e zbritjes, lartësinë në çdo pikë dhe lartësinë e vendimit ose lartësinë minimale të zbritjes për afrimin.",
+        "s4": "Shënoni procedurën e afrimit të humbur dhe kutitë e komunikimit dhe të ndriçimit, që të dini kursin e ringjitjes dhe frekuencat përpara se t'ju duhen."
+      },
+      "airac": {
+        "title": "Kuptimi i ciklit AIRAC",
+        "intro": "AIRAC është kalendari fiks që i mban të dhënat aeronautike të botës në përputhje, kështu që hartat ndryshojnë në data të parashikueshme dhe jo rastësisht.",
+        "s1": "Ndryshimet hyjnë në fuqi çdo 28 ditë, në të njëjtën datë në mbarë botën. Ka 13 cikle në vit, secili i identifikuar me vit dhe numër (për shembull 2026-07).",
+        "s2": "Një edicion i ri publikohet shumë përpara datës së vlefshmërisë që të mund të përgatiteni, por bëhet i vlefshëm vetëm në atë datë. Fluturoni gjithmonë me edicionin në fuqi.",
+        "s3": "Në AIP:Aero çdo faqe aerodromi shfaq edicionin AIRAC të hartës së lidhur, kështu që me një shikim mund të kontrolloni nëse po shihni ciklin aktual."
+      },
+      "metar": {
+        "title": "Dekodimi i METAR dhe TAF",
+        "intro": "METAR është moti aktual i vëzhguar në një aerodrom; TAF është parashikimi për zonën përreth tij. Të dyja përdorin të njëjtin kod kompakt.",
+        "s1": "Lexoni grupet sipas radhës: stacioni, dita dhe ora, era (drejtimi dhe shpejtësia), dukshmëria, moti dhe retë, pastaj temperatura dhe pika e vesës dhe presioni QNH.",
+        "s2": "Kategoria e fluturimit i përmbledh të gjitha: VFR, MVFR, IFR ose LIFR, bazuar në tavanin e reve dhe dukshmërinë, kështu që mund të gjykoni përshtatshmërinë me një shikim.",
+        "s3": "AIP:Aero dekodon METAR dhe TAF më të fundit në gjuhë të thjeshtë në çdo faqe aerodromi që ka një stacion raportimi, me raportin e papërpunuar të ruajtur pranë."
+      }
+    },
+    "faqTitle": "Pyetjet e bëra shpesh",
+    "faq": {
+      "q1": "A më duhet ende AIP zyrtar nëse përdor AIP:Aero?",
+      "a1": "Po. AIP:Aero lidh AIP-në zyrtare kombëtare dhe hartat dhe shton kontekst, por AIP-ja kombëtare është gjithmonë burimi autoritar, prandaj kontrollojeni përpara çdo fluturimi.",
+      "q2": "Si ta di që një hartë është e përditësuar?",
+      "a2": "Çdo faqe aerodromi shfaq edicionin AIRAC të hartës së lidhur. Krahasojeni me ciklin AIRAC në fuqi në datën e fluturimit tuaj.",
+      "q3": "Ku mund ta provoj këtë?",
+      "a3": "Hapni çdo faqe aerodromi nga lista e aerodromeve për vendin tuaj dhe do të gjeni hartën, motin e dekoduar dhe të dhënat e aerodromit të përshkruara në këta udhëzues."
+    },
+    "ctaTitle": "Gjeni aerodromin tuaj"
   }
 }
