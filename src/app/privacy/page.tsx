@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { ExternalLink } from "~/components/external-link";
 import {
+  LanguageLabel,
   LegalBreadcrumbJsonLd,
   LegalShell,
   legalMetadata,
@@ -261,6 +262,7 @@ export default function PrivacyPage() {
       jsonLd={<LegalBreadcrumbJsonLd name="Privacy Policy" url={CANONICAL} />}
     >
       {/* ---------- English ---------- */}
+      <LanguageLabel>English</LanguageLabel>
       {EN.map((s) => (
         <section key={s.title}>
           <SectionHeading
@@ -274,10 +276,10 @@ export default function PrivacyPage() {
       ))}
 
       {/* ---------- Deutsch ---------- */}
-      <div
-        lang="de"
-        className="border-drossgray-dark/15 flex flex-col gap-8 border-t pt-8"
-      >
+      <LanguageLabel lang="de" border>
+        Deutsch
+      </LanguageLabel>
+      <div lang="de" className="flex flex-col gap-8">
         {DE.map((s) => (
           <section key={s.title}>
             <SectionHeading

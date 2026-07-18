@@ -84,6 +84,29 @@ export function LegalShell({
 }
 
 /**
+ * A prominent language-version label (e.g. "English" / "Deutsch") that heads
+ * each language block on the bilingual legal pages, so the page reads as two
+ * clearly separated language versions rather than a mixed-language ("denglish")
+ * wall of text. `border` adds the top divider used before the second version.
+ */
+export function LanguageLabel({
+  lang,
+  border = false,
+  children,
+}: Readonly<{ lang?: string; border?: boolean; children: string }>) {
+  return (
+    <p
+      lang={lang}
+      className={`text-drossblue text-xs font-bold tracking-widest uppercase ${
+        border ? "border-drossgray-dark/15 border-t pt-8" : ""
+      }`}
+    >
+      {children}
+    </p>
+  );
+}
+
+/**
  * A minimal BreadcrumbList (Home > this page) for the root legal pages. They
  * are not in `routing.pathnames`, so the shared `BreadCrumbs` component (which
  * resolves crumbs from the i18n routing) does not apply - this emits the schema

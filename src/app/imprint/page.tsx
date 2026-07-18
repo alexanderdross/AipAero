@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { ExternalLink } from "~/components/external-link";
 import {
+  LanguageLabel,
   LegalBreadcrumbJsonLd,
   LegalShell,
   legalMetadata,
@@ -26,6 +27,19 @@ export function generateMetadata(
 const rowLabel = "text-drossgray-dark text-sm";
 const rowValue = "font-medium break-all";
 const h2 = "text-xl font-semibold tracking-tight";
+
+/** The responsible person's name, linked to their personal page. */
+function PersonLink({ title }: { title: string }) {
+  return (
+    <ExternalLink
+      href={IMPRINT.personUrl}
+      hrefTitle={title}
+      className="text-drossblue underline"
+    >
+      {IMPRINT.name}
+    </ExternalLink>
+  );
+}
 
 /** The contact e-mail is shown as text but links to the contact form. */
 function ContactLink({ label }: { label: string }) {
@@ -53,6 +67,10 @@ function brandLink(chunks: React.ReactNode) {
   );
 }
 
+const PERSON_TITLE_EN = "Alexander Dross - founder of AIP:Aero and Dross:Media";
+const PERSON_TITLE_DE =
+  "Alexander Dross - Gründer von AIP:Aero und Dross:Media";
+
 export default function ImprintPage() {
   return (
     <LegalShell
@@ -61,13 +79,16 @@ export default function ImprintPage() {
       jsonLd={<LegalBreadcrumbJsonLd name="Imprint" url={CANONICAL} />}
     >
       {/* ---------- English ---------- */}
+      <LanguageLabel>English</LanguageLabel>
       <section>
         <SectionHeading className={h2} linkTitle="Imprint - Provider">
           Provider
         </SectionHeading>
         <dl className="mt-3 grid grid-cols-1 gap-y-3 sm:grid-cols-[10rem_1fr] sm:gap-x-4">
           <dt className={rowLabel}>Responsible</dt>
-          <dd className={rowValue}>{IMPRINT.name}</dd>
+          <dd className={rowValue}>
+            <PersonLink title={PERSON_TITLE_EN} />
+          </dd>
           <dt className={rowLabel}>Address</dt>
           <dd className={rowValue}>
             Available on request and stated on invoices.
@@ -123,13 +144,18 @@ export default function ImprintPage() {
       </section>
 
       {/* ---------- Deutsch ---------- */}
-      <section lang="de" className="border-drossgray-dark/15 border-t pt-8">
+      <LanguageLabel lang="de" border>
+        Deutsch
+      </LanguageLabel>
+      <section lang="de">
         <SectionHeading className={h2} linkTitle="Impressum - Anbieter">
           Anbieter
         </SectionHeading>
         <dl className="mt-3 grid grid-cols-1 gap-y-3 sm:grid-cols-[10rem_1fr] sm:gap-x-4">
           <dt className={rowLabel}>Verantwortlich</dt>
-          <dd className={rowValue}>{IMPRINT.name}</dd>
+          <dd className={rowValue}>
+            <PersonLink title={PERSON_TITLE_DE} />
+          </dd>
           <dt className={rowLabel}>Anschrift</dt>
           <dd className={rowValue}>
             Auf Anfrage sowie auf Rechnungen enthalten.

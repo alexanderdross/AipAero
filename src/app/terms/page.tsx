@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import Link from "next/link";
 import {
+  LanguageLabel,
   LegalBreadcrumbJsonLd,
   LegalShell,
   legalMetadata,
@@ -210,6 +211,7 @@ export default function TermsPage() {
       jsonLd={<LegalBreadcrumbJsonLd name="Terms of Service" url={CANONICAL} />}
     >
       {/* ---------- English ---------- */}
+      <LanguageLabel>English</LanguageLabel>
       <section>
         <SectionHeading
           className={h2}
@@ -259,7 +261,10 @@ export default function TermsPage() {
       </section>
 
       {/* ---------- Deutsch ---------- */}
-      <section lang="de" className="border-drossgray-dark/15 border-t pt-8">
+      <LanguageLabel lang="de" border>
+        Deutsch
+      </LanguageLabel>
+      <section lang="de">
         <SectionHeading
           className={h2}
           linkTitle="Nutzungsbedingungen - Unser Service"

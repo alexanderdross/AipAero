@@ -15,6 +15,8 @@ export const IMPRINT = {
   brand: "Dross:Media",
   /** Owner network home (the brand link target). */
   brandUrl: "https://dross.net",
+  /** Personal page of the responsible person (the name link target). */
+  personUrl: "https://dross.net/alexander/",
   /** Contact e-mail shown to the user... */
   email: "mail@dross.net",
   /** ...but the link points at the contact form (owner request). */
