@@ -57,7 +57,9 @@ describe("buildAirportSummary", () => {
       airac: null,
     });
     // ICAO-less field: the place is just the name (no parenthesised code).
-    expect(out).toBe("[identityTown(place=Grass Strip,town=Nowhere)] [noCharts]");
+    expect(out).toBe(
+      "[identityTown(place=Grass Strip,town=Nowhere)] [noCharts]",
+    );
   });
 
   it("maps each aerodrome type to its chart-type token", () => {
