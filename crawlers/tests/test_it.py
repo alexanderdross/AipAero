@@ -1,77 +1,65 @@
-"""Unit tests for the Italy info-page crawler.
+"""Unit tests for the Italy crawler (ENAV open eurocontrol eAIP).
 
-Italy is not a chart crawl: the aerodrome list comes from OurAirports and every
-field points at the ENAV Self Briefing portal (charts are login-gated). These
-tests feed a small CSV through a mocked client and check the filtering (Italian
-aerodromes with a real ICAO only, no charts) - no network.
+Covers the edition-by-date resolution off the `default.html` issues index and
+the deterministic menu-frame URL construction (no network - the live fetch +
+AD-2 parse are exercised by the live test). ENAV names each edition folder
+`(A<NN>-<YY>)_<YYYY>_<MM>_<DD>` with the parens raw or %28/%29-encoded, so both
+forms are covered.
 """
 
 from __future__ import annotations
+
+import datetime
 
 import pytest
 
 from crawlers import it as it_module
 from crawlers.it import IT
 
-
-class _FakeResp:
-    def __init__(self, text: str) -> None:
-        self.text = text
-
-    def raise_for_status(self) -> None:
-        pass
-
-
-_CSV = """\
-"id","ident","type","name","iso_country","icao_code"
-"1","LIRF","large_airport","Roma Fiumicino","IT","LIRF"
-"2","LIMC","medium_airport","Milano Malpensa","IT","LIMC"
-"3","LIRU","small_airport","Roma Urbe","IT",""
-"4","LIXX","heliport","Some Hospital Helipad","IT","LIXX"
-"5","LI99","small_airport","Closed strip","IT","LI99"
-"6","XXCLOSED","closed","Old field","IT","LIZZ"
-"7","LOWW","large_airport","Vienna","AT","LOWW"
+# The issues index names several editions; the crawler must pick the latest one
+# on/before "today". Includes a %28/%29-encoded folder (April) to prove both
+# paren encodings parse, and a future edition (August) that must be ignored.
+_LANDING = """
+<html><body>
+<a href="(A05-26)_2026_05_15/index.html">15 MAY 2026</a>
+<a href="(A07-26)_2026_07_09/index.html">09 JUL 2026 - Currently Effective</a>
+<a href="(A08-26)_2026_08_06/index.html">06 AUG 2026 - Forthcoming</a>
+<a href="%28A04-26%29_2026_04_17/index.html">17 APR 2026</a>
+</body></html>
 """
 
 
 @pytest.fixture
-def it(monkeypatch) -> IT:
+def it() -> IT:
     crawler = IT()
-
-    def _fake_get(url, timeout=60):
-        assert url == it_module.AIRPORTS_CSV
-        return _FakeResp(_CSV)
-
-    monkeypatch.setattr(crawler.client, "get", _fake_get)
     yield crawler
     crawler.close()
 
 
 def test_module_constants():
-    assert it_module.ENAV_AIP_URL.startswith("https://www.enav.it")
-    assert it_module.AIRPORTS_CSV.endswith("airports.csv")
+    assert it_module.ROOT_URL.endswith("/AIP/AIP/default.html")
+    assert it_module._MENU_SUFFIX == "eAIP/LI-menu-en-GB.html"
 
 
-def test_crawl_filters_to_italian_aerodromes(it: IT):
-    airports = it.crawl()
-    icaos = {a.icao for a in airports}
-    # LIRF (icao_code), LIMC, LIRU (ident, no icao_code) are Italian aerodromes.
-    assert icaos == {"LIRF", "LIMC", "LIRU"}
-    assert "LIXX" not in icaos  # heliport type
-    assert "LOWW" not in icaos  # wrong country
-    assert "LI99" not in icaos  # not a 4-letter code
+def test_resolve_menu_picks_effective_edition(it: IT):
+    menu = it._resolve_menu_url(_LANDING, today=datetime.date(2026, 7, 15))
+    # 09 JUL 2026 is the latest edition on/before 15 JUL (06 AUG is future).
+    assert menu == (
+        "https://onlineservices.enav.it/enavWebPortalStatic/AIP/AIP/"
+        "(A07-26)_2026_07_09/eAIP/LI-menu-en-GB.html"
+    )
+    # The effective edition date is forwarded to crawl_meta.airac.
+    assert it.airac == "2026-07-09"
 
 
-def test_crawl_rows_point_at_enav_no_charts(it: IT):
-    airports = it.crawl()
-    for a in airports:
-        assert a.country == "IT"
-        assert a.airport_type == "vfr"
-        assert a.url == it_module.ENAV_AIP_URL
-        assert a.pdf_url is None
-        assert a.charts is None
-    # Title convention is "<name> <ICAO>" (map label / list / detail heading).
-    roma = next(a for a in airports if a.icao == "LIRF")
-    assert roma.title == "Roma Fiumicino LIRF"
-    for a in airports:
-        assert a.icao and a.title.endswith(a.icao)
+def test_resolve_menu_parses_encoded_parens(it: IT):
+    # Only the encoded April edition is on/before this date - it must resolve
+    # (proves the %28/%29 form is matched too).
+    menu = it._resolve_menu_url(_LANDING, today=datetime.date(2026, 4, 20))
+    assert "%28A04-26%29_2026_04_17/eAIP/LI-menu-en-GB.html" in menu
+    assert it.airac == "2026-04-17"
+
+
+def test_resolve_menu_no_editions_raises(it: IT):
+    with pytest.raises(ValueError, match="no eAIP edition folder"):
+        it._resolve_menu_url("<html><body>nothing here</body></html>")

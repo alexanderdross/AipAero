@@ -1,102 +1,190 @@
-"""Italy (ENAV) info-page crawler.
+"""Italy (ENAV) eAIP crawler.
 
-Italy's official AIP and charts are published by **ENAV** through the login-only
-**Self Briefing** portal - there is no open eurocontrol eAIP (`www.enav.it/eAIP/`
-404s, `aip.enav.it` does not resolve), so we deliberately do NOT scrape charts
-(respecting the access control). Italy is onboarded as an **info-page** country:
-each aerodrome gets a detail page with OpenAIP aerodrome data + live weather
-(both filled by the website from the field's ICAO, no chart crawl needed), and
-the primary blue "AIP" button links to the ENAV Self Briefing portal (a login /
-registration may be required - the website shows a hint for gated countries).
+The earlier "gated" verdict was wrong: alongside the login-only Self Briefing
+portal, ENAV publishes an **open** static eurocontrol (WePub) eAIP at
 
-The aerodrome LIST comes from OurAirports (public domain / CC0): the Italian
-(`iso_country = IT`) aerodromes with a real ICAO (LI**), emitted as `vfr` rows
-whose `url` is the ENAV portal and with no `pdf_url` (so the website renders no
-chart-PDF box). Pure HTTP, no login, no browser.
+    https://onlineservices.enav.it/enavWebPortalStatic/AIP/AIP/
+
+Each AIRAC edition is a dated folder directly under `.../AIP/AIP/`:
+
+    (A<NN>-<YY>)_<YYYY>_<MM>_<DD>/index.html      e.g. (A07-26)_2026_07_09/
+
+`default.html` is the issues index; this crawler reads the effective date out of
+every edition folder it names, picks the one in effect today, and fetches that
+edition's navigation menu directly (`.../eAIP/LI-menu-en-GB.html` - the classic
+3-frame eurocontrol layout, so the menu URL is deterministic). AD 2 aerodromes
+are read with an aggregate-section then per-chapter fallback (the AL/SI
+pattern), all `vfr`; chart PDFs are `LI_AD_2_<ICAO>_<section>_en_<date>.pdf`.
+Pure HTML, no JS/browser, no login. LI is the Italy ICAO prefix.
 """
 
-import csv
-import io
+import datetime
+import re
+from urllib.parse import urljoin
 
-from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_base import Airport
+from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 
 COUNTRY = "IT"
+ROOT_URL = (
+    "https://onlineservices.enav.it/enavWebPortalStatic/AIP/AIP/default.html"
+)
 
-# OurAirports airports export (stable GitHub Pages mirror), same source the
-# facts importer uses. CC0 / public domain.
-AIRPORTS_CSV = "https://davidmegginson.github.io/ourairports-data/airports.csv"
+# The edition folder name "(A07-26)_2026_07_09" (parens raw or %28/%29-encoded
+# depending on how default.html serialises the href/JS string). Captures the
+# effective date so the currently effective edition can be picked; scanned
+# against the landing's RAW HTML so it is found whether default.html links it as
+# an <a>, a frame src, or an inline JS string.
+_EDITION_RE = re.compile(
+    r"(?:\(|%28)A\d{2}-\d{2}(?:\)|%29)_(\d{4})_(\d{2})_(\d{2})", re.I
+)
 
-# ENAV Self Briefing portal (login / registration required). The website flags
-# Italy as a gated country so the detail page shows a "registration may be
-# required" hint next to this button. Verified reachable from the self-hosted
-# runner via the live-test `check_urls` step before launch.
-ENAV_AIP_URL = "https://www.enav.it/cosa-facciamo/spazio-aereo/self-briefing"
+# Menu (nav) frame under the edition's html/eAIP/ folder.
+_MENU_SUFFIX = "eAIP/LI-menu-en-GB.html"
 
-# OurAirports `type` values that are real aerodromes (not closed / seaplane /
-# balloonport / heliport - IT exposes VFR aerodromes only).
-_AERODROME_TYPES = {"small_airport", "medium_airport", "large_airport"}
+# Aggregate AD 2 menu-section id variants (tried in order), then the per-airport
+# chapter fallback. ENAV's chapter ids/hrefs use a SPACE after "AD 2" (not the
+# dotted "AD 2.LIBC" form), so the chapter regex allows a space or a dot.
+_AD2_SECTION_IDS = ["AD 2en-GBdetails", "AD-2details", "AD 2details"]
+_AD2_CHAPTER_RE = re.compile(r"AD[ -]2[. ]([A-Z]{4}).*details$")
 
 
-class IT(HttpCrawlerBase):
-    """Italy info-page crawler.
+class IT(HttpEurocontrolBase):
+    """Italy (ENAV) AIP crawler - open static eurocontrol eAIP.
 
-    No chart crawl (ENAV charts are behind the Self Briefing login): the
-    aerodrome list is read from OurAirports and every field points at the ENAV
-    AIP portal. OpenAIP facts + weather are added by the website per ICAO.
+    The current edition is picked by date from `default.html`, then the menu
+    frame is fetched directly (deterministic path) and AD 2 read.
     """
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
-    @staticmethod
-    def _icao(row: dict[str, str]) -> str | None:
-        """Best-effort ICAO for an OurAirports row (icao_code, else a 4-letter
-        ident), upper-cased; None when neither is a plain 4-letter code."""
-        for key in ("icao_code", "ident"):
-            code = (row.get(key) or "").strip().upper()
-            if len(code) == 4 and code.isalpha():
-                return code
-        return None
+    def _resolve_menu_url(
+        self, html: str, today: datetime.date | None = None
+    ) -> str:
+        """Return the currently effective edition's navigation-menu URL.
+
+        Scans the landing HTML for every edition folder, reads its effective
+        date, and picks the latest on/before ``today`` (earliest if all are
+        unexpectedly in the future), then points at that edition's
+        `eAIP/LI-menu-en-GB.html`.
+        """
+        today = today or datetime.date.today()
+        candidates: list[tuple[datetime.date, str]] = []
+        seen: set[str] = set()
+        for m in _EDITION_RE.finditer(html):
+            try:
+                eff = datetime.date(
+                    int(m.group(1)), int(m.group(2)), int(m.group(3))
+                )
+            except ValueError:
+                continue
+            folder = m.group(0)  # e.g. "(A07-26)_2026_07_09" (parens/encoded)
+            if folder in seen:
+                continue
+            seen.add(folder)
+            # Editions sit directly under `.../AIP/AIP/`, the dir of default.html.
+            root = urljoin(ROOT_URL, folder + "/")
+            candidates.append((eff, root))
+
+        if not candidates:
+            raise ValueError(
+                f"IT: no eAIP edition folder found in {ROOT_URL}. "
+                f"HTML head: {' '.join(html.split())[:400]}"
+            )
+
+        in_effect = [c for c in candidates if c[0] <= today]
+        eff, root = (
+            max(in_effect, key=lambda c: c[0])
+            if in_effect
+            else min(candidates, key=lambda c: c[0])
+        )
+        menu_url = urljoin(root, _MENU_SUFFIX)
+        # Forward the effective edition to crawl_meta.airac so every detail page
+        # shows the AIRAC (the chart URL also carries its own date, see
+        # charts.ts AIRAC_PATTERNS).
+        self.airac = eff.isoformat()
+        self.logger.info(
+            f"IT current edition (effective {eff.isoformat()}): {menu_url}"
+        )
+        return menu_url
+
+    def _extract_section(
+        self,
+        nav_html: str,
+        nav_url: str,
+        id_candidates: list[str],
+        category: str,
+    ) -> list[Airport]:
+        """Extract a menu section, trying each candidate id format in turn."""
+        last_error: Exception | None = None
+        for menu_id in id_candidates:
+            try:
+                return self.extract_airports_from_html(
+                    nav_html, nav_url, menu_id, category  # type: ignore[arg-type]
+                )
+            except ValueError as e:
+                last_error = e
+        assert last_error is not None
+        raise last_error
+
+    # Chart-PDF extraction: ENAV AD 2.24 charts are LI_AD_2_<ICAO>_<section>_en_
+    # <date>.pdf. Priorities are provisional (refined from the live pdf_recon);
+    # prefer an aerodrome/visual chart, else the first PDF found on the page.
+    FETCH_PDF_URLS = True
+    PDF_HREF_PRIORITY = (r"_ADC", r"_VAC", r"_2-1_", r"_5-1_")
 
     def crawl(self) -> list[Airport]:
         self.logger.info(f"Crawling airports in {self.country}")
         airports: list[Airport] = []
+        last_url = ROOT_URL
+        last_html: str | None = None
 
         try:
-            # OurAirports CSV is text, not the eAIP HTML the base's fetch()
-            # expects - read it through the raw pooled client (which follows
-            # the GitHub Pages redirect) and parse it.
-            resp = self.client.get(AIRPORTS_CSV, timeout=60)
-            resp.raise_for_status()
-            rows = list(csv.DictReader(io.StringIO(resp.text)))
+            # 1. Landing page -> currently effective edition's menu frame.
+            landing = self.fetch(ROOT_URL)
+            last_html = landing
+            menu_url = self._resolve_menu_url(landing)
 
-            seen: set[str] = set()
-            for row in rows:
-                if (row.get("iso_country") or "").strip().upper() != COUNTRY:
-                    continue
-                if (row.get("type") or "").strip() not in _AERODROME_TYPES:
-                    continue
-                icao = self._icao(row)
-                if not icao or icao in seen:
-                    continue
-                seen.add(icao)
-                # Title convention across the site is "<name> <ICAO>" (shown on
-                # the map label, the list and the detail heading). Append the
-                # ICAO to the OurAirports name; fall back to the bare code when
-                # the name is missing (never "<ICAO> <ICAO>").
-                name = (row.get("name") or "").strip()
-                title = f"{name} {icao}" if name else icao
-                airports.append(
-                    Airport(
-                        country=COUNTRY,
-                        icao=icao,
-                        title=title,
-                        url=ENAV_AIP_URL,
-                        type="vfr",  # type: ignore[call-arg]
+            # 2. Fetch the nav menu directly (deterministic eurocontrol path).
+            nav_html = self.fetch(menu_url)
+            last_url, last_html = menu_url, nav_html
+
+            # 3. AD 2 aerodromes (aggregate section, per-chapter fallback), vfr.
+            try:
+                airports.extend(
+                    self._extract_section(
+                        nav_html, menu_url, _AD2_SECTION_IDS, "vfr"
                     )
                 )
+            except ValueError as e:
+                self.logger.warning(
+                    f"IT: aggregate AD 2 parse failed ({e}); "
+                    "trying per-airport chapters"
+                )
+                airports.extend(
+                    self.extract_airports_per_chapter(
+                        nav_html, menu_url, _AD2_CHAPTER_RE, "vfr"
+                    )
+                )
+
+            # Dedup by ICAO (keep first occurrence).
+            seen_icao: set[str] = set()
+            deduped: list[Airport] = []
+            for a in airports:
+                key = (a.icao or a.title or "").upper()
+                if key in seen_icao:
+                    continue
+                seen_icao.add(key)
+                deduped.append(a)
+            airports = deduped
+
+            # Stage 2: capture direct chart-PDF links (fail-soft per field).
+            self.attach_pdf_urls(airports)
         except Exception as e:
             self.logger.error(f"IT crawl failed: {e}")
+            if last_html is not None:
+                self.save_response(last_url, last_html, prefix="crawl_error")
             raise
         finally:
             self.close()
