@@ -197,7 +197,11 @@ const airportListPages: TestPage[] = [
   { path: "/tj/ruyxati-furudgohhoi-tojikiston/", lang: "tg", label: "list tj" },
   { path: "/tj/en/airport-list-tajikistan/", lang: "en", label: "list tj-EN" },
   { path: "/tm/turkmenistan-howa-menzilleri/", lang: "tk", label: "list tm" },
-  { path: "/tm/en/airport-list-turkmenistan/", lang: "en", label: "list tm-EN" },
+  {
+    path: "/tm/en/airport-list-turkmenistan/",
+    lang: "en",
+    label: "list tm-EN",
+  },
   { path: "/kg/kyrgyzstan-aeroporttor-tizmesi/", lang: "ky", label: "list kg" },
   { path: "/kg/en/airport-list-kyrgyzstan/", lang: "en", label: "list kg-EN" },
 ];
