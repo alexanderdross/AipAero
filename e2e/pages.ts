@@ -82,6 +82,12 @@ const countryPages: TestPage[] = [
   { path: "/ge/en/", lang: "en", label: "country ge-EN" },
   { path: "/am/", lang: "hy", label: "country am" },
   { path: "/am/en/", lang: "en", label: "country am-EN" },
+  { path: "/az/", lang: "az", label: "country az" },
+  { path: "/az/en/", lang: "en", label: "country az-EN" },
+  { path: "/ua/", lang: "uk", label: "country ua" },
+  { path: "/ua/en/", lang: "en", label: "country ua-EN" },
+  { path: "/uz/", lang: "uz", label: "country uz" },
+  { path: "/uz/en/", lang: "en", label: "country uz-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -160,6 +166,12 @@ const airportListPages: TestPage[] = [
   { path: "/ge/en/airport-list-georgia/", lang: "en", label: "list ge-EN" },
   { path: "/am/odanavakayanner-hayastan/", lang: "hy", label: "list am" },
   { path: "/am/en/airport-list-armenia/", lang: "en", label: "list am-EN" },
+  { path: "/az/hava-limanlari-azerbaycan/", lang: "az", label: "list az" },
+  { path: "/az/en/airport-list-azerbaijan/", lang: "en", label: "list az-EN" },
+  { path: "/ua/perelik-aeroportiv-ukrayina/", lang: "uk", label: "list ua" },
+  { path: "/ua/en/airport-list-ukraine/", lang: "en", label: "list ua-EN" },
+  { path: "/uz/aeroportlar-royxati-ozbekiston/", lang: "uz", label: "list uz" },
+  { path: "/uz/en/airport-list-uzbekistan/", lang: "en", label: "list uz-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -247,6 +259,12 @@ const searchPages: TestPage[] = [
   { path: "/ge/en/vfr/", lang: "en", label: "vfr ge-EN" },
   { path: "/am/vfr/", lang: "hy", label: "vfr am" },
   { path: "/am/en/vfr/", lang: "en", label: "vfr am-EN" },
+  { path: "/az/vfr/", lang: "az", label: "vfr az" },
+  { path: "/az/en/vfr/", lang: "en", label: "vfr az-EN" },
+  { path: "/ua/vfr/", lang: "uk", label: "vfr ua" },
+  { path: "/ua/en/vfr/", lang: "en", label: "vfr ua-EN" },
+  { path: "/uz/vfr/", lang: "uz", label: "vfr uz" },
+  { path: "/uz/en/vfr/", lang: "en", label: "vfr uz-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -323,6 +341,12 @@ const termsPages: TestPage[] = [
   { path: "/ge/en/terms/", lang: "en", label: "terms ge-EN" },
   { path: "/am/terms/", lang: "hy", label: "terms am" },
   { path: "/am/en/terms/", lang: "en", label: "terms am-EN" },
+  { path: "/az/terms/", lang: "az", label: "terms az" },
+  { path: "/az/en/terms/", lang: "en", label: "terms az-EN" },
+  { path: "/ua/terms/", lang: "uk", label: "terms ua" },
+  { path: "/ua/en/terms/", lang: "en", label: "terms ua-EN" },
+  { path: "/uz/terms/", lang: "uz", label: "terms uz" },
+  { path: "/uz/en/terms/", lang: "en", label: "terms uz-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).

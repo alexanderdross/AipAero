@@ -149,6 +149,11 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // AM: ARMATS's open eurocontrol eAIP (armats.am) lists the AD-2 aerodromes
   // (UD**), all "vfr" with real chart PDFs; no AD-3 heliport chapter.
   am: ["vfr"],
+  // AZ / UA / UZ: gated info-pages (no open eAIP - see gatedCountries), the
+  // OurAirports aerodrome list per country, all "vfr", no chart PDFs.
+  az: ["vfr"],
+  ua: ["vfr"],
+  uz: ["vfr"],
 };
 
 /**
@@ -166,6 +171,9 @@ export const gatedCountries = new Set<string>([
   "hr",
   "bg",
   "tr",
+  "az",
+  "ua",
+  "uz",
 ]);
 
 /** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
@@ -420,6 +428,16 @@ export const liveCountries: string[] = [
   // coverage, 93 charts). NOT gated (real charts). (Azerbaijan probed the same
   // day: azans.gov.az no DNS, asec.az broken TLS - no usable source, skipped.)
   "am",
+  // AZ / UA / UZ: gated info-pages (Europe-wide onboarding, owner directive
+  // 18.07.2026 - RU/BY + Central Asia included). No open eAIP with downloadable
+  // charts: Azerbaijan has no discoverable live AIP (only a stale 2016 mirror);
+  // Ukraine's UkSATSE eAIP is subscription-gated (and civil airspace closed
+  // since 2022); Uzbekistan's uzaeronavigation.com /ais/ index is
+  // registration-gated. Each links its provider portal (gatedCountries), with
+  // OurAirports list + OpenAIP data + weather from the website. No chart crawl.
+  "az",
+  "ua",
+  "uz",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -487,4 +505,7 @@ export const countryMeta: Record<
   tr: { lang: "tr", name: "Turkey", flag: "🇹🇷", nativeLang: "Turkish" },
   ge: { lang: "ka", name: "Georgia", flag: "🇬🇪", nativeLang: "Georgian" },
   am: { lang: "hy", name: "Armenia", flag: "🇦🇲", nativeLang: "Armenian" },
+  az: { lang: "az", name: "Azerbaijan", flag: "🇦🇿", nativeLang: "Azerbaijani" },
+  ua: { lang: "uk", name: "Ukraine", flag: "🇺🇦", nativeLang: "Ukrainian" },
+  uz: { lang: "uz", name: "Uzbekistan", flag: "🇺🇿", nativeLang: "Uzbek" },
 };

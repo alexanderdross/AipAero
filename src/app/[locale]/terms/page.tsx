@@ -124,6 +124,17 @@ const AIP_SOURCES: { cc: string; name: string; url: string }[] = [
     url: "https://airnav.ge",
   },
   { cc: "am", name: "ARMATS (Հայաստան)", url: "https://armats.am" },
+  {
+    cc: "az",
+    name: "AZANS / State Civil Aviation Agency (Azərbaycan)",
+    url: "https://www.caa.gov.az",
+  },
+  { cc: "ua", name: "UkSATSE (Україна)", url: "https://www.aisukraine.net" },
+  {
+    cc: "uz",
+    name: "Uzaeronavigation (Oʻzbekiston)",
+    url: "https://uzaeronavigation.com",
+  },
 ];
 
 // Descriptor for each embedded source comes from i18n (srcAwc etc.).

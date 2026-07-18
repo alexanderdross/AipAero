@@ -75,6 +75,12 @@ export const routing = defineRouting({
     "ge-EN",
     "am",
     "am-EN",
+    "az",
+    "az-EN",
+    "ua",
+    "ua-EN",
+    "uz",
+    "uz-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -114,6 +120,9 @@ export const routing = defineRouting({
       "tr-EN": "/tr/en",
       "ge-EN": "/ge/en",
       "am-EN": "/am/en",
+      "az-EN": "/az/en",
+      "ua-EN": "/ua/en",
+      "uz-EN": "/uz/en",
     },
   },
   pathnames: {
@@ -199,6 +208,12 @@ export const routing = defineRouting({
       "ge-EN": "/airport-list-georgia",
       am: "/odanavakayanner-hayastan",
       "am-EN": "/airport-list-armenia",
+      az: "/hava-limanlari-azerbaycan",
+      "az-EN": "/airport-list-azerbaijan",
+      ua: "/perelik-aeroportiv-ukrayina",
+      "ua-EN": "/airport-list-ukraine",
+      uz: "/aeroportlar-royxati-ozbekiston",
+      "uz-EN": "/airport-list-uzbekistan",
     },
   },
   localeCookie: false,
@@ -346,6 +361,19 @@ export const localeLangMapping: Record<
   // hreflang uses "hy".
   am: "hy",
   "am-EN": "en",
+  // Azerbaijan: prefix "az" == ISO language code "az" (Azerbaijani), so the
+  // LocaleSwitcher native branch keys on "az" with no prefix/ISO mismatch.
+  az: "az",
+  "az-EN": "en",
+  // Ukraine: prefix "ua" (deliberately NOT "uk" - the site's "uk" locale is
+  // the United Kingdom), ISO language code "uk" (Ukrainian). The LocaleSwitcher
+  // ICU branches key on the PREFIX "ua" (see the gotcha in CLAUDE.md), so
+  // messages/ua.json keys its native branch on "ua"; the hreflang uses "uk".
+  ua: "uk",
+  "ua-EN": "en",
+  // Uzbekistan: prefix "uz" == ISO language code "uz" (Uzbek), no mismatch.
+  uz: "uz",
+  "uz-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -424,4 +452,10 @@ export const localeCountryMapping: Record<
   "ge-EN": "ge",
   am: "am",
   "am-EN": "am",
+  az: "az",
+  "az-EN": "az",
+  ua: "ua",
+  "ua-EN": "ua",
+  uz: "uz",
+  "uz-EN": "uz",
 };
