@@ -23,6 +23,7 @@ import {
 import { HashDetailsOpener } from "~/components/hash-details-opener";
 import { SectionHeading, slugify } from "~/components/section-heading";
 import { SchemaProduct } from "~/components/schemas/schema-product";
+import { SchemaOrganization } from "~/components/schemas/schema-organization";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { modifiedDate as buildDate } from "~/lib/build-info";
@@ -268,6 +269,7 @@ export default async function RootPage() {
                 url: orgUrl.toString(),
                 name: "AIP:Aero",
                 alternateName: rootTitle,
+                publisher: { "@id": `${orgUrl.toString()}#organization` },
                 potentialAction: {
                   "@type": "SearchAction",
                   target: {
@@ -330,6 +332,7 @@ export default async function RootPage() {
               }),
             }}
           />
+          <SchemaOrganization />
           <SchemaProduct
             name={serpTitle(rootTitle)}
             alternateName="AIP:Aero"

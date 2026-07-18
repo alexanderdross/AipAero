@@ -75,6 +75,11 @@ ${countryLines.join("\n")}
 - [EFB guide](${efbUrl}): install AIP:Aero on an Electronic Flight Bag, save fields and whole countries offline, import chart PDFs into ForeFlight, SkyDemon and other EFB apps
 - [Airport list (UK example)](${listUrl}): every country has a full airport list page with an interactive map and offline download
 
+## Data
+
+- Read-only JSON API for integration partners (shared-key gated): \`GET https://aip.aero/api/v1/airports/{country}\` (a country's aerodrome index) and \`GET https://aip.aero/api/v1/airport/{ICAO}\` (one aerodrome with chart links + facts). Request a key via https://dross.net/contact
+- [Full index](${new URL("/llms-full.txt", orgUrl).toString()}): the complete per-country map (all URLs, chart types and official AIP sources) in one file
+
 ## About
 
 - [Homepage](${orgUrl.toString()}): country index with all supported AIPs
