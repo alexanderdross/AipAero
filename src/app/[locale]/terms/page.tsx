@@ -135,6 +135,17 @@ const AIP_SOURCES: { cc: string; name: string; url: string }[] = [
     name: "Uzaeronavigation (Oʻzbekiston)",
     url: "https://uzaeronavigation.com",
   },
+  {
+    cc: "by",
+    name: "Belaeronavigatsia (Беларусь)",
+    url: "https://www.ban.by",
+  },
+  {
+    cc: "kz",
+    name: "Kazaeronavigatsia (Қазақстан)",
+    url: "https://www.ans.kz",
+  },
+  { cc: "xk", name: "ASHNA / CAA Kosovo (Kosova)", url: "https://kans-ks.org" },
 ];
 
 // Descriptor for each embedded source comes from i18n (srcAwc etc.).

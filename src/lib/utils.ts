@@ -154,6 +154,11 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   az: ["vfr"],
   ua: ["vfr"],
   uz: ["vfr"],
+  // BY: gated info-page (ban.by registration-gated). KZ / XK: open eurocontrol
+  // eAIPs with real charts (Kazaeronavigatsia ans.kz, CAA Kosovo kans-ks.org).
+  by: ["vfr"],
+  kz: ["vfr"],
+  xk: ["vfr"],
 };
 
 /**
@@ -174,6 +179,7 @@ export const gatedCountries = new Set<string>([
   "az",
   "ua",
   "uz",
+  "by",
 ]);
 
 /** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
@@ -438,6 +444,14 @@ export const liveCountries: string[] = [
   "az",
   "ua",
   "uz",
+  // BY / KZ / XK (Europe-wide onboarding, owner directive 18.07.2026). Belarus
+  // is a gated info-page (ban.by registration wall). Kazakhstan (Kazaeronavigatsia
+  // ans.kz) and Kosovo (CAA Kosovo kans-ks.org) are open eurocontrol eAIPs with
+  // real charts - KZ live-validated (27 aerodromes, 27/27 chart coverage, 562
+  // charts); XK is BKPR (single civil field), live-validated on the runner.
+  "by",
+  "kz",
+  "xk",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -508,4 +522,7 @@ export const countryMeta: Record<
   az: { lang: "az", name: "Azerbaijan", flag: "🇦🇿", nativeLang: "Azerbaijani" },
   ua: { lang: "uk", name: "Ukraine", flag: "🇺🇦", nativeLang: "Ukrainian" },
   uz: { lang: "uz", name: "Uzbekistan", flag: "🇺🇿", nativeLang: "Uzbek" },
+  by: { lang: "be", name: "Belarus", flag: "🇧🇾", nativeLang: "Belarusian" },
+  kz: { lang: "kk", name: "Kazakhstan", flag: "🇰🇿", nativeLang: "Kazakh" },
+  xk: { lang: "sq", name: "Kosovo", flag: "🇽🇰", nativeLang: "Albanian" },
 };

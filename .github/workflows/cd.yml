@@ -142,6 +142,9 @@ jobs:
             "https://aip.aero/az/hava-limanlari-azerbaycan/"
             "https://aip.aero/ua/perelik-aeroportiv-ukrayina/"
             "https://aip.aero/uz/aeroportlar-royxati-ozbekiston/"
+            "https://aip.aero/by/pieralik-aeraportau-bielarus/"
+            "https://aip.aero/kz/aeroportar-tizimi-qazaqstan/"
+            "https://aip.aero/xk/lista-e-aeroporteve-kosove/"
           )
           # NOTE: this list MUST carry EVERY live country's airport-list URL
           # (liveCountries in src/lib/utils.ts x the /airport-list slug in
