@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Ýygy-ýygydan berilýän soraglar",
     "q1": "AIP Türkmenistan näme?",
-    "a1": "AIP (Howa Maglumat Neşiri) - bu Türkmenistanyň resmi howa gollanmasy bolup, Turkmenhowayollary tarapyndan çap edilýär: aerodrom maglumatlary, proseduralar we golaýlaşma kartalary, 28 günlük AIRAC siklinde täzelenýär. AIP:Aero sizi göni resmi neşire äkidýär.",
+    "a1": "<glossary>AIP</glossary> (Howa Maglumat Neşiri) - bu Türkmenistanyň resmi howa gollanmasy bolup, Turkmenhowayollary tarapyndan çap edilýär: aerodrom maglumatlary, proseduralar we golaýlaşma kartalary, 28 günlük <guides>AIRAC</guides> siklinde täzelenýär. AIP:Aero sizi göni resmi neşire äkidýär.",
     "q2": "Golaýlaşma kartalary mugtmy?",
     "a2": "AIP:Aero mugt: hasap ýok, abuna ýok. Turkmenhowayollary <list>golaýlaşma kartalaryny</list> goşmak bilen Türkmenistanyň AIP-sini çap edýär; resmi portala girmek hasaba alynmagy we tölegli abunany talap edip biler.",
     "q3": "Türkmenistan üçin haýsy kartalar we howa menzilleri elýeterli?",
     "a3": "Türkmenistan üçin <vfr>VFR howa menzillerini</vfr> taparsyňyz - esasy howa menzili Aşgabat (UTAA) goşmak bilen, hersi resmi karta göni baglanyşyk, çözlenen howa maglumaty (METAR/TAF) we aerodrom maglumatlary bilen.",
     "q4": "AIP:Aero-ny offline ýa-da EFB-mde ulanyp bilerinmi?",
-    "a4": "Hawa - AIP:Aero programma (PWA) hökmünde gurnalýar we aýry-aýry aerodromlar ýa-da tutuş ýurt offline saklanyp bilner. <efb>EFB gollanmasyna</efb> serediň."
+    "a4": "Hawa - AIP:Aero programma (PWA) hökmünde gurnalýar we aýry-aýry aerodromlar ýa-da tutuş ýurt offline saklanyp bilner. <efb>EFB gollanmasyna</efb> serediň.",
+    "q5": "Kartany okamagy ýa-da METAR/TAF kodyny açmagy nireden öwrenip bilerin?",
+    "a5": "Aeronawigasiýa kartalarynda täzemi? <guides>Uçarman gollanmalary</guides> VFR/IFR golaýlaşma kartasyny okamagy, AIRAC siklini hem-de METAR we TAF kodlaryny açmagy ädimme-ädim düşündirýär, <glossary>awiasiýa sözlügi</glossary> bolsa AIP, VFR/IFR, ICAO kodlary we karta görnüşleri ýaly esasy adalgalary düşündirýär."
   },
   "AirportSummary": {
-    "identity": "{place} resmi Aeronawigasiýa maglumat neşirinde (AIP) çap edilen aerodromdyr.",
-    "identityTown": "{place} {town} golaýynda ýerleşýän, resmi Aeronawigasiýa maglumat neşirinde (AIP) çap edilen aerodromdyr.",
+    "identity": "{place} resmi Aeronawigasiýa maglumat neşirinde (<glossary>AIP</glossary>) çap edilen aerodromdyr.",
+    "identityTown": "{place} {town} golaýynda ýerleşýän, resmi Aeronawigasiýa maglumat neşirinde (<glossary>AIP</glossary>) çap edilen aerodromdyr.",
     "runways": "{count, plural, one {Onuň bir uçuş-gonuş zolagy bar.} other {Onuň # uçuş-gonuş zolagy bar.}}",
     "charts": "AIP:Aero onuň resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
-    "chartsAirac": "AIP:Aero onuň AIRAC {airac} neşirindäki resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
+    "chartsAirac": "AIP:Aero onuň <guides>AIRAC</guides> {airac} neşirindäki resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
     "noCharts": "AIP:Aero onuň resmi AIP ýazgysyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar."
   },
   "GlossaryPage": {

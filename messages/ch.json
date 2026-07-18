@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Häufige Fragen",
     "q1": "Was ist die AIP Schweiz?",
-    "a1": "Die AIP (Aeronautical Information Publication) ist das offizielle Luftfahrthandbuch für die Schweiz, herausgegeben von skybriefing (einer Skyguide-Gesellschaft): Flugplatzdaten, Verfahren und Anflugkarten, aktualisiert im 28-Tage-AIRAC-Zyklus. AIP:Aero zeigt zu jedem Platz Flugplatzdaten und Wetter und verlinkt zum offiziellen skybriefing-Portal.",
+    "a1": "Die <glossary>AIP</glossary> (Aeronautical Information Publication) ist das offizielle Luftfahrthandbuch für die Schweiz, herausgegeben von skybriefing (einer Skyguide-Gesellschaft): Flugplatzdaten, Verfahren und Anflugkarten, aktualisiert im 28-Tage-<guides>AIRAC</guides>-Zyklus. AIP:Aero zeigt zu jedem Platz Flugplatzdaten und Wetter und verlinkt zum offiziellen skybriefing-Portal.",
     "q2": "Sind die Anflugkarten kostenlos?",
     "a2": "Die offizielle AIP der Schweiz wird von skybriefing veröffentlicht und erfordert eine Registrierung bzw. Anmeldung; die Anflugkarten sind also nicht frei herunterladbar. AIP:Aero selbst ist kostenlos und zeigt zu jedem Platz <list>Flugplatzdaten und Wetter</list> mit einem Link zum skybriefing-Portal.",
     "q3": "Welche Flugplätze gibt es für die Schweiz?",
     "a3": "Für die Schweiz finden Sie die <vfr>VFR-Flugplätze</vfr> - jeweils mit Flugplatzdaten (Pisten, Frequenzen, Höhe), entschlüsseltem Wetter (METAR/TAF) und einem Link zur offiziellen AIP von skybriefing.",
     "q4": "Kann ich AIP:Aero offline oder auf dem EFB nutzen?",
-    "a4": "Ja - AIP:Aero lässt sich als App (PWA) installieren, und einzelne Plätze oder das ganze Land können offline gespeichert werden. Siehe <efb>EFB-Anleitung</efb>."
+    "a4": "Ja - AIP:Aero lässt sich als App (PWA) installieren, und einzelne Plätze oder das ganze Land können offline gespeichert werden. Siehe <efb>EFB-Anleitung</efb>.",
+    "q5": "Wo kann ich lernen, eine Karte zu lesen oder METAR/TAF zu entschlüsseln?",
+    "a5": "Neu bei Luftfahrtkarten? Die <guides>Piloten-Guides</guides> führen Sie durch das Lesen einer VFR/IFR-Anflugkarte, den AIRAC-Zyklus und das Entschlüsseln von METAR und TAF, und das <glossary>Luftfahrt-Glossar</glossary> erklärt die wichtigsten Begriffe wie AIP, VFR/IFR, ICAO-Codes und Kartentypen."
   },
   "AirportSummary": {
-    "identity": "{place} ist ein Flugplatz, der im offiziellen Luftfahrthandbuch (AIP) veröffentlicht ist.",
-    "identityTown": "{place} ist ein Flugplatz bei {town}, der im offiziellen Luftfahrthandbuch (AIP) veröffentlicht ist.",
+    "identity": "{place} ist ein Flugplatz, der im offiziellen Luftfahrthandbuch (<glossary>AIP</glossary>) veröffentlicht ist.",
+    "identityTown": "{place} ist ein Flugplatz bei {town}, der im offiziellen Luftfahrthandbuch (<glossary>AIP</glossary>) veröffentlicht ist.",
     "runways": "{count, plural, one {Er verfügt über eine Piste.} other {Er verfügt über # Pisten.}}",
     "charts": "AIP:Aero verlinkt die offizielle {type}-Karte samt Pisten-, Frequenz- und aktuellen Wetterinformationen.",
-    "chartsAirac": "AIP:Aero verlinkt die offizielle {type}-Karte aus der AIRAC-Ausgabe {airac} samt Pisten-, Frequenz- und aktuellen Wetterinformationen.",
+    "chartsAirac": "AIP:Aero verlinkt die offizielle {type}-Karte aus der <guides>AIRAC</guides>-Ausgabe {airac} samt Pisten-, Frequenz- und aktuellen Wetterinformationen.",
     "noCharts": "AIP:Aero verlinkt den offiziellen AIP-Eintrag samt Pisten-, Frequenz- und aktuellen Wetterinformationen."
   },
   "GlossaryPage": {

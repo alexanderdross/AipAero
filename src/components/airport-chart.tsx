@@ -48,9 +48,13 @@ export async function AirportChart({
   // Contextual internal link from the AIRAC label to the pilot guides hub (the
   // "Understanding the AIRAC cycle" guide). Reuses the Footer namespace's
   // localized label - no new i18n string. `withSlash` mirrors the footer.
-  const guidesHref = ((p: string) => (p.endsWith("/") ? p : p + "/"))(
-    getPathname({ href: "/guides", locale }),
-  );
+  const withSlash = (p: string) => (p.endsWith("/") ? p : p + "/");
+  const guidesHref = withSlash(getPathname({ href: "/guides", locale }));
+  // The chart designation (e.g. "ESNX VAC") links to the glossary's chart-type
+  // section - what the designator means. Only the primary designation line is
+  // linked; the per-chart names in the collapsed list already sit inside an
+  // external-PDF link (no nested anchors).
+  const glossaryHref = withSlash(getPathname({ href: "/glossary", locale }));
 
   const primary = charts.find((c) => c.url === url) ?? null;
   const others = charts.filter((c) => c.url !== url);
@@ -80,7 +84,15 @@ export async function AirportChart({
       </p>
       {(designation || airacLabel) && (
         <p className="text-drossgray-dark mt-1 text-center text-xs">
-          {designation}
+          {designation && (
+            <a
+              href={glossaryHref}
+              title={tFooter("glossary.hrefTitle")}
+              className="text-drossblue underline"
+            >
+              {designation}
+            </a>
+          )}
           {designation && airacLabel && " · "}
           {airacLabel && (
             <>

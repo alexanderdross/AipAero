@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Pyetjet e shpeshta",
     "q1": "Çfarë është AIP Shqipëri?",
-    "a1": "AIP (Publikimi i Informacionit Aeronautik) është manuali zyrtar aeronautik i Shqipërisë, botuar nga Albcontrol (ofruesi i shërbimeve të navigacionit ajror shqiptar): të dhënat e aerodromeve, procedurat dhe hartat e afrimit, të përditësuara në ciklin 28-ditor AIRAC. AIP:Aero ju lidh drejtpërdrejt me publikimin zyrtar.",
+    "a1": "<glossary>AIP</glossary> (Publikimi i Informacionit Aeronautik) është manuali zyrtar aeronautik i Shqipërisë, botuar nga Albcontrol (ofruesi i shërbimeve të navigacionit ajror shqiptar): të dhënat e aerodromeve, procedurat dhe hartat e afrimit, të përditësuara në ciklin 28-ditor <guides>AIRAC</guides>. AIP:Aero ju lidh drejtpërdrejt me publikimin zyrtar.",
     "q2": "A janë falas hartat e afrimit?",
     "a2": "Po - Albcontrol boton AIP-në e Shqipërisë përfshirë <list>hartat e afrimit</list> falas, dhe AIP:Aero është gjithashtu falas: pa llogari, pa abonim.",
     "q3": "Cilat harta dhe aeroporte janë në dispozicion për Shqipërinë?",
     "a3": "Për Shqipërinë do të gjeni <vfr>aeroportet VFR</vfr> - secili me një lidhje të drejtpërdrejtë me hartën zyrtare, motin e dekoduar (METAR/TAF) dhe të dhënat e aerodromit.",
     "q4": "A mund ta përdor AIP:Aero offline ose në EFB-në time?",
-    "a4": "Po - AIP:Aero instalohet si aplikacion (PWA), dhe aeroportet individuale ose i gjithë vendi mund të ruhen offline. Shihni <efb>udhëzuesin EFB</efb>."
+    "a4": "Po - AIP:Aero instalohet si aplikacion (PWA), dhe aeroportet individuale ose i gjithë vendi mund të ruhen offline. Shihni <efb>udhëzuesin EFB</efb>.",
+    "q5": "Ku mund të mësoj të lexoj një hartë ose të dekodoj METAR/TAF?",
+    "a5": "I ri me hartat aeronautike? <guides>Udhëzuesit e pilotëve</guides> ju udhëheqin hap pas hapi në leximin e një harte afrimi VFR/IFR, ciklin AIRAC dhe dekodimin e METAR dhe TAF, ndërsa <glossary>fjalori i aviacionit</glossary> shpjegon termat kryesorë si AIP, VFR/IFR, kodet ICAO dhe llojet e hartave."
   },
   "AirportSummary": {
-    "identity": "{place} është një aerodrom i publikuar në Publikimin Zyrtar të Informacionit Aeronautik (AIP).",
-    "identityTown": "{place} është një aerodrom pranë {town}, i publikuar në Publikimin Zyrtar të Informacionit Aeronautik (AIP).",
+    "identity": "{place} është një aerodrom i publikuar në Publikimin Zyrtar të Informacionit Aeronautik (<glossary>AIP</glossary>).",
+    "identityTown": "{place} është një aerodrom pranë {town}, i publikuar në Publikimin Zyrtar të Informacionit Aeronautik (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Ka një pistë.} other {Ka # pista.}}",
     "charts": "AIP:Aero lidh hartën zyrtare {type} së bashku me informacione për pistën, frekuencat dhe motin aktual.",
-    "chartsAirac": "AIP:Aero lidh hartën zyrtare {type} nga edicioni AIRAC {airac}, së bashku me informacione për pistën, frekuencat dhe motin aktual.",
+    "chartsAirac": "AIP:Aero lidh hartën zyrtare {type} nga edicioni <guides>AIRAC</guides> {airac}, së bashku me informacione për pistën, frekuencat dhe motin aktual.",
     "noCharts": "AIP:Aero lidh hyrjen zyrtare në AIP së bashku me informacione për pistën, frekuencat dhe motin aktual."
   },
   "GlossaryPage": {

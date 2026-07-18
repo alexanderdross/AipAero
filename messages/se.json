@@ -386,20 +386,22 @@
   "CountryFaq": {
     "title": "Vanliga frågor",
     "q1": "Vad är AIP Sverige?",
-    "a1": "AIP (Aeronautical Information Publication) är Sveriges officiella luftfartspublikation, utgiven av LFV: flygplatsdata, procedurer och inflygningskartor, uppdaterade i den 28-dagars AIRAC-cykeln. AIP:Aero länkar direkt till den officiella publikationen.",
+    "a1": "<glossary>AIP</glossary> (Aeronautical Information Publication) är Sveriges officiella luftfartspublikation, utgiven av LFV: flygplatsdata, procedurer och inflygningskartor, uppdaterade i den 28-dagars <guides>AIRAC</guides>-cykeln. AIP:Aero länkar direkt till den officiella publikationen.",
     "q2": "Är inflygningskartorna gratis?",
     "a2": "Ja - LFV publicerar AIP Sverige inklusive <list>inflygningskartor</list> gratis, och AIP:Aero är också gratis: inget konto, ingen prenumeration.",
     "q3": "Vilka kartor och flygplatser finns för Sverige?",
     "a3": "För Sverige hittar du <vfr>VFR-flygplatser</vfr> och <heli>helikopterflygplatser</heli> - var och en med direktlänk till den officiella kartan, avkodat väder (METAR/TAF) och flygplatsdata.",
     "q4": "Kan jag använda AIP:Aero offline eller på min EFB?",
-    "a4": "Ja - AIP:Aero kan installeras som app (PWA), och enskilda fält eller hela landet kan sparas offline. Se <efb>EFB-guiden</efb>."
+    "a4": "Ja - AIP:Aero kan installeras som app (PWA), och enskilda fält eller hela landet kan sparas offline. Se <efb>EFB-guiden</efb>.",
+    "q5": "Var kan jag lära mig att läsa ett kort eller avkoda METAR/TAF?",
+    "a5": "Är du ny med flygkort? <guides>Pilotguiderna</guides> går igenom hur du läser ett VFR/IFR-inflygningskort, AIRAC-cykeln och avkodning av METAR och TAF, och <glossary>flygordlistan</glossary> förklarar de viktigaste begreppen som AIP, VFR/IFR, ICAO-koder och korttyper."
   },
   "AirportSummary": {
-    "identity": "{place} är en flygplats som publiceras i den officiella luftfartspublikationen (AIP).",
-    "identityTown": "{place} är en flygplats nära {town}, publicerad i den officiella luftfartspublikationen (AIP).",
+    "identity": "{place} är en flygplats som publiceras i den officiella luftfartspublikationen (<glossary>AIP</glossary>).",
+    "identityTown": "{place} är en flygplats nära {town}, publicerad i den officiella luftfartspublikationen (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Den har en bana.} other {Den har # banor.}}",
     "charts": "AIP:Aero länkar till det officiella {type}-kortet tillsammans med information om bana, frekvens och aktuellt väder.",
-    "chartsAirac": "AIP:Aero länkar till det officiella {type}-kortet från AIRAC-utgåva {airac}, tillsammans med information om bana, frekvens och aktuellt väder.",
+    "chartsAirac": "AIP:Aero länkar till det officiella {type}-kortet från <guides>AIRAC</guides>-utgåva {airac}, tillsammans med information om bana, frekvens och aktuellt väder.",
     "noCharts": "AIP:Aero länkar till den officiella AIP-posten tillsammans med information om bana, frekvens och aktuellt väder."
   },
   "GlossaryPage": {

@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Časté otázky",
     "q1": "Čo je AIP Slovensko?",
-    "a1": "AIP (letecká informačná príručka) je oficiálna letecká príručka Slovenska, vydávaná LPS SR (Letové prevádzkové služby Slovenskej republiky): údaje o letiskách, postupy a približovacie mapy, aktualizované v 28-dňovom cykle AIRAC. AIP:Aero odkazuje priamo na oficiálnu publikáciu.",
+    "a1": "<glossary>AIP</glossary> (letecká informačná príručka) je oficiálna letecká príručka Slovenska, vydávaná LPS SR (Letové prevádzkové služby Slovenskej republiky): údaje o letiskách, postupy a približovacie mapy, aktualizované v 28-dňovom cykle <guides>AIRAC</guides>. AIP:Aero odkazuje priamo na oficiálnu publikáciu.",
     "q2": "Sú približovacie mapy zadarmo?",
     "a2": "Áno - LPS SR vydáva AIP Slovenska vrátane <list>približovacích máp</list> zadarmo a AIP:Aero je tiež zadarmo: bez účtu, bez predplatného.",
     "q3": "Aké mapy a letiská sú pre Slovensko k dispozícii?",
     "a3": "Pre Slovensko nájdete <vfr>VFR letiská</vfr> - každé s priamym odkazom na oficiálnu mapu, dekódovaným počasím (METAR/TAF) a údajmi o letisku.",
     "q4": "Môžem AIP:Aero používať offline alebo na svojom EFB?",
-    "a4": "Áno - AIP:Aero možno nainštalovať ako aplikáciu (PWA) a jednotlivé letiská alebo celú krajinu možno uložiť offline. Pozri <efb>sprievodcu EFB</efb>."
+    "a4": "Áno - AIP:Aero možno nainštalovať ako aplikáciu (PWA) a jednotlivé letiská alebo celú krajinu možno uložiť offline. Pozri <efb>sprievodcu EFB</efb>.",
+    "q5": "Kde sa môžem naučiť čítať mapu alebo dekódovať METAR/TAF?",
+    "a5": "Ste v leteckých mapách nováčik? <guides>Pilotné príručky</guides> vás prevedú čítaním priblížovacej mapy VFR/IFR, cyklom AIRAC a dekódovaním METAR a TAF a <glossary>letecký slovník</glossary> vysvetľuje kľúčové pojmy ako AIP, VFR/IFR, kódy ICAO a typy máp."
   },
   "AirportSummary": {
-    "identity": "{place} je letisko publikované v oficiálnej Leteckej informačnej príručke (AIP).",
-    "identityTown": "{place} je letisko neďaleko mesta {town}, publikované v oficiálnej Leteckej informačnej príručke (AIP).",
+    "identity": "{place} je letisko publikované v oficiálnej Leteckej informačnej príručke (<glossary>AIP</glossary>).",
+    "identityTown": "{place} je letisko neďaleko mesta {town}, publikované v oficiálnej Leteckej informačnej príručke (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Má jednu dráhu.} few {Má # dráhy.} many {Má # dráhy.} other {Má # dráh.}}",
     "charts": "AIP:Aero odkazuje na jej oficiálnu mapu {type} spolu s informáciami o dráhe, frekvencii a aktuálnom počasí.",
-    "chartsAirac": "AIP:Aero odkazuje na jej oficiálnu mapu {type} z edície AIRAC {airac} spolu s informáciami o dráhe, frekvencii a aktuálnom počasí.",
+    "chartsAirac": "AIP:Aero odkazuje na jej oficiálnu mapu {type} z edície <guides>AIRAC</guides> {airac} spolu s informáciami o dráhe, frekvencii a aktuálnom počasí.",
     "noCharts": "AIP:Aero odkazuje na jej oficiálny záznam v AIP spolu s informáciami o dráhe, frekvencii a aktuálnom počasí."
   },
   "GlossaryPage": {

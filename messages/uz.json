@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Koʻp beriladigan savollar",
     "q1": "AIP Oʻzbekiston nima?",
-    "a1": "AIP (havo kemalari harakati haqidagi maʼlumotlar toʻplami) - Oʻzbekistonning rasmiy havo qoʻllanmasi boʻlib, Uzaeronavigation tomonidan chop etiladi: aerodrom maʼlumotlari, protseduralar va yaqinlashuv kartalari, 28 kunlik AIRAC tsiklida yangilanadi. AIP:Aero sizni bevosita rasmiy nashrga yoʻnaltiradi.",
+    "a1": "<glossary>AIP</glossary> (havo kemalari harakati haqidagi maʼlumotlar toʻplami) - Oʻzbekistonning rasmiy havo qoʻllanmasi boʻlib, Uzaeronavigation tomonidan chop etiladi: aerodrom maʼlumotlari, protseduralar va yaqinlashuv kartalari, 28 kunlik <guides>AIRAC</guides> tsiklida yangilanadi. AIP:Aero sizni bevosita rasmiy nashrga yoʻnaltiradi.",
     "q2": "Yaqinlashuv kartalari bepulmi?",
     "a2": "AIP:Aero bepul: hisob yoʻq, obuna yoʻq. Uzaeronavigation Oʻzbekiston AIP'sini, jumladan <list>yaqinlashuv kartalarini</list> chop etadi; rasmiy portalga kirish roʻyxatdan oʻtish va pullik obunani talab qilishi mumkin.",
     "q3": "Oʻzbekiston uchun qaysi kartalar va aeroportlar mavjud?",
     "a3": "Oʻzbekiston uchun siz <vfr>VFR aeroportlarini</vfr> topasiz - jumladan asosiy aeroport Toshkent (UZTT), har biri rasmiy kartaga bevosita havola, ochib berilgan ob-havo (METAR/TAF) va aerodrom maʼlumotlari bilan.",
     "q4": "AIP:Aero'ni oflayn yoki EFB'imda ishlatishim mumkinmi?",
-    "a4": "Ha - AIP:Aero ilova (PWA) sifatida oʻrnatiladi va alohida aerodromlar yoki butun davlat oflayn saqlanishi mumkin. <efb>EFB qoʻllanmasiga</efb> qarang."
+    "a4": "Ha - AIP:Aero ilova (PWA) sifatida oʻrnatiladi va alohida aerodromlar yoki butun davlat oflayn saqlanishi mumkin. <efb>EFB qoʻllanmasiga</efb> qarang.",
+    "q5": "Xaritani oʻqish yoki METAR/TAF ni dekodlashni qayerdan oʻrganishim mumkin?",
+    "a5": "Aeronavigatsiya xaritalarida yangimisiz? <guides>Uchuvchi qoʻllanmalari</guides> VFR/IFR yaqinlashuv xaritasini oʻqish, AIRAC tsikli hamda METAR va TAF ni dekodlashni bosqichma-bosqich tushuntiradi, <glossary>aviatsiya lugʻati</glossary> esa AIP, VFR/IFR, ICAO kodlari va xarita turlari kabi asosiy atamalarni izohlaydi."
   },
   "AirportSummary": {
-    "identity": "{place} rasmiy Aeronavigatsiya axboroti nashrida (AIP) e'lon qilingan aerodromdir.",
-    "identityTown": "{place} {town} yaqinidagi, rasmiy Aeronavigatsiya axboroti nashrida (AIP) e'lon qilingan aerodromdir.",
+    "identity": "{place} rasmiy Aeronavigatsiya axboroti nashrida (<glossary>AIP</glossary>) e'lon qilingan aerodromdir.",
+    "identityTown": "{place} {town} yaqinidagi, rasmiy Aeronavigatsiya axboroti nashrida (<glossary>AIP</glossary>) e'lon qilingan aerodromdir.",
     "runways": "{count, plural, one {Uning bitta uchish-qo'nish yo'lagi bor.} other {Uning # ta uchish-qo'nish yo'lagi bor.}}",
     "charts": "AIP:Aero uning rasmiy {type} kartasini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi.",
-    "chartsAirac": "AIP:Aero uning AIRAC {airac} nashridagi rasmiy {type} kartasini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi.",
+    "chartsAirac": "AIP:Aero uning <guides>AIRAC</guides> {airac} nashridagi rasmiy {type} kartasini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi.",
     "noCharts": "AIP:Aero uning rasmiy AIP yozuvini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi."
   },
   "GlossaryPage": {

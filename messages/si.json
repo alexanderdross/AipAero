@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Pogosta vprašanja",
     "q1": "Kaj je AIP Slovenija?",
-    "a1": "AIP (zbornik letalskih informacij) je uradni letalski priročnik Slovenije, ki ga izdaja Slovenia Control: podatki o letališčih, postopki in karte prileta, posodobljeni v 28-dnevnem ciklu AIRAC. AIP:Aero vodi neposredno do uradne publikacije.",
+    "a1": "<glossary>AIP</glossary> (zbornik letalskih informacij) je uradni letalski priročnik Slovenije, ki ga izdaja Slovenia Control: podatki o letališčih, postopki in karte prileta, posodobljeni v 28-dnevnem ciklu <guides>AIRAC</guides>. AIP:Aero vodi neposredno do uradne publikacije.",
     "q2": "So karte prileta brezplačne?",
     "a2": "Da - Slovenia Control objavlja AIP Slovenije skupaj s <list>kartami prileta</list> brezplačno, in tudi AIP:Aero je brezplačen: brez računa, brez naročnine.",
     "q3": "Katere karte in letališča so na voljo za Slovenijo?",
     "a3": "Za Slovenijo najdete <vfr>letališča VFR</vfr> - vsako z neposredno povezavo do uradne karte, dekodiranim vremenom (METAR/TAF) in podatki o letališču.",
     "q4": "Ali lahko AIP:Aero uporabljam brez povezave ali na svojem EFB?",
-    "a4": "Da - AIP:Aero se namesti kot aplikacija (PWA), posamezna letališča ali celotno državo pa lahko shranite za uporabo brez povezave. Glejte <efb>vodnik EFB</efb>."
+    "a4": "Da - AIP:Aero se namesti kot aplikacija (PWA), posamezna letališča ali celotno državo pa lahko shranite za uporabo brez povezave. Glejte <efb>vodnik EFB</efb>.",
+    "q5": "Kje se lahko naučim brati karto ali dekodirati METAR/TAF?",
+    "a5": "Ste novi v letalskih kartah? <guides>Pilotski vodniki</guides> vas vodijo skozi branje prihodne karte VFR/IFR, cikel AIRAC ter dekodiranje METAR in TAF, <glossary>letalski slovar</glossary> pa pojasnjuje ključne izraze, kot so AIP, VFR/IFR, kode ICAO in vrste kart."
   },
   "AirportSummary": {
-    "identity": "{place} je letališče, objavljeno v uradnem Zborniku letalskih informacij (AIP).",
-    "identityTown": "{place} je letališče blizu kraja {town}, objavljeno v uradnem Zborniku letalskih informacij (AIP).",
+    "identity": "{place} je letališče, objavljeno v uradnem Zborniku letalskih informacij (<glossary>AIP</glossary>).",
+    "identityTown": "{place} je letališče blizu kraja {town}, objavljeno v uradnem Zborniku letalskih informacij (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Ima eno vzletno-pristajalno stezo.} two {Ima # vzletno-pristajalni stezi.} few {Ima # vzletno-pristajalne steze.} other {Ima # vzletno-pristajalnih stez.}}",
     "charts": "AIP:Aero povezuje njeno uradno karto {type} skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu.",
-    "chartsAirac": "AIP:Aero povezuje njeno uradno karto {type} iz izdaje AIRAC {airac} skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu.",
+    "chartsAirac": "AIP:Aero povezuje njeno uradno karto {type} iz izdaje <guides>AIRAC</guides> {airac} skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu.",
     "noCharts": "AIP:Aero povezuje njen uradni vpis v AIP skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu."
   },
   "GlossaryPage": {

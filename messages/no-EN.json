@@ -386,20 +386,22 @@
   "CountryFaq": {
     "title": "Frequently asked questions",
     "q1": "What is the AIP Norway?",
-    "a1": "The AIP (Aeronautical Information Publication) is the official aeronautical manual of Norway, published by Avinor: aerodrome data, procedures and approach charts, amended in the 28-day AIRAC cycle. AIP:Aero links you straight to the official publication.",
+    "a1": "The <glossary>AIP</glossary> (Aeronautical Information Publication) is the official aeronautical manual of Norway, published by Avinor: aerodrome data, procedures and approach charts, amended in the 28-day <guides>AIRAC</guides> cycle. AIP:Aero links you straight to the official publication.",
     "q2": "Are the approach charts free?",
     "a2": "Yes - Avinor publishes the AIP of Norway including <list>approach charts</list> free of charge, and AIP:Aero is free too: no account, no subscription.",
     "q3": "Which charts and airfields are available for Norway?",
     "a3": "For Norway you will find <vfr>VFR airfields</vfr> and <heli>heliports</heli> - each with a direct link to the official chart, decoded weather (METAR/TAF) and aerodrome data.",
     "q4": "Can I use AIP:Aero offline or on my EFB?",
-    "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>."
+    "a4": "Yes - AIP:Aero installs as an app (PWA), and single aerodromes or the whole country can be saved offline. See the <efb>EFB guide</efb>.",
+    "q5": "Where can I learn to read a chart or decode METAR/TAF?",
+    "a5": "New to aeronautical charts? The <guides>pilot guides</guides> walk through reading a VFR/IFR approach chart, the AIRAC cycle and decoding METAR and TAF, and the <glossary>aviation glossary</glossary> explains the key terms like AIP, VFR/IFR, ICAO codes and chart types."
   },
   "AirportSummary": {
-    "identity": "{place} is an aerodrome published in the official Aeronautical Information Publication (AIP).",
-    "identityTown": "{place} is an aerodrome near {town}, published in the official Aeronautical Information Publication (AIP).",
+    "identity": "{place} is an aerodrome published in the official Aeronautical Information Publication (<glossary>AIP</glossary>).",
+    "identityTown": "{place} is an aerodrome near {town}, published in the official Aeronautical Information Publication (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {It has one runway.} other {It has # runways.}}",
     "charts": "AIP:Aero links its official {type} chart together with runway, frequency and current weather information.",
-    "chartsAirac": "AIP:Aero links its official {type} chart from AIRAC edition {airac}, together with runway, frequency and current weather information.",
+    "chartsAirac": "AIP:Aero links its official {type} chart from <guides>AIRAC</guides> edition {airac}, together with runway, frequency and current weather information.",
     "noCharts": "AIP:Aero links its official AIP entry together with runway, frequency and current weather information."
   },
   "GlossaryPage": {

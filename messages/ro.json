@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Întrebări frecvente",
     "q1": "Ce este AIP România?",
-    "a1": "AIP (Publicația de Informare Aeronautică) este manualul aeronautic oficial al României, publicat de ROMATSA (furnizorul român de servicii de navigație aeriană, prin unitatea sa AIS, AISRO): date despre aerodromuri, proceduri și hărți de apropiere, actualizate în ciclul AIRAC de 28 de zile. AIP:Aero vă conduce direct la publicația oficială.",
+    "a1": "<glossary>AIP</glossary> (Publicația de Informare Aeronautică) este manualul aeronautic oficial al României, publicat de ROMATSA (furnizorul român de servicii de navigație aeriană, prin unitatea sa AIS, AISRO): date despre aerodromuri, proceduri și hărți de apropiere, actualizate în ciclul <guides>AIRAC</guides> de 28 de zile. AIP:Aero vă conduce direct la publicația oficială.",
     "q2": "Hărțile de apropiere sunt gratuite?",
     "a2": "Da - ROMATSA publică AIP-ul României, inclusiv <list>hărțile de apropiere</list>, gratuit, iar AIP:Aero este de asemenea gratuit: fără cont, fără abonament.",
     "q3": "Ce hărți și aeroporturi sunt disponibile pentru România?",
     "a3": "Pentru România veți găsi <vfr>aeroporturile VFR</vfr> - inclusiv principalele aeroporturi precum București/Henri Coandă (LROP), Cluj-Napoca (LRCL), Timișoara (LRTR), Constanța (LRCK) și Iași (LRIA), fiecare cu un link direct către harta oficială, vremea decodată (METAR/TAF) și datele despre aerodrom.",
     "q4": "Pot folosi AIP:Aero offline sau pe EFB-ul meu?",
-    "a4": "Da - AIP:Aero se instalează ca aplicație (PWA), iar aerodromurile individuale sau întreaga țară pot fi salvate offline. Consultați <efb>ghidul EFB</efb>."
+    "a4": "Da - AIP:Aero se instalează ca aplicație (PWA), iar aerodromurile individuale sau întreaga țară pot fi salvate offline. Consultați <efb>ghidul EFB</efb>.",
+    "q5": "Unde pot învăța să citesc o hartă sau să decodez METAR/TAF?",
+    "a5": "Sunteți la început cu hărțile aeronautice? <guides>Ghidurile pilotului</guides> explică cum se citește o hartă de apropiere VFR/IFR, ciclul AIRAC și decodarea METAR și TAF, iar <glossary>glosarul aeronautic</glossary> lămurește termenii cheie precum AIP, VFR/IFR, codurile ICAO și tipurile de hărți."
   },
   "AirportSummary": {
-    "identity": "{place} este un aerodrom publicat în Publicația oficială de informare aeronautică (AIP).",
-    "identityTown": "{place} este un aerodrom aflat în apropierea localității {town}, publicat în Publicația oficială de informare aeronautică (AIP).",
+    "identity": "{place} este un aerodrom publicat în Publicația oficială de informare aeronautică (<glossary>AIP</glossary>).",
+    "identityTown": "{place} este un aerodrom aflat în apropierea localității {town}, publicat în Publicația oficială de informare aeronautică (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Are o pistă.} few {Are # piste.} other {Are # de piste.}}",
     "charts": "AIP:Aero leagă harta oficială {type} împreună cu informații despre pistă, frecvențe și vremea curentă.",
-    "chartsAirac": "AIP:Aero leagă harta oficială {type} din ediția AIRAC {airac}, împreună cu informații despre pistă, frecvențe și vremea curentă.",
+    "chartsAirac": "AIP:Aero leagă harta oficială {type} din ediția <guides>AIRAC</guides> {airac}, împreună cu informații despre pistă, frecvențe și vremea curentă.",
     "noCharts": "AIP:Aero leagă înregistrarea oficială din AIP împreună cu informații despre pistă, frecvențe și vremea curentă."
   },
   "GlossaryPage": {

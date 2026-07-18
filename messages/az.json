@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Tez-tez verilən suallar",
     "q1": "AIP Azərbaycan nədir?",
-    "a1": "AIP (Aeronaviqasiya Məlumat Nəşri) Azərbaycanın rəsmi aeronaviqasiya təlimatıdır və State Civil Aviation Agency (AZANS, Azərbaycanın aeronaviqasiya xidmətləri təminatçısı) tərəfindən dərc olunur: aerodrom məlumatları, prosedurlar və yanaşma kartları, 28 günlük AIRAC dövründə yenilənir. AIP:Aero sizi birbaşa rəsmi nəşrə aparır.",
+    "a1": "<glossary>AIP</glossary> (Aeronaviqasiya Məlumat Nəşri) Azərbaycanın rəsmi aeronaviqasiya təlimatıdır və State Civil Aviation Agency (AZANS, Azərbaycanın aeronaviqasiya xidmətləri təminatçısı) tərəfindən dərc olunur: aerodrom məlumatları, prosedurlar və yanaşma kartları, 28 günlük <guides>AIRAC</guides> dövründə yenilənir. AIP:Aero sizi birbaşa rəsmi nəşrə aparır.",
     "q2": "Yanaşma kartları pulsuzdur?",
     "a2": "AIP:Aero pulsuzdur: hesab yox, abunəlik yox. State Civil Aviation Agency (AZANS) <list>yanaşma kartları</list> daxil olmaqla Azərbaycanın AIP-sini dərc edir; rəsmi portala giriş qeydiyyat və ödənişli abunəlik tələb edə bilər.",
     "q3": "Azərbaycan üçün hansı kartlar və hava limanları mövcuddur?",
     "a3": "Azərbaycan üçün <vfr>VFR meydanlarını</vfr> tapacaqsınız - əsas hava limanı Bakı (UBBB) daxil olmaqla, hər biri rəsmi karta birbaşa link, deşifrə edilmiş hava (METAR/TAF) və aerodrom məlumatları ilə.",
     "q4": "AIP:Aero-nu offline və ya EFB-imdə istifadə edə bilərəm?",
-    "a4": "Bəli - AIP:Aero tətbiq (PWA) kimi quraşdırılır və ayrı-ayrı aerodromlar və ya bütün ölkə offline yadda saxlanıla bilər. <efb>EFB bələdçisinə</efb> baxın."
+    "a4": "Bəli - AIP:Aero tətbiq (PWA) kimi quraşdırılır və ayrı-ayrı aerodromlar və ya bütün ölkə offline yadda saxlanıla bilər. <efb>EFB bələdçisinə</efb> baxın.",
+    "q5": "Xəritəni oxumağı və ya METAR/TAF-ı deşifrə etməyi harada öyrənə bilərəm?",
+    "a5": "Aeronaviqasiya xəritələri ilə yeni tanış olursunuz? <guides>Pilot bələdçiləri</guides> VFR/IFR yanaşma xəritəsinin oxunmasını, AIRAC dövrünü və METAR ilə TAF-ın deşifrəsini addım-addım izah edir, <glossary>aviasiya lüğəti</glossary> isə AIP, VFR/IFR, ICAO kodları və xəritə növləri kimi əsas terminləri açıqlayır."
   },
   "AirportSummary": {
-    "identity": "{place} rəsmi Aeronaviqasiya Məlumat Nəşrində (AIP) dərc edilmiş bir aerodromdur.",
-    "identityTown": "{place} {town} yaxınlığında yerləşən, rəsmi Aeronaviqasiya Məlumat Nəşrində (AIP) dərc edilmiş bir aerodromdur.",
+    "identity": "{place} rəsmi Aeronaviqasiya Məlumat Nəşrində (<glossary>AIP</glossary>) dərc edilmiş bir aerodromdur.",
+    "identityTown": "{place} {town} yaxınlığında yerləşən, rəsmi Aeronaviqasiya Məlumat Nəşrində (<glossary>AIP</glossary>) dərc edilmiş bir aerodromdur.",
     "runways": "{count, plural, one {Onun bir uçuş-enmə zolağı var.} other {Onun # uçuş-enmə zolağı var.}}",
     "charts": "AIP:Aero onun rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
-    "chartsAirac": "AIP:Aero onun AIRAC {airac} buraxılışından olan rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
+    "chartsAirac": "AIP:Aero onun <guides>AIRAC</guides> {airac} buraxılışından olan rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
     "noCharts": "AIP:Aero onun rəsmi AIP qeydini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir."
   },
   "GlossaryPage": {

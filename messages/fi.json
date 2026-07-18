@@ -386,20 +386,22 @@
   "CountryFaq": {
     "title": "Usein kysytyt kysymykset",
     "q1": "Mikä on AIP Suomi?",
-    "a1": "AIP (ilmailukäsikirja) on Suomen virallinen ilmailujulkaisu, jonka julkaisee Fintraffic ANS: lentopaikkatiedot, menetelmät ja lähestymiskartat, päivitetään 28 päivän AIRAC-syklissä. AIP:Aero vie suoraan viralliseen julkaisuun.",
+    "a1": "<glossary>AIP</glossary> (ilmailukäsikirja) on Suomen virallinen ilmailujulkaisu, jonka julkaisee Fintraffic ANS: lentopaikkatiedot, menetelmät ja lähestymiskartat, päivitetään 28 päivän <guides>AIRAC</guides>-syklissä. AIP:Aero vie suoraan viralliseen julkaisuun.",
     "q2": "Ovatko lähestymiskartat ilmaisia?",
     "a2": "Kyllä - Fintraffic ANS julkaisee Suomen AIP:n <list>lähestymiskarttoineen</list> maksutta, ja myös AIP:Aero on ilmainen: ei tiliä, ei tilausta.",
     "q3": "Mitä karttoja ja lentopaikkoja Suomelle on saatavilla?",
     "a3": "Suomelle löydät <vfr>VFR-lentopaikat</vfr> ja <heli>helikopterikentät</heli> - jokaisella suora linkki viralliseen karttaan, tulkittu sää (METAR/TAF) ja lentopaikan tiedot.",
     "q4": "Voinko käyttää AIP:Aeroa offline-tilassa tai EFB:lläni?",
-    "a4": "Kyllä - AIP:Aero asennetaan sovelluksena (PWA), ja yksittäiset kentät tai koko maan voi tallentaa offline-käyttöön. Katso <efb>EFB-opas</efb>."
+    "a4": "Kyllä - AIP:Aero asennetaan sovelluksena (PWA), ja yksittäiset kentät tai koko maan voi tallentaa offline-käyttöön. Katso <efb>EFB-opas</efb>.",
+    "q5": "Mistä voin oppia lukemaan karttaa tai tulkitsemaan METAR/TAF-sanomia?",
+    "a5": "Oletko uusi ilmailukarttojen parissa? <guides>Lentäjän oppaat</guides> käyvät läpi VFR/IFR-lähestymiskartan lukemisen, AIRAC-jakson sekä METAR- ja TAF-sanomien tulkinnan, ja <glossary>ilmailusanasto</glossary> selittää keskeiset termit kuten AIP, VFR/IFR, ICAO-koodit ja karttatyypit."
   },
   "AirportSummary": {
-    "identity": "{place} on lentopaikka, joka on julkaistu virallisessa ilmailukäsikirjassa (AIP).",
-    "identityTown": "{place} on lentopaikka lähellä paikkakuntaa {town}, ja se on julkaistu virallisessa ilmailukäsikirjassa (AIP).",
+    "identity": "{place} on lentopaikka, joka on julkaistu virallisessa ilmailukäsikirjassa (<glossary>AIP</glossary>).",
+    "identityTown": "{place} on lentopaikka lähellä paikkakuntaa {town}, ja se on julkaistu virallisessa ilmailukäsikirjassa (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Sillä on yksi kiitotie.} other {Sillä on # kiitotietä.}}",
     "charts": "AIP:Aero linkittää sen virallisen {type}-kartan sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
-    "chartsAirac": "AIP:Aero linkittää sen virallisen {type}-kartan AIRAC-julkaisusta {airac} sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
+    "chartsAirac": "AIP:Aero linkittää sen virallisen {type}-kartan <guides>AIRAC</guides>-julkaisusta {airac} sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
     "noCharts": "AIP:Aero linkittää sen virallisen AIP-merkinnän sekä kiitotie-, taajuus- ja ajantasaiset säätiedot."
   },
   "GlossaryPage": {

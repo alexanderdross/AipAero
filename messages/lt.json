@@ -356,20 +356,22 @@
   "CountryFaq": {
     "title": "Dažnai užduodami klausimai",
     "q1": "Kas yra AIP Lietuva?",
-    "a1": "AIP (aeronautikos informacijos rinkinys) yra oficialus Lietuvos aeronautikos vadovas, kurį leidžia Oro navigacija: oro uostų duomenys, procedūros ir artėjimo kortelės, atnaujinamos 28 dienų AIRAC ciklu. AIP:Aero nukreipia tiesiai į oficialią publikaciją.",
+    "a1": "<glossary>AIP</glossary> (aeronautikos informacijos rinkinys) yra oficialus Lietuvos aeronautikos vadovas, kurį leidžia Oro navigacija: oro uostų duomenys, procedūros ir artėjimo kortelės, atnaujinamos 28 dienų <guides>AIRAC</guides> ciklu. AIP:Aero nukreipia tiesiai į oficialią publikaciją.",
     "q2": "Ar artėjimo kortelės nemokamos?",
     "a2": "Taip - Oro navigacija nemokamai skelbia Lietuvos AIP kartu su <list>artėjimo kortelėmis</list>, ir AIP:Aero taip pat nemokamas: be paskyros, be prenumeratos.",
     "q3": "Kokios kortelės ir oro uostai prieinami Lietuvai?",
     "a3": "Lietuvai rasite <vfr>VFR oro uostus</vfr> - kiekvieną su tiesiogine nuoroda į oficialią kortelę, iššifruotais orais (METAR/TAF) ir oro uosto duomenimis.",
     "q4": "Ar galiu naudoti AIP:Aero neprisijungus arba savo EFB?",
-    "a4": "Taip - AIP:Aero įdiegiamas kaip programėlė (PWA), o pavienius aerodromus ar visą šalį galima išsaugoti naudojimui neprisijungus. Žr. <efb>EFB vadovą</efb>."
+    "a4": "Taip - AIP:Aero įdiegiamas kaip programėlė (PWA), o pavienius aerodromus ar visą šalį galima išsaugoti naudojimui neprisijungus. Žr. <efb>EFB vadovą</efb>.",
+    "q5": "Kur galiu išmokti skaityti žemėlapį ar iššifruoti METAR/TAF?",
+    "a5": "Ar tik pradedate pažintį su aeronautikos žemėlapiais? <guides>Pilotų vadovai</guides> paaiškina, kaip skaityti VFR/IFR artėjimo žemėlapį, AIRAC ciklą bei iššifruoti METAR ir TAF, o <glossary>aviacijos terminų žodynas</glossary> paaiškina pagrindines sąvokas, tokias kaip AIP, VFR/IFR, ICAO kodai ir žemėlapių tipai."
   },
   "AirportSummary": {
-    "identity": "{place} yra aerodromas, paskelbtas oficialiame oro navigacijos informacijos rinkinyje (AIP).",
-    "identityTown": "{place} yra aerodromas netoli {town}, paskelbtas oficialiame oro navigacijos informacijos rinkinyje (AIP).",
+    "identity": "{place} yra aerodromas, paskelbtas oficialiame oro navigacijos informacijos rinkinyje (<glossary>AIP</glossary>).",
+    "identityTown": "{place} yra aerodromas netoli {town}, paskelbtas oficialiame oro navigacijos informacijos rinkinyje (<glossary>AIP</glossary>).",
     "runways": "{count, plural, one {Jis turi vieną kilimo ir tūpimo taką.} few {Jis turi # kilimo ir tūpimo takus.} other {Jis turi # kilimo ir tūpimo takų.}}",
     "charts": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę kartu su tako, dažnio ir dabartinės oro būklės informacija.",
-    "chartsAirac": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę iš AIRAC leidimo {airac} kartu su tako, dažnio ir dabartinės oro būklės informacija.",
+    "chartsAirac": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę iš <guides>AIRAC</guides> leidimo {airac} kartu su tako, dažnio ir dabartinės oro būklės informacija.",
     "noCharts": "AIP:Aero pateikia nuorodą į oficialų AIP įrašą kartu su tako, dažnio ir dabartinės oro būklės informacija."
   },
   "GlossaryPage": {
