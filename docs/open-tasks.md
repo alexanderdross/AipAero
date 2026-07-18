@@ -96,7 +96,7 @@ Gruppen-Indizes unverändert), unit-getestet (`tests/test_es.py`). Live
 validiert: **ES jetzt 51/51** (Run 29372486590, 943 Charts). Wird beim nächsten
 ES-Crawl publiziert.
 
-## 🟡 8. Gated-Länder sichtbar machen (IT/HR/IE/SK) via OurAirports/OpenAIP - SCOPING
+## ✅ 8. Gated-Länder sichtbar machen (IT/HR/IE/SK) via OurAirports/OpenAIP - ERLEDIGT (Info-Seiten live)
 
 **Idee (Owner-Wunsch):** Länder mit paywall-/blockiertem AIP (Italien ENAV,
 Kroatien, Irland IAA, Slowakei LPS) mit **Grundabdeckung aus OpenAIP** zeigen
@@ -151,6 +151,29 @@ reicht an das registrierungspflichtige `b-flip.bulatsa.com`-Portal weiter, Itali
 unverändert (ENAV Self-Briefing login-only, `aip.enav.it` ohne DNS). Falls der
 Owner sie will, gehen sie **nur** als CH-artige Info-Seiten (kein Chart-Crawl,
 Gate respektieren) - siehe CLAUDE.md "paywalled / blocked".
+
+**✅ Update 18.07.2026 - IT/HR/BG als Info-Seiten live; IT/BG-Chart-Versuch
+verworfen.** Alle drei laufen als `gatedCountries`-Info-Seiten (OurAirports +
+OpenAIP + Wetter + Portal-Button). Auf einen kurzzeitigen Irrtum hin wurde für
+**IT + BG ein echter Chart-Crawler gebaut und wieder zurückgenommen** (PR #313 →
+Revert #314): der Runner-Live-Test hat bewiesen, dass beide **auf Navigationsebene**
+login-gated sind - ENAV (`onlineservices.enav.it/.../AIP/AIP/`, inkl. der datierten
+Editions-Ordner `.../eAIP/LI-menu-en-GB.html`) leitet auf **Oracle IDCS SSO** um
+(auch mit Legacy-TLS + Headless-Render 0 Links), b-flip rendert eine
+**Keycloak**-Loginseite und der `/_aip/AD_files/LB_AD_1_3_en.pdf`-Index ist **403**.
+Kein offener Statik-Baum (GR-Ausnahme greift nicht), keine login-freie
+Enumeration. Charts nur via **Lizenz/Link-Erlaubnis** von ENAV/BULATSA bzw.
+**EUROCONTROL EAD** - Owner-Outreach am 18.07.2026 gestartet (strikt link-only,
+kein Self-Hosting; Kontakte + Status in `docs/aip-hosting-rights.md`). Keine
+Credentials im Crawler.
+
+**Nebenbefund gefixt (PR #314): leere englische Flughafenlisten.** Die
+`/<cc>/en/airport-list-...`-Seiten sind eigene Prerenders und wurden vom
+Post-Deploy/Crawl-Warm-up nicht aufgewärmt → sie lieferten den leeren Build-Seed,
+während die native Liste gefüllt war (live auf `/it/en/airport-list-italy/`; die
+Karte lief, weil client-gefetcht). Fix: alle 44 englischen Listen-URLs in die
+`crawl.yml`/`cd.yml`-Warm-up-+-Verify-Listen + eine englische Coverage-Prüfung
+in `check:countries`.
 
 ## ✅ 1. `CRON_SECRET` als GitHub-Actions-Secret anlegen (Owner) - ERLEDIGT
 

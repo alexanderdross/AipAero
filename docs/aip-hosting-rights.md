@@ -1,6 +1,9 @@
 # AIP chart hosting & offline: rights checklist (per country)
 
-**Status: research/decision doc for the future - NOT yet acted on.**
+**Status:** the **re-hosting/mirroring** question (below) is research-only, NOT
+yet acted on. The **linking-to-gated-portals** question is being acted on -
+licensing/permission outreach to gated authorities started 18.07.2026 (see
+"Gated countries: linking needs permission" below).
 **This is not legal advice.** It frames the question and collects the sources to
 check; the final go/no-go per country is a legal decision for the owner.
 
@@ -73,6 +76,55 @@ General notes:
   general vibe.
 - Where the answer is NO, the current **direct-link** approach remains the
   correct, compliant option.
+
+## Gated countries: linking needs permission (outreach 18.07.2026)
+
+A distinct, lighter question from re-hosting: some authorities gate the AIP
+**navigation** behind a login, so even a crawler that only wants to **link** to
+their charts cannot enumerate them without an account. For these countries the
+site ships an **OurAirports info-page** (aerodrome list + OpenAIP data + weather
++ a link to the provider portal where the user authenticates) - never a chart
+crawl. They are the `gatedCountries` set in `src/lib/utils.ts`:
+
+`ch, mt, md, it, hr, bg, tr, az, ua, uz, by, ru, tj, tm, kg`.
+
+Two were proven login-gated at the navigation layer on 18.07.2026 (a real-charts
+crawl was attempted then reverted, PR #313 -> #314):
+
+- **Italy (ENAV)** - `onlineservices.enav.it/enavWebPortalStatic/AIP/AIP/`
+  (`default.html` AND the dated edition folders `.../eAIP/LI-menu-en-GB.html`)
+  302-redirects to **Oracle IDCS SSO**, even under a legacy-TLS handshake +
+  headless render. No open static tree.
+- **Bulgaria (BULATSA b-flip)** - renders a **Keycloak** login page; the
+  `/_aip/AD_files/LB_AD_1_3_en.pdf` index is **403**. Chart PDFs are reachable
+  only from an authenticated browser.
+
+**Policy for gated countries:** link-only to the **current AIRAC** edition,
+never host/copy/cache/redistribute; do NOT scrape behind a login and do NOT wire
+in credentials (respect the access control). The compliant way to unlock charts
+is a written **linking permission** or an **open data feed** from the authority
+(or via **EUROCONTROL EAD**), obtained by the owner.
+
+### Outreach status (started 18.07.2026)
+
+Emails sent requesting a strict **link-only** permission / feed (deep-link to the
+current-AIRAC files, no self-hosting). Awaiting replies:
+
+| Target | Address | Covers |
+| --- | --- | --- |
+| EUROCONTROL EAD | `ead.service@eurocontrol.int` | many ECAC+ states at once (become an EAD Data User) |
+| ENAV (Italy) | `customersatisfaction@enav.it` | IT |
+| BULATSA (Bulgaria) | `atsainfo@bulatsa.com` | BG |
+| skyguide / skybriefing (Switzerland) | `helpdesk@skybriefing.com` | CH |
+| Crocontrol (Croatia) | `ais.subscription@crocontrol.hr` | HR |
+| MATS (Malta) | `aim@maltats.com` | MT |
+| DHMI (Turkey) | `aipgm@dhmi.gov.tr` (verify) | TR |
+| MoldATSA (Moldova) | `office@moldatsa.md` (verify) | MD |
+
+Lower priority / not contacted: RU, BY (sanctions/compliance), UA (wartime),
+UZ/TJ/TM/KG (low traffic, non-ECAC; TJ/TM route via CAICA). When any authority
+grants linking/a feed, build the crawler like the other real-charts countries -
+linking to the current-AIRAC files, the *access* was the only blocker.
 
 ## Recommended sequence (if/when pursued)
 
