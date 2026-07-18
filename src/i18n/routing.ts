@@ -71,6 +71,8 @@ export const routing = defineRouting({
     "bg-EN",
     "tr",
     "tr-EN",
+    "ge",
+    "ge-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -108,6 +110,7 @@ export const routing = defineRouting({
       "hr-EN": "/hr/en",
       "bg-EN": "/bg/en",
       "tr-EN": "/tr/en",
+      "ge-EN": "/ge/en",
     },
   },
   pathnames: {
@@ -189,6 +192,8 @@ export const routing = defineRouting({
       "bg-EN": "/airport-list-bulgaria",
       tr: "/havalimanlari-turkiye",
       "tr-EN": "/airport-list-turkey",
+      ge: "/aeroportebi-sakartvelo",
+      "ge-EN": "/airport-list-georgia",
     },
   },
   localeCookie: false,
@@ -324,6 +329,12 @@ export const localeLangMapping: Record<
   // LocaleSwitcher ICU branch keys match without the si/cz/dk/gr caveat.
   tr: "tr",
   "tr-EN": "en",
+  // Georgia: prefix "ge", ISO language code "ka" (Georgian) - the
+  // LocaleSwitcher ICU branches key on the PREFIX "ge" (see the gotcha in
+  // CLAUDE.md), so messages/ge.json keys its native branch on "ge"; the
+  // hreflang uses "ka".
+  ge: "ka",
+  "ge-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -398,4 +409,6 @@ export const localeCountryMapping: Record<
   "bg-EN": "bg",
   tr: "tr",
   "tr-EN": "tr",
+  ge: "ge",
+  "ge-EN": "ge",
 };

@@ -143,6 +143,9 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   // TR: info-page only (DHMI's AIP Turkiye portal is login + paid subscription).
   // OurAirports aerodrome list, "vfr", OpenAIP data + weather + AIP button.
   tr: ["vfr"],
+  // GE: Sakaeronavigatsia's open eurocontrol eAIP (airnav.ge) lists the AD-2
+  // aerodromes (UG**), all "vfr" with real chart PDFs; no AD-3 heliport chapter.
+  ge: ["vfr"],
 };
 
 /**
@@ -397,6 +400,14 @@ export const liveCountries: string[] = [
   // Turkish aerodromes from OurAirports and points each at the DHMI portal
   // (gated). OpenAIP data + weather come from the website.
   "tr",
+  // Georgia (17.07.2026): Sakaeronavigatsia publishes an OPEN eurocontrol eAIP
+  // at airnav.ge/eaip/ (no login, no proxy). ge.py resolves the current edition
+  // from the eAIP history page (date-stamped <YYYY-MM-DD>-000000 folders), reads
+  // the per-airport AD 2 chapters (7 aerodromes UG**, all "vfr") and captures
+  // the AD 2.24 chart PDFs. Names enriched from OurAirports (the menu labels
+  // chapters with the bare ICAO). Live-validated (run 29603175978 - 7 aerodromes,
+  // 7/7 chart-PDF coverage, 124 charts). NOT gated (real charts).
+  "ge",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -462,4 +473,5 @@ export const countryMeta: Record<
   hr: { lang: "hr", name: "Croatia", flag: "🇭🇷", nativeLang: "Croatian" },
   bg: { lang: "bg", name: "Bulgaria", flag: "🇧🇬", nativeLang: "Bulgarian" },
   tr: { lang: "tr", name: "Turkey", flag: "🇹🇷", nativeLang: "Turkish" },
+  ge: { lang: "ka", name: "Georgia", flag: "🇬🇪", nativeLang: "Georgian" },
 };
