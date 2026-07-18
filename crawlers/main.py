@@ -39,6 +39,7 @@ from crawlers.hu import HU
 from crawlers.ie import IE
 from crawlers.is_ import IS
 from crawlers.it import IT
+from crawlers.kz import KZ
 from crawlers.lt import LT
 from crawlers.md import MD
 from crawlers.mk import MK
@@ -91,6 +92,7 @@ COUNTRY_CRAWLERS = {
     "IE": IE,
     "IS": IS,
     "IT": IT,
+    "KZ": KZ,
     "LT": LT,
     "MD": MD,
     "MK": MK,
