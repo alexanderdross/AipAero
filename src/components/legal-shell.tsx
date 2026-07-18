@@ -94,7 +94,9 @@ export function LegalShell({
   return (
     <html className={`h-full scroll-smooth ${inter.variable}`} lang={lang}>
       <body className="bg-drossgray font-sans">
-        <Header />
+        {/* No site locale switcher: the legal pages have no `<cc>/en` twin and
+            carry their own EN<->DE toggle (below). */}
+        <Header withLocaleSwitcher={false} />
         <main className="min-h-screen">
           {jsonLd}
           <Title title={title} description={intro} />
