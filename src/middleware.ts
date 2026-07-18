@@ -18,6 +18,25 @@ export default function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  // German legal pages live under `/de/` publicly (impressum/datenschutz/agb),
+  // but are served by the ROOT German legal routes (src/app/{impressum,
+  // datenschutz,agb}) - they cannot be real `[locale]` routes without the site
+  // header's language switcher linking to a non-existent /de/en/... twin. So we
+  // internally REWRITE the public /de/... path onto the root route (URL stays
+  // /de/impressum), and 301 the bare root path to the canonical /de/... URL.
+  const deLegal = /^\/de\/(impressum|datenschutz|agb)\/?$/.exec(pathname);
+  if (deLegal) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${deLegal[1]}/`;
+    return NextResponse.rewrite(url);
+  }
+  const rootLegal = /^\/(impressum|datenschutz|agb)\/?$/.exec(pathname);
+  if (rootLegal) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/de/${rootLegal[1]}/`;
+    return NextResponse.redirect(url, 301);
+  }
+
   // Legacy locale-prefixed legal URLs -> root. The legal pages used to live
   // under every locale (`/de/terms`, `/de/en/terms`, ...); they are now single
   // root-level bilingual pages (`/terms`, `/imprint`, `/privacy`). 301-redirect

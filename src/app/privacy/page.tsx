@@ -10,7 +10,7 @@ import { IMPRINT, PRIVACY_LINKS } from "~/lib/legal";
 import { orgUrl } from "~/lib/utils";
 
 const EN = new URL("/privacy/", orgUrl).toString();
-const DE = new URL("/datenschutz/", orgUrl).toString();
+const DE = new URL("/de/datenschutz/", orgUrl).toString();
 
 export function generateMetadata(
   _props: { params: Promise<Record<string, never>> },
@@ -152,7 +152,7 @@ export default function PrivacyPage() {
       title="Privacy Policy"
       intro="What data AIP:Aero processes, and what it does not. No accounts, no analytics, no social plugins."
       altLink={{
-        href: "/datenschutz/",
+        href: "/de/datenschutz/",
         label: "Deutsch",
         hrefLang: "de",
         title: "Datenschutzerklärung - deutsche Fassung",

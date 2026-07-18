@@ -10,7 +10,7 @@ import { IMPRINT } from "~/lib/legal";
 import { orgUrl } from "~/lib/utils";
 
 const EN = new URL("/imprint/", orgUrl).toString();
-const DE = new URL("/impressum/", orgUrl).toString();
+const DE = new URL("/de/impressum/", orgUrl).toString();
 
 export function generateMetadata(
   _props: { params: Promise<Record<string, never>> },

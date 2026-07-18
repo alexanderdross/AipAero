@@ -10,7 +10,7 @@ import { AIP_SOURCES, DATA_SOURCES } from "~/lib/legal";
 import { orgUrl } from "~/lib/utils";
 
 const EN = new URL("/terms/", orgUrl).toString();
-const DE = new URL("/agb/", orgUrl).toString();
+const DE = new URL("/de/agb/", orgUrl).toString();
 
 export function generateMetadata(
   _props: { params: Promise<Record<string, never>> },
