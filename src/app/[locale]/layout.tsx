@@ -4,6 +4,7 @@ import { localeLangMapping, routing } from "~/i18n/routing";
 import Footer from "~/components/footer";
 import { Header } from "~/components/header";
 import { SchemaWebsite } from "~/components/schemas/schema-website";
+import { SchemaOrganization } from "~/components/schemas/schema-organization";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
@@ -49,6 +50,7 @@ export default async function LocaleLayout(
             now with a MutationObserver, as the belt for the page-emitted nodes
             (BreadcrumbList/Product) that OpenNext can still double. */}
         <SchemaWebsite />
+        <SchemaOrganization />
         <SchemaSitenav locale={locale} />
         <Header withLangSwitcher />
         {/* min-h-screen: the footer must START below the initial viewport on

@@ -85,6 +85,7 @@ test("root page: valid JSON-LD with Breadcrumb, Product and SiteNavigation", asy
   expect(types).toContain("BreadcrumbList");
   expect(types).toContain("Product");
   expect(types).toContain("SiteNavigationElement");
+  expect(types).toContain("Organization");
 });
 
 test("country page: valid JSON-LD with Breadcrumb and Product", async ({
@@ -94,6 +95,7 @@ test("country page: valid JSON-LD with Breadcrumb and Product", async ({
   expect(allValid).toBe(true);
   expect(types).toContain("BreadcrumbList");
   expect(types).toContain("Product");
+  expect(types).toContain("Organization");
 });
 
 test("search page: valid JSON-LD with Breadcrumb, Product and WebSite", async ({

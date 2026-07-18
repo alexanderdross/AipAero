@@ -19,6 +19,9 @@ export function SchemaWebsite() {
     url: orgUrl.toString(),
     name: "AIP:Aero",
     alternateName: rootTitle,
+    // Resolves to the Organization node (schema-organization.tsx) rendered on
+    // the same document, giving the site a stable publishing entity.
+    publisher: { "@id": `${orgUrl.toString()}#organization` },
     potentialAction: {
       "@type": "SearchAction",
       target: {
