@@ -18,6 +18,21 @@ export default function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  // Legacy locale-prefixed legal URLs -> root. The legal pages used to live
+  // under every locale (`/de/terms`, `/de/en/terms`, ...); they are now single
+  // root-level bilingual pages (`/terms`, `/imprint`, `/privacy`). 301-redirect
+  // the old indexed terms URLs (and any guessed imprint/privacy under a locale)
+  // to the canonical root so link equity is preserved and no page 404s.
+  const legalMatch = /^\/[a-z]{2}(?:\/en)?\/(terms|imprint|privacy)\/?$/.exec(
+    pathname,
+  );
+  if (legalMatch) {
+    const url = new URL(request.url);
+    url.pathname = `/${legalMatch[1]}/`;
+    url.search = "";
+    return NextResponse.redirect(url, 301);
+  }
+
   // Country short URLs: /germany -> /#germany (the homepage card anchor).
   // Derived from liveCountries x countryMeta, so a launched country gets its
   // short URL automatically. Locale prefixes ('/de') never collide - the

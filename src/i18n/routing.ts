@@ -148,7 +148,11 @@ export const routing = defineRouting({
   },
   pathnames: {
     "/": "/",
-    "/terms": "/terms",
+    // NOTE: the legal pages (/terms, /imprint, /privacy) are NOT here. They are
+    // root-level, bilingual (DE+EN) pages OUTSIDE `[locale]` (src/app/terms,
+    // src/app/imprint, src/app/privacy) - one clean canonical URL per topic, not
+    // localized into every site locale (owner decision, 18.07.2026). Old
+    // `/<locale>/terms` URLs 301-redirect to /terms in middleware.ts.
     // "EFB" is the term pilots search in every language - one slug for all.
     "/efb": "/efb",
     "/vfr": "/vfr",
