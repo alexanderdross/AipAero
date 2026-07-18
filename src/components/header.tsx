@@ -6,7 +6,10 @@ import LocaleSwitcher from "./locale-switcher";
 import { Menu } from "./menu";
 import { MobileNav } from "./mobile-menu";
 
-export async function Header({ withLangSwitcher = false }) {
+export async function Header({
+  withLangSwitcher = false,
+  withLocaleSwitcher = true,
+}) {
   const tCommon = await getTranslations("Common");
 
   return (
@@ -44,7 +47,13 @@ export async function Header({ withLangSwitcher = false }) {
             </Link>
 
             {withLangSwitcher && <Menu />}
-            <LocaleSwitcher />
+            {/* The site's URL-driven locale switcher assumes each page has a
+                `<cc>`/`<cc>/en` pair. The root legal pages have no such twin
+                (their English/German counterpart is a different root/`/de/`
+                URL), so it would link to a non-existent `/de/en/agb` etc. -
+                those pages pass `withLocaleSwitcher={false}` and carry their own
+                language toggle instead. */}
+            {withLocaleSwitcher && <LocaleSwitcher />}
           </div>
         </div>
       </header>
