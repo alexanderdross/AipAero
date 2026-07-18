@@ -151,10 +151,24 @@ jobs:
           # (src/lib/utils.ts + src/i18n/routing.ts). A launched country missing
           # here just isn't pre-warmed after a crawl (the crawler's revalidateTag
           # still busts its tag, so the first visitor triggers regeneration).
+          # Warm AND verify each list: count the per-row markers a full render
+          # carries (`use href="#row-link-icon"`). After a nightly crawl EVERY
+          # live country was just published, so any list rendering zero rows
+          # means the publish did not surface (cache/regeneration) - warn with
+          # the offending countries so it can be re-revalidated. (The TR-empty
+          # class of issue, 18.07.2026.)
+          empty=""
           for u in "${urls[@]}"; do
-            code=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 60 "$u") || code=000
-            echo "warm $u -> HTTP $code"
+            rows=$(curl -sSL --max-time 60 "$u" \
+              | grep -o 'use href="#row-link-icon"' | wc -l | tr -d ' ')
+            echo "warm $u -> ${rows:-0} rows"
+            [ "${rows:-0}" -ge 1 ] || empty="$empty $u"
           done
+          if [ -n "$empty" ]; then
+            echo "::warning::Airport lists EMPTY after the nightly crawl:$empty - crawler published but the list rendered no rows (cache/regeneration); a POST /api/revalidate + re-warm should heal it"
+          else
+            echo "All ${#urls[@]} live-country lists rendered rows after the crawl."
+          fi
           exit 0
 
       - name: Upload crawl log
