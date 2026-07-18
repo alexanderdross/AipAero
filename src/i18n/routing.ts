@@ -81,6 +81,12 @@ export const routing = defineRouting({
     "ua-EN",
     "uz",
     "uz-EN",
+    "by",
+    "by-EN",
+    "kz",
+    "kz-EN",
+    "xk",
+    "xk-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -123,6 +129,9 @@ export const routing = defineRouting({
       "az-EN": "/az/en",
       "ua-EN": "/ua/en",
       "uz-EN": "/uz/en",
+      "by-EN": "/by/en",
+      "kz-EN": "/kz/en",
+      "xk-EN": "/xk/en",
     },
   },
   pathnames: {
@@ -214,6 +223,12 @@ export const routing = defineRouting({
       "ua-EN": "/airport-list-ukraine",
       uz: "/aeroportlar-royxati-ozbekiston",
       "uz-EN": "/airport-list-uzbekistan",
+      by: "/pieralik-aeraportau-bielarus",
+      "by-EN": "/airport-list-belarus",
+      kz: "/aeroportar-tizimi-qazaqstan",
+      "kz-EN": "/airport-list-kazakhstan",
+      xk: "/lista-e-aeroporteve-kosove",
+      "xk-EN": "/airport-list-kosovo",
     },
   },
   localeCookie: false,
@@ -374,6 +389,20 @@ export const localeLangMapping: Record<
   // Uzbekistan: prefix "uz" == ISO language code "uz" (Uzbek), no mismatch.
   uz: "uz",
   "uz-EN": "en",
+  // Belarus: prefix "by" (deliberately NOT "be" - the site's "be" locale is
+  // Belgium), ISO language code "be" (Belarusian). The LocaleSwitcher ICU
+  // branches key on the PREFIX "by" (see the gotcha in CLAUDE.md), so
+  // messages/by.json keys its native branch on "by"; the hreflang uses "be".
+  by: "be",
+  "by-EN": "en",
+  // Kazakhstan: prefix "kz", ISO language code "kk" (Kazakh) - the LocaleSwitcher
+  // branches key on the PREFIX "kz"; the hreflang uses "kk".
+  kz: "kk",
+  "kz-EN": "en",
+  // Kosovo: prefix "xk", ISO language code "sq" (Albanian) - the LocaleSwitcher
+  // branches key on the PREFIX "xk"; the hreflang uses "sq".
+  xk: "sq",
+  "xk-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -458,4 +487,10 @@ export const localeCountryMapping: Record<
   "ua-EN": "ua",
   uz: "uz",
   "uz-EN": "uz",
+  by: "by",
+  "by-EN": "by",
+  kz: "kz",
+  "kz-EN": "kz",
+  xk: "xk",
+  "xk-EN": "xk",
 };
