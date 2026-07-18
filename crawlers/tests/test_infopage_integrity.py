@@ -27,8 +27,12 @@ from crawlers.by import BY
 from crawlers.ch import CH
 from crawlers.hr import HR
 from crawlers.it import IT
+from crawlers.kg import KG
 from crawlers.md import MD
 from crawlers.mt import MT
+from crawlers.ru import RU
+from crawlers.tj import TJ
+from crawlers.tm import TM
 from crawlers.tr import TR
 from crawlers.ua import UA
 from crawlers.uz import UZ
@@ -36,7 +40,7 @@ from crawlers.uz import UZ
 # Every OurAirports-backed info-page crawler. Keep in sync with `gatedCountries`
 # in src/lib/utils.ts (the website's gated set) - these are the countries that
 # link a portal instead of crawling charts.
-INFO_PAGE_CRAWLERS = [AZ, BG, BY, CH, HR, IT, MD, MT, TR, UA, UZ]
+INFO_PAGE_CRAWLERS = [AZ, BG, BY, CH, HR, IT, KG, MD, MT, RU, TJ, TM, TR, UA, UZ]
 
 
 class _FakeResp:

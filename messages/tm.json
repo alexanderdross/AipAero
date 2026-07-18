@@ -1,0 +1,351 @@
+{
+  "BreadCrumbs": {
+    "label": "Nawigasiýa ýoly",
+    "root": {
+      "title": "AIP Görkezijisi",
+      "hrefTitle": "AIP Görkezijisi"
+    },
+    "/": {
+      "title": "Türkmenistan (Türkmençe)",
+      "hrefTitle": "AIP Türkmenistan"
+    },
+    "/vfr": {
+      "title": "VFR",
+      "hrefTitle": "AIP VFR Türkmenistan"
+    },
+    "/airport-list": {
+      "title": "Howa menzilleriniň sanawy",
+      "hrefTitle": "Türkmenistandaky howa menzilleriniň sanawy"
+    },
+    "/terms": {
+      "title": "Ulanyş şertleri",
+      "hrefTitle": "Ulanyş şertleri - AIP:Aero Türkmenistan"
+    },
+    "/efb": {
+      "title": "Pilot gurallary & EFB",
+      "hrefTitle": "EFB gollanmasy - AIP:Aero planşetiňizde"
+    }
+  },
+  "Menu": {
+    "label": "Menýu",
+    "home": {
+      "title": "AIP Türkmenistan",
+      "hrefTitle": "AIP Türkmenistan"
+    },
+    "vfr": {
+      "title": "AIP VFR",
+      "hrefTitle": "AIP VFR Türkmenistan"
+    },
+    "airports": {
+      "title": "Howa menzilleriniň sanawy",
+      "hrefTitle": "Türkmenistandaky howa menzilleriniň sanawy"
+    }
+  },
+  "AirportsPage": {
+    "title": "Türkmenistandaky howa menzilleriniň sanawy",
+    "metaTitle": "Türkmenistandaky howa menzilleriniň sanawy",
+    "description": "Türkmenistandaky ähli howa menzillerine syn",
+    "metaDescription": "Türkmenistandaky ähli howa menzillerine syn🗺️",
+    "vfrCard": {
+      "title": "VFR howa menzilleri",
+      "description": "Türkmenistandaky VFR howa menzilleri",
+      "linkTitle": "{airport} howa menziliniň AIP VFR maglumatlaryna we görüş golaýlaşma kartasyna girmek üçin aşakdaky baglanyşyga basyň"
+    },
+    "heliportCard": {
+      "title": "Heliportlar",
+      "description": "Türkmenistandaky heliportlar",
+      "linkTitle": "{airport} heliportynyň AIP VFR maglumatlaryna we görüş golaýlaşma kartasyna girmek üçin aşakdaky baglanyşyga basyň"
+    },
+    "breadcrumb": {
+      "name": "Türkmenistandaky howa menzilleriniň sanawy",
+      "alternateName": "Türkmenistandaky howa menzilleriniň sanawy",
+      "description": "Türkmenistandaky ähli howa menzillerine syn"
+    },
+    "coverage": "{bucket, select, gated {Bu ýurduň resmi AIP-si mugt hasaba alynmagy ýa-da abunany talap edip biljek portalda ýerleşýär - biz oňa göni baglanyşyk berýäris we her aerodrom üçin howa menzili maglumatlaryny hem-de howa maglumatyny goşýarys.} full {Aşakda görkezilen {total} aerodromyň hemmesi üçin göni golaýlaşma we VFR karta PDF-leri elýeterlidir.} partial {{total} aerodromyň {withCharts} sanysy üçin göni karta PDF-leri elýeterli; kiçiräk meýdanlar munuň ýerine öz resmi AIP ýazgysyna baglanýar.} none {Baglanyşyklar her aerodromyň resmi AIP sahypasyny açýar - bu edara aýratyn karta PDF-lerini çap etmeýär.} other {}}"
+  },
+  "VfrPage": {
+    "title": "AIP VFR we görüş golaýlaşma kartalarynyň görkezijisi Türkmenistan",
+    "metaTitle": "AIP VFR we görüş golaýlaşma kartalarynyň görkezijisi Türkmenistan",
+    "description": "Turkmenhowayollary tarapyndan berlen AIP VFR golaýlaşma kartalaryna girmek üçin howa menziliniň adyny ýa-da ICAO kodyny (mysal üçin UTAA) giriziň.",
+    "metaDescription": "AIP VFR Türkmenistany araň we howa menziliniň golaýlaşma kartalaryny mugt ýükläp alyň🗺️",
+    "searchTitle": "AIP VFR maglumatlaryna girmek üçin howa menziliniň adyny ýa-da ICAO kodyny giriziň",
+    "searchPlaceholder": "AIP VFR maglumatlaryna girmek üçin howa menziliniň adyny ýa-da ICAO kodyny giriziň",
+    "resultTitle": "{airport} howa menziliniň AIP VFR kartalary",
+    "resultDescription": "{airport} howa menziliniň AIP VFR maglumatlaryna we görüş golaýlaşma kartasyna girmek üçin aşakdaky baglanyşyga basyň",
+    "breadcrumb": {
+      "name": "AIP VFR Türkmenistan",
+      "alternateName": "AIP VFR we görüş golaýlaşma kartalarynyň görkezijisi Türkmenistan",
+      "description": "AIP VFR Türkmenistany araň we howa menziliniň golaýlaşma kartalaryny mugt ýükläp alyň"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Dili çalyş",
+    "locale": "{locale, select, tm {🇹🇲 Türkmençe} en {🇬🇧 English} other {Näbelli}}"
+  },
+  "CountrySiteNavElement": {
+    "name": "Türkmenistanyň AIP we golaýlaşma kartalary",
+    "alternateName": "AIP Türkmenistan",
+    "description": "Türkmenistandaky howa maglumat neşiriniň (AIP) VFR we golaýlaşma kartalarynyň gözleg görkezijisi",
+    "inLanguage": "tk",
+    "url": "https://aip.aero/tm/"
+  },
+  "CountryPage": {
+    "title": "Türkmenistanyň AIP we golaýlaşma kartalary",
+    "metaTitle": "Türkmenistanyň AIP we golaýlaşma kartalary",
+    "description": "Türkmenistandaky howa maglumat neşiriniň (AIP) VFR we golaýlaşma kartalarynyň gözleg görkezijisi",
+    "metaDescription": "Türkmenistandaky howa maglumat neşiriniň (AIP) VFR we golaýlaşma kartalarynyň gözleg görkezijisi🗺️",
+    "vfrCard": {
+      "title": "AIP VFR Türkmenistan",
+      "description": "AIP VFR Türkmenistany araň we howa menziliniň golaýlaşma kartalaryny mugt ýükläp alyň",
+      "buttonTitle": "AIP VFR golaýlaşma kartalary",
+      "buttonHref": "/tm/vfr/",
+      "buttonHrefTitle": "AIP VFR Türkmenistan"
+    },
+    "airportListCard": {
+      "title": "Howa menzilleriniň sanawy",
+      "description": "Türkmenistandaky ähli howa menzillerine syn - offline ýükläp almak, gümrük we ýangyç maglumatlary bilen",
+      "buttonTitle": "Howa menzilleriniň sanawy",
+      "buttonHref": "/tm/turkmenistan-howa-menzilleri/",
+      "buttonHrefTitle": "Türkmenistandaky howa menzilleriniň sanawy"
+    },
+    "breadcrumb": {
+      "name": "AIP Türkmenistan",
+      "alternateName": "Türkmenistanyň AIP we golaýlaşma kartalary",
+      "description": "Türkmenistandaky howa maglumat neşiriniň (AIP) VFR we golaýlaşma kartalarynyň gözleg görkezijisi"
+    }
+  },
+  "About": {
+    "title": "Bu web sahypasy näme üçin?",
+    "description": "<aip>Türkmenistanyň Howa Maglumat Neşiri AIP</aip> Turkmenhowayollary tarapyndan çap edilýär; resmi portala girmek hasaba alynmagy we tölegli abunany talap edip biler. Bu web sahypasynyň maksady, resmi eAIP gözleg funksiýasyny öz içine almaýandygy sebäpli howa menzili gözlegini ýönekeýleşdirmekdir. AIP (Howa Maglumat Neşiri) biziň tarapymyzdan çap edilmeýändigi üçin, onuň takyklygy ýa-da wagtynda täzelenmegi üçin hiç hili jogapkärçilik kabul etmeýäris. Biz diňe degişli golaýlaşma kartalaryna amatly baglanyşyklary berýäris.",
+    "aipUrl": "https://www.caica.ru/aiptkm/validaip/index.htm",
+    "aipTitle": "AIP Türkmenistan"
+  },
+  "TradeAero": {
+    "title": "Uçar alýarsyňyzmy ýa-da satýarsyňyzmy?",
+    "description": "Türkmenistanda satlyk uçarlary Trade:Aero-da araň - uçar alyş-satyşy üçin bazar.",
+    "buttonTitle": "Trade:Aero - Ýewropanyň iň uly uçar bazary",
+    "buttonHrefTitle": "Trade:Aero - Ýewropanyň iň uly uçar bazary"
+  },
+  "Footer": {
+    "navTitle": "Nawigasiýa",
+    "legalTitle": "Hukuk maglumatlary & aragatnaşyk",
+    "partnersTitle": "Hyzmatdaşlar",
+    "aipHome": {
+      "title": "AIP Görkezijisi",
+      "hrefTitle": "AIP:Aero Baş sahypa - Ýewropa üçin AIP-ler & golaýlaşma kartalary"
+    },
+    "stratux": {
+      "title": "📡 Stratux - Anti-Collision System",
+      "hrefTitle": "Stratux - Anti-Collision System for private aviation and gliders",
+      "href": "https://dross.net/aviation/?aip"
+    },
+    "tradeaero": {
+      "title": "✈️ Trade:Aero - Your top spot for aircraft deals!",
+      "hrefTitle": "Trade:Aero - The premier marketplace for buying and selling airplanes, helicopters, and all types of aircraft",
+      "href": "https://trade.aero"
+    },
+    "home": {
+      "title": "Home",
+      "hrefTitle": "Home - Dross:Network",
+      "href": "https://dross.net"
+    },
+    "imprint": {
+      "title": "Neşir maglumaty",
+      "hrefTitle": "Neşir maglumaty - Dross:Network",
+      "href": "https://dross.net/imprint"
+    },
+    "contact": {
+      "title": "Aragatnaşyk",
+      "hrefTitle": "Aragatnaşyk - Dross:Network",
+      "href": "https://dross.net/contact"
+    },
+    "privacy": {
+      "title": "Gizlinlik",
+      "hrefTitle": "Gizlinlik syýasaty - Dross:Network",
+      "href": "https://dross.net/privacy-policy"
+    },
+    "madeBy": {
+      "title": "Alexander Dross",
+      "hrefTitle": "Alexander Drossyň web sahypasy",
+      "href": "https://dross.net/alexander/"
+    },
+    "terms": {
+      "title": "Ulanyş şertleri",
+      "hrefTitle": "Ulanyş şertleri - AIP:Aero Türkmenistan"
+    },
+    "efb": {
+      "title": "Pilot gurallary & EFB",
+      "hrefTitle": "AIP:Aero EFB-ňizde - gurnamak, offline kartalar, import"
+    }
+  },
+  "Error": {
+    "description": "<p>Gynansak-da, ýalňyşlyk ýüze çykdy.</p><p>Siz <retry>bu sahypany täzeden ýüklemegi</retry> synanyşyp bilersiňiz.</p>",
+    "title": "Bir zat ýalňyş gitdi!"
+  },
+  "NotFound": {
+    "title": "404 - Sahypa tapylmady",
+    "description": "Bu sahypa ýa-da howa menzili kody ýok. Munuň ýerine howa menzilini gözläp görüň:",
+    "searchPlaceholder": "Islendik howa menzilini ady ýa-da ICAO kody boýunça gözläň",
+    "home": "Baş sahypa dolan"
+  },
+  "Weather": {
+    "title": "Howa maglumaty",
+    "observed": "Synlanan",
+    "forecast": "Çaklama",
+    "wind": "Ýel",
+    "visibility": "Görnüş",
+    "clouds": "Bulutlar",
+    "temperature": "Temperatura",
+    "qnh": "QNH",
+    "source": "Çeşme",
+    "elevation": "Beýiklik",
+    "sunrise": "Gün doguşy",
+    "sunset": "Gün ýaşyşy",
+    "civilTwilight": "Raýat alagaraňkylygy",
+    "facts": "Aerodrom maglumatlary",
+    "runways": "Uçuş-gonuş zolaklary",
+    "frequencies": "Ýygylyklar",
+    "decode": "Çözlenen görkez",
+    "openingHours": "Iş sagatlary",
+    "fuel": "Ýangyç",
+    "ppr": "PPR",
+    "pprRequired": "Öňünden rugsat talap edilýär",
+    "nearest": "Iň ýakyn howa menzili {station} howa maglumaty ({km} km uzaklykda)",
+    "circuit": "Uçuş aýlawy",
+    "circuitLeft": "çep",
+    "circuitRight": "sag",
+    "windComponents": "Ýel komponentleri",
+    "headwind": "Garşy ýel",
+    "tailwind": "Yzky ýel",
+    "crosswind": "Kese ýel",
+    "fromLeft": "çepden",
+    "fromRight": "sagdan",
+    "landingDirection": "Ähtimal gonuş ugry",
+    "aerodromeType": "Aerodrom görnüşi",
+    "surface": "Ýer üsti",
+    "variable": "üýtgäp durýan",
+    "calm": "asuda"
+  },
+  "Common": {
+    "openIn": "Şunda aç",
+    "homeLink": "AIP:Aero - Ýewropa üçin Howa Maglumat Neşirleri (AIP) & golaýlaşma kartalary",
+    "lastUpdated": "Iň soňky täzelenme",
+    "viewOnMap": "Google Kartalarynda görkez",
+    "location": "Ýerleşiş",
+    "website": "Web sahypasy",
+    "address": "Salgy",
+    "coordinates": "Koordinatalar",
+    "phone": "Telefon",
+    "map": "Karta",
+    "locate": "Ýerleşişimi tap",
+    "locateError": "Siziň ýerleşişiňiz kesgitlenip bilinmedi",
+    "nearby": "Golaýdaky howa menzilleri",
+    "restaurant": "Restoran",
+    "customs": "Gümrük",
+    "yes": "Hawa",
+    "no": "Ýok",
+    "saveOffline": "Offline sakla",
+    "savedOffline": "Offline saklandy",
+    "installHint": "Programma hökmünde gurnaň: brauzeriňiziň Paýlaşmak menýusyny açyň we 'Baş ekrana goş' saýlaň. Soňra onlaýn wagtyňyz programmany bir gezek açyň we meýdanlary şol ýerde ýene saklaň - programmanyň öz offline ammary bar.",
+    "installHintMac": "Mac-da: Safari-niň Paýlaşmak menýusyndan 'Dock-a goş' bilen gurnaň. Soňra onlaýn wagtyňyz programmany bir gezek açyň we meýdanlary şol ýerde ýene saklaň - programmanyň öz offline ammary bar.",
+    "bulkDownload": "Ähli {count} sahypany offline sakla (takmynan {size} MB)",
+    "bulkDownloaded": "Offline elýeterli",
+    "bulkUpdate": "Täzele",
+    "bulkRemove": "Aýyr",
+    "bulkProgress": "Sahypalar saklanýar",
+    "bulkCancel": "Ýatyr",
+    "bulkError": "Ýükläp almak şowsuz - haýyş, ýene synanyşyň",
+    "bulkNoSpace": "Bu enjamda ýeterlik boş ammar ýok",
+    "bulkScope": "Goşulýar: aerodrom maglumatlary bilen ähli howa menzili sahypalary. Goşulmaýar: golaýlaşma karta PDF-leri (her howa menzili üçin saklanyp bilner) we janly howa maglumaty (baglanyşyk talap edýär).",
+    "moreInfo": "Has köp maglumat",
+    "pavedRunway": "Asfalt uçuş-gonuş zolagy",
+    "favorites": "Halanýanlar",
+    "favoritesEmpty": "Entek halanýan ýok - jikme-jik sahypasynda howa menzilini offline saklaň, ol şu ýerde peýda bolar.",
+    "recentlyViewed": "Soňky görülenler",
+    "recentlyViewedEmpty": "Açan howa menzilleriňiz çalt girmek üçin şu ýerde awtomatiki peýda bolar.",
+    "borderCrossing": "Serhet geçelgesi",
+    "alsoAvailable": "Şeýle hem elýeterli:",
+    "aipLoginHint": "Giriş ýa-da hasaba alynmak talap edilip bilner.",
+    "noChartPdf": "Bu aerodrom üçin aýratyn karta PDF-i çap edilmedi - ýokardaky AIP düwmesi onuň resmi aerodrom ýazgysyny açýar."
+  },
+  "Chart": {
+    "allCharts": "Ähli kartalar ({count})",
+    "title": "Golaýlaşma kartasy",
+    "openPdf": "Karta PDF-ini aç",
+    "group": {
+      "aerodrome": "Aerodrom",
+      "visual": "Görüş (VFR)",
+      "approach": "Golaýlaşma",
+      "arrival": "Geliş",
+      "departure": "Ugramak",
+      "other": "Beýleki"
+    }
+  },
+  "TermsPage": {
+    "title": "Ulanyş şertleri",
+    "intro": "AIP:Aero - bu tutuş Ýewropada Howa Maglumat Neşirleri (AIP), golaýlaşma kartalary we howa menzili maglumatlary üçin mugt gözleg we görkeziji hyzmatydyr.",
+    "servicesTitle": "Biziň hyzmatymyz",
+    "servicesText": "<home>AIP:Aero</home> aerodromlary ady ýa-da ICAO kody boýunça tapmaga mümkinçilik berýär we sizi göni degişli ýurduň resmi AIP neşirine äkidýär. Mundan başga-da, howa menzili sahypalarymyz howa maglumaty hasabatlary (METAR/TAF), aerodrom maglumatlary (uçuş-gonuş zolaklary, ýygylyklar, beýiklik), kartalar we aragatnaşyk maglumatlary ýaly goşmaça maglumatlary öz içine alýar we sahypalar offline ulanmak üçin saklanyp bilner. Hyzmat mugt we hasaba alynman hödürlenýär.",
+    "disclaimerTitle": "Jogapkärçilikden ýüz döndermek",
+    "disclaimerText": "AIP:Aero hiç hili ýagdaýda jogapkär bolup bilmez. Biz howa resminamalaryny özümiz çap etmeýäris: biz diňe degişli ýurduň resmi üpjünçisi tarapyndan hödürlenýän iň soňky Howa Maglumat Neşirine (AIP) baglanyşyk berýäris. Şol bir zat howa maglumatlaryna (METAR/TAF) we howa menzili maglumatlaryna hem degişlidir: biz bu maglumatlary sahypalarymyzda görkezýäris, ýöne olar aşakda görkezilen daşarky çeşmelerden gelýär. Baglanyşdyrylan ýa-da görkezilen mazmunyň takyklygy, dolulygy ýa-da wagtynda täzelenmegi, şeýle hem bu web sahypasynyň elýeterliligi üçin hiç hili jogapkärçilik ýa-da kepillik kabul etmeýäris. Bu web sahypasy resmi uçuşdan öňki brifingiň ornuny tutmaýar: jogapkär pilot uçuş üçin zerur ähli maglumaty almakda we barlamakda ýeke-täk jogapkär bolup galýar.",
+    "sourcesTitle": "Maglumat çeşmeleri",
+    "sourcesIntro": "Baglanyşdyrylan we görkezilen maglumatlary aşakdaky çeşmelerden alýarys (salgylar bilkastlaýyn basylmaýan ýönekeý tekst hökmünde görkezilýär):",
+    "sourcesAip": "Baglanyşyk berýän resmi AIP neşirlerimiz",
+    "sourcesData": "Görkezilen daşarky maglumatlar",
+    "srcAwc": "METAR/TAF howa maglumaty we howa menzili maglumatlary",
+    "srcOurAirports": "esasy howa menzili maglumatlary",
+    "srcOpenAip": "giňeldilen aerodrom maglumatlary: uçuş-gonuş zolaklary, ýygylyklar, ýangyç",
+    "srcOsm": "kartalar we salgylar",
+    "metaTitle": "Ulanyş şertleri - AIP:Aero Türkmenistan",
+    "metaDescription": "Türkmenistan we Ýewropa üçin mugt AIP we golaýlaşma karta gözlegi AIP:Aero-nyň ulanyş şertleri: hyzmatyň düşündirişi, jogapkärçilikden ýüz döndermek we maglumat çeşmeleri."
+  },
+  "EfbPage": {
+    "title": "AIP:Aero pilot gurallary: EFB programmasy, offline kartalar, importlar we maglumatlar",
+    "intro": "AIP:Aero-ny EFB (Elektron Uçuş Sumkasy) planşetiňize nädip gurnamaly, golaýlaşma kartalaryny offline nädip saklamaly, ýurt paketlerini nädip ýükläp almaly we howa menzillerini meýilnamalaşdyryş gurallaryňyza nädip geçirmeli - ädimme-ädim.",
+    "metaTitle": "EFB Gollanmasy Türkmenistan - AIP & golaýlaşma kartalary planşetiňizde | AIP:Aero",
+    "metaDescription": "AIP:Aero-ny EFB planşetiňize programma hökmünde gurnaň, golaýlaşma kartalaryny offline saklaň, tutuş ýurtlary ýükläp alyň we karta PDF-lerini ForeFlight, SkyDemon & Co-a import ediň (Türkmenistan).",
+    "installTitle": "Programma hökmünde gurnaň (PWA)",
+    "installText": "AIP:Aero gurnalyp bilinýän web programmasydyr: ol ýerli programma ýaly doly ekranda açylýar we saklan ähli zadyňyz offline elýeterlidir. Programma dükany gerek däl.",
+    "installIos": "iPad / iPhone (Safari): aip.aero-ny açyň, paýlaşmak nyşanyna basyň, soňra \"Baş ekrana goş\".",
+    "installAndroid": "Android (Chrome): aip.aero-ny açyň, menýu basyň, soňra \"Baş ekrana goş\" / \"Programmany gurna\".",
+    "installDesktop": "Iş stoly (Chrome/Edge): salgy setirindäki gurnama nyşanyna basyň - ýa-da aşakdaky düwmäni ulanyň. macOS (Safari): Paýlaşmak nyşany, soňra \"Dock-a goş\".",
+    "offlineTitle": "Aýry-aýry howa menzillerini offline sakla",
+    "offlineText": "Her howa menziliniň jikme-jik sahypasynda \"Offline sakla\" düwmesi bar. Ol sahypany we AIP çap eden ýerinde golaýlaşma karta PDF-ini enjamyňyzda saklaýar; howa menzili soňra ýurt sahypasynda Halanýanlaryň astynda peýda bolar. Saklanan nusgalar ýükläp alnan senesini görkezýär.",
+    "bulkTitle": "Tutuş ýurdy ýükläp al",
+    "bulkText": "<list>Howa menzilleriniň sanawynda</list> bir ýurduň ähli jikme-jik sahypalaryny bir gezekde ýükläp alyp bilersiňiz (diňe sahypalar, karta PDF-lersiz - olary her howa menzili üçin saklaň). Paket ýükläp almazdan öň onuň göwrümini görkezýär we islendik wagt täzelenip ýa-da aýrylyp bilner.",
+    "favoritesTitle": "Halanýanlar & soňky görülenler",
+    "favoritesText": "Offline ulanmak üçin saklan meýdanlaryňyz awtomatiki halanýanlar hökmünde peýda bolýar, açan soňky howa menzilleriňiz bolsa \"Soňky görülenler\" astynda sanalýar - ikisi hem diňe enjamyňyzda saklanýar, hasap gerek däl. Iki sanawy hem <country>ýurt sahypasynda</country> taparsyňyz.",
+    "importTitle": "ForeFlight, SkyDemon & Co.-da karta PDF-leri",
+    "importText": "Milli AIP karta PDF-lerini çap eden ýerinde, jikme-jik sahypasyndaky karta gutusy AIRAC senesi bilen bilelikde häzirki PDF-e baglanyşyk berýär. Ony ýükläp alyň we EFB programmaňyza ýörite mazmun hökmünde import ediň, mysal üçin ForeFlight (Custom Content), SkyDemon (Custom Airfield Plates) ýa-da Garmin Pilot. Germaniýa PDF ýerine HTML sahypalary çap edýär - ol ýerde AIP baglanyşygyny ulanyň.",
+    "toolsTitle": "Meýilnamalaşdyryş gurallaryna geçirmeler",
+    "toolsText": "Her jikme-jik sahypadaky ýerleşiş gutusy şol bir howa menzilini göni SkyVector, Windy we autorouter-de açýar - marşrut meýilnamalaşdyrmak, howa modelleri we uçuş meýilnamasyny tabşyrmak üçin amatly.",
+    "weatherTitle": "Sahypada howa maglumaty brifingi",
+    "weatherText": "Jikme-jik sahypalar ýönekeý dilde çözlenmegi bilen janly METAR/TAF, uçuş kategoriýasy nyşanyny we her uçuş-gonuş zolagy üçin garşy we kese ýel derňewini görkezýär - çalt gaýtadan barlag, resmi brifingiňiziň ornuny tutmaýar.",
+    "customsTitle": "Gümrük & serhet geçelgesi",
+    "customsText": "Jikme-jik sahypalar howa menziliniň gümrük hyzmatyny hödürleýändigini görkezýär; milli AIP ony GEN 1.2-de sanan ýagdaýynda, gymmatlyk şol resmi çeşmä garşy tassyklanýar. Serhet geçelgesi resminamalary üçin ýerleşiş gutusy resmi görnüşlere baglanyşyk berýär (mysal üçin UK General Aviation Report) we karta gümrükli howa menzillerini süzüp biler. Düzgünler üýtgeýär - hemişe häzirki AIP we ýerli edara bilen tassyklaň.",
+    "disclaimerTitle": "Howpsuzlyk belligi",
+    "disclaimerText": "AIP:Aero resmi AIP neşirlerine baglanyşyk berýär, ýöne resmi çeşme däldir. Offline nusgalar ýükläp alnan senesi bilen bellenýär we her AIRAC siklinde könelip biler - her uçuşdan öň karta häzirkiligini barlaň we hemişe resmi uçuşdan öňki brifing alyň.",
+    "apiTitle": "API we maglumat hyzmatdaşlygy",
+    "apiText": "Işläp düzüjiler we EFB üpjünçileri üçin: AIP:Aero-nyň gurluşly aerodrom maglumatlary (kadalaşdyrylan aerodrom görkezijisi, karta PDF çuň baglanyşyklary, AIRAC siklleri, koordinatalar, uçuş-gonuş zolaklary, ýygylyklar we gümrük maglumatlary) integrasiýalar üçin API arkaly elýeterlidir. Biz hyzmatdaşlyga açyk; <contact>biz bilen habarlaşyň</contact>.",
+    "installButton": "Häzir gurna",
+    "ctaTitle": "Häzir synap görüň",
+    "faqTitle": "Ýygy-ýygydan berilýän soraglar",
+    "faq1q": "AIP:Aero doly offline işleýärmi?",
+    "faq1a": "Saklanan howa menzilleri we ýükläp alnan ýurt paketleri internetsiz işleýär; her offline nusga saklaýyş senesi bilen banner görkezýär. Janly howa maglumaty (METAR/TAF) hemişe baglanyşyk talap edýär.",
+    "faq2q": "Haýsy ýurtlar öz içine alynýar?",
+    "faq2a": "Häzirki wagtda elýeterli ähli ýurtlar <home>baş sahypada</home> sanalýar - gurşaw yzygiderli ösýär. Her ýurt kartoçkasy elýeterli karta görnüşlerini görkezýär.",
+    "faq3q": "Kartalar häzirkimi?",
+    "faq3a": "Karta baglanyşyklary çap edilen ýerinde AIRAC senesini goşmak bilen resmi milli AIP neşirlerine görkezýär. Uçuşdan öň hemişe resmi çeşmä garşy barlaň."
+  },
+  "CountryFaq": {
+    "title": "Ýygy-ýygydan berilýän soraglar",
+    "q1": "AIP Türkmenistan näme?",
+    "a1": "AIP (Howa Maglumat Neşiri) - bu Türkmenistanyň resmi howa gollanmasy bolup, Turkmenhowayollary tarapyndan çap edilýär: aerodrom maglumatlary, proseduralar we golaýlaşma kartalary, 28 günlük AIRAC siklinde täzelenýär. AIP:Aero sizi göni resmi neşire äkidýär.",
+    "q2": "Golaýlaşma kartalary mugtmy?",
+    "a2": "AIP:Aero mugt: hasap ýok, abuna ýok. Turkmenhowayollary <list>golaýlaşma kartalaryny</list> goşmak bilen Türkmenistanyň AIP-sini çap edýär; resmi portala girmek hasaba alynmagy we tölegli abunany talap edip biler.",
+    "q3": "Türkmenistan üçin haýsy kartalar we howa menzilleri elýeterli?",
+    "a3": "Türkmenistan üçin <vfr>VFR howa menzillerini</vfr> taparsyňyz - esasy howa menzili Aşgabat (UTAA) goşmak bilen, hersi resmi karta göni baglanyşyk, çözlenen howa maglumaty (METAR/TAF) we aerodrom maglumatlary bilen.",
+    "q4": "AIP:Aero-ny offline ýa-da EFB-mde ulanyp bilerinmi?",
+    "a4": "Hawa - AIP:Aero programma (PWA) hökmünde gurnalýar we aýry-aýry aerodromlar ýa-da tutuş ýurt offline saklanyp bilner. <efb>EFB gollanmasyna</efb> serediň."
+  }
+}

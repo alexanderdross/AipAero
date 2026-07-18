@@ -87,6 +87,14 @@ export const routing = defineRouting({
     "kz-EN",
     "xk",
     "xk-EN",
+    "ru",
+    "ru-EN",
+    "tj",
+    "tj-EN",
+    "tm",
+    "tm-EN",
+    "kg",
+    "kg-EN",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -132,6 +140,10 @@ export const routing = defineRouting({
       "by-EN": "/by/en",
       "kz-EN": "/kz/en",
       "xk-EN": "/xk/en",
+      "ru-EN": "/ru/en",
+      "tj-EN": "/tj/en",
+      "tm-EN": "/tm/en",
+      "kg-EN": "/kg/en",
     },
   },
   pathnames: {
@@ -229,6 +241,14 @@ export const routing = defineRouting({
       "kz-EN": "/airport-list-kazakhstan",
       xk: "/lista-e-aeroporteve-kosove",
       "xk-EN": "/airport-list-kosovo",
+      ru: "/spisok-aeroportov-rossiya",
+      "ru-EN": "/airport-list-russia",
+      tj: "/ruyxati-furudgohhoi-tojikiston",
+      "tj-EN": "/airport-list-tajikistan",
+      tm: "/turkmenistan-howa-menzilleri",
+      "tm-EN": "/airport-list-turkmenistan",
+      kg: "/kyrgyzstan-aeroporttor-tizmesi",
+      "kg-EN": "/airport-list-kyrgyzstan",
     },
   },
   localeCookie: false,
@@ -403,6 +423,21 @@ export const localeLangMapping: Record<
   // branches key on the PREFIX "xk"; the hreflang uses "sq".
   xk: "sq",
   "xk-EN": "en",
+  // Russia: prefix "ru" == ISO language code "ru" (Russian), no mismatch.
+  ru: "ru",
+  "ru-EN": "en",
+  // Tajikistan: prefix "tj", ISO language code "tg" (Tajik) - the LocaleSwitcher
+  // branches key on the PREFIX "tj"; the hreflang uses "tg".
+  tj: "tg",
+  "tj-EN": "en",
+  // Turkmenistan: prefix "tm", ISO language code "tk" (Turkmen) - the
+  // LocaleSwitcher branches key on the PREFIX "tm"; the hreflang uses "tk".
+  tm: "tk",
+  "tm-EN": "en",
+  // Kyrgyzstan: prefix "kg", ISO language code "ky" (Kyrgyz) - the LocaleSwitcher
+  // branches key on the PREFIX "kg"; the hreflang uses "ky".
+  kg: "ky",
+  "kg-EN": "en",
 };
 
 export const localeCountryMapping: Record<
@@ -493,4 +528,12 @@ export const localeCountryMapping: Record<
   "kz-EN": "kz",
   xk: "xk",
   "xk-EN": "xk",
+  ru: "ru",
+  "ru-EN": "ru",
+  tj: "tj",
+  "tj-EN": "tj",
+  tm: "tm",
+  "tm-EN": "tm",
+  kg: "kg",
+  "kg-EN": "kg",
 };

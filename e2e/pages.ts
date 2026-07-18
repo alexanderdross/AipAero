@@ -94,6 +94,14 @@ const countryPages: TestPage[] = [
   { path: "/kz/en/", lang: "en", label: "country kz-EN" },
   { path: "/xk/", lang: "sq", label: "country xk" },
   { path: "/xk/en/", lang: "en", label: "country xk-EN" },
+  { path: "/ru/", lang: "ru", label: "country ru" },
+  { path: "/ru/en/", lang: "en", label: "country ru-EN" },
+  { path: "/tj/", lang: "tg", label: "country tj" },
+  { path: "/tj/en/", lang: "en", label: "country tj-EN" },
+  { path: "/tm/", lang: "tk", label: "country tm" },
+  { path: "/tm/en/", lang: "en", label: "country tm-EN" },
+  { path: "/kg/", lang: "ky", label: "country kg" },
+  { path: "/kg/en/", lang: "en", label: "country kg-EN" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -184,6 +192,18 @@ const airportListPages: TestPage[] = [
   { path: "/kz/en/airport-list-kazakhstan/", lang: "en", label: "list kz-EN" },
   { path: "/xk/lista-e-aeroporteve-kosove/", lang: "sq", label: "list xk" },
   { path: "/xk/en/airport-list-kosovo/", lang: "en", label: "list xk-EN" },
+  { path: "/ru/spisok-aeroportov-rossiya/", lang: "ru", label: "list ru" },
+  { path: "/ru/en/airport-list-russia/", lang: "en", label: "list ru-EN" },
+  { path: "/tj/ruyxati-furudgohhoi-tojikiston/", lang: "tg", label: "list tj" },
+  { path: "/tj/en/airport-list-tajikistan/", lang: "en", label: "list tj-EN" },
+  { path: "/tm/turkmenistan-howa-menzilleri/", lang: "tk", label: "list tm" },
+  {
+    path: "/tm/en/airport-list-turkmenistan/",
+    lang: "en",
+    label: "list tm-EN",
+  },
+  { path: "/kg/kyrgyzstan-aeroporttor-tizmesi/", lang: "ky", label: "list kg" },
+  { path: "/kg/en/airport-list-kyrgyzstan/", lang: "en", label: "list kg-EN" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -283,6 +303,14 @@ const searchPages: TestPage[] = [
   { path: "/kz/en/vfr/", lang: "en", label: "vfr kz-EN" },
   { path: "/xk/vfr/", lang: "sq", label: "vfr xk" },
   { path: "/xk/en/vfr/", lang: "en", label: "vfr xk-EN" },
+  { path: "/ru/vfr/", lang: "ru", label: "vfr ru" },
+  { path: "/ru/en/vfr/", lang: "en", label: "vfr ru-EN" },
+  { path: "/tj/vfr/", lang: "tg", label: "vfr tj" },
+  { path: "/tj/en/vfr/", lang: "en", label: "vfr tj-EN" },
+  { path: "/tm/vfr/", lang: "tk", label: "vfr tm" },
+  { path: "/tm/en/vfr/", lang: "en", label: "vfr tm-EN" },
+  { path: "/kg/vfr/", lang: "ky", label: "vfr kg" },
+  { path: "/kg/en/vfr/", lang: "en", label: "vfr kg-EN" },
 ];
 
 // Terms-of-service pages - every locale (single uniform slug /terms).
@@ -371,6 +399,14 @@ const termsPages: TestPage[] = [
   { path: "/kz/en/terms/", lang: "en", label: "terms kz-EN" },
   { path: "/xk/terms/", lang: "sq", label: "terms xk" },
   { path: "/xk/en/terms/", lang: "en", label: "terms xk-EN" },
+  { path: "/ru/terms/", lang: "ru", label: "terms ru" },
+  { path: "/ru/en/terms/", lang: "en", label: "terms ru-EN" },
+  { path: "/tj/terms/", lang: "tg", label: "terms tj" },
+  { path: "/tj/en/terms/", lang: "en", label: "terms tj-EN" },
+  { path: "/tm/terms/", lang: "tk", label: "terms tm" },
+  { path: "/tm/en/terms/", lang: "en", label: "terms tm-EN" },
+  { path: "/kg/terms/", lang: "ky", label: "terms kg" },
+  { path: "/kg/en/terms/", lang: "en", label: "terms kg-EN" },
 ];
 
 // EFB guide pages - every locale (single uniform slug /efb).

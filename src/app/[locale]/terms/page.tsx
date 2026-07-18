@@ -146,6 +146,22 @@ const AIP_SOURCES: { cc: string; name: string; url: string }[] = [
     url: "https://www.ans.kz",
   },
   { cc: "xk", name: "ASHNA / CAA Kosovo (Kosova)", url: "https://kans-ks.org" },
+  { cc: "ru", name: "CAICA (Россия)", url: "https://www.caica.ru" },
+  {
+    cc: "tj",
+    name: "Tajikairnavigation (Тоҷикистон)",
+    url: "https://www.caica.ru/aiptjk",
+  },
+  {
+    cc: "tm",
+    name: "Turkmenhowayollary (Türkmenistan)",
+    url: "https://www.caica.ru/aiptkm",
+  },
+  {
+    cc: "kg",
+    name: "Kyrgyzaeronavigatsia (Кыргызстан)",
+    url: "https://ansp.kg",
+  },
 ];
 
 // Descriptor for each embedded source comes from i18n (srcAwc etc.).
