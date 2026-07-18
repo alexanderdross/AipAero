@@ -146,6 +146,10 @@ jobs:
             "https://aip.aero/by/pieralik-aeraportau-bielarus/"
             "https://aip.aero/kz/aeroportar-tizimi-qazaqstan/"
             "https://aip.aero/xk/lista-e-aeroporteve-kosove/"
+            "https://aip.aero/ru/spisok-aeroportov-rossiya/"
+            "https://aip.aero/tj/ruyxati-furudgohhoi-tojikiston/"
+            "https://aip.aero/tm/turkmenistan-howa-menzilleri/"
+            "https://aip.aero/kg/kyrgyzstan-aeroporttor-tizmesi/"
           )
           # NOTE: keep this in sync with liveCountries x the /airport-list slug
           # (src/lib/utils.ts + src/i18n/routing.ts). A launched country missing

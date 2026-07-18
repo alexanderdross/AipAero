@@ -159,6 +159,12 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   by: ["vfr"],
   kz: ["vfr"],
   xk: ["vfr"],
+  // RU / TJ / TM / KG: info-pages (charts exist but only via a JS DHTML-menu /
+  // SPA portal, not statically crawlable - see gatedCountries), all "vfr".
+  ru: ["vfr"],
+  tj: ["vfr"],
+  tm: ["vfr"],
+  kg: ["vfr"],
 };
 
 /**
@@ -180,6 +186,10 @@ export const gatedCountries = new Set<string>([
   "ua",
   "uz",
   "by",
+  "ru",
+  "tj",
+  "tm",
+  "kg",
 ]);
 
 /** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
@@ -452,6 +462,17 @@ export const liveCountries: string[] = [
   "by",
   "kz",
   "xk",
+  // RU / TJ / TM / KG (Europe-wide onboarding, owner directive 18.07.2026):
+  // info-pages. Their charts are technically open but only reachable through a
+  // JavaScript DHTML-menu (CAICA: caica.ru) or SPA (KG: ansp.kg) portal, not a
+  // static tree - so no chart crawl (respect the effort/cost line; a browser
+  // reverse-engineer + metered proxy was declined). OurAirports list + OpenAIP
+  // data + weather + the portal link (gatedCountries). Russia is large (~hundreds
+  // of aerodromes from OurAirports).
+  "ru",
+  "tj",
+  "tm",
+  "kg",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -525,4 +546,8 @@ export const countryMeta: Record<
   by: { lang: "be", name: "Belarus", flag: "🇧🇾", nativeLang: "Belarusian" },
   kz: { lang: "kk", name: "Kazakhstan", flag: "🇰🇿", nativeLang: "Kazakh" },
   xk: { lang: "sq", name: "Kosovo", flag: "🇽🇰", nativeLang: "Albanian" },
+  ru: { lang: "ru", name: "Russia", flag: "🇷🇺", nativeLang: "Russian" },
+  tj: { lang: "tg", name: "Tajikistan", flag: "🇹🇯", nativeLang: "Tajik" },
+  tm: { lang: "tk", name: "Turkmenistan", flag: "🇹🇲", nativeLang: "Turkmen" },
+  kg: { lang: "ky", name: "Kyrgyzstan", flag: "🇰🇬", nativeLang: "Kyrgyz" },
 };

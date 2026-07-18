@@ -40,6 +40,7 @@ from crawlers.hu import HU
 from crawlers.ie import IE
 from crawlers.is_ import IS
 from crawlers.it import IT
+from crawlers.kg import KG
 from crawlers.kz import KZ
 from crawlers.lt import LT
 from crawlers.md import MD
@@ -51,9 +52,12 @@ from crawlers.pl import PL
 from crawlers.pt import PT
 from crawlers.ro import RO
 from crawlers.rs import RS
+from crawlers.ru import RU
 from crawlers.se import SE
 from crawlers.si import SI
 from crawlers.sk import SK
+from crawlers.tj import TJ
+from crawlers.tm import TM
 from crawlers.tr import TR
 from crawlers.ua import UA
 from crawlers.uk import UK
@@ -95,6 +99,7 @@ COUNTRY_CRAWLERS = {
     "IE": IE,
     "IS": IS,
     "IT": IT,
+    "KG": KG,
     "KZ": KZ,
     "LT": LT,
     "MD": MD,
@@ -105,9 +110,12 @@ COUNTRY_CRAWLERS = {
     "PT": PT,
     "RO": RO,
     "RS": RS,
+    "RU": RU,
     "SE": SE,
     "SI": SI,
     "SK": SK,
+    "TJ": TJ,
+    "TM": TM,
     "TR": TR,
     "UA": UA,
     "UZ": UZ,
