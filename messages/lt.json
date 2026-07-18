@@ -347,5 +347,13 @@
     "a3": "Lietuvai rasite <vfr>VFR oro uostus</vfr> - kiekvieną su tiesiogine nuoroda į oficialią kortelę, iššifruotais orais (METAR/TAF) ir oro uosto duomenimis.",
     "q4": "Ar galiu naudoti AIP:Aero neprisijungus arba savo EFB?",
     "a4": "Taip - AIP:Aero įdiegiamas kaip programėlė (PWA), o pavienius aerodromus ar visą šalį galima išsaugoti naudojimui neprisijungus. Žr. <efb>EFB vadovą</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} yra aerodromas, paskelbtas oficialiame oro navigacijos informacijos rinkinyje (AIP).",
+    "identityTown": "{place} yra aerodromas netoli {town}, paskelbtas oficialiame oro navigacijos informacijos rinkinyje (AIP).",
+    "runways": "{count, plural, one {Jis turi vieną kilimo ir tūpimo taką.} few {Jis turi # kilimo ir tūpimo takus.} other {Jis turi # kilimo ir tūpimo takų.}}",
+    "charts": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę kartu su tako, dažnio ir dabartinės oro būklės informacija.",
+    "chartsAirac": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę iš AIRAC leidimo {airac} kartu su tako, dažnio ir dabartinės oro būklės informacija.",
+    "noCharts": "AIP:Aero pateikia nuorodą į oficialų AIP įrašą kartu su tako, dažnio ir dabartinės oro būklės informacija."
   }
 }

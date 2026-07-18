@@ -347,5 +347,13 @@
     "a3": "Magyarországhoz <vfr>VFR repülőtereket</vfr> talál - mindegyikhez közvetlen link a hivatalos térképre, dekódolt időjárás (METAR/TAF) és repülőtéri adatok.",
     "q4": "Használhatom az AIP:Aerót offline vagy az EFB-men?",
     "a4": "Igen - az AIP:Aero alkalmazásként (PWA) telepíthető, és egyes repülőterek vagy az egész ország offline is elmenthető. Lásd az <efb>EFB-útmutatót</efb>."
+  },
+  "AirportSummary": {
+    "identity": "A(z) {place} egy repülőtér, amelyet a hivatalos Légiforgalmi Tájékoztató Kiadványban (AIP) tettek közzé.",
+    "identityTown": "A(z) {place} egy repülőtér {town} közelében, amelyet a hivatalos Légiforgalmi Tájékoztató Kiadványban (AIP) tettek közzé.",
+    "runways": "{count, plural, one {Egy futópályája van.} other {# futópályája van.}}",
+    "charts": "Az AIP:Aero a hivatalos {type} térképét a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
+    "chartsAirac": "Az AIP:Aero a hivatalos {type} térképét a(z) {airac} AIRAC kiadásból, a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
+    "noCharts": "Az AIP:Aero a hivatalos AIP-bejegyzését a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza."
   }
 }

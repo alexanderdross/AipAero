@@ -377,5 +377,13 @@
     "a3": "Pour la France, vous trouverez les <aero>aéroports</aero> et les <mil>aérodromes militaires</mil> - chacun avec un lien direct vers la carte officielle, la météo décodée (METAR/TAF) et les données d'aérodrome.",
     "q4": "Puis-je utiliser AIP:Aero hors ligne ou sur mon EFB ?",
     "a4": "Oui - AIP:Aero s'installe comme une application (PWA), et chaque terrain ou le pays entier peut être enregistré hors ligne. Voir le <efb>guide EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} est un aérodrome publié dans la publication d'information aéronautique officielle (AIP).",
+    "identityTown": "{place} est un aérodrome situé près de {town}, publié dans la publication d'information aéronautique officielle (AIP).",
+    "runways": "{count, plural, one {Il dispose d'une piste.} other {Il dispose de # pistes.}}",
+    "charts": "AIP:Aero met en lien sa carte {type} officielle avec les informations de piste, de fréquence et de météo actuelle.",
+    "chartsAirac": "AIP:Aero met en lien sa carte {type} officielle de l'édition AIRAC {airac}, avec les informations de piste, de fréquence et de météo actuelle.",
+    "noCharts": "AIP:Aero met en lien son entrée AIP officielle avec les informations de piste, de fréquence et de météo actuelle."
   }
 }

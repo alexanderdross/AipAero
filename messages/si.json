@@ -347,5 +347,13 @@
     "a3": "Za Slovenijo najdete <vfr>letališča VFR</vfr> - vsako z neposredno povezavo do uradne karte, dekodiranim vremenom (METAR/TAF) in podatki o letališču.",
     "q4": "Ali lahko AIP:Aero uporabljam brez povezave ali na svojem EFB?",
     "a4": "Da - AIP:Aero se namesti kot aplikacija (PWA), posamezna letališča ali celotno državo pa lahko shranite za uporabo brez povezave. Glejte <efb>vodnik EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} je letališče, objavljeno v uradnem Zborniku letalskih informacij (AIP).",
+    "identityTown": "{place} je letališče blizu kraja {town}, objavljeno v uradnem Zborniku letalskih informacij (AIP).",
+    "runways": "{count, plural, one {Ima eno vzletno-pristajalno stezo.} two {Ima # vzletno-pristajalni stezi.} few {Ima # vzletno-pristajalne steze.} other {Ima # vzletno-pristajalnih stez.}}",
+    "charts": "AIP:Aero povezuje njeno uradno karto {type} skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu.",
+    "chartsAirac": "AIP:Aero povezuje njeno uradno karto {type} iz izdaje AIRAC {airac} skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu.",
+    "noCharts": "AIP:Aero povezuje njen uradni vpis v AIP skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu."
   }
 }

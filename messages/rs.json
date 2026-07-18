@@ -347,5 +347,13 @@
     "a3": "Za Srbiju ćete pronaći <vfr>VFR aerodrome</vfr> - svaki sa direktnim linkom ka zvaničnoj karti, dekodiranim vremenom (METAR/TAF) i podacima o aerodromu.",
     "q4": "Mogu li da koristim AIP:Aero van mreže ili na svom EFB-u?",
     "a4": "Da - AIP:Aero se instalira kao aplikacija (PWA), a pojedinačni aerodromi ili cela zemlja mogu se sačuvati za rad van mreže. Pogledajte <efb>EFB vodič</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} je aerodrom objavljen u zvaničnom Zborniku vazduhoplovnih informacija (AIP).",
+    "identityTown": "{place} je aerodrom u blizini mesta {town}, objavljen u zvaničnom Zborniku vazduhoplovnih informacija (AIP).",
+    "runways": "{count, plural, one {Ima jednu pistu.} few {Ima # piste.} other {Ima # pista.}}",
+    "charts": "AIP:Aero povezuje zvaničnu {type} kartu zajedno sa informacijama o pisti, frekvencijama i trenutnom vremenu.",
+    "chartsAirac": "AIP:Aero povezuje zvaničnu {type} kartu iz AIRAC izdanja {airac}, zajedno sa informacijama o pisti, frekvencijama i trenutnom vremenu.",
+    "noCharts": "AIP:Aero povezuje zvaničan AIP unos zajedno sa informacijama o pisti, frekvencijama i trenutnom vremenu."
   }
 }

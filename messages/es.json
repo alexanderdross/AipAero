@@ -347,5 +347,13 @@
     "a3": "Para España encontrarás <vfr>aeródromos VFR</vfr> - cada uno con enlace directo a la carta oficial, meteorología decodificada (METAR/TAF) y datos del aeródromo.",
     "q4": "¿Puedo usar AIP:Aero sin conexión o en mi EFB?",
     "a4": "Sí - AIP:Aero se instala como aplicación (PWA), y se pueden guardar aeródromos individuales o el país entero para su uso sin conexión. Consulta la <efb>guía EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} es un aeródromo publicado en la publicación de información aeronáutica oficial (AIP).",
+    "identityTown": "{place} es un aeródromo cercano a {town}, publicado en la publicación de información aeronáutica oficial (AIP).",
+    "runways": "{count, plural, one {Tiene una pista.} other {Tiene # pistas.}}",
+    "charts": "AIP:Aero enlaza su carta {type} oficial junto con información de pista, frecuencia y meteorología actual.",
+    "chartsAirac": "AIP:Aero enlaza su carta {type} oficial de la edición AIRAC {airac}, junto con información de pista, frecuencia y meteorología actual.",
+    "noCharts": "AIP:Aero enlaza su entrada oficial del AIP junto con información de pista, frecuencia y meteorología actual."
   }
 }

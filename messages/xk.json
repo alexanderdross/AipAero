@@ -347,5 +347,13 @@
     "a3": "Për Kosovën do të gjeni <vfr>aeroportet VFR</vfr> - secili me një lidhje të drejtpërdrejtë me hartën zyrtare, motin e dekoduar (METAR/TAF) dhe të dhënat e aerodromit.",
     "q4": "A mund ta përdor AIP:Aero offline ose në EFB-në time?",
     "a4": "Po - AIP:Aero instalohet si aplikacion (PWA), dhe aeroportet individuale ose i gjithë vendi mund të ruhen offline. Shihni <efb>udhëzuesin EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} është një aerodrom i publikuar në Publikimin Zyrtar të Informacionit Aeronautik (AIP).",
+    "identityTown": "{place} është një aerodrom pranë {town}, i publikuar në Publikimin Zyrtar të Informacionit Aeronautik (AIP).",
+    "runways": "{count, plural, one {Ka një pistë.} other {Ka # pista.}}",
+    "charts": "AIP:Aero lidh hartën zyrtare {type} së bashku me informacione për pistën, frekuencat dhe motin aktual.",
+    "chartsAirac": "AIP:Aero lidh hartën zyrtare {type} nga edicioni AIRAC {airac}, së bashku me informacione për pistën, frekuencat dhe motin aktual.",
+    "noCharts": "AIP:Aero lidh hyrjen zyrtare në AIP së bashku me informacione për pistën, frekuencat dhe motin aktual."
   }
 }

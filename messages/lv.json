@@ -377,5 +377,13 @@
     "a3": "Latvijai atradīsiet <vfr>VFR lidlaukus</vfr> un <heli>helikopteru nosēšanās laukumus</heli> - katram ir tieša saite uz oficiālo karti, dekodēti laikapstākļi (METAR/TAF) un lidlauka dati.",
     "q4": "Vai varu izmantot AIP:Aero bezsaistē vai savā EFB?",
     "a4": "Jā - AIP:Aero var instalēt kā lietotni (PWA), un atsevišķus lidlaukus vai visu valsti var saglabāt bezsaistē. Skatiet <efb>EFB ceļvedi</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} ir lidlauks, kas publicēts oficiālajā aeronavigācijas informācijas krājumā (AIP).",
+    "identityTown": "{place} ir lidlauks netālu no {town}, publicēts oficiālajā aeronavigācijas informācijas krājumā (AIP).",
+    "runways": "{count, plural, zero {Tam ir # skrejceļu.} one {Tam ir viens skrejceļš.} other {Tam ir # skrejceļi.}}",
+    "charts": "AIP:Aero sasaista tā oficiālo {type} karti ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
+    "chartsAirac": "AIP:Aero sasaista tā oficiālo {type} karti no AIRAC izdevuma {airac} ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
+    "noCharts": "AIP:Aero sasaista tā oficiālo AIP ierakstu ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem."
   }
 }

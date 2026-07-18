@@ -366,5 +366,13 @@
     "a3": "Para Portugal encontra <vfr>aeródromos VFR</vfr> - cada um com ligação direta à carta oficial, meteorologia descodificada (METAR/TAF) e dados do aeródromo.",
     "q4": "Posso usar o AIP:Aero offline ou no meu EFB?",
     "a4": "Sim - o AIP:Aero instala-se como aplicação (PWA), e aeródromos individuais ou o país inteiro podem ser guardados offline. Consulte o <efb>guia EFB</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} é um aeródromo publicado na publicação de informação aeronáutica oficial (AIP).",
+    "identityTown": "{place} é um aeródromo perto de {town}, publicado na publicação de informação aeronáutica oficial (AIP).",
+    "runways": "{count, plural, one {Tem uma pista.} other {Tem # pistas.}}",
+    "charts": "A AIP:Aero associa a carta {type} oficial às informações de pista, frequência e meteorologia atual.",
+    "chartsAirac": "A AIP:Aero associa a carta {type} oficial da edição AIRAC {airac} às informações de pista, frequência e meteorologia atual.",
+    "noCharts": "A AIP:Aero associa a entrada oficial do AIP às informações de pista, frequência e meteorologia atual."
   }
 }

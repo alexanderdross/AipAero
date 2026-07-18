@@ -377,5 +377,13 @@
     "a3": "Für Österreich finden Sie <vfr>VFR-Flugplätze</vfr> und <heli>Hubschrauberlandeplätze</heli> - jeweils mit direktem Link zur offiziellen Karte, entschlüsseltem Wetter (METAR/TAF) und Flugplatzdaten.",
     "q4": "Kann ich AIP:Aero offline oder auf dem EFB nutzen?",
     "a4": "Ja - AIP:Aero lässt sich als App (PWA) installieren, und einzelne Plätze oder das ganze Land können offline gespeichert werden. Siehe <efb>EFB-Anleitung</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} ist ein Flugplatz, der im offiziellen Luftfahrthandbuch (AIP) veröffentlicht ist.",
+    "identityTown": "{place} ist ein Flugplatz bei {town}, der im offiziellen Luftfahrthandbuch (AIP) veröffentlicht ist.",
+    "runways": "{count, plural, one {Er verfügt über eine Piste.} other {Er verfügt über # Pisten.}}",
+    "charts": "AIP:Aero verlinkt die offizielle {type}-Karte samt Pisten-, Frequenz- und aktuellen Wetterinformationen.",
+    "chartsAirac": "AIP:Aero verlinkt die offizielle {type}-Karte aus der AIRAC-Ausgabe {airac} samt Pisten-, Frequenz- und aktuellen Wetterinformationen.",
+    "noCharts": "AIP:Aero verlinkt den offiziellen AIP-Eintrag samt Pisten-, Frequenz- und aktuellen Wetterinformationen."
   }
 }

@@ -347,5 +347,13 @@
     "a3": "Za Hrvatsku ćete pronaći <vfr>VFR zračne luke</vfr> - uključujući glavnu zračnu luku Zagreb (LDZA), svaku s izravnom poveznicom na službenu kartu, dekodiranim vremenom (METAR/TAF) i podacima o aerodromu.",
     "q4": "Mogu li koristiti AIP:Aero izvanmrežno ili na svom EFB-u?",
     "a4": "Da - AIP:Aero se instalira kao aplikacija (PWA), a pojedinačni aerodromi ili cijela zemlja mogu se spremiti izvanmrežno. Pogledajte <efb>EFB vodič</efb>."
+  },
+  "AirportSummary": {
+    "identity": "{place} je aerodrom objavljen u službenom Zborniku zrakoplovnih informacija (AIP).",
+    "identityTown": "{place} je aerodrom u blizini mjesta {town}, objavljen u službenom Zborniku zrakoplovnih informacija (AIP).",
+    "runways": "{count, plural, one {Ima jednu uzletno-sletnu stazu.} few {Ima # uzletno-sletne staze.} other {Ima # uzletno-sletnih staza.}}",
+    "charts": "AIP:Aero povezuje njegovu službenu {type} kartu zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu.",
+    "chartsAirac": "AIP:Aero povezuje njegovu službenu {type} kartu iz AIRAC izdanja {airac} zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu.",
+    "noCharts": "AIP:Aero povezuje njegov službeni unos u AIP zajedno s informacijama o stazi, frekvenciji i trenutnom vremenu."
   }
 }

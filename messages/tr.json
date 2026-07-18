@@ -347,5 +347,13 @@
     "a3": "Türkiye için <vfr>VFR havalimanlarını</vfr> bulacaksınız - başlıca havalimanı İstanbul (LTFM) dahil, her biri resmi karta doğrudan bağlantı, çözümlenmiş hava durumu (METAR/TAF) ve aerodrom verileriyle.",
     "q4": "AIP:Aero'yu çevrimdışı veya EFB'imde kullanabilir miyim?",
     "a4": "Evet - AIP:Aero bir uygulama (PWA) olarak yüklenir ve tek tek aerodromlar veya tüm ülke çevrimdışı kaydedilebilir. <efb>EFB kılavuzuna</efb> bakın."
+  },
+  "AirportSummary": {
+    "identity": "{place}, resmi Havacılık Enformasyon Yayınında (AIP) yayımlanan bir havaalanıdır.",
+    "identityTown": "{place}, {town} yakınlarında bulunan ve resmi Havacılık Enformasyon Yayınında (AIP) yayımlanan bir havaalanıdır.",
+    "runways": "{count, plural, one {Bir pisti vardır.} other {# pisti vardır.}}",
+    "charts": "AIP:Aero, resmi {type} kartını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar.",
+    "chartsAirac": "AIP:Aero, AIRAC {airac} sürümündeki resmi {type} kartını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar.",
+    "noCharts": "AIP:Aero, resmi AIP kaydını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar."
   }
 }

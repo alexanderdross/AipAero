@@ -14,6 +14,7 @@ import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
+import { buildAirportSummary } from "~/lib/airport-summary";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { airacDateFromUrl, parseCharts } from "~/lib/charts";
 import { isGatedCountry, isPdfUrl, isSelfServicePdfCountry } from "~/lib/utils";
@@ -52,11 +53,12 @@ export async function AirportGadgets({
   /** Cross-type sibling pages of the same field ("also available as IFR"). */
   related?: { type: string; url: string; label: string; title: string }[];
 }) {
-  const [locale, messages, facts, tCommon] = await Promise.all([
+  const [locale, messages, facts, tCommon, tSummary] = await Promise.all([
     getLocale(),
     getMessages(),
     getAirportFacts(airport.icao),
     getTranslations("Common"),
+    getTranslations("AirportSummary"),
   ]);
 
   // Direct chart PDF (chart-PDF plan Stage 2): prefer the crawler-captured
@@ -145,6 +147,38 @@ export async function AirportGadgets({
     : null;
   const runways = facts?.runways ?? [];
   const surfaces = [...new Set(runways.map((r) => r.surface).filter(Boolean))];
+
+  // Descriptive SSR prose (GEO/SEO): the detail pages otherwise carry only data
+  // widgets. Composed purely from the field's OWN data, so it is unique per
+  // aerodrome, not boilerplate. Titles are `<name> <ICAO>` by convention -
+  // strip the trailing ICAO for the readable place name. The AIRAC clause reuses
+  // the same edition the box / boxless line already resolved (chart URL date,
+  // else the country's stamped edition). Sits inside the reserved min-h region
+  // below, so it cannot shift layout.
+  const summaryPlaceName =
+    airport.icao && airport.title.endsWith(` ${airport.icao}`)
+      ? airport.title.slice(0, -(airport.icao.length + 1))
+      : airport.title;
+  const summaryAiracIso = chartPdfUrl
+    ? (chartUrlAiracIso ?? countryAiracIso)
+    : detailAiracIso;
+  const summaryAiracLabel = summaryAiracIso
+    ? new Intl.DateTimeFormat(lang, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "UTC",
+      }).format(new Date(`${summaryAiracIso}T00:00:00Z`))
+    : null;
+  const airportSummary = buildAirportSummary(tSummary, {
+    name: summaryPlaceName,
+    icao: airport.icao,
+    type: airport.type,
+    town: city,
+    runwayCount: runways.length,
+    hasChart: chartPdfUrl != null,
+    airac: summaryAiracLabel,
+  });
   const props: Array<{ name: string; value: string }> = [];
   const addProp = (name: string, value: string | null | undefined) => {
     if (value) props.push({ name, value });
@@ -289,6 +323,13 @@ export async function AirportGadgets({
             AIRAC {detailAiracLabel}
           </p>
         )}
+        {/* Generated descriptive paragraph (GEO/SEO): a unique, human-readable
+            summary built from this field's own data, so the high-volume detail
+            pages carry real prose an LLM can cite - not just data widgets. Pure
+            SSR text inside the reserved region, so no LCP/CLS cost. */}
+        <p className="text-drossgray-dark mx-auto max-w-3xl text-center text-sm leading-relaxed">
+          {airportSummary}
+        </p>
         {/* Location + aerodrome-data boxes side by side on >= md (each half
             width, stretched to equal height), stacking on mobile. */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
