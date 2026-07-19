@@ -110,10 +110,14 @@ def ad21_name(page_text: str, icao: str) -> str | None:
 # field's hours. So we slice from the AD 2.3 heading to the next AD 2.x heading,
 # then isolate row 1 by cutting at the first service-row label (row 2 is always
 # "Customs and immigration"). Validated live against NL (EHBD 0600-2200 vs the
-# AIS/ARO H24 that a naive slice wrongly picked up; EHAM H24). The anchor
-# id/title "<ICAO> AD 2.3 OPERATIONAL HOURS" is stable across eurocontrol eAIPs.
+# AIS/ARO H24 that a naive slice wrongly picked up; EHAM H24). The section number
+# "AD 2.3" is language-independent (ICAO numbering), so we anchor on it rather
+# than the English "OPERATIONAL HOURS" heading (which is translated on native
+# pages, e.g. SIA/FR "HEURES DE FONCTIONNEMENT") - this unlocks non-English
+# eAIPs. Every "AD 2.3 ... (next AD 2.x)" block is tried (a table-of-contents
+# "AD 2.3 -> AD 2.4" entry has no hours and is skipped, see ad23_hours).
 _AD23_SECTION_RE = re.compile(
-    r"AD\s*2\.3\s*OPERATIONAL HOURS\b(.*?)(?:\bAD\s*2\.(?:4|\d\d)\b)",
+    r"AD\s*2\.3\b(.*?)(?:\bAD\s*2\.(?:4|\d\d)\b)",
     re.I | re.S,
 )
 # Row-2+ service labels; the earliest occurrence marks the end of row 1 (the
@@ -144,29 +148,17 @@ _AD23_ROW2_MARKER_RE = re.compile(r"\s2\s")
 _AD2_LOCALE_RE = re.compile(r"-[A-Za-z]{2}-[A-Za-z]{2}(\.html?)$", re.I)
 
 
-def ad23_hours(page_text: str):
-    """Structured operation hours from an AD 2 page's "AD 2.3 OPERATIONAL HOURS"
-    section (see crawlers.operating_hours). ``page_text`` is the page's collapsed
-    visible text. Returns a 7-day StructuredHours list, or None when the section
-    is absent / unparseable (fail-soft; the AUTHORITATIVE source, posted to
-    /api/airport-facts with hoursSource="eaip"). Reads ONLY row 1 (the aerodrome
-    operator/administration hours); if row 1 cannot be isolated (no service-row
-    label found) it returns None rather than risk reading a service row's hours -
-    a wrong "open" is worse than none. Module-level so any eurocontrol crawler
-    can call it on the AD 2 page it already fetches for the AD 2.1 name."""
-    m = _AD23_SECTION_RE.search(page_text)
-    if not m:
-        return None
-    section = m.group(1)
+def _row1_hours(section: str):
+    """Parse row 1 (the aerodrome operator/administration row) of one AD 2.3
+    section body, or None when row 1 cannot be isolated. End of row 1 = start of
+    row 2, marked by whichever comes first:
+     - the row-2 NUMBER marker " 2 " - robust across producers and languages
+       (works where a label sits AFTER its value, e.g. FI's bilingual
+       "1 Lentopaikan pitäjä <hrs> Aerodrome operator 2 CUST ..."), and
+     - the first English service-row label ("Customs and immigration", ...).
+    A row-2 number is safer than a service label whose English word can sit at
+    the END of row 2 (dragging a service row's H24 into the aerodrome hours)."""
     low = section.lower()
-    # End of row 1 (the aerodrome operator/administration row) = start of row 2.
-    # Two independent markers, whichever comes first:
-    #  - the row-2 NUMBER marker " 2 " - robust across producers and languages
-    #    (works where a label sits AFTER its value, e.g. FI's bilingual
-    #    "1 Lentopaikan pitäjä <hrs> Aerodrome operator 2 CUST ..."), and
-    #  - the first English service-row label ("Customs and immigration", ...).
-    # A row-2 number is safer than a service label whose English word can sit at
-    # the END of row 2 (dragging a service row's H24 into the aerodrome hours).
     row2 = _AD23_ROW2_MARKER_RE.search(section)
     marker = row2.start() if row2 else -1
     svc = min(
@@ -177,6 +169,27 @@ def ad23_hours(page_text: str):
     if not cands:
         return None  # cannot isolate the aerodrome row -> do not assert hours
     return parse_ad23_text(section[: min(cands)])
+
+
+def ad23_hours(page_text: str):
+    """Structured operation hours from an AD 2 page's "AD 2.3" (OPERATIONAL
+    HOURS) section (see crawlers.operating_hours). ``page_text`` is the page's
+    collapsed visible text. Returns a 7-day StructuredHours list, or None when
+    the section is absent / unparseable (fail-soft; the AUTHORITATIVE source,
+    posted to /api/airport-facts with hoursSource="eaip"). Reads ONLY row 1 (the
+    aerodrome operator/administration hours); if row 1 cannot be isolated it
+    returns None rather than risk reading a service row's hours - a wrong "open"
+    is worse than none. Language-agnostic: it anchors on the "AD 2.3" section
+    number, so a native-language page (SIA/FR "HEURES DE FONCTIONNEMENT") parses
+    too, and it walks every "AD 2.3 ... AD 2.x" block, returning the first that
+    yields row-1 hours - so a table-of-contents "AD 2.3 -> AD 2.4" entry (no
+    hours -> None) is skipped in favour of the real section. Module-level so any
+    eurocontrol crawler can call it on the AD 2 page it already fetches."""
+    for m in _AD23_SECTION_RE.finditer(page_text):
+        hours = _row1_hours(m.group(1))
+        if hours is not None:
+            return hours
+    return None
 
 
 def ad21_debug_snippet(page_text: str) -> str:
