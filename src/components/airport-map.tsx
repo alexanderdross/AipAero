@@ -2,13 +2,19 @@
 
 import type * as L from "leaflet";
 import { LocateFixedIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { localeLangMapping } from "~/i18n/routing";
 import {
   isOpenUntil,
   openStatus,
   type StructuredHours,
 } from "~/lib/opening-hours";
 import type { AirportCoord } from "~/server/db/queries";
+
+// Our weekday index (0 = Monday .. 6 = Sunday). 2024-01-01 is a Monday, so
+// day i is that base date + i - used to render localized weekday names.
+const WEEKDAY_BASE = Date.UTC(2024, 0, 1);
+const utcDow = (d: Date) => (d.getUTCDay() + 6) % 7;
 
 export interface MapMarker {
   title: string;
@@ -152,6 +158,22 @@ export function AirportMap({
   const [openNow, setOpenNow] = useState(false);
   const [untilActive, setUntilActive] = useState(false);
   const [untilTime, setUntilTime] = useState("19:00");
+  // Weekday the hours filter evaluates (0 = Mon .. 6 = Sun), so a pilot can
+  // plan a future day ("open until 19:00 on Wednesday"), not only today.
+  // Defaults to today's UTC weekday.
+  const [weekday, setWeekday] = useState<number>(() => utcDow(new Date()));
+  // Localized weekday names (Mon..Sun) for the filter's day dropdown - from the
+  // page locale via Intl, so no per-locale message keys are needed.
+  const weekdayNames = useMemo(() => {
+    const lang = localeLangMapping[locale] ?? "en";
+    const fmt = new Intl.DateTimeFormat(lang, {
+      weekday: "long",
+      timeZone: "UTC",
+    });
+    return Array.from({ length: 7 }, (_, i) =>
+      fmt.format(new Date(WEEKDAY_BASE + i * 86_400_000)),
+    );
+  }, [locale]);
 
   useEffect(() => {
     let active = true;
@@ -276,7 +298,14 @@ export function AirportMap({
     layer.clearLayers();
     const active = FILTER_KEYS.filter((k) => filters[k]);
     const untilMinutes = untilActive ? hhmmToMinutes(untilTime) : null;
-    const now = new Date();
+    // Evaluate against the chosen weekday (keeping the current UTC time-of-day),
+    // so "open until X" plans a future day. Today's weekday -> the live "now".
+    const nowDate = new Date();
+    const delta = (weekday - utcDow(nowDate) + 7) % 7;
+    const now =
+      delta === 0
+        ? nowDate
+        : new Date(nowDate.getTime() + delta * 86_400_000);
     for (const m of markers) {
       if (!active.every((k) => m[k])) continue;
       // Operation-hours filters (client-side, so any chosen time needs no round
@@ -304,7 +333,7 @@ export function AirportMap({
         .bindPopup(`<a href="${escapeHtml(m.href)}">${escapeHtml(m.title)}</a>`)
         .addTo(layer);
     }
-  }, [mapReady, markers, filters, openNow, untilActive, untilTime]);
+  }, [mapReady, markers, filters, openNow, untilActive, untilTime, weekday]);
 
   // The locate click may be the FIRST interaction: the input gate then only
   // starts the async map init, so the map isn't ready inside this handler.
@@ -459,6 +488,20 @@ export function AirportMap({
             labelled as such (pilots plan in UTC). */}
         {showHours && (
           <div className="flex flex-wrap items-center gap-2">
+            {/* Weekday selector: evaluate the hours filters against a chosen day
+                so pilots can plan ahead. Defaults to today. */}
+            <select
+              value={weekday}
+              aria-label={hoursTabLabel}
+              onChange={(e) => setWeekday(Number(e.target.value))}
+              className="border-drossgray-dark/30 rounded-full border bg-white px-3 py-1 text-sm font-semibold"
+            >
+              {weekdayNames.map((name, i) => (
+                <option key={i} value={i}>
+                  {name}
+                </option>
+              ))}
+            </select>
             <button
               type="button"
               aria-pressed={openNow}
