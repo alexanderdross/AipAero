@@ -74,12 +74,18 @@ export function ContactForm({
   const [icao, setIcao] = useState<string>(initialIcao ?? "");
   const widgetHost = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
+  // Lazy-load gate: Turnstile (and its challenges.cloudflare.com third-party
+  // cookies) is only loaded after the user engages with the form. Until then
+  // the page fetches nothing from Cloudflare, so it carries no third-party
+  // cookies on load (Lighthouse best-practices). First interaction happens long
+  // before the user can finish filling the form, so the token is ready in time.
+  const [interacted, setInteracted] = useState(false);
 
-  // Explicitly render the Turnstile widget once its script has loaded. The
-  // token flows into state via the callback; expiry/error clear it so a submit
-  // always carries a fresh token.
+  // Explicitly render the Turnstile widget once its script has loaded (only
+  // after first interaction). The token flows into state via the callback;
+  // expiry/error clear it so a submit always carries a fresh token.
   useEffect(() => {
-    if (!siteKey) return;
+    if (!siteKey || !interacted) return;
 
     const render = () => {
       if (!window.turnstile || !widgetHost.current || widgetId.current) return;
@@ -108,7 +114,7 @@ export function ContactForm({
     }
     script.addEventListener("load", render);
     return () => script?.removeEventListener("load", render);
-  }, [siteKey]);
+  }, [siteKey, interacted]);
 
   if (!siteKey) {
     return (
@@ -181,7 +187,14 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
+    <form
+      onSubmit={onSubmit}
+      // First interaction (tab-focus, click or touch) lazy-loads Turnstile.
+      onFocusCapture={() => setInteracted(true)}
+      onPointerDownCapture={() => setInteracted(true)}
+      className="flex flex-col gap-5"
+      noValidate
+    >
       <div>
         <label htmlFor="contact-name" className={fieldLabel}>
           {labels.name}
