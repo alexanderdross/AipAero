@@ -40,18 +40,15 @@ export const env = createEnv({
     // Cloudflare's always-pass test keys, so the form works with no config.
     TURNSTILE_SITE_KEY: z.string().optional(),
     TURNSTILE_SECRET_KEY: z.string().optional(),
-    // Netcup SMTP relay used to deliver the submitted message. Sent over
-    // Cloudflare's TCP socket API (worker-mailer); port 587 (STARTTLS) or 465
-    // (implicit TLS) - port 25 is blocked on Workers. When SMTP is unconfigured
-    // the contact API returns 503. `SMTP_FROM` is the envelope/From mailbox
-    // (must be a real netcup mailbox on the sending domain, so SPF/DMARC pass);
-    // it defaults to `SMTP_USER` when unset. The visitor's address goes into
+    // Resend HTTP API key used to deliver the submitted message (mail is sent
+    // over plain HTTPS, not SMTP - the Workers/OpenNext bundle cannot use the
+    // socket-based SMTP client, see src/lib/contact.ts). When unset in
+    // production the contact API returns 503 (inert). `CONTACT_FROM` is the
+    // From mailbox and MUST be on a Resend-verified domain (aip.aero); it
+    // defaults to a no-reply on aip.aero. The visitor's address goes into
     // Reply-To, never From.
-    SMTP_HOST: z.string().optional(),
-    SMTP_PORT: z.string().optional(),
-    SMTP_USER: z.string().optional(),
-    SMTP_PASS: z.string().optional(),
-    SMTP_FROM: z.string().optional(),
+    RESEND_API_KEY: z.string().optional(),
+    CONTACT_FROM: z.string().optional(),
   },
 
   /**
@@ -76,11 +73,8 @@ export const env = createEnv({
     PUBLIC_API_KEY: process.env.PUBLIC_API_KEY,
     TURNSTILE_SITE_KEY: process.env.TURNSTILE_SITE_KEY,
     TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
-    SMTP_HOST: process.env.SMTP_HOST,
-    SMTP_PORT: process.env.SMTP_PORT,
-    SMTP_USER: process.env.SMTP_USER,
-    SMTP_PASS: process.env.SMTP_PASS,
-    SMTP_FROM: process.env.SMTP_FROM,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    CONTACT_FROM: process.env.CONTACT_FROM,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

@@ -13,12 +13,8 @@ PUBLIC_API_KEY=""
 # Unset in dev = Cloudflare's always-pass test keys are used automatically.
 TURNSTILE_SITE_KEY=""
 TURNSTILE_SECRET_KEY=""
-# Netcup SMTP relay for delivering contact-form messages (worker-mailer over
-# Cloudflare TCP sockets). Port 587 (STARTTLS) or 465 (implicit TLS); port 25 is
-# blocked on Workers. SMTP_FROM must be a real mailbox on the sending domain so
-# SPF/DMARC pass (defaults to SMTP_USER when unset).
-SMTP_HOST=""
-SMTP_PORT="587"
-SMTP_USER=""
-SMTP_PASS=""
-SMTP_FROM=""
+# Resend HTTP API for delivering contact-form messages (plain HTTPS, not SMTP).
+# CONTACT_FROM must be on a Resend-verified domain (aip.aero); defaults to a
+# no-reply on aip.aero.
+RESEND_API_KEY=""
+CONTACT_FROM="AIP:Aero <noreply@aip.aero>"

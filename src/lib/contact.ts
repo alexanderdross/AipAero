@@ -3,13 +3,14 @@
  *
  * Two responsibilities, both used exclusively by `src/app/api/contact/route.ts`:
  *  1. Verify the Cloudflare Turnstile token server-side (siteverify).
- *  2. Deliver the submitted message to the site inbox over Netcup SMTP.
+ *  2. Deliver the submitted message to the site inbox via the Resend HTTP API.
  *
- * On the Cloudflare Workers runtime there is no classic Node SMTP (no raw
- * sockets via `net`), so the mail is sent with `worker-mailer`, which speaks
- * SMTP over Cloudflare's TCP socket API (`cloudflare:sockets`). That module
- * only exists on the Worker, so `worker-mailer` is imported dynamically inside
- * the send call - it is never pulled into the Node `next build` graph.
+ * Mail is sent over Resend's plain HTTPS API (a `fetch`), NOT SMTP. SMTP on the
+ * Cloudflare Workers runtime needs `cloudflare:sockets`, and the OpenNext esbuild
+ * bundle cannot resolve/externalize that virtual module for the SMTP client
+ * (`worker-mailer`) - a static require fails at build, a dynamic require fails at
+ * runtime ("Dynamic require of cloudflare:sockets is not supported"). An HTTP
+ * API sidesteps sockets entirely and is the reliable pattern on Workers.
  */
 
 import { env } from "~/env";
@@ -45,9 +46,7 @@ function turnstileSecretKey(): string | undefined {
 
 /** True when the contact endpoint can both verify and deliver a submission. */
 export function contactConfigured(): boolean {
-  return Boolean(
-    turnstileSecretKey() && env.SMTP_HOST && env.SMTP_USER && env.SMTP_PASS,
-  );
+  return Boolean(turnstileSecretKey() && env.RESEND_API_KEY);
 }
 
 /**
@@ -89,20 +88,20 @@ export type ContactMessage = {
 };
 
 /**
- * Send the submission to {@link CONTACT_RECIPIENT} over Netcup SMTP. The From
- * is our own mailbox (SMTP_FROM, else SMTP_USER) so SPF/DMARC pass; the
- * visitor's address is set as Reply-To so a reply reaches them directly.
- * Throws on delivery failure (the route maps it to a 502).
+ * Deliver the submission to {@link CONTACT_RECIPIENT} via the Resend HTTP API.
+ * The From is a mailbox on our Resend-verified domain (CONTACT_FROM, default a
+ * no-reply on aip.aero) so SPF/DKIM pass; the visitor's address is set as
+ * Reply-To so a reply reaches them directly. Throws on delivery failure (the
+ * route maps it to a 502).
  */
 export async function sendContactEmail(msg: ContactMessage): Promise<void> {
-  const host = env.SMTP_HOST;
-  const username = env.SMTP_USER;
-  const password = env.SMTP_PASS;
-  if (!host || !username || !password) {
-    throw new Error("SMTP is not configured");
+  const apiKey = env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error("Resend is not configured");
   }
-  const port = Number(env.SMTP_PORT ?? "587");
-  const from = env.SMTP_FROM ?? username;
+  // Sender must be on a Resend-verified domain (aip.aero). Override with
+  // CONTACT_FROM (e.g. "AIP:Aero <kontakt@aip.aero>").
+  const from = env.CONTACT_FROM ?? "AIP:Aero <noreply@aip.aero>";
 
   // Belt-and-braces: strip anything but alphanumerics before the ICAO reaches
   // the mail headers/body (the API schema already enforces this, but the mail
@@ -134,26 +133,24 @@ export async function sendContactEmail(msg: ContactMessage): Promise<void> {
     .filter((line) => line !== null)
     .join("\n");
 
-  // Dynamic import keeps `cloudflare:sockets` (a Worker-only builtin) out of the
-  // Node build graph - it is only resolved at runtime on the Worker.
-  const { WorkerMailer } = await import("worker-mailer");
-  await WorkerMailer.send(
-    {
-      host,
-      port,
-      // 465 = implicit TLS; 587 (and others) negotiate STARTTLS after connect.
-      secure: port === 465,
-      startTls: port !== 465,
-      credentials: { username, password },
-      // Netcup mail servers advertise LOGIN and PLAIN - offer both.
-      authType: ["plain", "login"],
+  // Plain HTTPS POST - no SMTP, no cloudflare:sockets (which the OpenNext bundle
+  // cannot externalize). Reliable on the Workers runtime.
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
     },
-    {
-      from: { name: "AIP:Aero", email: from },
-      to: { email: CONTACT_RECIPIENT },
-      reply: { name: msg.name, email: msg.email },
+    body: JSON.stringify({
+      from,
+      to: [CONTACT_RECIPIENT],
+      reply_to: msg.email,
       subject,
       text,
-    },
-  );
+    }),
+  });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Resend API ${res.status}: ${detail.slice(0, 300)}`);
+  }
 }

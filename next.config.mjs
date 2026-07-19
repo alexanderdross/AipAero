@@ -73,11 +73,6 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
-  // worker-mailer (contact-form SMTP) imports `cloudflare:sockets`, a Worker-
-  // only builtin webpack cannot resolve during `next build`. Keeping it out of
-  // the webpack graph lets the OpenNext esbuild pass bundle it for the Worker
-  // (it treats `cloudflare:*` imports as runtime externals).
-  serverExternalPackages: ["worker-mailer"],
   experimental: {
     // Inline each page's CSS as a <style> in <head> instead of external
     // <link rel="stylesheet"> requests. Removes the render-blocking CSS round
