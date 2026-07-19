@@ -293,7 +293,9 @@
     "borderCrossing": "Sienos kirtimas",
     "alsoAvailable": "Taip pat prieinama:",
     "aipLoginHint": "Gali reikėti prisijungimo arba registracijos.",
-    "noChartPdf": "Šiam aerodromui atskiras žemėlapio PDF neskelbiamas - viršuje esantis AIP mygtukas atveria jo oficialų aerodromo įrašą."
+    "noChartPdf": "Šiam aerodromui atskiras žemėlapio PDF neskelbiamas - viršuje esantis AIP mygtukas atveria jo oficialų aerodromo įrašą.",
+    "reportProblem": "Pranešti apie klaidingus ar trūkstamus duomenis",
+    "reportProblemTitle": "Pranešti apie klaidingus ar trūkstamus šio aerodromo duomenis"
   },
   "Chart": {
     "allCharts": "Visos kortelės ({count})",

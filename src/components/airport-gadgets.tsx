@@ -16,6 +16,7 @@ import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { buildAirportSummary } from "~/lib/airport-summary";
+import { contactUrlFor } from "~/lib/contact-link";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { getHubLinks } from "~/lib/hub-links";
 import { toOpeningHoursSpecification } from "~/lib/opening-hours";
@@ -422,6 +423,27 @@ export async function AirportGadgets({
           country={airport.country}
           locale={locale}
         />
+        {/* Feedback / "report a problem" link: routes to the contact form
+            (German-native locales -> /de/kontakt/, else /contact/) carrying the
+            aerodrome reference (?icao= or, for ICAO-less fields, ?ref=<slug>) so
+            the form pre-fills it. Plain SSR anchor, no client JS, no CLS (inside
+            the reserved min-h region). rel="nofollow" keeps crawlers off the
+            many ?icao= variants (the contact page canonicalises to the bare
+            URL). Carries a localized SEO title per the every-link-needs-a-title
+            rule. */}
+        <p className="text-drossgray-dark mt-2 text-center text-sm">
+          <a
+            href={contactUrlFor(locale, {
+              icao: airport.icao,
+              slug: airport.slug,
+            })}
+            rel="nofollow"
+            title={tCommon("reportProblemTitle")}
+            className="text-drossblue inline-flex min-h-10 items-center hover:underline"
+          >
+            {tCommon("reportProblem")}
+          </a>
+        </p>
       </div>
     </div>
   );

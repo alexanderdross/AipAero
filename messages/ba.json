@@ -293,7 +293,9 @@
     "borderCrossing": "Prelazak granice",
     "alsoAvailable": "Također dostupno:",
     "aipLoginHint": "Možda će biti potrebna prijava ili registracija.",
-    "noChartPdf": "Za ovaj aerodrom nije objavljen zaseban PDF karte - dugme AIP iznad otvara njegov zvanični unos aerodroma."
+    "noChartPdf": "Za ovaj aerodrom nije objavljen zaseban PDF karte - dugme AIP iznad otvara njegov zvanični unos aerodroma.",
+    "reportProblem": "Prijavite netačne ili nedostajuće podatke",
+    "reportProblemTitle": "Prijavite netačne ili nedostajuće podatke za ovaj aerodrom"
   },
   "Chart": {
     "allCharts": "Sve karte ({count})",

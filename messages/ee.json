@@ -323,7 +323,9 @@
     "borderCrossing": "Piiriületus",
     "alsoAvailable": "Samuti saadaval:",
     "aipLoginHint": "Võib olla vajalik sisselogimine või registreerimine.",
-    "noChartPdf": "Sellele lennuväljale eraldi kaardi PDF-i ei avaldata - ülalolev AIP-nupp avab selle ametliku lennuvälja kirje."
+    "noChartPdf": "Sellele lennuväljale eraldi kaardi PDF-i ei avaldata - ülalolev AIP-nupp avab selle ametliku lennuvälja kirje.",
+    "reportProblem": "Teata valedest või puuduvatest andmetest",
+    "reportProblemTitle": "Teata selle lennuvälja valedest või puuduvatest andmetest"
   },
   "Chart": {
     "allCharts": "Kõik kaardid ({count})",

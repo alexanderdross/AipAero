@@ -307,7 +307,9 @@
     "borderCrossing": "Překročení hranice",
     "alsoAvailable": "K dispozici také:",
     "aipLoginHint": "Může být vyžadováno přihlášení nebo registrace.",
-    "noChartPdf": "Pro toto letiště není zveřejněno samostatné PDF mapy - tlačítko AIP výše otevře jeho oficiální záznam letiště."
+    "noChartPdf": "Pro toto letiště není zveřejněno samostatné PDF mapy - tlačítko AIP výše otevře jeho oficiální záznam letiště.",
+    "reportProblem": "Nahlásit chybné nebo chybějící údaje",
+    "reportProblemTitle": "Nahlásit chybné nebo chybějící údaje o tomto letišti"
   },
   "Chart": {
     "allCharts": "Všechny mapy ({count})",

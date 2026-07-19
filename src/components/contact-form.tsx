@@ -11,6 +11,8 @@ import { useEffect, useRef, useState } from "react";
 export type ContactFormLabels = {
   name: string;
   email: string;
+  /** Optional ICAO reference field (pre-filled from a detail-page link). */
+  icao: string;
   subject: string;
   message: string;
   send: string;
@@ -48,14 +50,28 @@ const TURNSTILE_SRC =
 export function ContactForm({
   siteKey,
   labels,
+  initialIcao,
+  initialSubject,
+  initialMessage,
 }: {
   /** Turnstile site key, or undefined when the form is not provisioned. */
   siteKey?: string;
   labels: ContactFormLabels;
+  /** Pre-filled ICAO (from an airport detail-page "report a problem" link). */
+  initialIcao?: string;
+  /** Pre-filled subject line (set when arriving with an aerodrome reference). */
+  initialSubject?: string;
+  /** Pre-filled message placeholder text. */
+  initialMessage?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [token, setToken] = useState<string>("");
+  // The ICAO is the only controlled field, seeded from the link so it shows the
+  // referenced aerodrome yet stays editable. Subject/message use defaultValue
+  // (uncontrolled, like the other fields) so a prefill seeds them without
+  // freezing the user's edits.
+  const [icao, setIcao] = useState<string>(initialIcao ?? "");
   const widgetHost = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
 
@@ -123,6 +139,7 @@ export function ContactForm({
         body: JSON.stringify({
           name: data.get("name"),
           email: data.get("email"),
+          icao: data.get("icao"),
           subject: data.get("subject"),
           message: data.get("message"),
           company: data.get("company"),
@@ -132,6 +149,7 @@ export function ContactForm({
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setStatus("success");
       form.reset();
+      setIcao("");
       setToken("");
       if (widgetId.current && window.turnstile) {
         window.turnstile.reset(widgetId.current);
@@ -190,6 +208,24 @@ export function ContactForm({
       </div>
 
       <div>
+        <label htmlFor="contact-icao" className={fieldLabel}>
+          {labels.icao}
+        </label>
+        <input
+          id="contact-icao"
+          name="icao"
+          type="text"
+          value={icao}
+          onChange={(e) => setIcao(e.currentTarget.value.toUpperCase())}
+          maxLength={8}
+          autoComplete="off"
+          autoCapitalize="characters"
+          spellCheck={false}
+          className={fieldInput}
+        />
+      </div>
+
+      <div>
         <label htmlFor="contact-subject" className={fieldLabel}>
           {labels.subject}
         </label>
@@ -198,6 +234,7 @@ export function ContactForm({
           name="subject"
           type="text"
           maxLength={200}
+          defaultValue={initialSubject}
           className={fieldInput}
         />
       </div>
@@ -212,6 +249,7 @@ export function ContactForm({
           required
           maxLength={5000}
           rows={6}
+          defaultValue={initialMessage}
           className={fieldInput}
         />
       </div>

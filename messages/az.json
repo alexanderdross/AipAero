@@ -293,7 +293,9 @@
     "borderCrossing": "Sərhəd keçidi",
     "alsoAvailable": "Həmçinin mövcuddur:",
     "aipLoginHint": "Giriş və ya qeydiyyat tələb oluna bilər.",
-    "noChartPdf": "Bu aerodrom üçün ayrıca kart PDF-i dərc olunmayıb - yuxarıdakı AIP düyməsi onun rəsmi aerodrom qeydini açır."
+    "noChartPdf": "Bu aerodrom üçün ayrıca kart PDF-i dərc olunmayıb - yuxarıdakı AIP düyməsi onun rəsmi aerodrom qeydini açır.",
+    "reportProblem": "Yanlış və ya çatışmayan məlumatları bildirin",
+    "reportProblemTitle": "Bu aerodrom üçün yanlış və ya çatışmayan məlumatları bildirin"
   },
   "Chart": {
     "allCharts": "Bütün kartlar ({count})",

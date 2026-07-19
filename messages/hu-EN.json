@@ -293,7 +293,9 @@
     "borderCrossing": "Border crossing",
     "alsoAvailable": "Also available:",
     "aipLoginHint": "A login or registration may be required.",
-    "noChartPdf": "No separate chart PDF is published for this aerodrome - the AIP button above opens its official aerodrome entry."
+    "noChartPdf": "No separate chart PDF is published for this aerodrome - the AIP button above opens its official aerodrome entry.",
+    "reportProblem": "Report incorrect or missing data",
+    "reportProblemTitle": "Report incorrect or missing data for this aerodrome"
   },
   "Chart": {
     "allCharts": "All charts ({count})",

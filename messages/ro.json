@@ -293,7 +293,9 @@
     "borderCrossing": "Trecerea frontierei",
     "alsoAvailable": "Disponibil și:",
     "aipLoginHint": "Poate fi necesară autentificarea sau înregistrarea.",
-    "noChartPdf": "Pentru acest aerodrom nu este publicat un PDF de hartă separat - butonul AIP de mai sus deschide fișa sa oficială de aerodrom."
+    "noChartPdf": "Pentru acest aerodrom nu este publicat un PDF de hartă separat - butonul AIP de mai sus deschide fișa sa oficială de aerodrom.",
+    "reportProblem": "Raportați date incorecte sau lipsă",
+    "reportProblemTitle": "Raportați date incorecte sau lipsă pentru acest aerodrom"
   },
   "Chart": {
     "allCharts": "Toate hărțile ({count})",

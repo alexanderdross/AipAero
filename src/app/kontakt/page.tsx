@@ -6,6 +6,7 @@ import {
   legalMetadata,
 } from "~/components/legal-shell";
 import { CONTACT_RECIPIENT, turnstileSiteKey } from "~/lib/contact";
+import { sanitizeIcao, sanitizeRef } from "~/lib/contact-link";
 import { orgUrl } from "~/lib/utils";
 
 const EN = new URL("/contact/", orgUrl).toString();
@@ -33,6 +34,7 @@ export function generateMetadata(
 const labels: ContactFormLabels = {
   name: "Ihr Name",
   email: "Ihre E-Mail",
+  icao: "ICAO-Code (optional)",
   subject: "Betreff",
   message: "Nachricht",
   send: "Nachricht senden",
@@ -49,7 +51,32 @@ const labels: ContactFormLabels = {
 
 const inlineLink = "text-drossblue underline";
 
-export default function KontaktPage() {
+/**
+ * Liest eine Flugplatz-Referenz aus der Query (eine Detailseite verlinkt hierher
+ * als `/de/kontakt/?icao=EDNY`, oder `?ref=<slug>` fuer ICAO-lose Felder) und
+ * leitet das vorbefuellte ICAO-Feld + Betreff + Nachricht ab. Die Seite ist
+ * force-dynamic, das Lesen kostet nichts und die Canonical bleibt parameterlos.
+ */
+function prefillFromParams(sp: Record<string, string | string[] | undefined>) {
+  const first = (v: string | string[] | undefined) =>
+    Array.isArray(v) ? v[0] : v;
+  const icao = sanitizeIcao(first(sp.icao));
+  const ref = icao ? null : sanitizeRef(first(sp.ref));
+  const label = icao ?? ref;
+  if (!label) return {};
+  return {
+    initialIcao: icao ?? "",
+    initialSubject: `Datenkorrektur: ${label.toUpperCase()}`,
+    initialMessage: `Bitte beschreiben Sie, welche Angabe zu ${label.toUpperCase()} fehlt oder falsch ist:\n\n`,
+  };
+}
+
+export default async function KontaktPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const prefill = prefillFromParams(await searchParams);
   return (
     <LegalShell
       lang="de"
@@ -77,7 +104,11 @@ export default function KontaktPage() {
           schreiben.
         </p>
         <div className="mt-6">
-          <ContactForm siteKey={turnstileSiteKey()} labels={labels} />
+          <ContactForm
+            siteKey={turnstileSiteKey()}
+            labels={labels}
+            {...prefill}
+          />
         </div>
       </section>
     </LegalShell>

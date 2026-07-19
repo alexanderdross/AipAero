@@ -323,7 +323,9 @@
     "borderCrossing": "Robežšķērsošana",
     "alsoAvailable": "Pieejams arī:",
     "aipLoginHint": "Var būt nepieciešama pieteikšanās vai reģistrācija.",
-    "noChartPdf": "Šim lidlaukam netiek publicēts atsevišķs kartes PDF - iepriekš redzamā AIP poga atver tā oficiālo lidlauka ierakstu."
+    "noChartPdf": "Šim lidlaukam netiek publicēts atsevišķs kartes PDF - iepriekš redzamā AIP poga atver tā oficiālo lidlauka ierakstu.",
+    "reportProblem": "Ziņot par nepareiziem vai trūkstošiem datiem",
+    "reportProblemTitle": "Ziņot par nepareiziem vai trūkstošiem šī lidlauka datiem"
   },
   "Chart": {
     "allCharts": "Visas kartes ({count})",
