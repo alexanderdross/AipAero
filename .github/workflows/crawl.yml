@@ -150,6 +150,8 @@ jobs:
             "https://aip.aero/tj/ruyxati-furudgohhoi-tojikiston/"
             "https://aip.aero/tm/turkmenistan-howa-menzilleri/"
             "https://aip.aero/kg/kyrgyzstan-aeroporttor-tizmesi/"
+            "https://aip.aero/au/airport-list-australia/"
+            "https://aip.aero/nz/airport-list-new-zealand/"
             # English-locale (`<cc>/en`) lists are SEPARATE prerenders; the
             # native + English list read the same country-tagged data, but
             # each page HTML is cached per route, so an un-warmed English
