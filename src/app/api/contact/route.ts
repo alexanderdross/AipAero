@@ -89,12 +89,19 @@ export async function POST(req: NextRequest) {
       message: parsed.message,
     });
   } catch (error) {
-    console.error(
-      "Contact form delivery failed:",
-      error instanceof Error ? error.message : "unknown error",
-    );
+    const detail = error instanceof Error ? error.message : "unknown error";
+    console.error("Contact form delivery failed:", detail);
+    // TEMPORARY SMTP DEBUG (remove after diagnosing the Netcup 502): expose the
+    // real delivery error in the response body, but ONLY when the message
+    // contains the magic word "DEBUGSMTP" - so a normal visitor still sees the
+    // generic error, while the owner can read the exact cause in the Network
+    // tab. Carries no credentials (just the SMTP dialog error text).
+    const debug = parsed.message.includes("DEBUGSMTP");
     return NextResponse.json(
-      { error: "Could not send your message. Please try again later." },
+      {
+        error: "Could not send your message. Please try again later.",
+        ...(debug ? { detail } : {}),
+      },
       { status: 502 },
     );
   }
