@@ -35,6 +35,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase, current_airac_date
+from crawlers.http_eurocontrol_base import ad23_hours
 from crawlers.models import ChartLink
 
 COUNTRY = "LT"
@@ -299,6 +300,16 @@ class LT(HttpCrawlerBase):
                     self.logger.warning(f"LT: {icao} AD-2 fetch failed: {e}")
                     continue
                 pdf_url, charts = self._charts(ad2_html, ad2_url)
+                # AD 2.3 OPERATIONAL HOURS is in this same eAIP page (full
+                # eurocontrol-style AD 2 HTML). Parse the page we ALREADY hold -
+                # never a second fetch: every LT request goes through the
+                # metered Web Unlocker. Fail-soft; the parser isolates row 1.
+                try:
+                    hrs = ad23_hours(" ".join(self.soup(ad2_html).get_text(" ").split()))
+                    if hrs:
+                        self.hours_by_icao[icao] = hrs
+                except Exception as e:
+                    self.logger.debug(f"LT: {icao} AD 2.3 hours failed: {e}")
                 # Prefix the known name where mapped; an unmapped ICAO titles as
                 # the bare code (still lists, website enriches via OurAirports).
                 title = f"{_NAMES.get(icao, '')} {icao}".strip()

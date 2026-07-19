@@ -163,26 +163,29 @@ export function structuredHoursToDisplay(
   return parts.length ? parts.join("; ") : null;
 }
 
-// -------- Local-time resolution ----------------------------------------------
+// -------- UTC-time resolution ------------------------------------------------
+//
+// AIP AD 2.3 operation hours are published in **UTC** (ICAO Annex 15; aviation
+// "Zulu" time) - and pilots plan in UTC - so all clock times here are UTC:
+// `{ t: "time", m }` is minutes after UTC midnight, and the day-of-week is the
+// UTC day. This is both correct (matches the source) and simpler than the old
+// longitude-based local-time approximation. Coordinates are still needed for
+// the genuinely-solar SR/SS boundaries, whose UTC instant we take from the
+// sun-times helper. The UI must label these hours "UTC" (see the callers).
 
-// Approximate the field's local wall clock from UTC + longitude (15deg = 1h).
-// Returns the local day-of-week (0 = Mon) and minute-of-day.
-function localParts(when: Date, lon: number): { dow: number; minute: number } {
-  const offsetMs = Math.round((lon / 15) * 3600) * 1000;
-  const local = new Date(when.getTime() + offsetMs);
-  const dow = (local.getUTCDay() + 6) % 7; // JS Sun=0 -> our Mon=0
-  const minute = local.getUTCHours() * 60 + local.getUTCMinutes();
+// UTC day-of-week (0 = Mon) and minute-of-day for an instant.
+function utcParts(when: Date): { dow: number; minute: number } {
+  const dow = (when.getUTCDay() + 6) % 7; // JS Sun=0 -> our Mon=0
+  const minute = when.getUTCHours() * 60 + when.getUTCMinutes();
   return { dow, minute };
 }
 
-// A UTC instant (e.g. a sunrise/sunset Date) -> local minute-of-day at `lon`.
-function utcToLocalMinute(d: Date, lon: number): number {
-  const offsetMs = Math.round((lon / 15) * 3600) * 1000;
-  const local = new Date(d.getTime() + offsetMs);
-  return local.getUTCHours() * 60 + local.getUTCMinutes();
+// A UTC instant (e.g. a sunrise/sunset Date) -> its minute-of-day in UTC.
+function utcMinuteOfDay(d: Date): number {
+  return d.getUTCHours() * 60 + d.getUTCMinutes();
 }
 
-// Resolve one boundary to a concrete local minute-of-day, or null when a solar
+// Resolve one boundary to a concrete UTC minute-of-day, or null when a solar
 // event does not occur (polar day/night) and we cannot know it.
 function resolveBoundary(
   b: Boundary,
@@ -193,10 +196,10 @@ function resolveBoundary(
   if (!coords) return null;
   const sun = getSunTimes(when, coords.lat, coords.lon);
   const evt = b.t === "sr" ? sun.sunrise : sun.sunset;
-  return evt ? utcToLocalMinute(evt, coords.lon) : null;
+  return evt ? utcMinuteOfDay(evt) : null;
 }
 
-// Resolve a day's window to [open, close] local minutes, or null when it cannot
+// Resolve a day's window to [open, close] UTC minutes, or null when it cannot
 // be resolved to a concrete, forward-going window.
 function resolveWindow(
   dh: DayHours,
@@ -214,8 +217,9 @@ function resolveWindow(
 
 /**
  * The field's operation state at `when` (default now), from its structured
- * hours. `unknown`/`notam` days and unresolvable windows yield `state:"unknown"`
- * so the UI shows no misleading "open"/"closed" claim.
+ * hours. Times are UTC (see the note above). `unknown`/`notam` days and
+ * unresolvable windows yield `state:"unknown"` so the UI shows no misleading
+ * "open"/"closed" claim. `closesAt`/`opensAt` are UTC minutes-of-day.
  */
 export function openStatus(
   hours: StructuredHours | null | undefined,
@@ -223,7 +227,7 @@ export function openStatus(
   when: Date = new Date(),
 ): ResolvedStatus {
   if (!hours || hours.length !== 7) return { state: "unknown" };
-  const { dow, minute } = localParts(when, coords?.lon ?? 0);
+  const { dow, minute } = utcParts(when);
   const dh = hours[dow];
   if (!dh || dh.kind === "unknown" || dh.kind === "notam")
     return { state: "unknown" };
@@ -240,12 +244,12 @@ export function openStatus(
 }
 
 /**
- * Is the field still open UNTIL `targetMinutes` local on the local day of
- * `when`? i.e. it opens at or before the target and does not close before it
- * (inclusive close: a field closing exactly at 19:00 counts as "open until
- * 19:00"). Backs the map "open until [time]" filter. Conservative: a day that is
- * `unknown`/`notam`/`closed`, or whose window cannot be resolved, is NEVER
- * counted as open.
+ * Is the field still open UNTIL `targetMinutes` (UTC minutes-of-day) on the UTC
+ * day of `when`? i.e. it opens at or before the target and does not close
+ * before it (inclusive close: a field closing exactly at 19:00 counts as "open
+ * until 19:00"). Backs the map "open until [time]" filter. Conservative: a day
+ * that is `unknown`/`notam`/`closed`, or whose window cannot be resolved, is
+ * NEVER counted as open.
  */
 export function isOpenUntil(
   hours: StructuredHours | null | undefined,
@@ -254,7 +258,7 @@ export function isOpenUntil(
   when: Date = new Date(),
 ): boolean {
   if (!hours || hours.length !== 7) return false;
-  const { dow } = localParts(when, coords?.lon ?? 0);
+  const { dow } = utcParts(when);
   const dh = hours[dow];
   if (!dh || (dh.kind !== "window" && dh.kind !== "h24")) return false;
   const win = resolveWindow(dh, coords, when);

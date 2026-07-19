@@ -395,12 +395,13 @@ export function AirportMap({
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      {/* Controls + locate share the row (flex-wrap on narrow screens), so they
-          add no reserved layout height / CLS. When the field carries hours, a
-          two-tab switch chooses between the boolean filter pills and the
-          operation-hours panel; the time input needs its own panel rather than
-          crowding a picker among the pills. */}
-      <div className="mb-2 flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
+      {/* Controls + locate. On mobile each group stacks on its own left-aligned
+          row (cleaner than a ragged right-justified wrap); on >= sm they flow
+          inline, right-aligned. No reserved layout height / CLS either way.
+          When the field carries hours, a two-tab switch chooses between the
+          boolean filter pills and the operation-hours panel; the time input
+          needs its own panel rather than crowding a picker among the pills. */}
+      <div className="mb-2 flex flex-col items-start gap-y-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-3">
         {showTabs && (
           <div
             role="tablist"
@@ -435,23 +436,29 @@ export function AirportMap({
             </button>
           </div>
         )}
-        {/* Boolean-filter pills (fuel / customs / paved). Shown on the Filters
-            tab, or always when there are no hours (no tabs then). */}
-        {showFilters &&
-          availableFilters.map((key) => (
-            <button
-              key={key}
-              type="button"
-              aria-pressed={filters[key]}
-              onClick={() => setFilters((f) => ({ ...f, [key]: !f[key] }))}
-              className={pill(filters[key])}
-            >
-              {filterLabels[key]}
-            </button>
-          ))}
-        {/* Operation-hours panel: "open now" toggle + "open until [time]". */}
+        {/* Boolean-filter pills (fuel / customs / paved), grouped so they form
+            one tidy row on mobile. Shown on the Filters tab, or always when
+            there are no hours (no tabs then). */}
+        {showFilters && (
+          <div className="flex flex-wrap items-center gap-2">
+            {availableFilters.map((key) => (
+              <button
+                key={key}
+                type="button"
+                aria-pressed={filters[key]}
+                onClick={() => setFilters((f) => ({ ...f, [key]: !f[key] }))}
+                className={pill(filters[key])}
+              >
+                {filterLabels[key]}
+              </button>
+            ))}
+          </div>
+        )}
+        {/* Operation-hours panel: "open now" toggle + "open until [time] UTC".
+            AIP AD 2.3 hours are UTC ("Zulu"), so the time input is UTC and is
+            labelled as such (pilots plan in UTC). */}
         {showHours && (
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
               aria-pressed={openNow}
@@ -472,13 +479,16 @@ export function AirportMap({
               <input
                 type="time"
                 value={untilTime}
-                aria-label={openUntilLabel}
+                aria-label={`${openUntilLabel} (UTC)`}
                 onChange={(e) => {
                   setUntilTime(e.target.value);
                   setUntilActive(true);
                 }}
                 className="border-drossgray-dark/30 rounded-md border bg-white px-2 py-0.5 text-sm"
               />
+              <span className="text-drossgray-dark text-xs font-semibold">
+                UTC
+              </span>
             </span>
           </div>
         )}

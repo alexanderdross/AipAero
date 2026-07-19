@@ -66,16 +66,18 @@ export async function AirportFacts({
   const statusBadge =
     status && status.state !== "unknown"
       ? (() => {
+          // AIP AD 2.3 hours are UTC; the "Z" suffix (aviation "Zulu") marks it
+          // without a per-locale string. `openStatus` computes in UTC too.
           if (status.state === "open") {
             const closes =
               status.closesAt != null
-                ? ` - ${t("closesAt", { time: minutesToHhmm(status.closesAt) })}`
+                ? ` - ${t("closesAt", { time: `${minutesToHhmm(status.closesAt)}Z` })}`
                 : "";
             return `${t("statusOpen")}${closes}`;
           }
           const opens =
             status.opensAt != null
-              ? ` - ${t("opensAt", { time: minutesToHhmm(status.opensAt) })}`
+              ? ` - ${t("opensAt", { time: `${minutesToHhmm(status.opensAt)}Z` })}`
               : "";
           return `${t("statusClosed")}${opens}`;
         })()

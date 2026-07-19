@@ -52,7 +52,7 @@ Hours are shown as **advisory** - clearly labelled "confirm via NOTAM / current 
 A new structured, queryable column on `airport_facts`, kept **alongside** the human-readable `opening_hours` string:
 
 - **`hours_structured` (TEXT, JSON)** - 7 entries (index 0 = Monday .. 6 = Sunday), each `{ open, close, flag }`:
-  - `open` / `close` are **minutes after local midnight** (0..1439), or `null` for sun-relative / unknown days.
+  - `open` / `close` are **minutes after UTC midnight** (0..1439), or `null` for sun-relative / unknown days. AIP AD 2.3 hours are published in **UTC** (ICAO Annex 15; aviation "Zulu"), so all clock times and the day-of-week are UTC - `openStatus`/`isOpenUntil` compute in UTC and the UI labels times with `Z` / "UTC". (This replaced an earlier longitude-based local-time approximation, which was both wrong for a UTC source and imprecise.)
   - `flag ∈ { "fixed", "sunrise", "sunset", "h24", "notam", "closed", "unknown" }`.
     - `fixed` - concrete `open`/`close` clock minutes.
     - `sunrise` / `sunset` - the boundary is solar; resolved per-day from coordinates at read time.
@@ -70,13 +70,13 @@ The canonical shape is defined once in `src/lib/opening-hours.ts` (`DayHours`, `
 ## Logic (`src/lib/opening-hours.ts`, pure + unit-tested)
 
 - `parseStructuredHours(hoursOfOperation)` - map OpenAIP `operatingHours[]` -> `StructuredHours`. `parseOpeningHours` (the existing display-string builder) is refactored to build **from** this structured form, so the string and the structure never diverge.
-- `resolveDayWindow(day, coords, date)` - turn one `{ open, close, flag }` into concrete open/close **local** clock minutes for a given date, resolving `sunrise`/`sunset` via `getSunTimes` (converted from UTC to approximate local wall-clock, see caveat).
+- `resolveWindow(day, coords, when)` - turn one day into concrete open/close **UTC** minutes-of-day, resolving `sunrise`/`sunset` via `getSunTimes` (the sun instant's UTC minute-of-day; coordinates are still needed for the solar calc).
 - `openStatus(structured, coords, when)` -> `{ state: "open" | "closed" | "unknown", closesAt?, opensAt? }`.
 - `isOpenUntil(structured, coords, hhmm, date)` -> boolean. Conservative: `unknown` / `notam` never count as open.
 
-### Timezone caveat
+### Timezone: UTC (Zulu)
 
-"19:00" is interpreted as the field's **local wall-clock**. Field local time is approximated from **longitude** (15deg = 1h), the same solar basis `sun-times.ts` already uses; it ignores political timezone boundaries and DST. This is acceptable under the advisory framing and is called out in the UI copy. A precise IANA-timezone lookup from coordinates is a documented future refinement.
+AIP AD 2.3 hours are published in **UTC** (ICAO Annex 15), and pilots plan in UTC, so the feature is UTC throughout: the map "open until 19:00" input is 19:00 **UTC** (labelled "UTC" next to the picker), and the detail-page badge marks its times with `Z` ("closes 19:00Z"). `openStatus`/`isOpenUntil` compute the day-of-week and minute-of-day in UTC. Sub-caveat: the common `0600-2200 (0500-2100)` AIP form (winter UTC, summer UTC in parentheses) is stored as the first/winter value, so a field can read 1h off during local summer time - acceptable under the advisory framing ("confirm via NOTAM / current AIP"), and DST-aware selection is a possible future refinement.
 
 ## Surfaces
 
@@ -114,18 +114,18 @@ Non-eurocontrol sources (DE / ES / GR / CIS info-pages) have no eAIP AD 2.3 HTML
 
 Validated live per country (AD 2.3 fields collected / total; the rest fall back to OpenAIP):
 
-| Country | Collected | Note |
-| --- | --- | --- |
-| UK | 111/122 | standard English eAIP |
-| PL | 0/69 | AD-4 VFR-manual pages carry no AD 2.3 section -> OpenAIP |
-| FR | 71/143 | French SIA pages, unlocked by the language-agnostic match (0/143 before it) |
-| FI | 24/40 | bilingual "label-after-value"; the `" 2 "` marker keeps the rest safe-unknown |
-| NL | 18/24 | reference country (EHBD 06:00-22:00, EHAM H24) |
-| IE | 20/22 | |
-| KZ | 23/27 | |
-| GE | 7/7 | |
-| SI | 0/16 | un-isolatable layout -> OpenAIP (safe) |
-| MK | 0/2 | -> OpenAIP (safe) |
+| Country | Collected | Note                                                                          |
+| ------- | --------- | ----------------------------------------------------------------------------- |
+| UK      | 111/122   | standard English eAIP                                                         |
+| PL      | 0/69      | AD-4 VFR-manual pages carry no AD 2.3 section -> OpenAIP                      |
+| FR      | 71/143    | French SIA pages, unlocked by the language-agnostic match (0/143 before it)   |
+| FI      | 24/40     | bilingual "label-after-value"; the `" 2 "` marker keeps the rest safe-unknown |
+| NL      | 18/24     | reference country (EHBD 06:00-22:00, EHAM H24)                                |
+| IE      | 20/22     |                                                                               |
+| KZ      | 23/27     |                                                                               |
+| GE      | 7/7       |                                                                               |
+| SI      | 0/16      | un-isolatable layout -> OpenAIP (safe)                                        |
+| MK      | 0/2       | -> OpenAIP (safe)                                                             |
 
 The pattern holds: standard eurocontrol eAIPs collect the large majority of fields; deviating producers (portal-reference, AD-4-only, or un-isolatable) fall back to OpenAIP with **no** false "open". EHBD/EHAM were the reference recon (run 29685082575).
 
