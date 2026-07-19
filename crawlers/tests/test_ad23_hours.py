@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from crawlers.http_eurocontrol_base import (
     HttpEurocontrolBase,
+    _AD2_LOCALE_RE,
     _AD2_SECTION1_RE,
     ad23_hours,
 )
@@ -44,9 +45,38 @@ EHAM = (
 )
 
 
+# LFXX (SIA/FR): native-language page - the AD 2.3 heading is translated
+# ("HEURES DE FONCTIONNEMENT"), row-1 label French ("Gestionnaire de l'AD"),
+# row 2 "Douanes et police". SIA publishes no -en-GB variant, so the parser must
+# read the French page directly. The " 2 " marker isolates row 1; the AIS/ARO
+# H24 (rows 4/5) must be ignored.
+LFXX_FR = (
+    "1 Gestionnaire de l'AD 0700-1900 2 Douanes et police 0700-1900 "
+    "3 Services de santé NIL 4 Bureau AIS H24 5 Bureau de piste (ARO) H24 "
+)
+
+
 def test_reads_row1_not_service_rows():
     hrs = ad23_hours(_page("EHBD", EHBD))
     assert hrs == [WIN(360, 1320)] * 7  # 06:00-22:00, not the AIS/ARO H24
+
+
+def test_french_native_page_reads_row1():
+    # Heading is French ("HEURES DE FONCTIONNEMENT"), not "OPERATIONAL HOURS".
+    page = (
+        "X LFXX AD 2.3 HEURES DE FONCTIONNEMENT " + LFXX_FR + " LFXX AD 2.4 SERVICE"
+    )
+    assert ad23_hours(page) == [WIN(420, 1140)] * 7  # 07:00-19:00, not AIS/ARO H24
+
+
+def test_table_of_contents_entry_skipped():
+    # A TOC "AD 2.3 ... AD 2.4" with no hours precedes the real section; the
+    # finditer walk must skip the empty TOC block and read the real one.
+    page = (
+        "TOC AD 2.3 OPERATIONAL HOURS AD 2.4 HANDLING "  # TOC: no hours -> skip
+        "X EHAM AD 2.3 OPERATIONAL HOURS " + EHAM + " EHAM AD 2.4 HANDLING"
+    )
+    assert ad23_hours(page) == [{"kind": "h24"}] * 7
 
 
 def test_h24_aerodrome():
@@ -58,8 +88,33 @@ def test_missing_section_is_none():
 
 
 def test_unisolatable_row1_is_none():
-    # No service-row label to bound row 1 -> do not assert (conservative).
+    # No row-2 marker / service label to bound row 1 -> do not assert.
     assert ad23_hours("X LZ AD 2.3 OPERATIONAL HOURS 1 AD admin H24 LZ AD 2.4") is None
+
+
+def test_row2_number_marker_keeps_labels_after_values_safe():
+    # FI-style bilingual, LABEL-AFTER-VALUE layout: row 1 is "1 <native> <hrs>
+    # <english label>", row 2 "2 CUST,IMG H24 ... Customs and immigration". The
+    # row-2 NUMBER marker isolates row 1 so row 2's H24 is NOT read as the
+    # aerodrome's hours - the field stays unknown, never a false H24.
+    fi = (
+        "X EFHK AD 2.3 OPERATIONAL HOURS 1 Lentopaikan pitäjä HO Aerodrome "
+        "operator 2 CUST, IMG H24 Customs and immigration 3 Terveystarkastus "
+        "H24 Health and sanitation EFHK AD 2.4 HANDLING"
+    )
+    hrs = ad23_hours(fi)
+    assert hrs is not None
+    assert all(d == {"kind": "unknown"} for d in hrs)  # HO -> unknown, no H24
+
+
+def test_locale_rewrite_to_english():
+    # SIA/FR bilingual: swap the native locale suffix to English.
+    assert _AD2_LOCALE_RE.sub(r"-en-GB\g<1>", "https://x/FR-AD-2.LFBA-fr-FR.html") == (
+        "https://x/FR-AD-2.LFBA-en-GB.html"
+    )
+    # Already English -> unchanged.
+    eng = "https://x/EH-AD 2 EHAM 1-en-GB.html"
+    assert _AD2_LOCALE_RE.sub(r"-en-GB\g<1>", eng) == eng
 
 
 def _rw(url: str) -> str:
