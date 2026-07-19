@@ -82,10 +82,32 @@ The tab appears only when >=1 marker carries structured hours. The structured ho
 For the eurocontrol eAIP countries (`HttpEurocontrolBase` roster - NL, UK, FR, BE, CZ, PL, SE, ...):
 
 - `crawlers/crawlers/operating_hours.py` - a pure normalizer (Python twin of the TS module, shared test vectors) that tokenizes AD 2.3 free text into the same 7-day JSON. `H24` -> all-day; `MON-FRI 0800-1700` (and day-range variants) -> fixed windows; `SR-SS` -> sun flags; `O/R`, `HO`, `PPR`, unrecognized -> `unknown` (never guessed). Fail-soft to no-hours.
-- `ad23_hours(page_text)` on `http_eurocontrol_base.py` - locates the `<ICAO> AD 2.3 OPERATIONAL HOURS` section (stable anchor id/title) and **isolates ROW 1** (the "AD operator / administration" row = the aerodrome's own hours) by cutting at the first service-row label (row 2 is always "Customs and immigration"). This is essential: AD 2.3 is a multi-row ICAO table and the later rows (AIS / ARO briefing offices) are frequently **centrally H24**, so a naive slice reads a false H24 for a small field. Validated live against NL (`crawler-live-test.yml` `ad23_dump` recon, run 29685082575): EHBD Budel is `AD operator 0600-2200` while its AIS/ARO rows are H24 - row-1 isolation yields the correct 06:00-22:00; EHAM Schiphol is H24 across all rows. If row 1 cannot be isolated, it returns `null` (no assertion) - a wrong "open" is worse than none.
+- `ad23_hours(page_text)` on `http_eurocontrol_base.py` - locates the AD 2.3 section and **isolates ROW 1** (the "AD operator / administration" row = the aerodrome's own hours). Two design points make this generic across producers:
+  - **Row-1 isolation**: AD 2.3 is a multi-row ICAO table and the later rows (AIS / ARO briefing offices) are frequently **centrally H24**, so a naive slice reads a false H24 for a small field. Row 1 is cut at the **row-2 number marker `" 2 "`** or the first English service-row label ("Customs and immigration", ...), whichever comes first. The number marker is language- and layout-independent (it also survives FI's bilingual "label-after-value" layout). If row 1 cannot be isolated, it returns `null` (no assertion) - a wrong "open" is worse than none.
+  - **Language-agnostic section match**: the matcher anchors on the ICAO section number **`AD 2.3`** (not the English "OPERATIONAL HOURS" heading, which is translated on native pages, e.g. SIA/FR "HEURES DE FONCTIONNEMENT"), and walks every `AD 2.3 ... (next AD 2.x)` block, returning the first that yields row-1 hours - so a table-of-contents entry (no hours) is skipped in favour of the real section. This unlocks non-English pages (FR) while staying a strict superset of the English behaviour.
+- `collect_ad23_hours(airports)` fetches each field's AD 2 page (one extra HTTP GET per field, reusing the crawler's own client so proxy / CA / legacy-TLS config carries over) and, when the primary page has no isolatable AD 2.3, tries ordered fallbacks: a **section-1 URL rewrite** (multi-page NL/SE-style eAIPs keep charts on section N and AD 2.3 on section 1) and an **English-locale swap** (`-fr-FR` -> `-en-GB`).
 - The eAIP crawler POSTs the structured hours to the existing **`POST /api/airport-facts`** (upsert-by-ICAO) with `hoursSource: "eaip"`, landing official hours in `airport_facts.hours_structured` without touching the `airports` write path.
 
-Non-eurocontrol sources (DE / ES / GR / ...) keep OpenAIP-only. Roll out validated against **NL** first (reference page source exists) via `crawler-live-test.yml`, then the other eurocontrol countries inherit it. Per-country quirks fall into the `unknown` bucket, they do not block.
+Non-eurocontrol sources (DE / ES / GR / CIS info-pages) have no eAIP AD 2.3 HTML and keep OpenAIP-only. The collection runs for **every** eurocontrol country from `main.py` (guarded by `isinstance(crawler, HttpEurocontrolBase)`); per-country quirks fall into the `unknown` bucket and fall back to OpenAIP, they never block or emit wrong hours.
+
+### Rollout validation (live, `crawler-live-test.yml`)
+
+Validated live per country (AD 2.3 fields collected / total; the rest fall back to OpenAIP):
+
+| Country | Collected | Note |
+| --- | --- | --- |
+| UK | 111/122 | standard English eAIP |
+| PL | 0/69 | AD-4 VFR-manual pages carry no AD 2.3 section -> OpenAIP |
+| FR | 71/143 | French SIA pages, unlocked by the language-agnostic match (0/143 before it) |
+| FI | 24/40 | bilingual "label-after-value"; the `" 2 "` marker keeps the rest safe-unknown |
+| NL | 18/24 | reference country (EHBD 06:00-22:00, EHAM H24) |
+| IE | 20/22 | |
+| KZ | 23/27 | |
+| GE | 7/7 | |
+| SI | 0/16 | un-isolatable layout -> OpenAIP (safe) |
+| MK | 0/2 | -> OpenAIP (safe) |
+
+The pattern holds: standard eurocontrol eAIPs collect the large majority of fields; deviating producers (portal-reference, AD-4-only, or un-isolatable) fall back to OpenAIP with **no** false "open". EHBD/EHAM were the reference recon (run 29685082575).
 
 ## Deployment / migration hazard
 
