@@ -126,15 +126,24 @@ class ES(HttpCrawlerBase):
                             f"ES: no AD 2.1 name for {icao}; "
                             f"markup: {ad21_debug_snippet(text)!r}"
                         )
-                    # AD 2.3 OPERATIONAL HOURS lives on this same page (ENAIRE's
-                    # own AD-2 HTML, not eurocontrol). The parser is source-
-                    # agnostic (row-1 isolation, language-agnostic); OpenAIP has
-                    # no hours for ES, so this is the only source. Fail-soft.
-                    hrs = ad23_hours(text)
-                    if hrs:
-                        self.hours_by_icao[icao] = hrs
                 except Exception as e:  # one bad page must not abort the crawl
                     self.logger.warning(f"ES: {icao} name fetch failed: {e}")
+
+                # AD 2.3 OPERATIONAL HOURS is NOT on the HTML landing page (which
+                # carries only the AD 2.1 name) - it lives in the full-document
+                # AD-2 PDF (same path, `.html` -> `.pdf`; ENAIRE excludes that
+                # bare-ICAO PDF from the chart set). Extract its text and run the
+                # source-agnostic ad23_hours parser (row-1 isolation handles the
+                # "1 Airport V: 0430-2230; I: ..." ENAIRE row-1 shape; verified
+                # LECO -> 04:30-22:30). OpenAIP has no hours for ES, so this PDF
+                # is the only source. One extra PDF fetch per field; fail-soft.
+                try:
+                    pdf_url = re.sub(r"\.html?$", ".pdf", url, flags=re.I)
+                    hrs = ad23_hours(self.pdf_text(pdf_url))
+                    if hrs:
+                        self.hours_by_icao[icao] = hrs
+                except Exception as e:
+                    self.logger.debug(f"ES: {icao} AD 2.3 hours failed: {e}")
                 title = f"{name} {icao}".strip() if name else icao
 
                 # Attach the field's AD 2.24 chart PDFs (from the index pass);

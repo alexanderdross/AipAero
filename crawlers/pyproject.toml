@@ -9,6 +9,10 @@ dependencies = [
     "httpx>=0.27.0",
     "pydantic>=2.13.4",
     "pydantic-settings>=2.14.2",
+    # PDF text extraction for AD 2.3 operation hours from PDF-only AIPs (ES/ENAIRE
+    # files the AD 2.3 OPERATIONAL HOURS table in the full-document AD-2 PDF, not
+    # the HTML landing page). Pure-Python, no system deps; imported lazily.
+    "pypdf>=4.0.0",
     # Playwright is the JS-rendering fallback for client-rendered AIP sources
     # (DK/Naviair; future JS-viewer sources). It runs ONLY on the netcup host
     # / self-hosted runner, never on the Cloudflare Worker. Install the
