@@ -210,6 +210,10 @@ async function AirportLists({ locale }: { locale: string }) {
         fuelLabel={tWeather("fuel")}
         customsLabel={tCommon("customs")}
         pavedLabel={tCommon("pavedRunway")}
+        filtersTabLabel={tWeather("filtersTab")}
+        hoursTabLabel={tWeather("hoursTab")}
+        openNowLabel={tWeather("statusOpen")}
+        openUntilLabel={tWeather("openUntil")}
       />
       {/* Chart-availability signal (owner directive #5a): tells the reader up
           front whether this country offers direct chart PDFs, only official AIP

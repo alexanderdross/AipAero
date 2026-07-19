@@ -59,6 +59,10 @@ export type AirportCoord = {
   fuel?: string | null;
   customs?: boolean | null;
   runways?: string | null;
+  // JSON StructuredHours - only on `airportsWithCoords`, drives the map's
+  // "open now / open until X" filter. Optional so entries cached before the
+  // column existed stay type-compatible.
+  hoursStructured?: string | null;
 };
 
 // Per-country cache tag. Every read for a country carries this tag so a crawler
@@ -321,6 +325,7 @@ export const QUERIES = {
             fuel: airportFacts.fuel,
             customs: airportFacts.customs,
             runways: airportFacts.runways,
+            hoursStructured: airportFacts.hoursStructured,
           })
           .from(airports)
           .innerJoin(airportFacts, eq(airports.icao, airportFacts.icao))
@@ -483,6 +488,19 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
+// Precedence for the structured operation hours on an upsert (see
+// docs/operation-hours-concept.md): an incoming value replaces the stored one
+// only when it is authoritative (`eaip`) OR the stored value is not `eaip` - so
+// a later community (`openaip`) run can never clobber eAIP hours - AND it is
+// non-null (COALESCE-preserve: a null incoming value means "don't know"). Fresh
+// sql each call so the fragment is never shared across statements.
+const hoursGuard = () =>
+  sql`(excluded.hours_source = 'eaip' OR ${airportFacts.hoursSource} IS NULL OR ${airportFacts.hoursSource} <> 'eaip') AND excluded.hours_structured IS NOT NULL`;
+const hoursStructuredSet = () =>
+  sql`CASE WHEN ${hoursGuard()} THEN excluded.hours_structured ELSE ${airportFacts.hoursStructured} END`;
+const hoursSourceSet = () =>
+  sql`CASE WHEN ${hoursGuard()} THEN excluded.hours_source ELSE ${airportFacts.hoursSource} END`;
+
 export const MUTATIONS = {
   insertAirports: async function (
     input: InsertAirport[],
@@ -627,6 +645,8 @@ export const MUTATIONS = {
             phone: sql`COALESCE(excluded.phone, ${airportFacts.phone})`,
             fuel: sql`COALESCE(excluded.fuel, ${airportFacts.fuel})`,
             openingHours: sql`COALESCE(excluded.opening_hours, ${airportFacts.openingHours})`,
+            hoursStructured: hoursStructuredSet(),
+            hoursSource: hoursSourceSet(),
             ppr: sql`COALESCE(excluded.ppr, ${airportFacts.ppr})`,
             aerodromeType: sql`COALESCE(excluded.aerodrome_type, ${airportFacts.aerodromeType})`,
             restaurant: sql`COALESCE(excluded.restaurant, ${airportFacts.restaurant})`,
@@ -684,6 +704,8 @@ export const MUTATIONS = {
           phone: sql`COALESCE(excluded.phone, ${airportFacts.phone})`,
           fuel: sql`COALESCE(excluded.fuel, ${airportFacts.fuel})`,
           openingHours: sql`COALESCE(excluded.opening_hours, ${airportFacts.openingHours})`,
+          hoursStructured: hoursStructuredSet(),
+          hoursSource: hoursSourceSet(),
           ppr: sql`COALESCE(excluded.ppr, ${airportFacts.ppr})`,
           aerodromeType: sql`COALESCE(excluded.aerodrome_type, ${airportFacts.aerodromeType})`,
           restaurant: sql`COALESCE(excluded.restaurant, ${airportFacts.restaurant})`,
@@ -693,6 +715,55 @@ export const MUTATIONS = {
         },
       });
     revalidateTag(factsTag(row.icao));
+  },
+
+  // Hours-only upsert for the eAIP AD 2.3 crawler path. Unlike upsertAirportFacts
+  // (which overwrites the base columns coords/runways/... from a full importer
+  // row), this touches ONLY the structured-hours columns, so the crawler can
+  // POST { icao, hoursStructured, hoursSource } without nulling an existing
+  // field's coordinates. A brand-new ICAO gets a minimal row (source = the
+  // hours provenance); the OurAirports importer / on-read write-back fill the
+  // rest later. Precedence: eAIP wins (hoursStructuredSet/hoursSourceSet).
+  upsertAirportHours: async function (
+    input: {
+      icao: string;
+      hoursStructured: string | null;
+      hoursSource: string;
+    }[],
+  ) {
+    if (!input[0]) return;
+    const db = await getDb();
+    if (!db) {
+      throw new Error("D1 database binding is unavailable");
+    }
+    const now = Math.floor(Date.now() / 1000);
+    const stmts = input.map((row) =>
+      db
+        .insert(airportFacts)
+        .values({
+          icao: row.icao,
+          hoursStructured: row.hoursStructured,
+          hoursSource: row.hoursSource,
+          source: row.hoursSource,
+          updatedAt: now,
+        })
+        .onConflictDoUpdate({
+          target: airportFacts.icao,
+          set: {
+            hoursStructured: hoursStructuredSet(),
+            hoursSource: hoursSourceSet(),
+            updatedAt: sql`excluded.updated_at`,
+          },
+        }),
+    );
+    const result = await db.batch(
+      stmts as [(typeof stmts)[number], ...(typeof stmts)[number][]],
+    );
+    for (const row of input) {
+      revalidateTag(factsTag(row.icao));
+    }
+    revalidateTag("airportCoords");
+    return result;
   },
 
   // Bust every given country's cached reads (and, via the tag cache, the

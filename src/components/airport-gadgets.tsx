@@ -18,6 +18,7 @@ import { getAirportFacts } from "~/lib/airport-facts";
 import { buildAirportSummary } from "~/lib/airport-summary";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { getHubLinks } from "~/lib/hub-links";
+import { toOpeningHoursSpecification } from "~/lib/opening-hours";
 import { airacDateFromUrl, parseCharts } from "~/lib/charts";
 import { isGatedCountry, isPdfUrl, isSelfServicePdfCountry } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
@@ -223,7 +224,11 @@ export async function AirportGadgets({
   addProp("Runway surface", surfaces.join(", "));
   addProp("Fuel", facts?.fuel.length ? facts.fuel.join(", ") : null);
   if (facts?.ppr != null) addProp("PPR", facts.ppr ? "Yes" : "No");
-  addProp("Opening hours", openingHours);
+  // Canonical schema.org opening hours from the structured form (grouped fixed
+  // days; solar/notam/unknown days omitted). The free-text PropertyValue below
+  // stays as the fallback for fields with only an unstructured hours string.
+  const openingHoursSpec = toOpeningHoursSpecification(facts?.hoursStructured);
+  if (openingHoursSpec.length === 0) addProp("Opening hours", openingHours);
   // Runways and frequencies as GRANULAR PropertyValue entries - one per runway,
   // one per frequency SERVICE type - instead of a single semicolon blob. More
   // precisely machine-/LLM-readable (GEO): an assistant answering "ATIS at EDDF"
@@ -277,6 +282,7 @@ export async function AirportGadgets({
         telephone={phone}
         sameAs={website}
         hasMap={hasMap}
+        openingHoursSpecification={openingHoursSpec}
         additionalProperties={props}
       />
       {/* Records this view in the localStorage recents index (renders

@@ -1,5 +1,10 @@
 import type { FrequencyFact, RunwayFact } from "~/server/db/schema";
 import type { NormalizedFacts } from "~/lib/airport-facts";
+import {
+  parseStructuredHours,
+  structuredHoursToDisplay,
+  type StructuredHours,
+} from "~/lib/opening-hours";
 
 // Pure parsing of the OpenAIP core API airport payload into our NormalizedFacts.
 // No network, no `server-only`, no env - so it is unit-testable (openaip.ts is
@@ -108,65 +113,17 @@ function parseRunways(raw: unknown): RunwayFact[] {
 }
 
 // Hours of operation. Schema: `{ operatingHours: [{ dayOfWeek 0..6 (Mon..Sun),
-// startTime?, endTime?, sunrise, sunset, byNotam }], remarks? }`. We build a
-// compact per-day schedule, grouping consecutive days with identical hours
-// ("Mon-Fri 08:00-20:00; Sat SR-SS"). Days with no usable window are omitted.
-// Any unexpected shape yields null (fail-soft) so we never dump a raw object.
-const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-function hhmm(v: unknown): string | null {
-  if (typeof v !== "string") return null;
-  const m = /^(\d{2}:\d{2})/.exec(v.trim());
-  return m ? m[1]! : null;
-}
-
-// One day's window, e.g. "08:00-20:00", "SR-SS", "08:00-SS", "by NOTAM", or null.
-function dayWindow(e: Record<string, unknown>): string | null {
-  if (e.byNotam === true) return "by NOTAM";
-  const start = e.sunrise === true ? "SR" : hhmm(e.startTime);
-  const end = e.sunset === true ? "SS" : hhmm(e.endTime);
-  if (!start || !end) return null;
-  return `${start}-${end}`;
-}
-
+// startTime?, endTime?, sunrise, sunset, byNotam }], remarks? }`. The structured
+// extraction + display-string builder now live in `~/lib/opening-hours` (shared
+// with the "open now / open until X" feature); this stays the thin display-only
+// entry point, falling back to a raw string / `remarks` for unstructured input.
 export function parseOpeningHours(raw: unknown): string | null {
   if (typeof raw === "string") return raw.trim() || null;
   if (!raw || typeof raw !== "object") return null;
-  const o = raw as Record<string, unknown>;
-  const entries = o.operatingHours;
-  if (!Array.isArray(entries)) {
-    return typeof o.remarks === "string" && o.remarks.trim()
-      ? o.remarks.trim()
-      : null;
-  }
-  // day index (0..6) -> window string
-  const byDay = new Map<number, string>();
-  for (const entry of entries) {
-    if (!entry || typeof entry !== "object") continue;
-    const e = entry as Record<string, unknown>;
-    const d = e.dayOfWeek;
-    if (typeof d !== "number" || d < 0 || d > 6) continue;
-    const w = dayWindow(e);
-    if (w && !byDay.has(d)) byDay.set(d, w);
-  }
-  if (byDay.size === 0) return null;
-  // Group consecutive days (Mon..Sun) sharing the same window.
-  const parts: string[] = [];
-  let runStart: number | null = null;
-  for (let d = 0; d <= 7; d++) {
-    const w = d <= 6 ? byDay.get(d) : undefined;
-    const prev = d > 0 ? byDay.get(d - 1) : undefined;
-    if (w && w === prev) continue; // extend current run
-    if (runStart != null && prev) {
-      const label =
-        runStart === d - 1
-          ? DAY_LABELS[runStart]
-          : `${DAY_LABELS[runStart]}-${DAY_LABELS[d - 1]}`;
-      parts.push(`${label} ${prev}`);
-    }
-    runStart = w ? d : null;
-  }
-  return parts.length ? parts.join("; ") : null;
+  const structured = parseStructuredHours(raw);
+  if (structured) return structuredHoursToDisplay(structured);
+  const remarks = (raw as Record<string, unknown>).remarks;
+  return typeof remarks === "string" && remarks.trim() ? remarks.trim() : null;
 }
 
 // services.fuelTypes integer enum -> readable label (authoritative schema).
@@ -233,6 +190,9 @@ function parseFrequencies(raw: unknown): FrequencyFact[] {
 export function mapOpenAipItem(item: Record<string, unknown>): NormalizedFacts {
   const coords = (item.geometry as { coordinates?: unknown[] })?.coordinates;
   const elev = item.elevation as Record<string, unknown> | undefined;
+  const hoursStructured: StructuredHours | null = parseStructuredHours(
+    item.hoursOfOperation,
+  );
   return {
     lat: Array.isArray(coords) ? num(coords[1]) : null,
     lon: Array.isArray(coords) ? num(coords[0]) : null,
@@ -242,6 +202,8 @@ export function mapOpenAipItem(item: Record<string, unknown>): NormalizedFacts {
     ppr: parsePpr(item.ppr),
     fuel: parseFuel(item),
     openingHours: parseOpeningHours(item.hoursOfOperation),
+    hoursStructured,
+    hoursSource: hoursStructured ? "openaip" : null,
     restaurant: hasFacility(item, 5),
     customs: hasFacility(item, 2),
     aerodromeType: typeof item.type === "number" ? item.type : null,

@@ -1,3 +1,5 @@
+import type { OpeningHoursSpecification } from "~/lib/opening-hours";
+
 interface Props {
   name: string;
   icaoCode?: string | null;
@@ -20,6 +22,11 @@ interface Props {
   sameAs?: string | null;
   // Google Maps link for the field -> schema.org `hasMap` (a map of the place).
   hasMap?: string | null;
+  // Structured operation hours -> schema.org `openingHoursSpecification`
+  // (canonical, machine-readable), generated from the field's structured hours.
+  // Empty -> omitted; the free-text "Opening hours" PropertyValue is the
+  // fallback for fields with only unstructured hours.
+  openingHoursSpecification?: OpeningHoursSpecification[];
   // Every remaining aerodrome/location datum with no first-class schema.org
   // property (aerodrome type, runway surface, fuel, PPR, opening hours, runways,
   // frequencies, restaurant, customs) as PropertyValue entries.
@@ -41,6 +48,7 @@ export function SchemaAirport({
   telephone,
   sameAs,
   hasMap,
+  openingHoursSpecification,
   additionalProperties,
 }: Props) {
   const geo =
@@ -87,6 +95,7 @@ export function SchemaAirport({
     ...(telephone ? { telephone } : {}),
     ...(sameAs ? { sameAs } : {}),
     ...(hasMap ? { hasMap } : {}),
+    ...(openingHoursSpecification?.length ? { openingHoursSpecification } : {}),
     ...(additionalProperty ? { additionalProperty } : {}),
   };
   return (

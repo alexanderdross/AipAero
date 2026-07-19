@@ -5,8 +5,9 @@ from urllib.parse import urljoin
 from bs4 import Tag
 
 from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.operating_hours import parse_ad23_text
 
-__all__ = ["HttpEurocontrolBase"]
+__all__ = ["HttpEurocontrolBase", "ad23_hours"]
 
 # The site's five airport categories; passed in by each crawler per section.
 AirportType = Literal["vfr", "ifr", "heliport", "mil", "aeroport"]
@@ -98,6 +99,36 @@ def ad21_name(page_text: str, icao: str) -> str | None:
     name = re.sub(rf"\s+{re.escape(icao)}$", "", name, flags=re.I).strip()
     name = _collapse_exact_dup(name)
     return name or None
+
+
+# The AD 2.3 "OPERATIONAL HOURS" section of an AD 2 page carries the aerodrome's
+# operational hours (plus admin / customs / ATS rows). Slice from the AD 2.3
+# heading to the next AD 2.x heading; the aerodrome's OWN hours are the first
+# operational-hours row, so a bounded head of the section is parsed (later
+# customs/ATS rows must not override the aerodrome window). The anchor id/title
+# pattern "<ICAO> AD 2.3 OPERATIONAL HOURS" is stable across eurocontrol eAIPs.
+_AD23_SECTION_RE = re.compile(
+    r"AD\s*2\.3\s*OPERATIONAL HOURS\b(.*?)(?:\bAD\s*2\.(?:4|\d\d)\b)",
+    re.I | re.S,
+)
+
+
+def ad23_hours(page_text: str):
+    """Structured operation hours from an AD 2 page's "AD 2.3 OPERATIONAL HOURS"
+    section (see crawlers.operating_hours). ``page_text`` is the page's collapsed
+    visible text. Returns a 7-day StructuredHours list, or None when the section
+    is absent / unparseable (fail-soft; the AUTHORITATIVE source, posted to
+    /api/airport-facts with hoursSource="eaip"). Best-effort per-country: the
+    conservative ``unknown`` bucket keeps a misparse safe. Module-level so any
+    eurocontrol crawler can call it on the AD 2 page it already fetches for the
+    AD 2.1 name."""
+    m = _AD23_SECTION_RE.search(page_text)
+    if not m:
+        return None
+    # Bound the slice to the first ~400 chars of the section (the aerodrome +
+    # administration rows) so downstream customs/fuelling rows (often O/R) do
+    # not shadow the aerodrome's own window.
+    return parse_ad23_text(m.group(1)[:400])
 
 
 def ad21_debug_snippet(page_text: str) -> str:

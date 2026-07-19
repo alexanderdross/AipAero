@@ -75,9 +75,26 @@ def test_build_row_shapes_the_api_payload() -> None:
         "elevationFt": 50,
         "runways": None,  # empty list -> null, not "[]"
         "frequencies": None,
+        "hoursStructured": None,  # no hoursOfOperation in this item
+        "hoursSource": None,
         "source": "openaip-backfill",
         "updatedAt": 1_700_000_000,
     }
+
+
+def test_build_row_carries_openaip_hours() -> None:
+    item = {
+        "geometry": {"coordinates": [7.0, 51.0]},
+        "hoursOfOperation": {
+            "operatingHours": [
+                {"dayOfWeek": 0, "startTime": "08:00", "endTime": "17:00"},
+            ]
+        },
+    }
+    row = build_row("EDXX", item, now=1_700_000_000)
+    assert row is not None
+    assert row["hoursSource"] == "openaip"
+    assert '"kind":"window"' in row["hoursStructured"]
 
 
 def test_ambiguous_turn_direction_yields_no_circuit() -> None:

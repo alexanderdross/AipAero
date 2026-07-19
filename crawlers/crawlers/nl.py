@@ -16,6 +16,7 @@ from crawlers.http_eurocontrol_base import (
     HttpEurocontrolBase,
     ad21_debug_snippet,
     ad21_name,
+    ad23_hours,
 )
 
 COUNTRY = "NL"
@@ -195,6 +196,11 @@ class NL(HttpEurocontrolBase):
                             f"NL: no AD 2.1 name for {icao}; "
                             f"markup: {ad21_debug_snippet(text)!r}"
                         )
+                    # AUTHORITATIVE operation hours from the same AD 2 page's
+                    # AD 2.3 section (main.py PATCHes them with source="eaip").
+                    hours = ad23_hours(text)
+                    if hours:
+                        self.hours_by_icao[icao] = hours
                 except Exception as e:  # fail-soft: keep the existing title
                     self.logger.warning(f"NL: {icao} name fetch failed: {e}")
 

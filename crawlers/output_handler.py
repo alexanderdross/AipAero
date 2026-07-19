@@ -30,6 +30,7 @@ import httpx
 
 from crawlers.http_eurocontrol_base import title_name_looks_bad
 from crawlers.models import Airport
+from crawlers.operating_hours import StructuredHours, to_json
 from settings import Settings
 
 DEFAULT_DROP_THRESHOLD = 0.5  # refuse if new count < 50% of last
@@ -243,3 +244,45 @@ class OutputHandler:
         self._last_counts[f"{country.upper()}::pdf"] = pdf_count
         self._save_counts()
         self.logger.info(f"Successfully wrote output for {country}.")
+
+    def _facts_endpoint(self) -> str:
+        """The /api/airport-facts URL, derived from the airports ingest endpoint
+        (they share a host). Strips any query string from api_endpoint first."""
+        base = self.settings.api_endpoint.split("?", 1)[0]
+        return base.rsplit("/api/", 1)[0] + "/api/airport-facts"
+
+    def publish_hours(
+        self,
+        hours_by_icao: dict[str, StructuredHours | None],
+        country: str,
+    ) -> None:
+        """Publish AUTHORITATIVE eAIP AD 2.3 operation hours (the structured
+        form from crawlers.operating_hours / ad23_hours) via PATCH
+        /api/airport-facts with hoursSource="eaip". Hours-only: it never touches
+        the base facts columns (coords/runways). Fully fail-soft - a hours POST
+        failure must never fail the airport crawl. Only ICAO-bearing fields with
+        parsed hours are sent (name-only fields are skipped)."""
+        rows = [
+            {
+                "icao": icao.upper(),
+                "hoursStructured": to_json(hours),
+                "hoursSource": "eaip",
+            }
+            for icao, hours in hours_by_icao.items()
+            if icao and hours is not None
+        ]
+        if not rows:
+            self.logger.info(f"{country}: no AD 2.3 hours to publish.")
+            return
+        url = self._facts_endpoint()
+        self.logger.info(f"{country}: publishing AD 2.3 hours for {len(rows)} fields")
+        try:
+            with httpx.Client(timeout=HTTP_TIMEOUT) as client:
+                response = client.patch(
+                    url,
+                    json=rows,
+                    headers={"Authorization": f"Bearer {self.settings.api_key}"},
+                )
+                response.raise_for_status()
+        except httpx.HTTPError as e:
+            self.logger.warning(f"{country}: failed to publish AD 2.3 hours: {e}")

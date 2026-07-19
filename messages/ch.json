@@ -240,7 +240,17 @@
     "aerodromeType": "Platzart",
     "surface": "Belag",
     "variable": "variable",
-    "calm": "calm"
+    "calm": "calm",
+    "statusOpen": "Jetzt geöffnet",
+    "statusClosed": "Geschlossen",
+    "closesAt": "schließt {time}",
+    "opensAt": "öffnet {time}",
+    "hoursAdvisory": "Richtwert - vor dem Flug per NOTAM / aktuellem AIP bestätigen.",
+    "hoursOfficial": "laut AIP AD 2.3",
+    "hoursCommunity": "Community-Daten",
+    "openUntil": "Geöffnet bis",
+    "filtersTab": "Filter",
+    "hoursTab": "Öffnungszeiten"
   },
   "Common": {
     "openIn": "Öffnen in",

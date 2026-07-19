@@ -182,6 +182,12 @@ def main(countries: list[str] | None = None):
             output_handler.write_output(
                 airports, country, airac=crawler.airac
             )
+            # Publish AUTHORITATIVE eAIP AD 2.3 operation hours, when the
+            # crawler collected them (hours-only PATCH, source="eaip"; empty
+            # for crawlers that do not read AD 2.3). Fail-soft inside.
+            hours_by_icao = getattr(crawler, "hours_by_icao", None)
+            if hours_by_icao:
+                output_handler.publish_hours(hours_by_icao, country)
         except Exception as e:
             # Per-country isolation: log and continue with the next crawler.
             logger.error(f"Error in crawler {crawler.country}: {e}")

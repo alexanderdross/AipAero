@@ -270,7 +270,17 @@
     "aerodromeType": "Lidlauka tips",
     "surface": "Segums",
     "variable": "mainīgs",
-    "calm": "bezvējš"
+    "calm": "bezvējš",
+    "statusOpen": "Open now",
+    "statusClosed": "Closed",
+    "closesAt": "closes {time}",
+    "opensAt": "opens {time}",
+    "hoursAdvisory": "Advisory - confirm via NOTAM / current AIP before flight.",
+    "hoursOfficial": "per AIP AD 2.3",
+    "hoursCommunity": "community data",
+    "openUntil": "Open until",
+    "filtersTab": "Filters",
+    "hoursTab": "Open hours"
   },
   "Common": {
     "openIn": "Atvērt vietnē",

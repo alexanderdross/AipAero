@@ -36,6 +36,8 @@ from urllib.parse import urlparse
 
 import httpx
 
+from crawlers.operating_hours import parse_openaip_hours, to_json
+
 OPENAIP_API = "https://api.core.openaip.net/api/airports"
 BATCH_SIZE = 100  # rows per POST, same as import_ourairports.py
 REQUEST_DELAY_S = 0.2  # polite pacing between OpenAIP lookups
@@ -147,6 +149,9 @@ def map_openaip_item(item: dict[str, object]) -> dict[str, object | None]:
         else None,
         "runways": _parse_runways(item.get("runways")),
         "frequencies": _parse_frequencies(item.get("frequencies")),
+        # Structured operation hours (see crawlers.operating_hours); None when
+        # OpenAIP carries no machine-readable hoursOfOperation for the field.
+        "hoursStructured": parse_openaip_hours(item.get("hoursOfOperation")),
     }
 
 
@@ -202,6 +207,7 @@ def build_row(icao: str, item: dict[str, object], now: int) -> dict[str, object]
     facts = map_openaip_item(item)
     if facts["lat"] is None or facts["lon"] is None:
         return None
+    hours_json = to_json(facts["hoursStructured"])
     return {
         "icao": icao,
         "lat": facts["lat"],
@@ -211,6 +217,9 @@ def build_row(icao: str, item: dict[str, object], now: int) -> dict[str, object]
         "frequencies": json.dumps(facts["frequencies"])
         if facts["frequencies"]
         else None,
+        # OpenAIP community hours (eAIP wins via the API's precedence rule).
+        "hoursStructured": hours_json,
+        "hoursSource": "openaip" if hours_json else None,
         "source": SOURCE,
         "updatedAt": now,
     }

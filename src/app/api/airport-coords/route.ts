@@ -93,6 +93,11 @@ async function handleCoords(request: Request): Promise<NextResponse> {
         customs: true,
       }),
       ...(hasPavedRunway(a.runways) && { paved: true }),
+      // Structured operation hours (JSON) for the "open now / open until X"
+      // map filter, forwarded verbatim; omitted when the field has none so the
+      // Operating-hours tab hides. Small (~7 short objects) and only on fields
+      // that actually carry hours.
+      ...(a.hoursStructured ? { hours: a.hoursStructured } : {}),
     }));
 
   return NextResponse.json(markers, {

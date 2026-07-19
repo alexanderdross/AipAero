@@ -77,6 +77,8 @@ export async function getAwcAirport(
       ppr: null,
       fuel: [],
       openingHours: null,
+      hoursStructured: null,
+      hoursSource: null,
       restaurant: null,
       customs: null,
       aerodromeType: null,
