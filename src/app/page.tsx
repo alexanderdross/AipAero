@@ -26,6 +26,7 @@ import { SchemaProduct } from "~/components/schemas/schema-product";
 import { SchemaOrganization } from "~/components/schemas/schema-organization";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
+import { WebVitalsReporter } from "~/components/web-vitals-reporter";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import { inter } from "~/lib/fonts";
 import { isSingleLocale, routing } from "~/i18n/routing";
@@ -585,6 +586,8 @@ export default async function RootPage() {
         <Footer global />
         {/* Offline PWA: registers /sw.js after load (production hosts only). */}
         <ServiceWorkerRegistration />
+        {/* First-party Web-Vitals beacon (production hosts only). */}
+        <WebVitalsReporter />
         {/* Merge byte-identical duplicate JSON-LD nodes (Workers serving-path
             artifact - see the component's doc comment). */}
         <SchemaDedupe />
