@@ -38,7 +38,7 @@ Consequences:
 Since OpenAIP is out, non-eurocontrol hours must come from the national AIP itself. The **`ad23_hours()` parser is source-agnostic** (it takes collapsed page text), so:
 
 - **PDF AD 2 text** - the reference path, **live-proven on ES/ENAIRE (50/51 aerodromes)**. ENAIRE's `LE_AD_2_<ICAO>_en.html` page carries only the AD 2.1 name; the AD 2.3 OPERATIONAL HOURS table lives in the **full-document PDF** (`LE_AD_2_<ICAO>_en.pdf`, same path). `es.py` fetches that PDF (sibling of the page it already reads for the name), extracts text via `HttpCrawlerBase.pdf_text()` (pypdf, lazy import, fail-soft), and runs the **source-agnostic `ad23_hours()`** - no parser change needed. ENAIRE's row-1 shape `1 Airport V: 0430-2230; I: 0530-2330 ...` isolates correctly (row-2 number marker), yielding the VFR window (LECO -> 04:30-22:30), the AIS/ARO `H24` ignored. Cost: one extra ~2.4 MB PDF fetch per field (~120 MB / ES crawl, ~2-3 min). Same recipe applies to **GR/HASP, RO/AISRO, LT** (per-country: find the AD 2 **text** PDF, confirm `pypdf` linearises it - the live-test `pdf_dump` input).
-- **HTML AD 2 pages that ARE non-eurocontrol but inline the AD 2.3 text** (e.g. DE/DFS, if present): run `ad23_hours()` directly on the page text the crawler already has - no PDF fetch. (ES turned out NOT to be this - its HTML has no AD 2.3.)
+- **HTML AD 2 pages that ARE non-eurocontrol but inline the AD 2.3 text**: run `ad23_hours()` directly on the page text the crawler already has - no PDF fetch. (ES turned out NOT to be this - its HTML has no AD 2.3. **DE/DFS is not this either** - see the DE recon below.)
 - **Gated/licensed** (EAD): structured but not open.
 
 `main.py` publishes `hours_by_icao` for **any** crawler (a `getattr`, not eurocontrol-gated), so a non-eurocontrol crawler that populates `self.hours_by_icao` (like `es.py`) publishes AD 2.3 hours with no extra wiring.
@@ -128,6 +128,15 @@ Validated live per country (AD 2.3 fields collected / total; the rest fall back 
 | MK      | 0/2       | -> OpenAIP (safe)                                                             |
 
 The pattern holds: standard eurocontrol eAIPs collect the large majority of fields; deviating producers (portal-reference, AD-4-only, or un-isolatable) fall back to OpenAIP with **no** false "open". EHBD/EHAM were the reference recon (run 29685082575).
+
+### DE (Germany, ~792 fields) - recon dead-end, NOT structured-extractable via httpx
+
+DE is the single largest coverage lever, but DFS **BasicVFR/BasicIFR is not ICAO AD 2.3**, so `ad23_hours()` never applied. A dedicated two-round live recon (temporary `de.py` debug, since DFS is unreachable from the sandbox) confirmed the source is a dead-end for httpx:
+
+- Round 1 - the per-field permalink chapter pages (`.../BasicVFR/<AIRAC>/pages/C<NNNNN>.html`) are **navigation shells**: title + ICAO + `myPermalink` only, no operating-hours text.
+- Round 2 - followed each page's `a.document-link` to the aerodrome **data sub-documents** (`.../pages/<HASH>.html`). For all three probed fields (EDKA, EDPA, EDXA) and both sub-documents each, the extracted text was a **764-793 char DFS "Permanent Link" boilerplate shell** - every keyword probe (`Betriebszeit`, `Flugbetrieb`, `Operating`, `PPR`, `H24`, `HX`, `SR`) returned no match.
+
+The actual AD 2 aerodrome data is **client-rendered (JS)** and absent from the static HTML httpx retrieves. So DE hours are **not extractable via httpx** - a `PlaywrightCrawlerBase` render would be needed for ~792 fields per crawl (heavy, and de.py is deliberately `HttpCrawlerBase`), and even then DFS BasicVFR is not the ICAO AD 2.3 grammar `ad23_hours()` parses. Per the plan's decision gate ("if DE hours are only free-text/PPR-style with no parseable schedule, stop at documenting it rather than shipping a low-value parser"), **DE is documented as not-structured and left to the OpenAIP/OSM fallbacks**, not built. The DE fields keep the honest `Weather.hoursNone` note where no source has hours.
 
 ## Deployment / migration hazard
 
