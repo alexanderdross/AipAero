@@ -161,8 +161,13 @@ export function ContactForm({
   }
 
   const fieldLabel = "block text-sm font-medium text-drossgray-dark";
+  // Grey fill (drossgray, #f0f2f2) on the white card, with a solid drossgray-dark
+  // (#626262) border so the field boundary clears WCAG 1.4.11 non-text contrast
+  // (~6:1 vs the white card, ~5:1 vs the fill) - the former bg-white + /20 border
+  // was well under the 3:1 minimum. Text stays near-black on the light fill
+  // (AA text contrast); focus swaps the border/ring to drossblue.
   const fieldInput =
-    "mt-1 block w-full rounded-md border border-drossgray-dark/20 bg-white px-3 py-2 text-base shadow-sm focus-visible:border-drossblue focus-visible:ring-1 focus-visible:ring-drossblue focus-visible:outline-none";
+    "mt-1 block w-full rounded-md border border-drossgray-dark bg-drossgray px-3 py-2 text-base shadow-sm focus-visible:border-drossblue focus-visible:ring-1 focus-visible:ring-drossblue focus-visible:outline-none";
 
   if (status === "success") {
     return (
