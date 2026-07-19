@@ -95,6 +95,8 @@ export const routing = defineRouting({
     "tm-EN",
     "kg",
     "kg-EN",
+    "au",
+    "nz",
   ],
   defaultLocale: "uk",
   localePrefix: {
@@ -259,6 +261,8 @@ export const routing = defineRouting({
       "tm-EN": "/airport-list-turkmenistan",
       kg: "/kyrgyzstan-aeroporttor-tizmesi",
       "kg-EN": "/airport-list-kyrgyzstan",
+      au: "/airport-list-australia",
+      nz: "/airport-list-new-zealand",
     },
   },
   localeCookie: false,
@@ -448,6 +452,10 @@ export const localeLangMapping: Record<
   // branches key on the PREFIX "kg"; the hreflang uses "ky".
   kg: "ky",
   "kg-EN": "en",
+  // Australia / New Zealand: single English locale (like uk/ie/mt) - English is
+  // the aviation language, so no `-EN` twin.
+  au: "en",
+  nz: "en",
 };
 
 export const localeCountryMapping: Record<
@@ -546,4 +554,6 @@ export const localeCountryMapping: Record<
   "tm-EN": "tm",
   kg: "kg",
   "kg-EN": "kg",
+  au: "au",
+  nz: "nz",
 };

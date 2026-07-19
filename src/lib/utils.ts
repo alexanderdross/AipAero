@@ -165,6 +165,12 @@ export const countryTypeAvailability: Record<string, Airport["type"][]> = {
   tj: ["vfr"],
   tm: ["vfr"],
   kg: ["vfr"],
+  // AU / NZ: info-pages (Oceania). Australia's DAP charts are a paid Airservices
+  // subscription; New Zealand's aip.net.nz is an Incapsula-WAF WebForms portal
+  // with no static chart tree - so no chart crawl. OurAirports aerodrome list,
+  // all "vfr", each linking the official portal (see gatedCountries).
+  au: ["vfr"],
+  nz: ["vfr"],
 };
 
 /**
@@ -190,6 +196,8 @@ export const gatedCountries = new Set<string>([
   "tj",
   "tm",
   "kg",
+  "au",
+  "nz",
 ]);
 
 /** True if `country` (two-letter code) links a gated (login/paywall) AIP portal. */
@@ -473,6 +481,15 @@ export const liveCountries: string[] = [
   "tj",
   "tm",
   "kg",
+  // Australia + New Zealand (19.07.2026): the first Oceania countries, onboarded
+  // as info-pages. Australia's DAP charts are a paid Airservices subscription and
+  // New Zealand's aip.net.nz is an Incapsula-WAF WebForms portal with no static
+  // chart tree, so - like CH/MT/IT - no chart crawl: au.py / nz.py read the
+  // aerodromes from OurAirports and point each at the official AIP portal (gated).
+  // OpenAIP data + weather come from the website. First data published via the
+  // manual crawl dispatch on launch day.
+  "au",
+  "nz",
 ];
 
 // English-facing display metadata per country, keyed by the two-letter code.
@@ -550,4 +567,6 @@ export const countryMeta: Record<
   tj: { lang: "tg", name: "Tajikistan", flag: "🇹🇯", nativeLang: "Tajik" },
   tm: { lang: "tk", name: "Turkmenistan", flag: "🇹🇲", nativeLang: "Turkmen" },
   kg: { lang: "ky", name: "Kyrgyzstan", flag: "🇰🇬", nativeLang: "Kyrgyz" },
+  au: { lang: "en", name: "Australia", flag: "🇦🇺", nativeLang: "English" },
+  nz: { lang: "en", name: "New Zealand", flag: "🇳🇿", nativeLang: "English" },
 };

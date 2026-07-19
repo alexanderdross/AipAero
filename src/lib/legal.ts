@@ -182,6 +182,16 @@ export const AIP_SOURCES: { cc: string; name: string; url: string }[] = [
     name: "Kyrgyzaeronavigatsia (Кыргызстан)",
     url: "https://ansp.kg",
   },
+  {
+    cc: "au",
+    name: "Airservices Australia",
+    url: "https://www.airservicesaustralia.com/aip/aip.asp",
+  },
+  {
+    cc: "nz",
+    name: "Aeropath / Airways New Zealand",
+    url: "https://www.aip.net.nz",
+  },
 ];
 
 /** Embedded external data sources - descriptors translated inline (en / de). */

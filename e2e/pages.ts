@@ -102,6 +102,8 @@ const countryPages: TestPage[] = [
   { path: "/tm/en/", lang: "en", label: "country tm-EN" },
   { path: "/kg/", lang: "ky", label: "country kg" },
   { path: "/kg/en/", lang: "en", label: "country kg-EN" },
+  { path: "/au/", lang: "en", label: "country au" },
+  { path: "/nz/", lang: "en", label: "country nz" },
 ];
 
 // Airport-list pages — localized slugs per locale.
@@ -204,6 +206,8 @@ const airportListPages: TestPage[] = [
   },
   { path: "/kg/kyrgyzstan-aeroporttor-tizmesi/", lang: "ky", label: "list kg" },
   { path: "/kg/en/airport-list-kyrgyzstan/", lang: "en", label: "list kg-EN" },
+  { path: "/au/airport-list-australia/", lang: "en", label: "list au" },
+  { path: "/nz/airport-list-new-zealand/", lang: "en", label: "list nz" },
 ];
 
 // Search pages — only where the type is available for the country.
@@ -311,6 +315,8 @@ const searchPages: TestPage[] = [
   { path: "/tm/en/vfr/", lang: "en", label: "vfr tm-EN" },
   { path: "/kg/vfr/", lang: "ky", label: "vfr kg" },
   { path: "/kg/en/vfr/", lang: "en", label: "vfr kg-EN" },
+  { path: "/au/vfr/", lang: "en", label: "vfr au" },
+  { path: "/nz/vfr/", lang: "en", label: "vfr nz" },
 ];
 
 // Legal pages - single-language, paired by topic and cross-linked with
