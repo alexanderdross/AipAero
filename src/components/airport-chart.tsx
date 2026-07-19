@@ -95,7 +95,7 @@ export async function AirportChart({
                 href={hub.chartsTerm}
                 title={tFooter("glossary.hrefTitle")}
                 aria-label={tFooter("glossary.hrefTitle")}
-                className="text-drossgray-dark hover:text-drossblue inline-flex"
+                className="text-drossgray-dark hover:text-drossblue inline-flex min-h-6 min-w-6 items-center justify-center align-middle"
               >
                 <CircleHelpIcon
                   className="h-3.5 w-3.5 flex-shrink-0"
@@ -143,7 +143,7 @@ export async function AirportChart({
                         <ExternalLink
                           href={chart.url}
                           hrefTitle={`${cleanChartName(chart.name)} (PDF)`}
-                          className="text-drossblue break-words hover:underline"
+                          className="text-drossblue block py-1.5 break-words hover:underline"
                         >
                           {chartDisplayName(chart.name, lang)}
                         </ExternalLink>
