@@ -5,6 +5,7 @@ import { AirportChart } from "~/components/airport-chart";
 import { AirportContact } from "~/components/airport-contact";
 import { AirportFacts } from "~/components/airport-facts";
 import { AirportNearby } from "~/components/airport-nearby";
+import { AirportRunwayDiagram } from "~/components/airport-runway-diagram";
 import { AirportWeatherWind } from "~/components/airport-weather-wind";
 import { RecentTracker } from "~/components/recent-tracker";
 import { SchemaAirport } from "~/components/schemas/schema-airport";
@@ -393,6 +394,10 @@ export async function AirportGadgets({
         {/* Trade:Aero cross-sell (locale + country aware), above the weather
             box - same discreet SSR text CTA as on the country / list pages. */}
         <TradeAeroCta />
+        {/* Scaled runway-layout diagram (SSR): the physical field geometry to
+            RELATIVE length + surface colour. Sits next to the wind box and,
+            unlike it, renders for every field with runways (no METAR needed). */}
+        <AirportRunwayDiagram runways={facts?.runways ?? []} />
         {/* Ephemeral weather + wind: lazy-loaded client-side. The Weather i18n
             namespace is scoped to this client subtree. */}
         <NextIntlClientProvider messages={pick(messages, "Weather")}>
