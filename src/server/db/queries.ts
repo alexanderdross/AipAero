@@ -11,6 +11,7 @@ import {
   like,
   or,
   sql,
+  type SQL,
 } from "drizzle-orm";
 import { unstable_cache, revalidateTag } from "next/cache";
 import { cache } from "react";
@@ -525,14 +526,19 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
+// Precedence RANK for the structured operation hours: `eaip` (3, authoritative)
+// > `openaip` (2, community) > `osm` (1, community OSM fallback) > none (0).
+const hoursRank = (col: SQL) =>
+  sql`CASE ${col} WHEN 'eaip' THEN 3 WHEN 'openaip' THEN 2 WHEN 'osm' THEN 1 ELSE 0 END`;
 // Precedence for the structured operation hours on an upsert (see
 // docs/operation-hours-concept.md): an incoming value replaces the stored one
-// only when it is authoritative (`eaip`) OR the stored value is not `eaip` - so
-// a later community (`openaip`) run can never clobber eAIP hours - AND it is
-// non-null (COALESCE-preserve: a null incoming value means "don't know"). Fresh
-// sql each call so the fragment is never shared across statements.
+// only when it is non-null (COALESCE-preserve: null means "don't know") AND its
+// source rank is >= the stored rank - so a lower-precedence source (osm) can
+// never clobber a higher one (openaip/eaip), a fresh same-source value still
+// refreshes, and eAIP always wins. Fresh sql each call so the fragment is never
+// shared across statements.
 const hoursGuard = () =>
-  sql`(excluded.hours_source = 'eaip' OR ${airportFacts.hoursSource} IS NULL OR ${airportFacts.hoursSource} <> 'eaip') AND excluded.hours_structured IS NOT NULL`;
+  sql`excluded.hours_structured IS NOT NULL AND (${airportFacts.hoursSource} IS NULL OR ${hoursRank(sql`excluded.hours_source`)} >= ${hoursRank(sql`${airportFacts.hoursSource}`)})`;
 const hoursStructuredSet = () =>
   sql`CASE WHEN ${hoursGuard()} THEN excluded.hours_structured ELSE ${airportFacts.hoursStructured} END`;
 const hoursSourceSet = () =>

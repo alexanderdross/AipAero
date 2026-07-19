@@ -37,7 +37,7 @@ export interface NormalizedFacts {
   // the "open now / open until X" badge + map filter (opening-hours.ts). Null
   // when the source carries no machine-readable hours (only free text/remarks).
   hoursStructured: StructuredHours | null;
-  hoursSource: string | null; // "eaip" (authoritative) | "openaip" (community)
+  hoursSource: string | null; // "eaip" (authoritative) | "openaip" | "osm" (community)
   restaurant: boolean | null; // on-field restaurant
   customs: boolean | null; // customs / airport of entry
   aerodromeType: number | null; // OpenAIP airport `type` enum (label resolved in UI)

@@ -8,18 +8,19 @@
 // `crawlers/crawlers/operating_hours.py` (shared test vectors) for the eAIP
 // AD 2.3 crawler path.
 //
-// Times are stored as MINUTES AFTER LOCAL MIDNIGHT (0..1439). Field local time
-// is approximated from LONGITUDE (15deg = 1h), the same solar basis
-// `sun-times.ts` uses - it ignores political timezone boundaries and DST. This
-// is acceptable under the feature's advisory framing ("confirm via NOTAM/AIP");
-// a precise IANA-timezone lookup is a documented future refinement.
+// Times are stored as MINUTES AFTER UTC MIDNIGHT (0..1439). AIP AD 2.3 hours are
+// published in UTC (ICAO Annex 15; aviation "Zulu"), and pilots plan in UTC, so
+// the whole model is UTC - `openStatus`/`isOpenUntil` compute the day-of-week
+// and minute-of-day in UTC, and the UI labels times with `Z` / "UTC". Sources
+// whose hours are LOCAL (e.g. OpenStreetMap) must convert to UTC before building
+// a `{ t: "time" }` boundary (see `osm-hours.ts`).
 
 import { getSunTimes } from "~/lib/sun-times";
 
 // One boundary of a day's opening window: a fixed clock time, or a solar event
 // (resolved per-day from coordinates at read time).
 export type Boundary =
-  | { t: "time"; m: number } // minutes after local midnight
+  | { t: "time"; m: number } // minutes after UTC midnight
   | { t: "sr" } // sunrise
   | { t: "ss" }; // sunset
 
@@ -38,9 +39,9 @@ export type StructuredHours = DayHours[];
 
 export interface ResolvedStatus {
   state: "open" | "closed" | "unknown";
-  // When open: the local minute the field closes (undefined for h24).
+  // When open: the UTC minute-of-day the field closes (undefined for h24).
   closesAt?: number;
-  // When closed but opening later the same local day: the local opening minute.
+  // When closed but opening later the same UTC day: the UTC opening minute.
   opensAt?: number;
 }
 
