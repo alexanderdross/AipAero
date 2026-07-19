@@ -22,8 +22,13 @@ import { SchemaProduct } from "~/components/schemas/schema-product";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
 
-// All slugs besides the static ones will be 404
-export const dynamicParams = false;
+// Every valid locale is prerendered by generateStaticParams() below.
+// dynamicParams = true lets a KNOWN locale self-heal via on-demand SSR when its
+// OpenNext R2 incremental-cache entry is missing (post-deploy empty-cache
+// window / eviction) instead of returning a hard NoFallbackError 404. Unknown
+// locales are still rejected: the [locale] layout calls notFound() for any slug
+// not in routing.locales, and unknown sub-paths 404 at the router.
+export const dynamicParams = true;
 
 // ISR safety net: a deploy seeds the incremental cache with the build's EMPTY
 // prerender (the build has no DB). The post-deploy /api/revalidate call and
