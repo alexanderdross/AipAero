@@ -11,7 +11,7 @@ import { haversineKm } from "~/lib/distance";
 // VFR fields have no reporting station).
 
 const API = "https://aviationweather.gov/api/data";
-const REVALIDATE = 600; // 10 minutes
+const REVALIDATE = 900; // 15 minutes
 // Keep this tight: the fetch is awaited during SSR (the page is buffered, not
 // streamed, because of `htmlLimitedBots`), so a slow upstream directly delays
 // TTFB on a cache miss. Fail soft to no-weather rather than hold the response.

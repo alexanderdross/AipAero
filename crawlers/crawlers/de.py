@@ -78,10 +78,14 @@ _MONTHS = {
     "NOV": "11", "DEC": "12",
 }
 
-# A content-page anchor on a rendered leaf landing is labelled "<ICAO> <n>"
-# (the AD-2 book pages, e.g. "EDNY 1" = Sichtflugkarte, "EDNY 2" =
-# Flugplatzkarte, further pages = the big fields' typeset text sheets).
-_PAGE_LABEL_RE = re.compile(r"^([A-Z]{4})\s+\d+$")
+# A content-page anchor on a rendered leaf landing is labelled
+# "AD 2 <ICAO> <section>-<page>" (verified live 19.07.2026, e.g.
+# "AD 2 EDNY 1-3", "AD 2 EDNY 2-5 Aerodrome Chart", "AD 2 EDNY 4-2-1 ..."). In
+# the ICAO AD 2 book, **section 1** ("1-<n>") is the typeset TEXT (AD 2.1-2.25
+# prose + tables) - exactly what we want to OCR; sections 2-5 are chart images
+# (dropped by is_text_page anyway). Matching only the 1-<n> series keeps the
+# per-field fetch/OCR budget small (~8-10 pages, not the whole 30+-page book).
+_TEXT_PAGE_RE = re.compile(r"^AD\s*2\s+([A-Z]{4})\s+1-\d")
 
 
 class DE(PlaywrightCrawlerBase):
@@ -349,6 +353,11 @@ class DE(PlaywrightCrawlerBase):
         """
         from crawlers.de_ocr import biggest_png, is_text_page, ocr_image
 
+        # This runs AFTER crawl(), whose `finally` closed the httpx client -
+        # reopen it, else every content-page _fetch() below raises "client has
+        # been closed" (silently swallowed -> 0 fields).
+        self.ensure_client_open()
+
         only = os.environ.get("DE_OCR_ICAOS")
         allow = {c.strip().upper() for c in only.split(",") if c.strip()} if only else None
         fields = [a for a in airports if a.icao and (allow is None or a.icao in allow)]
@@ -370,10 +379,11 @@ class DE(PlaywrightCrawlerBase):
                 self.logger.warning(f"DE OCR: render failed for {icao}: {e}")
                 continue
             base = getattr(self, "last_url", ap.url)
-            # Content-page anchors labelled "<ICAO> <n>" (dedup, keep order).
+            # Content-page anchors: the AD 2 book's section-1 TEXT pages for
+            # THIS field ("AD 2 <ICAO> 1-<n>"), dedup + keep order.
             hrefs: list[str] = []
             for a in self.soup(landing).find_all("a", href=True):
-                m = _PAGE_LABEL_RE.match(a.get_text(" ", strip=True))
+                m = _TEXT_PAGE_RE.match(a.get_text(" ", strip=True))
                 if m and m.group(1) == icao:
                     hrefs.append(a["href"])
             texts: list[str] = []

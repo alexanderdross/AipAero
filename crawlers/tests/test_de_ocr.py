@@ -1,6 +1,7 @@
 """Tests for the DE OCR text-vs-chart page discriminator, using REAL OCR
 output captured live (crawler-live-test, 19.07.2026) from DFS BasicVFR."""
 
+from crawlers.de import _TEXT_PAGE_RE
 from crawlers.de_ocr import biggest_png, is_text_page
 
 # EDNY "VFR-Flugverfahren" - a big field's TEXT page (keep). Trimmed real OCR.
@@ -58,3 +59,19 @@ def test_biggest_png_picks_largest():
 
 def test_biggest_png_none_when_absent():
     assert biggest_png("<html>no images</html>") is None
+
+
+def test_text_page_anchor_regex():
+    # Real anchor labels from the rendered EDNY landing (live 19.07.2026): the
+    # AD 2 book's section-1 pages are the TEXT sheets; 2-x/3-x/4-x/5-x are charts.
+    for label in ("AD 2 EDNY 1-3 AD 2 EDNY 1-3", "AD 2 EDDH 1-10"):
+        m = _TEXT_PAGE_RE.match(label)
+        assert m is not None and m.group(1) == label.split()[2]
+    # Chart pages and unrelated labels must NOT match (kept out of the OCR set).
+    for label in (
+        "AD 2 EDNY 2-5 Aerodrome Chart - ICAO",
+        "AD 2 EDNY 4-2-1 INSTRUMENT APPROACH CHART",
+        "EDNY 1",
+        "Legal Notice",
+    ):
+        assert _TEXT_PAGE_RE.match(label) is None

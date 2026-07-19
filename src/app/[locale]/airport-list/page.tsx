@@ -261,9 +261,14 @@ async function AirportLists({ locale }: { locale: string }) {
             {tCommon("bulkScope")}{" "}
             {/* Permanent underline: inside the gray note the blue alone is
                 not distinguishable enough (axe link-in-text-block). */}
+            {/* Descriptive accessible name (Lighthouse "links have descriptive
+                text"): the visible "More info" is too generic on its own, so
+                aria-label appends the EFB destination. It STARTS with the
+                visible text so speech-input still matches it (WCAG label-in-name). */}
             <a
               href={efbHref}
               title={tFooter("efb.hrefTitle")}
+              aria-label={`${tCommon("moreInfo")} - ${tFooter("efb.hrefTitle")}`}
               className="text-drossblue underline"
             >
               {tCommon("moreInfo")}

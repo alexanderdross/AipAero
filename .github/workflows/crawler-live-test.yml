@@ -58,6 +58,10 @@ on:
         description: "DK-only: walk the Naviair Umbraco JSON tree to the GEN 1.2 / AD 1.x customs documents, download the PDFs and dump their text (customs/entry aerodromes - source for src/lib/customs-overrides.ts). Set to 1 to run."
         required: false
         default: ""
+      de_ocr:
+        description: "DE-only: OCR the DFS AD-2 page images (base64 PNGs) of these space-separated ICAOs and print the extracted text - validates the DE OCR quality WITHOUT publishing (Phase F2). E.g. 'EDNY EDDH'."
+        required: false
+        default: ""
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
@@ -1395,4 +1399,61 @@ jobs:
                   crawler.close()
               except Exception:
                   pass
+          PY
+
+      # Optional (Phase F2): DE-only OCR validation. DFS serves each AD-2 book
+      # page as a base64 PNG, so the ONLY route to any DE AD-2 datum is OCR
+      # (crawlers/crawlers/de_ocr.py). This crawls DE (httpx, fast), then runs
+      # collect_ad2_ocr restricted to the given ICAOs (DE_OCR_ICAOS) and prints
+      # the recognised text so its quality can be eyeballed against the DFS
+      # page - WITHOUT publishing. Kept last so the output lands in the log tail.
+      - name: DE AD-2 OCR recon
+        if: ${{ inputs.de_ocr != '' }}
+        continue-on-error: true
+        env:
+          # Restrict collect_ad2_ocr to the requested fields (comma-separated).
+          DE_OCR_ICAOS: ${{ inputs.de_ocr }}
+        run: |
+          export DE_OCR_ICAOS="$(echo '${{ inputs.de_ocr }}' | tr ' ' ',')"
+          echo "DE OCR recon for: $DE_OCR_ICAOS"
+          uv run python - <<'PY'
+          # DEEP probe: for each matched "AD 2 <ICAO> 1-<n>" text page, report
+          # whether the content is real HTML TEXT (get_text) or a base64 PNG
+          # image (biggest_png) - decides OCR vs direct text extraction.
+          import logging, os
+          from urllib.parse import urljoin
+          logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+          from crawlers.de import DE, _TEXT_PAGE_RE
+          from crawlers.de_ocr import biggest_png, is_text_page, ocr_image
+
+          allow = {c.strip().upper() for c in os.environ["DE_OCR_ICAOS"].split(",") if c.strip()}
+          crawler = DE()
+          airports = crawler.crawl()
+          crawler.ensure_client_open()  # crawl() closed the httpx client
+          fields = [a for a in airports if a.icao and a.icao in allow]
+          print(f"\n##### matched {len(fields)} field(s): {[(a.icao, a.airport_type) for a in fields]}")
+          for ap in fields:
+              print(f"\n===== {ap.icao} [{ap.airport_type}] landing {ap.url}")
+              try:
+                  html = crawler.render_html(ap.url)
+              except Exception as e:
+                  print(f"  render FAILED: {type(e).__name__}: {e}"); continue
+              base = getattr(crawler, "last_url", ap.url)
+              hrefs = []
+              for a in crawler.soup(html).find_all("a", href=True):
+                  m = _TEXT_PAGE_RE.match(a.get_text(" ", strip=True))
+                  if m and m.group(1) == ap.icao:
+                      hrefs.append((a.get_text(" ", strip=True)[:24], a["href"]))
+              print(f"  {len(hrefs)} text-page match(es): {[t for t, _ in hrefs]}")
+              for label, h in list(dict.fromkeys(hrefs))[:2]:
+                  url2 = urljoin(base, h)
+                  _, page_html = crawler._fetch(url2)
+                  txt = " ".join(crawler.soup(page_html).get_text(" ").split())
+                  png = biggest_png(page_html)
+                  print(f"  --- {label}: html={len(page_html)} get_text={len(txt)} png={len(png) if png else 0}")
+                  print(f"      get_text head: {txt[:400]}")
+                  if png:
+                      o = ocr_image(png)
+                      print(f"      OCR {len(o)} chars is_text={is_text_page(o)} head: {o[:300]}")
+          crawler.close()
           PY
