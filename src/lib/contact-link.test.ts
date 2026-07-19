@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { contactUrlFor, sanitizeIcao, sanitizeRef } from "~/lib/contact-link";
+import {
+  buildContactPrefill,
+  contactUrlFor,
+  sanitizeIcao,
+  sanitizeRef,
+} from "~/lib/contact-link";
 
 describe("contactUrlFor", () => {
   it("routes German-native locales to /de/kontakt/", () => {
@@ -68,5 +73,51 @@ describe("sanitizeRef", () => {
     expect(sanitizeRef("a b")).toBeNull();
     expect(sanitizeRef("")).toBeNull();
     expect(sanitizeRef(undefined)).toBeNull();
+  });
+});
+
+describe("buildContactPrefill", () => {
+  it("prefills ICAO + English subject/message from ?icao=", () => {
+    expect(buildContactPrefill({ icao: "edny" }, "en")).toEqual({
+      initialIcao: "EDNY",
+      initialSubject: "Data correction: EDNY",
+      initialMessage: expect.stringContaining("EDNY"),
+    });
+  });
+
+  it("uses German copy for the German page", () => {
+    expect(buildContactPrefill({ icao: "EDDF" }, "de")).toEqual({
+      initialIcao: "EDDF",
+      initialSubject: "Datenkorrektur: EDDF",
+      initialMessage: expect.stringContaining("EDDF"),
+    });
+  });
+
+  it("falls back to the ?ref slug with an empty ICAO input", () => {
+    const p = buildContactPrefill({ ref: "some-helipad" }, "en");
+    expect(p.initialIcao).toBe("");
+    expect(p.initialSubject).toBe("Data correction: SOME-HELIPAD");
+  });
+
+  it("prefers ?icao over ?ref when both are present", () => {
+    expect(buildContactPrefill({ icao: "EDNY", ref: "helipad" }, "en")).toEqual(
+      {
+        initialIcao: "EDNY",
+        initialSubject: "Data correction: EDNY",
+        initialMessage: expect.stringContaining("EDNY"),
+      },
+    );
+  });
+
+  it("takes the first value when a param repeats", () => {
+    expect(
+      buildContactPrefill({ icao: ["EDNY", "EDDF"] }, "en").initialSubject,
+    ).toBe("Data correction: EDNY");
+  });
+
+  it("returns an empty object for no / invalid reference", () => {
+    expect(buildContactPrefill({}, "en")).toEqual({});
+    expect(buildContactPrefill({ icao: "NOT_AN_ICAO" }, "en")).toEqual({});
+    expect(buildContactPrefill({ ref: "bad/slug" }, "de")).toEqual({});
   });
 });

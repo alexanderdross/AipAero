@@ -104,7 +104,11 @@ export async function sendContactEmail(msg: ContactMessage): Promise<void> {
   const port = Number(env.SMTP_PORT ?? "587");
   const from = env.SMTP_FROM ?? username;
 
-  const icao = msg.icao?.trim();
+  // Belt-and-braces: strip anything but alphanumerics before the ICAO reaches
+  // the mail headers/body (the API schema already enforces this, but the mail
+  // composer must not assume its caller validated - a stray CR/LF must never
+  // reach the Subject line).
+  const icao = msg.icao?.replace(/[^A-Za-z0-9]/g, "");
   const baseSubject = msg.subject
     ? `[AIP:Aero] ${msg.subject}`
     : `[AIP:Aero] Contact from ${msg.name}`;
