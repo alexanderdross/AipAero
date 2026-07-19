@@ -117,6 +117,11 @@ class HttpCrawlerBase:
             headers={"User-Agent": DEFAULT_USER_AGENT},
             http2=False,
         )
+        # Proxy / CA / legacy-TLS kwargs last applied via `_rebuild_client`, so
+        # the client can be reopened with the SAME config after crawl() closes
+        # it (see `ensure_client_open` - used by the post-crawl AD 2.3 fetch to
+        # still reach broken-chain / proxied hosts like SI).
+        self._client_kwargs: dict = {}
 
     # Context-manager support so a crawler can `with SomeCrawler("DE") as c:`
     # and be guaranteed the httpx client (and any browser) is torn down.
@@ -132,6 +137,22 @@ class HttpCrawlerBase:
             self.client.close()
         except Exception:
             pass
+
+    def ensure_client_open(self) -> None:
+        """Reopen the pooled client if it was closed (crawl() closes it in its
+        `finally: self.close()`), preserving any proxy / CA / legacy-TLS config
+        so a POST-crawl fetch - the AD 2.3 hours pass - still reaches
+        broken-chain (SI) or proxied hosts. Browser headers are not restored;
+        the AD 2.3 fetch is fail-soft, so a WAF block just leaves the field
+        without eAIP hours."""
+        if getattr(self.client, "is_closed", True):
+            self.client = httpx.Client(
+                follow_redirects=True,
+                timeout=self.timeout,
+                headers={"User-Agent": DEFAULT_USER_AGENT},
+                http2=False,
+                **self._client_kwargs,
+            )
 
     def use_browser_headers(self) -> None:
         """Switch the client to a browser-like fingerprint (WAF'd sources)."""
@@ -218,6 +239,7 @@ class HttpCrawlerBase:
         """
         headers = dict(self.client.headers)
         self.client.close()
+        self._client_kwargs = dict(kwargs)
         self.client = httpx.Client(
             follow_redirects=True,
             timeout=self.timeout,

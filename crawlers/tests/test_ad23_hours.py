@@ -62,34 +62,22 @@ def test_unisolatable_row1_is_none():
     assert ad23_hours("X LZ AD 2.3 OPERATIONAL HOURS 1 AD admin H24 LZ AD 2.4") is None
 
 
+def _rw(url: str) -> str:
+    return _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", url)
+
+
 def test_section1_rewrite_multi_vs_single_page():
-    # NL-style multi-page: charts on section 14 -> AD 2.3 on section 1.
-    nl = "https://eaip.lvnl.nl/.../EH-AD 2 EHAM 14-en-GB.html"
-    assert _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", nl).endswith("EH-AD 2 EHAM 1-en-GB.html")
-    # SK-style single-page: no "<ICAO> <N>-en" shape -> unchanged (url has AD 2.3).
-    sk = "https://aim.lps.sk/.../LZ-AD-2.LZIB-en-SK.html"
-    assert _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", sk) == sk
-
-
-class _FakeResp:
-    def __init__(self, text, exc=None):
-        self.text = text
-        self._exc = exc
-
-    def raise_for_status(self):
-        if self._exc:
-            raise self._exc
-
-
-class _FakeClient:
-    def __init__(self, mapping):
-        self._mapping = mapping  # url -> _FakeResp
-
-    def get(self, url):
-        resp = self._mapping.get(url)
-        if resp is None:
-            raise RuntimeError("404")
-        return resp
+    # NL-style multi-page: charts on section 14 -> general chapter on section 1.
+    assert _rw("https://x/EH-AD 2 EHAM 14-en-GB.html").endswith(
+        "EH-AD 2 EHAM 1-en-GB.html"
+    )
+    # SE-style: a field NAME sits between the ICAO and the section number.
+    assert _rw("https://x/ES-AD 2 ESNX ARVIDSJAUR 9-en-GB.html").endswith(
+        "ES-AD 2 ESNX ARVIDSJAUR 1-en-GB.html"
+    )
+    # SK-style single-page: no " <N>-<locale>" shape -> unchanged (url has AD 2.3).
+    sk = "https://x/LZ-AD-2.LZIB-en-SK.html"
+    assert _rw(sk) == sk
 
 
 class _Dummy(HttpEurocontrolBase):
@@ -100,7 +88,13 @@ class _Dummy(HttpEurocontrolBase):
 def test_ad23_from_url_parses_and_fails_soft():
     d = _Dummy("XX")
     page = _page("EHAM", EHAM)
-    client = _FakeClient({"ok": _FakeResp(page), "boom": _FakeResp("", RuntimeError("x"))})
-    assert d._ad23_from_url(client, "ok") == [{"kind": "h24"}] * 7
-    assert d._ad23_from_url(client, "boom") is None  # fail-soft
-    assert d._ad23_from_url(client, "missing") is None
+
+    def fake_fetch(url, **_kw):
+        if url == "ok":
+            return page
+        raise RuntimeError("boom")
+
+    d.fetch = fake_fetch  # reuse the crawler client via self.fetch
+    assert d._ad23_from_url("ok") == [{"kind": "h24"}] * 7
+    assert d._ad23_from_url("missing") is None  # fail-soft on fetch error
+    d.close()

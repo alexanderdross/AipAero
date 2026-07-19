@@ -125,14 +125,16 @@ _AD23_SERVICE_LABELS = (
     "ats reporting office",
     "met briefing",
 )
-# Multi-page eAIPs (NL-style) split each aerodrome's AD 2 chapters across pages:
-# the "Charts related to an aerodrome" link (a field's `url`) points at the
-# charts section (e.g. "EH-AD 2 EHAM 14-en-GB.html"), but AD 2.3 lives on
-# section 1 ("...EHAM 1-en-GB.html"). This rewrites the trailing section number
-# to 1 as a fallback. Single-page eAIPs (SK-style, "LZ-AD-2.LZIB-en-SK.html")
-# have no "<ICAO> <N>-en" shape, so the pattern does not match and the primary
-# `url` fetch (which already carries AD 2.3) is used as-is.
-_AD2_SECTION1_RE = re.compile(r"(AD\s*2[\s.]+[A-Z]{4}\s+)\d+(-en)", re.I)
+# Multi-page eAIPs (NL/SE-style) split each aerodrome's AD 2 chapters across
+# pages: the "Charts related to an aerodrome" link (a field's `url`) points at
+# the charts section (e.g. "EH-AD 2 EHAM 14-en-GB.html", "ES-AD 2 ESNX
+# ARVIDSJAUR 9-en-GB.html"), but the general/AD 2.3 chapter is a lower section
+# number ("...1-en-GB.html"). This rewrites the trailing " <N>-<locale>.html"
+# section number to 1 as a fallback (handles an optional field name between the
+# ICAO and the number). Single-page eAIPs (SK-style,
+# "LZ-AD-2.LZIB-en-SK.html") have no " <N>-<locale>" shape, so the pattern does
+# not match and the primary `url` fetch (which already carries AD 2.3) is used.
+_AD2_SECTION1_RE = re.compile(r"(\s)\d+(-[A-Za-z]{2}-[A-Za-z]{2}\.html?)$", re.I)
 
 
 def ad23_hours(page_text: str):
@@ -196,56 +198,41 @@ class HttpEurocontrolBase(HttpCrawlerBase):
           on section N and AD 2.3 on section 1, so a section-1 URL rewrite is
           tried as a fallback (`_AD2_SECTION1_RE`).
 
-        One extra HTTP fetch per field, via a dedicated short-lived client (the
-        crawler's own client may be closed after crawl()). Fully fail-soft: any
-        per-field error is swallowed and the field is simply left without hours.
-        Fields already collected (e.g. NL primes them for free in its AD 2.1 name
-        loop) are skipped, so this never double-fetches them. Row isolation +
-        the conservative `unknown` bucket (see ad23_hours) keep a misparse safe;
-        the live-test prints per-country coverage so quirks surface before the
-        publish relies on them."""
-        import httpx
-
-        client = httpx.Client(
-            follow_redirects=True,
-            timeout=httpx.Timeout(30.0, connect=10.0),
-            headers={
-                "User-Agent": (
-                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                    "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
-                )
-            },
-        )
+        One extra HTTP fetch per field, reusing the crawler's own client (via
+        `self.fetch`, so proxy / broken-chain-CA / legacy-TLS config carries
+        over - the client is reopened if crawl() closed it). Fully fail-soft:
+        any per-field error is swallowed and the field is simply left without
+        hours. Fields already collected (e.g. NL primes them for free in its
+        AD 2.1 name loop) are skipped, so this never double-fetches them. Row
+        isolation + the conservative `unknown` bucket (see ad23_hours) keep a
+        misparse safe; the live-test prints per-country coverage so quirks
+        surface before the publish relies on them."""
+        self.ensure_client_open()
         found = 0
-        try:
-            for a in airports:
-                icao = (a.icao or "").strip().upper()
-                if not icao or icao in self.hours_by_icao:
-                    continue
-                base_url = (a.url or "").split("#", 1)[0]
-                if not base_url:
-                    continue
-                hours = self._ad23_from_url(client, base_url)
-                if hours is None:
-                    alt = _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base_url)
-                    if alt != base_url:
-                        hours = self._ad23_from_url(client, alt)
-                if hours:
-                    self.hours_by_icao[icao] = hours
-                    found += 1
-        finally:
-            client.close()
+        for a in airports:
+            icao = (a.icao or "").strip().upper()
+            if not icao or icao in self.hours_by_icao:
+                continue
+            base_url = (a.url or "").split("#", 1)[0]
+            if not base_url:
+                continue
+            hours = self._ad23_from_url(base_url)
+            if hours is None:
+                alt = _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base_url)
+                if alt != base_url:
+                    hours = self._ad23_from_url(alt)
+            if hours:
+                self.hours_by_icao[icao] = hours
+                found += 1
         self.logger.info(
             f"{self.country}: collected AD 2.3 hours for "
             f"{len(self.hours_by_icao)} fields (+{found} this pass)"
         )
 
-    def _ad23_from_url(self, client, url: str):
+    def _ad23_from_url(self, url: str):
         """Fetch one AD 2 page and return its AD 2.3 hours, or None (fail-soft)."""
         try:
-            r = client.get(url)
-            r.raise_for_status()
-            text = " ".join(self.soup(r.text).get_text(" ").split())
+            text = " ".join(self.soup(self.fetch(url)).get_text(" ").split())
             return ad23_hours(text)
         except Exception as e:  # a bad page must not abort the whole country
             self.logger.debug(f"AD 2.3 fetch failed for {url}: {e}")
