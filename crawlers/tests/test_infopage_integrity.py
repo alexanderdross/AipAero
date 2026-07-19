@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import pytest
 
+from crawlers.au import AU
 from crawlers.az import AZ
 from crawlers.bg import BG
 from crawlers.by import BY
@@ -30,6 +31,7 @@ from crawlers.it import IT
 from crawlers.kg import KG
 from crawlers.md import MD
 from crawlers.mt import MT
+from crawlers.nz import NZ
 from crawlers.ru import RU
 from crawlers.tj import TJ
 from crawlers.tm import TM
@@ -40,7 +42,7 @@ from crawlers.uz import UZ
 # Every OurAirports-backed info-page crawler. Keep in sync with `gatedCountries`
 # in src/lib/utils.ts (the website's gated set) - these are the countries that
 # link a portal instead of crawling charts.
-INFO_PAGE_CRAWLERS = [AZ, BG, BY, CH, HR, IT, KG, MD, MT, RU, TJ, TM, TR, UA, UZ]
+INFO_PAGE_CRAWLERS = [AU, AZ, BG, BY, CH, HR, IT, KG, MD, MT, NZ, RU, TJ, TM, TR, UA, UZ]
 
 
 class _FakeResp:
