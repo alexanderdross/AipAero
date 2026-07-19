@@ -9,7 +9,11 @@ read row 1 only.
 
 from __future__ import annotations
 
-from crawlers.http_eurocontrol_base import ad23_hours
+from crawlers.http_eurocontrol_base import (
+    HttpEurocontrolBase,
+    _AD2_SECTION1_RE,
+    ad23_hours,
+)
 
 WIN = lambda o, c: {  # noqa: E731
     "kind": "window",
@@ -56,3 +60,47 @@ def test_missing_section_is_none():
 def test_unisolatable_row1_is_none():
     # No service-row label to bound row 1 -> do not assert (conservative).
     assert ad23_hours("X LZ AD 2.3 OPERATIONAL HOURS 1 AD admin H24 LZ AD 2.4") is None
+
+
+def test_section1_rewrite_multi_vs_single_page():
+    # NL-style multi-page: charts on section 14 -> AD 2.3 on section 1.
+    nl = "https://eaip.lvnl.nl/.../EH-AD 2 EHAM 14-en-GB.html"
+    assert _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", nl).endswith("EH-AD 2 EHAM 1-en-GB.html")
+    # SK-style single-page: no "<ICAO> <N>-en" shape -> unchanged (url has AD 2.3).
+    sk = "https://aim.lps.sk/.../LZ-AD-2.LZIB-en-SK.html"
+    assert _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", sk) == sk
+
+
+class _FakeResp:
+    def __init__(self, text, exc=None):
+        self.text = text
+        self._exc = exc
+
+    def raise_for_status(self):
+        if self._exc:
+            raise self._exc
+
+
+class _FakeClient:
+    def __init__(self, mapping):
+        self._mapping = mapping  # url -> _FakeResp
+
+    def get(self, url):
+        resp = self._mapping.get(url)
+        if resp is None:
+            raise RuntimeError("404")
+        return resp
+
+
+class _Dummy(HttpEurocontrolBase):
+    def crawl(self):  # abstract-ish; unused in these tests
+        return []
+
+
+def test_ad23_from_url_parses_and_fails_soft():
+    d = _Dummy("XX")
+    page = _page("EHAM", EHAM)
+    client = _FakeClient({"ok": _FakeResp(page), "boom": _FakeResp("", RuntimeError("x"))})
+    assert d._ad23_from_url(client, "ok") == [{"kind": "h24"}] * 7
+    assert d._ad23_from_url(client, "boom") is None  # fail-soft
+    assert d._ad23_from_url(client, "missing") is None

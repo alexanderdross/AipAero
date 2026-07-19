@@ -65,6 +65,7 @@ from crawlers.ua import UA
 from crawlers.uk import UK
 from crawlers.uz import UZ
 from crawlers.xk import XK
+from crawlers.http_eurocontrol_base import HttpEurocontrolBase
 from output_handler import OutputHandler
 from settings import Settings
 
@@ -176,6 +177,16 @@ def main(countries: list[str] | None = None):
             country = crawler.country
             end = perf_counter()
             logger.info(f"Finished crawling {country} in {end - start:.2f} seconds")
+            # Collect the AUTHORITATIVE eAIP AD 2.3 operation hours for every
+            # eurocontrol country (one extra fetch per field; fail-soft). NL
+            # already primed its own hours during crawl(), so those are skipped.
+            # Non-eurocontrol sources (DE/ES/GR/CIS info-pages) have no eAIP
+            # AD 2.3 HTML and are left to OpenAIP hours.
+            if isinstance(crawler, HttpEurocontrolBase):
+                try:
+                    crawler.collect_ad23_hours(airports)
+                except Exception as e:
+                    logger.warning(f"{country}: AD 2.3 hours collection failed: {e}")
             # `crawler.airac` is set only by crawlers that know their edition
             # date but store date-less URLs (DE); None for everyone else, where
             # the website derives the edition from the airport URLs.
