@@ -370,7 +370,7 @@ jobs:
         env:
           URLS: ${{ inputs.ad23_dump }}
         run: |
-          uv run --directory crawlers python - <<'PY'
+          uv run python - <<'PY'
           import os, re
           import httpx
           from bs4 import BeautifulSoup
