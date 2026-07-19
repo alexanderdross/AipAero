@@ -105,6 +105,8 @@ export default async function GuidesPage(
 
   // Content-hub cross-link to the sibling aviation glossary page (reuses the
   // Footer namespace's localized label - no new i18n string).
+  const efbPath = getPathname({ href: "/efb", locale });
+  const efbHref = efbPath.endsWith("/") ? efbPath : efbPath + "/";
   const glossaryPath = getPathname({ href: "/glossary", locale });
   const glossaryHref = glossaryPath.endsWith("/")
     ? glossaryPath
@@ -246,6 +248,14 @@ export default async function GuidesPage(
                 className="text-drossblue underline"
               >
                 {tFooter("glossary.title")}
+              </a>
+              {" · "}
+              <a
+                href={efbHref}
+                title={tFooter("efb.hrefTitle")}
+                className="text-drossblue underline"
+              >
+                {tFooter("efb.title")}
               </a>
             </p>
           </section>
