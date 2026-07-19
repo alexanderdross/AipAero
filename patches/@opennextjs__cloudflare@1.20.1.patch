@@ -1,0 +1,26 @@
+diff --git a/dist/cli/build/bundle-server.js b/dist/cli/build/bundle-server.js
+index be3f893561dab6ad635e71a9cbb49603bfa44534..65567efd5add66fef6c20bfce7febaa8f07afe69 100644
+--- a/dist/cli/build/bundle-server.js
++++ b/dist/cli/build/bundle-server.js
+@@ -100,7 +100,7 @@ export async function bundleServer(buildOpts, projectOpts) {
+             // Apply updater updates, must be the last plugin
+             updater.plugin,
+         ],
+-        external: ["./middleware/handler.mjs"],
++        external: ["./middleware/handler.mjs", "cloudflare:sockets"],
+         alias: {
+             // When @vercel/og is not used, alias the edge entry to a throwing shim so the
+             // dynamic `import("next/dist/compiled/@vercel/og/index.edge.js")` call site
+diff --git a/dist/cli/build/open-next/createServerBundle.js b/dist/cli/build/open-next/createServerBundle.js
+index d5437f5ed8222d29e14603ed82f918953ea87f84..668172937b364e6025979161c37d6127095e719e 100644
+--- a/dist/cli/build/open-next/createServerBundle.js
++++ b/dist/cli/build/open-next/createServerBundle.js
+@@ -198,7 +198,7 @@ async function generateBundle(name, options, fnOptions, codeCustomization) {
+     await buildHelper.esbuildAsync({
+         entryPoints: [path.join(options.openNextDistDir, "adapters", "server-adapter.js")],
+         outfile: path.join(outputPath, packagePath, `index.${outfileExt}`),
+-        external: ["./middleware.mjs"],
++        external: ["./middleware.mjs", "cloudflare:sockets"],
+         banner: {
+             js: [
+                 `globalThis.monorepoPackagePath = "${normalizePath(packagePath)}";`,

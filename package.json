@@ -118,7 +118,8 @@
       "postcss@<8.5.10": ">=8.5.10"
     },
     "patchedDependencies": {
-      "worker-mailer": "patches/worker-mailer.patch"
+      "@opennextjs/cloudflare@1.20.1": "patches/@opennextjs__cloudflare@1.20.1.patch",
+      "worker-mailer@1.2.1": "patches/worker-mailer@1.2.1.patch"
     }
   }
 }
