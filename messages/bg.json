@@ -246,6 +246,7 @@
     "closesAt": "closes {time}",
     "opensAt": "opens {time}",
     "hoursAdvisory": "Advisory - confirm via NOTAM / current AIP before flight.",
+    "hoursNone": "Няма данни за работно време. Много малки VFR летища и хелипортове не го публикуват, или само при поискване (O/R), за домашна база (HO) или чрез NOTAM - винаги проверявайте актуалния AIP и NOTAM преди полет.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
     "openUntil": "Open until",

@@ -311,6 +311,7 @@
     "closesAt": "schließt {time}",
     "opensAt": "öffnet {time}",
     "hoursAdvisory": "Richtwert - vor dem Flug per NOTAM / aktuellem AIP bestätigen.",
+    "hoursNone": "Keine Betriebszeiten hinterlegt. Viele kleine VFR-Plätze und Hubschrauberlandeplätze veröffentlichen keine, oder nur auf Anfrage (O/R), Heimatbasis (HO) oder per NOTAM - vor dem Flug stets aktuelles AIP und NOTAMs prüfen.",
     "hoursOfficial": "laut AIP AD 2.3",
     "hoursCommunity": "Community-Daten",
     "openUntil": "Geöffnet bis",

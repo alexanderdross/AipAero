@@ -33,6 +33,11 @@ on:
         description: "Backfill only (optional): space/comma-separated ICAOs to target instead of the auto missing-list (e.g. a spot-check or a targeted re-run)"
         required: false
         default: ""
+      hours_backfill:
+        description: "Run the OpenAIP HOURS backfill: fill operation hours for every field that has none yet (all countries, not just eurocontrol AD 2.3). Hours-only PATCH; never overrides authoritative eAIP hours. Honours `apply` (dry-run by default) and `icaos`"
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: facts-import
@@ -70,7 +75,7 @@ jobs:
       # The weekly OurAirports import. Skipped on a manual backfill-only run so
       # a coord-backfill dry-run does not also re-post the whole dataset.
       - name: Import OurAirports facts -> D1
-        if: ${{ github.event_name == 'schedule' || !inputs.backfill }}
+        if: ${{ github.event_name == 'schedule' || (!inputs.backfill && !inputs.hours_backfill) }}
         env:
           API_BASE: https://aip.aero
           API_KEY: ${{ secrets.CRON_SECRET }}
@@ -95,5 +100,24 @@ jobs:
           # Apply on the weekly schedule; on a manual run honour the `apply`
           # input (dry-run by default).
           BACKFILL_APPLY: ${{ (github.event_name == 'schedule' || inputs.apply == true) && '1' || '' }}
+          BACKFILL_ICAOS: ${{ inputs.icaos }}
+        run: uv run python import_openaip_backfill.py
+
+      # OpenAIP HOURS backfill: fill operation hours for every field that has
+      # none yet (server-side `airportsMissingHours` via GET ?scope=hours), so
+      # operation hours reach ALL countries - not only the eurocontrol AD 2.3
+      # ones the crawler reads. Hours-only PATCH (never touches coords/runways);
+      # the API's precedence keeps any authoritative eAIP hours winning, and a
+      # field OpenAIP has no machine-readable hours for is left unknown (never a
+      # fabricated "open"). Manual dispatch only (heavy: one OpenAIP lookup per
+      # field); honours `apply` (dry-run by default) and `icaos`.
+      - name: OpenAIP hours backfill -> D1
+        if: ${{ inputs.hours_backfill }}
+        env:
+          API_BASE: https://aip.aero
+          API_KEY: ${{ secrets.CRON_SECRET }}
+          OPENAIP_API_KEY: ${{ secrets.OPENAIP_API_KEY }}
+          BACKFILL_HOURS: "1"
+          BACKFILL_APPLY: ${{ inputs.apply == true && '1' || '' }}
           BACKFILL_ICAOS: ${{ inputs.icaos }}
         run: uv run python import_openaip_backfill.py

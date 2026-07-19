@@ -413,6 +413,43 @@ export const QUERIES = {
       return [];
     }
   },
+  airportsMissingHours: async function (): Promise<
+    { icao: string; country: string; title: string }[]
+  > {
+    // Every airport that HAS an ICAO but no structured operation hours yet
+    // (`airport_facts.hours_structured IS NULL` - either no facts row at all,
+    // or a row that carries geo but no hours). The OpenAIP hours backfill
+    // (crawlers/import_openaip_backfill.py, HOURS mode) reads this list and
+    // fills OpenAIP `hoursOfOperation` for the ICAOs OpenAIP resolves, so
+    // operation hours reach every country, not only the eurocontrol AD 2.3
+    // ones. Fields that already carry authoritative eAIP hours have a non-null
+    // `hours_structured` and are excluded (never re-fetched / never clobbered);
+    // the upsert precedence keeps eAIP winning regardless. Deliberately UNCACHED
+    // and read behind the CRON_SECRET GET on /api/airport-facts (runs at most
+    // weekly from the importer, never on a user path). Fail-soft to [].
+    const db = await getDb();
+    if (!db) return [];
+    try {
+      const rows = await db
+        .select({
+          icao: airports.icao,
+          country: airports.country,
+          title: airports.title,
+        })
+        .from(airports)
+        .leftJoin(airportFacts, eq(airports.icao, airportFacts.icao))
+        .where(
+          and(isNotNull(airports.icao), isNull(airportFacts.hoursStructured)),
+        )
+        .groupBy(airports.icao);
+      return rows.filter(
+        (r): r is { icao: string; country: string; title: string } =>
+          r.icao != null,
+      );
+    } catch {
+      return [];
+    }
+  },
   crawlUpdatedAt: function (country: string) {
     // Unix-seconds timestamp of the last crawler POST for this country (null if
     // never crawled). Tagged with the country tag so a fresh POST busts it.

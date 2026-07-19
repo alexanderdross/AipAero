@@ -276,6 +276,7 @@
     "closesAt": "closes {time}",
     "opensAt": "opens {time}",
     "hoursAdvisory": "Advisory - confirm via NOTAM / current AIP before flight.",
+    "hoursNone": "Brak godzin operacyjnych w danych. Wiele małych lotnisk VFR i lądowisk dla śmigłowców nie publikuje ich wcale lub tylko na żądanie (O/R), w bazie macierzystej (HO) albo przez NOTAM - przed lotem zawsze sprawdź aktualny AIP i NOTAM-y.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
     "openUntil": "Open until",

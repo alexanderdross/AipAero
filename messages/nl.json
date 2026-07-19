@@ -276,6 +276,7 @@
     "closesAt": "sluit {time}",
     "opensAt": "opent {time}",
     "hoursAdvisory": "Indicatief - bevestig via NOTAM / actuele AIP vóór de vlucht.",
+    "hoursNone": "Geen openingstijden bekend. Veel kleine VFR-velden en helihavens publiceren er geen, of alleen op aanvraag (O/R), thuisbasis (HO) of via NOTAM - controleer vóór de vlucht altijd de actuele AIP en NOTAMs.",
     "hoursOfficial": "volgens AIP AD 2.3",
     "hoursCommunity": "communitygegevens",
     "openUntil": "Open tot",
