@@ -224,13 +224,15 @@ export default async function CountryPage(
         />
       </div>
 
-      {/* About AIP Box */}
-      <AboutCountryBox isH3={true} />
-
       {/* Country-specific FAQ (visible text + FAQPage JSON-LD from the same
           strings) - targets the "aip <country>" / free-charts / chart-type
-          query clusters from the Search Console data. */}
+          query clusters from the Search Console data. Placed ABOVE the about
+          box (owner decision 19.07.2026): the high-intent Q&A comes before the
+          general "why this website" copy. */}
       <CountryFaq locale={locale} />
+
+      {/* About AIP Box */}
+      <AboutCountryBox isH3={true} />
 
       {/* Bottom breadcrumb: visible trail + BreadcrumbList JSON-LD from one
           data structure (root > country, the country is the current page). */}
