@@ -544,6 +544,18 @@ const hoursStructuredSet = () =>
 const hoursSourceSet = () =>
   sql`CASE WHEN ${hoursGuard()} THEN excluded.hours_source ELSE ${airportFacts.hoursSource} END`;
 
+// Same precedence idea for AD 2.13 declared distances - authoritative eAIP-only
+// today (rank 3), so a non-null incoming value replaces the stored one and no
+// lower source can clobber it. Kept as a rank for symmetry / future sources.
+const declaredRank = (col: SQL) =>
+  sql`CASE ${col} WHEN 'eaip' THEN 3 ELSE 0 END`;
+const declaredGuard = () =>
+  sql`excluded.declared_distances IS NOT NULL AND (${airportFacts.declaredSource} IS NULL OR ${declaredRank(sql`excluded.declared_source`)} >= ${declaredRank(sql`${airportFacts.declaredSource}`)})`;
+const declaredDistancesSet = () =>
+  sql`CASE WHEN ${declaredGuard()} THEN excluded.declared_distances ELSE ${airportFacts.declaredDistances} END`;
+const declaredSourceSet = () =>
+  sql`CASE WHEN ${declaredGuard()} THEN excluded.declared_source ELSE ${airportFacts.declaredSource} END`;
+
 export const MUTATIONS = {
   insertAirports: async function (
     input: InsertAirport[],
@@ -770,8 +782,10 @@ export const MUTATIONS = {
   upsertAirportHours: async function (
     input: {
       icao: string;
-      hoursStructured: string | null;
-      hoursSource: string;
+      hoursStructured?: string | null;
+      hoursSource?: string;
+      declaredDistances?: string | null;
+      declaredSource?: string;
     }[],
   ) {
     if (!input[0]) return;
@@ -785,9 +799,13 @@ export const MUTATIONS = {
         .insert(airportFacts)
         .values({
           icao: row.icao,
-          hoursStructured: row.hoursStructured,
-          hoursSource: row.hoursSource,
-          source: row.hoursSource,
+          hoursStructured: row.hoursStructured ?? null,
+          hoursSource: row.hoursSource ?? null,
+          declaredDistances: row.declaredDistances ?? null,
+          declaredSource: row.declaredSource ?? null,
+          // A brand-new ICAO needs a non-null provenance; use whichever datum
+          // this PATCH carried.
+          source: row.hoursSource ?? row.declaredSource ?? "eaip",
           updatedAt: now,
         })
         .onConflictDoUpdate({
@@ -795,6 +813,8 @@ export const MUTATIONS = {
           set: {
             hoursStructured: hoursStructuredSet(),
             hoursSource: hoursSourceSet(),
+            declaredDistances: declaredDistancesSet(),
+            declaredSource: declaredSourceSet(),
             updatedAt: sql`excluded.updated_at`,
           },
         }),

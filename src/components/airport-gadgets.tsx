@@ -276,6 +276,20 @@ export async function AirportGadgets({
         .join(", ") || null,
     );
   }
+  // AD 2.13 declared distances - one granular PropertyValue per runway, so an
+  // assistant answering "TORA at EHAL RWY 08" reads it directly (GEO). No free
+  // dataset carries these, so the AIP is the sole source.
+  for (const [desig, d] of Object.entries(facts?.declaredDistances ?? {})) {
+    const parts = [
+      d.tora != null ? `TORA ${d.tora} m` : null,
+      d.toda != null ? `TODA ${d.toda} m` : null,
+      d.asda != null ? `ASDA ${d.asda} m` : null,
+      d.lda != null ? `LDA ${d.lda} m` : null,
+    ].filter(Boolean);
+    if (parts.length) {
+      addProp(`Declared distances RWY ${desig}`, parts.join(", "));
+    }
+  }
   const freqByType = new Map<string, string[]>();
   for (const f of facts?.frequencies ?? []) {
     const type = f.type?.trim() || "Frequency";

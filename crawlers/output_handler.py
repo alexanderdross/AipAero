@@ -255,27 +255,35 @@ class OutputHandler:
         self,
         hours_by_icao: dict[str, StructuredHours | None],
         country: str,
+        declared_by_icao: dict[str, object] | None = None,
     ) -> None:
-        """Publish AUTHORITATIVE eAIP AD 2.3 operation hours (the structured
-        form from crawlers.operating_hours / ad23_hours) via PATCH
-        /api/airport-facts with hoursSource="eaip". Hours-only: it never touches
-        the base facts columns (coords/runways). Fully fail-soft - a hours POST
-        failure must never fail the airport crawl. Only ICAO-bearing fields with
-        parsed hours are sent (name-only fields are skipped)."""
-        rows = [
-            {
-                "icao": icao.upper(),
-                "hoursStructured": to_json(hours),
-                "hoursSource": "eaip",
-            }
-            for icao, hours in hours_by_icao.items()
-            if icao and hours is not None
-        ]
+        """Publish AUTHORITATIVE eAIP AD 2.3 operation hours AND AD 2.13 declared
+        distances via PATCH /api/airport-facts with source "eaip". The two are
+        merged per ICAO into one row set (each row carries whichever data the
+        crawler collected). Never touches the base facts columns
+        (coords/runways). Fully fail-soft - a publish failure must never fail the
+        airport crawl. Only ICAO-bearing fields with data are sent."""
+        declared_by_icao = declared_by_icao or {}
+        # Merge hours + declared distances per ICAO into one PATCH row each.
+        rows_by_icao: dict[str, dict[str, object]] = {}
+        for icao, hours in hours_by_icao.items():
+            if icao and hours is not None:
+                row = rows_by_icao.setdefault(icao.upper(), {"icao": icao.upper()})
+                row["hoursStructured"] = to_json(hours)
+                row["hoursSource"] = "eaip"
+        for icao, declared in declared_by_icao.items():
+            if icao and declared:
+                row = rows_by_icao.setdefault(icao.upper(), {"icao": icao.upper()})
+                row["declaredDistances"] = json.dumps(declared)
+                row["declaredSource"] = "eaip"
+        rows = list(rows_by_icao.values())
         if not rows:
-            self.logger.info(f"{country}: no AD 2.3 hours to publish.")
+            self.logger.info(f"{country}: no AD 2.3/2.13 data to publish.")
             return
         url = self._facts_endpoint()
-        self.logger.info(f"{country}: publishing AD 2.3 hours for {len(rows)} fields")
+        self.logger.info(
+            f"{country}: publishing AD 2.3/2.13 data for {len(rows)} fields"
+        )
         try:
             with httpx.Client(timeout=HTTP_TIMEOUT) as client:
                 response = client.patch(
@@ -285,4 +293,6 @@ class OutputHandler:
                 )
                 response.raise_for_status()
         except httpx.HTTPError as e:
-            self.logger.warning(f"{country}: failed to publish AD 2.3 hours: {e}")
+            self.logger.warning(
+                f"{country}: failed to publish AD 2.3/2.13 data: {e}"
+            )

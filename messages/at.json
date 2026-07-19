@@ -281,7 +281,8 @@
     "hoursCommunity": "Community-Daten",
     "openUntil": "Geöffnet bis",
     "filtersTab": "Filter",
-    "hoursTab": "Öffnungszeiten"
+    "hoursTab": "Öffnungszeiten",
+    "declaredDistances": "Deklarierte Distanzen"
   },
   "Common": {
     "openIn": "Öffnen in",

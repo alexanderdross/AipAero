@@ -109,6 +109,12 @@ class HttpCrawlerBase:
         # hoursSource="eaip" after the airport publish. Empty for crawlers that
         # do not populate it.
         self.hours_by_icao: dict[str, object] = {}
+        # Optional AUTHORITATIVE eAIP AD 2.13 declared distances, keyed by ICAO
+        # ({designator: {tora,toda,asda,lda}} metres, see
+        # crawlers.declared_distances). Populated by a eurocontrol crawler that
+        # reads the per-aerodrome AD 2 page; main.py PATCHes it to
+        # /api/airport-facts (source "eaip"). Empty otherwise.
+        self.declared_by_icao: dict[str, object] = {}
         # One pooled client per crawler: follows redirects (frameset eAIPs
         # bounce through several), default honest UA. http2=False because some
         # AIS stacks negotiate HTTP/2 badly; HTTP/1.1 is the safe common path.

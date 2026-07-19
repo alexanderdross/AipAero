@@ -4,14 +4,18 @@ import { env } from "~/env";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import { airportFactsApiInsertSchema } from "~/server/db/schema";
 
-// Hours-only ingest (PATCH): the eAIP AD 2.3 crawler POSTs just the structured
-// operation hours per ICAO. Kept separate from the full-row POST so it never
-// nulls the base columns (coords / runways) - see MUTATIONS.upsertAirportHours.
+// eAIP AD-2 datum ingest (PATCH): the crawler POSTs the structured AD 2.3
+// operation hours and/or AD 2.13 declared distances per ICAO. Kept separate
+// from the full-row POST so it never nulls the base columns (coords / runways)
+// - see MUTATIONS.upsertAirportHours. Each field is optional so a row can carry
+// hours only, declared distances only, or both.
 const airportHoursSchema = z
   .object({
     icao: z.string().regex(/^[A-Z]{4}$/),
-    hoursStructured: z.string().nullable(), // JSON StructuredHours (or null)
-    hoursSource: z.enum(["eaip", "openaip", "osm"]),
+    hoursStructured: z.string().nullable().optional(), // JSON StructuredHours
+    hoursSource: z.enum(["eaip", "openaip", "osm"]).optional(),
+    declaredDistances: z.string().nullable().optional(), // JSON DeclaredDistances
+    declaredSource: z.enum(["eaip"]).optional(),
   })
   .array();
 

@@ -139,7 +139,31 @@ export async function AirportFacts({
     .map((f) => `${f.type} ${f.mhz}`.trim())
     .join(" · ");
 
-  if (rows.length === 0 && !runwaysText && !frequenciesText) return null;
+  // AD 2.13 declared distances (authoritative eAIP): one compact line per
+  // runway grouped with the runway data - "08: TORA 860 · TODA 860 · ...".
+  // TORA/TODA/ASDA/LDA are universal ICAO abbreviations (no translation).
+  const declaredRows: Array<[string, string]> = Object.entries(
+    facts?.declaredDistances ?? {},
+  )
+    .map(([desig, d]): [string, string] => {
+      const parts = [
+        d.tora != null ? `TORA ${d.tora}` : null,
+        d.toda != null ? `TODA ${d.toda}` : null,
+        d.asda != null ? `ASDA ${d.asda}` : null,
+        d.lda != null ? `LDA ${d.lda}` : null,
+      ].filter(Boolean);
+      return [desig, parts.join(" · ")];
+    })
+    .filter(([, v]) => v.length > 0)
+    .sort(([a], [b]) => a.localeCompare(b));
+
+  if (
+    rows.length === 0 &&
+    !runwaysText &&
+    !frequenciesText &&
+    declaredRows.length === 0
+  )
+    return null;
 
   const cell = "border-drossgray flex justify-between gap-x-3 border-b py-1";
 
@@ -167,6 +191,23 @@ export async function AirportFacts({
           <div className={`${cell} sm:col-span-2`}>
             <dt className="text-drossgray-dark">{t("frequencies")}</dt>
             <dd className="text-right font-medium">{frequenciesText}</dd>
+          </div>
+        )}
+        {declaredRows.length > 0 && (
+          <div className={`${cell} flex-col items-stretch gap-1 sm:col-span-2`}>
+            <dt className="text-drossgray-dark">
+              {t("declaredDistances")} <span className="font-normal">(m)</span>
+            </dt>
+            <dd className="space-y-0.5 text-right font-medium">
+              {declaredRows.map(([desig, v]) => (
+                <div key={desig}>
+                  <span className="text-drossgray-dark font-normal">
+                    {desig}:
+                  </span>{" "}
+                  {v}
+                </div>
+              ))}
+            </dd>
           </div>
         )}
       </dl>

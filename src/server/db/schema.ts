@@ -99,6 +99,12 @@ export const airportFacts = createTable("airport_facts", {
   // over "openaip" community) so a later OpenAIP run cannot clobber eAIP hours.
   hoursStructured: text("hours_structured"), // JSON: StructuredHours
   hoursSource: text("hours_source"), // "eaip" | "openaip"
+  // AD 2.13 declared distances per runway (TORA/TODA/ASDA/LDA, metres) - JSON
+  // `Record<designator, {tora?,toda?,asda?,lda?}>`, see src/lib/airport-facts.
+  // Authoritative eAIP-only (no free dataset carries it); `declaredSource`
+  // records provenance so a non-AIP source can never clobber it.
+  declaredDistances: text("declared_distances"), // JSON: DeclaredDistances
+  declaredSource: text("declared_source"), // "eaip"
   ppr: integer("ppr", { mode: "boolean" }), // prior permission required (OpenAIP)
   aerodromeType: integer("aerodrome_type"), // OpenAIP airport `type` enum code
   restaurant: integer("restaurant", { mode: "boolean" }), // on-field restaurant
@@ -122,6 +128,16 @@ export interface FrequencyFact {
   description: string | null;
   mhz: string; // e.g. "120.075"
 }
+
+// AD 2.13 declared distances (metres) keyed by runway designator ("08",
+// "03G"). Each value present only when the AIP states it (NIL -> omitted).
+export interface DeclaredDistance {
+  tora?: number;
+  toda?: number;
+  asda?: number;
+  lda?: number;
+}
+export type DeclaredDistances = Record<string, DeclaredDistance>;
 
 export type AirportFactsRow = InferSelectModel<typeof airportFacts>;
 export type InsertAirportFacts = InferInsertModel<typeof airportFacts>;

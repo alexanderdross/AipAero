@@ -251,7 +251,8 @@
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",
-    "hoursNone": "No operating hours on file. Many small VFR fields and heliports publish none, or only on request (O/R), home base (HO) or by NOTAM - always check the current AIP and NOTAMs before flight."
+    "hoursNone": "No operating hours on file. Many small VFR fields and heliports publish none, or only on request (O/R), home base (HO) or by NOTAM - always check the current AIP and NOTAMs before flight.",
+    "declaredDistances": "Declared distances"
   },
   "Common": {
     "openIn": "Open in",

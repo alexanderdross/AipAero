@@ -212,6 +212,7 @@ export function mapOpenAipItem(item: Record<string, unknown>): NormalizedFacts {
     phone: null,
     runways: parseRunways(item.runways),
     frequencies: parseFrequencies(item.frequencies),
+    declaredDistances: null, // eAIP-only; OpenAIP carries none
     source: "openaip",
   };
 }
