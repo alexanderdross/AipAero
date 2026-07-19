@@ -296,3 +296,33 @@ class OutputHandler:
             self.logger.warning(
                 f"{country}: failed to publish AD 2.3/2.13 data: {e}"
             )
+
+    def publish_ad2_text(
+        self, text_by_icao: dict[str, str], country: str
+    ) -> None:
+        """Publish DE's raw OCR'd AD-2 page text (source "dfs-ocr") via PATCH
+        /api/airport-facts. DISPLAY-only: the website shows it under a "read by
+        text recognition, verify against the AIP" caveat and never parses it
+        into hours / the open badge / the map filter / JSON-LD. Touches only the
+        ad2_ocr_text columns. Fully fail-soft - only ICAO fields with text are
+        sent, and a publish failure never fails the crawl."""
+        rows = [
+            {"icao": icao.upper(), "ad2OcrText": text, "ad2OcrSource": "dfs-ocr"}
+            for icao, text in text_by_icao.items()
+            if icao and text
+        ]
+        if not rows:
+            self.logger.info(f"{country}: no AD-2 OCR text to publish.")
+            return
+        url = self._facts_endpoint()
+        self.logger.info(f"{country}: publishing AD-2 OCR text for {len(rows)} fields")
+        try:
+            with httpx.Client(timeout=HTTP_TIMEOUT) as client:
+                response = client.patch(
+                    url,
+                    json=rows,
+                    headers={"Authorization": f"Bearer {self.settings.api_key}"},
+                )
+                response.raise_for_status()
+        except httpx.HTTPError as e:
+            self.logger.warning(f"{country}: failed to publish AD-2 OCR text: {e}")

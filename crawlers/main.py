@@ -10,6 +10,7 @@ Actions workflow (`.github/workflows/crawl.yml`) or manually with
 """
 
 import logging
+import os
 import sys
 from time import perf_counter
 
@@ -202,6 +203,18 @@ def main(countries: list[str] | None = None):
                 output_handler.publish_hours(
                     hours_by_icao or {}, country, declared_by_icao or {}
                 )
+            # DE-only: OCR the DFS AD-2 page images into raw DISPLAY text
+            # (source "dfs-ocr"). Opt-in via DE_OCR (heavy: one browser render
+            # per field), never the daily list crawl. Published via a separate
+            # PATCH; NEVER parsed into any structured field. Fully fail-soft.
+            if os.environ.get("DE_OCR") and hasattr(crawler, "collect_ad2_ocr"):
+                try:
+                    crawler.collect_ad2_ocr(airports)
+                    output_handler.publish_ad2_text(
+                        getattr(crawler, "ad2_text_by_icao", {}), country
+                    )
+                except Exception as e:
+                    logger.warning(f"{country}: AD-2 OCR collection failed: {e}")
         except Exception as e:
             # Per-country isolation: log and continue with the next crawler.
             logger.error(f"Error in crawler {crawler.country}: {e}")

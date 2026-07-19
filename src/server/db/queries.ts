@@ -786,6 +786,8 @@ export const MUTATIONS = {
       hoursSource?: string;
       declaredDistances?: string | null;
       declaredSource?: string;
+      ad2OcrText?: string | null;
+      ad2OcrSource?: string;
     }[],
   ) {
     if (!input[0]) return;
@@ -803,9 +805,12 @@ export const MUTATIONS = {
           hoursSource: row.hoursSource ?? null,
           declaredDistances: row.declaredDistances ?? null,
           declaredSource: row.declaredSource ?? null,
+          ad2OcrText: row.ad2OcrText ?? null,
+          ad2OcrSource: row.ad2OcrSource ?? null,
           // A brand-new ICAO needs a non-null provenance; use whichever datum
           // this PATCH carried.
-          source: row.hoursSource ?? row.declaredSource ?? "eaip",
+          source:
+            row.hoursSource ?? row.declaredSource ?? row.ad2OcrSource ?? "eaip",
           updatedAt: now,
         })
         .onConflictDoUpdate({
@@ -815,6 +820,11 @@ export const MUTATIONS = {
             hoursSource: hoursSourceSet(),
             declaredDistances: declaredDistancesSet(),
             declaredSource: declaredSourceSet(),
+            // DE-only raw OCR display text (single source "dfs-ocr", no
+            // precedence contest): a non-null incoming value refreshes it, a
+            // null (a hours-only PATCH) leaves the stored text untouched.
+            ad2OcrText: sql`COALESCE(excluded.ad2_ocr_text, ${airportFacts.ad2OcrText})`,
+            ad2OcrSource: sql`COALESCE(excluded.ad2_ocr_source, ${airportFacts.ad2OcrSource})`,
             updatedAt: sql`excluded.updated_at`,
           },
         }),

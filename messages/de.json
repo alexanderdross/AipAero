@@ -317,7 +317,11 @@
     "openUntil": "Geöffnet bis",
     "filtersTab": "Filter",
     "hoursTab": "Öffnungszeiten",
-    "declaredDistances": "Deklarierte Distanzen"
+    "declaredDistances": "Deklarierte Distanzen",
+    "aipText": "AIP-Flugplatzinformationen",
+    "aipTextCaveat": "Automatisch per Texterkennung (OCR) aus dem Bild der offiziellen AIP-Seite ausgelesen, kann Lesefehler enthalten. Vor dem Flug immer mit der aktuellen AIP abgleichen.",
+    "aipTextShow": "Erkannten AIP-Text anzeigen",
+    "aipTextSource": "Offizielle AIP-Seite öffnen"
   },
   "Common": {
     "openIn": "Öffnen in",

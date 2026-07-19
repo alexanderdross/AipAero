@@ -136,7 +136,17 @@ DE is the single largest coverage lever, but DFS **BasicVFR/BasicIFR is not ICAO
 - Round 1 - the per-field permalink chapter pages (`.../BasicVFR/<AIRAC>/pages/C<NNNNN>.html`) are **navigation shells**: title + ICAO + `myPermalink` only, no operating-hours text.
 - Round 2 - followed each page's `a.document-link` to the aerodrome **data sub-documents** (`.../pages/<HASH>.html`). For all three probed fields (EDKA, EDPA, EDXA) and both sub-documents each, the extracted text was a **764-793 char DFS "Permanent Link" boilerplate shell** - every keyword probe (`Betriebszeit`, `Flugbetrieb`, `Operating`, `PPR`, `H24`, `HX`, `SR`) returned no match.
 
-The actual AD 2 aerodrome data is **client-rendered (JS)** and absent from the static HTML httpx retrieves. So DE hours are **not extractable via httpx** - a `PlaywrightCrawlerBase` render would be needed for ~792 fields per crawl (heavy, and de.py is deliberately `HttpCrawlerBase`), and even then DFS BasicVFR is not the ICAO AD 2.3 grammar `ad23_hours()` parses. Per the plan's decision gate ("if DE hours are only free-text/PPR-style with no parseable schedule, stop at documenting it rather than shipping a low-value parser"), **DE is documented as not-structured and left to the OpenAIP/OSM fallbacks**, not built. The DE fields keep the honest `Weather.hoursNone` note where no source has hours.
+The actual AD 2 aerodrome data is **client-rendered (JS)** and absent from the static HTML httpx retrieves. So DE hours are **not extractable via httpx** - a `PlaywrightCrawlerBase` render would be needed for ~792 fields per crawl (heavy). Per the plan's decision gate, **structured DE hours are documented as not-extractable and left to the OpenAIP/OSM fallbacks**, not built. The DE fields keep the honest `Weather.hoursNone` note where no source has hours.
+
+### DE Phase F (19.07.2026) - AD-2 pages are base64 PNG images; OCR ships as DISPLAY-only text
+
+A follow-up render recon settled what the "client-rendered" AD-2 body actually is: **DFS serves each AD-2 book page as a base64-embedded PNG image** (`<img src="data:image/png;base64,...">`), not text - the rendered DOM's `get_text()` returns only ~784 chars of page chrome; the hours / Platzrunde / etc. are pixels. So no text parser (httpx or Playwright) can read them; the sole route to any DE AD-2 datum is **OCR**.
+
+The owner approved a **narrow** OCR build (Phase F2) under a strict safety constraint: **raw display text only, never a structured claim.** What shipped:
+
+- **`crawlers/crawlers/de_ocr.py`** - `biggest_png()` (the full AD-2 scan is the largest embedded PNG), `ocr_image()` (lazy `pytesseract` + `Pillow`, `lang="deu+eng"`, fail-soft), and `is_text_page()` - a text-vs-chart discriminator (a **chart** page carries the aerodrome reference coordinates `N .. E ..` in its head, or a chart-title marker; only dense **text** pages are kept). So only the ~40 big Verkehrsflughaefen with a typeset text sheet yield anything; the ~750 chart-only fields OCR to noise and are dropped.
+- **`de.py collect_ad2_ocr(airports)`** - opt-in via the `DE_OCR` env flag (never the daily list crawl; heavy - a browser render per field, narrowable with `DE_OCR_ICAOS`/`DE_OCR_LIMIT`). Renders each field's leaf landing, follows the `<ICAO> <n>` content-page links, OCRs each page's PNG, keeps the text pages, stores the concatenation in `self.ad2_text_by_icao[icao]`. Published via `OutputHandler.publish_ad2_text` (PATCH `/api/airport-facts`, source `dfs-ocr`) into the new `ad2_ocr_text` column.
+- **Website** - a **DE-only display block** (`airport-aip-text.tsx`, rendered by the gadgets wrapper) shows the raw text under a **prominent, always-visible caveat** ("read by text recognition, verify against the current AIP") and a link to the official DFS page. It is **NEVER** parsed into `hoursStructured`, the open/closed badge, the map's operating-hours filter, or the Airport JSON-LD - a mis-OCR'd digit must not become a machine claim under the "never assert a wrong open" rule. The public `/api/v1` also does not expose it.
 
 ## Deployment / migration hazard
 
@@ -156,5 +166,3 @@ Both reuse the same structured column and logic; they are a natural follow-up on
 - eAIP recon - `crawler-live-test.yml` against NL confirms `ad23_hours` extraction, then a second eurocontrol country.
 - Manual - `import_openaip_backfill.py` dry-run confirms `hours_structured` JSON; confirm eAIP is not overwritten by a later OpenAIP run; local `pnpm start` shows the badge + source label and the map "open until 19:00" filter drops fields closing earlier and excludes unknown-hours fields; validate `openingHoursSpecification` in the schema.org validator; the e2e JSON-LD test still passes.
 - i18n parity (`scripts/check-i18n.mjs`) passes with the new keys in every locale.
-  </content>
-  </invoke>

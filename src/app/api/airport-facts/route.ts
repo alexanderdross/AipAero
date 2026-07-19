@@ -16,6 +16,10 @@ const airportHoursSchema = z
     hoursSource: z.enum(["eaip", "openaip", "osm"]).optional(),
     declaredDistances: z.string().nullable().optional(), // JSON DeclaredDistances
     declaredSource: z.enum(["eaip"]).optional(),
+    // DE-only raw OCR text of the DFS AD-2 page images (display-only, see the
+    // ad2_ocr_text column). Never parsed into a structured field.
+    ad2OcrText: z.string().nullable().optional(),
+    ad2OcrSource: z.enum(["dfs-ocr"]).optional(),
   })
   .array();
 

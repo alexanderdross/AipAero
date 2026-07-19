@@ -23,6 +23,10 @@ on:
         description: "Publish even if a country's count dropped > 50% (parser-bug guard override)"
         type: boolean
         default: false
+      de_ocr:
+        description: "DE only: OCR the DFS AD-2 page images into raw display text (heavy - a browser render per field; leave off for the daily crawl)"
+        type: boolean
+        default: false
 
 # Never let two publish runs overlap (they delete+insert per country in D1).
 concurrency:
@@ -62,6 +66,14 @@ jobs:
         continue-on-error: true
         run: uv run playwright install chromium --with-deps
 
+      # Tesseract (German + English) for the opt-in DE AD-2 OCR pass (de_ocr).
+      # Best-effort: only used when the de_ocr input is on, and the crawler
+      # fails soft (0 text) if the binary is missing.
+      - name: Install Tesseract OCR
+        if: ${{ inputs.de_ocr }}
+        continue-on-error: true
+        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-deu
+
       # Carry the per-country "last successful count" across runs so the
       # OutputHandler's > 50% drop guard (parser-bug protection) survives the
       # ephemeral, fresh-checkout runner. Rolling key: always restores the
@@ -89,6 +101,9 @@ jobs:
           # dispatch input can never inject shell. Empty on schedule = all.
           COUNTRIES: ${{ inputs.countries }}
           CRAWLER_FORCE_PUBLISH: ${{ inputs.force_publish && '1' || '' }}
+          # DE-only opt-in: OCR the DFS AD-2 page images into raw display text.
+          # Off on the schedule (heavy); on only when the dispatch input is set.
+          DE_OCR: ${{ inputs.de_ocr && '1' || '' }}
         # Unquoted $COUNTRIES so it word-splits into per-country args.
         run: uv run main.py $COUNTRIES
 
