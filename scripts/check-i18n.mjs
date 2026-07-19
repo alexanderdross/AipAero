@@ -6,6 +6,7 @@
 //
 // `uk.json` has no partner because UK *is* the English locale.
 
+import { parse } from "@formatjs/icu-messageformat-parser";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
@@ -83,9 +84,7 @@ const ALWAYS_PAGES = ["/airport-list", "/efb"];
 
 function loadAvailability() {
   const src = readFileSync(UTILS, "utf8");
-  const block = src.match(
-    /countryTypeAvailability[^{]*\{([\s\S]*?)\n\};/,
-  )?.[1];
+  const block = src.match(/countryTypeAvailability[^{]*\{([\s\S]*?)\n\};/)?.[1];
   if (!block) throw new Error("could not parse countryTypeAvailability");
   const avail = {};
   for (const m of block.matchAll(/^\s*([a-z]{2}):\s*\[([^\]]*)\]/gm)) {
@@ -103,14 +102,56 @@ for (const file of files) {
   if (!types) continue; // not a launched/known country locale
   const bc = load(file).BreadCrumbs ?? {};
   const required = [...types.map((t) => TYPE_TO_HREF[t]), ...ALWAYS_PAGES];
-  const missing = required.filter(
-    (k) => !bc[k]?.title || !bc[k]?.hrefTitle,
-  );
+  const missing = required.filter((k) => !bc[k]?.title || !bc[k]?.hrefTitle);
   if (missing.length) {
     failed = true;
     console.error(
       `\n✗ ${file}: BreadCrumbs missing page entries (country renders these pages): ${missing.join(", ")}`,
     );
+  }
+}
+
+// Third check: ICU MessageFormat validity + the apostrophe-before-tag hazard,
+// across ALL locale files. next-intl parses every message as ICU MessageFormat;
+// a malformed string (unbalanced braces, a plural/select without `other`, a
+// broken tag) throws at RENDER time, not build time - invisible until a user
+// hits that locale+page. And a straight ASCII apostrophe immediately before a
+// markup tag ("L'<glossary>") is an ICU escape that silently swallows the tag
+// into a literal quoted region - the FR/IT elision bug that shipped once and was
+// fixed with a curly apostrophe. Both are caught here so a translator edit
+// cannot reintroduce them. Tags are parsed (ignoreTag:false) to match next-intl.
+function flattenValues(obj, prefix = "") {
+  const out = [];
+  for (const [k, v] of Object.entries(obj)) {
+    const path = prefix ? `${prefix}.${k}` : k;
+    if (v && typeof v === "object" && !Array.isArray(v)) {
+      out.push(...flattenValues(v, path));
+    } else if (typeof v === "string") {
+      out.push([path, v]);
+    }
+  }
+  return out;
+}
+
+// A straight apostrophe (U+0027), not doubled, right before a markup tag.
+const APOS_BEFORE_TAG = /(^|[^'])'<[a-zA-Z]/;
+
+for (const file of files) {
+  for (const [key, str] of flattenValues(load(file))) {
+    if (APOS_BEFORE_TAG.test(str)) {
+      failed = true;
+      console.error(
+        `\n✗ ${file}: ${key} has a straight apostrophe before a markup tag ('<...>). ICU treats it as an escape and drops the tag - use a curly apostrophe (’) or double it ('').`,
+      );
+    }
+    try {
+      parse(str, { ignoreTag: false });
+    } catch (e) {
+      failed = true;
+      console.error(
+        `\n✗ ${file}: ${key} is not valid ICU MessageFormat: ${e.message}`,
+      );
+    }
   }
 }
 

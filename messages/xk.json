@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Ka një pistë.} other {Ka # pista.}}",
     "charts": "AIP:Aero lidh hartën zyrtare {type} së bashku me informacione për pistën, frekuencat dhe motin aktual.",
     "chartsAirac": "AIP:Aero lidh hartën zyrtare {type} nga edicioni <guides>AIRAC</guides> {airac}, së bashku me informacione për pistën, frekuencat dhe motin aktual.",
-    "noCharts": "AIP:Aero lidh hyrjen zyrtare në AIP së bashku me informacione për pistën, frekuencat dhe motin aktual."
+    "noCharts": "AIP:Aero lidh hyrjen zyrtare në AIP së bashku me informacione për pistën, frekuencat dhe motin aktual.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "heliport",
+      "mil": "ushtarak",
+      "aeroport": "aeroport"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Fjalor aeronautik - AIP, AIRAC, VFR, METAR dhe më shumë",

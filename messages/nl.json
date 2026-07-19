@@ -402,7 +402,14 @@
     "runways": "{count, plural, one {Het heeft één baan.} other {Het heeft # banen.}}",
     "charts": "AIP:Aero koppelt de officiële {type}-kaart samen met baan-, frequentie- en actuele weersinformatie.",
     "chartsAirac": "AIP:Aero koppelt de officiële {type}-kaart uit <guides>AIRAC</guides>-editie {airac}, samen met baan-, frequentie- en actuele weersinformatie.",
-    "noCharts": "AIP:Aero koppelt de officiële AIP-vermelding samen met baan-, frequentie- en actuele weersinformatie."
+    "noCharts": "AIP:Aero koppelt de officiële AIP-vermelding samen met baan-, frequentie- en actuele weersinformatie.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "heliport",
+      "mil": "militair",
+      "aeroport": "luchthaven"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Luchtvaartglossarium - AIP, AIRAC, VFR, METAR en meer",

@@ -402,7 +402,14 @@
     "runways": "{count, plural, one {Ma jedną drogę startową.} few {Ma # drogi startowe.} many {Ma # dróg startowych.} other {Ma # drogi startowej.}}",
     "charts": "AIP:Aero podaje link do oficjalnej mapy {type} wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie.",
     "chartsAirac": "AIP:Aero podaje link do oficjalnej mapy {type} z edycji <guides>AIRAC</guides> {airac} wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie.",
-    "noCharts": "AIP:Aero podaje link do oficjalnego wpisu w AIP wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie."
+    "noCharts": "AIP:Aero podaje link do oficjalnego wpisu w AIP wraz z informacjami o drodze startowej, częstotliwości i aktualnej pogodzie.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "lądowisko",
+      "mil": "wojskowy",
+      "aeroport": "lotnisko"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Słownik lotniczy - AIP, AIRAC, VFR, METAR i więcej",

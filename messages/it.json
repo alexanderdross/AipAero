@@ -328,7 +328,7 @@
     "offlineTitle": "Salva singoli aeroporti offline",
     "offlineText": "Ogni pagina di dettaglio dell'aeroporto ha un pulsante \"Salva offline\". Memorizza la pagina e, dove l'AIP ne pubblica uno, il PDF della carta di avvicinamento sul tuo dispositivo; l'aeroporto appare poi tra i Preferiti sulla pagina del paese. Le copie salvate mostrano la loro data di download.",
     "bulkTitle": "Scarica un intero paese",
-    "bulkText": "Nell'<list>elenco degli aeroporti</list> puoi scaricare tutte le pagine di dettaglio di un paese in una sola volta (solo le pagine, senza i PDF delle carte - salvali per ogni aeroporto). Il pacchetto mostra la sua dimensione prima del download e può essere aggiornato o rimosso in qualsiasi momento.",
+    "bulkText": "Nell’<list>elenco degli aeroporti</list> puoi scaricare tutte le pagine di dettaglio di un paese in una sola volta (solo le pagine, senza i PDF delle carte - salvali per ogni aeroporto). Il pacchetto mostra la sua dimensione prima del download e può essere aggiornato o rimosso in qualsiasi momento.",
     "favoritesTitle": "Preferiti & visualizzati di recente",
     "favoritesText": "Gli aeroporti che salvi per l'uso offline appaiono automaticamente come preferiti, e gli ultimi aeroporti che hai aperto sono elencati sotto \"Visualizzati di recente\" - entrambi sono memorizzati solo sul tuo dispositivo, senza bisogno di un account. Troverai entrambi gli elenchi <country>sulla pagina del paese</country>.",
     "importTitle": "PDF delle carte in ForeFlight, SkyDemon & Co.",
@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Dispone di una pista.} other {Dispone di # piste.}}",
     "charts": "AIP:Aero collega la carta {type} ufficiale insieme alle informazioni su pista, frequenza e meteo attuale.",
     "chartsAirac": "AIP:Aero collega la carta {type} ufficiale dell'edizione <guides>AIRAC</guides> {airac}, insieme alle informazioni su pista, frequenza e meteo attuale.",
-    "noCharts": "AIP:Aero collega la voce AIP ufficiale insieme alle informazioni su pista, frequenza e meteo attuale."
+    "noCharts": "AIP:Aero collega la voce AIP ufficiale insieme alle informazioni su pista, frequenza e meteo attuale.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "eliporto",
+      "mil": "militare",
+      "aeroport": "aeroporto"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Glossario aeronautico - AIP, AIRAC, VFR, METAR e altro",

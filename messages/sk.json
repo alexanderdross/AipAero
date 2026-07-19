@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Má jednu dráhu.} few {Má # dráhy.} many {Má # dráhy.} other {Má # dráh.}}",
     "charts": "AIP:Aero odkazuje na jej oficiálnu mapu {type} spolu s informáciami o dráhe, frekvencii a aktuálnom počasí.",
     "chartsAirac": "AIP:Aero odkazuje na jej oficiálnu mapu {type} z edície <guides>AIRAC</guides> {airac} spolu s informáciami o dráhe, frekvencii a aktuálnom počasí.",
-    "noCharts": "AIP:Aero odkazuje na jej oficiálny záznam v AIP spolu s informáciami o dráhe, frekvencii a aktuálnom počasí."
+    "noCharts": "AIP:Aero odkazuje na jej oficiálny záznam v AIP spolu s informáciami o dráhe, frekvencii a aktuálnom počasí.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "heliport",
+      "mil": "vojenské",
+      "aeroport": "letisko"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Letecký slovník - AIP, AIRAC, VFR, METAR a ďalšie",

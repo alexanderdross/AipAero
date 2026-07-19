@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Egy futópályája van.} other {# futópályája van.}}",
     "charts": "Az AIP:Aero a hivatalos {type} térképét a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
     "chartsAirac": "Az AIP:Aero a hivatalos {type} térképét a(z) {airac} <guides>AIRAC</guides> kiadásból, a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
-    "noCharts": "Az AIP:Aero a hivatalos AIP-bejegyzését a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza."
+    "noCharts": "Az AIP:Aero a hivatalos AIP-bejegyzését a futópályára, frekvenciára és aktuális időjárásra vonatkozó információkkal együtt hivatkozza.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "helikopter",
+      "mil": "katonai",
+      "aeroport": "repülőtér"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Repülési szószedet - AIP, AIRAC, VFR, METAR és több",

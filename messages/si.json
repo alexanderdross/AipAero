@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Ima eno vzletno-pristajalno stezo.} two {Ima # vzletno-pristajalni stezi.} few {Ima # vzletno-pristajalne steze.} other {Ima # vzletno-pristajalnih stez.}}",
     "charts": "AIP:Aero povezuje njeno uradno karto {type} skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu.",
     "chartsAirac": "AIP:Aero povezuje njeno uradno karto {type} iz izdaje <guides>AIRAC</guides> {airac} skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu.",
-    "noCharts": "AIP:Aero povezuje njen uradni vpis v AIP skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu."
+    "noCharts": "AIP:Aero povezuje njen uradni vpis v AIP skupaj s podatki o vzletno-pristajalni stezi, frekvenci in trenutnem vremenu.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "heliport",
+      "mil": "vojaški",
+      "aeroport": "letališče"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Letalski slovar - AIP, AIRAC, VFR, METAR in več",

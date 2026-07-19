@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Hann er með eina flugbraut.} other {Hann er með # flugbrautir.}}",
     "charts": "AIP:Aero tengir í opinbera {type}-kortið ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
     "chartsAirac": "AIP:Aero tengir í opinbera {type}-kortið úr <guides>AIRAC</guides>-útgáfu {airac}, ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
-    "noCharts": "AIP:Aero tengir í opinberu AIP-færsluna ásamt upplýsingum um flugbraut, tíðni og núverandi veður."
+    "noCharts": "AIP:Aero tengir í opinberu AIP-færsluna ásamt upplýsingum um flugbraut, tíðni og núverandi veður.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "þyrlupallur",
+      "mil": "hernaðar",
+      "aeroport": "flugvöllur"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Flugorðasafn - AIP, AIRAC, VFR, METAR og fleira",

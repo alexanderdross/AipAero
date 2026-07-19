@@ -391,7 +391,14 @@
     "runways": "{count, plural, one {Tem uma pista.} other {Tem # pistas.}}",
     "charts": "A AIP:Aero associa a carta {type} oficial às informações de pista, frequência e meteorologia atual.",
     "chartsAirac": "A AIP:Aero associa a carta {type} oficial da edição <guides>AIRAC</guides> {airac} às informações de pista, frequência e meteorologia atual.",
-    "noCharts": "A AIP:Aero associa a entrada oficial do AIP às informações de pista, frequência e meteorologia atual."
+    "noCharts": "A AIP:Aero associa a entrada oficial do AIP às informações de pista, frequência e meteorologia atual.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "heliporto",
+      "mil": "militar",
+      "aeroport": "aeroporto"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Glossário aeronáutico - AIP, AIRAC, VFR, METAR e mais",

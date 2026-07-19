@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Onun bir uçuş-enmə zolağı var.} other {Onun # uçuş-enmə zolağı var.}}",
     "charts": "AIP:Aero onun rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
     "chartsAirac": "AIP:Aero onun <guides>AIRAC</guides> {airac} buraxılışından olan rəsmi {type} xəritəsini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
-    "noCharts": "AIP:Aero onun rəsmi AIP qeydini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir."
+    "noCharts": "AIP:Aero onun rəsmi AIP qeydini uçuş-enmə zolağı, tezlik və cari hava məlumatları ilə birlikdə əlaqələndirir.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "helikopter meydançası",
+      "mil": "hərbi",
+      "aeroport": "aeroport"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Aviasiya lüğəti - AIP, AIRAC, VFR, METAR və daha çox",

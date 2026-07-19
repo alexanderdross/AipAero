@@ -402,7 +402,14 @@
     "runways": "{count, plural, zero {Tam ir # skrejceļu.} one {Tam ir viens skrejceļš.} other {Tam ir # skrejceļi.}}",
     "charts": "AIP:Aero sasaista tā oficiālo {type} karti ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
     "chartsAirac": "AIP:Aero sasaista tā oficiālo {type} karti no <guides>AIRAC</guides> izdevuma {airac} ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
-    "noCharts": "AIP:Aero sasaista tā oficiālo AIP ierakstu ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem."
+    "noCharts": "AIP:Aero sasaista tā oficiālo AIP ierakstu ar informāciju par skrejceļu, frekvenci un pašreizējiem laikapstākļiem.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "helikopteru laukums",
+      "mil": "militārā",
+      "aeroport": "lidosta"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Aviācijas vārdnīca - AIP, AIRAC, VFR, METAR un vairāk",

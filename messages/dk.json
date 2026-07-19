@@ -402,7 +402,14 @@
     "runways": "{count, plural, one {Den har én bane.} other {Den har # baner.}}",
     "charts": "AIP:Aero linker til det officielle {type}-kort sammen med oplysninger om bane, frekvens og aktuelt vejr.",
     "chartsAirac": "AIP:Aero linker til det officielle {type}-kort fra <guides>AIRAC</guides>-udgave {airac} sammen med oplysninger om bane, frekvens og aktuelt vejr.",
-    "noCharts": "AIP:Aero linker til den officielle AIP-post sammen med oplysninger om bane, frekvens og aktuelt vejr."
+    "noCharts": "AIP:Aero linker til den officielle AIP-post sammen med oplysninger om bane, frekvens og aktuelt vejr.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "helikopterlandingsplads",
+      "mil": "militær",
+      "aeroport": "lufthavn"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Luftfartsordbog - AIP, AIRAC, VFR, METAR og mere",

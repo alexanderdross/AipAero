@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Onuň bir uçuş-gonuş zolagy bar.} other {Onuň # uçuş-gonuş zolagy bar.}}",
     "charts": "AIP:Aero onuň resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
     "chartsAirac": "AIP:Aero onuň <guides>AIRAC</guides> {airac} neşirindäki resmi {type} kartasyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
-    "noCharts": "AIP:Aero onuň resmi AIP ýazgysyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar."
+    "noCharts": "AIP:Aero onuň resmi AIP ýazgysyny uçuş-gonuş zolagy, ýygylyk we häzirki howa maglumatlary bilen bilelikde baglanyşdyrýar.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "dikuçar meýdançasy",
+      "mil": "harby",
+      "aeroport": "aeroport"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Awiasiýa sözlügi - AIP, AIRAC, VFR, METAR we başgalar",

@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Jis turi vieną kilimo ir tūpimo taką.} few {Jis turi # kilimo ir tūpimo takus.} other {Jis turi # kilimo ir tūpimo takų.}}",
     "charts": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę kartu su tako, dažnio ir dabartinės oro būklės informacija.",
     "chartsAirac": "AIP:Aero pateikia nuorodą į oficialią {type} kortelę iš <guides>AIRAC</guides> leidimo {airac} kartu su tako, dažnio ir dabartinės oro būklės informacija.",
-    "noCharts": "AIP:Aero pateikia nuorodą į oficialų AIP įrašą kartu su tako, dažnio ir dabartinės oro būklės informacija."
+    "noCharts": "AIP:Aero pateikia nuorodą į oficialų AIP įrašą kartu su tako, dažnio ir dabartinės oro būklės informacija.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "sraigtasparnių",
+      "mil": "karinio",
+      "aeroport": "oro uostas"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Aviacijos žodynas - AIP, AIRAC, VFR, METAR ir daugiau",

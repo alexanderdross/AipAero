@@ -402,7 +402,14 @@
     "runways": "{count, plural, one {Den har én rullebane.} other {Den har # rullebaner.}}",
     "charts": "AIP:Aero lenker til det offisielle {type}-kartet sammen med informasjon om rullebane, frekvens og gjeldende vær.",
     "chartsAirac": "AIP:Aero lenker til det offisielle {type}-kartet fra <guides>AIRAC</guides>-utgave {airac} sammen med informasjon om rullebane, frekvens og gjeldende vær.",
-    "noCharts": "AIP:Aero lenker til den offisielle AIP-oppføringen sammen med informasjon om rullebane, frekvens og gjeldende vær."
+    "noCharts": "AIP:Aero lenker til den offisielle AIP-oppføringen sammen med informasjon om rullebane, frekvens og gjeldende vær.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "helikopterplass",
+      "mil": "militær",
+      "aeroport": "lufthavn"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Luftfartsordliste - AIP, AIRAC, VFR, METAR og mer",
