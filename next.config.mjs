@@ -29,14 +29,18 @@ const withAnalyzer = withBundleAnalyzer({
 // are many and change per AIRAC cycle, so they cannot be enumerated -
 // `object-src https:` restricts embeds to HTTPS while keeping the preview
 // working. ('none' would silently break it on every detail page.)
+// Cloudflare Turnstile (contact form, /contact + /de/kontakt) loads its script
+// from challenges.cloudflare.com, renders the challenge in an iframe from the
+// same origin, and posts back to it - so challenges.cloudflare.com must be on
+// script-src, frame-src and connect-src.
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://googleads.g.doubleclick.net https://*.adtrafficquality.google https://*.googletagmanager.com",
+  "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://challenges.cloudflare.com https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://googleads.g.doubleclick.net https://*.adtrafficquality.google https://*.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://*.googlesyndication.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.tile.openstreetmap.org",
   "font-src 'self' data:",
-  "connect-src 'self' https://cloudflareinsights.com https://pagead2.googlesyndication.com https://*.adtrafficquality.google",
-  "frame-src https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google",
+  "connect-src 'self' https://cloudflareinsights.com https://challenges.cloudflare.com https://pagead2.googlesyndication.com https://*.adtrafficquality.google",
+  "frame-src https://challenges.cloudflare.com https://googleads.g.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -69,6 +73,11 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
+  // worker-mailer (contact-form SMTP) imports `cloudflare:sockets`, a Worker-
+  // only builtin webpack cannot resolve during `next build`. Keeping it out of
+  // the webpack graph lets the OpenNext esbuild pass bundle it for the Worker
+  // (it treats `cloudflare:*` imports as runtime externals).
+  serverExternalPackages: ["worker-mailer"],
   experimental: {
     // Inline each page's CSS as a <style> in <head> instead of external
     // <link rel="stylesheet"> requests. Removes the render-blocking CSS round

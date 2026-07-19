@@ -40,6 +40,12 @@
 		// IndexNow key - public by design (served at public/<key>.txt), so it
 		// lives here as a plain var, not a secret. Must equal the .txt filename.
 		"INDEXNOW_KEY": "fae2b7dc9cfb44919eb6b358e7c4a846"
+		// Contact form: add the public Cloudflare Turnstile SITE key here once the
+		// widget is created (it is safe to expose), e.g.
+		//   "TURNSTILE_SITE_KEY": "0x4AAAAAAA..."
+		// The SECRET key + SMTP_* credentials are secrets - set them with
+		// `wrangler secret put TURNSTILE_SECRET_KEY` / `SMTP_HOST` / `SMTP_PORT` /
+		// `SMTP_USER` / `SMTP_PASS` / `SMTP_FROM`.
 	},
 	// Self-reference binding required by the OpenNext memory queue (ISR
 	// revalidation, see open-next.config.ts): stale routes are re-rendered by

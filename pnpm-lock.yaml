@@ -22,6 +22,11 @@ overrides:
   yaml@>=2.0.0 <2.8.3: '>=2.8.3'
   postcss@<8.5.10: '>=8.5.10'
 
+patchedDependencies:
+  worker-mailer:
+    hash: 56b7d9c97f007b44b155fb4b5078dfd4688065594fb8f35f338d056b19e9d6d5
+    path: patches/worker-mailer.patch
+
 importers:
 
   .:
@@ -77,6 +82,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.3.1)
+      worker-mailer:
+        specifier: ^1.2.1
+        version: 1.2.1(patch_hash=56b7d9c97f007b44b155fb4b5078dfd4688065594fb8f35f338d056b19e9d6d5)
       zod:
         specifier: ^4.4.3
         version: 4.4.3
@@ -4356,6 +4364,9 @@ packages:
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
+
+  worker-mailer@1.2.1:
+    resolution: {integrity: sha512-gS2ei/mrpRqNs+AHmqxhT6vFPwCLw2qnz5ShmyGD0ULaU0Q9hxnFAcx9jhAip/MnD6+MjgnQu6hQQgA8mlOkVA==}
 
   workerd@1.20260702.1:
     resolution: {integrity: sha512-rkIDTWQ7yhC0BjWBDuKj/q9JsOBzrGt/KdOeun+c4YlN47W4l0pa5aCyE1X6A47/ju3h6BEFhrO1CibZ5EgSpA==}
@@ -8855,6 +8866,8 @@ snapshots:
       stackback: 0.0.2
 
   word-wrap@1.2.5: {}
+
+  worker-mailer@1.2.1(patch_hash=56b7d9c97f007b44b155fb4b5078dfd4688065594fb8f35f338d056b19e9d6d5): {}
 
   workerd@1.20260702.1:
     optionalDependencies:

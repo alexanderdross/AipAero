@@ -24,13 +24,18 @@ export default function middleware(request: NextRequest) {
   // header's language switcher linking to a non-existent /de/en/... twin. So we
   // internally REWRITE the public /de/... path onto the root route (URL stays
   // /de/impressum), and 301 the bare root path to the canonical /de/... URL.
-  const deLegal = /^\/de\/(impressum|datenschutz|agb)\/?$/.exec(pathname);
+  // The German contact page (/de/kontakt/) follows the same pattern as the
+  // German legal pages: a root route (src/app/kontakt) served under /de/ via an
+  // internal rewrite, with the bare root path 301'd to the canonical /de/ URL.
+  const deLegal = /^\/de\/(impressum|datenschutz|agb|kontakt)\/?$/.exec(
+    pathname,
+  );
   if (deLegal) {
     const url = request.nextUrl.clone();
     url.pathname = `/${deLegal[1]}/`;
     return NextResponse.rewrite(url);
   }
-  const rootLegal = /^\/(impressum|datenschutz|agb)\/?$/.exec(pathname);
+  const rootLegal = /^\/(impressum|datenschutz|agb|kontakt)\/?$/.exec(pathname);
   if (rootLegal) {
     const url = request.nextUrl.clone();
     url.pathname = `/de/${rootLegal[1]}/`;
