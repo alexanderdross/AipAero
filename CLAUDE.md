@@ -411,7 +411,7 @@ A structured read-only JSON API offered to integration partners (EFB / flight-pl
 - **IndexNow** (`src/lib/indexnow.ts`, key `fae2b7dc9cfb44919eb6b358e7c4a846` served at `/<key>.txt`; `INDEXNOW_KEY` is a plain `var` in `wrangler.jsonc`): on each crawler POST, `MUTATIONS.insertAirports` pings IndexNow (Bing/Yandex) with the changed country's URLs via `ctx.waitUntil(submitCountryToIndexNow(...))` - but **only when the insert actually changed detail rows** (`if (changedDetails.length > 0)`), so an unchanged re-crawl does not ping. The submit retries 429/503 with jittered exponential backoff (`MAX_ATTEMPTS=3`, `BACKOFF_BASE_MS=3000`) - a fix for the 429 storm caused by 19 countries all pinging on the same daily schedule. See `docs/indexnow-concept.md`.
 - Canonical URLs, alternate language links + **`x-default`** (pointing at the English version) on the country/list/search pages and in the sitemap; single-locale countries (uk, be - `isSingleLocale()` in `routing.ts`) emit **no** alternates and hide the language switcher
 - `trailingSlash: true` in Next.js config
-- Static generation with `dynamicParams = false` and `generateStaticParams()`
+- Static generation with `generateStaticParams()` (prerenders every valid locale) and `dynamicParams = true` on the `[locale]` pages, so a **known** locale self-heals via on-demand SSR if its OpenNext R2 incremental-cache entry is ever missing (post-deploy empty window / eviction) instead of a hard `NoFallbackError` 404. Unknown locales still 404 — the `[locale]` layout calls `notFound()` for any slug not in `routing.locales`
 - Airport detail pages use search params: `/vfr?EDNY` (slug as query key, no value)
 
 ### Airport detail URLs (`?ICAO`) are an intentional SEO strategy - do NOT convert to path segments
@@ -552,7 +552,7 @@ When adding a new country crawler, inherit from `HttpCrawlerBase` (or `HttpEuroc
 
 ## Key Patterns
 
-1. **Static Generation**: All pages use `generateStaticParams()` + `dynamicParams = false`
+1. **Static Generation**: All `[locale]` pages use `generateStaticParams()` (prerenders every valid locale) + `dynamicParams = true` — a known locale regenerates on-demand if its OpenNext R2 cache entry is missing (resilience against the post-deploy empty-cache 404); invalid locales are rejected by the `[locale]` layout's `notFound()` guard
 2. **Airport Detail via Search Params**: Airport selection uses query string key (e.g., `?EDNY`) rather than path segments
 3. **Translation-driven UI**: Menu items, page content, SEO metadata all from i18n JSON files
 4. **Conditional Page Rendering**: Country-specific pages filtered in `generateStaticParams()` (e.g., IFR only for DE, military/aeroports only for FR)
