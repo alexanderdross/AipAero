@@ -1429,6 +1429,7 @@ jobs:
           allow = {c.strip().upper() for c in os.environ["DE_OCR_ICAOS"].split(",") if c.strip()}
           crawler = DE()
           airports = crawler.crawl()
+          crawler.ensure_client_open()  # crawl() closed the httpx client
           fields = [a for a in airports if a.icao and a.icao in allow]
           print(f"\n##### matched {len(fields)} field(s): {[(a.icao, a.airport_type) for a in fields]}")
           for ap in fields:

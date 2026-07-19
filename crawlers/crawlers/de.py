@@ -353,6 +353,11 @@ class DE(PlaywrightCrawlerBase):
         """
         from crawlers.de_ocr import biggest_png, is_text_page, ocr_image
 
+        # This runs AFTER crawl(), whose `finally` closed the httpx client -
+        # reopen it, else every content-page _fetch() below raises "client has
+        # been closed" (silently swallowed -> 0 fields).
+        self.ensure_client_open()
+
         only = os.environ.get("DE_OCR_ICAOS")
         allow = {c.strip().upper() for c in only.split(",") if c.strip()} if only else None
         fields = [a for a in airports if a.icao and (allow is None or a.icao in allow)]
