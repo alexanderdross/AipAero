@@ -281,7 +281,8 @@
     "hoursCommunity": "communitygegevens",
     "openUntil": "Open tot",
     "filtersTab": "Filters",
-    "hoursTab": "Openingstijden"
+    "hoursTab": "Openingstijden",
+    "declaredDistances": "Gedeclareerde afstanden"
   },
   "Common": {
     "openIn": "Openen in",

@@ -84,6 +84,10 @@ export async function GET(
           },
           runways: parseJson<unknown[]>(facts.runways, []),
           frequencies: parseJson<unknown[]>(facts.frequencies, []),
+          declaredDistances: parseJson<Record<string, unknown>>(
+            facts.declaredDistances,
+            {},
+          ),
           fuel: parseJson<string[]>(facts.fuel, []),
           openingHours: facts.openingHours,
           ppr: facts.ppr,

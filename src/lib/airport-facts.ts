@@ -8,6 +8,7 @@ import type { StructuredHours } from "~/lib/opening-hours";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import type {
   AirportFactsRow,
+  DeclaredDistances,
   FrequencyFact,
   InsertAirportFacts,
   RunwayFact,
@@ -46,6 +47,9 @@ export interface NormalizedFacts {
   phone: string | null; // contact phone (persisted OSM address)
   runways: RunwayFact[];
   frequencies: FrequencyFact[];
+  // AD 2.13 declared distances per runway (metres), from the eAIP - null when
+  // the source carries none. Authoritative-only (no live fallback source).
+  declaredDistances: DeclaredDistances | null;
   source: string; // provenance, e.g. "openaip" or "ourairports"
 }
 
@@ -65,6 +69,19 @@ function parseStructuredJson(raw: string | null): StructuredHours | null {
   try {
     const v: unknown = JSON.parse(raw);
     return Array.isArray(v) && v.length === 7 ? (v as StructuredHours) : null;
+  } catch {
+    return null;
+  }
+}
+
+// Persisted declared_distances JSON -> DeclaredDistances, or null.
+function parseDeclaredJson(raw: string | null): DeclaredDistances | null {
+  if (!raw) return null;
+  try {
+    const v: unknown = JSON.parse(raw);
+    return v && typeof v === "object" && !Array.isArray(v)
+      ? (v as DeclaredDistances)
+      : null;
   } catch {
     return null;
   }
@@ -92,6 +109,7 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     phone: row.phone ?? null,
     runways: parseJsonArray<RunwayFact>(row.runways),
     frequencies: parseJsonArray<FrequencyFact>(row.frequencies),
+    declaredDistances: parseDeclaredJson(row.declaredDistances),
     source: row.source,
   };
 }
@@ -122,6 +140,10 @@ function toRow(icao: string, f: NormalizedFacts): InsertAirportFacts {
     homeLink: f.homeLink,
     runways: f.runways.length ? JSON.stringify(f.runways) : null,
     frequencies: f.frequencies.length ? JSON.stringify(f.frequencies) : null,
+    declaredDistances: f.declaredDistances
+      ? JSON.stringify(f.declaredDistances)
+      : null,
+    declaredSource: f.declaredDistances ? "eaip" : null,
     street: f.street,
     postcode: f.postcode,
     phone: f.phone,
@@ -210,6 +232,8 @@ export async function getAirportFacts(
       openaip?.frequencies,
       awc?.frequencies,
     ),
+    // Declared distances are eAIP-only (persisted in D1); no live source.
+    declaredDistances: base?.declaredDistances ?? null,
     source: [base?.source, openaip?.source, awc?.source]
       .filter(Boolean)
       .join("+"),
