@@ -23,6 +23,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_eurocontrol_base import ad23_hours
 from crawlers.models import ChartLink
 
 COUNTRY = "RO"
@@ -139,6 +140,15 @@ class RO(HttpCrawlerBase):
             seen.add(icao)
             folder = urljoin(ad2_dir_url, a["href"].rstrip("/") + "/")
             pdf = urljoin(folder, f"LR_AD_2_{icao}_en.pdf")
+            # The bare-ICAO PDF is the full AD-2 text sheet (not a graphic-only
+            # chart); its AD 2.3 OPERATIONAL HOURS section drives operation
+            # hours. One extra direct (unmetered) PDF fetch per field; fail-soft.
+            try:
+                hrs = ad23_hours(self.pdf_text(pdf))
+                if hrs:
+                    self.hours_by_icao[icao] = hrs
+            except Exception as e:
+                self.logger.debug(f"RO: {icao} AD 2.3 hours failed: {e}")
             name = _NAMES.get(icao, "")
             title = f"{name} {icao}".strip() if name else icao
             airports.append(
