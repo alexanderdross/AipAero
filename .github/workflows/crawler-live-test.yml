@@ -1417,20 +1417,42 @@ jobs:
           export DE_OCR_ICAOS="$(echo '${{ inputs.de_ocr }}' | tr ' ' ',')"
           echo "DE OCR recon for: $DE_OCR_ICAOS"
           uv run python - <<'PY'
-          # End-to-end: run the REAL collect_ad2_ocr path (warnings ON so a
-          # browser-render failure surfaces) and print the recognised text so
-          # its quality can be eyeballed against the DFS page.
+          # DEEP probe: for each matched "AD 2 <ICAO> 1-<n>" text page, report
+          # whether the content is real HTML TEXT (get_text) or a base64 PNG
+          # image (biggest_png) - decides OCR vs direct text extraction.
           import logging, os
+          from urllib.parse import urljoin
           logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
-          from crawlers.de import DE
+          from crawlers.de import DE, _TEXT_PAGE_RE
+          from crawlers.de_ocr import biggest_png, is_text_page, ocr_image
 
+          allow = {c.strip().upper() for c in os.environ["DE_OCR_ICAOS"].split(",") if c.strip()}
           crawler = DE()
-          airports = crawler.crawl()  # ~792 fields, httpx (no browser)
-          print(f"DE crawl: {len(airports)} fields; running OCR on the subset")
-          crawler.collect_ad2_ocr(airports)  # renders + OCRs only DE_OCR_ICAOS
-          text_by_icao = getattr(crawler, "ad2_text_by_icao", {})
-          print(f"\n===== DE OCR TEXT ({len(text_by_icao)} field(s) with text) =====")
-          for icao, text in text_by_icao.items():
-              print(f"\n----- {icao} ({len(text)} chars) -----")
-              print(text[:4000])
+          airports = crawler.crawl()
+          fields = [a for a in airports if a.icao and a.icao in allow]
+          print(f"\n##### matched {len(fields)} field(s): {[(a.icao, a.airport_type) for a in fields]}")
+          for ap in fields:
+              print(f"\n===== {ap.icao} [{ap.airport_type}] landing {ap.url}")
+              try:
+                  html = crawler.render_html(ap.url)
+              except Exception as e:
+                  print(f"  render FAILED: {type(e).__name__}: {e}"); continue
+              base = getattr(crawler, "last_url", ap.url)
+              hrefs = []
+              for a in crawler.soup(html).find_all("a", href=True):
+                  m = _TEXT_PAGE_RE.match(a.get_text(" ", strip=True))
+                  if m and m.group(1) == ap.icao:
+                      hrefs.append((a.get_text(" ", strip=True)[:24], a["href"]))
+              print(f"  {len(hrefs)} text-page match(es): {[t for t, _ in hrefs]}")
+              for label, h in list(dict.fromkeys(hrefs))[:2]:
+                  url2 = urljoin(base, h)
+                  _, page_html = crawler._fetch(url2)
+                  txt = " ".join(crawler.soup(page_html).get_text(" ").split())
+                  png = biggest_png(page_html)
+                  print(f"  --- {label}: html={len(page_html)} get_text={len(txt)} png={len(png) if png else 0}")
+                  print(f"      get_text head: {txt[:400]}")
+                  if png:
+                      o = ocr_image(png)
+                      print(f"      OCR {len(o)} chars is_text={is_text_page(o)} head: {o[:300]}")
+          crawler.close()
           PY
