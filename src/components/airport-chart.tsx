@@ -1,4 +1,4 @@
-import { FileTextIcon } from "lucide-react";
+import { CircleHelpIcon, FileTextIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { ExternalLink } from "~/components/external-link";
 import { SectionHeading } from "~/components/section-heading";
@@ -46,11 +46,12 @@ export async function AirportChart({
   const t = await getTranslations("Chart");
   const tFooter = await getTranslations({ locale, namespace: "Footer" });
   const lang = localeLangMapping[locale] ?? "en";
-  // Content-hub deep anchors: "AIRAC" -> the AIRAC-cycle guide, and the chart
-  // designation (e.g. "ESNX VAC") -> the approach-chart-types glossary term
-  // (what the designator means). Only the primary designation line is linked;
-  // the per-chart names in the collapsed list already sit inside an external-PDF
-  // link (no nested anchors). Reuses the Footer namespace labels.
+  // Content-hub deep anchors: "AIRAC" -> the AIRAC-cycle guide. The primary
+  // chart designation (e.g. "ESNX VAC") links to the chart PDF itself - pilots
+  // read it as the chart's name, so it must open the chart, not a definition
+  // (owner directive 19.07.2026). The "what does this designator mean?" glossary
+  // term (approach-chart-types) sits on a small help icon next to it instead.
+  // Reuses the Footer namespace labels.
   const hub = await getHubLinks(locale);
 
   const primary = charts.find((c) => c.url === url) ?? null;
@@ -82,13 +83,26 @@ export async function AirportChart({
       {(designation || airacLabel) && (
         <p className="text-drossgray-dark mt-1 text-center text-xs">
           {designation && (
-            <a
-              href={hub.chartsTerm}
-              title={tFooter("glossary.hrefTitle")}
-              className="text-drossblue underline"
-            >
-              {designation}
-            </a>
+            <span className="inline-flex items-center gap-x-1">
+              <ExternalLink
+                href={url}
+                hrefTitle={`${cleanChartName(primary!.name)} (PDF)`}
+                className="text-drossblue underline"
+              >
+                {designation}
+              </ExternalLink>
+              <a
+                href={hub.chartsTerm}
+                title={tFooter("glossary.hrefTitle")}
+                aria-label={tFooter("glossary.hrefTitle")}
+                className="text-drossgray-dark hover:text-drossblue inline-flex"
+              >
+                <CircleHelpIcon
+                  className="h-3.5 w-3.5 flex-shrink-0"
+                  aria-hidden="true"
+                />
+              </a>
+            </span>
           )}
           {designation && airacLabel && " · "}
           {airacLabel && (
