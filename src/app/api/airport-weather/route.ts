@@ -10,7 +10,7 @@ import { withEdgeCache } from "~/server/edge-cache";
 // boxes stay server-rendered in the page; only this ephemeral weather is lazy.
 //
 // Fail-soft: any error yields `{ metar: null, taf: null, nearest: null }` so the
-// client simply renders nothing. Cached at the edge for 10 min (weather cadence).
+// client simply renders nothing. Cached at the edge for 15 min (weather cadence).
 
 export const dynamic = "force-dynamic";
 
@@ -66,7 +66,7 @@ async function handleWeather(request: Request): Promise<Response> {
       { metar: outMetar, taf: outTaf, nearest },
       {
         headers: {
-          "Cache-Control": "public, max-age=600, s-maxage=600",
+          "Cache-Control": "public, max-age=900, s-maxage=900",
         },
       },
     );
