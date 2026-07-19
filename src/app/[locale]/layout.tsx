@@ -8,6 +8,7 @@ import { SchemaOrganization } from "~/components/schemas/schema-organization";
 import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
+import { WebVitalsReporter } from "~/components/web-vitals-reporter";
 import { inter } from "~/lib/fonts";
 
 export function generateStaticParams() {
@@ -73,6 +74,8 @@ export default async function LocaleLayout(
         <Footer />
         {/* Offline PWA: registers /sw.js after load (production hosts only). */}
         <ServiceWorkerRegistration />
+        {/* First-party Web-Vitals beacon (production hosts only). */}
+        <WebVitalsReporter />
         {/* Merge byte-identical duplicate JSON-LD nodes (Workers serving-path
             artifact - see the component's doc comment). */}
         <SchemaDedupe />
