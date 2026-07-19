@@ -111,6 +111,8 @@ export default async function GlossaryPage(
   // namespace's localized label - no new i18n string).
   const guidesPath = getPathname({ href: "/guides", locale });
   const guidesHref = guidesPath.endsWith("/") ? guidesPath : guidesPath + "/";
+  const efbPath = getPathname({ href: "/efb", locale });
+  const efbHref = efbPath.endsWith("/") ? efbPath : efbPath + "/";
 
   const glossaryPath = getPathname({ href: "/glossary", locale });
   const currentUrl = new URL(
@@ -187,6 +189,14 @@ export default async function GlossaryPage(
                 className="text-drossblue underline"
               >
                 {tFooter("guides.title")}
+              </a>
+              {" · "}
+              <a
+                href={efbHref}
+                title={tFooter("efb.hrefTitle")}
+                className="text-drossblue underline"
+              >
+                {tFooter("efb.title")}
               </a>
             </p>
           </div>

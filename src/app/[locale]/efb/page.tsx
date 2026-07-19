@@ -120,6 +120,15 @@ export default async function EfbPage(
   const airportListHref = airportListPath.endsWith("/")
     ? airportListPath
     : airportListPath + "/";
+
+  // Content-hub cross-links (below the CTA): the aviation glossary and the pilot
+  // guides. Reuse the Footer namespace's localized labels - no new i18n string.
+  const glossaryPath = getPathname({ href: "/glossary", locale });
+  const glossaryHref = glossaryPath.endsWith("/")
+    ? glossaryPath
+    : glossaryPath + "/";
+  const guidesPath = getPathname({ href: "/guides", locale });
+  const guidesHref = guidesPath.endsWith("/") ? guidesPath : guidesPath + "/";
   // Deep link to the favorites/recently-viewed section at the bottom of the
   // country landing page (stable SSR anchor id, see [locale]/page.tsx).
   const countryPath = getPathname({ href: "/", locale });
@@ -433,6 +442,24 @@ export default async function EfbPage(
               <span>{tMenu("airports.title")}</span>
               <ArrowRightIcon className="size-4" aria-hidden="true" />
             </a>
+            {/* Content-hub cross-links below the airport-list button. */}
+            <p className="text-drossgray-dark mt-4 text-sm">
+              <a
+                href={glossaryHref}
+                title={tFooter("glossary.hrefTitle")}
+                className="text-drossblue underline"
+              >
+                {tFooter("glossary.title")}
+              </a>
+              {" · "}
+              <a
+                href={guidesHref}
+                title={tFooter("guides.hrefTitle")}
+                className="text-drossblue underline"
+              >
+                {tFooter("guides.title")}
+              </a>
+            </p>
           </section>
         </div>
       </div>
