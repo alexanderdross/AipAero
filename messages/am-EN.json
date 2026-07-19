@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {It has one runway.} other {It has # runways.}}",
     "charts": "AIP:Aero links its official {type} chart together with runway, frequency and current weather information.",
     "chartsAirac": "AIP:Aero links its official {type} chart from <guides>AIRAC</guides> edition {airac}, together with runway, frequency and current weather information.",
-    "noCharts": "AIP:Aero links its official AIP entry together with runway, frequency and current weather information."
+    "noCharts": "AIP:Aero links its official AIP entry together with runway, frequency and current weather information.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "heliport",
+      "mil": "military",
+      "aeroport": "aeroport"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Aviation Glossary - AIP, AIRAC, VFR, METAR and More",

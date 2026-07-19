@@ -402,7 +402,14 @@
     "runways": "{count, plural, one {Sellel on üks rada.} other {Sellel on # rada.}}",
     "charts": "AIP:Aero lingib selle ametliku {type}-kaardi koos raja, sageduse ja praeguse ilma teabega.",
     "chartsAirac": "AIP:Aero lingib selle ametliku {type}-kaardi <guides>AIRAC</guides>-väljaandest {airac} koos raja, sageduse ja praeguse ilma teabega.",
-    "noCharts": "AIP:Aero lingib selle ametliku AIP-kande koos raja, sageduse ja praeguse ilma teabega."
+    "noCharts": "AIP:Aero lingib selle ametliku AIP-kande koos raja, sageduse ja praeguse ilma teabega.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "kopteriväljak",
+      "mil": "sõjaväe",
+      "aeroport": "lennujaam"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Lennundussõnastik - AIP, AIRAC, VFR, METAR ja muu",

@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Uning bitta uchish-qo'nish yo'lagi bor.} other {Uning # ta uchish-qo'nish yo'lagi bor.}}",
     "charts": "AIP:Aero uning rasmiy {type} kartasini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi.",
     "chartsAirac": "AIP:Aero uning <guides>AIRAC</guides> {airac} nashridagi rasmiy {type} kartasini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi.",
-    "noCharts": "AIP:Aero uning rasmiy AIP yozuvini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi."
+    "noCharts": "AIP:Aero uning rasmiy AIP yozuvini uchish-qo'nish yo'lagi, chastota va joriy ob-havo ma'lumotlari bilan birga bog'laydi.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "vertolyot maydoni",
+      "mil": "harbiy",
+      "aeroport": "aeroport"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Aviatsiya lug'ati - AIP, AIRAC, VFR, METAR va boshqalar",

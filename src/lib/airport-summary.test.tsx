@@ -6,7 +6,18 @@ import { buildAirportSummary } from "~/lib/airport-summary";
 // exactly which clauses were composed and with what interpolations, without
 // pulling in the real ICU runtime. Function-valued args (the markup tag
 // handlers) are skipped so the echo stays about the data interpolations.
+// The localized chart-type token lookup (`t("chartType.<type>")`) resolves to a
+// readable word so the composition assertions below stay legible.
+const TYPE_TOKEN: Record<string, string> = {
+  vfr: "VFR",
+  ifr: "IFR",
+  heliport: "heliport",
+  mil: "military",
+  aeroport: "aéroport",
+};
 const echo = (key: string, values?: Record<string, unknown>) => {
+  const typeKey = /^chartType\.(\w+)$/.exec(key)?.[1];
+  if (typeKey) return TYPE_TOKEN[typeKey] ?? typeKey;
   const args = values
     ? Object.entries(values)
         .filter(([, v]) => typeof v !== "function")

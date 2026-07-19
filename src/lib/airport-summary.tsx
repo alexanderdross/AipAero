@@ -20,16 +20,6 @@ import type { Airport } from "~/server/db/schema";
  * the two tag handlers) and unit-testable, and no extra fetch.
  */
 
-/** Chart-type token used in the summary. VFR/IFR are language-neutral; the
- * others read acceptably untranslated inside the localized sentence. */
-const CHART_TYPE: Record<Airport["type"], string> = {
-  vfr: "VFR",
-  ifr: "IFR",
-  heliport: "heliport",
-  mil: "military",
-  aeroport: "aéroport",
-};
-
 /** A next-intl markup tag handler: wraps the tagged chunk in a link. */
 type TagFn = (chunks: ReactNode) => ReactNode;
 
@@ -83,7 +73,9 @@ export function buildAirportSummary(
     parts.push(t("runways", { count: input.runwayCount }));
   }
 
-  const chartType = CHART_TYPE[input.type];
+  // Localized chart-type token (VFR/IFR stay literal; heliport/military/
+  // aeroport are translated per locale) - reads naturally inside the sentence.
+  const chartType = t(`chartType.${input.type}`);
   if (input.hasChart) {
     parts.push(
       input.airac

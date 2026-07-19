@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { HashDetailsOpener } from "~/components/hash-details-opener";
 import { SectionHeading, slugify } from "~/components/section-heading";
 import { getPathname } from "~/i18n/routing";
+import { getHubLinks } from "~/lib/hub-links";
 import { orgUrl } from "~/lib/utils";
 
 /**
@@ -29,8 +30,12 @@ export async function CountryFaq({ locale }: { locale: string }) {
     return path.endsWith("/") ? path : path + "/";
   };
   const efbHref = canonical("/efb");
-  const glossaryHref = canonical("/glossary");
-  const guidesHref = canonical("/guides");
+  // Content-hub targets. The a1 answer links the "AIP"/"AIRAC" ACRONYMS, which
+  // get deep anchors (the AIP glossary term / the AIRAC-cycle guide); the a5
+  // answer links the GENERAL "aviation glossary"/"pilot guides" labels, which go
+  // to the page top. Same `<glossary>`/`<guides>` tags in the locale strings, so
+  // the href is chosen per question index below.
+  const hub = await getHubLinks(locale);
 
   // Inline-link tags used by the locale files' answers. Only the tags present
   // in a country's messages are rendered; Menu carries the localized SEO
@@ -146,12 +151,13 @@ export async function CountryFaq({ locale }: { locale: string }) {
                         {chunks}
                       </a>
                     ),
-                    // Content-hub links: the "AIP" acronym -> glossary, the
-                    // "AIRAC" acronym -> pilot guides (wrapped in the a1 string
-                    // of every locale). Labels reuse the Footer namespace.
+                    // Content-hub links. a1 wraps the "AIP"/"AIRAC" ACRONYMS ->
+                    // deep anchors (glossary term / AIRAC guide); a5 wraps the
+                    // GENERAL "aviation glossary"/"pilot guides" labels -> page
+                    // top. Same tags, href chosen by question index.
                     glossary: (chunks) => (
                       <a
-                        href={glossaryHref}
+                        href={i === 1 ? hub.aipTerm : hub.glossaryTop}
                         title={tFooter("glossary.hrefTitle")}
                         className="text-drossblue underline"
                       >
@@ -160,7 +166,7 @@ export async function CountryFaq({ locale }: { locale: string }) {
                     ),
                     guides: (chunks) => (
                       <a
-                        href={guidesHref}
+                        href={i === 1 ? hub.airacGuide : hub.guidesTop}
                         title={tFooter("guides.hrefTitle")}
                         className="text-drossblue underline"
                       >

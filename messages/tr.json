@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Bir pisti vardır.} other {# pisti vardır.}}",
     "charts": "AIP:Aero, resmi {type} kartını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar.",
     "chartsAirac": "AIP:Aero, <guides>AIRAC</guides> {airac} sürümündeki resmi {type} kartını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar.",
-    "noCharts": "AIP:Aero, resmi AIP kaydını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar."
+    "noCharts": "AIP:Aero, resmi AIP kaydını pist, frekans ve güncel hava durumu bilgileriyle birlikte bağlar.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "helikopter pisti",
+      "mil": "askeri",
+      "aeroport": "havalimanı"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Havacılık sözlüğü - AIP, AIRAC, VFR, METAR ve dahası",

@@ -11,11 +11,12 @@ import { SchemaAirport } from "~/components/schemas/schema-airport";
 import { SaveOfflineButton } from "~/components/save-offline-button";
 import { SchemaDigitalDocument } from "~/components/schemas/schema-digital-document";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
-import { getPathname, localeLangMapping } from "~/i18n/routing";
+import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { buildAirportSummary } from "~/lib/airport-summary";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
+import { getHubLinks } from "~/lib/hub-links";
 import { airacDateFromUrl, parseCharts } from "~/lib/charts";
 import { isGatedCountry, isPdfUrl, isSelfServicePdfCountry } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
@@ -62,15 +63,10 @@ export async function AirportGadgets({
       getTranslations("AirportSummary"),
       getTranslations("Footer"),
     ]);
-  // Contextual internal link from the AIRAC line to the pilot guides hub (the
-  // "Understanding the AIRAC cycle" guide explains the word). SSR, reuses the
-  // Footer namespace's localized label - no new i18n string. `withSlash` mirrors
-  // the footer: getPathname omits the trailing slash for sub-paths, and a "//"
-  // link would cost a 308 redirect hop.
-  const withSlash = (p: string) => (p.endsWith("/") ? p : p + "/");
-  const guidesHref = withSlash(getPathname({ href: "/guides", locale }));
-  // Glossary hub, linked from the "AIP" word in the descriptive prose below.
-  const glossaryHref = withSlash(getPathname({ href: "/glossary", locale }));
+  // Content-hub link targets. Deep anchors: the "AIP" word jumps to the AIP
+  // glossary term, "AIRAC" to the "AIRAC cycle" guide section (not just the page
+  // top). SSR, reuses the Footer namespace labels - no new i18n string.
+  const hub = await getHubLinks(locale);
   // Tag handlers for the two content-hub links inside the per-airport prose:
   // the `<glossary>AIP</glossary>` and `<guides>AIRAC</guides>` acronyms wrapped
   // in every AirportSummary locale string. Permanent underline (axe
@@ -78,7 +74,7 @@ export async function AirportGadgets({
   const summaryLinks = {
     glossary: (chunks: React.ReactNode) => (
       <a
-        href={glossaryHref}
+        href={hub.aipTerm}
         title={tFooter("glossary.hrefTitle")}
         className="text-drossblue underline"
       >
@@ -87,7 +83,7 @@ export async function AirportGadgets({
     ),
     guides: (chunks: React.ReactNode) => (
       <a
-        href={guidesHref}
+        href={hub.airacGuide}
         title={tFooter("guides.hrefTitle")}
         className="text-drossblue underline"
       >
@@ -360,7 +356,7 @@ export async function AirportGadgets({
         {detailAiracLabel && (
           <p className="text-drossgray-dark text-center text-sm">
             <a
-              href={guidesHref}
+              href={hub.airacGuide}
               title={tFooter("guides.hrefTitle")}
               className="text-drossblue underline"
             >

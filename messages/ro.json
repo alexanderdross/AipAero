@@ -372,7 +372,14 @@
     "runways": "{count, plural, one {Are o pistă.} few {Are # piste.} other {Are # de piste.}}",
     "charts": "AIP:Aero leagă harta oficială {type} împreună cu informații despre pistă, frecvențe și vremea curentă.",
     "chartsAirac": "AIP:Aero leagă harta oficială {type} din ediția <guides>AIRAC</guides> {airac}, împreună cu informații despre pistă, frecvențe și vremea curentă.",
-    "noCharts": "AIP:Aero leagă înregistrarea oficială din AIP împreună cu informații despre pistă, frecvențe și vremea curentă."
+    "noCharts": "AIP:Aero leagă înregistrarea oficială din AIP împreună cu informații despre pistă, frecvențe și vremea curentă.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "heliport",
+      "mil": "militar",
+      "aeroport": "aeroport"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Glosar aeronautic - AIP, AIRAC, VFR, METAR și altele",

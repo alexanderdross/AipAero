@@ -9,7 +9,8 @@ import {
   groupChartsByCategory,
   type ChartLink,
 } from "~/lib/charts";
-import { getPathname, localeLangMapping } from "~/i18n/routing";
+import { localeLangMapping } from "~/i18n/routing";
+import { getHubLinks } from "~/lib/hub-links";
 
 /**
  * Chart-PDF box, shown when the airport's chart URL points directly at a PDF
@@ -45,16 +46,12 @@ export async function AirportChart({
   const t = await getTranslations("Chart");
   const tFooter = await getTranslations({ locale, namespace: "Footer" });
   const lang = localeLangMapping[locale] ?? "en";
-  // Contextual internal link from the AIRAC label to the pilot guides hub (the
-  // "Understanding the AIRAC cycle" guide). Reuses the Footer namespace's
-  // localized label - no new i18n string. `withSlash` mirrors the footer.
-  const withSlash = (p: string) => (p.endsWith("/") ? p : p + "/");
-  const guidesHref = withSlash(getPathname({ href: "/guides", locale }));
-  // The chart designation (e.g. "ESNX VAC") links to the glossary's chart-type
-  // section - what the designator means. Only the primary designation line is
-  // linked; the per-chart names in the collapsed list already sit inside an
-  // external-PDF link (no nested anchors).
-  const glossaryHref = withSlash(getPathname({ href: "/glossary", locale }));
+  // Content-hub deep anchors: "AIRAC" -> the AIRAC-cycle guide, and the chart
+  // designation (e.g. "ESNX VAC") -> the approach-chart-types glossary term
+  // (what the designator means). Only the primary designation line is linked;
+  // the per-chart names in the collapsed list already sit inside an external-PDF
+  // link (no nested anchors). Reuses the Footer namespace labels.
+  const hub = await getHubLinks(locale);
 
   const primary = charts.find((c) => c.url === url) ?? null;
   const others = charts.filter((c) => c.url !== url);
@@ -86,7 +83,7 @@ export async function AirportChart({
         <p className="text-drossgray-dark mt-1 text-center text-xs">
           {designation && (
             <a
-              href={glossaryHref}
+              href={hub.chartsTerm}
               title={tFooter("glossary.hrefTitle")}
               className="text-drossblue underline"
             >
@@ -97,7 +94,7 @@ export async function AirportChart({
           {airacLabel && (
             <>
               <a
-                href={guidesHref}
+                href={hub.airacGuide}
                 title={tFooter("guides.hrefTitle")}
                 className="text-drossblue underline"
               >

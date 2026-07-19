@@ -402,7 +402,14 @@
     "runways": "{count, plural, one {Sillä on yksi kiitotie.} other {Sillä on # kiitotietä.}}",
     "charts": "AIP:Aero linkittää sen virallisen {type}-kartan sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
     "chartsAirac": "AIP:Aero linkittää sen virallisen {type}-kartan <guides>AIRAC</guides>-julkaisusta {airac} sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
-    "noCharts": "AIP:Aero linkittää sen virallisen AIP-merkinnän sekä kiitotie-, taajuus- ja ajantasaiset säätiedot."
+    "noCharts": "AIP:Aero linkittää sen virallisen AIP-merkinnän sekä kiitotie-, taajuus- ja ajantasaiset säätiedot.",
+    "chartType": {
+      "vfr": "VFR",
+      "ifr": "IFR",
+      "heliport": "helikopterikentän",
+      "mil": "sotilas",
+      "aeroport": "lentoaseman"
+    }
   },
   "GlossaryPage": {
     "metaTitle": "Ilmailusanasto - AIP, AIRAC, VFR, METAR ja muuta",
