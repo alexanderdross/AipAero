@@ -210,6 +210,33 @@ jobs:
           # (skeleton) until the 1h ISR TTL - the CH/BA regression of 15.07.2026.
           # Heaviest list; a full render carries per-row row-link-icon <use>
           # markers, the empty build seed has zero - the proof of regeneration.
+
+          # Country HOME pages (/<cc>/ + the English /<cc>/en/ twin). Unlike the
+          # lists these are message-driven ISR pages with `dynamicParams = false`;
+          # if their R2 incremental-cache entry is missing after a deploy (the
+          # empty-cache window) the OpenNext cache interceptor returns a hard
+          # NoFallbackError -> 404 for a VALID country instead of regenerating -
+          # the "many countries 404" class (hu/gr/at..., 19.07.2026). They were
+          # NOT warmed post-deploy before, so the window surfaced to users until
+          # the 1h ISR TTL healed it and CI never caught it. Fetching each here
+          # WARMS it (forces a render + R2 seed) and VERIFIES the render (the
+          # `id="favorites"` anchor is on every CountryPage, absent on 404/empty).
+          # Generated from liveCountries so a newly launched country is covered
+          # automatically; single-locale countries (uk/be/ie/mt/au/nz) have no
+          # /en/ twin (isSingleLocale in src/i18n/routing.ts).
+          live_ccs=(at de fr nl uk be cz no pl se ee fi es lv is pt hu si dk lt \
+            rs ie sk gr ba ch al mk ro cy mt md it hr bg tr ge am az ua uz by kz \
+            xk ru tj tm kg au nz)
+          single_locale=" uk be ie mt au nz "
+          home_urls=()
+          for cc in "${live_ccs[@]}"; do
+            home_urls+=("https://aip.aero/$cc/")
+            case "$single_locale" in
+              *" $cc "*) : ;;
+              *) home_urls+=("https://aip.aero/$cc/en/") ;;
+            esac
+          done
+
           revalidate() {
             for i in 1 2 3; do
               code=$(curl -sSL -o /tmp/revalidate.out -w '%{http_code}' -X POST \
@@ -236,6 +263,21 @@ jobs:
               [ "${rows:-0}" -ge 1 ] || EMPTY="$EMPTY $u"
             done
           }
+          # Warm + verify every country HOME page (native + English). A full
+          # CountryPage carries the `id="favorites"` anchor; a 404 / empty seed
+          # does not. Sets the global HOME_BROKEN to the space-separated list of
+          # bad URLs. Fetching also WARMS the page (seeds its R2 cache entry).
+          check_homes() {
+            HOME_BROKEN=""
+            for u in "${home_urls[@]}"; do
+              if curl -sSL --max-time 60 "$u" | grep -q 'id="favorites"'; then
+                echo "verify $u -> ok"
+              else
+                echo "verify $u -> BROKEN"
+                HOME_BROKEN="$HOME_BROKEN $u"
+              fi
+            done
+          }
 
           # Short settle for the deploy to propagate. No empty-seed race to
           # wait out anymore (the DB lists are excluded from the seed), so this
@@ -245,13 +287,16 @@ jobs:
             echo "== refresh round $round =="
             revalidate || echo "::warning::revalidate failed in round $round"
             check_all
-            if [ -z "$EMPTY" ]; then
-              echo "All ${#urls[@]} live-country lists verified non-empty after round $round."
+            check_homes
+            if [ -z "$EMPTY" ] && [ -z "$HOME_BROKEN" ]; then
+              echo "All ${#urls[@]} live-country lists + ${#home_urls[@]} home pages verified after round $round."
               exit 0
             fi
-            echo "::warning::Empty airport lists after round $round:$EMPTY"
-            echo "Still empty; waiting before the next round."
+            [ -n "$EMPTY" ] && echo "::warning::Empty airport lists after round $round:$EMPTY"
+            [ -n "$HOME_BROKEN" ] && echo "::warning::Broken country home pages after round $round:$HOME_BROKEN"
+            echo "Still not clean; waiting before the next round."
             sleep 45
           done
           echo "::warning::Airport lists still EMPTY after all refresh rounds:$EMPTY - a launched country with no data yet heals on its next crawler POST; an already-populated country going empty here is a cache/regression to investigate"
+          [ -n "$HOME_BROKEN" ] && echo "::error::Country home pages still BROKEN (404/empty) after all refresh rounds:$HOME_BROKEN - a valid country home should never 404; investigate the R2 incremental-cache seed / OpenNext cache interception"
           exit 0
