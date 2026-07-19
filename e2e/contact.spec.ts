@@ -61,3 +61,17 @@ test.describe("contact form ICAO prefill", () => {
     await expect(page.locator("#contact-subject")).toHaveValue("");
   });
 });
+
+test.describe("footer contact link", () => {
+  test("points at the internal contact page, not dross.net", async ({
+    page,
+  }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    const link = page.locator("footer a", { hasText: /^Contact$/ });
+    await expect(link).toHaveAttribute("href", "/contact/");
+    // And it actually resolves (the reported bug: it used to leave the site).
+    await link.click();
+    await expect(page).toHaveURL(/\/contact\/$/);
+    await expect(page.locator("#contact-icao")).toBeVisible();
+  });
+});

@@ -1,4 +1,5 @@
 import pick from "lodash/pick";
+import { FlagIcon } from "lucide-react";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import { AirportChart } from "~/components/airport-chart";
@@ -469,9 +470,10 @@ export async function AirportGadgets({
             })}
             rel="nofollow"
             title={tCommon("reportProblemTitle")}
-            className="text-drossblue inline-flex min-h-10 items-center hover:underline"
+            className="text-drossblue inline-flex min-h-10 items-center gap-x-1.5 hover:underline"
           >
-            {tCommon("reportProblem")}
+            <FlagIcon className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+            <span>{tCommon("reportProblem")}</span>
           </a>
         </p>
       </div>

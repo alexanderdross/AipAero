@@ -15,9 +15,9 @@ import { countryMeta, liveCountries } from "~/lib/utils";
  *   SEO titles from the Menu namespace) - site-wide internal links on every
  *   page, plain followed same-tab <a>. On the GLOBAL homepage (no locale
  *   context) the group lists the live countries instead (`global` prop).
- * - Legal/network: the owner-site links (dross.net home/imprint/contact/
- *   privacy - genuinely external) plus our own localized /terms as a plain
- *   internal <a> (the old footer opened it in a new tab via ExternalLink).
+ * - Legal/network: our own root-level pages (terms/imprint/privacy/contact,
+ *   language-correct slug) as plain internal <a>, plus the genuinely external
+ *   owner-site home (dross.net).
  * - Partners: Trade:Aero (locale + country aware deep link, followed) and
  *   Stratux.
  *
@@ -88,18 +88,30 @@ export default async function Footer({ global = false }: { global?: boolean }) {
         },
       ];
 
-  // Our own legal pages are ROOT-level, single-language pages paired by topic
-  // (/terms + /agb, /imprint + /impressum, /privacy + /datenschutz), NOT
-  // locale-prefixed. German-native locales (de/at/ch) link to the German page;
-  // every other locale links to the English one. The link LABELS are already
-  // localized (the keys exist in every Footer namespace), so they match the
-  // target language. contact/home (dross.net) follow, external home last.
+  // Our own legal + contact pages are ROOT-level, single-language pages paired
+  // by topic (/terms + /agb, /imprint + /impressum, /privacy + /datenschutz,
+  // /contact + /de/kontakt), NOT locale-prefixed. German-native locales
+  // (de/at/ch) link to the German page; every other locale links to the English
+  // one. The link LABELS are already localized (the keys exist in every Footer
+  // namespace), so they match the target language. Only the owner-site home
+  // (dross.net) stays external.
   const germanLegal = ["de", "at", "ch"].includes(locale);
-  const legalSlug: Record<"terms" | "imprint" | "privacy", string> = germanLegal
-    ? { terms: "de/agb", imprint: "de/impressum", privacy: "de/datenschutz" }
-    : { terms: "terms", imprint: "imprint", privacy: "privacy" };
-  const legalInternal = ["terms", "imprint", "privacy"] as const;
-  const legalExternal = ["contact", "home"] as const;
+  const legalSlug: Record<"terms" | "imprint" | "privacy" | "contact", string> =
+    germanLegal
+      ? {
+          terms: "de/agb",
+          imprint: "de/impressum",
+          privacy: "de/datenschutz",
+          contact: "de/kontakt",
+        }
+      : {
+          terms: "terms",
+          imprint: "imprint",
+          privacy: "privacy",
+          contact: "contact",
+        };
+  const legalInternal = ["terms", "imprint", "privacy", "contact"] as const;
+  const legalExternal = ["home"] as const;
 
   const groupLabel =
     "text-drossgray-dark text-xs font-semibold tracking-wider uppercase";
