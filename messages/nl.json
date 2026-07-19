@@ -323,7 +323,9 @@
     "borderCrossing": "Grensoverschrijding",
     "alsoAvailable": "Ook beschikbaar:",
     "aipLoginHint": "Mogelijk zijn inloggen of registratie vereist.",
-    "noChartPdf": "Voor dit vliegveld wordt geen aparte kaart-PDF gepubliceerd - de AIP-knop hierboven opent de officiële vliegveldvermelding."
+    "noChartPdf": "Voor dit vliegveld wordt geen aparte kaart-PDF gepubliceerd - de AIP-knop hierboven opent de officiële vliegveldvermelding.",
+    "reportProblem": "Onjuiste of ontbrekende gegevens melden",
+    "reportProblemTitle": "Onjuiste of ontbrekende gegevens voor dit vliegveld melden"
   },
   "Chart": {
     "allCharts": "Alle kaarten ({count})",

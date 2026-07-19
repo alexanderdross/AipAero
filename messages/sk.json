@@ -293,7 +293,9 @@
     "borderCrossing": "Prekročenie hranice",
     "alsoAvailable": "K dispozícii aj:",
     "aipLoginHint": "Môže byť potrebné prihlásenie alebo registrácia.",
-    "noChartPdf": "Pre toto letisko nie je zverejnené samostatné PDF mapy - tlačidlo AIP vyššie otvorí jeho oficiálny záznam letiska."
+    "noChartPdf": "Pre toto letisko nie je zverejnené samostatné PDF mapy - tlačidlo AIP vyššie otvorí jeho oficiálny záznam letiska.",
+    "reportProblem": "Nahlásiť nesprávne alebo chýbajúce údaje",
+    "reportProblemTitle": "Nahlásiť nesprávne alebo chýbajúce údaje o tomto letisku"
   },
   "Chart": {
     "allCharts": "Všetky mapy ({count})",

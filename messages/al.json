@@ -293,7 +293,9 @@
     "borderCrossing": "Kalimi kufitar",
     "alsoAvailable": "Gjithashtu në dispozicion:",
     "aipLoginHint": "Mund të kërkohet identifikimi ose regjistrimi.",
-    "noChartPdf": "Për këtë aerodrom nuk publikohet asnjë PDF i veçantë harte - butoni AIP më sipër hap hyrjen e tij zyrtare të aerodromit."
+    "noChartPdf": "Për këtë aerodrom nuk publikohet asnjë PDF i veçantë harte - butoni AIP më sipër hap hyrjen e tij zyrtare të aerodromit.",
+    "reportProblem": "Raporto të dhëna të gabuara ose të munguara",
+    "reportProblemTitle": "Raporto të dhëna të gabuara ose të munguara për këtë aerodrom"
   },
   "Chart": {
     "allCharts": "Të gjitha hartat ({count})",

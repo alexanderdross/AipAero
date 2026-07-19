@@ -293,7 +293,9 @@
     "borderCrossing": "För yfir landamæri",
     "alsoAvailable": "Einnig í boði:",
     "aipLoginHint": "Innskráning eða skráning gæti verið nauðsynleg.",
-    "noChartPdf": "Engin sérstök kort-PDF-skrá er birt fyrir þennan flugvöll - AIP-hnappurinn að ofan opnar opinbera flugvallarfærslu hans."
+    "noChartPdf": "Engin sérstök kort-PDF-skrá er birt fyrir þennan flugvöll - AIP-hnappurinn að ofan opnar opinbera flugvallarfærslu hans.",
+    "reportProblem": "Tilkynna rangar eða vantandi upplýsingar",
+    "reportProblemTitle": "Tilkynna rangar eða vantandi upplýsingar um þennan flugvöll"
   },
   "Chart": {
     "allCharts": "Öll kort ({count})",

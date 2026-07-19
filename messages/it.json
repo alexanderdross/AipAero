@@ -293,7 +293,9 @@
     "borderCrossing": "Attraversamento del confine",
     "alsoAvailable": "Disponibile anche:",
     "aipLoginHint": "Potrebbe essere necessario l'accesso o la registrazione.",
-    "noChartPdf": "Per questo aerodromo non è pubblicato un PDF di carta separato - il pulsante AIP qui sopra apre la sua scheda ufficiale dell'aerodromo."
+    "noChartPdf": "Per questo aerodromo non è pubblicato un PDF di carta separato - il pulsante AIP qui sopra apre la sua scheda ufficiale dell'aerodromo.",
+    "reportProblem": "Segnala dati errati o mancanti",
+    "reportProblemTitle": "Segnala dati errati o mancanti per questo aeroporto"
   },
   "Chart": {
     "allCharts": "Tutte le carte ({count})",

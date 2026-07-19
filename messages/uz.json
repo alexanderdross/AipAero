@@ -293,7 +293,9 @@
     "borderCrossing": "Chegara oʻtish",
     "alsoAvailable": "Shuningdek mavjud:",
     "aipLoginHint": "Tizimga kirish yoki roʻyxatdan oʻtish talab qilinishi mumkin.",
-    "noChartPdf": "Bu aerodrom uchun alohida karta PDF fayli chop etilmagan - yuqoridagi AIP tugmasi uning rasmiy aerodrom yozuvini ochadi."
+    "noChartPdf": "Bu aerodrom uchun alohida karta PDF fayli chop etilmagan - yuqoridagi AIP tugmasi uning rasmiy aerodrom yozuvini ochadi.",
+    "reportProblem": "Notoʻgʻri yoki yetishmayotgan maʼlumotlarni xabar qiling",
+    "reportProblemTitle": "Ushbu aerodrom uchun notoʻgʻri yoki yetishmayotgan maʼlumotlarni xabar qiling"
   },
   "Chart": {
     "allCharts": "Barcha kartalar ({count})",

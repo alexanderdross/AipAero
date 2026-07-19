@@ -18,6 +18,10 @@ import {
 const contactSchema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(200),
+  // Optional aerodrome reference (pre-filled from a detail-page "report a
+  // problem" link). Free-form/short so a name-only field or manual entry passes;
+  // it is only echoed into the mail subject/body, never used as an identifier.
+  icao: z.string().trim().max(8).optional().default(""),
   // Optional user-supplied subject line.
   subject: z.string().trim().max(200).optional().default(""),
   message: z.string().trim().min(1).max(5000),
@@ -72,6 +76,7 @@ export async function POST(req: NextRequest) {
     await sendContactEmail({
       name: parsed.name,
       email: parsed.email,
+      icao: parsed.icao,
       subject: parsed.subject,
       message: parsed.message,
     });

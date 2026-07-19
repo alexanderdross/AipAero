@@ -323,7 +323,9 @@
     "borderCrossing": "Przekroczenie granicy",
     "alsoAvailable": "Dostępne również:",
     "aipLoginHint": "Może być wymagane logowanie lub rejestracja.",
-    "noChartPdf": "Dla tego lotniska nie publikuje się oddzielnego pliku PDF mapy - przycisk AIP powyżej otwiera jego oficjalny wpis lotniska."
+    "noChartPdf": "Dla tego lotniska nie publikuje się oddzielnego pliku PDF mapy - przycisk AIP powyżej otwiera jego oficjalny wpis lotniska.",
+    "reportProblem": "Zgłoś błędne lub brakujące dane",
+    "reportProblemTitle": "Zgłoś błędne lub brakujące dane dla tego lotniska"
   },
   "Chart": {
     "allCharts": "Wszystkie mapy ({count})",

@@ -82,6 +82,8 @@ export async function verifyTurnstile(
 export type ContactMessage = {
   name: string;
   email: string;
+  /** Aerodrome the message is about (from a detail-page link); "" when none. */
+  icao?: string;
   subject: string;
   message: string;
 };
@@ -102,13 +104,22 @@ export async function sendContactEmail(msg: ContactMessage): Promise<void> {
   const port = Number(env.SMTP_PORT ?? "587");
   const from = env.SMTP_FROM ?? username;
 
-  const subject = msg.subject
+  const icao = msg.icao?.trim();
+  const baseSubject = msg.subject
     ? `[AIP:Aero] ${msg.subject}`
     : `[AIP:Aero] Contact from ${msg.name}`;
+  // Surface the aerodrome in the subject so a data-correction report is
+  // recognisable in the inbox without opening it (skip if the subject already
+  // names it, e.g. the "Data correction: EDNY" prefill).
+  const subject =
+    icao && !baseSubject.includes(icao)
+      ? `${baseSubject} [${icao}]`
+      : baseSubject;
 
   const text = [
     `Name:    ${msg.name}`,
     `Email:   ${msg.email}`,
+    icao ? `ICAO:    ${icao}` : null,
     msg.subject ? `Subject: ${msg.subject}` : null,
     "",
     msg.message,
