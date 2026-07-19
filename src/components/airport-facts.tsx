@@ -86,6 +86,14 @@ export async function AirportFacts({
       : facts?.hoursSource === "openaip"
         ? t("hoursCommunity")
         : null;
+  // No actionable hours: no open/closed badge AND no clock-time schedule text
+  // (hours are absent, or given only as O/R / HO / by NOTAM). Show an honest
+  // note instead of a blank - many small VFR fields / heliports publish none.
+  // A field with a definite badge or a real schedule string does not get it.
+  const hasScheduleText =
+    openingHours != null &&
+    /\d{3,4}|\d{1,2}[:h.]\d{2}|\bsr\b|\bss\b|sun(rise|set)/i.test(openingHours);
+  const showHoursNote = !statusBadge && !hasScheduleText;
 
   const rows: Array<[string, string]> = [];
   if (aType) rows.push([t("aerodromeType"), aType]);
@@ -186,6 +194,14 @@ export async function AirportFacts({
           </p>
           <p className="text-drossgray-dark text-xs">{t("hoursAdvisory")}</p>
         </div>
+      )}
+
+      {/* No actionable hours: honest note rather than a blank (many small VFR
+          fields / heliports publish none, or only O/R / HO / by NOTAM). */}
+      {showHoursNote && (
+        <p className="text-drossgray-dark mt-3 text-center text-xs">
+          {t("hoursNone")}
+        </p>
       )}
     </section>
   );

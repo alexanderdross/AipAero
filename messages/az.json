@@ -246,6 +246,7 @@
     "closesAt": "closes {time}",
     "opensAt": "opens {time}",
     "hoursAdvisory": "Advisory - confirm via NOTAM / current AIP before flight.",
+    "hoursNone": "İş saatları qeydə alınmayıb. Bir çox kiçik VFR meydança və helikopter meydançaları onları dərc etmir, yaxud yalnız tələb əsasında (O/R), baza aerodromunda (HO) və ya NOTAM ilə - uçuşdan əvvəl həmişə cari AIP və NOTAM-ları yoxlayın.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
     "openUntil": "Open until",

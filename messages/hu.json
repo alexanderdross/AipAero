@@ -246,6 +246,7 @@
     "closesAt": "closes {time}",
     "opensAt": "opens {time}",
     "hoursAdvisory": "Advisory - confirm via NOTAM / current AIP before flight.",
+    "hoursNone": "Nincs rögzített nyitvatartás. Sok kis VFR repülőtér és helikopter-leszálló nem ad meg ilyet, vagy csak igény szerint (O/R), bázisrepülőtérről (HO) vagy NOTAM útján üzemel - repülés előtt mindig ellenőrizze az érvényes AIP-t és a NOTAM-okat.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
     "openUntil": "Open until",

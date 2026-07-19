@@ -246,6 +246,7 @@
     "closesAt": "closes {time}",
     "opensAt": "opens {time}",
     "hoursAdvisory": "Advisory - confirm via NOTAM / current AIP before flight.",
+    "hoursNone": "Niciun program de operare disponibil. Multe terenuri VFR mici și heliporturi nu publică niciunul, sau doar la cerere (O/R), bază proprie (HO) sau prin NOTAM - verificați întotdeauna AIP-ul și NOTAM-urile curente înainte de zbor.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
     "openUntil": "Open until",

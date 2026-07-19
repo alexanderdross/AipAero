@@ -246,6 +246,7 @@
     "closesAt": "closes {time}",
     "opensAt": "opens {time}",
     "hoursAdvisory": "Advisory - confirm via NOTAM / current AIP before flight.",
+    "hoursNone": "Няма даных пра гадзіны працы. Многія невялікія VFR пляцоўкі і вертадромы іх не публікуюць, або толькі па запыце (O/R), для базавага аэрадрома (HO) ці праз NOTAM - заўсёды правярайце дзейны AIP і NOTAM перад палётам.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
     "openUntil": "Open until",
