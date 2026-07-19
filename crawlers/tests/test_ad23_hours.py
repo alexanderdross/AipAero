@@ -140,7 +140,7 @@ class _Dummy(HttpEurocontrolBase):
         return []
 
 
-def test_ad23_from_url_parses_and_fails_soft():
+def test_ad2_text_fetch_and_hours_and_fails_soft():
     d = _Dummy("XX")
     page = _page("EHAM", EHAM)
 
@@ -150,6 +150,7 @@ def test_ad23_from_url_parses_and_fails_soft():
         raise RuntimeError("boom")
 
     d.fetch = fake_fetch  # reuse the crawler client via self.fetch
-    assert d._ad23_from_url("ok") == [{"kind": "h24"}] * 7
-    assert d._ad23_from_url("missing") is None  # fail-soft on fetch error
+    text = d._ad2_text("ok")
+    assert text is not None and ad23_hours(text) == [{"kind": "h24"}] * 7
+    assert d._ad2_text("missing") is None  # fail-soft on fetch error
     d.close()

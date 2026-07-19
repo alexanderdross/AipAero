@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 
 from bs4 import Tag
 
+from crawlers.declared_distances import parse_declared_distances
 from crawlers.http_base import Airport, HttpCrawlerBase
 from crawlers.operating_hours import parse_ad23_text
 
@@ -146,6 +147,13 @@ _AD23_ROW2_MARKER_RE = re.compile(r"\s2\s")
 # native-language AD 2 page (whose "OPERATIONAL HOURS" heading is translated,
 # missing the English regex) can be re-fetched in English (SIA/FR is bilingual).
 _AD2_LOCALE_RE = re.compile(r"-[A-Za-z]{2}-[A-Za-z]{2}(\.html?)$", re.I)
+# The AD 2.13 "DECLARED DISTANCES" section, sliced from its ICAO section number
+# to the next AD 2.x heading (same language-agnostic anchoring as AD 2.3), so
+# the declared-distances parser sees only that table (not 2.14+ rows).
+_AD213_SECTION_RE = re.compile(
+    r"AD\s*2\.13\b(.*?)(?:\bAD\s*2\.(?:14|\d\d)\b)",
+    re.I | re.S,
+)
 
 
 def _row1_hours(section: str):
@@ -218,71 +226,95 @@ class HttpEurocontrolBase(HttpCrawlerBase):
     """
 
     def collect_ad23_hours(self, airports: list[Airport]) -> None:
-        """Collect the AUTHORITATIVE eAIP AD 2.3 operation hours for every
-        aerodrome into ``self.hours_by_icao`` (published by main.py with
-        hoursSource="eaip"). Generic across the eurocontrol eAIPs:
+        """Collect the AUTHORITATIVE eAIP AD 2.3 operation hours AND AD 2.13
+        declared distances for every aerodrome, from the SAME per-field page
+        fetch, into ``self.hours_by_icao`` / ``self.declared_by_icao``
+        (published by main.py, source "eaip"). Generic across the eurocontrol
+        eAIPs:
 
-        - single-page layouts (SK-style: all AD 2.x on one page) carry AD 2.3 on
+        - single-page layouts (SK-style: all AD 2.x on one page) carry both on
           the aerodrome's own ``url`` (fragment stripped);
         - multi-page layouts (NL-style: sections split across pages) keep charts
-          on section N and AD 2.3 on section 1, so a section-1 URL rewrite is
-          tried as a fallback (`_AD2_SECTION1_RE`).
+          on section N and the general chapters on section 1, so a section-1 URL
+          rewrite is tried as a fallback (`_AD2_SECTION1_RE`).
 
-        One extra HTTP fetch per field, reusing the crawler's own client (via
-        `self.fetch`, so proxy / broken-chain-CA / legacy-TLS config carries
-        over - the client is reopened if crawl() closed it). Fully fail-soft:
-        any per-field error is swallowed and the field is simply left without
-        hours. Fields already collected (e.g. NL primes them for free in its
-        AD 2.1 name loop) are skipped, so this never double-fetches them. Row
-        isolation + the conservative `unknown` bucket (see ad23_hours) keep a
-        misparse safe; the live-test prints per-country coverage so quirks
-        surface before the publish relies on them."""
+        One HTTP fetch per field (shared by both extractions), reusing the
+        crawler's own client (via `self.fetch`, so proxy / broken-chain-CA /
+        legacy-TLS config carries over - the client is reopened if crawl()
+        closed it). Fully fail-soft: any per-field error is swallowed and the
+        field is simply left without that datum. A field already carrying BOTH
+        (e.g. NL primes hours in its AD 2.1 name loop) is skipped; a field with
+        one but not the other is still fetched for the missing one. Row
+        isolation + the conservative `unknown` bucket (ad23_hours) and the
+        conservative declared-distances parser keep a misparse safe; the
+        live-test prints per-country coverage so quirks surface first."""
         self.ensure_client_open()
-        found = 0
+        found_h = found_d = 0
         for a in airports:
             icao = (a.icao or "").strip().upper()
-            if not icao or icao in self.hours_by_icao:
+            if not icao:
+                continue
+            need_hours = icao not in self.hours_by_icao
+            need_dist = icao not in self.declared_by_icao
+            if not (need_hours or need_dist):
                 continue
             base_url = (a.url or "").split("#", 1)[0]
             if not base_url:
                 continue
-            hours = self._ad23_from_url(base_url)
-            if hours is None:
-                # Fallbacks (each tried only if the previous found nothing):
-                #  1. section-1 rewrite (multi-page NL/SE-style),
-                #  2. English locale (native-language pages, FR/SIA),
-                #  3. section-1 + English combined.
-                seen = {base_url}
-                for alt in (
+            # The page URL + fallbacks (section-1 rewrite for multi-page
+            # NL/SE-style, English locale for native-language FR/SIA pages),
+            # tried until the still-needed data is found.
+            seen: set[str] = set()
+            for url in (
+                base_url,
+                _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base_url),
+                _AD2_LOCALE_RE.sub(r"-en-GB\g<1>", base_url),
+                _AD2_LOCALE_RE.sub(
+                    r"-en-GB\g<1>",
                     _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base_url),
-                    _AD2_LOCALE_RE.sub(r"-en-GB\g<1>", base_url),
-                    _AD2_LOCALE_RE.sub(
-                        r"-en-GB\g<1>",
-                        _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base_url),
-                    ),
-                ):
-                    if alt in seen:
-                        continue
-                    seen.add(alt)
-                    hours = self._ad23_from_url(alt)
+                ),
+            ):
+                if url in seen:
+                    continue
+                seen.add(url)
+                text = self._ad2_text(url)
+                if text is None:
+                    continue
+                if need_hours and icao not in self.hours_by_icao:
+                    hours = ad23_hours(text)
                     if hours:
-                        break
-            if hours:
-                self.hours_by_icao[icao] = hours
-                found += 1
+                        self.hours_by_icao[icao] = hours
+                        found_h += 1
+                if need_dist and icao not in self.declared_by_icao:
+                    declared = self._declared_from_text(text)
+                    if declared:
+                        self.declared_by_icao[icao] = declared
+                        found_d += 1
+                got_hours = not need_hours or icao in self.hours_by_icao
+                got_dist = not need_dist or icao in self.declared_by_icao
+                if got_hours and got_dist:
+                    break
         self.logger.info(
-            f"{self.country}: collected AD 2.3 hours for "
-            f"{len(self.hours_by_icao)} fields (+{found} this pass)"
+            f"{self.country}: AD 2.3 hours {len(self.hours_by_icao)} "
+            f"(+{found_h}), AD 2.13 declared distances "
+            f"{len(self.declared_by_icao)} (+{found_d})"
         )
 
-    def _ad23_from_url(self, url: str):
-        """Fetch one AD 2 page and return its AD 2.3 hours, or None (fail-soft)."""
+    def _ad2_text(self, url: str) -> str | None:
+        """Fetch one AD 2 page and return its flattened text, or None (fail-soft)."""
         try:
-            text = " ".join(self.soup(self.fetch(url)).get_text(" ").split())
-            return ad23_hours(text)
+            return " ".join(self.soup(self.fetch(url)).get_text(" ").split())
         except Exception as e:  # a bad page must not abort the whole country
-            self.logger.debug(f"AD 2.3 fetch failed for {url}: {e}")
+            self.logger.debug(f"AD 2 fetch failed for {url}: {e}")
             return None
+
+    def _declared_from_text(self, text: str):
+        """AD 2.13 declared distances from an AD 2 page's flattened text, or
+        None. Slices the 2.13 section first so the parser cannot run into 2.14+."""
+        m = _AD213_SECTION_RE.search(text)
+        if not m:
+            return None
+        return parse_declared_distances(m.group(1)) or None
 
     def extract_airports_from_html(
         self,
