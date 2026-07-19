@@ -282,7 +282,11 @@
     "openUntil": "Open tot",
     "filtersTab": "Filters",
     "hoursTab": "Openingstijden",
-    "declaredDistances": "Gedeclareerde afstanden"
+    "declaredDistances": "Gedeclareerde afstanden",
+    "aipText": "AIP aerodrome information",
+    "aipTextCaveat": "Read automatically from the official AIP page image by text recognition (OCR) and may contain reading errors. Always verify against the current AIP before flight.",
+    "aipTextShow": "Show the recognised AIP text",
+    "aipTextSource": "Open the official AIP page"
   },
   "Common": {
     "openIn": "Openen in",

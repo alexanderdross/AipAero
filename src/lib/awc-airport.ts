@@ -88,6 +88,7 @@ export async function getAwcAirport(
       runways: parseRunways(item.runways),
       frequencies: parseFreqs(item.freqs),
       declaredDistances: null, // eAIP-only; AWC carries none
+      ad2Text: null, // DE OCR-only; AWC carries none
       source: "awc",
     };
   } catch {

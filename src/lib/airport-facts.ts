@@ -50,6 +50,10 @@ export interface NormalizedFacts {
   // AD 2.13 declared distances per runway (metres), from the eAIP - null when
   // the source carries none. Authoritative-only (no live fallback source).
   declaredDistances: DeclaredDistances | null;
+  // DE-only raw text OCR'd from the DFS AD-2 page images (base64 PNGs) - null
+  // for every other country. DISPLAY-only under a "verify against the AIP"
+  // caveat; never parsed into any structured field (owner safety directive).
+  ad2Text: string | null;
   source: string; // provenance, e.g. "openaip" or "ourairports"
 }
 
@@ -110,6 +114,7 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     runways: parseJsonArray<RunwayFact>(row.runways),
     frequencies: parseJsonArray<FrequencyFact>(row.frequencies),
     declaredDistances: parseDeclaredJson(row.declaredDistances),
+    ad2Text: row.ad2OcrText ?? null,
     source: row.source,
   };
 }
@@ -144,6 +149,10 @@ function toRow(icao: string, f: NormalizedFacts): InsertAirportFacts {
       ? JSON.stringify(f.declaredDistances)
       : null,
     declaredSource: f.declaredDistances ? "eaip" : null,
+    // Preserve the DE OCR text across the on-read write-back (persistAirportFacts
+    // leaves it untouched on conflict; this carries it on a fresh insert).
+    ad2OcrText: f.ad2Text,
+    ad2OcrSource: f.ad2Text ? "dfs-ocr" : null,
     street: f.street,
     postcode: f.postcode,
     phone: f.phone,
@@ -234,6 +243,8 @@ export async function getAirportFacts(
     ),
     // Declared distances are eAIP-only (persisted in D1); no live source.
     declaredDistances: base?.declaredDistances ?? null,
+    // DE OCR text is persisted-only (no live source); DE-only in practice.
+    ad2Text: base?.ad2Text ?? null,
     source: [base?.source, openaip?.source, awc?.source]
       .filter(Boolean)
       .join("+"),

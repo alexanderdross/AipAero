@@ -2,6 +2,7 @@ import pick from "lodash/pick";
 import { FlagIcon } from "lucide-react";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
+import { AirportAipText } from "~/components/airport-aip-text";
 import { AirportChart } from "~/components/airport-chart";
 import { AirportContact } from "~/components/airport-contact";
 import { AirportFacts } from "~/components/airport-facts";
@@ -425,6 +426,18 @@ export async function AirportGadgets({
         <p className="text-drossgray-dark mx-auto max-w-3xl text-center text-sm leading-relaxed">
           {airportSummary}
         </p>
+        {/* DE-only raw AD-2 text (OCR'd from the DFS page image, since DFS
+            serves AD-2 as a base64 PNG). DISPLAY-only under a "verify against
+            the AIP" caveat - never parsed into hours / the badge / the map /
+            JSON-LD (owner safety directive). Renders only when the crawler
+            captured text for this field (the ~40 big Verkehrsflughaefen). */}
+        {airport.country === "DE" && facts?.ad2Text && (
+          <AirportAipText
+            text={facts.ad2Text}
+            sourceUrl={airport.url}
+            locale={locale}
+          />
+        )}
         {/* Location + aerodrome-data boxes side by side on >= md (each half
             width, stretched to equal height), stacking on mobile. */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

@@ -34,11 +34,13 @@ https://aip.aero/de/flughafen-liste-deutschland/ and must not change.
 
 from __future__ import annotations
 
+import os
 import re
 from typing import Literal
 from urllib.parse import urljoin
 
-from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_base import Airport
+from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
 
 COUNTRY = "DE"
 
@@ -76,18 +78,35 @@ _MONTHS = {
     "NOV": "11", "DEC": "12",
 }
 
+# A content-page anchor on a rendered leaf landing is labelled "<ICAO> <n>"
+# (the AD-2 book pages, e.g. "EDNY 1" = Sichtflugkarte, "EDNY 2" =
+# Flugplatzkarte, further pages = the big fields' typeset text sheets).
+_PAGE_LABEL_RE = re.compile(r"^([A-Z]{4})\s+\d+$")
 
-class DE(HttpCrawlerBase):
+
+class DE(PlaywrightCrawlerBase):
     """Germany crawler over DFS BasicVFR + BasicIFR.
 
-    No browser: enters each fork at its static section index page (see the
-    module docstring), walks the folder-link tree to the per-airfield leaves,
-    and stores each field's amendment-stable `myPermalink` rather than the
-    edition-specific physical URL DFS renames every AIRAC cycle.
+    The LIST crawl uses no browser: it enters each fork at its static section
+    index page (see the module docstring), walks the folder-link tree to the
+    per-airfield leaves, and stores each field's amendment-stable
+    `myPermalink` rather than the edition-specific physical URL DFS renames
+    every AIRAC cycle.
+
+    The base is :class:`PlaywrightCrawlerBase` ONLY for the opt-in
+    :meth:`collect_ad2_ocr` pass (DE_OCR): DFS serves each AD-2 book page as a
+    base64 PNG image, so the sole route to any DE AD-2 datum is OCR of the
+    rendered page image. The browser is lazy (never launched by the daily list
+    crawl), so nothing about the normal run changes.
     """
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
+        # Raw OCR text of the AD-2 text pages, keyed by ICAO. Populated only by
+        # collect_ad2_ocr (opt-in, DE_OCR); DISPLAY-only, never parsed into a
+        # structured claim (owner safety directive - a mis-OCR'd hours digit
+        # must never drive the open/closed badge, map filter, or JSON-LD).
+        self.ad2_text_by_icao: dict[str, str] = {}
 
     # ----- helpers ------------------------------------------------------------
 
@@ -302,6 +321,82 @@ class DE(HttpCrawlerBase):
                 type=category,
             )
         )
+
+    # ----- AD-2 OCR (opt-in, DE_OCR) ------------------------------------------
+
+    def collect_ad2_ocr(self, airports: list[Airport]) -> None:
+        """OCR the DFS AD-2 text pages for the big fields (heavy, opt-in).
+
+        For each ICAO-bearing field: render its leaf landing (permalink ->
+        edition chapter, via ``render_html`` so ``self.last_url`` is the chapter
+        directory), find the "<ICAO> <n>" content-page links, fetch each page's
+        embedded base64 PNG, OCR it, and keep only the pages ``is_text_page``
+        accepts - the ~40 big Verkehrsflughaefen whose AD-2 book carries a
+        typeset text sheet (VFR-Flugverfahren / apron rules). The ~750 small
+        fields have only chart pages (a map image), which OCR into noise and
+        are dropped, so those fields yield nothing and stay on the AIP link.
+
+        The concatenated text lands in ``self.ad2_text_by_icao[icao]`` for
+        DISPLAY only - it is never parsed into hours / Platzrunde / any
+        structured field (owner safety directive).
+
+        VERY heavy (one browser navigation per field), so it is gated by the
+        ``DE_OCR`` env flag (never the daily list crawl) and can be narrowed to
+        specific fields with ``DE_OCR_ICAOS`` (comma-separated) or capped with
+        ``DE_OCR_LIMIT`` for a live-test spot check. Fully fail-soft: a
+        per-field failure is logged and skipped; a missing browser stops the
+        pass cleanly (the list crawl already published).
+        """
+        from crawlers.de_ocr import biggest_png, is_text_page, ocr_image
+
+        only = os.environ.get("DE_OCR_ICAOS")
+        allow = {c.strip().upper() for c in only.split(",") if c.strip()} if only else None
+        fields = [a for a in airports if a.icao and (allow is None or a.icao in allow)]
+        limit = os.environ.get("DE_OCR_LIMIT")
+        if limit and limit.isdigit():
+            fields = fields[: int(limit)]
+        self.logger.info(f"DE OCR: scanning {len(fields)} ICAO field(s)")
+
+        kept = 0
+        for ap in fields:
+            icao = ap.icao
+            assert icao is not None  # filtered above
+            try:
+                landing = self.render_html(ap.url)
+            except PlaywrightUnavailable as e:
+                self.logger.warning(f"DE OCR: browser unavailable ({e}); stopping")
+                break
+            except Exception as e:
+                self.logger.warning(f"DE OCR: render failed for {icao}: {e}")
+                continue
+            base = getattr(self, "last_url", ap.url)
+            # Content-page anchors labelled "<ICAO> <n>" (dedup, keep order).
+            hrefs: list[str] = []
+            for a in self.soup(landing).find_all("a", href=True):
+                m = _PAGE_LABEL_RE.match(a.get_text(" ", strip=True))
+                if m and m.group(1) == icao:
+                    hrefs.append(a["href"])
+            texts: list[str] = []
+            for href in dict.fromkeys(hrefs):
+                try:
+                    _, page_html = self._fetch(urljoin(base, href))
+                except Exception as e:
+                    self.logger.warning(f"DE OCR: page fetch failed for {icao}: {e}")
+                    continue
+                png = biggest_png(page_html)
+                if not png:
+                    continue
+                text = ocr_image(png)
+                if is_text_page(text):
+                    texts.append(text)
+            if texts:
+                self.ad2_text_by_icao[icao] = "\n\n".join(texts)
+                kept += 1
+                self.logger.info(f"DE OCR: {icao} kept {len(texts)} text page(s)")
+        self.logger.info(f"DE OCR: kept text for {kept}/{len(fields)} field(s)")
+        # Tear down the browser re-launched by render_html (the list crawl
+        # already closed the client in crawl(); fetch reopens it lazily).
+        self.close()
 
     # ----- entry point --------------------------------------------------------
 

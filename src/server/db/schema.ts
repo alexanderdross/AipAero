@@ -105,6 +105,13 @@ export const airportFacts = createTable("airport_facts", {
   // records provenance so a non-AIP source can never clobber it.
   declaredDistances: text("declared_distances"), // JSON: DeclaredDistances
   declaredSource: text("declared_source"), // "eaip"
+  // DE-only: raw text OCR'd from the DFS BasicVFR AD-2 page images (they are
+  // base64 PNGs, so OCR is the sole route to any DE AD-2 datum). DISPLAY-only
+  // under a "read by text recognition, verify against the AIP" caveat - NEVER
+  // parsed into hours / the open badge / the map filter / JSON-LD (owner safety
+  // directive: a mis-OCR'd hours digit must not become a machine claim).
+  ad2OcrText: text("ad2_ocr_text"),
+  ad2OcrSource: text("ad2_ocr_source"), // "dfs-ocr"
   ppr: integer("ppr", { mode: "boolean" }), // prior permission required (OpenAIP)
   aerodromeType: integer("aerodrome_type"), // OpenAIP airport `type` enum code
   restaurant: integer("restaurant", { mode: "boolean" }), // on-field restaurant

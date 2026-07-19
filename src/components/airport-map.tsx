@@ -303,9 +303,7 @@ export function AirportMap({
     const nowDate = new Date();
     const delta = (weekday - utcDow(nowDate) + 7) % 7;
     const now =
-      delta === 0
-        ? nowDate
-        : new Date(nowDate.getTime() + delta * 86_400_000);
+      delta === 0 ? nowDate : new Date(nowDate.getTime() + delta * 86_400_000);
     for (const m of markers) {
       if (!active.every((k) => m[k])) continue;
       // Operation-hours filters (client-side, so any chosen time needs no round

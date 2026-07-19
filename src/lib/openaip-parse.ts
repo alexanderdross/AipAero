@@ -213,6 +213,7 @@ export function mapOpenAipItem(item: Record<string, unknown>): NormalizedFacts {
     runways: parseRunways(item.runways),
     frequencies: parseFrequencies(item.frequencies),
     declaredDistances: null, // eAIP-only; OpenAIP carries none
+    ad2Text: null, // DE OCR-only; OpenAIP carries none
     source: "openaip",
   };
 }
