@@ -161,24 +161,28 @@ export default async function GlossaryPage(
             accordions (the definitions are short and should always be visible
             for both readers and LLMs). Each term self-anchors via
             SectionHeading. */}
-        <dl className="border-drossgray-dark/15 flex flex-col gap-6 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
-          {TERMS.map((key) => (
-            <div key={key} className="scroll-mt-24">
-              <dt>
-                <SectionHeading
-                  className="text-xl font-semibold tracking-tight"
-                  linkTitle={`${t("title")} - ${t(`terms.${key}.name`)}`}
-                >
-                  {t(`terms.${key}.name`)}
-                </SectionHeading>
-              </dt>
-              <dd className="mt-2">{t(`terms.${key}.def`)}</dd>
-            </div>
-          ))}
+        <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 shadow-sm sm:p-8">
+          <dl className="flex flex-col gap-6">
+            {TERMS.map((key) => (
+              <div key={key} className="scroll-mt-24">
+                <dt>
+                  <SectionHeading
+                    className="text-xl font-semibold tracking-tight"
+                    linkTitle={`${t("title")} - ${t(`terms.${key}.name`)}`}
+                  >
+                    {t(`terms.${key}.name`)}
+                  </SectionHeading>
+                </dt>
+                <dd className="mt-2">{t(`terms.${key}.def`)}</dd>
+              </div>
+            ))}
+          </dl>
 
-          {/* Closing CTA: from the glossary straight into the product, plus a
-              discreet cross-link to the sibling pilot guides (content hub). */}
-          <div className="border-drossgray-dark/15 border-t pt-6 text-center">
+          {/* Closing CTA: a sibling of the <dl> (still inside the card), so the
+              <dl> contains only <dt>/<dd> groups - axe "definition-list" (a
+              <div> child of a <dl> must itself wrap a dt/dd group; this CTA
+              does not, which failed the audit). */}
+          <div className="border-drossgray-dark/15 mt-6 border-t pt-6 text-center">
             <a
               href={airportListHref}
               title={tMenu("airports.hrefTitle")}
@@ -205,7 +209,7 @@ export default async function GlossaryPage(
               </a>
             </p>
           </div>
-        </dl>
+        </div>
       </div>
 
       {/* Bottom breadcrumb (root > country > Glossary) + BreadcrumbList
