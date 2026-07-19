@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Lidlauku saraksts",
-      "description": "Visi Latvijas lidlauki un lidostas vienuviet - ar bezsaistes lejupielādi, muitas un degvielas informāciju",
+      "description": "Visi Latvijas lidlauki un lidostas vienuviet - ar laikapstākļiem (METAR/TAF), darba laiku, skrejceļu, degvielas un muitas informāciju un bezsaistes lejupielādi",
       "buttonTitle": "Lidlauku saraksts",
       "buttonHref": "/lv/lidlauku-saraksts-latvija/",
       "buttonHrefTitle": "Latvijas lidlauku saraksts"

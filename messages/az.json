@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Hava limanları siyahısı",
-      "description": "Azərbaycandakı bütün hava limanlarına ümumi baxış - offline yükləmə, gömrük və yanacaq məlumatları ilə",
+      "description": "Azərbaycandakı bütün hava limanlarına ümumi baxış - hava şəraiti (METAR/TAF), iş saatları, uçuş-enmə zolaqları, yanacaq və gömrük məlumatları və offline yükləmə ilə",
       "buttonTitle": "Hava limanları siyahısı",
       "buttonHref": "/az/hava-limanlari-azerbaycan/",
       "buttonHrefTitle": "Azərbaycandakı hava limanları siyahısı"

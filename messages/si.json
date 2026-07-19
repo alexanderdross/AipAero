@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Seznam letališč",
-      "description": "Vsa letališča in vzletišča v Sloveniji na enem mestu - s prenosom za uporabo brez povezave ter informacijami o carini in gorivu",
+      "description": "Vsa letališča in vzletišča v Sloveniji na enem mestu - z vremenom (METAR/TAF), odpiralnim časom, stezami, informacijami o gorivu in carini ter prenosom za uporabo brez povezave",
       "buttonTitle": "Seznam letališč",
       "buttonHref": "/si/seznam-letalisc-slovenija/",
       "buttonHrefTitle": "Seznam letališč v Sloveniji"

@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Lista lotnisk",
-      "description": "Wszystkie lotniska w Polsce w jednym miejscu - z pobieraniem offline oraz informacjami o cle i paliwie",
+      "description": "Wszystkie lotniska w Polsce w jednym miejscu - z pogodą (METAR/TAF), godzinami otwarcia, drogami startowymi, informacjami o paliwie i cle oraz pobieraniem offline",
       "buttonTitle": "Lista lotnisk",
       "buttonHref": "/pl/lotniska-polska/",
       "buttonHrefTitle": "Lista lotnisk w Polsce"

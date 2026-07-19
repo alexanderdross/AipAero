@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Latvia - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Latvia - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/lv/en/airport-list-latvia/",
       "buttonHrefTitle": "List of Airfields/ Airports Latvia"

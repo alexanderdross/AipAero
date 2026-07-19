@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Lentopaikkaluettelo",
-      "description": "Kaikki Suomen lentopaikat yhdellä silmäyksellä - mukana offline-lataus sekä tulli- ja polttoainetiedot",
+      "description": "Kaikki Suomen lentopaikat yhdellä silmäyksellä - mukana sää (METAR/TAF), aukioloajat, kiitotiet, polttoaine- ja tullitiedot sekä offline-lataus",
       "buttonTitle": "Lentopaikkaluettelo",
       "buttonHref": "/fi/lentopaikat-suomi/",
       "buttonHrefTitle": "Luettelo Suomen lentopaikoista"

@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Lista de aeropuertos",
-      "description": "Todos los aeropuertos y aeródromos de España de un vistazo - con descarga sin conexión e información de aduanas y combustible",
+      "description": "Todos los aeropuertos y aeródromos de España de un vistazo - con meteorología, horarios, pistas, combustible e información de aduanas y descarga sin conexión",
       "buttonTitle": "Lista de aeropuertos",
       "buttonHref": "/es/lista-de-aeropuertos-espana/",
       "buttonHrefTitle": "Lista de aeropuertos de España"

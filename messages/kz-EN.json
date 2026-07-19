@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Kazakhstan - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Kazakhstan - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/kz/en/airport-list-kazakhstan/",
       "buttonHrefTitle": "List of Airfields/ Airports Kazakhstan"

@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Lista aerodroma",
-      "description": "Pregled svih aerodroma u Srbiji - sa preuzimanjem za korišćenje van mreže, informacijama o carini i gorivu",
+      "description": "Pregled svih aerodroma u Srbiji - sa informacijama o vremenu (METAR/TAF), radnom vremenu, pistama, gorivu i carini, te preuzimanjem za korišćenje van mreže",
       "buttonTitle": "Lista aerodroma",
       "buttonHref": "/rs/lista-aerodroma-srbija/",
       "buttonHrefTitle": "Lista aerodroma u Srbiji"

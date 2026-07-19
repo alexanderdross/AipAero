@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Flugplatz Liste",
-      "description": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick - mit Offline-Download, Zoll- und Fuel-Infos",
+      "description": "Alle Flugplätze/ Flughäfen in der Schweiz im Überblick - mit Wetter (METAR/TAF), Öffnungszeiten, Pisten, Kraftstoff, Zoll und Offline-Download",
       "buttonTitle": "Flugplatz Liste",
       "buttonHref": "/ch/flugplaetze-schweiz/",
       "buttonHrefTitle": "Flugplatz Liste Schweiz"

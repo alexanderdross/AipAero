@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports/ heliports in the Netherlands - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports/ heliports in the Netherlands - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/nl/en/airport-list-netherlands/",
       "buttonHrefTitle": "List of Airports/ Airfields in the Netherlands"

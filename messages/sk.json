@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Zoznam letísk",
-      "description": "Prehľad všetkých letísk na Slovensku - s offline stiahnutím a informáciami o cle a palive",
+      "description": "Prehľad všetkých letísk na Slovensku - s počasím (METAR/TAF), otváracími hodinami, dráhami, informáciami o palive a cle a offline stiahnutím",
       "buttonTitle": "Zoznam letísk",
       "buttonHref": "/sk/letiska-slovensko/",
       "buttonHrefTitle": "Zoznam letísk na Slovensku"

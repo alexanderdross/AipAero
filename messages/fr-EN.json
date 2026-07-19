@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all aerodromes/airports in France - with offline download, customs and fuel info",
+      "description": "Overview of all aerodromes/airports in France - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/fr/en/airport-list-france/",
       "buttonHrefTitle": "List of Airports France"

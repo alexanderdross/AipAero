@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Lista aeroporturilor",
-      "description": "Prezentare generală a tuturor aeroporturilor din Moldova - cu descărcare offline și informații despre vamă și combustibil",
+      "description": "Prezentare generală a tuturor aeroporturilor din Moldova - cu vreme, program de funcționare, piste, combustibil și informații despre vamă și descărcare offline",
       "buttonTitle": "Lista aeroporturilor",
       "buttonHref": "/md/lista-aeroporturi-moldova/",
       "buttonHrefTitle": "Lista aeroporturilor din Moldova"

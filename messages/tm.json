@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Howa menzilleriniň sanawy",
-      "description": "Türkmenistandaky ähli howa menzillerine syn - offline ýükläp almak, gümrük we ýangyç maglumatlary bilen",
+      "description": "Türkmenistandaky ähli howa menzillerine syn - howa maglumaty (METAR/TAF), iş sagatlary, uçuş-gonuş zolaklary, ýangyç we gümrük maglumatlary hem-de offline ýükläp almak bilen",
       "buttonTitle": "Howa menzilleriniň sanawy",
       "buttonHref": "/tm/turkmenistan-howa-menzilleri/",
       "buttonHrefTitle": "Türkmenistandaky howa menzilleriniň sanawy"

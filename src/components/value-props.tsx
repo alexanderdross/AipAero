@@ -26,7 +26,7 @@ const items = [
   {
     Icon: GlobeIcon,
     title: "Across Europe",
-    text: "VFR, IFR and heliport charts for a growing list of countries",
+    text: "VFR, IFR and heliport charts - plus weather, runways, fuel and opening hours - for a growing list of countries",
   },
   {
     Icon: MonitorSmartphoneIcon,

@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Havalimanı listesi",
-      "description": "Türkiye'deki tüm havalimanlarına genel bakış - çevrimdışı indirme, gümrük ve yakıt bilgileriyle",
+      "description": "Türkiye'deki tüm havalimanlarına genel bakış - hava durumu (METAR/TAF), açılış saatleri, pistler, yakıt ve gümrük bilgileriyle, ayrıca çevrimdışı indirme",
       "buttonTitle": "Havalimanı listesi",
       "buttonHref": "/tr/havalimanlari-turkiye/",
       "buttonHrefTitle": "Türkiye'deki havalimanları listesi"

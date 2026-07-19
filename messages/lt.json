@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Oro uostų sąrašas",
-      "description": "Visų Lietuvos oro uostų ir aerodromų apžvalga - su atsisiuntimu naudojimui neprisijungus, muitinės ir kuro informacija",
+      "description": "Visų Lietuvos oro uostų ir aerodromų apžvalga - su orų (METAR/TAF), darbo laiko, kilimo ir tūpimo takų, kuro ir muitinės informacija bei atsisiuntimu naudojimui neprisijungus",
       "buttonTitle": "Oro uostų sąrašas",
       "buttonHref": "/lt/oro-uostu-sarasas-lietuva/",
       "buttonHrefTitle": "Oro uostų sąrašas Lietuvoje"

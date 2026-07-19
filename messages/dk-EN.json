@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Denmark - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Denmark - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/dk/en/airport-list-denmark/",
       "buttonHrefTitle": "List of Airfields/ Airports Denmark"

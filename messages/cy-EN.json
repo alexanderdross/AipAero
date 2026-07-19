@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Cyprus - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Cyprus - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/cy/en/airport-list-cyprus/",
       "buttonHrefTitle": "List of Airports Cyprus"

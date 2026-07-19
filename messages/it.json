@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Elenco degli aeroporti",
-      "description": "Panoramica di tutti gli aeroporti in Italia - con download offline e informazioni su dogana e carburante",
+      "description": "Panoramica di tutti gli aeroporti in Italia - con meteo, orari di apertura, piste, carburante e informazioni su dogana e download offline",
       "buttonTitle": "Elenco degli aeroporti",
       "buttonHref": "/it/elenco-aeroporti-italia/",
       "buttonHrefTitle": "Elenco degli aeroporti in Italia"
