@@ -1076,6 +1076,15 @@ jobs:
                   print(f"   charts lists: {len(with_charts)}/{len(airports)} ({n_charts} charts total)")
                   for a in with_pdf[:3]:
                       print(f"     {a.icao or a.title} pdf -> {a.pdf_url[:110]}")
+                  # eAIP AD 2.3 operation hours (docs/operation-hours-concept.md):
+                  # crawlers that read the per-aerodrome AD 2 page collect the
+                  # AUTHORITATIVE hours into `hours_by_icao` during crawl(). Print
+                  # the coverage + a few samples so the AD 2.3 parse can be
+                  # validated against the live source before it is relied upon.
+                  hours = getattr(crawler, "hours_by_icao", {}) or {}
+                  print(f"   AD 2.3 hours: {len(hours)}/{len(airports)}")
+                  for _icao, _h in list(hours.items())[:5]:
+                      print(f"     {_icao} hours -> {_h}")
                   # Reconnaissance mode: fetch the first chart pages and list
                   # the PDF links they expose, so per-country extraction can
                   # be written against real markup (the AIP hosts are not
