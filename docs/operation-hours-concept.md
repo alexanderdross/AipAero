@@ -37,9 +37,11 @@ Consequences:
 
 Since OpenAIP is out, non-eurocontrol hours must come from the national AIP itself. The **`ad23_hours()` parser is source-agnostic** (it takes collapsed page text), so:
 
-- **HTML AD 2 pages that aren't eurocontrol** (ES/ENAIRE: `LE_AD_2_<ICAO>_en.html` - the crawler already fetches this page for the AD 2.1 name; DE/DFS): run `ad23_hours()` on the text the crawler already has. Cheapest path; ES is the reference prototype.
-- **PDF AD 2 text** (GR/HASP, RO/AISRO, LT VFR manual): download the AD 2 **text** PDF (not the chart), `pypdf`-extract, feed the text to `ad23_hours()`. Needs per-country recon (the live-test `pdf` dump) because PDF table linearisation is messy.
+- **PDF AD 2 text** - the reference path, **live-proven on ES/ENAIRE (50/51 aerodromes)**. ENAIRE's `LE_AD_2_<ICAO>_en.html` page carries only the AD 2.1 name; the AD 2.3 OPERATIONAL HOURS table lives in the **full-document PDF** (`LE_AD_2_<ICAO>_en.pdf`, same path). `es.py` fetches that PDF (sibling of the page it already reads for the name), extracts text via `HttpCrawlerBase.pdf_text()` (pypdf, lazy import, fail-soft), and runs the **source-agnostic `ad23_hours()`** - no parser change needed. ENAIRE's row-1 shape `1 Airport V: 0430-2230; I: 0530-2330 ...` isolates correctly (row-2 number marker), yielding the VFR window (LECO -> 04:30-22:30), the AIS/ARO `H24` ignored. Cost: one extra ~2.4 MB PDF fetch per field (~120 MB / ES crawl, ~2-3 min). Same recipe applies to **GR/HASP, RO/AISRO, LT** (per-country: find the AD 2 **text** PDF, confirm `pypdf` linearises it - the live-test `pdf_dump` input).
+- **HTML AD 2 pages that ARE non-eurocontrol but inline the AD 2.3 text** (e.g. DE/DFS, if present): run `ad23_hours()` directly on the page text the crawler already has - no PDF fetch. (ES turned out NOT to be this - its HTML has no AD 2.3.)
 - **Gated/licensed** (EAD): structured but not open.
+
+`main.py` publishes `hours_by_icao` for **any** crawler (a `getattr`, not eurocontrol-gated), so a non-eurocontrol crawler that populates `self.hours_by_icao` (like `es.py`) publishes AD 2.3 hours with no extra wiring.
 
 ## Safety framing (owner directive)
 

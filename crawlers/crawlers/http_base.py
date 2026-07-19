@@ -1,5 +1,6 @@
 import datetime
 import html as html_module
+import io
 import logging
 import re
 import ssl
@@ -294,6 +295,31 @@ class HttpCrawlerBase:
         if encoding is not None:
             response.encoding = encoding
         return response.text
+
+    def pdf_text(self, url: str) -> str:
+        """Download a PDF and return its pypdf-extracted text (collapsed to
+        single-spaced), or "" on any error (fail-soft). Bypasses the HTML-only
+        `fetch()` guard on purpose - this is the ONE place the crawler wants a
+        binary document (a full-document AD-2 PDF whose AD 2.3 OPERATIONAL HOURS
+        table is not published as HTML, e.g. ES/ENAIRE). pypdf is imported
+        lazily so importing a crawler never needs it. Reuses `self.client`
+        (proxy / CA / headers carry over)."""
+        try:
+            from pypdf import PdfReader  # lazy: not needed to import a crawler
+        except Exception as exc:  # pypdf missing -> no hours, never a crash
+            self.logger.warning(f"pdf_text: pypdf unavailable ({exc})")
+            return ""
+        try:
+            resp = self.client.get(url)
+            resp.raise_for_status()
+            reader = PdfReader(io.BytesIO(resp.content))
+            text = " ".join(
+                (page.extract_text() or "") for page in reader.pages
+            )
+            return " ".join(text.split())
+        except Exception as exc:  # a bad/missing PDF must not abort the crawl
+            self.logger.debug(f"pdf_text failed for {url}: {exc}")
+            return ""
 
     def fetch_response(self, url: str) -> httpx.Response:
         """Fetch a URL and return the httpx Response (redirects followed).
