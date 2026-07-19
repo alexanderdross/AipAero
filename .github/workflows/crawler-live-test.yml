@@ -46,6 +46,10 @@ on:
         description: "Space-separated eAIP AD-2 page URLs to dump the AD 2.3 OPERATIONAL HOURS section of (raw table text + the parser's per-row split + parsed hours) - tuning the AD 2.3 operation-hours parser"
         required: false
         default: ""
+      ad2_recon:
+        description: "Space-separated eurocontrol country codes: crawl each, then dump the AD 2.12 (runways) / 2.13 (declared distances) / 2.20 (local traffic regs / circuit) raw section text of the first few fields - tuning the AD-2 facts parser (Phase E)"
+        required: false
+        default: ""
       indexnow_test:
         description: "Space-separated URLs to submit to IndexNow (api.indexnow.org) as an end-to-end test; prints the response + confirms the key file is served"
         required: false
@@ -1302,3 +1306,86 @@ jobs:
           path: crawlers/error_logs/
           if-no-files-found: ignore
           retention-days: 7
+
+      # Optional (Phase E): dump the AD 2.12 / 2.13 / 2.20 sections of the first
+      # few fields of each given eurocontrol country, to design the AD-2 facts
+      # parser (declared distances TORA/TODA/ASDA/LDA, runway characteristics,
+      # circuit/local-traffic regulations). Reuses the crawler's own fetch (so
+      # proxy/TLS config carries over) exactly like collect_ad23_hours. Kept as
+      # the LAST step so its (small) output lands in the retrievable log tail.
+      - name: AD-2 facts recon (2.12/2.13/2.20)
+        if: ${{ inputs.ad2_recon != '' }}
+        continue-on-error: true
+        env:
+          AD2_RECON: ${{ inputs.ad2_recon }}
+          BRIGHTDATA_UNLOCKER_URL: ${{ secrets.BRIGHTDATA_UNLOCKER_URL }}
+          BRIGHTDATA_PROXY_URL: ${{ secrets.BRIGHTDATA_PROXY_URL }}
+        run: |
+          uv run python - <<'PY'
+          import logging, os, re
+          # The eurocontrol crawlers log big per-field HTML warnings that flood
+          # (and truncate) the run log - silence everything below ERROR so the
+          # section dump below is the visible output.
+          logging.disable(logging.WARNING)
+          from main import COUNTRY_CRAWLERS
+          from crawlers.http_eurocontrol_base import _AD2_SECTION1_RE
+
+          # Section N .. next AD 2.(N+1 or two-digit) heading, language-agnostic
+          # (anchors on the ICAO section number, like _AD23_SECTION_RE).
+          def section(text, n):
+              m = re.search(
+                  rf"AD\s*2\.{n}\b(.*?)(?:\bAD\s*2\.(?:{n+1}|\d\d)\b)",
+                  text, re.I | re.S,
+              )
+              return " ".join(m.group(1).split())[:1200] if m else None
+
+          for code in os.environ["AD2_RECON"].split():
+              code = code.upper()
+              print(f"\n===== AD-2 recon {code} =====", flush=True)
+              try:
+                  crawler = COUNTRY_CRAWLERS[code]()
+                  airports = crawler.crawl()
+                  crawler.ensure_client_open()
+              except Exception as e:
+                  print(f"   crawl failed: {type(e).__name__}: {e}")
+                  continue
+              done = 0
+              seen = set()
+              for a in airports:
+                  if not a.icao or done >= 3:
+                      continue
+                  base = (a.url or "").split("#", 1)[0]
+                  if not base or a.icao in seen:
+                      continue
+                  # NL/SE multi-page: charts on section N, AD 2.12/2.13 on
+                  # section 1 - try the raw url then the section-1 rewrite.
+                  urls = [base]
+                  s1 = _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base)
+                  if s1 != base:
+                      urls.append(s1)
+                  best = None
+                  for url in urls:
+                      try:
+                          text = " ".join(
+                              crawler.soup(crawler.fetch(url)).get_text(" ").split()
+                          )
+                      except Exception as e:
+                          print(f"   {a.icao} fetch {url[:80]} failed: {type(e).__name__}: {e}")
+                          continue
+                      if section(text, 13) or section(text, 12):
+                          best = (url, text)
+                          break
+                      best = best or (url, text)
+                  if not best:
+                      continue
+                  seen.add(a.icao)
+                  done += 1
+                  url, text = best
+                  print(f"\n   --- {a.icao} {a.title[:40]} {url[:110]}")
+                  for n, label in ((12, "RWY PHYS"), (13, "DECL DIST"), (20, "LOCAL TRAFFIC")):
+                      print(f"   [2.{n} {label}]: {section(text, n)}")
+              try:
+                  crawler.close()
+              except Exception:
+                  pass
+          PY
