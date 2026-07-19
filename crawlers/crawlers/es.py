@@ -2,7 +2,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase, current_airac_date
-from crawlers.http_eurocontrol_base import ad21_debug_snippet, ad21_name
+from crawlers.http_eurocontrol_base import ad21_debug_snippet, ad21_name, ad23_hours
 from crawlers.models import ChartLink
 
 COUNTRY = "ES"
@@ -126,6 +126,13 @@ class ES(HttpCrawlerBase):
                             f"ES: no AD 2.1 name for {icao}; "
                             f"markup: {ad21_debug_snippet(text)!r}"
                         )
+                    # AD 2.3 OPERATIONAL HOURS lives on this same page (ENAIRE's
+                    # own AD-2 HTML, not eurocontrol). The parser is source-
+                    # agnostic (row-1 isolation, language-agnostic); OpenAIP has
+                    # no hours for ES, so this is the only source. Fail-soft.
+                    hrs = ad23_hours(text)
+                    if hrs:
+                        self.hours_by_icao[icao] = hrs
                 except Exception as e:  # one bad page must not abort the crawl
                     self.logger.warning(f"ES: {icao} name fetch failed: {e}")
                 title = f"{name} {icao}".strip() if name else icao
