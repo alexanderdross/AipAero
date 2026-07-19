@@ -6,7 +6,7 @@ import {
   legalMetadata,
 } from "~/components/legal-shell";
 import { CONTACT_RECIPIENT, turnstileSiteKey } from "~/lib/contact";
-import { sanitizeIcao, sanitizeRef } from "~/lib/contact-link";
+import { buildContactPrefill } from "~/lib/contact-link";
 import { orgUrl } from "~/lib/utils";
 
 const EN = new URL("/contact/", orgUrl).toString();
@@ -52,32 +52,16 @@ const labels: ContactFormLabels = {
 
 const inlineLink = "text-drossblue underline";
 
-/**
- * Read an aerodrome reference from the query (an airport detail page links here
- * as `/contact/?icao=EDNY`, or `?ref=<slug>` for an ICAO-less field) and derive
- * the pre-filled ICAO input + subject + message. The page is force-dynamic, so
- * reading searchParams costs nothing and the canonical stays param-free.
- */
-function prefillFromParams(sp: Record<string, string | string[] | undefined>) {
-  const first = (v: string | string[] | undefined) =>
-    Array.isArray(v) ? v[0] : v;
-  const icao = sanitizeIcao(first(sp.icao));
-  const ref = icao ? null : sanitizeRef(first(sp.ref));
-  const label = icao ?? ref;
-  if (!label) return {};
-  return {
-    initialIcao: icao ?? "",
-    initialSubject: `Data correction: ${label.toUpperCase()}`,
-    initialMessage: `Please describe what is incorrect or missing for ${label.toUpperCase()}:\n\n`,
-  };
-}
-
+// The page is force-dynamic, so reading searchParams costs nothing and the
+// canonical stays param-free. An airport detail page links here as
+// `/contact/?icao=EDNY` (or `?ref=<slug>` for an ICAO-less field);
+// buildContactPrefill sanitizes that reference and derives the prefill.
 export default async function ContactPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const prefill = prefillFromParams(await searchParams);
+  const prefill = buildContactPrefill(await searchParams, "en");
   return (
     <LegalShell
       lang="en"

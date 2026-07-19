@@ -59,3 +59,57 @@ export function sanitizeRef(raw: string | undefined | null): string | null {
   const v = raw.trim().toLowerCase();
   return /^[a-z0-9-]{1,64}$/.test(v) ? v : null;
 }
+
+/** Pre-filled contact-form fields derived from an aerodrome reference. */
+export type ContactPrefill = {
+  initialIcao?: string;
+  initialSubject?: string;
+  initialMessage?: string;
+};
+
+/**
+ * Localized subject/message copy for the two contact-form languages. Hardcoded
+ * (like the contact pages' own labels) - the contact form is EN/DE only and its
+ * copy deliberately lives outside the i18n message files.
+ */
+const PREFILL_COPY: Record<
+  "en" | "de",
+  (label: string) => { subject: string; message: string }
+> = {
+  en: (label) => ({
+    subject: `Data correction: ${label}`,
+    message: `Please describe what is incorrect or missing for ${label}:\n\n`,
+  }),
+  de: (label) => ({
+    subject: `Datenkorrektur: ${label}`,
+    message: `Bitte beschreiben Sie, welche Angabe zu ${label} fehlt oder falsch ist:\n\n`,
+  }),
+};
+
+/**
+ * Derive the contact-form prefill from the page's query string. An airport
+ * detail page links here as `/contact/?icao=EDNY` (or `?ref=<slug>` for an
+ * ICAO-less field); this reads and SANITIZES that reference, then returns the
+ * pre-filled ICAO input plus a language-appropriate subject and message. Returns
+ * an empty object when there is no valid reference (a plain contact visit).
+ *
+ * Pure and shared by both contact pages, so it is unit-tested independently of
+ * the Turnstile-gated form render.
+ */
+export function buildContactPrefill(
+  searchParams: Record<string, string | string[] | undefined>,
+  lang: "en" | "de",
+): ContactPrefill {
+  const first = (v: string | string[] | undefined) =>
+    Array.isArray(v) ? v[0] : v;
+  const icao = sanitizeIcao(first(searchParams.icao));
+  const ref = icao ? null : sanitizeRef(first(searchParams.ref));
+  const label = (icao ?? ref)?.toUpperCase();
+  if (!label) return {};
+  const copy = PREFILL_COPY[lang](label);
+  return {
+    initialIcao: icao ?? "",
+    initialSubject: copy.subject,
+    initialMessage: copy.message,
+  };
+}

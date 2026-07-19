@@ -52,6 +52,12 @@ export default defineConfig({
       NODE_ENV: "production",
       CRON_SECRET: "test-secret",
       ADSENSE_ID: "0000000000000000",
+      // Cloudflare's documented always-pass Turnstile test site key, so the
+      // contact form renders its fields (a production build with no key would
+      // instead show the "unavailable" fallback and hide the inputs the
+      // contact-prefill test asserts on). The widget script may fail to load
+      // offline - that does not affect the fields' presence.
+      TURNSTILE_SITE_KEY: "1x00000000000000000000AA",
       PORT: String(PORT),
     },
   },

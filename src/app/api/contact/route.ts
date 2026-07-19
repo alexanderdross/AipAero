@@ -19,9 +19,17 @@ const contactSchema = z.object({
   name: z.string().trim().min(1).max(100),
   email: z.string().trim().email().max(200),
   // Optional aerodrome reference (pre-filled from a detail-page "report a
-  // problem" link). Free-form/short so a name-only field or manual entry passes;
-  // it is only echoed into the mail subject/body, never used as an identifier.
-  icao: z.string().trim().max(8).optional().default(""),
+  // problem" link). It is echoed into the mail subject/body, so restrict it to
+  // alphanumerics: this rejects any CR/LF or control characters at the edge
+  // (defence-in-depth against header injection into the Subject) rather than
+  // relying solely on the mailer to encode them.
+  icao: z
+    .string()
+    .trim()
+    .max(8)
+    .regex(/^[A-Za-z0-9]*$/, "ICAO must be alphanumeric")
+    .optional()
+    .default(""),
   // Optional user-supplied subject line.
   subject: z.string().trim().max(200).optional().default(""),
   message: z.string().trim().min(1).max(5000),
