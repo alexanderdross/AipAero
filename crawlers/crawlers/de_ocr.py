@@ -77,11 +77,15 @@ def ocr_image(png: bytes) -> str:
         return ""
 
 
-def is_text_page(text: str, *, min_len: int = 1200) -> bool:
-    """True when OCR text looks like a DFS **text** data page worth keeping (a
-    big field's VFR-Flugverfahren / rules), False for a **chart** page (map ->
-    noisy OCR) or a too-short/empty read. A chart page carries a chart-title
-    marker in its head; a substantial text page does not."""
+def is_text_page(text: str, *, min_len: int = 400) -> bool:
+    """True when OCR text looks like a DFS AD-2 **text** data page worth keeping,
+    False for a **chart** page (map -> noisy OCR) or a too-short/empty read.
+
+    `de.py` now feeds only the AD 2 book's section-1 TEXT series ("AD 2 <ICAO>
+    1-<n>"), so the chart-title / coordinate-header checks are a secondary
+    safeguard; the length floor is the main guard against a near-empty/failed
+    read. It is 400 (was 1200): valid but shorter AD-2 text pages (e.g. EDNY 1-2
+    "AD 2.4 Handling services", ~1087 OCR chars) must not be dropped."""
     if len(text) < min_len:
         return False
     head = text[:150]
