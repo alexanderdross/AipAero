@@ -23,6 +23,24 @@ Key finding: the **richest structured source is already fetched and then thrown 
 
 The **authoritative** hours live in the eAIP **AD 2.3** section, which sits in the very pages the eurocontrol crawlers already fetch (the base reads the AD 2.1 name from the same aerodrome page). AD 2.3 is free-text/tabular ICAO layout, so it needs a per-country-tolerant normalizer, but it is the compliance-grade source and overrides OpenAIP where present.
 
+### Live coverage findings (19.07.2026) - OpenAIP hours are NOT usable in practice
+
+The plan above bet on OpenAIP `hoursOfOperation` as the **primary** source. Live probing disproved that: across **13 fields** sampled in DE/ES/CH/FR (major airports and small GA fields), OpenAIP returned **no** structured hours - and this was checked on **both** the `?search=<ICAO>` list endpoint AND the `/api/airports/{id}` detail endpoint (`hoursOfOperation` came back `absent` / `None` every time). So it is not a projection quirk; OpenAIP simply does not populate the field for these aerodromes. A full bulk backfill would resolve ~0 rows.
+
+Consequences:
+
+- The **OpenAIP hours backfill** (`import_openaip_backfill.py` `BACKFILL_HOURS` mode + `GET /api/airport-facts?scope=hours` + the `hours_backfill` workflow input) is built and merged, but **dormant** - it stays as harmless scaffolding in case OpenAIP ever fills the field, and it is safe to run (fail-soft, hours-only PATCH, eAIP precedence preserved). Do **not** expect meaningful yield from it today.
+- **eAIP AD 2.3 (15 eurocontrol countries) is the only real source of operation hours** we currently have.
+- Everywhere else the detail page now shows the honest **"no operating hours" note** (`Weather.hoursNone`) instead of a blank.
+
+### Extending to non-eurocontrol countries (the real path)
+
+Since OpenAIP is out, non-eurocontrol hours must come from the national AIP itself. The **`ad23_hours()` parser is source-agnostic** (it takes collapsed page text), so:
+
+- **HTML AD 2 pages that aren't eurocontrol** (ES/ENAIRE: `LE_AD_2_<ICAO>_en.html` - the crawler already fetches this page for the AD 2.1 name; DE/DFS): run `ad23_hours()` on the text the crawler already has. Cheapest path; ES is the reference prototype.
+- **PDF AD 2 text** (GR/HASP, RO/AISRO, LT VFR manual): download the AD 2 **text** PDF (not the chart), `pypdf`-extract, feed the text to `ad23_hours()`. Needs per-country recon (the live-test `pdf` dump) because PDF table linearisation is messy.
+- **Gated/licensed** (EAD): structured but not open.
+
 ## Safety framing (owner directive)
 
 Hours are shown as **advisory** - clearly labelled "confirm via NOTAM / current AIP before flight". Fields whose status is **unknown / by NOTAM / on-request (O/R)** are **excluded from "open" results** rather than guessed. This mirrors the project's existing "no best-effort entries" rule for customs and border-crossing links: a wrong "open" answer is a safety/operational hazard.
