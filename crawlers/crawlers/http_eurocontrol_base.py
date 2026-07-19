@@ -135,6 +135,13 @@ _AD23_SERVICE_LABELS = (
 # "LZ-AD-2.LZIB-en-SK.html") have no " <N>-<locale>" shape, so the pattern does
 # not match and the primary `url` fetch (which already carries AD 2.3) is used.
 _AD2_SECTION1_RE = re.compile(r"(\s)\d+(-[A-Za-z]{2}-[A-Za-z]{2}\.html?)$", re.I)
+# Row-2 number marker in an AD 2.3 table (" 2 " between row 1 and row 2). Anchors
+# the end of row 1 independent of language / label position (see ad23_hours).
+_AD23_ROW2_MARKER_RE = re.compile(r"\s2\s")
+# Swap a non-English eAIP locale suffix ("-fr-FR", "-fi-FI") to English so a
+# native-language AD 2 page (whose "OPERATIONAL HOURS" heading is translated,
+# missing the English regex) can be re-fetched in English (SIA/FR is bilingual).
+_AD2_LOCALE_RE = re.compile(r"-[A-Za-z]{2}-[A-Za-z]{2}(\.html?)$", re.I)
 
 
 def ad23_hours(page_text: str):
@@ -152,14 +159,24 @@ def ad23_hours(page_text: str):
         return None
     section = m.group(1)
     low = section.lower()
-    # End of row 1 = start of the first service row (row 2 "Customs...").
-    cut = min(
+    # End of row 1 (the aerodrome operator/administration row) = start of row 2.
+    # Two independent markers, whichever comes first:
+    #  - the row-2 NUMBER marker " 2 " - robust across producers and languages
+    #    (works where a label sits AFTER its value, e.g. FI's bilingual
+    #    "1 Lentopaikan pitäjä <hrs> Aerodrome operator 2 CUST ..."), and
+    #  - the first English service-row label ("Customs and immigration", ...).
+    # A row-2 number is safer than a service label whose English word can sit at
+    # the END of row 2 (dragging a service row's H24 into the aerodrome hours).
+    row2 = _AD23_ROW2_MARKER_RE.search(section)
+    marker = row2.start() if row2 else -1
+    svc = min(
         (i for i in (low.find(lbl) for lbl in _AD23_SERVICE_LABELS) if i >= 0),
         default=-1,
     )
-    if cut <= 0:
+    cands = [i for i in (marker, svc) if i > 0]
+    if not cands:
         return None  # cannot isolate the aerodrome row -> do not assert hours
-    return parse_ad23_text(section[:cut])
+    return parse_ad23_text(section[: min(cands)])
 
 
 def ad21_debug_snippet(page_text: str) -> str:
@@ -218,9 +235,25 @@ class HttpEurocontrolBase(HttpCrawlerBase):
                 continue
             hours = self._ad23_from_url(base_url)
             if hours is None:
-                alt = _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base_url)
-                if alt != base_url:
+                # Fallbacks (each tried only if the previous found nothing):
+                #  1. section-1 rewrite (multi-page NL/SE-style),
+                #  2. English locale (native-language pages, FR/SIA),
+                #  3. section-1 + English combined.
+                seen = {base_url}
+                for alt in (
+                    _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base_url),
+                    _AD2_LOCALE_RE.sub(r"-en-GB\g<1>", base_url),
+                    _AD2_LOCALE_RE.sub(
+                        r"-en-GB\g<1>",
+                        _AD2_SECTION1_RE.sub(r"\g<1>1\g<2>", base_url),
+                    ),
+                ):
+                    if alt in seen:
+                        continue
+                    seen.add(alt)
                     hours = self._ad23_from_url(alt)
+                    if hours:
+                        break
             if hours:
                 self.hours_by_icao[icao] = hours
                 found += 1

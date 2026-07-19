@@ -11,6 +11,7 @@ from __future__ import annotations
 
 from crawlers.http_eurocontrol_base import (
     HttpEurocontrolBase,
+    _AD2_LOCALE_RE,
     _AD2_SECTION1_RE,
     ad23_hours,
 )
@@ -58,8 +59,33 @@ def test_missing_section_is_none():
 
 
 def test_unisolatable_row1_is_none():
-    # No service-row label to bound row 1 -> do not assert (conservative).
+    # No row-2 marker / service label to bound row 1 -> do not assert.
     assert ad23_hours("X LZ AD 2.3 OPERATIONAL HOURS 1 AD admin H24 LZ AD 2.4") is None
+
+
+def test_row2_number_marker_keeps_labels_after_values_safe():
+    # FI-style bilingual, LABEL-AFTER-VALUE layout: row 1 is "1 <native> <hrs>
+    # <english label>", row 2 "2 CUST,IMG H24 ... Customs and immigration". The
+    # row-2 NUMBER marker isolates row 1 so row 2's H24 is NOT read as the
+    # aerodrome's hours - the field stays unknown, never a false H24.
+    fi = (
+        "X EFHK AD 2.3 OPERATIONAL HOURS 1 Lentopaikan pitäjä HO Aerodrome "
+        "operator 2 CUST, IMG H24 Customs and immigration 3 Terveystarkastus "
+        "H24 Health and sanitation EFHK AD 2.4 HANDLING"
+    )
+    hrs = ad23_hours(fi)
+    assert hrs is not None
+    assert all(d == {"kind": "unknown"} for d in hrs)  # HO -> unknown, no H24
+
+
+def test_locale_rewrite_to_english():
+    # SIA/FR bilingual: swap the native locale suffix to English.
+    assert _AD2_LOCALE_RE.sub(r"-en-GB\g<1>", "https://x/FR-AD-2.LFBA-fr-FR.html") == (
+        "https://x/FR-AD-2.LFBA-en-GB.html"
+    )
+    # Already English -> unchanged.
+    eng = "https://x/EH-AD 2 EHAM 1-en-GB.html"
+    assert _AD2_LOCALE_RE.sub(r"-en-GB\g<1>", eng) == eng
 
 
 def _rw(url: str) -> str:
