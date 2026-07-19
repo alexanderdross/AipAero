@@ -179,6 +179,75 @@ def fetch_missing(client: httpx.Client, api_base: str, api_key: str) -> list[dic
     return [m for m in missing if isinstance(m, dict) and m.get("icao")]
 
 
+def fetch_missing_hours(client: httpx.Client, api_base: str, api_key: str) -> list[dict]:
+    """The ICAOs with no structured operation hours yet (server-side
+    `airportsMissingHours`, GET ?scope=hours). eAIP-sourced hours are non-null
+    and thus already excluded, so this never re-fetches / clobbers them."""
+    resp = client.get(
+        f"{api_base}/api/airport-facts",
+        params={"scope": "hours"},
+        headers={"Authorization": f"Bearer {api_key}"},
+        timeout=60,
+    )
+    resp.raise_for_status()
+    data = resp.json()
+    missing = data.get("missing", []) if isinstance(data, dict) else []
+    return [m for m in missing if isinstance(m, dict) and m.get("icao")]
+
+
+def run_hours_backfill(
+    client: httpx.Client,
+    api_base: str,
+    api_key: str,
+    openaip_key: str,
+    worklist: list[dict],
+    apply: bool,
+) -> None:
+    """Fill OpenAIP `hoursOfOperation` for the fields that have no structured
+    hours yet, so operation hours reach EVERY country (not only the eurocontrol
+    AD 2.3 ones). Hours-only via PATCH /api/airport-facts (hoursSource="openaip",
+    never touches coords/runways); the API's precedence keeps any eAIP value
+    winning. Fields OpenAIP has no machine-readable hours for stay unknown - we
+    never fabricate an "open"."""
+    rows: list[dict[str, object]] = []
+    no_hours: list[str] = []
+    for m in worklist:
+        icao = m["icao"]
+        item = lookup_openaip(client, icao, openaip_key)
+        structured = (
+            parse_openaip_hours(item.get("hoursOfOperation")) if item else None
+        )
+        hours_json = to_json(structured) if structured else None
+        if hours_json:
+            rows.append(
+                {"icao": icao, "hoursStructured": hours_json, "hoursSource": "openaip"}
+            )
+            print(f"  {icao} ({m.get('country', '??')}): hours resolved")
+        else:
+            no_hours.append(icao)
+        if REQUEST_DELAY_S:
+            time.sleep(REQUEST_DELAY_S)
+
+    print(
+        f"\nResolved OpenAIP hours for {len(rows)}/{len(worklist)}; "
+        f"{len(no_hours)} without machine-readable hours (left unknown)."
+    )
+    if not apply:
+        print("\nDRY-RUN (set BACKFILL_APPLY=1 to PATCH). No data written.")
+        return
+    if not rows:
+        print("\nNothing to PATCH.")
+        return
+    url = f"{api_base}/api/airport-facts"
+    headers = {"Authorization": f"Bearer {api_key}"}
+    for i in range(0, len(rows), BATCH_SIZE):
+        batch = rows[i : i + BATCH_SIZE]
+        resp = client.patch(url, json=batch, headers=headers, timeout=60)
+        resp.raise_for_status()
+        print(f"  patched {i + len(batch)}/{len(rows)}")
+    print("Done.")
+
+
 def lookup_openaip(
     client: httpx.Client, icao: str, key: str
 ) -> dict[str, object] | None:
@@ -245,7 +314,25 @@ def main() -> None:
         for i in os.environ.get("BACKFILL_ICAOS", "").replace(",", " ").split()
     ]
 
+    # HOURS mode: fill OpenAIP operation hours for fields that have none yet
+    # (every country, not just eurocontrol AD 2.3). Separate hours-only PATCH
+    # path; leaves coords/runways untouched and eAIP hours winning.
+    hours_mode = bool(os.environ.get("BACKFILL_HOURS"))
+
     with httpx.Client(follow_redirects=True) as client:
+        if hours_mode:
+            if explicit:
+                worklist = [{"icao": i, "country": "??"} for i in explicit]
+                print(f"HOURS mode: {len(worklist)} explicit ICAO(s); querying OpenAIP...")
+            else:
+                worklist = fetch_missing_hours(client, api_base, api_key)
+                print(
+                    f"HOURS mode: {len(worklist)} field(s) without structured hours; "
+                    "querying OpenAIP..."
+                )
+            run_hours_backfill(client, api_base, api_key, openaip_key, worklist, apply)
+            return
+
         if explicit:
             missing = [{"icao": i, "country": "??"} for i in explicit]
             print(f"{len(missing)} explicit ICAO(s); querying OpenAIP...")

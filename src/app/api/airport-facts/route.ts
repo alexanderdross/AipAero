@@ -15,16 +15,26 @@ const airportHoursSchema = z
   })
   .array();
 
-// Read side (same Bearer auth): the OpenAIP coord-backfill importer
-// (crawlers/import_openaip_backfill.py) GETs the ICAOs that have no facts row
-// yet, so it only queries OpenAIP for the fields OurAirports never carried
-// (hospital heliports / small ULM strips) instead of all ~3k. Uncached query,
-// invoked at most weekly from the importer.
+// Read side (same Bearer auth): the OpenAIP backfill importer
+// (crawlers/import_openaip_backfill.py) GETs a worklist of ICAOs to query
+// OpenAIP for. Two scopes:
+//  - default (facts): ICAOs with NO facts row yet - the fields OurAirports
+//    never carried (hospital heliports / small ULM strips), so it only fills
+//    those instead of all ~3k.
+//  - ?scope=hours: ICAOs with no structured operation hours yet
+//    (`hours_structured IS NULL`) - so OpenAIP hours reach every country, not
+//    only the eurocontrol AD 2.3 ones. eAIP-sourced hours are non-null and thus
+//    excluded (never re-fetched; the upsert precedence keeps eAIP winning).
+// Uncached query, invoked at most weekly from the importer.
 export async function GET(req: NextRequest) {
   if (req.headers.get("Authorization") !== `Bearer ${env.CRON_SECRET}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const missing = await QUERIES.airportsMissingFacts();
+  const scope = new URL(req.url).searchParams.get("scope");
+  const missing =
+    scope === "hours"
+      ? await QUERIES.airportsMissingHours()
+      : await QUERIES.airportsMissingFacts();
   return NextResponse.json({ count: missing.length, missing });
 }
 
