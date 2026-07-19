@@ -19,6 +19,14 @@ dependencies = [
     # browser separately: `uv run playwright install chromium` (--with-deps on
     # a fresh box). Importing a crawler never launches it (lazy import).
     "playwright>=1.48.0",
+    # OCR for DFS (DE) AD-2 pages, which are served as base64 PNG page images
+    # (no extractable text). Tesseract reads them into raw DISPLAY text only
+    # (never a structured claim - a mis-OCR'd digit is a safety hazard). Needs
+    # the system `tesseract-ocr` (+ `tesseract-ocr-deu`) binary on the runner;
+    # both python bindings are imported lazily so a tesseract-less env still
+    # imports the crawler.
+    "pytesseract>=0.3.13",
+    "Pillow>=10.0.0",
 ]
 
 [dependency-groups]

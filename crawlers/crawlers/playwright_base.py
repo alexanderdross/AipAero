@@ -155,6 +155,11 @@ class PlaywrightCrawlerBase(HttpCrawlerBase):
             if wait_ms:
                 page.wait_for_timeout(wait_ms)
             self.logger.info(f"{self.country}: rendered {url}")
+            # Record the final URL after any client-side redirect (e.g. DFS
+            # serves a meta-refresh stub that lands on an edition-specific
+            # page); callers resolve the rendered page's relative links against
+            # THIS, not the requested stub URL.
+            self.last_url = page.url
             # Serialized post-JS DOM - fed to the same BS4 parsing as httpx HTML.
             return page.content()
         finally:
