@@ -123,12 +123,19 @@ describe("openStatus", () => {
     );
   });
 
-  it("approximates local time from longitude", () => {
-    // lon +15 = +1h. At 18:00Z the field's local clock is 19:00.
-    const east = { lat: 48, lon: 15 };
-    const s = allDays(fixed(480, 1170)); // closes 19:30 local
-    const at1800Z = new Date("2026-07-06T18:00:00Z");
-    expect(openStatus(s, east, at1800Z)).toEqual({
+  it("computes in UTC, ignoring longitude (AIP AD 2.3 hours are UTC)", () => {
+    // Window 08:00-19:30 UTC. At 19:00Z the field is open regardless of
+    // longitude - the old longitude-local approximation would have shifted a
+    // far-east field past its close and wrongly reported "closed".
+    const s = allDays(fixed(480, 1170)); // 08:00 - 19:30 UTC
+    const at1900Z = new Date("2026-07-06T19:00:00Z");
+    const east = { lat: 48, lon: 45 };
+    const west = { lat: 48, lon: -60 };
+    expect(openStatus(s, east, at1900Z)).toEqual({
+      state: "open",
+      closesAt: 1170,
+    });
+    expect(openStatus(s, west, at1900Z)).toEqual({
       state: "open",
       closesAt: 1170,
     });
