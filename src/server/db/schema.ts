@@ -92,7 +92,13 @@ export const airportFacts = createTable("airport_facts", {
   postcode: text("postcode"), // postal code (OSM)
   phone: text("phone"), // contact phone (OSM)
   fuel: text("fuel"), // JSON: string[] fuel labels (OpenAIP)
-  openingHours: text("opening_hours"), // hours of operation (OpenAIP)
+  openingHours: text("opening_hours"), // hours of operation, human display string
+  // Structured, queryable operation hours - JSON StructuredHours (7 days), see
+  // src/lib/opening-hours.ts. Powers the "open now / open until X" detail badge
+  // and map filter. `hoursSource` records provenance ("eaip" authoritative wins
+  // over "openaip" community) so a later OpenAIP run cannot clobber eAIP hours.
+  hoursStructured: text("hours_structured"), // JSON: StructuredHours
+  hoursSource: text("hours_source"), // "eaip" | "openaip"
   ppr: integer("ppr", { mode: "boolean" }), // prior permission required (OpenAIP)
   aerodromeType: integer("aerodrome_type"), // OpenAIP airport `type` enum code
   restaurant: integer("restaurant", { mode: "boolean" }), // on-field restaurant

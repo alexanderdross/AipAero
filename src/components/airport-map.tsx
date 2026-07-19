@@ -3,6 +3,11 @@
 import type * as L from "leaflet";
 import { LocateFixedIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import {
+  isOpenUntil,
+  openStatus,
+  type StructuredHours,
+} from "~/lib/opening-hours";
 import type { AirportCoord } from "~/server/db/queries";
 
 export interface MapMarker {
@@ -17,6 +22,30 @@ export interface MapMarker {
   fuel?: boolean;
   customs?: boolean;
   paved?: boolean;
+  // JSON StructuredHours - drives the "Operating hours" tab (open now / open
+  // until X). Absent when the field has no structured operation hours.
+  hours?: string;
+}
+
+// Parse a marker's hours JSON to StructuredHours (7-day), or null (fail-soft).
+function markerHours(raw: string | undefined): StructuredHours | null {
+  if (!raw) return null;
+  try {
+    const v: unknown = JSON.parse(raw);
+    return Array.isArray(v) && v.length === 7 ? (v as StructuredHours) : null;
+  } catch {
+    return null;
+  }
+}
+
+// "HH:MM" -> minutes after midnight, or null.
+function hhmmToMinutes(v: string): number | null {
+  const m = /^(\d{1,2}):(\d{2})$/.exec(v);
+  if (!m) return null;
+  const h = Number(m[1]);
+  const min = Number(m[2]);
+  if (h > 23 || min > 59) return null;
+  return h * 60 + min;
 }
 
 // Filter keys, AND-combined: an enabled filter keeps only markers that are
@@ -67,6 +96,10 @@ export function AirportMap({
   fuelLabel,
   customsLabel,
   pavedLabel,
+  filtersTabLabel,
+  hoursTabLabel,
+  openNowLabel,
+  openUntilLabel,
 }: {
   locale: string;
   // Cache-busting version (the country's crawl timestamp, ms). The coords
@@ -82,6 +115,10 @@ export function AirportMap({
   fuelLabel: string;
   customsLabel: string;
   pavedLabel: string;
+  filtersTabLabel: string;
+  hoursTabLabel: string;
+  openNowLabel: string;
+  openUntilLabel: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -108,6 +145,13 @@ export function AirportMap({
     customs: false,
     paved: false,
   });
+  // Control tabs: the boolean filter pills vs the operation-hours panel.
+  const [tab, setTab] = useState<"filters" | "hours">("filters");
+  // Operation-hours filter (opening-hours.ts): "open now" and/or "open until X"
+  // (default 19:00), AND-combined with each other and the boolean filters.
+  const [openNow, setOpenNow] = useState(false);
+  const [untilActive, setUntilActive] = useState(false);
+  const [untilTime, setUntilTime] = useState("19:00");
 
   useEffect(() => {
     let active = true;
@@ -231,8 +275,24 @@ export function AirportMap({
     if (!mapReady || !LL || !layer || !markers) return;
     layer.clearLayers();
     const active = FILTER_KEYS.filter((k) => filters[k]);
+    const untilMinutes = untilActive ? hhmmToMinutes(untilTime) : null;
+    const now = new Date();
     for (const m of markers) {
       if (!active.every((k) => m[k])) continue;
+      // Operation-hours filters (client-side, so any chosen time needs no round
+      // trip). Conservative: a field with no/unknown hours is excluded when a
+      // hours filter is on (never asserted open).
+      if (openNow || untilMinutes != null) {
+        const hours = markerHours(m.hours);
+        const coords = { lat: m.lat, lon: m.lon };
+        if (openNow && openStatus(hours, coords, now).state !== "open")
+          continue;
+        if (
+          untilMinutes != null &&
+          !isOpenUntil(hours, coords, untilMinutes, now)
+        )
+          continue;
+      }
       const color = COLOR[m.type] ?? "#525252";
       LL.circleMarker([m.lat, m.lon], {
         radius: 6,
@@ -244,7 +304,7 @@ export function AirportMap({
         .bindPopup(`<a href="${escapeHtml(m.href)}">${escapeHtml(m.title)}</a>`)
         .addTo(layer);
     }
-  }, [mapReady, markers, filters]);
+  }, [mapReady, markers, filters, openNow, untilActive, untilTime]);
 
   // The locate click may be the FIRST interaction: the input gate then only
   // starts the async map init, so the map isn't ready inside this handler.
@@ -318,27 +378,110 @@ export function AirportMap({
   const availableFilters = FILTER_KEYS.filter((k) =>
     (markers ?? []).some((m) => m[k]),
   );
+  // The Operating-hours tab appears only when at least one field carries
+  // structured hours (mirrors availableFilters - a control that can only ever
+  // empty the map is noise).
+  const hasHours = (markers ?? []).some((m) => m.hours);
+  // Tabs only make sense when BOTH control groups exist; otherwise show the one
+  // that applies with no tab chrome.
+  const showTabs = hasHours && availableFilters.length > 0;
+  const showFilters =
+    availableFilters.length > 0 && (!showTabs || tab === "filters");
+  const showHours = hasHours && (!showTabs || tab === "hours");
+  const pill = (activeState: boolean) =>
+    activeState
+      ? "bg-drossblue rounded-full border border-transparent px-3 py-0.5 text-sm text-white"
+      : "text-drossblue border-drossgray-dark/30 hover:border-drossblue rounded-full border bg-white px-3 py-0.5 text-sm";
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      {/* Filters + locate share the existing control row (flex-wrap on narrow
-          screens), so the toggles add no reserved layout height / CLS. */}
-      <div className="mb-2 flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
-        {availableFilters.map((key) => (
-          <button
-            key={key}
-            type="button"
-            aria-pressed={filters[key]}
-            onClick={() => setFilters((f) => ({ ...f, [key]: !f[key] }))}
-            className={
-              filters[key]
-                ? "bg-drossblue rounded-full border border-transparent px-3 py-0.5 text-sm text-white"
-                : "text-drossblue border-drossgray-dark/30 hover:border-drossblue rounded-full border bg-white px-3 py-0.5 text-sm"
-            }
+      {/* Controls + locate share the row (flex-wrap on narrow screens), so they
+          add no reserved layout height / CLS. When the field carries hours, a
+          two-tab switch chooses between the boolean filter pills and the
+          operation-hours panel; the time input needs its own panel rather than
+          crowding a picker among the pills. */}
+      <div className="mb-2 flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
+        {showTabs && (
+          <div
+            role="tablist"
+            aria-label={mapLabel}
+            className="border-drossgray-dark/30 inline-flex overflow-hidden rounded-full border text-sm"
           >
-            {filterLabels[key]}
-          </button>
-        ))}
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === "filters"}
+              onClick={() => setTab("filters")}
+              className={
+                tab === "filters"
+                  ? "bg-drossblue px-3 py-0.5 text-white"
+                  : "text-drossblue bg-white px-3 py-0.5"
+              }
+            >
+              {filtersTabLabel}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === "hours"}
+              onClick={() => setTab("hours")}
+              className={
+                tab === "hours"
+                  ? "bg-drossblue px-3 py-0.5 text-white"
+                  : "text-drossblue bg-white px-3 py-0.5"
+              }
+            >
+              {hoursTabLabel}
+            </button>
+          </div>
+        )}
+        {/* Boolean-filter pills (fuel / customs / paved). Shown on the Filters
+            tab, or always when there are no hours (no tabs then). */}
+        {showFilters &&
+          availableFilters.map((key) => (
+            <button
+              key={key}
+              type="button"
+              aria-pressed={filters[key]}
+              onClick={() => setFilters((f) => ({ ...f, [key]: !f[key] }))}
+              className={pill(filters[key])}
+            >
+              {filterLabels[key]}
+            </button>
+          ))}
+        {/* Operation-hours panel: "open now" toggle + "open until [time]". */}
+        {showHours && (
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <button
+              type="button"
+              aria-pressed={openNow}
+              onClick={() => setOpenNow((v) => !v)}
+              className={pill(openNow)}
+            >
+              {openNowLabel}
+            </button>
+            <span className="inline-flex items-center gap-x-2">
+              <button
+                type="button"
+                aria-pressed={untilActive}
+                onClick={() => setUntilActive((v) => !v)}
+                className={pill(untilActive)}
+              >
+                {openUntilLabel}
+              </button>
+              <input
+                type="time"
+                value={untilTime}
+                aria-label={openUntilLabel}
+                onChange={(e) => {
+                  setUntilTime(e.target.value);
+                  setUntilActive(true);
+                }}
+                className="border-drossgray-dark/30 rounded-md border bg-white px-2 py-0.5 text-sm"
+              />
+            </span>
+          </div>
+        )}
         {locateError && (
           <span role="alert" className="text-sm text-red-700">
             {locateError}

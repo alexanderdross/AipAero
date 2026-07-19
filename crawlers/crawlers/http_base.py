@@ -101,6 +101,13 @@ class HttpCrawlerBase:
         # the API (?airac=), which stamps crawl_meta.airac. Left None otherwise;
         # for date-in-URL sources the website derives the edition itself.
         self.airac: str | None = None
+        # Optional AUTHORITATIVE eAIP AD 2.3 operation hours, keyed by ICAO
+        # (structured, see crawlers.operating_hours). A crawler that reads the
+        # per-aerodrome AD 2 page (for the AD 2.1 name) can also collect AD 2.3
+        # hours here; main.py PATCHes them to /api/airport-facts with
+        # hoursSource="eaip" after the airport publish. Empty for crawlers that
+        # do not populate it.
+        self.hours_by_icao: dict[str, object] = {}
         # One pooled client per crawler: follows redirects (frameset eAIPs
         # bounce through several), default honest UA. http2=False because some
         # AIS stacks negotiate HTTP/2 badly; HTTP/1.1 is the safe common path.

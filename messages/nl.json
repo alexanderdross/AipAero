@@ -270,7 +270,17 @@
     "aerodromeType": "Type luchthaven",
     "surface": "Ondergrond",
     "variable": "variabel",
-    "calm": "windstil"
+    "calm": "windstil",
+    "statusOpen": "Nu open",
+    "statusClosed": "Gesloten",
+    "closesAt": "sluit {time}",
+    "opensAt": "opent {time}",
+    "hoursAdvisory": "Indicatief - bevestig via NOTAM / actuele AIP vóór de vlucht.",
+    "hoursOfficial": "volgens AIP AD 2.3",
+    "hoursCommunity": "communitygegevens",
+    "openUntil": "Open tot",
+    "filtersTab": "Filters",
+    "hoursTab": "Openingstijden"
   },
   "Common": {
     "openIn": "Openen in",

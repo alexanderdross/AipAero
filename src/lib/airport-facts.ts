@@ -4,6 +4,7 @@ import { after } from "next/server";
 import { getAwcAirport } from "~/lib/awc-airport";
 import { customsOverride } from "~/lib/customs-overrides";
 import { getOpenAipFacts } from "~/lib/openaip";
+import type { StructuredHours } from "~/lib/opening-hours";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import type {
   AirportFactsRow,
@@ -31,7 +32,12 @@ export interface NormalizedFacts {
   homeLink: string | null; // official airport website
   ppr: boolean | null; // prior permission required
   fuel: string[]; // available fuel types
-  openingHours: string | null; // hours of operation
+  openingHours: string | null; // hours of operation (human display string)
+  // Structured, queryable operation hours (7 days) + their provenance - powers
+  // the "open now / open until X" badge + map filter (opening-hours.ts). Null
+  // when the source carries no machine-readable hours (only free text/remarks).
+  hoursStructured: StructuredHours | null;
+  hoursSource: string | null; // "eaip" (authoritative) | "openaip" (community)
   restaurant: boolean | null; // on-field restaurant
   customs: boolean | null; // customs / airport of entry
   aerodromeType: number | null; // OpenAIP airport `type` enum (label resolved in UI)
@@ -53,6 +59,17 @@ function parseJsonArray<T>(raw: string | null): T[] {
   }
 }
 
+// Persisted hours_structured JSON -> StructuredHours (7-day array), or null.
+function parseStructuredJson(raw: string | null): StructuredHours | null {
+  if (!raw) return null;
+  try {
+    const v: unknown = JSON.parse(raw);
+    return Array.isArray(v) && v.length === 7 ? (v as StructuredHours) : null;
+  } catch {
+    return null;
+  }
+}
+
 // The persisted D1 row -> NormalizedFacts. Once the importer has backfilled a
 // field, this is what the page renders (no live fetch).
 function rowToFacts(row: AirportFactsRow): NormalizedFacts {
@@ -65,6 +82,8 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     ppr: row.ppr ?? null,
     fuel: parseJsonArray<string>(row.fuel),
     openingHours: row.openingHours ?? null,
+    hoursStructured: parseStructuredJson(row.hoursStructured),
+    hoursSource: row.hoursSource ?? null,
     restaurant: row.restaurant ?? null,
     customs: row.customs ?? null,
     aerodromeType: row.aerodromeType ?? null,
@@ -108,6 +127,10 @@ function toRow(icao: string, f: NormalizedFacts): InsertAirportFacts {
     phone: f.phone,
     fuel: f.fuel.length ? JSON.stringify(f.fuel) : null,
     openingHours: f.openingHours,
+    hoursStructured: f.hoursStructured
+      ? JSON.stringify(f.hoursStructured)
+      : null,
+    hoursSource: f.hoursSource,
     ppr: f.ppr,
     aerodromeType: f.aerodromeType,
     restaurant: f.restaurant,
@@ -167,6 +190,12 @@ export async function getAirportFacts(
     ppr: base?.ppr ?? openaip?.ppr ?? null,
     fuel: base?.fuel.length ? base.fuel : (openaip?.fuel ?? []),
     openingHours: base?.openingHours ?? openaip?.openingHours ?? null,
+    // The D1 row wins - it already carries any authoritative eAIP hours the
+    // crawler POSTed; the live OpenAIP fetch only fills an ICAO with none.
+    hoursStructured: base?.hoursStructured ?? openaip?.hoursStructured ?? null,
+    hoursSource: base?.hoursStructured
+      ? (base.hoursSource ?? null)
+      : (openaip?.hoursSource ?? null),
     restaurant: base?.restaurant ?? openaip?.restaurant ?? null,
     // Verified GEN-1.2 override first (compliance-grade, in code - see
     // customs-overrides.ts), then the persisted/community sources.

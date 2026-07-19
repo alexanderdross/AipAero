@@ -3,6 +3,7 @@ import { SectionHeading } from "~/components/section-heading";
 import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import type { NormalizedFacts } from "~/lib/airport-facts";
+import { minutesToHhmm, openStatus } from "~/lib/opening-hours";
 import { getSunTimes } from "~/lib/sun-times";
 
 const FT_PER_M = 0.3048;
@@ -53,6 +54,38 @@ export async function AirportFacts({
   // detail still shows in the runways line below).
   const surfaces = [...new Set(runways.map((r) => r.surface).filter(Boolean))];
   const aType = aerodromeTypeLabel(facts?.aerodromeType, lang);
+
+  // Advisory open/closed status from the structured hours (opening-hours.ts),
+  // computed for the field's local "now". `unknown`/`notam` days yield no badge
+  // (we never assert an open/closed we cannot back up). Times are LOCAL,
+  // approximated from longitude - the advisory line makes the caveat explicit.
+  const status =
+    facts?.hoursStructured && lat != null && lon != null
+      ? openStatus(facts.hoursStructured, { lat, lon })
+      : null;
+  const statusBadge =
+    status && status.state !== "unknown"
+      ? (() => {
+          if (status.state === "open") {
+            const closes =
+              status.closesAt != null
+                ? ` - ${t("closesAt", { time: minutesToHhmm(status.closesAt) })}`
+                : "";
+            return `${t("statusOpen")}${closes}`;
+          }
+          const opens =
+            status.opensAt != null
+              ? ` - ${t("opensAt", { time: minutesToHhmm(status.opensAt) })}`
+              : "";
+          return `${t("statusClosed")}${opens}`;
+        })()
+      : null;
+  const hoursSourceLabel =
+    facts?.hoursSource === "eaip"
+      ? t("hoursOfficial")
+      : facts?.hoursSource === "openaip"
+        ? t("hoursCommunity")
+        : null;
 
   const rows: Array<[string, string]> = [];
   if (aType) rows.push([t("aerodromeType"), aType]);
@@ -127,6 +160,33 @@ export async function AirportFacts({
           </div>
         )}
       </dl>
+
+      {/* Advisory open/closed status computed from the structured hours (open
+          now / closes HH:MM). The coloured pill is a quick-glance signal; the
+          source label + advisory note keep it honest (times are advisory + a
+          local-time approximation). Renders nothing when the status is unknown
+          or the field has no structured hours. */}
+      {statusBadge && (
+        <div className="mt-3 flex flex-col items-center gap-1 text-center">
+          <p className="flex flex-wrap items-center justify-center gap-x-2">
+            <span
+              className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                status?.state === "open"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-drossgray text-drossgray-dark"
+              }`}
+            >
+              {statusBadge}
+            </span>
+            {hoursSourceLabel && (
+              <span className="text-drossgray-dark text-xs">
+                {hoursSourceLabel}
+              </span>
+            )}
+          </p>
+          <p className="text-drossgray-dark text-xs">{t("hoursAdvisory")}</p>
+        </div>
+      )}
     </section>
   );
 }
