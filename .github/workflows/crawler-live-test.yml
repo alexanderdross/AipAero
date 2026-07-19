@@ -1417,54 +1417,20 @@ jobs:
           export DE_OCR_ICAOS="$(echo '${{ inputs.de_ocr }}' | tr ' ' ',')"
           echo "DE OCR recon for: $DE_OCR_ICAOS"
           uv run python - <<'PY'
-          # VERBOSE trace: warnings ON (so a browser-render failure surfaces),
-          # and a manual step-by-step of collect_ad2_ocr's logic so we can see
-          # exactly where extraction breaks (render? anchor match? PNG? OCR?).
-          import logging, os, re
-          from urllib.parse import urljoin
-
+          # End-to-end: run the REAL collect_ad2_ocr path (warnings ON so a
+          # browser-render failure surfaces) and print the recognised text so
+          # its quality can be eyeballed against the DFS page.
+          import logging, os
           logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+          from crawlers.de import DE
 
-          from crawlers.de import DE, _PAGE_LABEL_RE
-          from crawlers.de_ocr import biggest_png, is_text_page, ocr_image
-
-          allow = {c.strip().upper() for c in os.environ["DE_OCR_ICAOS"].split(",") if c.strip()}
           crawler = DE()
-          airports = crawler.crawl()
-          fields = [a for a in airports if a.icao and a.icao in allow]
-          print(f"\n##### matched {len(fields)} field(s): {[a.icao for a in fields]}")
-
-          for ap in fields:
-              print(f"\n===== {ap.icao} landing: {ap.url}")
-              try:
-                  html = crawler.render_html(ap.url)
-              except Exception as e:
-                  print(f"  render FAILED: {type(e).__name__}: {e}")
-                  continue
-              base = getattr(crawler, "last_url", ap.url)
-              print(f"  last_url after render: {base}")
-              soup = crawler.soup(html)
-              anchors = [
-                  (" ".join(a.get_text(" ", strip=True).split()), a["href"])
-                  for a in soup.find_all("a", href=True)
-              ]
-              print(f"  {len(anchors)} anchor(s). First 50 (text | href):")
-              for t, h in anchors[:50]:
-                  print(f"    [{t[:45]}] {h[:90]}")
-              matches = [(t, h) for t, h in anchors if _PAGE_LABEL_RE.match(t)]
-              print(f"  _PAGE_LABEL_RE matches ({len(matches)}): {[t for t, _ in matches]}")
-              for t, h in dict.fromkeys((t, h) for t, h in matches):
-                  url2 = urljoin(base, h)
-                  try:
-                      _, page_html = crawler._fetch(url2)
-                  except Exception as e:
-                      print(f"    {t}: fetch failed {type(e).__name__}: {e}")
-                      continue
-                  png = biggest_png(page_html)
-                  print(f"    {t}: png={len(png) if png else 0} bytes, html={len(page_html)}")
-                  if png:
-                      txt = ocr_image(png)
-                      print(f"      ocr {len(txt)} chars, is_text_page={is_text_page(txt)}")
-                      print(f"      head: {txt[:220]}")
-          crawler.close()
+          airports = crawler.crawl()  # ~792 fields, httpx (no browser)
+          print(f"DE crawl: {len(airports)} fields; running OCR on the subset")
+          crawler.collect_ad2_ocr(airports)  # renders + OCRs only DE_OCR_ICAOS
+          text_by_icao = getattr(crawler, "ad2_text_by_icao", {})
+          print(f"\n===== DE OCR TEXT ({len(text_by_icao)} field(s) with text) =====")
+          for icao, text in text_by_icao.items():
+              print(f"\n----- {icao} ({len(text)} chars) -----")
+              print(text[:4000])
           PY
