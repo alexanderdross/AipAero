@@ -32,6 +32,26 @@ export const env = createEnv({
     // unset the API returns 503 (inert / not provisioned), so a deploy without
     // it exposes nothing. Set with `wrangler secret put PUBLIC_API_KEY`.
     PUBLIC_API_KEY: z.string().optional(),
+    // --- Contact form (/contact/, /de/kontakt/) -------------------------------
+    // Cloudflare Turnstile keys. The SITE key is public (rendered in the widget)
+    // - a plain `var` in wrangler.jsonc; the SECRET key gates the server-side
+    // siteverify - a Worker secret. When either is unset in production the
+    // contact API returns 503 (inert). In development both fall back to
+    // Cloudflare's always-pass test keys, so the form works with no config.
+    TURNSTILE_SITE_KEY: z.string().optional(),
+    TURNSTILE_SECRET_KEY: z.string().optional(),
+    // Netcup SMTP relay used to deliver the submitted message. Sent over
+    // Cloudflare's TCP socket API (worker-mailer); port 587 (STARTTLS) or 465
+    // (implicit TLS) - port 25 is blocked on Workers. When SMTP is unconfigured
+    // the contact API returns 503. `SMTP_FROM` is the envelope/From mailbox
+    // (must be a real netcup mailbox on the sending domain, so SPF/DMARC pass);
+    // it defaults to `SMTP_USER` when unset. The visitor's address goes into
+    // Reply-To, never From.
+    SMTP_HOST: z.string().optional(),
+    SMTP_PORT: z.string().optional(),
+    SMTP_USER: z.string().optional(),
+    SMTP_PASS: z.string().optional(),
+    SMTP_FROM: z.string().optional(),
   },
 
   /**
@@ -54,6 +74,13 @@ export const env = createEnv({
     OPENAIP_API_KEY: process.env.OPENAIP_API_KEY,
     INDEXNOW_KEY: process.env.INDEXNOW_KEY,
     PUBLIC_API_KEY: process.env.PUBLIC_API_KEY,
+    TURNSTILE_SITE_KEY: process.env.TURNSTILE_SITE_KEY,
+    TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_PORT: process.env.SMTP_PORT,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASS: process.env.SMTP_PASS,
+    SMTP_FROM: process.env.SMTP_FROM,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
