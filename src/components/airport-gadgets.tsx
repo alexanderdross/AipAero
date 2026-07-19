@@ -8,7 +8,7 @@ import { AirportContact } from "~/components/airport-contact";
 import { AirportFacts } from "~/components/airport-facts";
 import { AirportNearby } from "~/components/airport-nearby";
 import { AirportRunwayDiagram } from "~/components/airport-runway-diagram";
-import { AirportWeatherWind } from "~/components/airport-weather-wind";
+import { AirportWeatherWindLazy } from "~/components/airport-weather-wind-lazy";
 import { RecentTracker } from "~/components/recent-tracker";
 import { SchemaAirport } from "~/components/schemas/schema-airport";
 import { SaveOfflineButton } from "~/components/save-offline-button";
@@ -466,7 +466,7 @@ export async function AirportGadgets({
         {/* Ephemeral weather + wind: lazy-loaded client-side. The Weather i18n
             namespace is scoped to this client subtree. */}
         <NextIntlClientProvider messages={pick(messages, "Weather")}>
-          <AirportWeatherWind
+          <AirportWeatherWindLazy
             icao={airport.icao}
             lat={lat}
             lon={lon}
