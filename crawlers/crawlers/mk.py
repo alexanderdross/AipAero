@@ -22,6 +22,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_eurocontrol_base import ad23_hours
 from crawlers.models import ChartLink
 
 COUNTRY = "MK"
@@ -99,6 +100,16 @@ class MK(HttpCrawlerBase):
             seen.add(icao)
             name = m.group(2).strip()
             pdf = self._pdf_url(icao)
+            # AD 2.3 OPERATIONAL HOURS lives in this combined AD-2 PDF (the same
+            # one we link as the chart). Extract its text and parse row 1. The
+            # ~2018 M-NAV PDFs may be image-only -> pdf_text empty -> no hours
+            # (fail-soft, never a crash).
+            try:
+                hrs = ad23_hours(self.pdf_text(pdf))
+                if hrs:
+                    self.hours_by_icao[icao] = hrs
+            except Exception as e:
+                self.logger.debug(f"MK: {icao} AD 2.3 hours failed: {e}")
             airports.append(
                 Airport(
                     country=self.country,

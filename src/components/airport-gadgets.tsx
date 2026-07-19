@@ -20,9 +20,11 @@ import { contactUrlFor } from "~/lib/contact-link";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { getHubLinks } from "~/lib/hub-links";
 import { toOpeningHoursSpecification } from "~/lib/opening-hours";
+import { parseOsmHours } from "~/lib/osm-hours";
 import { airacDateFromUrl, parseCharts } from "~/lib/charts";
 import { isGatedCountry, isPdfUrl, isSelfServicePdfCountry } from "~/lib/utils";
-import { QUERIES } from "~/server/db/queries";
+import { after } from "next/server";
+import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import type { Airport } from "~/server/db/schema";
 
 /**
@@ -127,6 +129,34 @@ export async function AirportGadgets({
       ? await reverseGeocode(lat, lon)
       : null;
   const openingHours = facts?.openingHours ?? geo?.openingHours ?? null;
+  // OpenStreetMap community hours (LOWEST precedence): only when no better
+  // structured source (eaip/openaip) exists. Parsed to our UTC model (OSM times
+  // are local -> converted from longitude) and used for the badge / JSON-LD this
+  // request AND persisted (source "osm") so the airport-list map picks it up
+  // next time. Conservative: an unparseable string yields no hours (still shows
+  // the honest "no operating hours" note). Only when the field carries an ICAO.
+  const osmHours =
+    !facts?.hoursStructured && geo?.openingHours && lat != null && lon != null
+      ? parseOsmHours(geo.openingHours, { lat, lon })
+      : null;
+  // `hoursStructured` here is the PARSED object (NormalizedFacts already parsed
+  // the DB JSON); OSM fills it only when nothing better exists.
+  const hoursStructured = facts?.hoursStructured ?? osmHours;
+  const hoursSource = facts?.hoursSource ?? (osmHours ? "osm" : null);
+  if (osmHours && airport.icao) {
+    const icao = airport.icao;
+    const json = JSON.stringify(osmHours); // DB column is JSON text
+    after(() =>
+      MUTATIONS.upsertAirportHours([
+        { icao, hoursStructured: json, hoursSource: "osm" },
+      ]).catch(() => undefined),
+    );
+  }
+  // Facts with the effective hours merged in (OSM fallback when nothing better),
+  // so the aerodrome-data badge, the JSON-LD and the map read the same value.
+  const factsWithHours = facts
+    ? { ...facts, hoursStructured, hoursSource }
+    : facts;
   const street =
     facts?.street ??
     (geo
@@ -228,7 +258,7 @@ export async function AirportGadgets({
   // Canonical schema.org opening hours from the structured form (grouped fixed
   // days; solar/notam/unknown days omitted). The free-text PropertyValue below
   // stays as the fallback for fields with only an unstructured hours string.
-  const openingHoursSpec = toOpeningHoursSpecification(facts?.hoursStructured);
+  const openingHoursSpec = toOpeningHoursSpecification(hoursStructured);
   if (openingHoursSpec.length === 0) addProp("Opening hours", openingHours);
   // Runways and frequencies as GRANULAR PropertyValue entries - one per runway,
   // one per frequency SERVICE type - instead of a single semicolon blob. More
@@ -391,7 +421,7 @@ export async function AirportGadgets({
             lon={lon}
           />
           <AirportFacts
-            facts={facts}
+            facts={factsWithHours}
             locale={locale}
             openingHours={openingHours}
             lat={lat}

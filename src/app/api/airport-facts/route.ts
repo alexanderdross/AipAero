@@ -11,7 +11,7 @@ const airportHoursSchema = z
   .object({
     icao: z.string().regex(/^[A-Z]{4}$/),
     hoursStructured: z.string().nullable(), // JSON StructuredHours (or null)
-    hoursSource: z.enum(["eaip", "openaip"]),
+    hoursSource: z.enum(["eaip", "openaip", "osm"]),
   })
   .array();
 

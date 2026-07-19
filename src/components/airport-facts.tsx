@@ -85,7 +85,7 @@ export async function AirportFacts({
   const hoursSourceLabel =
     facts?.hoursSource === "eaip"
       ? t("hoursOfficial")
-      : facts?.hoursSource === "openaip"
+      : facts?.hoursSource === "openaip" || facts?.hoursSource === "osm"
         ? t("hoursCommunity")
         : null;
   // No actionable hours: no open/closed badge AND no clock-time schedule text
