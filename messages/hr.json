@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Popis zračnih luka",
-      "description": "Pregled svih zračnih luka u Hrvatskoj - s izvanmrežnim preuzimanjem te informacijama o carini i gorivu",
+      "description": "Pregled svih zračnih luka u Hrvatskoj - s vremenom (METAR/TAF), radnim vremenom, stazama, informacijama o gorivu i carini te izvanmrežnim preuzimanjem",
       "buttonTitle": "Popis zračnih luka",
       "buttonHref": "/hr/popis-zracnih-luka-hrvatska/",
       "buttonHrefTitle": "Popis zračnih luka u Hrvatskoj"

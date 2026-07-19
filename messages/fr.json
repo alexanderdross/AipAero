@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Liste des aéroports",
-      "description": "Vue d'ensemble de tous les aérodromes/aéroports en France - avec téléchargement hors ligne, infos douane et carburant",
+      "description": "Vue d'ensemble de tous les aérodromes/aéroports en France - avec météo (METAR/TAF), heures d'ouverture, pistes, carburant, douane et téléchargement hors ligne",
       "buttonTitle": "Liste des aéroports",
       "buttonHref": "/fr/liste-des-aeroports-francais/",
       "buttonHrefTitle": "Liste des aéroports France"

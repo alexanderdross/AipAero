@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Bulgaria - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Bulgaria - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/bg/en/airport-list-bulgaria/",
       "buttonHrefTitle": "List of Airfields/ Airports Bulgaria"

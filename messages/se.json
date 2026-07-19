@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Flygplatslista",
-      "description": "Alla flygplatser i Sverige i överblick - med offline-nedladdning, tull- och bränsleinfo",
+      "description": "Alla flygplatser i Sverige i överblick - med väder (METAR/TAF), öppettider, banor, bränsle- och tullinfo och offline-nedladdning",
       "buttonTitle": "Flygplatslista",
       "buttonHref": "/se/flygplatser-sverige/",
       "buttonHrefTitle": "Lista över flygplatser i Sverige"

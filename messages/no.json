@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Flyplassliste",
-      "description": "Oversikt over alle flyplasser i Norge - med offline nedlasting, toll- og drivstoffinfo",
+      "description": "Oversikt over alle flyplasser i Norge - med vær (METAR/TAF), åpningstider, rullebaner, drivstoff- og tollinfo og offline nedlasting",
       "buttonTitle": "Flyplassliste",
       "buttonHref": "/no/flyplasser-norge/",
       "buttonHrefTitle": "Liste over flyplasser i Norge"

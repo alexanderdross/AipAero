@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Flyvepladsliste",
-      "description": "Oversigt over alle flyvepladser/ lufthavne i Danmark - med offline download, told- og brændstofinfo",
+      "description": "Oversigt over alle flyvepladser/ lufthavne i Danmark - med vejr (METAR/TAF), åbningstider, baner, brændstof- og toldinfo og offline download",
       "buttonTitle": "Flyvepladsliste",
       "buttonHref": "/dk/flyvepladser-danmark/",
       "buttonHrefTitle": "Liste over flyvepladser i Danmark"

@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Lennuväljade nimekiri",
-      "description": "Ülevaade kõigist Eesti lennuväljadest - koos offline-allalaadimise, tolli- ja kütuseinfoga",
+      "description": "Ülevaade kõigist Eesti lennuväljadest - koos ilmateabe (METAR/TAF), lahtiolekuaegade, radade, kütuse- ja tolliinfo ning offline-allalaadimisega",
       "buttonTitle": "Lennuväljade nimekiri",
       "buttonHref": "/ee/lennuvaljade-nimekiri-eesti/",
       "buttonHrefTitle": "Eesti lennuväljade nimekiri"

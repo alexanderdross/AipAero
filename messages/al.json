@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Lista e aeroporteve",
-      "description": "Pasqyrë e të gjitha aeroporteve në Shqipëri - me shkarkim offline dhe informacione për doganën dhe karburantin",
+      "description": "Pasqyrë e të gjitha aeroporteve në Shqipëri - me informacione për motin (METAR/TAF), oraret e punës, pistat, karburantin dhe doganën, si dhe shkarkim offline",
       "buttonTitle": "Lista e aeroporteve",
       "buttonHref": "/al/aeroportet-shqiperi/",
       "buttonHrefTitle": "Lista e aeroporteve Shqipëri"

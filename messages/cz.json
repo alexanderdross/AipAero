@@ -125,7 +125,7 @@
     },
     "airportListCard": {
       "title": "Seznam letišť",
-      "description": "Přehled všech letišť v Česku - s offline stažením a informacemi o clu a palivu",
+      "description": "Přehled všech letišť v Česku - s počasím (METAR/TAF), otevírací dobou, dráhami, informacemi o palivu a clu a offline stažením",
       "buttonTitle": "Seznam letišť",
       "buttonHref": "/cz/letiste-cesko/",
       "buttonHrefTitle": "Seznam letišť v Česku"

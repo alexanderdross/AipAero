@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Repülőterek listája",
-      "description": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben - offline letöltéssel, vám- és üzemanyag-információkkal",
+      "description": "Magyarország összes repülőtere és leszállóhelye egy áttekintésben - időjárással (METAR/TAF), nyitvatartással, futópályákkal, üzemanyag- és vám-információkkal, valamint offline letöltéssel",
       "buttonTitle": "Repülőterek listája",
       "buttonHref": "/hu/repuloterek-listaja-magyarorszag/",
       "buttonHrefTitle": "Magyarország repülőtereinek listája"

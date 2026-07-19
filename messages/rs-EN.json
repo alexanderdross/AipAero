@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Serbia - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Serbia - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/rs/en/airport-list-serbia/",
       "buttonHrefTitle": "List of Airfields/ Airports Serbia"

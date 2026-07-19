@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Aeroportlar roʻyxati",
-      "description": "Oʻzbekistondagi barcha aeroportlarga umumiy koʻrinish - oflayn yuklab olish, bojxona va yoqilgʻi maʼlumotlari bilan",
+      "description": "Oʻzbekistondagi barcha aeroportlarga umumiy koʻrinish - ob-havo (METAR/TAF), ish vaqti, uchish-qoʻnish yoʻlaklari, yoqilgʻi va bojxona maʼlumotlari hamda oflayn yuklab olish bilan",
       "buttonTitle": "Aeroportlar roʻyxati",
       "buttonHref": "/uz/aeroportlar-royxati-ozbekiston/",
       "buttonHrefTitle": "Oʻzbekistondagi aeroportlar roʻyxati"

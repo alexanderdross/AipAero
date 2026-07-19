@@ -130,7 +130,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Portugal - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Portugal - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/pt/en/airport-list-portugal/",
       "buttonHrefTitle": "List of Airfields/ Airports Portugal"

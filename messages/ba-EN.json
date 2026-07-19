@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Bosnia and Herzegovina - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Bosnia and Herzegovina - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/ba/en/airport-list-bosnia/",
       "buttonHrefTitle": "List of Airfields/ Airports Bosnia and Herzegovina"

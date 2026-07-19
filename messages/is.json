@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Flugvallalisti",
-      "description": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi - með niðurhali án nettengingar og upplýsingum um tollafgreiðslu og eldsneyti",
+      "description": "Yfirlit yfir alla flugvelli og lendingarstaði á Íslandi - með veðri (METAR/TAF), opnunartíma, flugbrautum, eldsneyti, tollafgreiðslu og niðurhali án nettengingar",
       "buttonTitle": "Flugvallalisti",
       "buttonHref": "/is/flugvallalisti-island/",
       "buttonHrefTitle": "Listi yfir flugvelli á Íslandi"

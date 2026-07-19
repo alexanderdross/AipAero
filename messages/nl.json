@@ -141,7 +141,7 @@
     },
     "airportListCard": {
       "title": "Luchthavenlijst",
-      "description": "Alle vliegvelden/luchthavens in Nederland op een rij - met offline download, douane- en brandstofinfo",
+      "description": "Alle vliegvelden/luchthavens in Nederland op een rij - met weer (METAR/TAF), openingstijden, banen, brandstof, douane en offline download",
       "buttonTitle": "Luchthavenlijst",
       "buttonHref": "/nl/luchthavenlijst-nederland/",
       "buttonHrefTitle": "Luchthavenlijst Nederland"

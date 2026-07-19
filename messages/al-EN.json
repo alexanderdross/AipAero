@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Airport List",
-      "description": "Overview of all airfields/ airports in Albania - with offline download, customs and fuel info",
+      "description": "Overview of all airfields/ airports in Albania - with weather, opening hours, runways, fuel & customs info and offline download",
       "buttonTitle": "Airport List",
       "buttonHref": "/al/en/airport-list-albania/",
       "buttonHrefTitle": "List of Airfields/ Airports Albania"

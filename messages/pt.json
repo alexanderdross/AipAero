@@ -130,7 +130,7 @@
     },
     "airportListCard": {
       "title": "Lista de aeródromos",
-      "description": "Panorâmica de todos os aeroportos e aeródromos de Portugal - com transferência para uso offline e informação sobre alfândega e combustível",
+      "description": "Panorâmica de todos os aeroportos e aeródromos de Portugal - com meteorologia, horários, pistas, combustível e informação sobre alfândega e transferência para uso offline",
       "buttonTitle": "Lista de aeródromos",
       "buttonHref": "/pt/lista-de-aerodromos-portugal/",
       "buttonHrefTitle": "Lista de aeródromos de Portugal"

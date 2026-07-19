@@ -176,7 +176,7 @@
     },
     "airportListCard": {
       "title": "Flughafen Liste",
-      "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick - mit Offline-Download, Zoll- und Fuel-Infos",
+      "description": "Alle Flugplätze/ Flughäfen in Deutschland im Überblick - mit Wetter (METAR/TAF), Öffnungszeiten, Pisten, Kraftstoff, Zoll und Offline-Download",
       "buttonTitle": "Flughafen Liste",
       "buttonHref": "/de/flughafen-liste-deutschland/",
       "buttonHrefTitle": "Liste der Flughäfen Deutschland"

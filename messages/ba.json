@@ -111,7 +111,7 @@
     },
     "airportListCard": {
       "title": "Lista aerodroma",
-      "description": "Pregled svih aerodroma u Bosni i Hercegovini - sa offline preuzimanjem i informacijama o carini i gorivu",
+      "description": "Pregled svih aerodroma u Bosni i Hercegovini - sa informacijama o vremenu (METAR/TAF), radnom vremenu, pistama, gorivu i carini te offline preuzimanjem",
       "buttonTitle": "Lista aerodroma",
       "buttonHref": "/ba/lista-aerodroma-bih/",
       "buttonHrefTitle": "Lista aerodroma u Bosni i Hercegovini"
