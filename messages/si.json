@@ -230,6 +230,7 @@
     "circuit": "Šolski krog",
     "circuitLeft": "levi",
     "circuitRight": "desni",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Komponente vetra",
     "headwind": "Čelni veter",
     "tailwind": "Hrbtni veter",

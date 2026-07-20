@@ -260,6 +260,7 @@
     "circuit": "Laskukierros",
     "circuitLeft": "vasen",
     "circuitRight": "oikea",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Tuulikomponentit",
     "headwind": "Vastatuuli",
     "tailwind": "Myötätuuli",

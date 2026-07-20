@@ -230,6 +230,7 @@
     "circuit": "Platzrunde",
     "circuitLeft": "links",
     "circuitRight": "rechts",
+    "physicalLengthNote": "Angezeigte Länge = physische Pistenabmessung - siehe Glossar",
     "windComponents": "Windkomponenten",
     "headwind": "Gegenwind",
     "tailwind": "Rückenwind",

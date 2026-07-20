@@ -230,6 +230,7 @@
     "circuit": "Umferðarhringur",
     "circuitLeft": "vinstri",
     "circuitRight": "hægri",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Vindþættir",
     "headwind": "Mótvindur",
     "tailwind": "Meðvindur",

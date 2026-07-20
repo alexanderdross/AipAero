@@ -230,6 +230,7 @@
     "circuit": "Školski krug",
     "circuitLeft": "lijevi",
     "circuitRight": "desni",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Komponente vjetra",
     "headwind": "Čeoni vjetar",
     "tailwind": "Leđni vjetar",

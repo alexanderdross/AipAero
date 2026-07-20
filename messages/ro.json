@@ -230,6 +230,7 @@
     "circuit": "Circuit de trafic",
     "circuitLeft": "stânga",
     "circuitRight": "dreapta",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Componentele vântului",
     "headwind": "Vânt din față",
     "tailwind": "Vânt din spate",

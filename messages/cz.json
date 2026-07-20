@@ -244,6 +244,7 @@
     "circuit": "Okruh",
     "circuitLeft": "levý",
     "circuitRight": "pravý",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Složky větru",
     "headwind": "Protivítr",
     "tailwind": "Zadní vítr",

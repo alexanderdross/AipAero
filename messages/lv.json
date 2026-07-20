@@ -260,6 +260,7 @@
     "circuit": "Lidojumu aplis",
     "circuitLeft": "pa kreisi",
     "circuitRight": "pa labi",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Vēja komponentes",
     "headwind": "Pretvējš",
     "tailwind": "Ceļavējš",

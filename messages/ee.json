@@ -260,6 +260,7 @@
     "circuit": "Lennuring",
     "circuitLeft": "vasak",
     "circuitRight": "parem",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Tuulekomponendid",
     "headwind": "Vastutuul",
     "tailwind": "Pärituul",

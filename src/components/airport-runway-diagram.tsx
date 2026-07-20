@@ -1,5 +1,6 @@
-import { getTranslations } from "next-intl/server";
-import { SectionHeading } from "~/components/section-heading";
+import { getLocale, getTranslations } from "next-intl/server";
+import { SectionHeading, slugify } from "~/components/section-heading";
+import { getPathname } from "~/i18n/routing";
 import { compassPoint } from "~/lib/crosswind";
 import { buildRunwayStrips, runwayLengthLabel } from "~/lib/runway-diagram";
 import type { RunwayFact } from "~/server/db/schema";
@@ -26,6 +27,8 @@ export async function AirportRunwayDiagram({
   airportLabel?: string | null;
 }) {
   const t = await getTranslations("Weather");
+  const tg = await getTranslations("GlossaryPage");
+  const locale = await getLocale();
   const strips = buildRunwayStrips(runways);
   if (strips.length === 0) return null;
 
@@ -36,6 +39,12 @@ export async function AirportRunwayDiagram({
     if (p === "right") return `${t("circuit")} ${t("circuitRight")}`;
     return null;
   };
+
+  // Deep-link to the "runway distances" glossary term, whose on-page anchor is
+  // slugify(localized name) - the same derivation the glossary page uses - so
+  // the note clarifies the shown length is the PHYSICAL dimension (not TORA/LDA).
+  const runwayTermName = tg("terms.runwaydistances.name");
+  const glossaryHref = `${getPathname({ href: "/glossary", locale })}#${slugify(runwayTermName)}`;
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
@@ -137,6 +146,19 @@ export async function AirportRunwayDiagram({
           ))}
         </ul>
       </div>
+
+      {/* Clarify the shown length is the PHYSICAL runway dimension (not TORA/
+          TODA/ASDA/LDA), linking to the glossary term - a pilot-safety cue so
+          the physical length is never mistaken for a usable declared distance. */}
+      <p className="text-drossgray-dark mt-3 text-center text-xs">
+        <a
+          href={glossaryHref}
+          title={runwayTermName}
+          className="underline decoration-dotted underline-offset-2"
+        >
+          {t("physicalLengthNote")}
+        </a>
+      </p>
     </section>
   );
 }

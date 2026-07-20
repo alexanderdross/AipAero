@@ -230,6 +230,7 @@
     "circuit": "Кыймыл схемасы",
     "circuitLeft": "сол",
     "circuitRight": "оң",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Шамал компоненттери",
     "headwind": "Каршы шамал",
     "tailwind": "Арткы шамал",
