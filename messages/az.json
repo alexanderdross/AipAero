@@ -249,7 +249,6 @@
     "hoursNone": "İş saatları qeydə alınmayıb. Bir çox kiçik VFR meydança və helikopter meydançaları onları dərc etmir, yaxud yalnız tələb əsasında (O/R), baza aerodromunda (HO) və ya NOTAM ilə - uçuşdan əvvəl həmişə cari AIP və NOTAM-ları yoxlayın.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
-    "hoursOcr": "text recognition (OCR)",
     "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",

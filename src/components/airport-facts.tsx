@@ -3,12 +3,14 @@ import { SectionHeading } from "~/components/section-heading";
 import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import type { NormalizedFacts } from "~/lib/airport-facts";
-import {
-  minutesToHhmm,
-  openStatus,
-  structuredHoursToDisplay,
-} from "~/lib/opening-hours";
+import type { Boundary, DayHours } from "~/lib/opening-hours";
+import { minutesToHhmm, openStatus } from "~/lib/opening-hours";
 import { getSunTimes } from "~/lib/sun-times";
+
+// Monday in UTC (2024-01-01 is a Monday) - base for localized weekday names in
+// the opening-hours table (day index 0 = Mon .. 6 = Sun).
+const WEEK_BASE_MS = Date.UTC(2024, 0, 1);
+const DAY_MS = 86_400_000;
 
 const FT_PER_M = 0.3048;
 
@@ -90,29 +92,61 @@ export async function AirportFacts({
         })()
       : null;
   const isOcrHours = facts?.hoursSource === "dfs-ocr-hours";
+  // OCR-sourced hours carry no inline source label - the always-visible
+  // hoursOcrDisclaimer below already states the OCR provenance (no duplication).
   const hoursSourceLabel =
     facts?.hoursSource === "eaip"
       ? t("hoursOfficial")
-      : isOcrHours
-        ? t("hoursOcr")
-        : facts?.hoursSource === "openaip" || facts?.hoursSource === "osm"
-          ? t("hoursCommunity")
-          : null;
+      : facts?.hoursSource === "openaip" || facts?.hoursSource === "osm"
+        ? t("hoursCommunity")
+        : null;
   // No actionable hours: no open/closed badge AND no clock-time schedule text
   // (hours are absent, or given only as O/R / HO / by NOTAM). Show an honest
   // note instead of a blank - many small VFR fields / heliports publish none.
   // A field with a definite badge or a real schedule string does not get it.
-  // Human-readable schedule: prefer the source's own hours string, else derive
-  // one from the structured hours - so structured-only sources (incl. DE's OCR
-  // hours) still show a weekly line, not only the badge.
-  const hoursDisplay =
-    openingHours ??
-    (facts?.hoursStructured
-      ? structuredHoursToDisplay(facts.hoursStructured) || null
-      : null);
+  // Per-weekday opening-hours table (Mon..Sun) from the structured hours - one
+  // row per day, so a pilot sees every day explicitly rather than a grouped
+  // summary. Rendered only when at least one day is concrete (a window / H24 /
+  // NOTAM); an all-unknown week falls back to the free-text line or the note.
+  const boundaryText = (x: Boundary) =>
+    x.t === "sr" ? "SR" : x.t === "ss" ? "SS" : minutesToHhmm(x.m);
+  const dayHoursText = (dh: DayHours): string => {
+    switch (dh.kind) {
+      case "h24":
+        return "H24";
+      case "notam":
+        return "NOTAM";
+      case "closed":
+        return t("statusClosed");
+      case "window":
+        return `${boundaryText(dh.open)}-${boundaryText(dh.close)}`;
+      default:
+        return "-"; // unknown - never asserted
+    }
+  };
+  const structured = facts?.hoursStructured ?? null;
+  const hasConcreteDay =
+    structured != null && structured.some((d) => d.kind !== "unknown");
+  const weekdayFmt = new Intl.DateTimeFormat(lang, {
+    weekday: "short",
+    timeZone: "UTC",
+  });
+  const weekdayRows: Array<[string, string]> = hasConcreteDay
+    ? structured!.map((dh, d) => [
+        weekdayFmt.format(new Date(WEEK_BASE_MS + d * DAY_MS)),
+        dayHoursText(dh),
+      ])
+    : [];
+
+  // Compact free-text hours line only when there is no per-weekday table (a
+  // field with a remarks string but no structured hours).
+  const compactHours = hasConcreteDay ? null : openingHours;
   const hasScheduleText =
-    hoursDisplay != null &&
-    /\d{3,4}|\d{1,2}[:h.]\d{2}|\bsr\b|\bss\b|sun(rise|set)/i.test(hoursDisplay);
+    hasConcreteDay ||
+    (compactHours != null &&
+      /\d{3,4}|\d{1,2}[:h.]\d{2}|\bsr\b|\bss\b|sun(rise|set)/i.test(
+        compactHours,
+      ));
   const showHoursNote = !statusBadge && !hasScheduleText;
 
   const rows: Array<[string, string]> = [];
@@ -125,7 +159,7 @@ export async function AirportFacts({
   if (surfaces.length) rows.push([t("surface"), surfaces.join(", ")]);
   if (facts?.fuel.length) rows.push([t("fuel"), facts.fuel.join(", ")]);
   if (facts?.ppr === true) rows.push([t("ppr"), t("pprRequired")]);
-  if (hoursDisplay) rows.push([t("openingHours"), hoursDisplay]);
+  if (compactHours) rows.push([t("openingHours"), compactHours]);
   if (lat != null && lon != null) {
     const sun = getSunTimes(new Date(), lat, lon);
     if (sun.sunrise) rows.push([t("sunrise"), hm(sun.sunrise)!]);
@@ -177,6 +211,7 @@ export async function AirportFacts({
 
   if (
     rows.length === 0 &&
+    weekdayRows.length === 0 &&
     !runwaysText &&
     !frequenciesText &&
     declaredRows.length === 0
@@ -204,6 +239,22 @@ export async function AirportFacts({
             <dd className="text-right font-medium">{value}</dd>
           </div>
         ))}
+        {weekdayRows.length > 0 && (
+          <div className={`${cell} flex-col items-stretch gap-1 sm:col-span-2`}>
+            <dt className="text-drossgray-dark">{t("openingHours")}</dt>
+            <dd className="mt-0.5 space-y-0.5 font-medium">
+              {weekdayRows.map(([day, value], i) => (
+                <div
+                  key={i}
+                  className="flex items-baseline justify-between gap-x-4"
+                >
+                  <span className="text-drossgray-dark font-normal">{day}</span>
+                  <span>{value}</span>
+                </div>
+              ))}
+            </dd>
+          </div>
+        )}
         {runwaysText && (
           <div className={`${cell} sm:col-span-2`}>
             <dt className="text-drossgray-dark">{t("runways")}</dt>
