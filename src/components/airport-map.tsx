@@ -28,12 +28,9 @@ export interface MapMarker {
   fuel?: boolean;
   customs?: boolean;
   paved?: boolean;
-  // JSON StructuredHours - drives the "Operating hours" tab (open now / open
-  // until X). Absent when the field has no structured operation hours.
+  // JSON StructuredHours (UTC) - drives the "Operating hours" tab (open now /
+  // open until X). Absent when the field has no structured operation hours.
   hours?: string;
-  // IANA zone the hours are in - only for verified local-time overrides; the
-  // filter then evaluates that marker DST-correct in its zone (else UTC).
-  hoursTz?: string;
 }
 
 // Parse a marker's hours JSON to StructuredHours (7-day), or null (fail-soft).
@@ -315,17 +312,14 @@ export function AirportMap({
       if (openNow || untilMinutes != null) {
         const hours = markerHours(m.hours);
         const coords = { lat: m.lat, lon: m.lon };
-        // Verified overrides carry an IANA zone -> DST-correct local eval;
-        // automatic (UTC) markers pass tz=undefined. "open now" is exact per
-        // frame. The niche "open until [time]" target is the user's UTC input
-        // treated as the marker's local wall clock for the tiny LT subset - a
-        // ~1 h edge only for those few fields, acceptable for a planning tool.
-        const tz = m.hoursTz;
-        if (openNow && openStatus(hours, coords, now, tz).state !== "open")
+        // All marker hours are UTC (verified overrides are pre-resolved to the
+        // active season's UTC window server-side), so the picker's UTC time and
+        // "open now" both evaluate directly in UTC.
+        if (openNow && openStatus(hours, coords, now).state !== "open")
           continue;
         if (
           untilMinutes != null &&
-          !isOpenUntil(hours, coords, untilMinutes, now, tz)
+          !isOpenUntil(hours, coords, untilMinutes, now)
         )
           continue;
       }

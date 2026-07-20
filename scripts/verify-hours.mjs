@@ -11,9 +11,9 @@
 // It fetches the DE detail page for a verified-override field (default EDNY),
 // tolerantly parses the served HTML + JSON-LD (no jsdom), and asserts:
 //   * the Airport JSON-LD carries an `openingHoursSpecification` with the field's
-//     verified LOCAL window (EDNY Mon-Fri 06:00-22:00);
-//   * the visible weekday table is labelled "(LT)" (local-time override), and
-//     shows the 06:00-22:00 window;
+//     verified UTC window for the season active NOW (EDNY Mon-Fri 05:00-21:00 in
+//     winter, 04:00-20:00 in summer);
+//   * the visible weekday table is labelled "(UTC)" - and NO "LT" frame leaks;
 //   * the badge carries the authoritative source label ("laut AIP AD 2.3");
 //   * the OCR "machine-read" disclaimer is ABSENT (the override is not OCR).
 //
@@ -104,18 +104,35 @@ async function main() {
     allSpecs.length > 0,
     `${allSpecs.length} spec(s)`,
   );
+  // EDNY publishes a seasonal UTC pair (winter 05:00-21:00Z, summer
+  // 04:00-20:00Z). The site shows the season active NOW - determine it the same
+  // way the code does (is Europe/Berlin in DST right now?) and assert that pair.
+  const berlinDst =
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: "Europe/Berlin",
+      timeZoneName: "longOffset",
+    })
+      .formatToParts(new Date())
+      .find((p) => p.type === "timeZoneName")?.value !== "GMT+01:00";
+  const wd = berlinDst
+    ? { opens: "04:00", closes: "20:00" }
+    : { opens: "05:00", closes: "21:00" };
   const hasWeekday = allSpecs.some(
-    (s) => s.opens === "06:00" && s.closes === "22:00",
+    (s) => s.opens === wd.opens && s.closes === wd.closes,
   );
   check(
-    "JSON-LD weekday window 06:00-22:00 (verified LOCAL override)",
+    `JSON-LD weekday window ${wd.opens}-${wd.closes} UTC (${berlinDst ? "summer" : "winter"})`,
     hasWeekday,
     JSON.stringify(allSpecs.map((s) => `${s.opens}-${s.closes}`)),
   );
 
-  // Visible weekday table: local-time label + the 06:00-22:00 window text.
-  check("weekday table labelled (LT)", html.includes("(LT)"));
-  check("weekday table shows 06:00-22:00", html.includes("06:00-22:00"));
+  // Visible weekday table: UTC label, the active-season window text, and NO LT.
+  check("weekday table labelled (UTC)", html.includes("(UTC)"));
+  check(
+    `weekday table shows ${wd.opens}-${wd.closes}`,
+    html.includes(`${wd.opens}-${wd.closes}`),
+  );
+  check("no LT frame leaked", !/\(LT\)|\d{2}:\d{2}LT/.test(html));
 
   // Authoritative badge label present, OCR disclaimer absent (eaip override).
   check("authoritative source label present", html.includes(OFFICIAL_LABEL));

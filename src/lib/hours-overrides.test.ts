@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { hoursOverride } from "~/lib/hours-overrides";
+import { hoursOverride, resolveOverrideHours } from "~/lib/hours-overrides";
 import { openStatus } from "~/lib/opening-hours";
 
 const EDNY_COORDS = { lat: 47.67, lon: 9.51 };
@@ -11,63 +11,92 @@ describe("hoursOverride", () => {
     expect(hoursOverride(undefined)).toBeNull();
   });
 
-  it("EDNY: LOCAL 06:00-22:00 Mon-Fri, 09:00-sunset Sat/Sun, tz Europe/Berlin", () => {
+  it("EDNY carries winter + summer UTC windows and Europe/Berlin", () => {
     const ov = hoursOverride("edny"); // case-insensitive
     expect(ov).not.toBeNull();
     expect(ov!.tz).toBe("Europe/Berlin");
-    const h = ov!.hours;
-    expect(h).toHaveLength(7);
-    // Mon..Fri (index 0..4): 06:00-22:00 LOCAL
-    for (let d = 0; d < 5; d++) {
-      expect(h[d]).toEqual({
-        kind: "window",
-        open: { t: "time", m: 360 },
-        close: { t: "time", m: 1320 },
-      });
-    }
-    // Sat + Sun (index 5,6): 09:00 LOCAL open, sunset close
-    for (const d of [5, 6]) {
-      expect(h[d]).toEqual({
-        kind: "window",
-        open: { t: "time", m: 540 },
-        close: { t: "ss" },
-      });
-    }
+    expect(ov!.winter).toHaveLength(7);
+    expect(ov!.summer).toHaveLength(7);
+    // Winter Mon-Fri 05:00-21:00Z (300-1260).
+    expect(ov!.winter[0]).toEqual({
+      kind: "window",
+      open: { t: "time", m: 300 },
+      close: { t: "time", m: 1260 },
+    });
+    // Summer Mon-Fri 04:00-20:00Z (240-1200).
+    expect(ov!.summer![0]).toEqual({
+      kind: "window",
+      open: { t: "time", m: 240 },
+      close: { t: "time", m: 1200 },
+    });
+    // Weekend: 08:00Z-sunset winter, 07:00Z-sunset summer.
+    expect(ov!.winter[5]).toEqual({
+      kind: "window",
+      open: { t: "time", m: 480 },
+      close: { t: "ss" },
+    });
+    expect(ov!.summer![5]).toEqual({
+      kind: "window",
+      open: { t: "time", m: 420 },
+      close: { t: "ss" },
+    });
+  });
+});
+
+describe("resolveOverrideHours (season selection, always UTC)", () => {
+  it("returns null for fields without an override", () => {
+    expect(resolveOverrideHours("EDDF")).toBeNull();
+    expect(resolveOverrideHours(null)).toBeNull();
   });
 
-  it("EDNY weekday window is open at 12:00 local on a Wednesday", () => {
-    const ov = hoursOverride("EDNY")!;
-    // 2024-01-03 is a Wednesday; 12:00 Europe/Berlin = 11:00Z in winter.
-    const when = new Date("2024-01-03T11:00:00Z");
-    const status = openStatus(ov.hours, EDNY_COORDS, when, ov.tz);
-    expect(status.state).toBe("open");
-    expect(status.closesAt).toBe(1320); // 22:00 local
+  it("picks the WINTER window in January", () => {
+    const jan = new Date("2026-01-14T12:00:00Z");
+    const h = resolveOverrideHours("EDNY", jan)!;
+    expect(h[0]).toEqual({
+      kind: "window",
+      open: { t: "time", m: 300 }, // 05:00Z
+      close: { t: "time", m: 1260 }, // 21:00Z
+    });
   });
 
-  // The DST regression: the same LOCAL instant must give the same answer in
-  // BOTH winter and summer, even though the corresponding UTC hour differs by
-  // one. A single stored UTC window could not do this (it would drift ~1 h).
-  it("EDNY closes at 22:00 LOCAL in winter AND summer (no DST drift)", () => {
-    const ov = hoursOverride("EDNY")!;
-    // Winter (CET = UTC+1): 21:30 local Wed = 20:30Z.
-    const winter = new Date("2024-01-03T20:30:00Z");
-    // Summer (CEST = UTC+2): 21:30 local Wed = 19:30Z.
-    const summer = new Date("2024-07-03T19:30:00Z");
-    for (const when of [winter, summer]) {
-      const status = openStatus(ov.hours, EDNY_COORDS, when, ov.tz);
-      expect(status.state).toBe("open");
-      expect(status.closesAt).toBe(1320); // 22:00 local, both seasons
-    }
+  it("picks the SUMMER window in July", () => {
+    const jul = new Date("2026-07-14T12:00:00Z");
+    const h = resolveOverrideHours("EDNY", jul)!;
+    expect(h[0]).toEqual({
+      kind: "window",
+      open: { t: "time", m: 240 }, // 04:00Z
+      close: { t: "time", m: 1200 }, // 20:00Z
+    });
+  });
+});
+
+describe("EDNY badge is season-correct in UTC (openStatus, no tz)", () => {
+  // Winter (CET): open 05:00-21:00Z. 2026-01-14 is a Wednesday.
+  it("winter: open at 20:30Z, closes 21:00Z", () => {
+    const when = new Date("2026-01-14T20:30:00Z");
+    const s = openStatus(resolveOverrideHours("EDNY", when), EDNY_COORDS, when);
+    expect(s.state).toBe("open");
+    expect(s.closesAt).toBe(1260); // 21:00Z
   });
 
-  it("EDNY is closed at 22:30 LOCAL in both seasons", () => {
-    const ov = hoursOverride("EDNY")!;
-    const winter = new Date("2024-01-03T21:30:00Z"); // 22:30 CET
-    const summer = new Date("2024-07-03T20:30:00Z"); // 22:30 CEST
-    for (const when of [winter, summer]) {
-      expect(openStatus(ov.hours, EDNY_COORDS, when, ov.tz).state).toBe(
-        "closed",
-      );
-    }
+  it("winter: closed at 21:30Z", () => {
+    const when = new Date("2026-01-14T21:30:00Z");
+    expect(
+      openStatus(resolveOverrideHours("EDNY", when), EDNY_COORDS, when).state,
+    ).toBe("closed");
+  });
+
+  // Summer (CEST): open 04:00-20:00Z. 2026-07-15 is a Wednesday.
+  it("summer: closed at 20:30Z (the winter model would wrongly say open)", () => {
+    const when = new Date("2026-07-15T20:30:00Z");
+    const s = openStatus(resolveOverrideHours("EDNY", when), EDNY_COORDS, when);
+    expect(s.state).toBe("closed");
+  });
+
+  it("summer: open at 19:30Z, closes 20:00Z", () => {
+    const when = new Date("2026-07-15T19:30:00Z");
+    const s = openStatus(resolveOverrideHours("EDNY", when), EDNY_COORDS, when);
+    expect(s.state).toBe("open");
+    expect(s.closesAt).toBe(1200); // 20:00Z
   });
 });

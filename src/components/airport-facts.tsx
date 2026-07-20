@@ -65,32 +65,27 @@ export async function AirportFacts({
   const aType = aerodromeTypeLabel(facts?.aerodromeType, lang);
 
   // Advisory open/closed status from the structured hours (opening-hours.ts),
-  // computed for the field's "now". Automatic sources are UTC (labelled `Z`);
-  // a verified override carries an IANA zone (`hoursTz`) and is evaluated
-  // DST-correct in that zone (labelled `LT`). `unknown`/`notam` days yield no
-  // badge (we never assert an open/closed we cannot back up).
-  const hoursTz = facts?.hoursTz ?? undefined;
-  const timeSuffix = hoursTz ? "LT" : "Z";
+  // computed for the field's "now" in UTC. `unknown`/`notam` days yield no badge
+  // (we never assert an open/closed we cannot back up).
   const status =
     facts?.hoursStructured && lat != null && lon != null
-      ? openStatus(facts.hoursStructured, { lat, lon }, new Date(), hoursTz)
+      ? openStatus(facts.hoursStructured, { lat, lon })
       : null;
   const statusBadge =
     status && status.state !== "unknown"
       ? (() => {
-          // Time frame marked by the suffix: `Z` (Zulu/UTC) for the automatic
-          // sources, `LT` for a verified local-time override - no per-locale
-          // string. `openStatus` computes in the matching frame.
+          // AIP AD 2.3 hours are UTC; the "Z" suffix (aviation "Zulu") marks it
+          // without a per-locale string. `openStatus` computes in UTC too.
           if (status.state === "open") {
             const closes =
               status.closesAt != null
-                ? ` - ${t("closesAt", { time: `${minutesToHhmm(status.closesAt)}${timeSuffix}` })}`
+                ? ` - ${t("closesAt", { time: `${minutesToHhmm(status.closesAt)}Z` })}`
                 : "";
             return `${t("statusOpen")}${closes}`;
           }
           const opens =
             status.opensAt != null
-              ? ` - ${t("opensAt", { time: `${minutesToHhmm(status.opensAt)}${timeSuffix}` })}`
+              ? ` - ${t("opensAt", { time: `${minutesToHhmm(status.opensAt)}Z` })}`
               : "";
           return `${t("statusClosed")}${opens}`;
         })()
@@ -248,8 +243,7 @@ export async function AirportFacts({
             className={`${cell} flex-col items-stretch gap-0.5 sm:col-span-2`}
           >
             <dt className="text-drossgray-dark">
-              {t("openingHours")}{" "}
-              <span className="font-normal">({hoursTz ? "LT" : "UTC"})</span>
+              {t("openingHours")} <span className="font-normal">(UTC)</span>
             </dt>
             {/* Compact two-column weekday grid on >= sm (7 days in 4 rows); one
                 column on mobile. Smaller text keeps the block low-profile. */}
