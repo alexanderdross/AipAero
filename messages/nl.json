@@ -260,6 +260,7 @@
     "circuit": "Circuit",
     "circuitLeft": "links",
     "circuitRight": "rechts",
+    "physicalLengthNote": "Getoonde lengte is de fysieke baanafmeting - zie het glossarium",
     "windComponents": "Windcomponenten",
     "headwind": "Tegenwind",
     "tailwind": "Rugwind",

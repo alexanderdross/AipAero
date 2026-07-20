@@ -230,6 +230,7 @@
     "circuit": "მოძრაობის წრე",
     "circuitLeft": "მარცხენა",
     "circuitRight": "მარჯვენა",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "ქარის კომპონენტები",
     "headwind": "შემხვედრი ქარი",
     "tailwind": "ზურგის ქარი",

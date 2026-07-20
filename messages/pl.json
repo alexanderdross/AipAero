@@ -260,6 +260,7 @@
     "circuit": "Krąg",
     "circuitLeft": "lewy",
     "circuitRight": "prawy",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Składowe wiatru",
     "headwind": "Wiatr czołowy",
     "tailwind": "Wiatr tylny",

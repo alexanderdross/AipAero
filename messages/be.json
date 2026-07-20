@@ -330,6 +330,7 @@
     "circuit": "Traffic pattern",
     "circuitLeft": "left",
     "circuitRight": "right",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Wind components",
     "headwind": "Headwind",
     "tailwind": "Tailwind",

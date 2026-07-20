@@ -260,6 +260,7 @@
     "circuit": "Κύκλωμα",
     "circuitLeft": "αριστερά",
     "circuitRight": "δεξιά",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Συνιστώσες ανέμου",
     "headwind": "Αντίθετος άνεμος",
     "tailwind": "Ούριος άνεμος",

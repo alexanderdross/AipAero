@@ -230,6 +230,7 @@
     "circuit": "Թռիչքային շրջան",
     "circuitLeft": "ձախ",
     "circuitRight": "աջ",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Քամու բաղադրիչներ",
     "headwind": "Հակառակ քամի",
     "tailwind": "Թիկունքային քամի",

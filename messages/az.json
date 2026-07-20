@@ -230,6 +230,7 @@
     "circuit": "Uçuş dövrəsi",
     "circuitLeft": "sol",
     "circuitRight": "sağ",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Külək komponentləri",
     "headwind": "Qarşı külək",
     "tailwind": "Arxa külək",

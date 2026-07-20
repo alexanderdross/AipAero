@@ -260,6 +260,7 @@
     "circuit": "Landingsrunde",
     "circuitLeft": "venstre",
     "circuitRight": "høyre",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Vindkomponenter",
     "headwind": "Motvind",
     "tailwind": "Medvind",

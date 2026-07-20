@@ -230,6 +230,7 @@
     "circuit": "Trafik paterni",
     "circuitLeft": "sol",
     "circuitRight": "sağ",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Rüzgar bileşenleri",
     "headwind": "Karşı rüzgar",
     "tailwind": "Arka rüzgar",

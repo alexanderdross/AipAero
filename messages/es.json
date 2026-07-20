@@ -230,6 +230,7 @@
     "circuit": "Circuito de tráfico",
     "circuitLeft": "izquierda",
     "circuitRight": "derecha",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Componentes del viento",
     "headwind": "Viento de cara",
     "tailwind": "Viento de cola",

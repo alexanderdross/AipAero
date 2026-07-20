@@ -260,6 +260,7 @@
     "circuit": "Varvet",
     "circuitLeft": "vänster",
     "circuitRight": "höger",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Vindkomponenter",
     "headwind": "Motvind",
     "tailwind": "Medvind",

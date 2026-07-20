@@ -230,6 +230,7 @@
     "circuit": "Skrydžių ratas",
     "circuitLeft": "kairysis",
     "circuitRight": "dešinysis",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Vėjo komponentės",
     "headwind": "Priešpriešinis vėjas",
     "tailwind": "Pavėjinis vėjas",

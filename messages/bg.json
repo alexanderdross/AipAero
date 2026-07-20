@@ -230,6 +230,7 @@
     "circuit": "Летищна обиколка",
     "circuitLeft": "ляво",
     "circuitRight": "дясно",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Компоненти на вятъра",
     "headwind": "Насрещен вятър",
     "tailwind": "Попътен вятър",

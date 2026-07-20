@@ -260,6 +260,7 @@
     "circuit": "Tour de piste",
     "circuitLeft": "à gauche",
     "circuitRight": "à droite",
+    "physicalLengthNote": "La longueur indiquée est la dimension physique de la piste - voir le glossaire",
     "windComponents": "Composantes du vent",
     "headwind": "Vent de face",
     "tailwind": "Vent arrière",

@@ -230,6 +230,7 @@
     "circuit": "Схема руху",
     "circuitLeft": "левы",
     "circuitRight": "правы",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Кампаненты ветру",
     "headwind": "Сустрэчны вецер",
     "tailwind": "Спадарожны вецер",

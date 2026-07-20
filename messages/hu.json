@@ -230,6 +230,7 @@
     "circuit": "Forgalmi kör",
     "circuitLeft": "bal",
     "circuitRight": "jobb",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Szélösszetevők",
     "headwind": "Szembeszél",
     "tailwind": "Hátszél",

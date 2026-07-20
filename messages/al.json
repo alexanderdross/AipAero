@@ -230,6 +230,7 @@
     "circuit": "Qarku i trafikut",
     "circuitLeft": "majtas",
     "circuitRight": "djathtas",
+    "physicalLengthNote": "Shown length is the physical runway dimension - see glossary",
     "windComponents": "Komponentët e erës",
     "headwind": "Erë ballore",
     "tailwind": "Erë e pasme",
