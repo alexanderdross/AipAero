@@ -23,6 +23,21 @@ export interface RunwayStrip {
   color: string; // surface colour
   surface: string | null;
   lengthFt: number | null;
+  trafficPattern?: "left" | "right" | null; // circuit direction, when known
+}
+
+const FT_PER_M = 0.3048;
+
+/**
+ * Runway length as "7729 ft (2356 m)" - both units, matching the elevation row.
+ * Null for a missing / non-positive length (the caller omits it). Metres are
+ * rounded; feet are the source value (OpenAIP / OurAirports / AWC give feet).
+ */
+export function runwayLengthLabel(
+  ft: number | null | undefined,
+): string | null {
+  if (ft == null || ft <= 0) return null;
+  return `${ft} ft (${Math.round(ft * FT_PER_M)} m)`;
 }
 
 /** Map a free-text surface to a fill colour (paved/grass/gravel/water/other). */
@@ -81,6 +96,7 @@ export function buildRunwayStrips(runways: RunwayFact[]): RunwayStrip[] {
       color: surfaceColor(r.surface),
       surface: r.surface,
       lengthFt: r.lengthFt,
+      trafficPattern: r.trafficPattern ?? null,
     };
   });
 }

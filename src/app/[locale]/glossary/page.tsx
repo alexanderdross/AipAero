@@ -146,7 +146,12 @@ export default async function GlossaryPage(
       "@id": termAnchor(key),
       url: termAnchor(key),
       name: t(`terms.${key}.name`),
-      description: t(`terms.${key}.def`),
+      // Strip any rich-text tags to a plain string for the structured data.
+      description: t.markup(`terms.${key}.def`, {
+        ul: (c) => c,
+        li: (c) => `${c} `,
+        b: (c) => c,
+      }),
       inDefinedTermSet: `${currentUrl}#glossary`,
     })),
   };
@@ -175,7 +180,15 @@ export default async function GlossaryPage(
                     {t(`terms.${key}.name`)}
                   </SectionHeading>
                 </dt>
-                <dd className="mt-2">{t(`terms.${key}.def`)}</dd>
+                <dd className="mt-2">
+                  {t.rich(`terms.${key}.def`, {
+                    ul: (c) => (
+                      <ul className="mt-2 list-disc space-y-1 pl-5">{c}</ul>
+                    ),
+                    li: (c) => <li>{c}</li>,
+                    b: (c) => <span className="font-semibold">{c}</span>,
+                  })}
+                </dd>
               </div>
             ))}
           </dl>

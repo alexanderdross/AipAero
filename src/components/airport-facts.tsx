@@ -5,6 +5,7 @@ import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import type { NormalizedFacts } from "~/lib/airport-facts";
 import type { Boundary, DayHours } from "~/lib/opening-hours";
 import { minutesToHhmm, openStatus } from "~/lib/opening-hours";
+import { runwayLengthLabel } from "~/lib/runway-diagram";
 import { getSunTimes } from "~/lib/sun-times";
 
 // Monday in UTC (2024-01-01 is a Monday) - base for localized weekday names in
@@ -181,7 +182,7 @@ export async function AirportFacts({
   };
   const runwaysText = runways
     .map((r) =>
-      [r.ident, r.lengthFt ? `${r.lengthFt} ft` : null, r.surface, circuit(r)]
+      [r.ident, runwayLengthLabel(r.lengthFt), r.surface, circuit(r)]
         .filter(Boolean)
         .join(" "),
     )

@@ -24,6 +24,7 @@ import { getHubLinks } from "~/lib/hub-links";
 import { toOpeningHoursSpecification } from "~/lib/opening-hours";
 import { parseOsmHours } from "~/lib/osm-hours";
 import { airacDateFromUrl, parseCharts } from "~/lib/charts";
+import { runwayLengthLabel } from "~/lib/runway-diagram";
 import { isGatedCountry, isPdfUrl, isSelfServicePdfCountry } from "~/lib/utils";
 import { after } from "next/server";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
@@ -295,9 +296,8 @@ export async function AirportGadgets({
   for (const r of runways) {
     addProp(
       `Runway ${r.ident}`,
-      [r.lengthFt ? `${r.lengthFt} ft` : null, r.surface]
-        .filter(Boolean)
-        .join(", ") || null,
+      [runwayLengthLabel(r.lengthFt), r.surface].filter(Boolean).join(", ") ||
+        null,
     );
   }
   // AD 2.13 declared distances - one granular PropertyValue per runway, so an

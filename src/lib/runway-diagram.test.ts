@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildRunwayStrips,
   parseRunwayEnds,
+  runwayLengthLabel,
   surfaceColor,
 } from "~/lib/runway-diagram";
 
@@ -74,5 +75,35 @@ describe("buildRunwayStrips", () => {
 
   it("drops runways with no parseable end", () => {
     expect(buildRunwayStrips([rwy("XX/YY", 3000, "ASP")])).toEqual([]);
+  });
+
+  it("carries the circuit direction through to the strip", () => {
+    const strips = buildRunwayStrips([
+      {
+        ident: "06/24",
+        lengthFt: 3000,
+        widthFt: null,
+        surface: "ASP",
+        trafficPattern: "right",
+      },
+    ]);
+    expect(strips[0]!.trafficPattern).toBe("right");
+    // Absent trafficPattern -> null.
+    expect(
+      buildRunwayStrips([rwy("09/27", 3000, "ASP")])[0]!.trafficPattern,
+    ).toBe(null);
+  });
+});
+
+describe("runwayLengthLabel", () => {
+  it("shows feet and rounded metres", () => {
+    expect(runwayLengthLabel(7729)).toBe("7729 ft (2356 m)");
+    expect(runwayLengthLabel(3000)).toBe("3000 ft (914 m)");
+  });
+
+  it("omits a missing / non-positive length", () => {
+    expect(runwayLengthLabel(null)).toBeNull();
+    expect(runwayLengthLabel(undefined)).toBeNull();
+    expect(runwayLengthLabel(0)).toBeNull();
   });
 });
