@@ -3,6 +3,7 @@ import "server-only";
 import { after } from "next/server";
 import { getAwcAirport } from "~/lib/awc-airport";
 import { customsOverride } from "~/lib/customs-overrides";
+import { hoursOverride } from "~/lib/hours-overrides";
 import { getOpenAipFacts } from "~/lib/openaip";
 import type { StructuredHours } from "~/lib/opening-hours";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
@@ -188,6 +189,7 @@ export async function getAirportFacts(
 ): Promise<NormalizedFacts | null> {
   if (!icao || !/^[A-Z]{4}$/.test(icao.toUpperCase())) return null;
   const code = icao.toUpperCase();
+  const hoursOv = hoursOverride(code);
 
   // Fail-soft to the live sources: this must not throw if the D1 row read
   // fails (e.g. migration 0004 not yet applied when the code deploys, or a
@@ -226,12 +228,17 @@ export async function getAirportFacts(
     ppr: base?.ppr ?? openaip?.ppr ?? null,
     fuel: base?.fuel.length ? base.fuel : (openaip?.fuel ?? []),
     openingHours: base?.openingHours ?? openaip?.openingHours ?? null,
-    // The D1 row wins - it already carries any authoritative eAIP hours the
-    // crawler POSTed; the live OpenAIP fetch only fills an ICAO with none.
-    hoursStructured: base?.hoursStructured ?? openaip?.hoursStructured ?? null,
-    hoursSource: base?.hoursStructured
-      ? (base.hoursSource ?? null)
-      : (openaip?.hoursSource ?? null),
+    // Verified hours override first (compliance-grade, in code - see
+    // hours-overrides.ts; source "eaip" so it shows as authoritative and drops
+    // the OCR disclaimer). Otherwise the D1 row wins (it carries the crawler's
+    // eAIP / OCR hours), then the live OpenAIP fetch fills an ICAO with none.
+    hoursStructured:
+      hoursOv ?? base?.hoursStructured ?? openaip?.hoursStructured ?? null,
+    hoursSource: hoursOv
+      ? "eaip"
+      : base?.hoursStructured
+        ? (base.hoursSource ?? null)
+        : (openaip?.hoursSource ?? null),
     restaurant: base?.restaurant ?? openaip?.restaurant ?? null,
     // Verified GEN-1.2 override first (compliance-grade, in code - see
     // customs-overrides.ts), then the persisted/community sources.
