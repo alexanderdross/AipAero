@@ -1,6 +1,8 @@
 """Tests for the DE OCR text-vs-chart page discriminator, using REAL OCR
 output captured live (crawler-live-test, 19.07.2026) from DFS BasicVFR."""
 
+import pytest
+
 from crawlers.de import _TEXT_PAGE_RE
 from crawlers.de_ocr import biggest_png, is_text_page, page_language
 
@@ -86,17 +88,44 @@ EDNY_EN_DATA = (
 )
 
 
-def test_page_language_english_vs_german():
-    # The standardized English data page -> "en".
-    assert page_language(EDNY_EN_DATA) == "en"
-    # The German VFR-Flugverfahren page and the translated narrative -> "de".
-    assert page_language(EDNY_TEXT) == "de"
-    assert page_language(EDNY_DE_NARRATIVE) == "de"
+# Labelled ground truth for the page-language classifier. Each row is (id,
+# sample, expected). The umlaut/German-marker tally must out-vote the English
+# markers for a "de" verdict; ties + marker-less text fall back to "en" (the
+# standardized ICAO data pages are English), which is the documented contract in
+# de_ocr.page_language. Known heuristic limit: a very short German snippet with
+# no umlauts and no German stopword can misclassify as "en" - acceptable,
+# because such a page carries no operable narrative to route anyway.
+_PAGE_LANGUAGE_CASES = [
+    ("en-standardized-data", EDNY_EN_DATA, "en"),
+    ("de-vfr-flugverfahren", EDNY_TEXT, "de"),
+    ("de-narrative-restrictions", EDNY_DE_NARRATIVE, "de"),
+    # A German narrative rich in umlauts, no English markers -> "de".
+    (
+        "de-umlaut-heavy",
+        "Flugbeschraenkungen fuer Laermschutz: Starts und Landungen "
+        "sind waehrend der Nachtstunden ueber besiedeltem Gebiet untersagt.",
+        "de",
+    ),
+    # A plainly English procedures paragraph, no umlauts -> "en".
+    (
+        "en-procedures-prose",
+        "Departures and arrivals shall be conducted in accordance with the "
+        "visual approach chart and the published traffic circuit for runway 24.",
+        "en",
+    ),
+    # Empty and marker-less numeric OCR noise -> "en" (the tie/empty contract).
+    ("empty", "", "en"),
+    ("numeric-noise", "1234 5678 ---", "en"),
+]
 
 
-def test_page_language_ties_to_english():
-    assert page_language("") == "en"
-    assert page_language("1234 5678 ---") == "en"
+@pytest.mark.parametrize(
+    "sample,expected",
+    [(s, e) for _id, s, e in _PAGE_LANGUAGE_CASES],
+    ids=[i for i, _s, _e in _PAGE_LANGUAGE_CASES],
+)
+def test_page_language(sample: str, expected: str):
+    assert page_language(sample) == expected
 
 
 def test_text_page_anchor_regex():

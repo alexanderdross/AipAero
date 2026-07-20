@@ -64,3 +64,64 @@ def test_empty_and_non_string_return_none():
     assert parse_de_hours("") is None
     assert parse_de_hours(None) is None
     assert parse_de_hours(123) is None
+
+
+# ---- plausibility guard (OCR digit-slip rejection, PR A/2) --------------------
+
+
+def test_degenerate_window_dropped_to_unknown():
+    # A digit slip: "0500-2100" mis-read as a wrapped "2100-0100" (close before
+    # open). The whole-week window degenerates -> no day is asserted -> None.
+    hours = parse_de_hours(
+        "X AD 2.3 Operational hours 1] AD operator 2100-0100 2] AD 2.4"
+    )
+    assert hours is None
+
+
+def test_implausibly_short_window_dropped_selectively():
+    # A few-minute "window" (e.g. "0800-0805") is not a real AD open period; it
+    # is dropped to unknown while a plausible weekend window survives.
+    hours = parse_de_hours(
+        "X AD 2.3 Operational hours 1] AD operator MON-FRI 0800-0805; "
+        "SAT-SUN 0800-1700 2] AD 2.4"
+    )
+    assert hours is not None
+    for i in range(5):
+        assert hours[i] == {"kind": "unknown"}
+    for i in (5, 6):
+        assert hours[i]["kind"] == "window"
+
+
+def test_near_24h_fixed_window_not_asserted():
+    # A near-24h fixed window that is NOT written as H24 is a likely merge/slip;
+    # reject it rather than assert an almost-always-open field.
+    hours = parse_de_hours(
+        "X AD 2.3 Operational hours 1] AD operator 0000-2359 2] AD 2.4"
+    )
+    assert hours is None
+
+
+def test_guard_keeps_a_plausible_window():
+    # A normal 08:00-17:00 window survives the guard untouched.
+    hours = parse_de_hours(
+        "X AD 2.3 Operational hours 1] AD operator DAILY 0800-1700 2] AD 2.4"
+    )
+    assert hours is not None
+    assert hours[0] == {
+        "kind": "window",
+        "open": {"t": "time", "m": 480},
+        "close": {"t": "time", "m": 1020},
+    }
+
+
+def test_guard_keeps_a_solar_window():
+    # A solar-bounded window (SR-SS) is always plausible (resolved at read time).
+    hours = parse_de_hours(
+        "X AD 2.3 Operational hours 1] AD operator DAILY SR-SS 2] AD 2.4"
+    )
+    assert hours is not None
+    assert hours[0] == {
+        "kind": "window",
+        "open": {"t": "sr"},
+        "close": {"t": "ss"},
+    }
