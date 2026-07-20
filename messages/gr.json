@@ -279,6 +279,8 @@
     "hoursNone": "Δεν υπάρχουν καταχωρημένες ώρες λειτουργίας. Πολλά μικρά πεδία VFR και ελικοδρόμια δεν δημοσιεύουν καμία, ή μόνο κατόπιν αιτήματος (O/R), βάση προέλευσης (HO) ή μέσω NOTAM - ελέγχετε πάντα το τρέχον AIP και τα NOTAM πριν από την πτήση.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

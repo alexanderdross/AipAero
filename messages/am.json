@@ -249,6 +249,8 @@
     "hoursNone": "Աշխատանքային ժամերը գրանցված չեն: Շատ փոքր VFR հրապարակներ և ուղղաթիռակայաններ դրանք չեն հրապարակում, կամ միայն ըստ պահանջի (O/R), հիմնական բազայում (HO) կամ NOTAM-ով - թռիչքից առաջ միշտ ստուգեք ընթացիկ AIP-ը և NOTAM-ները:",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

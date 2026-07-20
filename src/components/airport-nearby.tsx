@@ -24,12 +24,15 @@ export async function AirportNearby({
   lon,
   country,
   locale,
+  airportLabel = null,
 }: {
   slug: string;
   lat: number | null;
   lon: number | null;
   country: string;
   locale: string;
+  /** Aerodrome "<name> <ICAO>" for the section-anchor SEO title. */
+  airportLabel?: string | null;
 }) {
   if (lat == null || lon == null) return null;
   const t = await getTranslations("Common");
@@ -59,7 +62,12 @@ export async function AirportNearby({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <SectionHeading className="text-center text-xl font-normal">
+      <SectionHeading
+        className="text-center text-xl font-normal"
+        linkTitle={
+          airportLabel ? `${t("nearby")} - ${airportLabel}` : t("nearby")
+        }
+      >
         {t("nearby")}
       </SectionHeading>
       <ul className="mx-auto mt-3 flex w-fit flex-col gap-y-1 text-sm">

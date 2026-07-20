@@ -42,6 +42,7 @@ export function AirportWeather({
   taf,
   locale,
   nearest,
+  icao = null,
 }: {
   metar: Metar | null;
   taf: Taf | null;
@@ -49,6 +50,8 @@ export function AirportWeather({
   // Set when the weather comes from the nearest reporting station (the field
   // has no METAR of its own) - shown as a clear note.
   nearest?: { station: string; distanceKm: number } | null;
+  /** This field's ICAO, for the section-anchor SEO title. */
+  icao?: string | null;
 }) {
   const t = useTranslations("Weather");
   if (!metar && !taf) return null;
@@ -113,7 +116,10 @@ export function AirportWeather({
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-        <SectionHeading className="text-xl font-normal">
+        <SectionHeading
+          className="text-xl font-normal"
+          linkTitle={icao ? `${t("title")} - ${icao}` : t("title")}
+        >
           {t("title")}
         </SectionHeading>
         {metar?.fltCat && (

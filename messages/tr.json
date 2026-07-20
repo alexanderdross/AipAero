@@ -249,6 +249,8 @@
     "hoursNone": "Kayıtlı çalışma saati yok. Birçok küçük VFR alanı ve helikopter pisti hiç yayınlamaz ya da yalnızca talep üzerine (O/R), ana üste (HO) veya NOTAM ile - uçuştan önce daima güncel AIP ve NOTAM'ları kontrol edin.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

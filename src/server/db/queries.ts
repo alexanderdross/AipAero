@@ -526,10 +526,13 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
-// Precedence RANK for the structured operation hours: `eaip` (3, authoritative)
-// > `openaip` (2, community) > `osm` (1, community OSM fallback) > none (0).
+// Precedence RANK for the structured operation hours: `eaip` (4, authoritative)
+// > `dfs-ocr-hours` (3, DE AD 2.3 read from the DFS AIP image via OCR - AIP
+// text, so above community) > `openaip` (2, community) > `osm` (1, community OSM
+// fallback) > none (0). Ranking DE OCR above openaip/osm keeps a later community
+// backfill from clobbering the AIP-derived hours.
 const hoursRank = (col: SQL) =>
-  sql`CASE ${col} WHEN 'eaip' THEN 3 WHEN 'openaip' THEN 2 WHEN 'osm' THEN 1 ELSE 0 END`;
+  sql`CASE ${col} WHEN 'eaip' THEN 4 WHEN 'dfs-ocr-hours' THEN 3 WHEN 'openaip' THEN 2 WHEN 'osm' THEN 1 ELSE 0 END`;
 // Precedence for the structured operation hours on an upsert (see
 // docs/operation-hours-concept.md): an incoming value replaces the stored one
 // only when it is non-null (COALESCE-preserve: null means "don't know") AND its

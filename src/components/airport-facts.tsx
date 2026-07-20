@@ -3,7 +3,11 @@ import { SectionHeading } from "~/components/section-heading";
 import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import type { NormalizedFacts } from "~/lib/airport-facts";
-import { minutesToHhmm, openStatus } from "~/lib/opening-hours";
+import {
+  minutesToHhmm,
+  openStatus,
+  structuredHoursToDisplay,
+} from "~/lib/opening-hours";
 import { getSunTimes } from "~/lib/sun-times";
 
 const FT_PER_M = 0.3048;
@@ -21,12 +25,15 @@ export async function AirportFacts({
   facts,
   locale,
   openingHours,
+  airportLabel = null,
   lat: latFallback = null,
   lon: lonFallback = null,
 }: {
   facts: NormalizedFacts | null;
   locale: string;
   openingHours: string | null;
+  /** Aerodrome "<name> <ICAO>" for the section-anchor SEO title. */
+  airportLabel?: string | null;
   // Coordinate fallback (e.g. geocoded from the name for ICAO-less fields) so
   // the sun-time rows can render even without a facts row.
   lat?: number | null;
@@ -82,19 +89,30 @@ export async function AirportFacts({
           return `${t("statusClosed")}${opens}`;
         })()
       : null;
+  const isOcrHours = facts?.hoursSource === "dfs-ocr-hours";
   const hoursSourceLabel =
     facts?.hoursSource === "eaip"
       ? t("hoursOfficial")
-      : facts?.hoursSource === "openaip" || facts?.hoursSource === "osm"
-        ? t("hoursCommunity")
-        : null;
+      : isOcrHours
+        ? t("hoursOcr")
+        : facts?.hoursSource === "openaip" || facts?.hoursSource === "osm"
+          ? t("hoursCommunity")
+          : null;
   // No actionable hours: no open/closed badge AND no clock-time schedule text
   // (hours are absent, or given only as O/R / HO / by NOTAM). Show an honest
   // note instead of a blank - many small VFR fields / heliports publish none.
   // A field with a definite badge or a real schedule string does not get it.
+  // Human-readable schedule: prefer the source's own hours string, else derive
+  // one from the structured hours - so structured-only sources (incl. DE's OCR
+  // hours) still show a weekly line, not only the badge.
+  const hoursDisplay =
+    openingHours ??
+    (facts?.hoursStructured
+      ? structuredHoursToDisplay(facts.hoursStructured) || null
+      : null);
   const hasScheduleText =
-    openingHours != null &&
-    /\d{3,4}|\d{1,2}[:h.]\d{2}|\bsr\b|\bss\b|sun(rise|set)/i.test(openingHours);
+    hoursDisplay != null &&
+    /\d{3,4}|\d{1,2}[:h.]\d{2}|\bsr\b|\bss\b|sun(rise|set)/i.test(hoursDisplay);
   const showHoursNote = !statusBadge && !hasScheduleText;
 
   const rows: Array<[string, string]> = [];
@@ -107,7 +125,7 @@ export async function AirportFacts({
   if (surfaces.length) rows.push([t("surface"), surfaces.join(", ")]);
   if (facts?.fuel.length) rows.push([t("fuel"), facts.fuel.join(", ")]);
   if (facts?.ppr === true) rows.push([t("ppr"), t("pprRequired")]);
-  if (openingHours) rows.push([t("openingHours"), openingHours]);
+  if (hoursDisplay) rows.push([t("openingHours"), hoursDisplay]);
   if (lat != null && lon != null) {
     const sun = getSunTimes(new Date(), lat, lon);
     if (sun.sunrise) rows.push([t("sunrise"), hm(sun.sunrise)!]);
@@ -169,7 +187,12 @@ export async function AirportFacts({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <SectionHeading className="text-center text-xl font-normal">
+      <SectionHeading
+        className="text-center text-xl font-normal"
+        linkTitle={
+          airportLabel ? `${t("facts")} - ${airportLabel}` : t("facts")
+        }
+      >
         {t("facts")}
       </SectionHeading>
 
@@ -244,6 +267,17 @@ export async function AirportFacts({
       {showHoursNote && (
         <p className="text-drossgray-dark mt-3 text-center text-xs">
           {t("hoursNone")}
+        </p>
+      )}
+
+      {/* DE OCR-derived hours: an always-visible disclaimer that the schedule
+          was machine-read from the DFS AIP page image and may contain read
+          errors - the honesty backstop for driving the badge/map/JSON-LD from
+          OCR (owner directive 20.07.2026). Renders whenever the field's hours
+          came from the OCR pipeline. */}
+      {isOcrHours && (
+        <p role="note" className="mt-3 text-center text-xs text-amber-800">
+          {t("hoursOcrDisclaimer")}
         </p>
       )}
     </section>

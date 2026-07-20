@@ -249,6 +249,8 @@
     "hoursNone": "Obratovalni čas ni na voljo. Številna majhna VFR letališča in heliporti ga ne objavljajo, ali le na zahtevo (O/R), na domači bazi (HO) ali prek NOTAM - pred letom vedno preverite veljavni AIP in NOTAM-e.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",
