@@ -240,14 +240,17 @@ export async function AirportFacts({
           </div>
         ))}
         {weekdayRows.length > 0 && (
-          <div className={`${cell} flex-col items-stretch gap-1 sm:col-span-2`}>
-            <dt className="text-drossgray-dark">{t("openingHours")}</dt>
-            <dd className="mt-0.5 space-y-0.5 font-medium">
+          <div
+            className={`${cell} flex-col items-stretch gap-0.5 sm:col-span-2`}
+          >
+            <dt className="text-drossgray-dark">
+              {t("openingHours")} <span className="font-normal">(UTC)</span>
+            </dt>
+            {/* Compact two-column weekday grid on >= sm (7 days in 4 rows); one
+                column on mobile. Smaller text keeps the block low-profile. */}
+            <dd className="mt-0.5 grid grid-cols-1 gap-x-8 text-xs font-medium sm:grid-cols-2">
               {weekdayRows.map(([day, value], i) => (
-                <div
-                  key={i}
-                  className="flex items-baseline justify-between gap-x-4"
-                >
+                <div key={i} className="flex items-baseline justify-between">
                   <span className="text-drossgray-dark font-normal">{day}</span>
                   <span>{value}</span>
                 </div>
