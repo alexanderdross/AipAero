@@ -475,6 +475,10 @@
       "operatinghours": {
         "name": "Openingstijden (UTC)",
         "def": "De openingstijden van een luchthaven in de AIP (AD 2.3) worden in UTC (Zulu-tijd) gegeven. Als de zomertijd ze beïnvloedt, geeft de AIP dat aan met een voetnoot tussen haakjes - bijvoorbeeld '0730-1600 (0630-1500)', waarbij de waarden tussen haakjes gelden in de zomerperiode - of een opmerking als '-1 HR during summer time'. De basiswaarde blijft UTC. AIP:Aero toont het seizoen dat nu geldt, altijd in UTC."
+      },
+      "runwaydistances": {
+        "name": "Baanafstanden (fysieke lengte vs TORA, TODA, ASDA, LDA)",
+        "def": "De baanlengte die AIP:Aero toont is de FYSIEKE baanafmeting - de volledige lengte van de baan. Het is niet de gepubliceerde afstand die een piloot voor prestaties gebruikt, die de AIP per baanrichting in AD 2.13 publiceert: TORA (beschikbare startloopafstand), TODA (beschikbare startafstand = TORA plus eventuele clearway), ASDA (beschikbare versnel-stopafstand = TORA plus eventuele stopway) en LDA (beschikbare landingsafstand, gemeten vanaf de drempel - bij een verplaatste drempel kan die korter zijn dan de fysieke lengte). Baseer start- en landingsprestaties altijd op de gepubliceerde afstanden uit de actuele AIP, nooit op de fysieke lengte."
       }
     }
   },

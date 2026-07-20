@@ -510,6 +510,10 @@
       "operatinghours": {
         "name": "Betriebszeiten (UTC)",
         "def": "Die Betriebszeiten eines Flugplatzes in der AIP (AD 2.3) sind in UTC (Zulu-Zeit) angegeben. Wenn die Sommerzeit sie betrifft, kennzeichnet die AIP das mit einer Klammer-Fußnote - zum Beispiel '0730-1600 (0630-1500)', wobei die Klammerwerte für den Sommerzeitraum gelten - oder einem Hinweis wie '-1 HR during summer time'. Die Grundangabe bleibt UTC. AIP:Aero zeigt die aktuell gültige Jahreszeit, immer in UTC."
+      },
+      "runwaydistances": {
+        "name": "Pistendistanzen (physische Länge vs TORA, TODA, ASDA, LDA)",
+        "def": "Die von AIP:Aero angezeigte Pistenlänge ist die PHYSISCHE Pistenabmessung - die volle Länge der Piste. Sie ist nicht die deklarierte Distanz, die ein Pilot für die Flugleistung verwendet und die die AIP je Pistenrichtung in AD 2.13 veröffentlicht: TORA (verfügbare Startrollstrecke), TODA (verfügbare Startstrecke = TORA plus etwaige Freifläche), ASDA (verfügbare Startabbruchstrecke = TORA plus etwaiger Stoppweg) und LDA (verfügbare Landestrecke, gemessen ab der Schwelle - bei versetzter Schwelle kann sie kürzer als die physische Länge sein). Stützen Sie Start- und Landeleistung immer auf die deklarierten Distanzen der aktuellen AIP, niemals auf die physische Länge."
       }
     }
   },

@@ -475,6 +475,10 @@
       "operatinghours": {
         "name": "Horaires d'exploitation (UTC)",
         "def": "Les horaires d'exploitation d'un aérodrome dans l'AIP (AD 2.3) sont donnés en UTC (heure Zulu). Lorsque l'heure d'été les modifie, l'AIP l'indique par une note entre parenthèses - par exemple '0730-1600 (0630-1500)', les valeurs entre parenthèses s'appliquant en période estivale - ou une mention telle que '-1 HR during summer time'. La valeur de base reste en UTC. AIP:Aero affiche la saison en vigueur, toujours en UTC."
+      },
+      "runwaydistances": {
+        "name": "Distances de piste (longueur physique vs TORA, TODA, ASDA, LDA)",
+        "def": "La longueur de piste affichée par AIP:Aero est la dimension PHYSIQUE de la piste - sa longueur totale. Ce n'est pas la distance déclarée utilisée pour les performances, que l'AIP publie par direction de piste en AD 2.13 : TORA (distance de roulement au décollage utilisable), TODA (distance de décollage utilisable = TORA plus le prolongement dégagé éventuel), ASDA (distance utilisable d'accélération-arrêt = TORA plus le prolongement d'arrêt éventuel) et LDA (distance d'atterrissage utilisable, mesurée depuis le seuil - elle peut être plus courte que la longueur physique en cas de seuil décalé). Basez toujours les performances au décollage et à l'atterrissage sur les distances déclarées de l'AIP en vigueur, jamais sur la longueur physique."
       }
     }
   },
