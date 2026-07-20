@@ -279,7 +279,6 @@
     "hoursNone": "Aucun horaire d'exploitation renseigné. De nombreux petits terrains VFR et hélistations n'en publient aucun, ou seulement sur demande (O/R), base d'attache (HO) ou par NOTAM - vérifiez toujours l'AIP en vigueur et les NOTAMs avant le vol.",
     "hoursOfficial": "selon AIP AD 2.3",
     "hoursCommunity": "données communautaires",
-    "hoursOcr": "text recognition (OCR)",
     "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Ouvert jusqu’à",
     "filtersTab": "Filtres",

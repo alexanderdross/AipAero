@@ -249,7 +249,6 @@
     "hoursNone": "Nessun orario operativo disponibile. Molti piccoli campi VFR ed eliporti non ne pubblicano alcuno, o solo su richiesta (O/R), base di partenza (HO) o tramite NOTAM - controlla sempre l'AIP e i NOTAM attuali prima del volo.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
-    "hoursOcr": "text recognition (OCR)",
     "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
