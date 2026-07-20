@@ -204,14 +204,22 @@ def main(countries: list[str] | None = None):
                     hours_by_icao or {}, country, declared_by_icao or {}
                 )
             # DE-only: OCR the DFS AD-2 page images into raw DISPLAY text
-            # (source "dfs-ocr"). Opt-in via DE_OCR (heavy: one browser render
-            # per field), never the daily list crawl. Published via a separate
-            # PATCH; NEVER parsed into any structured field. Fully fail-soft.
+            # (source "dfs-ocr") AND parse the AD 2.3 operator hours into
+            # structured hours (source "dfs-ocr-hours"), which drive the same
+            # badge / map / JSON-LD as eAIP countries under a "machine-read,
+            # verify" disclaimer on the site (owner directive 20.07.2026).
+            # Opt-in via DE_OCR (heavy: one browser render per field), never the
+            # daily list crawl. Fully fail-soft.
             if os.environ.get("DE_OCR") and hasattr(crawler, "collect_ad2_ocr"):
                 try:
                     crawler.collect_ad2_ocr(airports)
                     output_handler.publish_ad2_text(
                         getattr(crawler, "ad2_text_by_icao", {}), country
+                    )
+                    output_handler.publish_hours(
+                        getattr(crawler, "hours_by_icao", {}),
+                        country,
+                        hours_source="dfs-ocr-hours",
                     )
                 except Exception as e:
                     logger.warning(f"{country}: AD-2 OCR collection failed: {e}")

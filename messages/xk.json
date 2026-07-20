@@ -249,6 +249,8 @@
     "hoursNone": "Nuk ka orar pune të regjistruar. Shumë fusha të vogla VFR dhe helioporte nuk publikojnë asnjë, ose vetëm sipas kërkesës (O/R), në bazën e origjinës (HO) ose me NOTAM - kontrolloni gjithmonë AIP dhe NOTAM-et aktuale para fluturimit.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

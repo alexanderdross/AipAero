@@ -87,8 +87,9 @@ export function AirportWeatherWind({
         taf={data.taf}
         locale={locale}
         nearest={data.nearest}
+        icao={icao}
       />
-      <AirportWind metar={data.metar} runways={runways} />
+      <AirportWind metar={data.metar} runways={runways} icao={icao} />
     </>
   );
 }

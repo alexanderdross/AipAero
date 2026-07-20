@@ -249,6 +249,8 @@
     "hoursNone": "Darbo laikas nenurodytas. Daugelis mažų VFR aikštelių ir sraigtasparnių aikštelių jo neskelbia arba jos veikia tik pagal užklausą (O/R), iš bazės aerodromo (HO) ar pagal NOTAM - prieš skrydį visada patikrinkite galiojančią AIP ir NOTAM.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

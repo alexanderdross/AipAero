@@ -373,6 +373,7 @@ export async function AirportGadgets({
               charts={chartList}
               locale={locale}
               fallbackAiracIso={countryAiracIso}
+              airportLabel={airport.title}
             />
             {/* Structured-data twin of the chart box: marks the PDF up as a
                 DigitalDocument that is part of this airport page, dated by
@@ -452,6 +453,7 @@ export async function AirportGadgets({
             facts={factsWithHours}
             locale={locale}
             openingHours={openingHours}
+            airportLabel={airport.title}
             lat={lat}
             lon={lon}
           />
@@ -462,7 +464,10 @@ export async function AirportGadgets({
         {/* Scaled runway-layout diagram (SSR): the physical field geometry to
             RELATIVE length + surface colour. Sits next to the wind box and,
             unlike it, renders for every field with runways (no METAR needed). */}
-        <AirportRunwayDiagram runways={facts?.runways ?? []} />
+        <AirportRunwayDiagram
+          runways={facts?.runways ?? []}
+          airportLabel={airport.title}
+        />
         {/* Ephemeral weather + wind: lazy-loaded client-side. The Weather i18n
             namespace is scoped to this client subtree. */}
         <NextIntlClientProvider messages={pick(messages, "Weather")}>
@@ -480,6 +485,7 @@ export async function AirportGadgets({
           lon={lon}
           country={airport.country}
           locale={locale}
+          airportLabel={airport.title}
         />
         {/* Feedback / "report a problem" link: routes to the contact form
             (German-native locales -> /de/kontakt/, else /contact/) carrying the

@@ -82,7 +82,10 @@ export async function AirportContact({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <SectionHeading className="text-center text-xl font-normal">
+      <SectionHeading
+        className="text-center text-xl font-normal"
+        linkTitle={`${t("location")} - ${airport.title}`}
+      >
         {t("location")}
       </SectionHeading>
 

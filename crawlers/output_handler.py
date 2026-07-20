@@ -256,13 +256,16 @@ class OutputHandler:
         hours_by_icao: dict[str, StructuredHours | None],
         country: str,
         declared_by_icao: dict[str, object] | None = None,
+        hours_source: str = "eaip",
     ) -> None:
         """Publish AUTHORITATIVE eAIP AD 2.3 operation hours AND AD 2.13 declared
-        distances via PATCH /api/airport-facts with source "eaip". The two are
-        merged per ICAO into one row set (each row carries whichever data the
-        crawler collected). Never touches the base facts columns
-        (coords/runways). Fully fail-soft - a publish failure must never fail the
-        airport crawl. Only ICAO-bearing fields with data are sent."""
+        distances via PATCH /api/airport-facts. Hours carry ``hours_source``
+        (default "eaip"; DE passes "dfs-ocr-hours" for its OCR-derived hours,
+        which the API enum + precedence rank recognise). The two are merged per
+        ICAO into one row set (each row carries whichever data the crawler
+        collected). Never touches the base facts columns (coords/runways). Fully
+        fail-soft - a publish failure must never fail the airport crawl. Only
+        ICAO-bearing fields with data are sent."""
         declared_by_icao = declared_by_icao or {}
         # Merge hours + declared distances per ICAO into one PATCH row each.
         rows_by_icao: dict[str, dict[str, object]] = {}
@@ -270,7 +273,7 @@ class OutputHandler:
             if icao and hours is not None:
                 row = rows_by_icao.setdefault(icao.upper(), {"icao": icao.upper()})
                 row["hoursStructured"] = to_json(hours)
-                row["hoursSource"] = "eaip"
+                row["hoursSource"] = hours_source
         for icao, declared in declared_by_icao.items():
             if icao and declared:
                 row = rows_by_icao.setdefault(icao.upper(), {"icao": icao.upper()})

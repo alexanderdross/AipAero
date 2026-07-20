@@ -35,6 +35,7 @@ export async function AirportChart({
   charts = [],
   locale,
   fallbackAiracIso = null,
+  airportLabel = null,
 }: {
   url: string;
   charts?: ChartLink[];
@@ -42,6 +43,8 @@ export async function AirportChart({
   // Country edition (crawl_meta.airac) used when the chart URL carries no date
   // (e.g. MK's `current` alias), so every chart box can still show the AIRAC.
   fallbackAiracIso?: string | null;
+  /** Aerodrome "<name> <ICAO>" for the section-anchor SEO title. */
+  airportLabel?: string | null;
 }) {
   const t = await getTranslations("Chart");
   const tFooter = await getTranslations({ locale, namespace: "Footer" });
@@ -66,7 +69,12 @@ export async function AirportChart({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <SectionHeading className="text-center text-xl font-normal">
+      <SectionHeading
+        className="text-center text-xl font-normal"
+        linkTitle={
+          airportLabel ? `${t("title")} - ${airportLabel}` : t("title")
+        }
+      >
         {t("title")}
       </SectionHeading>
 

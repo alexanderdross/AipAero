@@ -19,8 +19,11 @@ const MAX_HALF = 92; // px, half-length of the longest runway
  */
 export async function AirportRunwayDiagram({
   runways,
+  airportLabel = null,
 }: {
   runways: RunwayFact[];
+  /** Aerodrome "<name> <ICAO>" for the section-anchor SEO title. */
+  airportLabel?: string | null;
 }) {
   const t = await getTranslations("Weather");
   const strips = buildRunwayStrips(runways);
@@ -28,7 +31,12 @@ export async function AirportRunwayDiagram({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <SectionHeading className="text-center text-xl font-normal">
+      <SectionHeading
+        className="text-center text-xl font-normal"
+        linkTitle={
+          airportLabel ? `${t("runways")} - ${airportLabel}` : t("runways")
+        }
+      >
         {t("runways")}
       </SectionHeading>
 

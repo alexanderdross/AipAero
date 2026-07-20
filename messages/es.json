@@ -249,6 +249,8 @@
     "hoursNone": "Sin horario de operación registrado. Muchos campos VFR pequeños y helipuertos no publican ninguno, o solo a petición (O/R), en base propia (HO) o por NOTAM - consulta siempre el AIP y los NOTAM vigentes antes del vuelo.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

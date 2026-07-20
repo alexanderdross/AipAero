@@ -62,9 +62,12 @@ function runwayLines(ends: RunwayEnd[]): [number, number, number, number][] {
 export function AirportWind({
   metar,
   runways,
+  icao = null,
 }: {
   metar: Metar | null;
   runways: RunwayFact[];
+  /** This field's ICAO, for the section-anchor SEO title. */
+  icao?: string | null;
 }) {
   const t = useTranslations("Weather");
   // Owner directive: EVERY field with a weather station (a METAR) shows this
@@ -127,7 +130,12 @@ export function AirportWind({
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
-      <SectionHeading className="text-center text-xl font-normal">
+      <SectionHeading
+        className="text-center text-xl font-normal"
+        linkTitle={
+          icao ? `${t("windComponents")} - ${icao}` : t("windComponents")
+        }
+      >
         {t("windComponents")}
       </SectionHeading>
 

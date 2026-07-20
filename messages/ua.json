@@ -249,6 +249,8 @@
     "hoursNone": "Немає даних про години роботи. Багато малих VFR майданчиків і вертодромів їх не публікують, або лише на запит (O/R), для базового аеродрому (HO) чи через NOTAM - завжди перевіряйте чинний AIP і NOTAM перед польотом.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

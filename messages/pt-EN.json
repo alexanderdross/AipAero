@@ -268,6 +268,8 @@
     "hoursNone": "No operating hours on file. Many small VFR fields and heliports publish none, or only on request (O/R), home base (HO) or by NOTAM - always check the current AIP and NOTAMs before flight.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

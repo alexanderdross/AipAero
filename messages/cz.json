@@ -263,6 +263,8 @@
     "hoursNone": "Provozní doba není k dispozici. Mnoho malých VFR letišť a heliportů ji nezveřejňuje vůbec, nebo jen na vyžádání (O/R), na domovské základně (HO) či prostřednictvím NOTAM - před letem vždy zkontrolujte aktuální AIP a NOTAMy.",
     "hoursOfficial": "per AIP AD 2.3",
     "hoursCommunity": "community data",
+    "hoursOcr": "text recognition (OCR)",
+    "hoursOcrDisclaimer": "Operating hours read automatically from the AIP page image by text recognition - may contain read errors. Verify against the current AIP before flight.",
     "openUntil": "Open until",
     "filtersTab": "Filters",
     "hoursTab": "Open hours",

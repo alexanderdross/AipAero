@@ -340,9 +340,13 @@ class DE(PlaywrightCrawlerBase):
         fields have only chart pages (a map image), which OCR into noise and
         are dropped, so those fields yield nothing and stay on the AIP link.
 
-        The concatenated text lands in ``self.ad2_text_by_icao[icao]`` for
-        DISPLAY only - it is never parsed into hours / Platzrunde / any
-        structured field (owner safety directive).
+        The concatenated text lands in ``self.ad2_text_by_icao[icao]`` for the
+        DISPLAY AIP-text block. It is ALSO parsed (``de_hours.parse_de_hours``)
+        into structured operating hours in ``self.hours_by_icao[icao]`` - which
+        drive the same open/closed badge, map filter and JSON-LD as every eAIP
+        country, under a "machine-read via OCR, verify" disclaimer on the site
+        (owner directive 20.07.2026). Only the AD 2.3 aerodrome-operator row is
+        parsed; an unreadable OCR simply yields no hours (fail-soft).
 
         VERY heavy (one browser navigation per field), so it is gated by the
         ``DE_OCR`` env flag (never the daily list crawl) and can be narrowed to
@@ -351,6 +355,7 @@ class DE(PlaywrightCrawlerBase):
         per-field failure is logged and skipped; a missing browser stops the
         pass cleanly (the list crawl already published).
         """
+        from crawlers.de_hours import parse_de_hours
         from crawlers.de_ocr import biggest_png, is_text_page, ocr_image
 
         # This runs AFTER crawl(), whose `finally` closed the httpx client -
@@ -367,6 +372,7 @@ class DE(PlaywrightCrawlerBase):
         self.logger.info(f"DE OCR: scanning {len(fields)} ICAO field(s)")
 
         kept = 0
+        hrs = 0
         for ap in fields:
             icao = ap.icao
             assert icao is not None  # filtered above
@@ -400,10 +406,23 @@ class DE(PlaywrightCrawlerBase):
                 if is_text_page(text):
                     texts.append(text)
             if texts:
-                self.ad2_text_by_icao[icao] = "\n\n".join(texts)
+                blob = "\n\n".join(texts)
+                self.ad2_text_by_icao[icao] = blob
                 kept += 1
-                self.logger.info(f"DE OCR: {icao} kept {len(texts)} text page(s)")
-        self.logger.info(f"DE OCR: kept text for {kept}/{len(fields)} field(s)")
+                # Parse the AD 2.3 operator hours out of the OCR text for the
+                # structured badge / map / JSON-LD (fail-soft: None -> no hours).
+                hours = parse_de_hours(blob)
+                if hours is not None:
+                    self.hours_by_icao[icao] = hours
+                    hrs += 1
+                self.logger.info(
+                    f"DE OCR: {icao} kept {len(texts)} text page(s)"
+                    f"{' + hours' if hours is not None else ''}"
+                )
+        self.logger.info(
+            f"DE OCR: kept text for {kept}/{len(fields)} field(s), "
+            f"hours for {hrs}"
+        )
         # Tear down the browser re-launched by render_html (the list crawl
         # already closed the client in crawl(); fetch reopens it lazily).
         self.close()

@@ -13,7 +13,11 @@ const airportHoursSchema = z
   .object({
     icao: z.string().regex(/^[A-Z]{4}$/),
     hoursStructured: z.string().nullable().optional(), // JSON StructuredHours
-    hoursSource: z.enum(["eaip", "openaip", "osm"]).optional(),
+    // "dfs-ocr-hours" = DE hours parsed from the DFS AD-2 OCR text (owner
+    // directive 20.07.2026): structured like every eAIP country, shown under a
+    // "machine-read via OCR, verify" disclaimer. Distinct from ad2OcrSource
+    // ("dfs-ocr" = the raw display text) so provenance stays separable.
+    hoursSource: z.enum(["eaip", "openaip", "osm", "dfs-ocr-hours"]).optional(),
     declaredDistances: z.string().nullable().optional(), // JSON DeclaredDistances
     declaredSource: z.enum(["eaip"]).optional(),
     // DE-only raw OCR text of the DFS AD-2 page images (display-only, see the
