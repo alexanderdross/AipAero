@@ -315,7 +315,7 @@ export function AirportWind({
           )}
         </svg>
 
-        <div className="w-full max-w-xs">
+        <div className="w-full max-w-xs sm:max-w-lg">
           {!hasVector ? (
             isCalm ? (
               <p className="text-drossgray-dark text-sm">{t("calm")}</p>
@@ -351,7 +351,7 @@ export function AirportWind({
                         className={isRec ? "font-semibold" : undefined}
                       >
                         <td className="py-1 pr-3 font-mono">{w.ident}</td>
-                        <td className="py-1 pr-3">
+                        <td className="py-1 pr-3 sm:whitespace-nowrap">
                           <span
                             className={
                               w.headwind >= 0
@@ -365,7 +365,7 @@ export function AirportWind({
                             kt
                           </span>
                         </td>
-                        <td className="py-1 text-amber-700">
+                        <td className="py-1 text-amber-700 sm:whitespace-nowrap">
                           {w.crosswind > 0 ? (
                             <>
                               {t("crosswind")} {w.crosswind} kt{" "}

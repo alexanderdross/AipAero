@@ -478,7 +478,7 @@
       },
       "runwaydistances": {
         "name": "Baanafstanden (fysieke lengte vs TORA, TODA, ASDA, LDA)",
-        "def": "De baanlengte die AIP:Aero toont is de FYSIEKE baanafmeting - de volledige lengte van de baan. Het is niet de gepubliceerde afstand die een piloot voor prestaties gebruikt, die de AIP per baanrichting in AD 2.13 publiceert: TORA (beschikbare startloopafstand), TODA (beschikbare startafstand = TORA plus eventuele clearway), ASDA (beschikbare versnel-stopafstand = TORA plus eventuele stopway) en LDA (beschikbare landingsafstand, gemeten vanaf de drempel - bij een verplaatste drempel kan die korter zijn dan de fysieke lengte). Baseer start- en landingsprestaties altijd op de gepubliceerde afstanden uit de actuele AIP, nooit op de fysieke lengte."
+        "def": "De baanlengte die AIP:Aero toont is de FYSIEKE baanafmeting, niet de gepubliceerde afstanden die een piloot voor prestaties gebruikt (de AIP publiceert deze per baanrichting in AD 2.13):<ul><li><b>Fysieke lengte</b> - de volledige lengte van de baan; niet gebruiken voor start- of landingsprestaties.</li><li><b>TORA</b> (Take-Off Run Available) - beschikbare startloopafstand.</li><li><b>TODA</b> (Take-Off Distance Available) - TORA plus eventuele clearway.</li><li><b>ASDA</b> (Accelerate-Stop Distance Available) - TORA plus eventuele stopway.</li><li><b>LDA</b> (Landing Distance Available) - gemeten vanaf de drempel; kan korter zijn dan de fysieke lengte bij een verplaatste drempel.</li></ul>Baseer start- en landingsprestaties altijd op de gepubliceerde afstanden uit de actuele AIP, nooit op de fysieke lengte."
       }
     }
   },

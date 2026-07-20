@@ -478,7 +478,7 @@
       },
       "runwaydistances": {
         "name": "Pistendistanzen (physische Länge vs TORA, TODA, ASDA, LDA)",
-        "def": "Die von AIP:Aero angezeigte Pistenlänge ist die PHYSISCHE Pistenabmessung - die volle Länge der Piste. Sie ist nicht die deklarierte Distanz, die ein Pilot für die Flugleistung verwendet und die die AIP je Pistenrichtung in AD 2.13 veröffentlicht: TORA (verfügbare Startrollstrecke), TODA (verfügbare Startstrecke = TORA plus etwaige Freifläche), ASDA (verfügbare Startabbruchstrecke = TORA plus etwaiger Stoppweg) und LDA (verfügbare Landestrecke, gemessen ab der Schwelle - bei versetzter Schwelle kann sie kürzer als die physische Länge sein). Stützen Sie Start- und Landeleistung immer auf die deklarierten Distanzen der aktuellen AIP, niemals auf die physische Länge."
+        "def": "Die von AIP:Aero angezeigte Pistenlänge ist die PHYSISCHE Pistenabmessung, nicht die deklarierten Distanzen, die ein Pilot für die Flugleistung verwendet (die AIP veröffentlicht sie je Pistenrichtung in AD 2.13):<ul><li><b>Physische Länge</b> - die volle Länge der Piste; nicht für die Start- oder Landeleistung verwenden.</li><li><b>TORA</b> (Take-Off Run Available) - verfügbare Startrollstrecke.</li><li><b>TODA</b> (Take-Off Distance Available) - TORA plus etwaige Freifläche.</li><li><b>ASDA</b> (Accelerate-Stop Distance Available) - TORA plus etwaiger Stoppweg.</li><li><b>LDA</b> (Landing Distance Available) - gemessen ab der Schwelle; bei versetzter Schwelle kann sie kürzer als die physische Länge sein.</li></ul>Stützen Sie Start- und Landeleistung immer auf die deklarierten Distanzen der aktuellen AIP, niemals auf die physische Länge."
       }
     }
   },

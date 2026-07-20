@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { SectionHeading } from "~/components/section-heading";
 import { compassPoint } from "~/lib/crosswind";
-import { buildRunwayStrips } from "~/lib/runway-diagram";
+import { buildRunwayStrips, runwayLengthLabel } from "~/lib/runway-diagram";
 import type { RunwayFact } from "~/server/db/schema";
 
 const C = 120; // centre
@@ -28,6 +28,14 @@ export async function AirportRunwayDiagram({
   const t = await getTranslations("Weather");
   const strips = buildRunwayStrips(runways);
   if (strips.length === 0) return null;
+
+  // Circuit (traffic-pattern) direction, when OpenAIP gave an unambiguous value
+  // - "(Platzrunde links)". Same keys as the Aerodrome-facts runways line.
+  const circuit = (p: "left" | "right" | null | undefined): string | null => {
+    if (p === "left") return `${t("circuit")} ${t("circuitLeft")}`;
+    if (p === "right") return `${t("circuit")} ${t("circuitRight")}`;
+    return null;
+  };
 
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
@@ -117,7 +125,11 @@ export async function AirportRunwayDiagram({
               />
               <span className="font-mono">{s.ident}</span>
               <span className="text-drossgray-dark">
-                {[s.lengthFt ? `${s.lengthFt} ft` : null, s.surface]
+                {[
+                  runwayLengthLabel(s.lengthFt),
+                  s.surface,
+                  circuit(s.trafficPattern),
+                ]
                   .filter(Boolean)
                   .join(" · ")}
               </span>
