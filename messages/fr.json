@@ -471,6 +471,10 @@
       "charts": {
         "name": "Cartes d'approche et d'aérodrome (VAC, IAC, ADC)",
         "def": "Les schémas officiels que les pilotes utilisent pour arriver à un aérodrome et s'y déplacer : la carte d'approche à vue (VAC) pour le VFR, la carte d'approche aux instruments (IAC) pour l'IFR, et la carte d'aérodrome (ADC) pour l'implantation au sol. AIP:Aero relie le PDF exact de la carte partout où l'AIP national en publie un."
+      },
+      "operatinghours": {
+        "name": "Horaires d'exploitation (UTC)",
+        "def": "Les horaires d'exploitation d'un aérodrome dans l'AIP (AD 2.3) sont donnés en UTC (heure Zulu). Lorsque l'heure d'été les modifie, l'AIP l'indique par une note entre parenthèses - par exemple '0730-1600 (0630-1500)', les valeurs entre parenthèses s'appliquant en période estivale - ou une mention telle que '-1 HR during summer time'. La valeur de base reste en UTC. AIP:Aero affiche la saison en vigueur, toujours en UTC."
       }
     }
   },

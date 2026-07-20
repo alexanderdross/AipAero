@@ -8,21 +8,18 @@
 // `crawlers/crawlers/operating_hours.py` (shared test vectors) for the eAIP
 // AD 2.3 crawler path.
 //
-// Times are stored as MINUTES AFTER MIDNIGHT (0..1439). AIP AD 2.3 hours are
+// Times are stored as MINUTES AFTER UTC MIDNIGHT (0..1439). AIP AD 2.3 hours are
 // published in UTC (ICAO Annex 15; aviation "Zulu"), and pilots plan in UTC, so
-// the DEFAULT model is UTC - `openStatus`/`isOpenUntil` compute the day-of-week
-// and minute-of-day in UTC, and the UI labels those times with `Z` / "UTC".
-// Sources whose hours are LOCAL (e.g. OpenStreetMap) must convert to UTC before
-// building a `{ t: "time" }` boundary (see `osm-hours.ts`).
+// the whole model is UTC - `openStatus`/`isOpenUntil` compute the day-of-week and
+// minute-of-day in UTC, and the UI labels those times with `Z` / "UTC". Sources
+// whose hours are LOCAL (e.g. OpenStreetMap) must convert to UTC before building
+// a `{ t: "time" }` boundary (see `osm-hours.ts`).
 //
-// EXCEPTION - verified local-time overrides (`hours-overrides.ts`): some AIP AD
-// 2.3 entries publish a seasonal UTC pair `0500 (0400)`, which is a CONSTANT
-// LOCAL clock time (the field opens at 06:00 local in both winter and summer).
-// Storing one UTC number drifts ~1 h in the opposite season. For those, the
-// boundary minutes are stored in the field's LOCAL wall clock and `openStatus`/
-// `isOpenUntil` take an optional IANA `tz`: the day-of-week + minute-of-day are
-// then evaluated IN THAT ZONE (DST-correct via `Intl.DateTimeFormat`), and the
-// UI labels the times `LT`. No `tz` = the UTC path, byte-for-byte as before.
+// Daylight saving: an AIP AD 2.3 window that shifts with summer time (`0500
+// (0400)`) is a UTC pair, not a local time. Where a verified override needs both
+// seasons, it stores the winter and summer UTC windows separately and picks the
+// active one via `isDstActive()` (below) - the result is still plain UTC minutes,
+// so nothing here evaluates in a local wall clock. See `hours-overrides.ts`.
 
 import { getSunTimes } from "~/lib/sun-times";
 
@@ -48,11 +45,9 @@ export type StructuredHours = DayHours[];
 
 export interface ResolvedStatus {
   state: "open" | "closed" | "unknown";
-  // When open: the in-frame minute-of-day the field closes (undefined for h24).
-  // "In-frame" = UTC minutes by default, or the `tz` zone's wall-clock minutes
-  // when a tz was passed (the UI labels the frame `Z` vs `LT` accordingly).
+  // When open: the UTC minute-of-day the field closes (undefined for h24).
   closesAt?: number;
-  // When closed but opening later the same day (same frame): the opening minute.
+  // When closed but opening later the same UTC day: the UTC opening minute.
   opensAt?: number;
 }
 
@@ -197,87 +192,60 @@ function utcMinuteOfDay(d: Date): number {
   return d.getUTCHours() * 60 + d.getUTCMinutes();
 }
 
-// -------- Local-time (tz-aware) resolution -----------------------------------
-//
-// For verified LOCAL-time overrides only (see the file header). `Intl` is the
-// only DST-correct, Workers-safe way to evaluate an instant in an IANA zone.
-
-const WEEKDAY_INDEX: Record<string, number> = {
-  Mon: 0,
-  Tue: 1,
-  Wed: 2,
-  Thu: 3,
-  Fri: 4,
-  Sat: 5,
-  Sun: 6,
-};
-
-// Extract hour+minute (h23) parts of an instant in a given IANA zone.
-function zoneHourMinute(when: Date, tz: string): { hour: number; min: number } {
-  let hour = 0;
-  let min = 0;
+// The UTC offset (minutes) an IANA zone is at for a given instant.
+function zoneOffsetMinutes(tz: string, when: Date): number {
+  // `en-US` + `longOffset` yields "GMT+02:00" (or "GMT" at +00:00). Parse it.
   for (const p of new Intl.DateTimeFormat("en-US", {
     timeZone: tz,
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
+    timeZoneName: "longOffset",
   }).formatToParts(when)) {
-    if (p.type === "hour")
-      hour = Number(p.value) % 24; // h23 midnight -> 0
-    else if (p.type === "minute") min = Number(p.value);
+    if (p.type !== "timeZoneName") continue;
+    const m = /GMT([+-])(\d{2}):(\d{2})/.exec(p.value);
+    if (!m) return 0; // bare "GMT" -> +00:00
+    const sign = m[1] === "-" ? -1 : 1;
+    return sign * (Number(m[2]) * 60 + Number(m[3]));
   }
-  return { hour, min };
+  return 0;
 }
 
-// Day-of-week (0 = Mon) and minute-of-day for an instant, evaluated in `tz`.
-function zoneParts(when: Date, tz: string): { dow: number; minute: number } {
-  let wd = "";
-  for (const p of new Intl.DateTimeFormat("en-US", {
-    timeZone: tz,
-    weekday: "short",
-  }).formatToParts(when)) {
-    if (p.type === "weekday") wd = p.value;
-  }
-  const { hour, min } = zoneHourMinute(when, tz);
-  return { dow: WEEKDAY_INDEX[wd] ?? 0, minute: hour * 60 + min };
+/**
+ * Is daylight saving in effect in `tz` at `when`? True when the zone's UTC
+ * offset at `when` exceeds its standard (January-1) offset. Used ONLY to pick a
+ * verified override's summer vs winter UTC window (`hours-overrides.ts`); it
+ * never changes how times are displayed - the selected window is still UTC.
+ * (Northern hemisphere: January is standard time. Zones with no DST return
+ * false, so the winter/base window always applies - the correct default.)
+ */
+export function isDstActive(tz: string, when: Date = new Date()): boolean {
+  const jan = new Date(Date.UTC(when.getUTCFullYear(), 0, 1));
+  return zoneOffsetMinutes(tz, when) > zoneOffsetMinutes(tz, jan);
 }
 
-// A UTC instant (e.g. a sunrise/sunset Date) -> its minute-of-day in `tz`.
-function zoneMinuteOfDay(d: Date, tz: string): number {
-  const { hour, min } = zoneHourMinute(d, tz);
-  return hour * 60 + min;
-}
-
-// Resolve one boundary to a concrete minute-of-day in the evaluation frame
-// (UTC when `tz` is undefined, else the zone's wall clock), or null when a
-// solar event does not occur (polar day/night) and we cannot know it. Stored
-// `{ t: "time" }` minutes are already in the frame, so they pass through.
+// Resolve one boundary to a concrete UTC minute-of-day, or null when a solar
+// event does not occur (polar day/night) and we cannot know it.
 function resolveBoundary(
   b: Boundary,
   coords: { lat: number; lon: number } | null,
   when: Date,
-  tz?: string,
 ): number | null {
   if (b.t === "time") return b.m;
   if (!coords) return null;
   const sun = getSunTimes(when, coords.lat, coords.lon);
   const evt = b.t === "sr" ? sun.sunrise : sun.sunset;
-  if (!evt) return null;
-  return tz ? zoneMinuteOfDay(evt, tz) : utcMinuteOfDay(evt);
+  return evt ? utcMinuteOfDay(evt) : null;
 }
 
-// Resolve a day's window to [open, close] frame-minutes, or null when it cannot
+// Resolve a day's window to [open, close] UTC minutes, or null when it cannot
 // be resolved to a concrete, forward-going window.
 function resolveWindow(
   dh: DayHours,
   coords: { lat: number; lon: number } | null,
   when: Date,
-  tz?: string,
 ): { open: number; close: number } | null {
   if (dh.kind === "h24") return { open: 0, close: 1440 };
   if (dh.kind !== "window") return null;
-  const open = resolveBoundary(dh.open, coords, when, tz);
-  const close = resolveBoundary(dh.close, coords, when, tz);
+  const open = resolveBoundary(dh.open, coords, when);
+  const close = resolveBoundary(dh.close, coords, when);
   if (open == null || close == null) return null;
   if (close <= open) return null; // wrap/degenerate window - treat as unknown
   return { open, close };
@@ -285,25 +253,22 @@ function resolveWindow(
 
 /**
  * The field's operation state at `when` (default now), from its structured
- * hours. Evaluated in UTC by default; pass an IANA `tz` (verified local-time
- * overrides only) to evaluate the day-of-week + minute-of-day in that zone,
- * DST-correct. `unknown`/`notam` days and unresolvable windows yield
- * `state:"unknown"` so the UI shows no misleading "open"/"closed" claim.
- * `closesAt`/`opensAt` are in-frame minutes-of-day (UTC, or the `tz` zone).
+ * hours. Times are UTC (see the note above). `unknown`/`notam` days and
+ * unresolvable windows yield `state:"unknown"` so the UI shows no misleading
+ * "open"/"closed" claim. `closesAt`/`opensAt` are UTC minutes-of-day.
  */
 export function openStatus(
   hours: StructuredHours | null | undefined,
   coords: { lat: number; lon: number } | null,
   when: Date = new Date(),
-  tz?: string,
 ): ResolvedStatus {
   if (!hours || hours.length !== 7) return { state: "unknown" };
-  const { dow, minute } = tz ? zoneParts(when, tz) : utcParts(when);
+  const { dow, minute } = utcParts(when);
   const dh = hours[dow];
   if (!dh || dh.kind === "unknown" || dh.kind === "notam")
     return { state: "unknown" };
   if (dh.kind === "closed") return { state: "closed" };
-  const win = resolveWindow(dh, coords, when, tz);
+  const win = resolveWindow(dh, coords, when);
   if (!win) return { state: "unknown" };
   if (minute >= win.open && minute < win.close)
     return {
@@ -315,26 +280,24 @@ export function openStatus(
 }
 
 /**
- * Is the field still open UNTIL `targetMinutes` (in-frame minutes-of-day) on
- * the frame day of `when`? i.e. it opens at or before the target and does not
- * close before it (inclusive close: a field closing exactly at 19:00 counts as
- * "open until 19:00"). Backs the map "open until [time]" filter. Conservative: a
- * day that is `unknown`/`notam`/`closed`, or whose window cannot be resolved, is
- * NEVER counted as open. When `tz` is set the day + window are the zone's; the
- * caller's `targetMinutes` is then treated as that zone's wall clock.
+ * Is the field still open UNTIL `targetMinutes` (UTC minutes-of-day) on the UTC
+ * day of `when`? i.e. it opens at or before the target and does not close before
+ * it (inclusive close: a field closing exactly at 19:00 counts as "open until
+ * 19:00"). Backs the map "open until [time]" filter. Conservative: a day that is
+ * `unknown`/`notam`/`closed`, or whose window cannot be resolved, is NEVER
+ * counted as open.
  */
 export function isOpenUntil(
   hours: StructuredHours | null | undefined,
   coords: { lat: number; lon: number } | null,
   targetMinutes: number,
   when: Date = new Date(),
-  tz?: string,
 ): boolean {
   if (!hours || hours.length !== 7) return false;
-  const { dow } = tz ? zoneParts(when, tz) : utcParts(when);
+  const { dow } = utcParts(when);
   const dh = hours[dow];
   if (!dh || (dh.kind !== "window" && dh.kind !== "h24")) return false;
-  const win = resolveWindow(dh, coords, when, tz);
+  const win = resolveWindow(dh, coords, when);
   if (!win) return false;
   return targetMinutes >= win.open && targetMinutes <= win.close;
 }

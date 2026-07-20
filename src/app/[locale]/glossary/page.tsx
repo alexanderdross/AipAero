@@ -38,6 +38,7 @@ const TERMS = [
   "taf",
   "icao",
   "charts",
+  "operatinghours",
 ] as const;
 
 export async function generateMetadata(

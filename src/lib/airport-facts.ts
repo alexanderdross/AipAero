@@ -3,7 +3,7 @@ import "server-only";
 import { after } from "next/server";
 import { getAwcAirport } from "~/lib/awc-airport";
 import { customsOverride } from "~/lib/customs-overrides";
-import { hoursOverride } from "~/lib/hours-overrides";
+import { resolveOverrideHours } from "~/lib/hours-overrides";
 import { getOpenAipFacts } from "~/lib/openaip";
 import type { StructuredHours } from "~/lib/opening-hours";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
@@ -40,10 +40,6 @@ export interface NormalizedFacts {
   // when the source carries no machine-readable hours (only free text/remarks).
   hoursStructured: StructuredHours | null;
   hoursSource: string | null; // "eaip" (authoritative) | "openaip" | "osm" (community)
-  // IANA zone the structured hours are expressed in - only set for verified
-  // LOCAL-time overrides (hours-overrides.ts); null = the hours are UTC (the
-  // default for every automatic source). Drives the LT/Z time labels.
-  hoursTz: string | null;
   restaurant: boolean | null; // on-field restaurant
   customs: boolean | null; // customs / airport of entry
   aerodromeType: number | null; // OpenAIP airport `type` enum (label resolved in UI)
@@ -113,7 +109,6 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     openingHours: row.openingHours ?? null,
     hoursStructured: parseStructuredJson(row.hoursStructured),
     hoursSource: row.hoursSource ?? null,
-    hoursTz: null, // persisted hours are UTC; tz is only for code overrides
     restaurant: row.restaurant ?? null,
     customs: row.customs ?? null,
     aerodromeType: row.aerodromeType ?? null,
@@ -194,7 +189,8 @@ export async function getAirportFacts(
 ): Promise<NormalizedFacts | null> {
   if (!icao || !/^[A-Z]{4}$/.test(icao.toUpperCase())) return null;
   const code = icao.toUpperCase();
-  const hoursOv = hoursOverride(code);
+  // Verified override, resolved to the UTC window for the season active now.
+  const hoursOv = resolveOverrideHours(code);
 
   // Fail-soft to the live sources: this must not throw if the D1 row read
   // fails (e.g. migration 0004 not yet applied when the code deploys, or a
@@ -235,21 +231,16 @@ export async function getAirportFacts(
     openingHours: base?.openingHours ?? openaip?.openingHours ?? null,
     // Verified hours override first (compliance-grade, in code - see
     // hours-overrides.ts; source "eaip" so it shows as authoritative and drops
-    // the OCR disclaimer). Otherwise the D1 row wins (it carries the crawler's
-    // eAIP / OCR hours), then the live OpenAIP fetch fills an ICAO with none.
+    // the OCR disclaimer). Already resolved to the active season's UTC window.
+    // Otherwise the D1 row wins (it carries the crawler's eAIP / OCR hours),
+    // then the live OpenAIP fetch fills an ICAO with none.
     hoursStructured:
-      hoursOv?.hours ??
-      base?.hoursStructured ??
-      openaip?.hoursStructured ??
-      null,
+      hoursOv ?? base?.hoursStructured ?? openaip?.hoursStructured ?? null,
     hoursSource: hoursOv
       ? "eaip"
       : base?.hoursStructured
         ? (base.hoursSource ?? null)
         : (openaip?.hoursSource ?? null),
-    // Verified overrides carry their IANA zone (local-time evaluation); every
-    // automatic source is UTC, so tz stays null and the UI labels those `Z`.
-    hoursTz: hoursOv?.tz ?? null,
     restaurant: base?.restaurant ?? openaip?.restaurant ?? null,
     // Verified GEN-1.2 override first (compliance-grade, in code - see
     // customs-overrides.ts), then the persisted/community sources.
@@ -283,9 +274,10 @@ export async function getAirportFacts(
   const alreadyPersisted = base?.source?.includes("openaip") ?? false;
   if (openaip && !alreadyPersisted) {
     const row = toRow(code, merged);
-    // Never persist a verified override's hours into D1: they are LOCAL-frame
-    // minutes that the automatic (UTC) read path would misread if the override
-    // were later removed. Keep the row's hours as the automatic source's.
+    // Never persist a verified override's hours into D1: they are a season-
+    // specific snapshot (winter OR summer), so a later read in the other season
+    // would serve the wrong window if the override were removed. Keep the row's
+    // hours as the automatic source's.
     if (hoursOv) {
       const persistHours = base?.hoursStructured ?? openaip?.hoursStructured;
       row.hoursStructured = persistHours ? JSON.stringify(persistHours) : null;

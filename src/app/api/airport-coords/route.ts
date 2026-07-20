@@ -1,5 +1,5 @@
 import { customsOverride } from "~/lib/customs-overrides";
-import { hoursOverride } from "~/lib/hours-overrides";
+import { resolveOverrideHours } from "~/lib/hours-overrides";
 import { NextResponse } from "next/server";
 import { getPathname } from "~/i18n/routing";
 import { i18nPathMapping } from "~/lib/utils";
@@ -68,16 +68,15 @@ function hasFuel(fuelJson: string | null | undefined): boolean {
 
 // Structured hours (JSON string) for a marker: the verified override wins over
 // the stored D1 value, else the stored value passes through; `{}` when neither.
-// An override also carries its IANA `hoursTz` (local-time evaluation) so the
-// map's "open now" filter matches the detail page's LT badge.
+// The override is resolved to the active season's UTC window, so the map's "open
+// now" filter matches the detail page's UTC badge.
 function hoursMarker(
   icao: string | null | undefined,
   stored: string | null | undefined,
-): { hours: string; hoursTz?: string } | Record<string, never> {
-  const ov = hoursOverride(icao);
-  const hours = ov ? JSON.stringify(ov.hours) : stored;
-  if (!hours) return {};
-  return ov?.tz ? { hours, hoursTz: ov.tz } : { hours };
+): { hours: string } | Record<string, never> {
+  const ov = resolveOverrideHours(icao);
+  const hours = ov ? JSON.stringify(ov) : stored;
+  return hours ? { hours } : {};
 }
 
 async function handleCoords(request: Request): Promise<NextResponse> {

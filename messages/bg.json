@@ -441,6 +441,10 @@
       "charts": {
         "name": "Карти за подход и летищни карти (VAC, IAC, ADC)",
         "def": "Официалните схеми, които пилотите използват, за да пристигнат и да се придвижват в рамките на едно летище: картата за визуален подход (VAC) за VFR, картата за приборен подход (IAC) за IFR и летищната карта (ADC) за наземното разположение. AIP:Aero свързва точния PDF на картата навсякъде, където националният AIP публикува такъв."
+      },
+      "operatinghours": {
+        "name": "Operating hours (UTC)",
+        "def": "Aerodrome operating hours in the AIP (AD 2.3) are given in UTC (Zulu time). When daylight saving affects them, the AIP marks it with a bracketed footnote - for example '0730-1600 (0630-1500)', where the bracketed values apply during the summer period - or a note such as '-1 HR during summer time'. The base value stays UTC. AIP:Aero shows the season currently in effect, always in UTC."
       }
     }
   },

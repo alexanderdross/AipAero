@@ -441,6 +441,10 @@
       "charts": {
         "name": "Carte di avvicinamento e di aeroporto (VAC, IAC, ADC)",
         "def": "I diagrammi ufficiali che i piloti usano per arrivare a un aeroporto e muoversi al suo interno: la carta di avvicinamento a vista (VAC) per il VFR, la carta di avvicinamento strumentale (IAC) per l'IFR, e la carta di aeroporto (ADC) per la disposizione a terra. AIP:Aero collega il PDF esatto della carta ovunque l'AIP nazionale ne pubblichi uno."
+      },
+      "operatinghours": {
+        "name": "Operating hours (UTC)",
+        "def": "Aerodrome operating hours in the AIP (AD 2.3) are given in UTC (Zulu time). When daylight saving affects them, the AIP marks it with a bracketed footnote - for example '0730-1600 (0630-1500)', where the bracketed values apply during the summer period - or a note such as '-1 HR during summer time'. The base value stays UTC. AIP:Aero shows the season currently in effect, always in UTC."
       }
     }
   },

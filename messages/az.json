@@ -441,6 +441,10 @@
       "charts": {
         "name": "Enmə və aerodrom xəritələri (VAC, IAC, ADC)",
         "def": "Pilotların aerodroma gəlmək və onun ərazisində hərəkət etmək üçün istifadə etdikləri rəsmi sxemlər: VFR üçün Vizual Enmə Xəritəsi (VAC), IFR üçün Alət Enmə Xəritəsi (IAC) və yerüstü yerləşim üçün Aerodrom Xəritəsi (ADC). AIP:Aero milli AIP-nin nəşr etdiyi hər yerdə dəqiq xəritə PDF-nə bağlayır."
+      },
+      "operatinghours": {
+        "name": "Operating hours (UTC)",
+        "def": "Aerodrome operating hours in the AIP (AD 2.3) are given in UTC (Zulu time). When daylight saving affects them, the AIP marks it with a bracketed footnote - for example '0730-1600 (0630-1500)', where the bracketed values apply during the summer period - or a note such as '-1 HR during summer time'. The base value stays UTC. AIP:Aero shows the season currently in effect, always in UTC."
       }
     }
   },

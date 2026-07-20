@@ -471,6 +471,10 @@
       "charts": {
         "name": "Naderings- en luchthavenkaarten (VAC, IAC, ADC)",
         "def": "De officiële diagrammen die piloten gebruiken om op een vliegveld aan te komen en zich er te verplaatsen: de visuele naderingskaart (VAC) voor VFR, de instrumentnaderingskaart (IAC) voor IFR, en de luchthavenkaart (ADC) voor de indeling op de grond. AIP:Aero koppelt de exacte kaart-PDF overal waar de nationale AIP er een publiceert."
+      },
+      "operatinghours": {
+        "name": "Openingstijden (UTC)",
+        "def": "De openingstijden van een luchthaven in de AIP (AD 2.3) worden in UTC (Zulu-tijd) gegeven. Als de zomertijd ze beïnvloedt, geeft de AIP dat aan met een voetnoot tussen haakjes - bijvoorbeeld '0730-1600 (0630-1500)', waarbij de waarden tussen haakjes gelden in de zomerperiode - of een opmerking als '-1 HR during summer time'. De basiswaarde blijft UTC. AIP:Aero toont het seizoen dat nu geldt, altijd in UTC."
       }
     }
   },

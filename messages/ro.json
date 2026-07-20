@@ -441,6 +441,10 @@
       "charts": {
         "name": "Hărți de apropiere și de aerodrom (VAC, IAC, ADC)",
         "def": "Diagramele oficiale pe care piloții le folosesc pentru a ajunge la un aerodrom și a se deplasa în cadrul lui: Harta de Apropiere Vizuală (VAC) pentru VFR, Harta de Apropiere Instrumentală (IAC) pentru IFR și Harta de Aerodrom (ADC) pentru dispunerea la sol. AIP:Aero leagă exact PDF-ul hărții oriunde AIP-ul național publică unul."
+      },
+      "operatinghours": {
+        "name": "Operating hours (UTC)",
+        "def": "Aerodrome operating hours in the AIP (AD 2.3) are given in UTC (Zulu time). When daylight saving affects them, the AIP marks it with a bracketed footnote - for example '0730-1600 (0630-1500)', where the bracketed values apply during the summer period - or a note such as '-1 HR during summer time'. The base value stays UTC. AIP:Aero shows the season currently in effect, always in UTC."
       }
     }
   },

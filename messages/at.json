@@ -471,6 +471,10 @@
       "charts": {
         "name": "Anflug- und Flugplatzkarten (VAC, IAC, ADC)",
         "def": "Die offiziellen Karten, mit denen Piloten einen Flugplatz anfliegen und sich dort bewegen: die Sichtanflugkarte (VAC) für VFR, die Instrumentenanflugkarte (IAC) für IFR und die Flugplatzkarte (ADC) für das Rollfeld. AIP:Aero verlinkt genau die Karten-PDF, wo das nationale AIP eine veröffentlicht."
+      },
+      "operatinghours": {
+        "name": "Betriebszeiten (UTC)",
+        "def": "Die Betriebszeiten eines Flugplatzes in der AIP (AD 2.3) sind in UTC (Zulu-Zeit) angegeben. Wenn die Sommerzeit sie betrifft, kennzeichnet die AIP das mit einer Klammer-Fußnote - zum Beispiel '0730-1600 (0630-1500)', wobei die Klammerwerte für den Sommerzeitraum gelten - oder einem Hinweis wie '-1 HR during summer time'. Die Grundangabe bleibt UTC. AIP:Aero zeigt die aktuell gültige Jahreszeit, immer in UTC."
       }
     }
   },

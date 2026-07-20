@@ -455,6 +455,10 @@
       "charts": {
         "name": "Přibližovací a letištní mapy (VAC, IAC, ADC)",
         "def": "Oficiální schémata, která piloti používají k příletu na letiště a pohybu po něm: vizuální přibližovací mapa (VAC) pro VFR, přístrojová přibližovací mapa (IAC) pro IFR a letištní mapa (ADC) pro pozemní uspořádání. AIP:Aero odkazuje přesné PDF mapy všude tam, kde je národní AIP vydává."
+      },
+      "operatinghours": {
+        "name": "Operating hours (UTC)",
+        "def": "Aerodrome operating hours in the AIP (AD 2.3) are given in UTC (Zulu time). When daylight saving affects them, the AIP marks it with a bracketed footnote - for example '0730-1600 (0630-1500)', where the bracketed values apply during the summer period - or a note such as '-1 HR during summer time'. The base value stays UTC. AIP:Aero shows the season currently in effect, always in UTC."
       }
     }
   },

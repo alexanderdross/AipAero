@@ -1,4 +1,5 @@
 import type { DayHours, StructuredHours } from "~/lib/opening-hours";
+import { isDstActive } from "~/lib/opening-hours";
 
 /**
  * Verified operating-hours overrides, beyond the automatic OCR / eAIP / OpenAIP
@@ -13,25 +14,26 @@ import type { DayHours, StructuredHours } from "~/lib/opening-hours";
  * contract as `customs-overrides.ts`. A wrong operating-hours claim is a safety
  * hazard, so ONLY add entries verified against the field's AIP AD 2.3.
  *
- * Times are the field's **LOCAL wall clock** (minutes after local midnight),
- * paired with the field's IANA `tz`. Rationale: the AIP prints a winter/summer
- * pair "0500 (0400)", which is one CONSTANT local time (06:00 here) shifted by
- * DST - so storing the local number + evaluating in `tz` is season-correct all
- * year, where a single stored UTC value drifts ~1 h in the opposite season (the
- * unsafe direction - it can over-state the close). The UI labels these `LT`.
- * Solar limits are stored as the `sr`/`ss` boundary, which resolves to the
- * field's real sunrise/sunset in that same zone (so that half tracks the season
- * exactly too).
+ * Times are **UTC** (the AIP AD 2.3 convention; the whole site shows UTC/Zulu).
+ * Daylight saving: an AD 2.3 window that shifts with summer time is published as
+ * a UTC pair "0500 (0400)" (bracket = summer). Where that applies, an entry
+ * stores the `winter` (base) AND `summer` UTC windows; `resolveOverrideHours`
+ * picks the season active at read time (`isDstActive` on the field's `tz`) and
+ * returns plain UTC `StructuredHours`. The `tz` is used ONLY for that seasonal
+ * pick - never to display a local wall clock. A field with no summer variation
+ * omits `summer` (the winter window always applies). Solar limits stay the
+ * `sr`/`ss` boundary, which resolves to the field's real sunrise/sunset UTC.
  *
- * Key: ICAO (uppercase). Value: `{ hours, tz }` where `hours` is a 7-element
- * `StructuredHours` (index 0 = Monday .. 6 = Sunday) in local minutes and `tz`
- * is the IANA zone those minutes are in. Absent = no override, the merged
- * OCR/eAIP/OpenAIP value applies.
+ * Key: ICAO (uppercase). Absent = no override, the merged OCR/eAIP/OpenAIP value
+ * applies.
  */
 
 export interface HoursOverride {
-  hours: StructuredHours;
-  /** IANA zone the stored clock minutes are expressed in (e.g. "Europe/Berlin"). */
+  /** Winter / standard-time UTC windows (the AIP base value). */
+  winter: StructuredHours;
+  /** Summer-time UTC windows, when the AIP publishes a seasonal pair. */
+  summer?: StructuredHours;
+  /** IANA zone used ONLY to decide winter vs summer (never to display local). */
   tz: string;
 }
 
@@ -46,38 +48,51 @@ const winToSunset = (openMin: number): DayHours => ({
   close: { t: "ss" },
 });
 
+const week = (weekday: DayHours, weekend: DayHours): StructuredHours => [
+  weekday,
+  weekday,
+  weekday,
+  weekday,
+  weekday,
+  weekend,
+  weekend,
+];
+
 // EDNY Friedrichshafen - DFS AIP AD 2.3 (verified against the official
 // operating-hours notice, bodensee-airport.eu / AD 2.3, 20.07.2026):
-//   MON-FRI     0500-2100Z winter / 0400-2000Z summer = 06:00-22:00 LOCAL
-//   SAT/SUN/HOL 0800Z winter / 0700Z summer = 09:00 LOCAL .. SS+30 (~max 1900Z)
-// Stored in LOCAL minutes + Europe/Berlin so the constant local clock is
-// season-correct (the OCR read the weekend "SS" as "$8" and dropped it; this
-// pins it). Weekend close = sunset, which resolves to the real local SS (the
-// "MAX 1900Z" cap is above EDNY's sunset except a few midsummer weeks, so `ss`
-// is the faithful bound).
-const EDNY_TZ = "Europe/Berlin";
-const EDNY_WEEKDAY = win(6 * 60, 22 * 60); // 06:00-22:00 LT
-const EDNY_WEEKEND = winToSunset(9 * 60); // 09:00 LT - sunset
-
-export const hoursOverrides: Record<string, HoursOverride> = {
+//   MON-FRI     0500-2100Z winter / 0400-2000Z summer  (= 06:00-22:00 local)
+//   SAT/SUN/HOL 0800Z winter / 0700Z summer .. SS+30    (= 09:00 local .. sunset)
+// Stored as the two UTC seasons; the site shows the season active now, all UTC.
+// Weekend close = sunset (astronomical, already season-correct). The OCR read the
+// weekend "SS" as "$8" and dropped it; this pins it.
+const hoursOverrides: Record<string, HoursOverride> = {
   EDNY: {
-    tz: EDNY_TZ,
-    hours: [
-      EDNY_WEEKDAY,
-      EDNY_WEEKDAY,
-      EDNY_WEEKDAY,
-      EDNY_WEEKDAY,
-      EDNY_WEEKDAY,
-      EDNY_WEEKEND,
-      EDNY_WEEKEND,
-    ],
+    tz: "Europe/Berlin",
+    winter: week(win(5 * 60, 21 * 60), winToSunset(8 * 60)), // 0500-2100Z / 0800Z-SS
+    summer: week(win(4 * 60, 20 * 60), winToSunset(7 * 60)), // 0400-2000Z / 0700Z-SS
   },
 };
 
-/** Verified structured-hours override for an ICAO, or null when none exists. */
+/** The verified override entry for an ICAO, or null when none exists. */
 export function hoursOverride(
   icao: string | null | undefined,
 ): HoursOverride | null {
   if (!icao) return null;
   return hoursOverrides[icao.toUpperCase()] ?? null;
+}
+
+/**
+ * The verified override's UTC `StructuredHours` for the season active at `when`
+ * (summer when DST is in effect in the field's zone and a summer window exists,
+ * else the winter/base window), or null when the field has no override. The
+ * result is plain UTC minutes - the caller evaluates and labels it as UTC.
+ */
+export function resolveOverrideHours(
+  icao: string | null | undefined,
+  when: Date = new Date(),
+): StructuredHours | null {
+  const ov = hoursOverride(icao);
+  if (!ov) return null;
+  if (ov.summer && isDstActive(ov.tz, when)) return ov.summer;
+  return ov.winter;
 }
