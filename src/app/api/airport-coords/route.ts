@@ -1,4 +1,5 @@
 import { customsOverride } from "~/lib/customs-overrides";
+import { hoursOverride } from "~/lib/hours-overrides";
 import { NextResponse } from "next/server";
 import { getPathname } from "~/i18n/routing";
 import { i18nPathMapping } from "~/lib/utils";
@@ -60,6 +61,17 @@ function hasFuel(fuelJson: string | null | undefined): boolean {
   }
 }
 
+// Structured hours (JSON string) for a marker: the verified override wins over
+// the stored D1 value, else the stored value passes through; `{}` when neither.
+function hoursMarker(
+  icao: string | null | undefined,
+  stored: string | null | undefined,
+): { hours: string } | Record<string, never> {
+  const ov = hoursOverride(icao);
+  const hours = ov ? JSON.stringify(ov) : stored;
+  return hours ? { hours } : {};
+}
+
 async function handleCoords(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
   const locale = searchParams.get("locale") ?? "";
@@ -94,10 +106,10 @@ async function handleCoords(request: Request): Promise<NextResponse> {
       }),
       ...(hasPavedRunway(a.runways) && { paved: true }),
       // Structured operation hours (JSON) for the "open now / open until X"
-      // map filter, forwarded verbatim; omitted when the field has none so the
-      // Operating-hours tab hides. Small (~7 short objects) and only on fields
-      // that actually carry hours.
-      ...(a.hoursStructured ? { hours: a.hoursStructured } : {}),
+      // map filter; omitted when the field has none so the Operating-hours tab
+      // hides. A verified hours override wins over the stored D1 value, so the
+      // map filter matches the detail page's badge/table.
+      ...hoursMarker(a.icao, a.hoursStructured),
     }));
 
   return NextResponse.json(markers, {
