@@ -100,7 +100,13 @@ _UMLAUTS = "äöüßÄÖÜ"
 
 def page_language(text: str) -> str:
     """Classify one OCR'd AD-2 page as German ("de") or English ("en"). Ties and
-    empty text go to "en" (the standardized data pages are English)."""
+    empty text go to "en" (the standardized ICAO data pages are English).
+
+    Heuristic: tally German markers (stopwords) + umlaut glyphs against English
+    markers; more German wins. Known limit (see tests/test_de_ocr.py): a very
+    short German snippet with no umlauts and no German stopword can misclassify
+    as "en" - acceptable, since such a page carries no narrative to route. The
+    full-page AD-2 sheets this runs on are marker-rich, so the tally is decisive."""
     de = len(_DE_MARKER_RE.findall(text)) + sum(text.count(c) for c in _UMLAUTS)
     en = len(_EN_MARKER_RE.findall(text))
     return "de" if de > en else "en"

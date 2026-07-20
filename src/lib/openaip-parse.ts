@@ -204,6 +204,7 @@ export function mapOpenAipItem(item: Record<string, unknown>): NormalizedFacts {
     openingHours: parseOpeningHours(item.hoursOfOperation),
     hoursStructured,
     hoursSource: hoursStructured ? "openaip" : null,
+    hoursTz: null, // OpenAIP hours are UTC (no local-time override)
     restaurant: hasFacility(item, 5),
     customs: hasFacility(item, 2),
     aerodromeType: typeof item.type === "number" ? item.type : null,

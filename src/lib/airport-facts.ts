@@ -40,6 +40,10 @@ export interface NormalizedFacts {
   // when the source carries no machine-readable hours (only free text/remarks).
   hoursStructured: StructuredHours | null;
   hoursSource: string | null; // "eaip" (authoritative) | "openaip" | "osm" (community)
+  // IANA zone the structured hours are expressed in - only set for verified
+  // LOCAL-time overrides (hours-overrides.ts); null = the hours are UTC (the
+  // default for every automatic source). Drives the LT/Z time labels.
+  hoursTz: string | null;
   restaurant: boolean | null; // on-field restaurant
   customs: boolean | null; // customs / airport of entry
   aerodromeType: number | null; // OpenAIP airport `type` enum (label resolved in UI)
@@ -109,6 +113,7 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     openingHours: row.openingHours ?? null,
     hoursStructured: parseStructuredJson(row.hoursStructured),
     hoursSource: row.hoursSource ?? null,
+    hoursTz: null, // persisted hours are UTC; tz is only for code overrides
     restaurant: row.restaurant ?? null,
     customs: row.customs ?? null,
     aerodromeType: row.aerodromeType ?? null,
@@ -233,12 +238,18 @@ export async function getAirportFacts(
     // the OCR disclaimer). Otherwise the D1 row wins (it carries the crawler's
     // eAIP / OCR hours), then the live OpenAIP fetch fills an ICAO with none.
     hoursStructured:
-      hoursOv ?? base?.hoursStructured ?? openaip?.hoursStructured ?? null,
+      hoursOv?.hours ??
+      base?.hoursStructured ??
+      openaip?.hoursStructured ??
+      null,
     hoursSource: hoursOv
       ? "eaip"
       : base?.hoursStructured
         ? (base.hoursSource ?? null)
         : (openaip?.hoursSource ?? null),
+    // Verified overrides carry their IANA zone (local-time evaluation); every
+    // automatic source is UTC, so tz stays null and the UI labels those `Z`.
+    hoursTz: hoursOv?.tz ?? null,
     restaurant: base?.restaurant ?? openaip?.restaurant ?? null,
     // Verified GEN-1.2 override first (compliance-grade, in code - see
     // customs-overrides.ts), then the persisted/community sources.
@@ -272,6 +283,16 @@ export async function getAirportFacts(
   const alreadyPersisted = base?.source?.includes("openaip") ?? false;
   if (openaip && !alreadyPersisted) {
     const row = toRow(code, merged);
+    // Never persist a verified override's hours into D1: they are LOCAL-frame
+    // minutes that the automatic (UTC) read path would misread if the override
+    // were later removed. Keep the row's hours as the automatic source's.
+    if (hoursOv) {
+      const persistHours = base?.hoursStructured ?? openaip?.hoursStructured;
+      row.hoursStructured = persistHours ? JSON.stringify(persistHours) : null;
+      row.hoursSource = base?.hoursStructured
+        ? (base.hoursSource ?? null)
+        : (openaip?.hoursSource ?? null);
+    }
     try {
       after(async () => {
         try {

@@ -18,12 +18,17 @@ import { QUERIES } from "~/server/db/queries";
  * render; the indexable airport list stays fully server-rendered.
  *
  * Reads go through the cached `QUERIES.airportsWithCoords` (per-country tag), and
- * the response carries a 1h `Cache-Control` so browsers / the edge cache it. DB
+ * the response carries a `Cache-Control` so browsers / the edge cache it. DB
  * reads fail-soft to `[]` during the build and when no D1 binding is present.
  *
  * `withEdgeCache` serves repeat hits from the Cloudflare Cache API (keyed on
  * the URL incl. `?locale`) - without it every map view is a full Worker
- * invocation, because `s-maxage` alone is inert for Worker responses.
+ * invocation, because `s-maxage` alone is inert for Worker responses. That HTTP
+ * edge cache is NOT reachable by `revalidateTag`, so it can only expire by time:
+ * the max-age is kept modest (15 min) to bound how stale the map's decorative
+ * "open now" hours filter can be after a crawler updates a field's hours, while
+ * still absorbing the bulk of repeat map views. The indexable detail page is
+ * unaffected - it refreshes promptly on the tag bust (see the concept doc).
  */
 export async function GET(request: Request): Promise<Response> {
   return withEdgeCache(request, () => handleCoords(request));
@@ -63,13 +68,16 @@ function hasFuel(fuelJson: string | null | undefined): boolean {
 
 // Structured hours (JSON string) for a marker: the verified override wins over
 // the stored D1 value, else the stored value passes through; `{}` when neither.
+// An override also carries its IANA `hoursTz` (local-time evaluation) so the
+// map's "open now" filter matches the detail page's LT badge.
 function hoursMarker(
   icao: string | null | undefined,
   stored: string | null | undefined,
-): { hours: string } | Record<string, never> {
+): { hours: string; hoursTz?: string } | Record<string, never> {
   const ov = hoursOverride(icao);
-  const hours = ov ? JSON.stringify(ov) : stored;
-  return hours ? { hours } : {};
+  const hours = ov ? JSON.stringify(ov.hours) : stored;
+  if (!hours) return {};
+  return ov?.tz ? { hours, hoursTz: ov.tz } : { hours };
 }
 
 async function handleCoords(request: Request): Promise<NextResponse> {
@@ -114,7 +122,10 @@ async function handleCoords(request: Request): Promise<NextResponse> {
 
   return NextResponse.json(markers, {
     headers: {
-      "Cache-Control": "public, max-age=3600, s-maxage=3600",
+      // 15 min: bounds how stale the map's decorative "open now" hours filter
+      // can be (the HTTP edge cache can't be busted by revalidateTag) while
+      // still serving most repeat map views from cache.
+      "Cache-Control": "public, max-age=900, s-maxage=900",
     },
   });
 }

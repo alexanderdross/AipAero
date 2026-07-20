@@ -142,6 +142,51 @@ describe("openStatus", () => {
   });
 });
 
+describe("openStatus with an IANA tz (verified local-time overrides)", () => {
+  // Berlin field, stored in LOCAL minutes: window 06:00-22:00 local.
+  const berlin = { lat: 47.67, lon: 9.51 };
+  const s = allDays(fixed(6 * 60, 22 * 60));
+
+  it("evaluates the day-of-week + minute-of-day in the zone", () => {
+    // 2026-01-05 21:30 Europe/Berlin (CET = UTC+1) = 20:30Z, still a Monday.
+    const when = new Date("2026-01-05T20:30:00Z");
+    expect(openStatus(s, berlin, when, "Europe/Berlin")).toEqual({
+      state: "open",
+      closesAt: 1320, // 22:00 local
+    });
+  });
+
+  it("is DST-correct: same local close in winter and summer", () => {
+    // 21:30 local on a Monday, winter (20:30Z) and summer (19:30Z).
+    const winter = new Date("2026-01-05T20:30:00Z");
+    const summer = new Date("2026-07-06T19:30:00Z");
+    for (const when of [winter, summer]) {
+      const st = openStatus(s, berlin, when, "Europe/Berlin");
+      expect(st.state).toBe("open");
+      expect(st.closesAt).toBe(1320);
+    }
+  });
+
+  it("crosses the zone's midnight vs UTC: 23:30 local Mon is a closed Monday, not Tuesday", () => {
+    // 23:30 Europe/Berlin winter = 22:30Z, still Monday locally; the field
+    // (06:00-22:00 local) is closed. Under a naive UTC read the 22:30Z instant
+    // would also be Monday, but the point is the minute-of-day is the LOCAL
+    // 23:30, past the 22:00 close.
+    const when = new Date("2026-01-05T22:30:00Z");
+    expect(openStatus(s, berlin, when, "Europe/Berlin").state).toBe("closed");
+  });
+
+  it("no tz argument keeps the exact UTC path", () => {
+    // Same window, 06:30Z: without tz it is open (past 06:00Z); the default
+    // path is unchanged by the new optional parameter.
+    const when = new Date("2026-07-06T06:30:00Z");
+    expect(openStatus(s, berlin, when)).toEqual({
+      state: "open",
+      closesAt: 1320,
+    });
+  });
+});
+
 describe("isOpenUntil", () => {
   const coords = { lat: 51.5, lon: 0 };
   const monday = new Date("2026-07-06T10:00:00Z");
