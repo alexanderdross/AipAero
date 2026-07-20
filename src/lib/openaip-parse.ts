@@ -214,6 +214,7 @@ export function mapOpenAipItem(item: Record<string, unknown>): NormalizedFacts {
     frequencies: parseFrequencies(item.frequencies),
     declaredDistances: null, // eAIP-only; OpenAIP carries none
     ad2Text: null, // DE OCR-only; OpenAIP carries none
+    ad2TextDe: null,
     source: "openaip",
   };
 }

@@ -301,19 +301,33 @@ class OutputHandler:
             )
 
     def publish_ad2_text(
-        self, text_by_icao: dict[str, str], country: str
+        self,
+        text_by_icao: dict[str, str],
+        country: str,
+        text_de_by_icao: dict[str, str] | None = None,
     ) -> None:
         """Publish DE's raw OCR'd AD-2 page text (source "dfs-ocr") via PATCH
-        /api/airport-facts. DISPLAY-only: the website shows it under a "read by
-        text recognition, verify against the AIP" caveat and never parses it
-        into hours / the open badge / the map filter / JSON-LD. Touches only the
-        ad2_ocr_text columns. Fully fail-soft - only ICAO fields with text are
-        sent, and a publish failure never fails the crawl."""
-        rows = [
-            {"icao": icao.upper(), "ad2OcrText": text, "ad2OcrSource": "dfs-ocr"}
-            for icao, text in text_by_icao.items()
-            if icao and text
-        ]
+        /api/airport-facts, split by page language: ``text_by_icao`` = the
+        English pages (ad2OcrText), ``text_de_by_icao`` = the German pages
+        (ad2OcrTextDe). DISPLAY-only: the website renders the locale-appropriate
+        blob under a "read by text recognition, verify against the AIP" caveat.
+        Touches only the ad2_ocr_text* columns. Fully fail-soft - only ICAO
+        fields with text are sent, and a publish failure never fails the crawl."""
+        text_de_by_icao = text_de_by_icao or {}
+        rows_by_icao: dict[str, dict[str, object]] = {}
+        for icao, text in text_by_icao.items():
+            if icao and text:
+                row = rows_by_icao.setdefault(
+                    icao.upper(), {"icao": icao.upper(), "ad2OcrSource": "dfs-ocr"}
+                )
+                row["ad2OcrText"] = text
+        for icao, text in text_de_by_icao.items():
+            if icao and text:
+                row = rows_by_icao.setdefault(
+                    icao.upper(), {"icao": icao.upper(), "ad2OcrSource": "dfs-ocr"}
+                )
+                row["ad2OcrTextDe"] = text
+        rows = list(rows_by_icao.values())
         if not rows:
             self.logger.info(f"{country}: no AD-2 OCR text to publish.")
             return

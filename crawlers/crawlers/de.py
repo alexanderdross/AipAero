@@ -106,11 +106,14 @@ class DE(PlaywrightCrawlerBase):
 
     def __init__(self) -> None:
         super().__init__(COUNTRY)
-        # Raw OCR text of the AD-2 text pages, keyed by ICAO. Populated only by
-        # collect_ad2_ocr (opt-in, DE_OCR); DISPLAY-only, never parsed into a
-        # structured claim (owner safety directive - a mis-OCR'd hours digit
-        # must never drive the open/closed badge, map filter, or JSON-LD).
-        self.ad2_text_by_icao: dict[str, str] = {}
+        # Raw OCR text of the AD-2 text pages, keyed by ICAO, split by page
+        # language (the DFS AD-2 book interleaves English pages - the
+        # standardized AD 2.1-2.14 data + English narrative - with German pages
+        # that translate the local-regulation narrative). Populated only by
+        # collect_ad2_ocr (opt-in, DE_OCR). The website renders the
+        # locale-appropriate blob under a "machine-read via OCR, verify" caveat.
+        self.ad2_text_by_icao: dict[str, str] = {}  # English pages
+        self.ad2_text_de_by_icao: dict[str, str] = {}  # German pages
 
     # ----- helpers ------------------------------------------------------------
 
@@ -356,7 +359,12 @@ class DE(PlaywrightCrawlerBase):
         pass cleanly (the list crawl already published).
         """
         from crawlers.de_hours import parse_de_hours
-        from crawlers.de_ocr import biggest_png, is_text_page, ocr_image
+        from crawlers.de_ocr import (
+            biggest_png,
+            is_text_page,
+            ocr_image,
+            page_language,
+        )
 
         # This runs AFTER crawl(), whose `finally` closed the httpx client -
         # reopen it, else every content-page _fetch() below raises "client has
@@ -392,7 +400,8 @@ class DE(PlaywrightCrawlerBase):
                 m = _TEXT_PAGE_RE.match(a.get_text(" ", strip=True))
                 if m and m.group(1) == icao:
                     hrefs.append(a["href"])
-            texts: list[str] = []
+            en_texts: list[str] = []
+            de_texts: list[str] = []
             for href in dict.fromkeys(hrefs):
                 try:
                     _, page_html = self._fetch(urljoin(base, href))
@@ -404,20 +413,28 @@ class DE(PlaywrightCrawlerBase):
                     continue
                 text = ocr_image(png)
                 if is_text_page(text):
-                    texts.append(text)
-            if texts:
-                blob = "\n\n".join(texts)
-                self.ad2_text_by_icao[icao] = blob
+                    (de_texts if page_language(text) == "de" else en_texts).append(
+                        text
+                    )
+            if en_texts or de_texts:
+                # English blob is primary (carries the standardized AD 2.1-2.14
+                # data); German blob holds the translated local-regulation
+                # narrative, shown on the /de locale pages.
+                if en_texts:
+                    self.ad2_text_by_icao[icao] = "\n\n".join(en_texts)
+                if de_texts:
+                    self.ad2_text_de_by_icao[icao] = "\n\n".join(de_texts)
                 kept += 1
-                # Parse the AD 2.3 operator hours out of the OCR text for the
-                # structured badge / map / JSON-LD (fail-soft: None -> no hours).
-                hours = parse_de_hours(blob)
+                # Parse the AD 2.3 operator hours out of ALL the OCR text (the
+                # AD 2.3 table is on an English page) for the structured badge /
+                # map / JSON-LD (fail-soft: None -> no hours).
+                hours = parse_de_hours("\n\n".join(en_texts + de_texts))
                 if hours is not None:
                     self.hours_by_icao[icao] = hours
                     hrs += 1
                 self.logger.info(
-                    f"DE OCR: {icao} kept {len(texts)} text page(s)"
-                    f"{' + hours' if hours is not None else ''}"
+                    f"DE OCR: {icao} kept {len(en_texts)} en + {len(de_texts)} de "
+                    f"page(s){' + hours' if hours is not None else ''}"
                 )
         self.logger.info(
             f"DE OCR: kept text for {kept}/{len(fields)} field(s), "

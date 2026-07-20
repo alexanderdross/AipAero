@@ -110,7 +110,8 @@ export const airportFacts = createTable("airport_facts", {
   // under a "read by text recognition, verify against the AIP" caveat - NEVER
   // parsed into hours / the open badge / the map filter / JSON-LD (owner safety
   // directive: a mis-OCR'd hours digit must not become a machine claim).
-  ad2OcrText: text("ad2_ocr_text"),
+  ad2OcrText: text("ad2_ocr_text"), // English AD-2 pages
+  ad2OcrTextDe: text("ad2_ocr_text_de"), // German AD-2 pages (translated narrative)
   ad2OcrSource: text("ad2_ocr_source"), // "dfs-ocr"
   ppr: integer("ppr", { mode: "boolean" }), // prior permission required (OpenAIP)
   aerodromeType: integer("aerodrome_type"), // OpenAIP airport `type` enum code

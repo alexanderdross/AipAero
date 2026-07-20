@@ -52,8 +52,11 @@ export interface NormalizedFacts {
   declaredDistances: DeclaredDistances | null;
   // DE-only raw text OCR'd from the DFS AD-2 page images (base64 PNGs) - null
   // for every other country. DISPLAY-only under a "verify against the AIP"
-  // caveat; never parsed into any structured field (owner safety directive).
+  // caveat. Split by page language: `ad2Text` = the English pages (standardized
+  // data + English narrative), `ad2TextDe` = the German narrative pages; the
+  // gadgets wrapper renders the locale-appropriate one.
   ad2Text: string | null;
+  ad2TextDe: string | null;
   source: string; // provenance, e.g. "openaip" or "ourairports"
 }
 
@@ -115,6 +118,7 @@ function rowToFacts(row: AirportFactsRow): NormalizedFacts {
     frequencies: parseJsonArray<FrequencyFact>(row.frequencies),
     declaredDistances: parseDeclaredJson(row.declaredDistances),
     ad2Text: row.ad2OcrText ?? null,
+    ad2TextDe: row.ad2OcrTextDe ?? null,
     source: row.source,
   };
 }
@@ -152,7 +156,8 @@ function toRow(icao: string, f: NormalizedFacts): InsertAirportFacts {
     // Preserve the DE OCR text across the on-read write-back (persistAirportFacts
     // leaves it untouched on conflict; this carries it on a fresh insert).
     ad2OcrText: f.ad2Text,
-    ad2OcrSource: f.ad2Text ? "dfs-ocr" : null,
+    ad2OcrTextDe: f.ad2TextDe,
+    ad2OcrSource: f.ad2Text || f.ad2TextDe ? "dfs-ocr" : null,
     street: f.street,
     postcode: f.postcode,
     phone: f.phone,
@@ -245,6 +250,7 @@ export async function getAirportFacts(
     declaredDistances: base?.declaredDistances ?? null,
     // DE OCR text is persisted-only (no live source); DE-only in practice.
     ad2Text: base?.ad2Text ?? null,
+    ad2TextDe: base?.ad2TextDe ?? null,
     source: [base?.source, openaip?.source, awc?.source]
       .filter(Boolean)
       .join("+"),

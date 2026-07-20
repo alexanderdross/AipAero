@@ -790,6 +790,7 @@ export const MUTATIONS = {
       declaredDistances?: string | null;
       declaredSource?: string;
       ad2OcrText?: string | null;
+      ad2OcrTextDe?: string | null;
       ad2OcrSource?: string;
     }[],
   ) {
@@ -809,6 +810,7 @@ export const MUTATIONS = {
           declaredDistances: row.declaredDistances ?? null,
           declaredSource: row.declaredSource ?? null,
           ad2OcrText: row.ad2OcrText ?? null,
+          ad2OcrTextDe: row.ad2OcrTextDe ?? null,
           ad2OcrSource: row.ad2OcrSource ?? null,
           // A brand-new ICAO needs a non-null provenance; use whichever datum
           // this PATCH carried.
@@ -827,6 +829,7 @@ export const MUTATIONS = {
             // precedence contest): a non-null incoming value refreshes it, a
             // null (a hours-only PATCH) leaves the stored text untouched.
             ad2OcrText: sql`COALESCE(excluded.ad2_ocr_text, ${airportFacts.ad2OcrText})`,
+            ad2OcrTextDe: sql`COALESCE(excluded.ad2_ocr_text_de, ${airportFacts.ad2OcrTextDe})`,
             ad2OcrSource: sql`COALESCE(excluded.ad2_ocr_source, ${airportFacts.ad2OcrSource})`,
             updatedAt: sql`excluded.updated_at`,
           },

@@ -2,7 +2,7 @@
 output captured live (crawler-live-test, 19.07.2026) from DFS BasicVFR."""
 
 from crawlers.de import _TEXT_PAGE_RE
-from crawlers.de_ocr import biggest_png, is_text_page
+from crawlers.de_ocr import biggest_png, is_text_page, page_language
 
 # EDNY "VFR-Flugverfahren" - a big field's TEXT page (keep). Trimmed real OCR.
 EDNY_TEXT = (
@@ -59,6 +59,44 @@ def test_biggest_png_picks_largest():
 
 def test_biggest_png_none_when_absent():
     assert biggest_png("<html>no images</html>") is None
+
+
+# A German AD-2 narrative page (real OCR shape from EDNY 1-9): the local
+# flight-restriction translation. Must route to the German blob.
+EDNY_DE_NARRATIVE = (
+    "LUFTFAHRTHANDBUCH DEUTSCHLAND AIP GERMANY AD 2 EDNY 1-9 9) wiederholte "
+    "An- und Abfluege aus meteorologischen, technischen oder sonstigen "
+    "Sicherheitsgruenden; Flugbewegungen im Einsatz fuer den "
+    "Katastrophenschutz, im besonderen. Starts an Sonn- und Feiertagen von "
+    "1130 bis 1330, soweit die Luftfahrzeuge bei einer Zulassung nach Kapitel "
+    "die Laermgrenzwerte der Laermschutzanforderungen fuer Luftfahrzeuge "
+    "einhalten. Probe- und Standlaeufe innerhalb der Laermdaemmungsanlage."
+)
+
+
+# A standardized AD 2.1-2.3 data page (real OCR shape): English labels, the
+# ICAO-standard fields. Must route to the English blob.
+EDNY_EN_DATA = (
+    "EDNY AD 2.1 Aerodrome location indicator and name EDNY FRIEDRICHSHAFEN "
+    "EDNY AD 2.2 Aerodrome geographical and administrative data ARP "
+    "coordinates and site at AD Direction and distance of ARP from city "
+    "Elevation reference temperature AD operator address telephone Types of "
+    "traffic permitted IFR VFR AD 2.3 Operational hours AD operator "
+    "Customs and immigration Health and sanitation Fueling Handling"
+)
+
+
+def test_page_language_english_vs_german():
+    # The standardized English data page -> "en".
+    assert page_language(EDNY_EN_DATA) == "en"
+    # The German VFR-Flugverfahren page and the translated narrative -> "de".
+    assert page_language(EDNY_TEXT) == "de"
+    assert page_language(EDNY_DE_NARRATIVE) == "de"
+
+
+def test_page_language_ties_to_english():
+    assert page_language("") == "en"
+    assert page_language("1234 5678 ---") == "en"
 
 
 def test_text_page_anchor_regex():

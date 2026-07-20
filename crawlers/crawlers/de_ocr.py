@@ -77,6 +77,35 @@ def ocr_image(png: bytes) -> str:
         return ""
 
 
+# Language markers for routing each AD-2 page to the German or English blob.
+# The DFS AD-2 book publishes the standardized data (AD 2.1-2.14) + the local
+# narrative in English, then a German translation of the narrative as separate
+# pages; each page is dominantly one language, so a per-page stopword/umlaut
+# tally classifies it reliably (no per-paragraph guessing needed).
+_DE_MARKER_RE = re.compile(
+    r"\b(und|der|die|den|das|f[uü]r|nicht|sind|oder|werden|bei|von|zur|zum"
+    r"|eine|einer|mit|auf|Uhr|Flugplatz|Flughafen|Betriebszeiten|L[aä]rm"
+    r"|Landung|Landungen|Starts?|Sonn|Feiertag|zwischen|keine|[uü]ber|au[sß]er"
+    r"|Sicherheit|Genehmigung|Fl[uü]ge?|jeden|Jahres|nach|dem|des)\b",
+    re.I,
+)
+_EN_MARKER_RE = re.compile(
+    r"\b(the|and|of|are|is|not|for|with|between|aircraft|aerodrome|operating"
+    r"|hours|runway|landing|take-?off|permitted|only|shall|following|during"
+    r"|except|prior|permission|operator|address|elevation|reference)\b",
+    re.I,
+)
+_UMLAUTS = "äöüßÄÖÜ"
+
+
+def page_language(text: str) -> str:
+    """Classify one OCR'd AD-2 page as German ("de") or English ("en"). Ties and
+    empty text go to "en" (the standardized data pages are English)."""
+    de = len(_DE_MARKER_RE.findall(text)) + sum(text.count(c) for c in _UMLAUTS)
+    en = len(_EN_MARKER_RE.findall(text))
+    return "de" if de > en else "en"
+
+
 def is_text_page(text: str, *, min_len: int = 400) -> bool:
     """True when OCR text looks like a DFS AD-2 **text** data page worth keeping,
     False for a **chart** page (map -> noisy OCR) or a too-short/empty read.
