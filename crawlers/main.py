@@ -214,7 +214,9 @@ def main(countries: list[str] | None = None):
                 try:
                     crawler.collect_ad2_ocr(airports)
                     output_handler.publish_ad2_text(
-                        getattr(crawler, "ad2_text_by_icao", {}), country
+                        getattr(crawler, "ad2_text_by_icao", {}),
+                        country,
+                        getattr(crawler, "ad2_text_de_by_icao", {}),
                     )
                     output_handler.publish_hours(
                         getattr(crawler, "hours_by_icao", {}),

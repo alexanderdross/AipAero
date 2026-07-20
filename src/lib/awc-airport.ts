@@ -89,6 +89,7 @@ export async function getAwcAirport(
       frequencies: parseFreqs(item.freqs),
       declaredDistances: null, // eAIP-only; AWC carries none
       ad2Text: null, // DE OCR-only; AWC carries none
+      ad2TextDe: null,
       source: "awc",
     };
   } catch {

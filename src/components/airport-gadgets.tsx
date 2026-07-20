@@ -432,13 +432,24 @@ export async function AirportGadgets({
             the AIP" caveat - never parsed into hours / the badge / the map /
             JSON-LD (owner safety directive). Renders only when the crawler
             captured text for this field (the ~40 big Verkehrsflughaefen). */}
-        {airport.country === "DE" && facts?.ad2Text && (
-          <AirportAipText
-            text={facts.ad2Text}
-            sourceUrl={airport.url}
-            locale={locale}
-          />
-        )}
+        {airport.country === "DE" &&
+          (() => {
+            // Show the locale-appropriate OCR blob: German narrative on /de,
+            // English pages on /de/en, each falling back to the other language
+            // when this field has none (e.g. small fields with no German
+            // narrative page).
+            const ad2Display =
+              lang === "de"
+                ? (facts?.ad2TextDe ?? facts?.ad2Text)
+                : (facts?.ad2Text ?? facts?.ad2TextDe);
+            return ad2Display ? (
+              <AirportAipText
+                text={ad2Display}
+                sourceUrl={airport.url}
+                locale={locale}
+              />
+            ) : null;
+          })()}
         {/* Location + aerodrome-data boxes side by side on >= md (each half
             width, stretched to equal height), stacking on mobile. */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

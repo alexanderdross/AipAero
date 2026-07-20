@@ -158,6 +158,12 @@ The owner subsequently decided (with the OCR-garble risk spelled out and a stric
 
 Backstops for the OCR-driven claim: `parse_ad23_text` returns `None`/`unknown` for anything it cannot confidently read (no badge on a bad read), and the `hoursOcrDisclaimer` is always visible next to the hours.
 
+Live outcome (first `DE_OCR` publish, 20.07.2026): OCR text kept for **58/506** ICAO fields, parsed hours for **47** (published as `dfs-ocr-hours`); the 11 text-only fields are the biggest hubs (EDDM/EDDH/EDDS/EDDP/EDDV/...) whose AD 2.3 operator row OCR'd in a format the parser did not confidently read - correctly no badge.
+
+### DE follow-up 2 (20.07.2026) - split the raw OCR block by page language
+
+The DFS AD-2 book interleaves **English pages** (the standardized AD 2.1-2.14 data + the English local-regulation narrative) with **German pages** (a translation of that narrative), and `collect_ad2_ocr` was concatenating all of them, so the raw `AirportAipText` block showed a mixed EN+DE blob on both the `/de` and `/de/en` pages. Fix: classify each OCR'd page by language (`de_ocr.page_language`, an umlaut/stopword tally - each page is dominantly one language) and store two columns - `ad2_ocr_text` (English pages) + the new `ad2_ocr_text_de` (German pages). The gadgets wrapper renders the locale-appropriate blob (`lang === "de" ? ad2TextDe ?? ad2Text : ad2Text ?? ad2TextDe`), falling back to the other language when a field has none. Hours are still parsed from the full concatenation (the AD 2.3 table sits on an English page). Needs the `0011` migration + a `DE_OCR` re-crawl to backfill the German column.
+
 ## Deployment / migration hazard
 
 Adding `hours_structured` + `hours_source` needs a D1 migration. Per the project's known hazard, the Cloudflare **Git integration deploys branch pushes without applying D1 migrations** - only `cd.yml` on push-to-`main` runs `wrangler d1 migrations apply DB --remote`. So the migration must be applied to remote D1 **manually before/at branch-push time** and recorded in `d1_migrations` (the `0007_airac` precedent), otherwise a branch deploy runs new code that reads a missing column. All reads stay fail-soft, so a missing column degrades to "no hours", never a 500.
