@@ -40,7 +40,11 @@ jobs:
   crawl:
     name: Crawl live sources + publish
     runs-on: self-hosted
-    timeout-minutes: 30
+    # The DE_OCR pass renders + OCRs ~800 DFS AD-2 pages (a browser navigation
+    # per field) and runs right at ~35 min, so it needs a bigger budget than the
+    # daily httpx crawl (which finishes in minutes). A flat 30 min cancelled the
+    # DE_OCR re-crawl mid-publish (run 29745415943).
+    timeout-minutes: ${{ inputs.de_ocr && 60 || 30 }}
     defaults:
       run:
         working-directory: crawlers
