@@ -29,6 +29,21 @@ import { after } from "next/server";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import type { Airport } from "~/server/db/schema";
 
+// Cap for the OCR AIP text placed in the Airport JSON-LD - bounds inline
+// JSON-LD growth on big fields (the full text stays in the visible block).
+const OCR_JSONLD_MAX = 4000;
+
+/** Truncate to ~OCR_JSONLD_MAX chars on a word boundary, with a trailing "…". */
+function truncateForJsonLd(text: string): string {
+  if (text.length <= OCR_JSONLD_MAX) return text;
+  const cut = text.slice(0, OCR_JSONLD_MAX);
+  const lastSpace = cut.lastIndexOf(" ");
+  const trimmed = (
+    lastSpace > OCR_JSONLD_MAX - 200 ? cut.slice(0, lastSpace) : cut
+  ).trimEnd();
+  return `${trimmed} …`;
+}
+
 /**
  * Extra gadgets on an airport detail page, below the chart link. Split by SEO
  * value / cost:
@@ -249,6 +264,14 @@ export async function AirportGadgets({
     },
     summaryLinks,
   );
+  // DE-only OCR'd AD-2 text, locale-appropriate (German narrative on /de,
+  // English pages on /de/en), shared by the visible AirportAipText block AND
+  // the Airport JSON-LD property below so the two never diverge.
+  const ad2Display =
+    lang === "de"
+      ? (facts?.ad2TextDe ?? facts?.ad2Text)
+      : (facts?.ad2Text ?? facts?.ad2TextDe);
+
   const props: Array<{ name: string; value: string }> = [];
   const addProp = (name: string, value: string | null | undefined) => {
     if (value) props.push({ name, value });
@@ -304,6 +327,16 @@ export async function AirportGadgets({
   if (facts?.restaurant != null)
     addProp("Restaurant", facts.restaurant ? "Yes" : "No");
   if (facts?.customs != null) addProp("Customs", facts.customs ? "Yes" : "No");
+  // DE OCR AD-2 text as a machine-readable PropertyValue (GEO/LLM signal; the
+  // name flags the OCR provenance). Length-capped so the inline JSON-LD does not
+  // balloon on big fields (some OCR to tens of KB); the full text stays in the
+  // visible AirportAipText block. Not a Google rich-result field - GEO only.
+  if (ad2Display) {
+    addProp(
+      "AIP aerodrome information (machine-read via OCR)",
+      truncateForJsonLd(ad2Display),
+    );
+  }
 
   return (
     // min-h matches the streaming fallback (AirportGadgetsFallback): reserving a
@@ -432,24 +465,13 @@ export async function AirportGadgets({
             the AIP" caveat - never parsed into hours / the badge / the map /
             JSON-LD (owner safety directive). Renders only when the crawler
             captured text for this field (the ~40 big Verkehrsflughaefen). */}
-        {airport.country === "DE" &&
-          (() => {
-            // Show the locale-appropriate OCR blob: German narrative on /de,
-            // English pages on /de/en, each falling back to the other language
-            // when this field has none (e.g. small fields with no German
-            // narrative page).
-            const ad2Display =
-              lang === "de"
-                ? (facts?.ad2TextDe ?? facts?.ad2Text)
-                : (facts?.ad2Text ?? facts?.ad2TextDe);
-            return ad2Display ? (
-              <AirportAipText
-                text={ad2Display}
-                sourceUrl={airport.url}
-                locale={locale}
-              />
-            ) : null;
-          })()}
+        {airport.country === "DE" && ad2Display && (
+          <AirportAipText
+            text={ad2Display}
+            sourceUrl={airport.url}
+            locale={locale}
+          />
+        )}
         {/* Location + aerodrome-data boxes side by side on >= md (each half
             width, stretched to equal height), stacking on mobile. */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
