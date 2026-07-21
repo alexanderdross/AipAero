@@ -25,7 +25,6 @@ import re
 from urllib.parse import unquote, urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase
-from crawlers.http_eurocontrol_base import ad23_hours
 
 COUNTRY = "GR"
 HOST = "https://aisgr.hasp.gov.gr/"
@@ -353,14 +352,7 @@ class GR(HttpCrawlerBase):
             # fetch for GR (via the plain Bright Data proxy, reused by pdf_text);
             # fail-soft so a missing/blocked sheet just yields no hours.
             if sheets.get("txt"):
-                try:
-                    hrs = ad23_hours(self.pdf_text(sheets["txt"]))
-                    if hrs:
-                        self.hours_by_icao[icao] = hrs
-                        if self._last_pdf_ocr:
-                            self.hours_source_by_icao[icao] = "pdf-ocr-hours"
-                except Exception as e:
-                    self.logger.debug(f"GR: {icao} AD 2.3 hours failed: {e}")
+                self.collect_pdf_hours(icao, sheets["txt"])
             # Title convention "<name> <ICAO>" (list / map / detail heading);
             # the menu carries no AD 2 name, so use the static _NAMES map with a
             # bare-ICAO fallback for an unmapped field.

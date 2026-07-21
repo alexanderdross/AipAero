@@ -193,3 +193,49 @@ def test_pdf_ocr_text_uses_crawler_language(crawler, monkeypatch):
     crawler.PDF_OCR_LANG = "ell+eng"
     crawler._pdf_ocr_text(b"pdf-bytes")
     assert seen == {"img": "IMG", "lang": "ell+eng"}
+
+
+# ----- collect_pdf_hours (the shared caller helper) --------------------------
+
+# The helper lazily imports ad23_hours from this module; monkeypatch it there so
+# the tests isolate the record + provenance logic from the parser internals.
+import crawlers.http_eurocontrol_base as _heb  # noqa: E402
+
+_HOURS = [{"kind": "h24"} for _ in range(7)]
+
+
+def test_collect_pdf_hours_records_clean_text_as_default(crawler, monkeypatch):
+    monkeypatch.setattr(crawler, "pdf_text", lambda url: "some text")
+    monkeypatch.setattr(_heb, "ad23_hours", lambda text: _HOURS)
+    crawler._last_pdf_ocr = False
+    crawler.collect_pdf_hours("LECO", "http://x/f.pdf")
+    assert crawler.hours_by_icao["LECO"] == _HOURS
+    # No OCR -> no provenance override (publish defaults it to "eaip").
+    assert "LECO" not in crawler.hours_source_by_icao
+
+
+def test_collect_pdf_hours_stamps_ocr_provenance(crawler, monkeypatch):
+    def _pdf_text(url):
+        crawler._last_pdf_ocr = True  # simulate the OCR fallback firing
+        return "some text"
+
+    monkeypatch.setattr(crawler, "pdf_text", _pdf_text)
+    monkeypatch.setattr(_heb, "ad23_hours", lambda text: _HOURS)
+    crawler.collect_pdf_hours("LWSK", "http://x/scan.pdf")
+    assert crawler.hours_by_icao["LWSK"] == _HOURS
+    assert crawler.hours_source_by_icao["LWSK"] == "pdf-ocr-hours"
+
+
+def test_collect_pdf_hours_soft_no_hours_and_on_error(crawler, monkeypatch):
+    monkeypatch.setattr(crawler, "pdf_text", lambda url: "no hours here")
+    monkeypatch.setattr(_heb, "ad23_hours", lambda text: None)
+    crawler.collect_pdf_hours("LXXX", "http://x/f.pdf")
+    assert "LXXX" not in crawler.hours_by_icao
+    assert "LXXX" not in crawler.hours_source_by_icao
+
+    def _boom(url):
+        raise RuntimeError("bad pdf")
+
+    monkeypatch.setattr(crawler, "pdf_text", _boom)
+    crawler.collect_pdf_hours("LYYY", "http://x/f.pdf")  # must not raise
+    assert "LYYY" not in crawler.hours_by_icao
