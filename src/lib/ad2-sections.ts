@@ -156,9 +156,11 @@ function stripLeadingTitle(body: string, title: string): string {
 }
 
 /**
- * Split the OCR AD-2 blob into its AD 2.x sections. Returns null when it cannot
- * be confidently segmented (fewer than two markers found), so the caller renders
- * the verbatim text instead.
+ * Split the OCR AD-2 blob into its AD 2.x sections. Returns null only when NO
+ * section marker is found (so the caller renders the verbatim text). A single
+ * marker is enough: a DE field whose captured OCR is one section (commonly just
+ * AD 2.20 "Local aerodrome regulations") still gets its clean heading instead of
+ * a flat wall of text.
  */
 export function segmentAd2Text(
   blob: string | null | undefined,
@@ -166,15 +168,19 @@ export function segmentAd2Text(
 ): Ad2Section[] | null {
   if (!blob || typeof blob !== "string") return null;
   const matches = [...blob.matchAll(AD2_MARKER_RE)];
-  if (matches.length < 2) return null;
+  if (matches.length < 1) return null;
 
   const titles = AD2_TITLES[lang];
   const sections: Ad2Section[] = [];
 
-  // Leading text before the first marker (usually the page/book header). Keep it
-  // under a generic heading so nothing is lost, but only if it has real content.
+  // Leading text before the first marker. Usually the DFS page/book header
+  // ("LUFTFAHRTHANDBUCH ... AD 2 EDMA 1-7 16 APR 2026 EDMA") - all-caps codes,
+  // not aerodrome content - so drop it when it carries no real prose (fewer than
+  // two lowercase words); keep a genuine leading narrative under a generic
+  // heading so nothing real is lost.
   const lead = blob.slice(0, matches[0]!.index).trim();
-  if (lead.length > 0) {
+  const leadWords = (lead.match(/\b[a-zäöü]{3,}\b/g) ?? []).length;
+  if (lead.length > 0 && leadWords >= 2) {
     sections.push({
       code: null,
       title: AD2_FALLBACK[lang],
@@ -215,6 +221,31 @@ export function keptAd2Text(
     .filter((s) => !s.redundant)
     .map((s) => (s.body ? `${s.title}: ${s.body}` : s.title))
     .join("\n\n");
+}
+
+// A zero-width boundary BEFORE a numbered sub-item marker ("1. ", "2. ",
+// "2.1 ", "3. ") followed by a capitalised word. A DOT is REQUIRED in the
+// marker, so the dot-less OCR mis-reads of deeper items ("24" for "2.4") and -
+// crucially - ordinary numbers like "24 Stunden", a "14.000 Kg" weight or a
+// "0600" time never start a break. `(?<![\d.])` stops a match starting inside a
+// longer number. Splitting on this zero-width point keeps the marker at the
+// start of each item; it is purely a display split and never rewrites the text.
+const _SUBITEM_SPLIT_RE =
+  /(?=(?<![\d.])\d{1,2}\.(?:\d{1,2})?\s+[A-Z\u00c4\u00d6\u00dc])/;
+
+/**
+ * Break a section body into its numbered sub-items for a scannable layout (AD
+ * 2.20 local regulations especially is a long numbered narrative). Returns the
+ * body as a single entry when it has no confident sub-item boundaries, so a
+ * plain single-paragraph section renders unchanged. Cosmetic only - it never
+ * rewrites or drops any of the (OCR) text.
+ */
+export function splitSubItems(body: string): string[] {
+  if (!body) return [];
+  return body
+    .split(_SUBITEM_SPLIT_RE)
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 // A TEL-labelled phone number inside the AD 2.2 administrative block. Anchored

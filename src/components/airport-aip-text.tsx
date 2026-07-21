@@ -2,7 +2,7 @@ import { TriangleAlertIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { ExternalLink } from "~/components/external-link";
 import { SectionHeading } from "~/components/section-heading";
-import { segmentAd2Text } from "~/lib/ad2-sections";
+import { segmentAd2Text, splitSubItems } from "~/lib/ad2-sections";
 
 /**
  * DE-only raw AD-2 text block. DFS BasicVFR serves each aerodrome's AD-2 book
@@ -81,16 +81,37 @@ export async function AirportAipText({
             stays pre-wrapped + wrapping so it never overflows on mobile. */}
         {sections && sections.length > 0 ? (
           <div className="mt-2 space-y-3">
-            {sections.map((s, i) => (
-              <div key={s.code ?? `x${i}`}>
-                <h3 className="text-drossgray-dark font-semibold">{s.title}</h3>
-                {s.body && (
-                  <p className="text-drossgray-dark leading-relaxed whitespace-pre-wrap">
-                    {s.body}
-                  </p>
-                )}
-              </div>
-            ))}
+            {sections.map((s, i) => {
+              // Break a long numbered section (esp. AD 2.20 local regulations)
+              // into its sub-items so it reads as a list, not a wall; a plain
+              // single-paragraph section yields one item and renders as before.
+              const items = splitSubItems(s.body);
+              return (
+                <div key={s.code ?? `x${i}`}>
+                  <h3 className="text-drossgray-dark font-semibold">
+                    {s.title}
+                  </h3>
+                  {items.length > 1 ? (
+                    <div className="mt-1 space-y-1.5">
+                      {items.map((item, j) => (
+                        <p
+                          key={j}
+                          className="text-drossgray-dark leading-relaxed whitespace-pre-wrap"
+                        >
+                          {item}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    s.body && (
+                      <p className="text-drossgray-dark leading-relaxed whitespace-pre-wrap">
+                        {s.body}
+                      </p>
+                    )
+                  )}
+                </div>
+              );
+            })}
           </div>
         ) : (
           <p className="text-drossgray-dark mt-2 leading-relaxed whitespace-pre-wrap">
