@@ -18,10 +18,6 @@ import { localeLangMapping } from "~/i18n/routing";
 import { extractAd2Phone, keptAd2Text } from "~/lib/ad2-sections";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
-import {
-  buildAirportSummary,
-  buildAirportSummaryText,
-} from "~/lib/airport-summary";
 import { contactUrlFor } from "~/lib/contact-link";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { getHubLinks } from "~/lib/hub-links";
@@ -71,6 +67,7 @@ export async function AirportGadgets({
   schemaAlternateName,
   schemaDescription,
   schemaUrl,
+  airportSummaryText = "",
   related = [],
 }: {
   airport: Airport;
@@ -78,46 +75,26 @@ export async function AirportGadgets({
   schemaAlternateName: string;
   schemaDescription: string;
   schemaUrl: string;
+  /** Plain-text twin of the visible AirportSummary prose (built in the shell
+   * from the same input), used as the Airport JSON-LD `description` so the
+   * structured data stays byte-identical to the on-page paragraph. */
+  airportSummaryText?: string;
   /** Cross-type sibling pages of the same field ("also available as IFR"). */
   related?: { type: string; url: string; label: string; title: string }[];
 }) {
-  const [locale, messages, facts, tCommon, tSummary, tFooter] =
-    await Promise.all([
-      getLocale(),
-      getMessages(),
-      getAirportFacts(airport.icao),
-      getTranslations("Common"),
-      getTranslations("AirportSummary"),
-      getTranslations("Footer"),
-    ]);
+  const [locale, messages, facts, tCommon, tFooter] = await Promise.all([
+    getLocale(),
+    getMessages(),
+    getAirportFacts(airport.icao),
+    getTranslations("Common"),
+    getTranslations("Footer"),
+  ]);
   // Content-hub link targets. Deep anchors: the "AIP" word jumps to the AIP
   // glossary term, "AIRAC" to the "AIRAC cycle" guide section (not just the page
   // top). SSR, reuses the Footer namespace labels - no new i18n string.
+  // Deep-anchor targets for the boxless AIRAC line below (the "AIRAC" word
+  // links into the pilot guides). SSR, reuses the Footer namespace labels.
   const hub = await getHubLinks(locale);
-  // Tag handlers for the two content-hub links inside the per-airport prose:
-  // the `<glossary>AIP</glossary>` and `<guides>AIRAC</guides>` acronyms wrapped
-  // in every AirportSummary locale string. Permanent underline (axe
-  // link-in-text-block).
-  const summaryLinks = {
-    glossary: (chunks: React.ReactNode) => (
-      <a
-        href={hub.aipTerm}
-        title={tFooter("glossary.hrefTitle")}
-        className="text-drossblue underline"
-      >
-        {chunks}
-      </a>
-    ),
-    guides: (chunks: React.ReactNode) => (
-      <a
-        href={hub.airacGuide}
-        title={tFooter("guides.hrefTitle")}
-        className="text-drossblue underline"
-      >
-        {chunks}
-      </a>
-    ),
-  };
 
   // Direct chart PDF (chart-PDF plan Stage 2): prefer the crawler-captured
   // `pdf_url` where a country's crawler stores an index page as `url`; fall
@@ -241,47 +218,6 @@ export async function AirportGadgets({
   const runways = facts?.runways ?? [];
   const surfaces = [...new Set(runways.map((r) => r.surface).filter(Boolean))];
 
-  // Descriptive SSR prose (GEO/SEO): the detail pages otherwise carry only data
-  // widgets. Composed purely from the field's OWN data, so it is unique per
-  // aerodrome, not boilerplate. Titles are `<name> <ICAO>` by convention -
-  // strip the trailing ICAO for the readable place name. The AIRAC clause reuses
-  // the same edition the box / boxless line already resolved (chart URL date,
-  // else the country's stamped edition). Sits inside the reserved min-h region
-  // below, so it cannot shift layout.
-  const summaryPlaceName =
-    airport.icao && airport.title.endsWith(` ${airport.icao}`)
-      ? airport.title.slice(0, -(airport.icao.length + 1))
-      : airport.title;
-  const summaryAiracIso = chartPdfUrl
-    ? (chartUrlAiracIso ?? countryAiracIso)
-    : detailAiracIso;
-  const summaryAiracLabel = summaryAiracIso
-    ? new Intl.DateTimeFormat(lang, {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        timeZone: "UTC",
-      }).format(new Date(`${summaryAiracIso}T00:00:00Z`))
-    : null;
-  const summaryInput = {
-    name: summaryPlaceName,
-    icao: airport.icao,
-    type: airport.type,
-    town: city,
-    runwayCount: runways.length,
-    hasChart: chartPdfUrl != null,
-    airac: summaryAiracLabel,
-  };
-  const airportSummary = buildAirportSummary(
-    tSummary,
-    summaryInput,
-    summaryLinks,
-  );
-  // Plain-text twin of the visible prose (no links): the machine-readable
-  // description of the AERODROME entity for the Airport JSON-LD, replacing the
-  // generic "AIP <type> Charts ..." page-action line. GEO/semantic signal;
-  // Airport.description is not a Google rich-result field, so no SERP risk.
-  const airportSummaryText = buildAirportSummaryText(tSummary, summaryInput);
   // DE-only OCR'd AD-2 text, locale-appropriate (German narrative on /de,
   // English pages on /de/en), shared by the visible AirportAipText block AND
   // the Airport JSON-LD property below so the two never diverge.
@@ -366,7 +302,9 @@ export async function AirportGadgets({
     // later appears or collapses (both happen within the reserved height). Fields
     // taller than this (e.g. with a PDF chart) still grow past it; sparse fields
     // get a little trailing whitespace. Keep this value in sync with the fallback.
-    <div className="mx-auto mt-24 min-h-[40rem] max-w-7xl px-4 sm:px-6 lg:px-8">
+    // No mt-24 here: the AirportSummaryLine rendered above (in the page shell)
+    // now owns the clearance for the absolutely-positioned AIP button.
+    <div className="mx-auto min-h-[40rem] max-w-7xl px-4 sm:px-6 lg:px-8">
       {/* Enriched Airport JSON-LD - one facts fetch feeds this and the boxes. */}
       <SchemaAirport
         name={schemaName}
@@ -477,13 +415,11 @@ export async function AirportGadgets({
             {detailAiracLabel}
           </p>
         )}
-        {/* Generated descriptive paragraph (GEO/SEO): a unique, human-readable
-            summary built from this field's own data, so the high-volume detail
-            pages carry real prose an LLM can cite - not just data widgets. Pure
-            SSR text inside the reserved region, so no LCP/CLS cost. */}
-        <p className="text-drossgray-dark mx-auto max-w-3xl text-center text-sm leading-relaxed">
-          {airportSummary}
-        </p>
+        {/* The descriptive prose paragraph is rendered in the page SHELL now
+            (AirportSummaryLine, above this Suspense-streamed region) so it lands
+            in the first flush as the LCP element instead of waiting on these
+            gadget fetches. Its plain-text twin arrives here as
+            `airportSummaryText` for the Airport JSON-LD description above. */}
         {/* DE-only raw AD-2 text (OCR'd from the DFS page image, since DFS
             serves AD-2 as a base64 PNG). DISPLAY-only under a "verify against
             the AIP" caveat - never parsed into hours / the badge / the map /

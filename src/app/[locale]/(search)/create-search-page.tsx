@@ -9,6 +9,7 @@ import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { AirportGadgets } from "~/components/airport-gadgets";
 import { AirportGadgetsFallback } from "~/components/airport-gadgets-fallback";
+import { AirportSummaryLine } from "~/components/airport-summary-line";
 import { Suspense } from "react";
 import { ExternalLink } from "~/components/external-link";
 import { SchemaProduct } from "~/components/schemas/schema-product";
@@ -21,10 +22,16 @@ import {
   routing,
   isSingleLocale,
 } from "~/i18n/routing";
+import { airacDateFromUrl } from "~/lib/charts";
+import {
+  buildAirportSummaryText,
+  type AirportSummaryInput,
+} from "~/lib/airport-summary";
 import {
   countryHasType,
   i18nPathMapping,
   isGatedCountry,
+  isPdfUrl,
   orgUrl,
   serpTitle,
 } from "~/lib/utils";
@@ -133,6 +140,72 @@ async function relatedTypeLinks(
       };
     }),
   );
+}
+
+/** Count the runways stored in the cached facts JSON column (no source merge). */
+function countRunways(json: string | null | undefined): number {
+  if (!json) return 0;
+  try {
+    const parsed: unknown = JSON.parse(json);
+    return Array.isArray(parsed) ? parsed.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
+/**
+ * Compose the {@link AirportSummaryInput} for the detail-page prose from the
+ * field's OWN data plus ONE cheap cached D1 facts read (town + runway count)
+ * and a light AIRAC resolution. It deliberately does NOT call the live-fetching
+ * `getAirportFacts` (OpenAIP / AWC / geocode): the summary is the page's LCP
+ * element and must paint in the shell's first flush, so it may only depend on
+ * fast cached reads. Fail-soft - a facts-read error degrades to no town / no
+ * runway sentence, never crashes the page. The AIRAC branch mirrors the box
+ * logic in `airport-gadgets.tsx` (chart URL date, else the country edition).
+ */
+async function buildSummaryInput(
+  data: Airport,
+  locale: string,
+): Promise<AirportSummaryInput> {
+  const lang = localeLangMapping[locale] ?? "en";
+  const facts = data.icao
+    ? await QUERIES.airportFacts(data.icao).catch(() => undefined)
+    : undefined;
+  const chartPdfUrl = data.pdfUrl ?? (isPdfUrl(data.url) ? data.url : null);
+  const chartUrlAiracIso = chartPdfUrl ? airacDateFromUrl(chartPdfUrl) : null;
+  const boxlessUrlAiracIso = chartPdfUrl ? null : airacDateFromUrl(data.url);
+  const needCountryAirac =
+    (chartPdfUrl && chartUrlAiracIso === null) ||
+    (!chartPdfUrl && boxlessUrlAiracIso === null);
+  const countryAiracIso = needCountryAirac
+    ? await QUERIES.crawlAirac(data.country).catch(() => null)
+    : null;
+  const summaryAiracIso = chartPdfUrl
+    ? (chartUrlAiracIso ?? countryAiracIso)
+    : (boxlessUrlAiracIso ?? countryAiracIso);
+  const airac = summaryAiracIso
+    ? new Intl.DateTimeFormat(lang, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        timeZone: "UTC",
+      }).format(new Date(`${summaryAiracIso}T00:00:00Z`))
+    : null;
+  // Titles are `<name> <ICAO>` by convention - strip the trailing ICAO for the
+  // readable place name.
+  const placeName =
+    data.icao && data.title.endsWith(` ${data.icao}`)
+      ? data.title.slice(0, -(data.icao.length + 1))
+      : data.title;
+  return {
+    name: placeName,
+    icao: data.icao,
+    type: data.type,
+    town: facts?.municipality ?? null,
+    runwayCount: countRunways(facts?.runways),
+    hasChart: chartPdfUrl != null,
+    airac,
+  };
 }
 
 export function createSearchPage(config: SearchPageConfig) {
@@ -271,6 +344,19 @@ export function createSearchPage(config: SearchPageConfig) {
       ? await relatedTypeLinks(data, type, country, locale)
       : [];
 
+    // Per-airport descriptive prose (the page's LCP element). Built here in the
+    // shell from cached reads only and rendered BEFORE the Suspense boundary, so
+    // it lands in the first HTML flush instead of waiting on the streamed
+    // gadgets' live fetches. The plain-text twin is threaded into the gadgets so
+    // the Airport JSON-LD `description` stays byte-identical to the visible prose.
+    const summaryInput = data ? await buildSummaryInput(data, locale) : null;
+    const airportSummaryText = summaryInput
+      ? buildAirportSummaryText(
+          await getTranslations("AirportSummary"),
+          summaryInput,
+        )
+      : "";
+
     return (
       <>
         <Title
@@ -331,6 +417,14 @@ export function createSearchPage(config: SearchPageConfig) {
           </div>
         </div>
 
+        {/* LCP element: the descriptive prose, rendered in the shell (first
+            flush) so it paints with the H1/AIP button rather than waiting on the
+            streamed gadgets. Carries the mt-24 clearance for the absolute AIP
+            button; the gadgets region below drops its own now that this owns it. */}
+        {data && summaryInput && (
+          <AirportSummaryLine input={summaryInput} locale={locale} />
+        )}
+
         {data && (
           <Suspense fallback={<AirportGadgetsFallback />}>
             <AirportGadgets
@@ -340,6 +434,7 @@ export function createSearchPage(config: SearchPageConfig) {
               schemaDescription={t("resultDescription", {
                 airport: data.title,
               })}
+              airportSummaryText={airportSummaryText}
               schemaUrl={currentUrl}
               related={related}
             />
