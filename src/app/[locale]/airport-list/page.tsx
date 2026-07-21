@@ -17,7 +17,7 @@ import {
 import { type Airport } from "~/server/db/schema";
 import LoadingList from "./loading-list";
 import { QUERIES } from "~/server/db/queries";
-import { chartCoverage, i18nPathMapping, orgUrl, serpTitle } from "~/lib/utils";
+import { i18nPathMapping, orgUrl, serpTitle } from "~/lib/utils";
 import { SchemaProduct } from "~/components/schemas/schema-product";
 import { modifiedDate as buildDate } from "~/lib/build-info";
 import type { DeprecatedMetadataFields } from "next/dist/lib/metadata/types/metadata-types";
@@ -168,10 +168,6 @@ async function AirportLists({ locale }: { locale: string }) {
   // misses and five R2 writes - the multi-second streamed-content delay
   // Lighthouse caught on a freshly tag-busted list.
   const allAirports = await QUERIES.airportsByCountry(country);
-  // Honest "what you get" signal, computed from the rows just loaded (no extra
-  // query, so it never drifts): direct chart PDFs for all / most / no fields,
-  // or a login-gated AIP portal (ch/mt/md). Rendered as one SSR line below.
-  const coverage = chartCoverage(country, allAirports);
   // Crawl timestamp (unix seconds, null if never crawled) - threaded into the
   // map's coords fetch URL as a cache-buster so the markers refresh per crawl
   // (the coords endpoint's Cloudflare edge cache is not tag-invalidated).
@@ -220,19 +216,6 @@ async function AirportLists({ locale }: { locale: string }) {
         openNowLabel={tWeather("statusOpen")}
         openUntilLabel={tWeather("openUntil")}
       />
-      {/* Chart-availability signal (owner directive #5a): tells the reader up
-          front whether this country offers direct chart PDFs, only official AIP
-          page links, or a login-gated portal - derived from the loaded rows, so
-          it stays truthful without any hardcoded per-country coverage list. */}
-      {coverage.total > 0 && (
-        <p className="text-drossgray-dark mx-auto max-w-2xl px-4 pt-2 text-center text-sm">
-          {t("coverage", {
-            bucket: coverage.bucket,
-            withCharts: coverage.withCharts,
-            total: coverage.total,
-          })}
-        </p>
-      )}
       {/* Trade:Aero cross-sell (locale + country aware), placed between the
           map and the listings. */}
       <TradeAeroCta />
