@@ -1359,7 +1359,10 @@ jobs:
               f"hours_by_icao={len(at.hours_by_icao)} ====="
           )
           at.ensure_client_open()
+          first_at = None
           for a in [x for x in at_airports if x.icao][:6]:
+              if first_at is None:
+                  first_at = a
               try:
                   text = " ".join(at.soup(at.fetch_iso(a.url)).get_text(" ").split())
               except Exception as e:  # noqa: BLE001
@@ -1375,27 +1378,54 @@ jobs:
                   f"hrs={ad23_hours(text)}"
               )
               print(f"   near-2.3: {snip!r}")
+          # Round 2: the page is a tiny stub, so dump its RAW html + every frame /
+          # iframe / anchor target so the real AD 2.3 sub-document can be found.
+          if first_at is not None:
+              raw = at.fetch_iso(first_at.url)
+              soup = at.soup(raw)
+              frames = [
+                  (f.name, f.get("src"))
+                  for f in soup.find_all(["frame", "iframe"])
+              ]
+              anchors = [a.get("href") for a in soup.find_all("a", href=True)][:25]
+              print(f"\n----- AT raw stub for {first_at.icao} ({first_at.url}) -----")
+              print(f"   frames/iframes: {frames}")
+              print(f"   anchors[:25]: {anchors}")
+              print(f"   raw[:2500]: {raw[:2500]!r}")
           at.close()
 
-          # ----- DK: does a collected chart URL match the data-sheet regex? -----
+          # ----- DK: does the matched data sheet yield parseable AD 2.3 text? ---
           dk = COUNTRY_CRAWLERS["DK"]()
           dk_airports = dk.crawl()
           print(
               f"\n===== DK recon: {len(dk_airports)} airports, "
               f"hours_by_icao={len(dk.hours_by_icao)} ====="
           )
-          for a in [x for x in dk_airports if x.icao][:6]:
+          for a in [x for x in dk_airports if x.icao][:5]:
               charts = a.charts or []
-              ds = [
-                  c.url
-                  for c in charts
-                  if re.search(
-                      rf"AD_2_{re.escape(a.icao)}_[a-z]{{2}}\.pdf$", c.url, re.I
+              ds = next(
+                  (
+                      c.url
+                      for c in charts
+                      if re.search(
+                          rf"AD_2_{re.escape(a.icao)}_[a-z]{{2}}\.pdf$", c.url, re.I
+                      )
+                  ),
+                  None,
+              )
+              print(f"DK {a.icao}: {len(charts)} charts; data_sheet={ds}")
+              if ds:
+                  text = dk.pdf_text(ds)
+                  idx = text.find("2.3")
+                  snip = (
+                      text[max(0, idx - 90) : idx + 340] if idx >= 0 else "(no '2.3')"
                   )
-              ]
-              print(f"DK {a.icao}: {len(charts)} charts; data_sheet_match={ds}")
-              for c in charts[:10]:
-                  print(f"     {c.url}")
+                  print(
+                      f"   pdf_text len={len(text)} used_ocr={dk._last_pdf_ocr} "
+                      f"has_AD2.3={'AD 2.3' in text} has_AD2.4={'AD 2.4' in text} "
+                      f"hrs={ad23_hours(text)}"
+                  )
+                  print(f"   near-2.3: {snip!r}")
           dk.close()
           PY
 
