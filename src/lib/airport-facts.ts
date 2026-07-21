@@ -2,6 +2,7 @@ import "server-only";
 
 import { after } from "next/server";
 import { getAwcAirport } from "~/lib/awc-airport";
+import { circuitOverride } from "~/lib/circuit-overrides";
 import { customsOverride } from "~/lib/customs-overrides";
 import { resolveOverrideHours } from "~/lib/hours-overrides";
 import { getOpenAipFacts } from "~/lib/openaip";
@@ -249,7 +250,15 @@ export async function getAirportFacts(
     street: base?.street ?? null,
     postcode: base?.postcode ?? null,
     phone: base?.phone ?? null,
-    runways: firstArray(base?.runways, openaip?.runways, awc?.runways),
+    // Runways from the first non-empty source, with the verified circuit
+    // (Platzrunde) override applied per ident - it WINS over the OpenAIP
+    // turnDirection (compliance-grade, in code - see circuit-overrides.ts).
+    runways: firstArray(base?.runways, openaip?.runways, awc?.runways).map(
+      (r) => {
+        const ov = circuitOverride(code, r.ident);
+        return ov ? { ...r, trafficPattern: ov } : r;
+      },
+    ),
     frequencies: firstArray(
       base?.frequencies,
       openaip?.frequencies,
