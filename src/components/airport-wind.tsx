@@ -276,9 +276,13 @@ export function AirportWind({
             );
           })}
 
-          {/* wind arrow (from the wind source toward the centre) + label -
-              only for a fixed vector; VRB/calm show a centre label instead */}
-          {hasVector ? (
+          {/* Wind arrow (from the wind source toward the centre) + its label -
+              ONLY for a fixed vector. A VRB/variable or calm wind has no defined
+              direction, so no arrow is drawn AND no centre label is placed: a
+              label at the centre overlaps the runway cross (the busiest point of
+              the diagram), and the wind condition is already stated in the side
+              panel ("crosswind <= wind speed (variable)" / "calm"). */}
+          {hasVector && (
             <>
               <line
                 x1={ax}
@@ -300,18 +304,6 @@ export function AirportWind({
                 {wdir}° {wspd} kt
               </text>
             </>
-          ) : (
-            <text
-              x={C}
-              y={C}
-              textAnchor="middle"
-              dominantBaseline="central"
-              fontSize="12"
-              fontWeight={600}
-              fill="#2d6a9a"
-            >
-              {isCalm ? t("calm") : `${t("variable")} ${wspd} kt`}
-            </text>
           )}
         </svg>
 
