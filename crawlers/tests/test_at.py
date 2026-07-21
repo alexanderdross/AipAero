@@ -273,63 +273,44 @@ def test_find_link_by_text_returns_none_when_absent(at: AT):
     assert at.find_link_by_text(soup, "Part III - AD") is None
 
 
-# ----- AD 2.3 operating hours -------------------------------------------------
+# ----- chart naming (right-column description) --------------------------------
 
-_WINDOW_0700_1700 = {
-    "kind": "window",
-    "open": {"t": "time", "m": 7 * 60},
-    "close": {"t": "time", "m": 17 * 60},
-}
-_UNKNOWN = {"kind": "unknown"}
-
-# The field's AD 2 page carries a real AD 2.3 OPERATIONAL HOURS table: row 1 is
-# the aerodrome operator (MON-FRI 0700-1700), row 2 the H24 customs service that
-# must NOT leak into the aerodrome hours.
-_FIELD_AD2_HTML = """<html><body>
-  <h3>LOWX AD 2.3 OPERATIONAL HOURS</h3>
-  <table>
-    <tr><td>1</td><td>Aerodrome operator</td><td>MON-FRI 0700-1700</td></tr>
-    <tr><td>2</td><td>Customs and immigration</td><td>H24</td></tr>
-  </table>
-  <h3>AD 2.4 HANDLING SERVICES AND FACILITIES</h3>
-</body></html>"""
+# The Austro Control AD-2 chart-index page: LEFT cell links the chart under its
+# code, RIGHT cell carries the bilingual name ("German<br><i>English</i>").
+_CHART_PAGE_HTML = """<html><body><table>
+  <tr>
+    <td><a href="Charts/LOWG/LO_AD_2_LOWG_1-1_en.pdf">LOWG AD 2 MAP 1-1</a></td>
+    <td>Flugplatzkarte - ICAO<br><i>Aerodrome Chart - ICAO</i></td>
+  </tr>
+  <tr>
+    <td><a href="Charts/LOWG/LO_AD_2_LOWG_14-2_en.pdf">LOWG AD 2 MAP 14-2</a></td>
+    <td>Sichtflugkarte INNSBRUCK<br><i>Chart for VFR flights INNSBRUCK</i></td>
+  </tr>
+</table></body></html>"""
+_CHART_BASE = "https://eaip.austrocontrol.at/lo/260710/ad_2_lowg.htm"
 
 
-def test_ad23_hours_collected_from_field_page(at: AT):
-    """extract_airports fetches each field's AD 2 page and fills
-    hours_by_icao from row 1 of its AD 2.3 table (H24 customs row excluded)."""
-    listing = """<table>
-      <tr>
-        <td><a href='ad/LOWX/index.html'>LOWX</a></td>
-        <td>Testfield</td>
-      </tr>
-    </table>"""
-
-    def fetch_iso(url: str) -> str:
-        return _FIELD_AD2_HTML if url.endswith("LOWX/index.html") else listing
-
-    at.fetch_iso = fetch_iso  # type: ignore[method-assign]
-    [airport] = at.extract_airports(_BASE_URL, "vfr")
-    assert airport.icao == "LOWX"
-    assert at.hours_by_icao["LOWX"] == [_WINDOW_0700_1700] * 5 + [_UNKNOWN] * 2
+def test_chart_names_use_right_column_english_description(at: AT):
+    links = at._collect_pdf_links(_CHART_PAGE_HTML, _CHART_BASE)
+    names = [name for name, _ in links]
+    # The chart's name is the right-column English (italic) line, not the code.
+    assert names == ["Aerodrome Chart - ICAO", "Chart for VFR flights INNSBRUCK"]
+    # URLs are still resolved absolutely and in document order.
+    assert links[0][1].endswith("/Charts/LOWG/LO_AD_2_LOWG_1-1_en.pdf")
 
 
-def test_ad23_hours_failure_is_soft(at: AT):
-    """A field page that raises on fetch must not abort extraction nor record
-    hours - the airport still lists."""
-    listing = """<table>
-      <tr>
-        <td><a href='ad/LOWY/index.html'>LOWY</a></td>
-        <td>Brokenfield</td>
-      </tr>
-    </table>"""
+def test_primary_pdf_is_the_aerodrome_chart_after_rename(at: AT):
+    links = at._collect_pdf_links(_CHART_PAGE_HTML, _CHART_BASE)
+    # Renaming the charts to descriptions must not break the primary pick: the
+    # aerodrome chart (MAP 1-1) is still chosen, via the filename priority.
+    assert at._pick_pdf_url(links).endswith("_1-1_en.pdf")
 
-    def fetch_iso(url: str) -> str:
-        if url.endswith("LOWY/index.html"):
-            raise ConnectionError("field page unreachable")
-        return listing
 
-    at.fetch_iso = fetch_iso  # type: ignore[method-assign]
-    [airport] = at.extract_airports(_BASE_URL, "vfr")
-    assert airport.icao == "LOWY"
-    assert "LOWY" not in at.hours_by_icao
+def test_chart_name_falls_back_to_code_without_description_cell(at: AT):
+    html = (
+        "<table><tr><td>"
+        '<a href="x_5-1_en.pdf">LOWG AD 2 MAP 5-1</a>'
+        "</td></tr></table>"
+    )
+    links = at._collect_pdf_links(html, "https://x/")
+    assert links[0][0] == "LOWG AD 2 MAP 5-1"

@@ -6,7 +6,6 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 from crawlers.http_base import Airport, HttpCrawlerBase
-from crawlers.http_eurocontrol_base import ad23_hours
 
 COUNTRY = "AT"
 # Austro Control's eAIP root; the current-edition table lives at this URL.
@@ -181,30 +180,67 @@ class AT(HttpCrawlerBase):
                     type=airport_type,
                 )
             )
-
-            # AD 2.3 operating hours: the Austrocontrol eAIP field page is
-            # frameless HTML with a real AD 2.3 table (no eurocontrol frameset,
-            # so the main.py auto-collection skips AT). Fetch the page, flatten
-            # to text and isolate row 1 with the shared `ad23_hours`; publish is
-            # then automatic (main.py). Fail-soft - a field that does not parse
-            # simply shows no hours.
-            if icao:
-                try:
-                    page_text = " ".join(
-                        self.soup(self.fetch_iso(full_url)).get_text(" ").split()
-                    )
-                    hrs = ad23_hours(page_text)
-                    if hrs:
-                        self.hours_by_icao[icao] = hrs
-                except Exception as e:
-                    self.logger.debug(f"AT: {icao} AD 2.3 hours failed: {e}")
+            # No AD 2.3 operating-hours fetch here: Austro Control publishes each
+            # aerodrome's AD 2 data as chart PDFs only (the field page is a
+            # chart-index table with no AD 2.3 text - verified live, all 15 of a
+            # field's chart PDFs carry no hours table), so there is nothing to
+            # parse. AT operating hours come from OpenAIP on the website instead.
         return airports
 
-    # Chart-PDF extraction (recon 2026-07-12): the AD-2 page links every
-    # chart as "LOWG AD 2 MAP 1-1" etc.; MAP 1-1 is the aerodrome chart.
+    # Chart-PDF extraction (recon 2026-07-12): the AD-2 page is a two-column
+    # table - the LEFT cell links each chart under its code ("LOWG AD 2 MAP
+    # 1-1"), the RIGHT cell gives the human name ("Flugplatzkarte / Aerodrome
+    # Chart - ICAO"). We name each chart by that right-column description (see
+    # `_collect_pdf_links` below) so the website's chart box reads in words, not
+    # codes. `_1-1_` is the aerodrome chart, kept as the primary link.
     FETCH_PDF_URLS = True
-    # Prefer the aerodrome chart (MAP 1-1) among the AD-2 chart links.
-    PDF_TEXT_PRIORITY = (r"AD 2 MAP 1-1$",)
+    # Prefer the aerodrome chart (MAP 1-1). Match on both the (now descriptive)
+    # link text AND the filename, so the primary pick survives the renaming.
+    PDF_TEXT_PRIORITY = (r"^Aerodrome Chart - ICAO",)
+    PDF_HREF_PRIORITY = (r"_1-1_[a-z]{2}\.pdf$",)
+
+    @staticmethod
+    def _chart_description(anchor) -> str:
+        """The AD-2 table's RIGHT-column description for a chart anchor - the
+        English (italic) line where the cell is bilingual, e.g. "Aerodrome
+        Chart - ICAO" - so the chart box names each chart in words instead of
+        the bare "LOWG AD 2 MAP 1-1" code. Falls back to the anchor's own code
+        text when no description cell is found (a single-column layout)."""
+        code = " ".join(anchor.get_text(" ", strip=True).split())
+        code_cell = anchor.find_parent("td")
+        row = code_cell.find_parent("tr") if code_cell else None
+        if row is not None:
+            for cell in row.find_all("td", recursive=False):
+                if cell is code_cell:
+                    continue
+                # The bilingual cell is "German<br><i>English</i>"; prefer the
+                # italic English line, else the whole cell text.
+                italic = cell.find("i")
+                desc = " ".join((italic or cell).get_text(" ", strip=True).split())
+                if desc:
+                    return desc[:120]
+        return code[:120]
+
+    def _collect_pdf_links(
+        self, html: str, base_url: str
+    ) -> list[tuple[str, str]]:
+        """AT override: name each chart PDF by the AD-2 table's right-column
+        description (the eAIP puts the code left, the human name right) rather
+        than the base class's left-column anchor text. Same dedupe-by-URL +
+        document order + MAX_CHARTS cap as the base."""
+        soup = self.soup(html)
+        links: list[tuple[str, str]] = []
+        seen: set[str] = set()
+        for link in soup.find_all("a", href=True):
+            href = link["href"]
+            if ".pdf" not in href.lower():
+                continue
+            url = urljoin(base_url, href)
+            if url in seen:
+                continue
+            seen.add(url)
+            links.append((self._chart_description(link), url))
+        return links[: self.MAX_CHARTS]
 
     def crawl(self) -> list[Airport]:
         """Drive the three-hop navigation and return all AT airports.
