@@ -189,8 +189,11 @@ export async function AirportFacts({
       .filter(Boolean)
       .join(" "),
   );
+  // Join each service+frequency pair with a NON-BREAKING space so a line only
+  // wraps at the " · " separators between entries, never mid-entry (e.g. "CLD"
+  // orphaned from "121.775" on a phone).
   const frequenciesText = frequencies
-    .map((f) => `${f.type} ${f.mhz}`.trim())
+    .map((f) => `${f.type}\u00A0${f.mhz}`.trim())
     .join(" · ");
 
   // AD 2.13 declared distances (authoritative eAIP): one compact line per
