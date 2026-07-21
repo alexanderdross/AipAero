@@ -20,8 +20,10 @@ test("security headers are enforced with the load-bearing directives", async ({
 
   // Load-bearing directives (each guards a shipped feature):
   expect(csp).toContain("frame-ancestors 'none'");
-  // Chart-PDF inline preview embeds cross-origin AIP-host PDFs via <object>.
-  expect(csp).toContain("object-src https:");
+  // The app embeds no plugin content (the inline chart-PDF <object> preview was
+  // removed 14.07.2026; the chart box is links-only), so object-src is locked to
+  // 'none'. If an inline document embed ever returns, this must be revisited.
+  expect(csp).toContain("object-src 'none'");
   // Offline service worker registration.
   expect(csp).toContain("worker-src 'self'");
   // OSM map tiles.
