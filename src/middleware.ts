@@ -6,34 +6,6 @@ import { countryAnchorSlug, countryMeta, liveCountries } from "./lib/utils";
 
 const handleI18nRouting = createMiddleware(routing);
 
-// The five airport search/detail routes (`/vfr`, `/ifr`, `/heliports`,
-// `/military`, `/aeroports`) read `searchParams` for the `?ICAO` scheme, so
-// they are ALWAYS dynamically rendered and Next.js emits
-// `Cache-Control: private, no-cache, no-store, max-age=0, must-revalidate` for
-// them. The `no-store` directive makes Chrome refuse the page for the
-// back/forward cache (bfcache) - Lighthouse flags this as "Page prevented
-// back/forward cache restoration". We strip ONLY `no-store` on these routes so
-// the browser can keep an in-memory snapshot for instant back/forward, while
-// `private, no-cache, max-age=0, must-revalidate` keeps them per-request SSR
-// (no shared/CDN cache ever stores or serves them stale - the ?ICAO pages stay
-// dynamic). The slugs are uniform across locales (see routing.pathnames), so
-// the last path segment identifies them regardless of locale prefix.
-const SEARCH_ROUTE_SLUGS = new Set([
-  "vfr",
-  "ifr",
-  "heliports",
-  "military",
-  "aeroports",
-]);
-const BFCACHE_FRIENDLY_CACHE_CONTROL =
-  "private, no-cache, max-age=0, must-revalidate";
-
-function isDynamicSearchRoute(pathname: string): boolean {
-  const segments = pathname.split("/").filter(Boolean);
-  const last = segments[segments.length - 1];
-  return last !== undefined && SEARCH_ROUTE_SLUGS.has(last);
-}
-
 export default function middleware(request: NextRequest) {
   // Redirect the www host to the canonical apex domain (301). Both hostnames
   // are bound to this Worker as custom domains (see wrangler.jsonc).
@@ -124,16 +96,6 @@ export default function middleware(request: NextRequest) {
       "";
   });
   response.headers.set("link", link.toString());
-
-  // Make the dynamic ?ICAO search/detail routes bfcache-eligible by dropping
-  // `no-store` (Next.js sets it on every dynamic render). OpenNext applies
-  // middleware response headers over the Next-server response, so this
-  // Cache-Control wins - verified via the same override path the `link` header
-  // above uses. Only these routes are touched; the ISR/static pages keep their
-  // own (s-maxage) caching headers.
-  if (isDynamicSearchRoute(pathname)) {
-    response.headers.set("cache-control", BFCACHE_FRIENDLY_CACHE_CONTROL);
-  }
   return response;
 }
 
