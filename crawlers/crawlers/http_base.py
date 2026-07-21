@@ -8,10 +8,15 @@ import time
 from pathlib import Path
 from urllib.parse import unquote, urljoin
 
+from typing import TYPE_CHECKING
+
 import httpx
 from bs4 import BeautifulSoup
 
 from crawlers.models import Airport, ChartLink
+
+if TYPE_CHECKING:
+    from crawlers.operating_hours import StructuredHours
 
 # Re-export Airport so country crawlers can `from crawlers.http_base import
 # Airport, HttpCrawlerBase` in one line.
@@ -112,7 +117,7 @@ class HttpCrawlerBase:
         # hours here; main.py PATCHes them to /api/airport-facts with
         # hoursSource="eaip" after the airport publish. Empty for crawlers that
         # do not populate it.
-        self.hours_by_icao: dict[str, object] = {}
+        self.hours_by_icao: dict[str, "StructuredHours | None"] = {}
         # Per-ICAO hours PROVENANCE override (default is the publish call's
         # source, "eaip"). Set to "pdf-ocr-hours" for a field whose AD 2.3 hours
         # came from the OCR fallback of an image-only PDF (see pdf_text /

@@ -451,7 +451,11 @@ export const QUERIES = {
       return [];
     }
   },
-  crawlUpdatedAt: function (country: string) {
+  // React-cache()d so the airport-list render (which reads it in the page shell
+  // for LastUpdated AND inside AirportLists for the map cache-buster) does one
+  // incremental-cache read per request, not two (unstable_cache does not
+  // memoize within a request; see cachedRead's note).
+  crawlUpdatedAt: cache(function (country: string) {
     // Unix-seconds timestamp of the last crawler POST for this country (null if
     // never crawled). Tagged with the country tag so a fresh POST busts it.
     country = country.toUpperCase();
@@ -468,8 +472,8 @@ export const QUERIES = {
           .then((rows) => rows[0]?.updatedAt ?? null),
       null,
     );
-  },
-  crawlAirac: function (country: string) {
+  }),
+  crawlAirac: cache(function (country: string) {
     // AIRAC/edition date (ISO "2026-07-09") of this country's crawled data,
     // stamped at crawl time from the sources' edition-dated URLs. Null when the
     // source's URLs carry no date (CZ) or the country was never crawled. Light
@@ -489,7 +493,7 @@ export const QUERIES = {
           .then((rows) => rows[0]?.airac ?? null),
       null,
     );
-  },
+  }),
   airportFacts: function (icao: string) {
     // Embedded aerodrome facts by ICAO (OurAirports base, imported into D1).
     // Cached with a single global tag - the importer refreshes all rows at once.

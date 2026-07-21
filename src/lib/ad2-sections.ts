@@ -1,4 +1,10 @@
 /**
+ * SERVER-ONLY module. The sub-item split regex uses a negative lookbehind
+ * (`(?<!...)`), which is a hard PARSE-time error on Safari < 16.4 - so this must
+ * never be imported by a `"use client"` component (it currently is imported only
+ * by the server components airport-aip-text.tsx and airport-gadgets.tsx). It
+ * runs on the CF Workers V8 runtime + Node (tests), both of which support it.
+ *
  * Segments the DE OCR'd AD-2 text blob (see `crawlers/crawlers/de_ocr.py`) into
  * the ICAO AD 2.x sections it contains, so the "AIP-Flugplatzinformationen"
  * block can render a scannable, sectioned layout instead of one wall of running
@@ -224,14 +230,19 @@ export function keptAd2Text(
 }
 
 // A zero-width boundary BEFORE a numbered sub-item marker ("1. ", "2. ",
-// "2.1 ", "3. ") followed by a capitalised word. A DOT is REQUIRED in the
-// marker, so the dot-less OCR mis-reads of deeper items ("24" for "2.4") and -
-// crucially - ordinary numbers like "24 Stunden", a "14.000 Kg" weight or a
-// "0600" time never start a break. `(?<![\d.])` stops a match starting inside a
-// longer number. Splitting on this zero-width point keeps the marker at the
-// start of each item; it is purely a display split and never rewrites the text.
+// "2.1 ", "3. ") followed by a Title-case WORD (capital + lowercase). Two guards
+// keep it from breaking mid-sentence:
+//  - a DOT is required in the marker, so dot-less OCR mis-reads of deeper items
+//    ("24" for "2.4") and ordinary numbers ("24 Stunden", "0600" time, "14.000
+//    Kg" weight) never start a break, and `(?<![\d.])` stops a match starting
+//    inside a longer number;
+//  - the following token must be Title-case (`[A-Z\u2026][a-z\u2026]`), so a decimal
+//    measurement or coordinate followed by an all-caps unit ("1.5 NM", "0.5 KM",
+//    "12.5 E") is NOT mistaken for a sub-item.
+// Splitting on this zero-width point keeps the marker at the start of each item;
+// it is purely a display split and never rewrites the (OCR) text.
 const _SUBITEM_SPLIT_RE =
-  /(?=(?<![\d.])\d{1,2}\.(?:\d{1,2})?\s+[A-Z\u00c4\u00d6\u00dc])/;
+  /(?=(?<![\d.])\d{1,2}\.(?:\d{1,2})?\s+[A-Z\u00c4\u00d6\u00dc][a-z\u00e4\u00f6\u00fc])/;
 
 /**
  * Break a section body into its numbered sub-items for a scannable layout (AD
@@ -267,6 +278,9 @@ const AD2_PHONE_RE = /\bTEL(?:EFON)?\s*[:.]?\s*(\+?\(?\d[\d\s()/.-]{5,}\d)/i;
 export function extractAd2Phone(
   blob: string | null | undefined,
 ): string | null {
+  // The lang passed to segmentAd2Text is irrelevant here: we match on the
+  // section CODE ("2.2") and a language-neutral TEL anchor, not on a localized
+  // title, so "en" works on the German blob too - do not "fix" it to take a lang.
   const sections = segmentAd2Text(blob, "en");
   const admin = sections?.find((s) => s.code === "2.2");
   if (!admin) return null;
