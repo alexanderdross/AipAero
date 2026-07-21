@@ -196,12 +196,17 @@ def main(countries: list[str] | None = None):
             )
             # Publish AUTHORITATIVE eAIP AD 2.3 operation hours + AD 2.13
             # declared distances, when the crawler collected them (PATCH,
-            # source="eaip"; empty for crawlers that read neither). Fail-soft.
+            # source="eaip"; empty for crawlers that read neither). Fields whose
+            # hours came from the image-only-PDF OCR fallback are tagged
+            # "pdf-ocr-hours" per field via hours_source_by_icao. Fail-soft.
             hours_by_icao = getattr(crawler, "hours_by_icao", None)
             declared_by_icao = getattr(crawler, "declared_by_icao", None)
             if hours_by_icao or declared_by_icao:
                 output_handler.publish_hours(
-                    hours_by_icao or {}, country, declared_by_icao or {}
+                    hours_by_icao or {},
+                    country,
+                    declared_by_icao or {},
+                    source_by_icao=getattr(crawler, "hours_source_by_icao", None),
                 )
             # DE-only: OCR the DFS AD-2 page images into raw DISPLAY text
             # (source "dfs-ocr") AND parse the AD 2.3 operator hours into

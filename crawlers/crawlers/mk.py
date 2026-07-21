@@ -58,6 +58,10 @@ class MK(HttpCrawlerBase):
     field whose url / pdf_url is its combined AD 2 chart PDF.
     """
 
+    # Tesseract language for the pdf_text OCR fallback (the ~2018 M-NAV AD-2
+    # PDFs are often image-only, so this is the crawler most likely to use it).
+    PDF_OCR_LANG = "mkd+eng"
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
@@ -108,6 +112,8 @@ class MK(HttpCrawlerBase):
                 hrs = ad23_hours(self.pdf_text(pdf))
                 if hrs:
                     self.hours_by_icao[icao] = hrs
+                    if self._last_pdf_ocr:
+                        self.hours_source_by_icao[icao] = "pdf-ocr-hours"
             except Exception as e:
                 self.logger.debug(f"MK: {icao} AD 2.3 hours failed: {e}")
             airports.append(

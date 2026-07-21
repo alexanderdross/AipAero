@@ -91,7 +91,9 @@ export async function AirportFacts({
           return `${t("statusClosed")}${opens}`;
         })()
       : null;
-  const isOcrHours = facts?.hoursSource === "dfs-ocr-hours";
+  const isOcrHours =
+    facts?.hoursSource === "dfs-ocr-hours" ||
+    facts?.hoursSource === "pdf-ocr-hours";
   // OCR-sourced hours carry no inline source label - the always-visible
   // hoursOcrDisclaimer below already states the OCR provenance (no duplication).
   const hoursSourceLabel =

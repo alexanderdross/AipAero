@@ -17,7 +17,11 @@ const airportHoursSchema = z
     // directive 20.07.2026): structured like every eAIP country, shown under a
     // "machine-read via OCR, verify" disclaimer. Distinct from ad2OcrSource
     // ("dfs-ocr" = the raw display text) so provenance stays separable.
-    hoursSource: z.enum(["eaip", "openaip", "osm", "dfs-ocr-hours"]).optional(),
+    // "pdf-ocr-hours" = hours parsed from the OCR fallback of an image-only
+    // eAIP PDF (any country); same disclaimer + sub-eaip rank as dfs-ocr-hours.
+    hoursSource: z
+      .enum(["eaip", "openaip", "osm", "dfs-ocr-hours", "pdf-ocr-hours"])
+      .optional(),
     declaredDistances: z.string().nullable().optional(), // JSON DeclaredDistances
     declaredSource: z.enum(["eaip"]).optional(),
     // DE-only raw OCR text of the DFS AD-2 page images (display-only, see the

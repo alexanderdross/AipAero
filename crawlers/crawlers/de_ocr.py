@@ -61,20 +61,36 @@ def biggest_png(html: str) -> bytes | None:
     return best or None
 
 
-def ocr_image(png: bytes) -> str:
-    """Decode a PNG + Tesseract (German + English) -> whitespace-collapsed
-    text, or "" on any failure (missing binary, unreadable image). Fail-soft
-    and lazy-imported."""
+def ocr_pil(img: object, lang: str = "eng") -> str:
+    """Run Tesseract on an already-decoded PIL image -> whitespace-collapsed
+    text, or "" on any failure (missing binary / language pack, unreadable
+    image). Fail-soft and lazy-imported. Factored out of ``ocr_image`` so the
+    PDF-OCR fallback (``HttpCrawlerBase._pdf_ocr_text``) can OCR rendered PDF
+    pages directly, passing its own per-country ``lang``."""
     try:
         import pytesseract
+    except ImportError:
+        return ""
+    try:
+        return " ".join(pytesseract.image_to_string(img, lang=lang).split())
+    except Exception:
+        return ""
+
+
+def ocr_image(png: bytes, lang: str = "deu+eng") -> str:
+    """Decode a PNG + Tesseract -> whitespace-collapsed text, or "" on any
+    failure (missing binary, unreadable image). Fail-soft and lazy-imported.
+    Default ``lang`` is German+English for the DFS (DE) AD-2 page scans; other
+    callers pass their own."""
+    try:
         from PIL import Image
     except ImportError:
         return ""
     try:
         img = Image.open(io.BytesIO(png))
-        return " ".join(pytesseract.image_to_string(img, lang="deu+eng").split())
     except Exception:
         return ""
+    return ocr_pil(img, lang)
 
 
 # Language markers for routing each AD-2 page to the German or English blob.

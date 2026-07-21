@@ -127,11 +127,15 @@ jobs:
         run: uv run playwright install chromium --with-deps
 
       # Tesseract OCR for the DE AD-2 page images (DFS serves them as base64
-      # PNGs). German + English language data. Best-effort: a failure only
-      # affects the DE OCR pass, which is fail-soft.
+      # PNGs) AND the global pdf_text OCR fallback for image-only eAIP PDFs.
+      # Language packs cover the PDF-caller countries (ES/GR/RO/MK/RS/DK) plus
+      # deu/eng. Best-effort: the OCR paths are fail-soft.
       - name: Install Tesseract OCR
         continue-on-error: true
-        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-deu
+        run: >-
+          sudo apt-get update && sudo apt-get install -y
+          tesseract-ocr tesseract-ocr-deu tesseract-ocr-spa tesseract-ocr-ell
+          tesseract-ocr-ron tesseract-ocr-mkd tesseract-ocr-hrv tesseract-ocr-dan
 
       # Optional: verify external deep-link URL patterns (EFB hand-offs etc.)
       # from the runner - the sandboxed agent environment has no egress, so

@@ -62,6 +62,9 @@ class ES(HttpCrawlerBase):
     "vfr" (NO/PL/SE convention).
     """
 
+    # Tesseract language for the pdf_text OCR fallback (image-only AD-2 PDFs).
+    PDF_OCR_LANG = "spa+eng"
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
@@ -142,6 +145,8 @@ class ES(HttpCrawlerBase):
                     hrs = ad23_hours(self.pdf_text(pdf_url))
                     if hrs:
                         self.hours_by_icao[icao] = hrs
+                        if self._last_pdf_ocr:
+                            self.hours_source_by_icao[icao] = "pdf-ocr-hours"
                 except Exception as e:
                     self.logger.debug(f"ES: {icao} AD 2.3 hours failed: {e}")
                 title = f"{name} {icao}".strip() if name else icao
