@@ -24,11 +24,11 @@ const withAnalyzer = withBundleAnalyzer({
 // endpoints on script/frame/img/connect. Enforcing without these blanks ad
 // slots (revenue), so they are allowlisted up front, not reactively.
 //
-// object-src: the app no longer embeds any plugin content - the former inline
-// PDF preview (<object>, chart-preview.tsx) was removed 14.07.2026 and must not
-// return. `object-src https:` is kept as a conservative floor (no data:/blob:
-// object sources); it could be tightened to 'none' now that nothing embeds -
-// deferred as a deliberate CSP change, not a cleanup.
+// object-src: the app embeds NO plugin content - the former inline PDF preview
+// (<object>, chart-preview.tsx) was removed 14.07.2026 and must not return (the
+// chart box is links-only, see airport-chart.tsx). So this is 'none': no
+// <object>/<embed>/<applet> source of any scheme is permitted. If an inline
+// document embed is ever reintroduced this must be revisited.
 // Cloudflare Turnstile (contact form, /contact + /de/kontakt) loads its script
 // from challenges.cloudflare.com, renders the challenge in an iframe from the
 // same origin, and posts back to it - so challenges.cloudflare.com must be on
@@ -44,7 +44,7 @@ const csp = [
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  "object-src https:",
+  "object-src 'none'",
   // Offline service worker (public/sw.js) - explicit, so the enforcing
   // policy cannot silently break SW registration.
   "worker-src 'self'",
