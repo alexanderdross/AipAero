@@ -62,6 +62,10 @@ on:
         description: "DE-only: OCR the DFS AD-2 page images (base64 PNGs) of these space-separated ICAOs and print the extracted text - validates the DE OCR quality WITHOUT publishing (Phase F2). E.g. 'EDNY EDDH'."
         required: false
         default: ""
+      at_dk_hours:
+        description: "AT+DK-only: crawl both and dump why AD 2.3 operating hours come back empty (AT: is the 'AD 2.3'/'AD 2.4' boundary in the fetched page text; DK: does any collected chart URL match the data-sheet regex). Set to 1 to run."
+        required: false
+        default: ""
   pull_request:
     paths:
       - ".github/workflows/crawler-live-test.yml"
@@ -1321,6 +1325,79 @@ jobs:
           path: crawlers/error_logs/
           if-no-files-found: ignore
           retention-days: 7
+
+      # Optional (AT/DK hours debug): the live-test reports AT 0/72 and DK 0/34
+      # AD 2.3 hours while the eurocontrol countries fill theirs, so dump WHY:
+      #  - AT re-fetches the first few AD-2 pages and reports whether the literal
+      #    "AD 2.3" / "AD 2.4" boundary tokens ad23_hours() keys on are even in
+      #    the flattened page text (an Austrocontrol page that numbers the
+      #    section differently, or serves it as an image, would miss);
+      #  - DK lists each field's collected chart URLs and whether any matches the
+      #    aerodrome-DATA-sheet regex (AD_2_<ICAO>_<xx>.pdf) collect_pdf_hours
+      #    needs - if none matches, the data sheet is named differently.
+      # Reuses the crawlers' own fetch/soup so proxy/TLS/render config carries
+      # over. Kept near the end so its (small) output lands in the log tail.
+      - name: AT/DK operating-hours recon
+        if: ${{ inputs.at_dk_hours != '' }}
+        continue-on-error: true
+        run: |
+          uv run python - <<'PY'
+          import logging
+          import re
+
+          logging.basicConfig(
+              level=logging.INFO, format="%(levelname)s %(name)s: %(message)s"
+          )
+          from main import COUNTRY_CRAWLERS
+          from crawlers.http_eurocontrol_base import _AD23_SECTION_RE, ad23_hours
+
+          # ----- AT: is the AD 2.3 -> AD 2.4 boundary in the page text? -----
+          at = COUNTRY_CRAWLERS["AT"]()
+          at_airports = at.crawl()
+          print(
+              f"\n===== AT recon: {len(at_airports)} airports, "
+              f"hours_by_icao={len(at.hours_by_icao)} ====="
+          )
+          at.ensure_client_open()
+          for a in [x for x in at_airports if x.icao][:6]:
+              try:
+                  text = " ".join(at.soup(at.fetch_iso(a.url)).get_text(" ").split())
+              except Exception as e:  # noqa: BLE001
+                  print(f"AT {a.icao}: fetch failed: {type(e).__name__}: {e}")
+                  continue
+              idx = text.find("2.3")
+              snip = text[max(0, idx - 90) : idx + 340] if idx >= 0 else "(no '2.3')"
+              print(f"AT {a.icao} url={a.url}")
+              print(
+                  f"   len={len(text)} has_AD2.3={'AD 2.3' in text} "
+                  f"has_AD2.4={'AD 2.4' in text} "
+                  f"section_re={'HIT' if _AD23_SECTION_RE.search(text) else 'MISS'} "
+                  f"hrs={ad23_hours(text)}"
+              )
+              print(f"   near-2.3: {snip!r}")
+          at.close()
+
+          # ----- DK: does a collected chart URL match the data-sheet regex? -----
+          dk = COUNTRY_CRAWLERS["DK"]()
+          dk_airports = dk.crawl()
+          print(
+              f"\n===== DK recon: {len(dk_airports)} airports, "
+              f"hours_by_icao={len(dk.hours_by_icao)} ====="
+          )
+          for a in [x for x in dk_airports if x.icao][:6]:
+              charts = a.charts or []
+              ds = [
+                  c.url
+                  for c in charts
+                  if re.search(
+                      rf"AD_2_{re.escape(a.icao)}_[a-z]{{2}}\.pdf$", c.url, re.I
+                  )
+              ]
+              print(f"DK {a.icao}: {len(charts)} charts; data_sheet_match={ds}")
+              for c in charts[:10]:
+                  print(f"     {c.url}")
+          dk.close()
+          PY
 
       # Optional (Phase E): dump the AD 2.12 / 2.13 / 2.20 sections of the first
       # few fields of each given eurocontrol country, to design the AD-2 facts
