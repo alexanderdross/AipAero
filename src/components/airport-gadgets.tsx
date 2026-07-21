@@ -15,7 +15,7 @@ import { SaveOfflineButton } from "~/components/save-offline-button";
 import { SchemaDigitalDocument } from "~/components/schemas/schema-digital-document";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { localeLangMapping } from "~/i18n/routing";
-import { keptAd2Text } from "~/lib/ad2-sections";
+import { extractAd2Phone, keptAd2Text } from "~/lib/ad2-sections";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import {
@@ -186,7 +186,14 @@ export async function AirportGadgets({
       : null);
   const postcode = facts?.postcode ?? geo?.postcode ?? null;
   const city = facts?.municipality ?? geo?.city ?? null;
-  const phone = facts?.phone ?? geo?.phone ?? null;
+  // Phone precedence: persisted OSM (facts) > live OSM (geo) > DE AIP AD 2.2 via
+  // OCR (last, noisy - strict-validated in extractAd2Phone, DE-only in practice).
+  // Computed once here and passed to BOTH the contact box and the Airport
+  // JSON-LD telephone so the two never diverge.
+  const phone =
+    facts?.phone ??
+    geo?.phone ??
+    extractAd2Phone(facts?.ad2TextDe ?? facts?.ad2Text ?? null);
   const website = facts?.homeLink ?? geo?.website ?? null;
   // Same Google Maps link the location box renders (coords when known, else the
   // ICAO/name) -> schema.org `hasMap`.
@@ -497,6 +504,7 @@ export async function AirportGadgets({
             airport={airport}
             facts={facts}
             geo={geo}
+            phone={phone}
             lat={lat}
             lon={lon}
           />

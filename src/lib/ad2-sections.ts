@@ -216,3 +216,33 @@ export function keptAd2Text(
     .map((s) => (s.body ? `${s.title}: ${s.body}` : s.title))
     .join("\n\n");
 }
+
+// A TEL-labelled phone number inside the AD 2.2 administrative block. Anchored
+// on "TEL"/"TELEFON" (never "TELEFAX" - the optional group + a required label
+// separator before the digits means "TELEFAX" cannot match) so a fax number is
+// not picked up. Captures an international/national token (leading "+" and
+// grouping punctuation allowed).
+const AD2_PHONE_RE = /\bTEL(?:EFON)?\s*[:.]?\s*(\+?\(?\d[\d\s()/.-]{5,}\d)/i;
+
+/**
+ * Best-effort aerodrome-operator phone number from the DE OCR AD-2 blob, read
+ * ONLY from the AD 2.2 (administrative data) section - never the whole blob, so
+ * an ACC/coordination number that appears in AD 2.20's local-regulations text is
+ * not mistaken for the operator's line. A NOISY source: used ONLY as the last
+ * fallback below the OSM phone, and validated to a plausible 7-15 digit count so
+ * a badly OCR'd token is rejected rather than shown. Returns null when AD 2.2 is
+ * absent / unsegmentable or no plausible TEL number is found.
+ */
+export function extractAd2Phone(
+  blob: string | null | undefined,
+): string | null {
+  const sections = segmentAd2Text(blob, "en");
+  const admin = sections?.find((s) => s.code === "2.2");
+  if (!admin) return null;
+  const m = AD2_PHONE_RE.exec(admin.body);
+  if (!m) return null;
+  const token = m[1]!.replace(/\s+/g, " ").trim();
+  const digits = (token.match(/\d/g) ?? []).length;
+  if (digits < 7 || digits > 15) return null; // implausible OCR -> reject
+  return token;
+}

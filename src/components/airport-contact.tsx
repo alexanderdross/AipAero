@@ -20,12 +20,16 @@ export async function AirportContact({
   airport,
   facts,
   geo,
+  phone,
   lat,
   lon,
 }: {
   airport: Airport;
   facts: NormalizedFacts | null;
   geo: GeoResult | null;
+  /** Final resolved phone (OSM persisted > OSM live > AIP AD 2.2 OCR fallback),
+   * computed once by the caller so the box and the Airport JSON-LD match. */
+  phone: string | null;
   lat: number | null;
   lon: number | null;
 }) {
@@ -43,7 +47,6 @@ export async function AirportContact({
     (geo ? [geo.road, geo.houseNumber].filter(Boolean).join(" ") : "");
   const postcode = facts?.postcode ?? geo?.postcode ?? null;
   const city = facts?.municipality ?? geo?.city ?? null;
-  const phone = facts?.phone ?? geo?.phone ?? null;
   const cityLine = [postcode, city].filter(Boolean).join(" ");
   const address = [street, cityLine].filter(Boolean).join(", ");
   const coords =

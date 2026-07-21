@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { keptAd2Text, segmentAd2Text } from "~/lib/ad2-sections";
+import {
+  extractAd2Phone,
+  keptAd2Text,
+  segmentAd2Text,
+} from "~/lib/ad2-sections";
 
 // A realistic (lightly garbled) multi-section OCR blob: a leading book header,
 // then AD 2.2 / 2.3 / 2.4 / 2.20 / 2.21. AD 2.20 embeds a sub-paragraph "2.2
@@ -95,5 +99,48 @@ describe("keptAd2Text", () => {
     const raw = "no markers here at all";
     expect(keptAd2Text(raw, "en")).toBe(raw);
     expect(keptAd2Text(null, "en")).toBe("");
+  });
+});
+
+describe("extractAd2Phone", () => {
+  const withAdmin = (adminBody: string) =>
+    `AD 2.2 Aerodrome geographical and administrative data ${adminBody} ` +
+    `AD 2.3 Operational hours MON - FRI 0500 - 2100`;
+
+  it("reads the TEL number from the AD 2.2 admin section", () => {
+    const blob = withAdmin(
+      "Aerodrome operator Flughafen Augsburg GmbH TEL: +49 (0)821 2701-0 " +
+        "TELEFAX: +49 821 2701-199 AFS EDMAYDYX",
+    );
+    expect(extractAd2Phone(blob)).toBe("+49 (0)821 2701-0");
+  });
+
+  it("does not pick up the TELEFAX number", () => {
+    const blob = withAdmin("TELEFAX: +49 821 2701-199");
+    expect(extractAd2Phone(blob)).toBeNull();
+  });
+
+  it("ignores an ACC/coordination number that lives in AD 2.20, not 2.2", () => {
+    const blob =
+      "AD 2.2 Aerodrome geographical and administrative data ARP 481234N " +
+      "AD 2.20 Local aerodrome regulations require coordination with " +
+      "Munich ACC (Tel: +49 89 9780 884) before IFR training";
+    // AD 2.2 carries no TEL -> null (the ACC number in 2.20 is never used).
+    expect(extractAd2Phone(blob)).toBeNull();
+  });
+
+  it("rejects an implausible (mis-OCR'd) digit count", () => {
+    expect(extractAd2Phone(withAdmin("TEL: 12 34"))).toBeNull(); // too few
+    expect(
+      extractAd2Phone(withAdmin("TEL: 1234 5678 9012 3456 7890")),
+    ).toBeNull(); // too many
+  });
+
+  it("returns null when there is no admin section or no blob", () => {
+    expect(
+      extractAd2Phone("AD 2.20 Local regs TEL: +49 821 123456"),
+    ).toBeNull();
+    expect(extractAd2Phone(null)).toBeNull();
+    expect(extractAd2Phone("")).toBeNull();
   });
 });
