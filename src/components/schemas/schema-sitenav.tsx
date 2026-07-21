@@ -17,6 +17,15 @@ const TYPE_META: Record<Airport["type"], { ns: string; slug: Pathnames }> = {
   mil: { ns: "MilitaryPage", slug: "/military" },
 };
 
+// Site-wide helper pages (uniform slug for every locale). Unlike the country
+// pages these have no `breadcrumb.*` copy, so they take their nav name from the
+// page `title` and their description from `metaDescription`.
+const PAGE_META: { ns: string; slug: Pathnames }[] = [
+  { ns: "EfbPage", slug: "/efb" },
+  { ns: "GuidesPage", slug: "/guides" },
+  { ns: "GlossaryPage", slug: "/glossary" },
+];
+
 export async function SchemaSitenav({ locale }: { locale: string }) {
   function trailingSlash(url: string) {
     return url.endsWith("/") ? url : url + "/";
@@ -40,9 +49,12 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
   const siteTranslations = await Promise.all(
     siteKeys.map((x) => getTranslations(x)),
   );
+  const pageTranslations = await Promise.all(
+    PAGE_META.map((p) => getTranslations(p.ns)),
+  );
 
-  // The navigation entries (site self-link, sister project, then one per
-  // available page for this country).
+  // The navigation entries (site self-link, sister project, one per available
+  // page for this country, then the site-wide helper pages EFB/Guides/Glossary).
   const navItems = [
     {
       name: "AIP approach charts for VFR, IFR & Heliports across Europe",
@@ -64,6 +76,17 @@ export async function SchemaSitenav({ locale }: { locale: string }) {
       description: p("breadcrumb.description"),
       url: trailingSlash(
         new URL(getPathname({ href: slugs[i]!, locale }), orgUrl).toString(),
+      ),
+    })),
+    ...pageTranslations.map((p, i) => ({
+      name: p("title"),
+      alternateName: p("title"),
+      description: p("metaDescription"),
+      url: trailingSlash(
+        new URL(
+          getPathname({ href: PAGE_META[i]!.slug, locale }),
+          orgUrl,
+        ).toString(),
       ),
     })),
   ];

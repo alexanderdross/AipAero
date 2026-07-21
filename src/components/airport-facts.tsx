@@ -180,13 +180,13 @@ export async function AirportFacts({
       return `(${t("circuit")} ${t("circuitRight")})`;
     return null;
   };
-  const runwaysText = runways
-    .map((r) =>
-      [r.ident, runwayLengthLabel(r.lengthFt), r.surface, circuit(r)]
-        .filter(Boolean)
-        .join(" "),
-    )
-    .join(" · ");
+  // One line per runway (a multi-runway field otherwise wraps mid-runway on a
+  // phone, e.g. "07/25 ... ASP · 07R/25L ..." breaking across the dot).
+  const runwayLines = runways.map((r) =>
+    [r.ident, runwayLengthLabel(r.lengthFt), r.surface, circuit(r)]
+      .filter(Boolean)
+      .join(" "),
+  );
   const frequenciesText = frequencies
     .map((f) => `${f.type} ${f.mhz}`.trim())
     .join(" · ");
@@ -212,7 +212,7 @@ export async function AirportFacts({
   if (
     rows.length === 0 &&
     weekdayRows.length === 0 &&
-    !runwaysText &&
+    runwayLines.length === 0 &&
     !frequenciesText &&
     declaredRows.length === 0
   )
@@ -258,10 +258,14 @@ export async function AirportFacts({
             </dd>
           </div>
         )}
-        {runwaysText && (
+        {runwayLines.length > 0 && (
           <div className={`${cell} sm:col-span-2`}>
             <dt className="text-drossgray-dark">{t("runways")}</dt>
-            <dd className="text-right font-medium">{runwaysText}</dd>
+            <dd className="space-y-0.5 text-right font-medium">
+              {runwayLines.map((line, i) => (
+                <div key={i}>{line}</div>
+              ))}
+            </dd>
           </div>
         )}
         {frequenciesText && (
