@@ -179,6 +179,10 @@ def parse_ad23_text(text: object) -> StructuredHours | None:
                     if open_b and close_b
                     else {"kind": "unknown"}
                 )
+            elif re.search(r"\bCLSD\b|\bCLOSED\b", seg):
+                # An explicitly closed day (e.g. Naviair "SAT-SUN CLSD"). Only
+                # asserted from the literal token - never inferred from silence.
+                dh = {"kind": "closed"}
             elif _UNASSERTABLE_RE.search(seg):
                 dh = {"kind": "unknown"}
             else:
