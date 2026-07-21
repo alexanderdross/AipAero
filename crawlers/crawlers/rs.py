@@ -99,6 +99,10 @@ _NAMES = {
 
 
 class RS(PlaywrightCrawlerBase):
+    # Tesseract language for the pdf_text OCR fallback (image-only AD-2 PDFs).
+    # Serbian AIP PDFs are Latin-script; Croatian pack covers the diacritics.
+    PDF_OCR_LANG = "hrv+eng"
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
 
@@ -207,6 +211,8 @@ class RS(PlaywrightCrawlerBase):
                         hrs = ad23_hours(self.pdf_text(data))
                         if hrs:
                             self.hours_by_icao[icao] = hrs
+                            if self._last_pdf_ocr:
+                                self.hours_source_by_icao[icao] = "pdf-ocr-hours"
                     except Exception as e:
                         self.logger.debug(f"RS: {icao} AD 2.3 hours failed: {e}")
         except Exception as e:

@@ -133,6 +133,9 @@ class GR(HttpCrawlerBase):
     `AIP-menu.htm` link list.
     """
 
+    # Tesseract language for the pdf_text OCR fallback (image-only AD-2 PDFs).
+    PDF_OCR_LANG = "ell+eng"
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
         # The WAF 403s non-browser UAs; the deep paths still need the proxy.
@@ -354,6 +357,8 @@ class GR(HttpCrawlerBase):
                     hrs = ad23_hours(self.pdf_text(sheets["txt"]))
                     if hrs:
                         self.hours_by_icao[icao] = hrs
+                        if self._last_pdf_ocr:
+                            self.hours_source_by_icao[icao] = "pdf-ocr-hours"
                 except Exception as e:
                     self.logger.debug(f"GR: {icao} AD 2.3 hours failed: {e}")
             # Title convention "<name> <ICAO>" (list / map / detail heading);

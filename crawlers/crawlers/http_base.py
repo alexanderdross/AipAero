@@ -60,6 +60,10 @@ _BINARY_CONTENT_TYPE_RE = re.compile(
     re.I,
 )
 
+# Below this many extracted characters a PDF is treated as an image-only scan
+# with no usable text layer, and pdf_text falls back to OCR (see pdf_text).
+_PDF_MIN_TEXT_LEN = 50
+
 # Fixed 28-day AIRAC cycle anchor (a real AIRAC effective date). The current
 # effective edition of a standard eAIP is the most recent AIRAC date on/before
 # today, so crawlers whose source URLs carry NO edition date can still stamp
@@ -109,6 +113,16 @@ class HttpCrawlerBase:
         # hoursSource="eaip" after the airport publish. Empty for crawlers that
         # do not populate it.
         self.hours_by_icao: dict[str, object] = {}
+        # Per-ICAO hours PROVENANCE override (default is the publish call's
+        # source, "eaip"). Set to "pdf-ocr-hours" for a field whose AD 2.3 hours
+        # came from the OCR fallback of an image-only PDF (see pdf_text /
+        # _last_pdf_ocr below), so the website shows the machine-read disclaimer
+        # and ranks them below clean eAIP hours. Empty for clean-text crawlers.
+        self.hours_source_by_icao: dict[str, str] = {}
+        # Whether the MOST RECENT pdf_text() call fell back to OCR (image-only
+        # PDF). A caller that turns that text into hours reads this right after
+        # to stamp hours_source_by_icao. Reset on every pdf_text call.
+        self._last_pdf_ocr: bool = False
         # Optional AUTHORITATIVE eAIP AD 2.13 declared distances, keyed by ICAO
         # ({designator: {tora,toda,asda,lda}} metres, see
         # crawlers.declared_distances). Populated by a eurocontrol crawler that
@@ -303,29 +317,84 @@ class HttpCrawlerBase:
         return response.text
 
     def pdf_text(self, url: str) -> str:
-        """Download a PDF and return its pypdf-extracted text (collapsed to
-        single-spaced), or "" on any error (fail-soft). Bypasses the HTML-only
-        `fetch()` guard on purpose - this is the ONE place the crawler wants a
-        binary document (a full-document AD-2 PDF whose AD 2.3 OPERATIONAL HOURS
-        table is not published as HTML, e.g. ES/ENAIRE). pypdf is imported
-        lazily so importing a crawler never needs it. Reuses `self.client`
-        (proxy / CA / headers carry over)."""
-        try:
-            from pypdf import PdfReader  # lazy: not needed to import a crawler
-        except Exception as exc:  # pypdf missing -> no hours, never a crash
-            self.logger.warning(f"pdf_text: pypdf unavailable ({exc})")
-            return ""
+        """Download a PDF and return its text (collapsed to single-spaced), or
+        "" on any error (fail-soft). Bypasses the HTML-only `fetch()` guard on
+        purpose - this is the ONE place the crawler wants a binary document (a
+        full-document AD-2 PDF whose AD 2.3 OPERATIONAL HOURS table is not
+        published as HTML, e.g. ES/ENAIRE). pypdf is imported lazily so importing
+        a crawler never needs it. Reuses `self.client` (proxy / CA / headers).
+
+        OCR fallback: when the PDF has (almost) no extractable text layer - a
+        scanned/image-only eAIP PDF - the pages are rasterised and OCR'd (see
+        `_pdf_ocr_text`). `self._last_pdf_ocr` records whether THIS call used
+        that fallback, so a caller turning the text into AD 2.3 hours can stamp
+        `hours_source_by_icao[icao] = "pdf-ocr-hours"` (noisy -> disclaimer +
+        sub-eAIP rank). OCR text is a best-effort, machine-read source."""
+        self._last_pdf_ocr = False
         try:
             resp = self.client.get(url)
             resp.raise_for_status()
-            reader = PdfReader(io.BytesIO(resp.content))
-            text = " ".join(
-                (page.extract_text() or "") for page in reader.pages
-            )
-            return " ".join(text.split())
+            content = resp.content
         except Exception as exc:  # a bad/missing PDF must not abort the crawl
             self.logger.debug(f"pdf_text failed for {url}: {exc}")
             return ""
+
+        text = ""
+        try:
+            from pypdf import PdfReader  # lazy: not needed to import a crawler
+
+            reader = PdfReader(io.BytesIO(content))
+            text = " ".join(
+                " ".join((page.extract_text() or "").split())
+                for page in reader.pages
+            ).strip()
+        except Exception as exc:  # pypdf missing / unreadable -> try OCR below
+            self.logger.debug(f"pdf_text: pypdf read failed for {url}: {exc}")
+
+        # An effectively empty text layer means an image-only PDF -> OCR it.
+        if len(text) >= _PDF_MIN_TEXT_LEN:
+            return text
+        ocr = self._pdf_ocr_text(content)
+        if ocr:
+            self._last_pdf_ocr = True
+            self.logger.info(f"pdf_text: used OCR fallback for {url}")
+            return ocr
+        return text
+
+    def _pdf_ocr_text(self, pdf_bytes: bytes) -> str:
+        """Rasterise up to `MAX_OCR_PAGES` of a PDF and OCR them with Tesseract
+        (via `de_ocr.ocr_pil`, `PDF_OCR_LANG`). Returns collapsed text, or "" on
+        any failure (missing pypdfium2 / Tesseract / bad PDF) - fully fail-soft.
+        pypdfium2 is a permissively-licensed, pure-wheel PDF rasteriser (bundled
+        PDFium, no system dependency), imported lazily so a renderer-less env
+        still imports the crawler."""
+        try:
+            import pypdfium2 as pdfium
+        except Exception as exc:  # renderer missing -> no OCR, never a crash
+            self.logger.warning(f"_pdf_ocr_text: pypdfium2 unavailable ({exc})")
+            return ""
+        from crawlers.de_ocr import ocr_pil  # local: avoids an import cycle
+
+        doc = None
+        try:
+            doc = pdfium.PdfDocument(pdf_bytes)
+            parts: list[str] = []
+            for i in range(min(len(doc), self.MAX_OCR_PAGES)):
+                # ~200 DPI (scale = 200/72) is a good OCR accuracy/speed balance.
+                bitmap = doc[i].render(scale=200 / 72)
+                text = ocr_pil(bitmap.to_pil(), self.PDF_OCR_LANG)
+                if text:
+                    parts.append(text)
+            return " ".join(" ".join(parts).split())
+        except Exception as exc:
+            self.logger.debug(f"_pdf_ocr_text failed: {exc}")
+            return ""
+        finally:
+            if doc is not None:
+                try:
+                    doc.close()
+                except Exception:
+                    pass
 
     def fetch_response(self, url: str) -> httpx.Response:
         """Fetch a URL and return the httpx Response (redirects followed).
@@ -496,6 +565,16 @@ class HttpCrawlerBase:
     PDF_TEXT_PRIORITY: tuple[str, ...] = ()
     # Regexes tried (in order) against each PDF link's HREF; used if no TEXT hit.
     PDF_HREF_PRIORITY: tuple[str, ...] = ()
+
+    # Tesseract language for the pdf_text OCR fallback (image-only PDFs). English
+    # base is always installed and the AD 2.3 parse targets English tokens; a
+    # per-country crawler overrides it with its own language pack plus "eng"
+    # (e.g. GR "ell+eng", RO "ron+eng") so the glyphs read cleanly. The pack must
+    # be installed on the runner (see the crawl / live-test workflows).
+    PDF_OCR_LANG: str = "eng"
+    # Max PDF pages the OCR fallback rasterises (AD 2.3 sits early in the AD-2
+    # document); bounds OCR time on a large scanned book.
+    MAX_OCR_PAGES: int = 5
 
     def attach_pdf_urls(self, airports: list[Airport]) -> list[Airport]:
         """Best-effort chart-PDF enrichment; must run while the client is

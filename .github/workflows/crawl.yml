@@ -70,13 +70,18 @@ jobs:
         continue-on-error: true
         run: uv run playwright install chromium --with-deps
 
-      # Tesseract (German + English) for the opt-in DE AD-2 OCR pass (de_ocr).
-      # Best-effort: only used when the de_ocr input is on, and the crawler
-      # fails soft (0 text) if the binary is missing.
+      # Tesseract + language packs. Needed for BOTH the opt-in DE AD-2 OCR pass
+      # (de_ocr) AND the global pdf_text OCR fallback for image-only eAIP PDFs
+      # (any country), so it installs on every run now, not just under de_ocr.
+      # Language packs cover the current PDF-caller countries (ES/GR/RO/MK/RS/DK)
+      # plus deu/eng. Best-effort: the crawler fails soft (no hours) if a
+      # binary/pack is missing.
       - name: Install Tesseract OCR
-        if: ${{ inputs.de_ocr }}
         continue-on-error: true
-        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-deu
+        run: >-
+          sudo apt-get update && sudo apt-get install -y
+          tesseract-ocr tesseract-ocr-deu tesseract-ocr-spa tesseract-ocr-ell
+          tesseract-ocr-ron tesseract-ocr-mkd tesseract-ocr-hrv tesseract-ocr-dan
 
       # Carry the per-country "last successful count" across runs so the
       # OutputHandler's > 50% drop guard (parser-bug protection) survives the

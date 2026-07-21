@@ -257,23 +257,28 @@ class OutputHandler:
         country: str,
         declared_by_icao: dict[str, object] | None = None,
         hours_source: str = "eaip",
+        source_by_icao: dict[str, str] | None = None,
     ) -> None:
         """Publish AUTHORITATIVE eAIP AD 2.3 operation hours AND AD 2.13 declared
         distances via PATCH /api/airport-facts. Hours carry ``hours_source``
         (default "eaip"; DE passes "dfs-ocr-hours" for its OCR-derived hours,
-        which the API enum + precedence rank recognise). The two are merged per
-        ICAO into one row set (each row carries whichever data the crawler
-        collected). Never touches the base facts columns (coords/runways). Fully
-        fail-soft - a publish failure must never fail the airport crawl. Only
-        ICAO-bearing fields with data are sent."""
+        which the API enum + precedence rank recognise). ``source_by_icao`` is an
+        optional PER-FIELD override of that source - used to tag the specific
+        fields whose AD 2.3 hours came from the image-only-PDF OCR fallback as
+        "pdf-ocr-hours" while their clean-text siblings stay "eaip". The two are
+        merged per ICAO into one row set (each row carries whichever data the
+        crawler collected). Never touches the base facts columns (coords/runways).
+        Fully fail-soft - a publish failure must never fail the airport crawl.
+        Only ICAO-bearing fields with data are sent."""
         declared_by_icao = declared_by_icao or {}
+        source_by_icao = source_by_icao or {}
         # Merge hours + declared distances per ICAO into one PATCH row each.
         rows_by_icao: dict[str, dict[str, object]] = {}
         for icao, hours in hours_by_icao.items():
             if icao and hours is not None:
                 row = rows_by_icao.setdefault(icao.upper(), {"icao": icao.upper()})
                 row["hoursStructured"] = to_json(hours)
-                row["hoursSource"] = hours_source
+                row["hoursSource"] = source_by_icao.get(icao, hours_source)
         for icao, declared in declared_by_icao.items():
             if icao and declared:
                 row = rows_by_icao.setdefault(icao.upper(), {"icao": icao.upper()})

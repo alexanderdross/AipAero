@@ -27,6 +27,12 @@ dependencies = [
     # imports the crawler.
     "pytesseract>=0.3.13",
     "Pillow>=10.0.0",
+    # PDF page rasteriser for the pdf_text OCR fallback (image-only eAIP PDFs
+    # with no text layer): renders pages to a bitmap that Tesseract then reads.
+    # pypdfium2 is permissively licensed (Apache-2.0/BSD-3) and a pure manylinux
+    # wheel with a bundled PDFium - no system dependency (unlike pdf2image, which
+    # needs poppler) and no AGPL (unlike PyMuPDF). Imported lazily.
+    "pypdfium2>=4.0.0",
 ]
 
 [dependency-groups]

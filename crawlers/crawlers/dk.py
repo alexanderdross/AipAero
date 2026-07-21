@@ -211,6 +211,8 @@ class DK(PlaywrightCrawlerBase):
                     hrs = ad23_hours(self.pdf_text(data_sheet))
                     if hrs:
                         self.hours_by_icao[icao] = hrs
+                        if self._last_pdf_ocr:
+                            self.hours_source_by_icao[icao] = "pdf-ocr-hours"
                 except Exception as e:
                     self.logger.debug(f"DK: {icao} AD 2.3 hours failed: {e}")
 

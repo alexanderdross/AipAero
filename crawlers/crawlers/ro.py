@@ -87,6 +87,9 @@ class RO(HttpCrawlerBase):
     combined AD 2 chart PDF.
     """
 
+    # Tesseract language for the pdf_text OCR fallback (image-only AD-2 PDFs).
+    PDF_OCR_LANG = "ron+eng"
+
     def __init__(self) -> None:
         super().__init__(COUNTRY)
         # aisro.ro is UA/IP sensitive (it 403s datacenter IPs and serves a
@@ -147,6 +150,8 @@ class RO(HttpCrawlerBase):
                 hrs = ad23_hours(self.pdf_text(pdf))
                 if hrs:
                     self.hours_by_icao[icao] = hrs
+                    if self._last_pdf_ocr:
+                        self.hours_source_by_icao[icao] = "pdf-ocr-hours"
             except Exception as e:
                 self.logger.debug(f"RO: {icao} AD 2.3 hours failed: {e}")
             name = _NAMES.get(icao, "")
