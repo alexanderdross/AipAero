@@ -119,6 +119,71 @@ def test_all_documents_become_charts(dk: DK):
     }
 
 
+# ----- AD 2.3 operating hours -------------------------------------------------
+
+_WINDOW_0700_1700 = {
+    "kind": "window",
+    "open": {"t": "time", "m": 7 * 60},
+    "close": {"t": "time", "m": 17 * 60},
+}
+_UNKNOWN = {"kind": "unknown"}
+
+# EKAT gains the section-less aerodrome-DATA sheet (EK_AD_2_EKAT_en.pdf) that
+# carries the AD 2.3 table; the VAC/ADC chart docs never match the data-sheet
+# regex, so only this sheet is read for hours.
+_HOURS_NODES: dict[object, list[dict]] = {
+    "": [_dir(1, "VFR Flight Guide Danmark")],
+    1: [_dir(10, "VFG Part 3 - FLYVEPLADSER (AD)")],
+    10: [_dir(20, "AD 2 - PUBLIC AERODROMES")],
+    20: [_dir(100, "Anholt - EKAT")],
+    100: [
+        _doc(200, "EK_AD_2_EKAT_VAC_en", "/charts/EK_AD_2_EKAT_VAC_en.pdf"),
+        _doc(201, "EK_AD_2_EKAT_ADC_en", "/charts/EK_AD_2_EKAT_ADC_en.pdf"),
+        _doc(202, "EK_AD_2_EKAT_en", "/media/files/EK_AD_2_EKAT_en.pdf"),
+    ],
+}
+
+_DATA_SHEET_TEXT = (
+    "EKAT AD 2.3 OPERATIONAL HOURS "
+    "1 Aerodrome operator MON-FRI 0700-1700 "
+    "2 Customs and immigration H24 "
+    "AD 2.4 HANDLING SERVICES AND FACILITIES"
+)
+
+
+def test_ad23_hours_from_data_sheet(monkeypatch):
+    crawler = DK()
+    monkeypatch.setattr(
+        crawler, "_nodes", lambda parent_id="": _HOURS_NODES.get(parent_id, [])
+    )
+
+    def fake_pdf_text(url: str) -> str:
+        # Only the section-less data sheet carries the AD 2.3 table.
+        return _DATA_SHEET_TEXT if url.endswith("EK_AD_2_EKAT_en.pdf") else ""
+
+    monkeypatch.setattr(crawler, "pdf_text", fake_pdf_text)
+    crawler.crawl()
+    crawler.close()
+    assert crawler.hours_by_icao["EKAT"] == [_WINDOW_0700_1700] * 5 + [_UNKNOWN] * 2
+
+
+def test_ad23_hours_soft_when_pdf_text_raises(monkeypatch):
+    crawler = DK()
+    monkeypatch.setattr(
+        crawler, "_nodes", lambda parent_id="": _HOURS_NODES.get(parent_id, [])
+    )
+
+    def boom(url: str) -> str:
+        raise ValueError("pdf parse failed")
+
+    monkeypatch.setattr(crawler, "pdf_text", boom)
+    airports = crawler.crawl()
+    crawler.close()
+    # The field still lists; no hours recorded.
+    assert "EKAT" in {a.icao for a in airports}
+    assert "EKAT" not in crawler.hours_by_icao
+
+
 def test_unreachable_api_fails_soft_to_empty(monkeypatch):
     crawler = DK()
 

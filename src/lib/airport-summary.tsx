@@ -34,24 +34,29 @@ type SummaryTranslator = {
   ): ReactNode;
 };
 
+/** The data every summary clause is composed from. Shared by the ReactNode
+ * (`buildAirportSummary`) and the plain-string (`buildAirportSummaryText`)
+ * variants so the two can never drift. */
+export type AirportSummaryInput = {
+  /** Aerodrome name WITHOUT the ICAO (e.g. "Frankfurt"). */
+  name: string;
+  /** ICAO code, or null for ICAO-less fields. */
+  icao: string | null;
+  /** Aerodrome page type. */
+  type: Airport["type"];
+  /** Town / municipality, if known. */
+  town: string | null;
+  /** Number of runways, if known (0 = omit the runway sentence). */
+  runwayCount: number;
+  /** Whether a direct chart PDF is linked (vs. an AIP entry only). */
+  hasChart: boolean;
+  /** Formatted AIRAC edition date, if known. */
+  airac: string | null;
+};
+
 export function buildAirportSummary(
   t: SummaryTranslator,
-  input: {
-    /** Aerodrome name WITHOUT the ICAO (e.g. "Frankfurt"). */
-    name: string;
-    /** ICAO code, or null for ICAO-less fields. */
-    icao: string | null;
-    /** Aerodrome page type. */
-    type: Airport["type"];
-    /** Town / municipality, if known. */
-    town: string | null;
-    /** Number of runways, if known (0 = omit the runway sentence). */
-    runwayCount: number;
-    /** Whether a direct chart PDF is linked (vs. an AIP entry only). */
-    hasChart: boolean;
-    /** Formatted AIRAC edition date, if known. */
-    airac: string | null;
-  },
+  input: AirportSummaryInput,
   /** Tag handlers linking the "AIP" / "AIRAC" words into the content hub. */
   links: { glossary: TagFn; guides: TagFn },
 ): ReactNode {
@@ -98,4 +103,68 @@ export function buildAirportSummary(
       {part}
     </Fragment>
   ));
+}
+
+/** A next-intl markup tag handler (string in, string out). */
+type MarkupTagFn = (chunks: string) => string;
+
+/** The subset of the translator the plain-string twin needs: a plain call for
+ * tagless clauses and `.markup` for the two clauses that carry a link tag
+ * (which it renders WITHOUT the link, keeping only the inner word). */
+type SummaryMarkupTranslator = {
+  (key: string, values?: Record<string, string | number>): string;
+  markup(
+    key: string,
+    values?: Record<string, string | number | MarkupTagFn>,
+  ): string;
+};
+
+/**
+ * Plain-STRING twin of {@link buildAirportSummary}: the same clause composition,
+ * but returned as one link-free string for machine-readable channels (the
+ * `schema.org/Airport` `description` in the airport JSON-LD). It uses `.markup`
+ * with pass-through tag handlers (the established `country-faq`/`efb` idiom) so
+ * the "AIP"/"AIRAC" words stay as plain words and the glossary/guides links are
+ * dropped - structured data must not carry site markup. Shares
+ * {@link AirportSummaryInput} with the visible variant so the two never diverge.
+ */
+export function buildAirportSummaryText(
+  t: SummaryMarkupTranslator,
+  input: AirportSummaryInput,
+): string {
+  // Drop the inline-link tags, keeping only the wrapped word ("AIP"/"AIRAC").
+  const strip: MarkupTagFn = (chunks) => chunks;
+  const place = input.icao ? `${input.name} (${input.icao})` : input.name;
+  const parts: string[] = [];
+
+  parts.push(
+    input.town
+      ? t.markup("identityTown", {
+          place,
+          town: input.town,
+          glossary: strip,
+        })
+      : t.markup("identity", { place, glossary: strip }),
+  );
+
+  if (input.runwayCount > 0) {
+    parts.push(t("runways", { count: input.runwayCount }));
+  }
+
+  const chartType = t(`chartType.${input.type}`);
+  if (input.hasChart) {
+    parts.push(
+      input.airac
+        ? t.markup("chartsAirac", {
+            type: chartType,
+            airac: input.airac,
+            guides: strip,
+          })
+        : t("charts", { type: chartType }),
+    );
+  } else {
+    parts.push(t("noCharts"));
+  }
+
+  return parts.join(" ");
 }

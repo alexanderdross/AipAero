@@ -41,6 +41,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, current_airac_date
+from crawlers.http_eurocontrol_base import ad23_hours
 from crawlers.models import ChartLink
 from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
 
@@ -53,6 +54,9 @@ API_URL = "https://aim.naviair.dk/umbraco/api/naviairapi/getnodesforparent"
 _ICAO_TRAILING = re.compile(r"([A-Z]{4})\s*$")
 # ICAO embedded in an ADC filename (…_EKEB_ADC_en.pdf → "EKEB").
 _ICAO_IN_HREF = re.compile(r"([A-Z]{4})[_-]?ADC", re.I)
+# The aerodrome-DATA sheet: EK_AD_2_<ICAO>_<lang>.pdf, i.e. the ICAO directly
+# followed by the 2-letter language, with NO chart-type section (ADC/VAC/...);
+# it carries the AD 2.3 operating-hours table. Built per field from its ICAO.
 # Cap mirrors attach_pdf_urls (see http_base): keep payloads bounded.
 _MAX_CHARTS = 50
 
@@ -186,6 +190,29 @@ class DK(PlaywrightCrawlerBase):
                 title = title or icao
         if not title:
             return None
+
+        # AD 2.3 operating hours: parse the aerodrome-DATA sheet (no chart-type
+        # section) with the shared row-1 isolator; publish is automatic
+        # (main.py). Fail-soft - a field without a readable data sheet shows no
+        # hours. `pdf_text` uses the httpx client, so it works from Playwright.
+        if icao:
+            data_sheet = next(
+                (
+                    c.url
+                    for c in charts
+                    if re.search(
+                        rf"AD_2_{re.escape(icao)}_[a-z]{{2}}\.pdf$", c.url, re.I
+                    )
+                ),
+                None,
+            )
+            if data_sheet:
+                try:
+                    hrs = ad23_hours(self.pdf_text(data_sheet))
+                    if hrs:
+                        self.hours_by_icao[icao] = hrs
+                except Exception as e:
+                    self.logger.debug(f"DK: {icao} AD 2.3 hours failed: {e}")
 
         return Airport(
             country=COUNTRY,

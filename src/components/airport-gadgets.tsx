@@ -17,7 +17,10 @@ import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { localeLangMapping } from "~/i18n/routing";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
-import { buildAirportSummary } from "~/lib/airport-summary";
+import {
+  buildAirportSummary,
+  buildAirportSummaryText,
+} from "~/lib/airport-summary";
 import { contactUrlFor } from "~/lib/contact-link";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
 import { getHubLinks } from "~/lib/hub-links";
@@ -252,19 +255,25 @@ export async function AirportGadgets({
         timeZone: "UTC",
       }).format(new Date(`${summaryAiracIso}T00:00:00Z`))
     : null;
+  const summaryInput = {
+    name: summaryPlaceName,
+    icao: airport.icao,
+    type: airport.type,
+    town: city,
+    runwayCount: runways.length,
+    hasChart: chartPdfUrl != null,
+    airac: summaryAiracLabel,
+  };
   const airportSummary = buildAirportSummary(
     tSummary,
-    {
-      name: summaryPlaceName,
-      icao: airport.icao,
-      type: airport.type,
-      town: city,
-      runwayCount: runways.length,
-      hasChart: chartPdfUrl != null,
-      airac: summaryAiracLabel,
-    },
+    summaryInput,
     summaryLinks,
   );
+  // Plain-text twin of the visible prose (no links): the machine-readable
+  // description of the AERODROME entity for the Airport JSON-LD, replacing the
+  // generic "AIP <type> Charts ..." page-action line. GEO/semantic signal;
+  // Airport.description is not a Google rich-result field, so no SERP risk.
+  const airportSummaryText = buildAirportSummaryText(tSummary, summaryInput);
   // DE-only OCR'd AD-2 text, locale-appropriate (German narrative on /de,
   // English pages on /de/en), shared by the visible AirportAipText block AND
   // the Airport JSON-LD property below so the two never diverge.
@@ -351,7 +360,10 @@ export async function AirportGadgets({
         name={schemaName}
         icaoCode={airport.icao}
         alternateName={schemaAlternateName}
-        description={schemaDescription}
+        // The aerodrome's own factual summary (name, town, runways, chart,
+        // AIRAC), not the generic page-action line; fall back to the passed
+        // description if the twin is somehow empty.
+        description={airportSummaryText || schemaDescription}
         url={schemaUrl}
         latitude={lat}
         longitude={lon}

@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 from crawlers.http_base import Airport, HttpCrawlerBase
+from crawlers.http_eurocontrol_base import ad23_hours
 
 COUNTRY = "AT"
 # Austro Control's eAIP root; the current-edition table lives at this URL.
@@ -180,6 +181,23 @@ class AT(HttpCrawlerBase):
                     type=airport_type,
                 )
             )
+
+            # AD 2.3 operating hours: the Austrocontrol eAIP field page is
+            # frameless HTML with a real AD 2.3 table (no eurocontrol frameset,
+            # so the main.py auto-collection skips AT). Fetch the page, flatten
+            # to text and isolate row 1 with the shared `ad23_hours`; publish is
+            # then automatic (main.py). Fail-soft - a field that does not parse
+            # simply shows no hours.
+            if icao:
+                try:
+                    page_text = " ".join(
+                        self.soup(self.fetch_iso(full_url)).get_text(" ").split()
+                    )
+                    hrs = ad23_hours(page_text)
+                    if hrs:
+                        self.hours_by_icao[icao] = hrs
+                except Exception as e:
+                    self.logger.debug(f"AT: {icao} AD 2.3 hours failed: {e}")
         return airports
 
     # Chart-PDF extraction (recon 2026-07-12): the AD-2 page links every
