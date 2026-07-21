@@ -1342,16 +1342,26 @@ jobs:
         continue-on-error: true
         run: |
           uv run python - <<'PY'
+          import io as _io
           import logging
           import re
+          from urllib.parse import urljoin
 
           logging.basicConfig(
               level=logging.INFO, format="%(levelname)s %(name)s: %(message)s"
           )
           from main import COUNTRY_CRAWLERS
-          from crawlers.http_eurocontrol_base import _AD23_SECTION_RE, ad23_hours
+          from crawlers.http_eurocontrol_base import ad23_hours
 
-          # ----- AT: is the AD 2.3 -> AD 2.4 boundary in the page text? -----
+          # A hint that a PDF's text carries the AD 2.3 operating-hours table.
+          HOURS_TOK = re.compile(
+              r"OPERATIONAL HOURS|HOURS OF OPERATION|BETRIEBSZEIT|OPR HR|"
+              r"HR OF OPR|\bAD\s*2\.3\b",
+              re.I,
+          )
+
+          # ----- AT: the .htm is chart-only; do any linked chart PDFs carry the
+          #           AD 2.3 hours as text (or OCR-able text)? -----
           at = COUNTRY_CRAWLERS["AT"]()
           at_airports = at.crawl()
           print(
@@ -1359,48 +1369,38 @@ jobs:
               f"hours_by_icao={len(at.hours_by_icao)} ====="
           )
           at.ensure_client_open()
-          first_at = None
-          for a in [x for x in at_airports if x.icao][:6]:
-              if first_at is None:
-                  first_at = a
-              try:
-                  text = " ".join(at.soup(at.fetch_iso(a.url)).get_text(" ").split())
-              except Exception as e:  # noqa: BLE001
-                  print(f"AT {a.icao}: fetch failed: {type(e).__name__}: {e}")
-                  continue
-              idx = text.find("2.3")
-              snip = text[max(0, idx - 90) : idx + 340] if idx >= 0 else "(no '2.3')"
-              print(f"AT {a.icao} url={a.url}")
-              print(
-                  f"   len={len(text)} has_AD2.3={'AD 2.3' in text} "
-                  f"has_AD2.4={'AD 2.4' in text} "
-                  f"section_re={'HIT' if _AD23_SECTION_RE.search(text) else 'MISS'} "
-                  f"hrs={ad23_hours(text)}"
-              )
-              print(f"   near-2.3: {snip!r}")
-          # Round 2: the page is a tiny stub, so dump its RAW html + every frame /
-          # iframe / anchor target so the real AD 2.3 sub-document can be found.
-          if first_at is not None:
-              raw = at.fetch_iso(first_at.url)
+          target = next((x for x in at_airports if x.icao), None)
+          if target:
+              raw = at.fetch_iso(target.url)
               soup = at.soup(raw)
-              frames = [
-                  (f.name, f.get("src"))
-                  for f in soup.find_all(["frame", "iframe"])
+              pdfs = [
+                  urljoin(target.url, a["href"])
+                  for a in soup.find_all("a", href=True)
+                  if a["href"].lower().endswith(".pdf")
               ]
-              anchors = [a.get("href") for a in soup.find_all("a", href=True)][:25]
-              print(f"\n----- AT raw stub for {first_at.icao} ({first_at.url}) -----")
-              print(f"   frames/iframes: {frames}")
-              print(f"   anchors[:25]: {anchors}")
-              print(f"   raw[:2500]: {raw[:2500]!r}")
+              print(f"----- AT {target.icao} ({target.url}): {len(pdfs)} chart PDFs -----")
+              for u in pdfs[:6]:
+                  t = at.pdf_text(u)
+                  m = HOURS_TOK.search(t)
+                  print(
+                      f"   {u.rsplit('/', 1)[-1]}: len={len(t)} "
+                      f"used_ocr={at._last_pdf_ocr} "
+                      f"hours_token={'HIT' if m else 'no'} hrs={ad23_hours(t)}"
+                  )
+                  if m:
+                      i = m.start()
+                      print(f"      near: {t[max(0, i - 70) : i + 320]!r}")
           at.close()
 
-          # ----- DK: does the matched data sheet yield parseable AD 2.3 text? ---
+          # ----- DK: reopen the client (crawl() closed it!) and dump the full
+          #           fetch -> pypdf -> OCR chain for each matched data sheet. -----
           dk = COUNTRY_CRAWLERS["DK"]()
           dk_airports = dk.crawl()
           print(
               f"\n===== DK recon: {len(dk_airports)} airports, "
               f"hours_by_icao={len(dk.hours_by_icao)} ====="
           )
+          dk.ensure_client_open()
           for a in [x for x in dk_airports if x.icao][:5]:
               charts = a.charts or []
               ds = next(
@@ -1413,19 +1413,39 @@ jobs:
                   ),
                   None,
               )
-              print(f"DK {a.icao}: {len(charts)} charts; data_sheet={ds}")
-              if ds:
-                  text = dk.pdf_text(ds)
-                  idx = text.find("2.3")
-                  snip = (
-                      text[max(0, idx - 90) : idx + 340] if idx >= 0 else "(no '2.3')"
-                  )
+              print(f"DK {a.icao}: data_sheet={ds}")
+              if not ds:
+                  continue
+              try:
+                  r = dk.client.get(ds)
                   print(
-                      f"   pdf_text len={len(text)} used_ocr={dk._last_pdf_ocr} "
-                      f"has_AD2.3={'AD 2.3' in text} has_AD2.4={'AD 2.4' in text} "
-                      f"hrs={ad23_hours(text)}"
+                      f"   HTTP {r.status_code} type={r.headers.get('content-type')} "
+                      f"bytes={len(r.content)} head={r.content[:8]!r}"
                   )
-                  print(f"   near-2.3: {snip!r}")
+              except Exception as e:  # noqa: BLE001
+                  print(f"   fetch err: {type(e).__name__}: {e}")
+                  continue
+              try:
+                  from pypdf import PdfReader
+
+                  rd = PdfReader(_io.BytesIO(r.content))
+                  pt = " ".join(
+                      " ".join((p.extract_text() or "").split()) for p in rd.pages
+                  ).strip()
+                  print(f"   pypdf pages={len(rd.pages)} textlen={len(pt)}")
+              except Exception as e:  # noqa: BLE001
+                  print(f"   pypdf err: {type(e).__name__}: {e}")
+              print(f"   _pdf_ocr_text len={len(dk._pdf_ocr_text(r.content))}")
+              text = dk.pdf_text(ds)
+              idx = text.find("2.3")
+              print(
+                  f"   pdf_text len={len(text)} used_ocr={dk._last_pdf_ocr} "
+                  f"has_AD2.3={'AD 2.3' in text} hrs={ad23_hours(text)}"
+              )
+              print(
+                  f"   near-2.3: "
+                  f"{text[max(0, idx - 90) : idx + 340] if idx >= 0 else '(no 2.3)'!r}"
+              )
           dk.close()
           PY
 
