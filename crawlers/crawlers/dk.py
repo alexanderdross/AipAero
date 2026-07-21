@@ -40,6 +40,7 @@ from __future__ import annotations
 import re
 from urllib.parse import urljoin
 
+from crawlers.dk_hours import parse_dk_hours
 from crawlers.http_base import Airport, current_airac_date
 from crawlers.models import ChartLink
 from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
@@ -190,10 +191,13 @@ class DK(PlaywrightCrawlerBase):
         if not title:
             return None
 
-        # AD 2.3 operating hours: parse the aerodrome-DATA sheet (no chart-type
-        # section) with the shared row-1 isolator; publish is automatic
-        # (main.py). Fail-soft - a field without a readable data sheet shows no
-        # hours. `pdf_text` uses the httpx client, so it works from Playwright.
+        # Operating hours: the Naviair "..._<ICAO>_en.pdf" DATA sheet (the
+        # "01. AD 2 <ICAO> text" document, no chart-type suffix) carries them,
+        # but NOT under the ICAO "AD 2.3" heading the shared parser keys on - it
+        # is a flat "4. Operational hours" layout, so DK uses its own
+        # pre-processor (`dk_hours.parse_dk_hours`) over the data sheet's text.
+        # Fail-soft - a field without a readable data sheet shows no hours.
+        # `pdf_text` uses the httpx client, so it works from the Playwright base.
         if icao:
             data_sheet = next(
                 (
@@ -206,7 +210,17 @@ class DK(PlaywrightCrawlerBase):
                 None,
             )
             if data_sheet:
-                self.collect_pdf_hours(icao, data_sheet)
+                try:
+                    hrs = parse_dk_hours(self.pdf_text(data_sheet))
+                except Exception as e:  # a bad PDF must never abort the crawl
+                    hrs = None
+                    self.logger.debug(f"DK: {icao} AD 2.3 hours failed: {e}")
+                if hrs:
+                    self.hours_by_icao[icao] = hrs
+                    # Clean text layer in practice (source "eaip"); only stamp
+                    # the OCR disclaimer if a field ever needs the image fallback.
+                    if self._last_pdf_ocr:
+                        self.hours_source_by_icao[icao] = "pdf-ocr-hours"
 
         return Airport(
             country=COUNTRY,

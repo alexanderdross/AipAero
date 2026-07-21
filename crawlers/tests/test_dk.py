@@ -128,9 +128,10 @@ _WINDOW_0700_1700 = {
 }
 _UNKNOWN = {"kind": "unknown"}
 
-# EKAT gains the section-less aerodrome-DATA sheet (EK_AD_2_EKAT_en.pdf) that
-# carries the AD 2.3 table; the VAC/ADC chart docs never match the data-sheet
-# regex, so only this sheet is read for hours.
+# EKAT gains the section-less aerodrome-DATA sheet (EK_AD_2_EKAT_en.pdf, the
+# "01. AD 2 <ICAO> text" document) that carries the "4. Operational hours"
+# table; the VAC/ADC chart docs never match the data-sheet regex, so only this
+# sheet is read for hours.
 _HOURS_NODES: dict[object, list[dict]] = {
     "": [_dir(1, "VFR Flight Guide Danmark")],
     1: [_dir(10, "VFG Part 3 - FLYVEPLADSER (AD)")],
@@ -143,11 +144,13 @@ _HOURS_NODES: dict[object, list[dict]] = {
     ],
 }
 
+# Naviair "VFR Flight Guide" flat layout: the aerodrome window is item 4's
+# `AD:` row (isolated from the H24 ADO/ARO service rows around it).
 _DATA_SHEET_TEXT = (
-    "EKAT AD 2.3 OPERATIONAL HOURS "
-    "1 Aerodrome operator MON-FRI 0700-1700 "
-    "2 Customs and immigration H24 "
-    "AD 2.4 HANDLING SERVICES AND FACILITIES"
+    "VFR Flight Guide Denmark AD 2. EKAT - 1 NAVIAIR "
+    "3. Approved for VMC day operations "
+    "4. Operational hours AD: MON-FRI 0700-1700 ADO: H24 ARO: H24 "
+    "5. Customs/Immigration H24"
 )
 
 
