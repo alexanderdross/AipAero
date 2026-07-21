@@ -41,7 +41,6 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, current_airac_date
-from crawlers.http_eurocontrol_base import ad23_hours
 from crawlers.models import ChartLink
 from crawlers.playwright_base import PlaywrightCrawlerBase, PlaywrightUnavailable
 
@@ -207,14 +206,7 @@ class DK(PlaywrightCrawlerBase):
                 None,
             )
             if data_sheet:
-                try:
-                    hrs = ad23_hours(self.pdf_text(data_sheet))
-                    if hrs:
-                        self.hours_by_icao[icao] = hrs
-                        if self._last_pdf_ocr:
-                            self.hours_source_by_icao[icao] = "pdf-ocr-hours"
-                except Exception as e:
-                    self.logger.debug(f"DK: {icao} AD 2.3 hours failed: {e}")
+                self.collect_pdf_hours(icao, data_sheet)
 
         return Airport(
             country=COUNTRY,

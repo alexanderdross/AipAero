@@ -2,7 +2,7 @@ import re
 from urllib.parse import urljoin
 
 from crawlers.http_base import Airport, HttpCrawlerBase, current_airac_date
-from crawlers.http_eurocontrol_base import ad21_debug_snippet, ad21_name, ad23_hours
+from crawlers.http_eurocontrol_base import ad21_debug_snippet, ad21_name
 from crawlers.models import ChartLink
 
 COUNTRY = "ES"
@@ -140,15 +140,8 @@ class ES(HttpCrawlerBase):
                 # "1 Airport V: 0430-2230; I: ..." ENAIRE row-1 shape; verified
                 # LECO -> 04:30-22:30). OpenAIP has no hours for ES, so this PDF
                 # is the only source. One extra PDF fetch per field; fail-soft.
-                try:
-                    pdf_url = re.sub(r"\.html?$", ".pdf", url, flags=re.I)
-                    hrs = ad23_hours(self.pdf_text(pdf_url))
-                    if hrs:
-                        self.hours_by_icao[icao] = hrs
-                        if self._last_pdf_ocr:
-                            self.hours_source_by_icao[icao] = "pdf-ocr-hours"
-                except Exception as e:
-                    self.logger.debug(f"ES: {icao} AD 2.3 hours failed: {e}")
+                pdf_url = re.sub(r"\.html?$", ".pdf", url, flags=re.I)
+                self.collect_pdf_hours(icao, pdf_url)
                 title = f"{name} {icao}".strip() if name else icao
 
                 # Attach the field's AD 2.24 chart PDFs (from the index pass);

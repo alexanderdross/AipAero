@@ -401,6 +401,27 @@ class HttpCrawlerBase:
                 except Exception:
                     pass
 
+    def collect_pdf_hours(self, icao: str, pdf_url: str) -> None:
+        """Parse a field's AD 2.3 operation hours from a PDF and record them
+        keyed by ICAO, stamping the OCR provenance ("pdf-ocr-hours") when the
+        text came from the image-only-PDF OCR fallback (see pdf_text). This is
+        the ONE place the `_last_pdf_ocr` flag is read, so the six PDF-based
+        crawlers (ES/GR/RO/MK/RS/DK) share a single fail-soft implementation
+        instead of repeating the fetch + parse + provenance dance. `ad23_hours`
+        is imported lazily to avoid an import cycle (http_eurocontrol_base
+        subclasses this module)."""
+        from crawlers.http_eurocontrol_base import ad23_hours
+
+        try:
+            hrs = ad23_hours(self.pdf_text(pdf_url))
+        except Exception as e:  # a bad PDF must never abort the crawl
+            self.logger.debug(f"{self.country}: {icao} AD 2.3 hours failed: {e}")
+            return
+        if hrs:
+            self.hours_by_icao[icao] = hrs
+            if self._last_pdf_ocr:
+                self.hours_source_by_icao[icao] = "pdf-ocr-hours"
+
     def fetch_response(self, url: str) -> httpx.Response:
         """Fetch a URL and return the httpx Response (redirects followed).
 
