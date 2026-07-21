@@ -264,13 +264,90 @@ class DK(PlaywrightCrawlerBase):
         )
         return airports
 
+    # ----- dual-source (AIP Danmark + VFR Flight Guide) --------------------
+
+    def _part3_children(
+        self,
+        root: list[dict],
+        product: tuple[str, ...],
+        part3: tuple[str, ...],
+    ) -> list[dict]:
+        """Descend root -> <product> -> <Part 3 - FLYVEPLADSER (AD)> and return
+        the AD-section nodes under Part 3, or [] (fail-soft) if either step is
+        missing. Used for both the VFR Flight Guide and the AIP Danmark trees,
+        which share this shape but label the nodes differently."""
+        prod = self._child_by_text(root, *product)
+        if prod is None:
+            return []
+        part3_node = self._child_by_text(self._nodes(prod["id"]), *part3)
+        if part3_node is None:
+            return []
+        return self._nodes(part3_node["id"])
+
+    def _section_airports(
+        self,
+        part3_children: list[dict],
+        needles: tuple[str, ...],
+        category: str,
+    ) -> list[Airport]:
+        """Airports of one AD section (picked from Part 3's children by
+        ``needles``), or [] when the section is absent (fail-soft)."""
+        if not part3_children:
+            return []
+        section = self._child_by_text(part3_children, *needles)
+        if section is None:
+            return []
+        return self._extract_section(section, category)
+
+    @staticmethod
+    def _chart_basename(url: str) -> str:
+        """A chart URL's PDF filename (no path/hash), lower-cased. The AIP and
+        the VFR Flight Guide publish the SAME chart as separate media files
+        (different ``/media/files/<hash>/`` paths, identical filename), so
+        deduping by basename collapses those while keeping each product's
+        UNIQUE charts (the AIP's extra IFR sheets)."""
+        return url.rsplit("/", 1)[-1].lower()
+
+    def _merge_by_icao(self, *groups: list[Airport]) -> list[Airport]:
+        """Merge airport lists (in priority order - the first group a field
+        appears in wins its identity/primary link) by ICAO, or by title for
+        ICAO-less fields. Charts are UNIONED across the sources, deduped by
+        filename and capped, so a field published in both products keeps every
+        distinct chart; fields in only one source pass through. Per-field hours
+        are already in ``hours_by_icao`` (filled during each extraction)."""
+        by_key: dict[str, Airport] = {}
+        order: list[str] = []
+        for group in groups:
+            for a in group:
+                key = (a.icao or a.title or "").strip().upper()
+                if not key:
+                    continue
+                base = by_key.get(key)
+                if base is None:
+                    by_key[key] = a
+                    order.append(key)
+                    continue
+                seen = {self._chart_basename(c.url) for c in (base.charts or [])}
+                combined = list(base.charts or [])
+                for c in a.charts or []:
+                    bn = self._chart_basename(c.url)
+                    if bn not in seen and len(combined) < _MAX_CHARTS:
+                        seen.add(bn)
+                        combined.append(c)
+                base.charts = combined or None
+        return [by_key[k] for k in order]
+
     # ----- entry point -----------------------------------------------------
 
     def crawl(self) -> list[Airport]:
-        """Walk the JSON tree root → VFG → Part 3 → AD 2/AD 3 into Airports.
+        """Walk the Naviair JSON tree into Airports, from BOTH products - the
+        VFR Flight Guide (AD 2 public + AD 3 heliports + AD 4 private) and AIP
+        Danmark (AD 2 aerodromes) - merging the AD-2 aerodromes by ICAO so a
+        field in both keeps every distinct chart (the AIP's IFR sheets on top of
+        the VFG's VFR set) and AIP-only fields are added.
 
-        Fully fail-soft: a missing node returns whatever was gathered so far
-        (a lost step is a data gap, not a crash), and an empty VFG triggers the
+        Fully fail-soft: a missing node returns whatever was gathered so far (a
+        lost step is a data gap, not a crash), and an empty VFG triggers the
         Playwright render diagnostics so the next run sees what the API renamed.
         """
         self.logger.info(f"Crawling airports in {self.country}")
@@ -280,45 +357,58 @@ class DK(PlaywrightCrawlerBase):
             # WAF-friendly headers; the JSON API is open but picky about UA.
             self.use_browser_headers()
             root = self._nodes("")
-            vfg = self._child_by_text(root, "VFR Flight Guide")
-            if vfg is None:
-                # Root lookup failed - render the SPA to reveal the new layout.
+            # Naviair publishes DK aerodromes in TWO products, both important:
+            # "02. VFR Flight Guide Danmark" (VFR-focused, the historic source)
+            # and "01. AIP Danmark" (the full/IFR AIP - it carries the IFR charts
+            # the VFG omits and any IFR-only fields). Walk BOTH, merge by ICAO.
+            vfg_part3 = self._part3_children(
+                root, ("VFR Flight Guide",), ("Part 3", "FLYVEPLADSER")
+            )
+            if not vfg_part3:
+                # VFG lookup failed - render the SPA to reveal the new layout.
                 self._render_diagnostics()
                 return airports
             # Naviair JSON API carries no edition date; stamp on-cycle AIRAC.
             self.airac = current_airac_date()
 
-            # Descend "VFG Part 3 - FLYVEPLADSER (AD)" to reach the AD sections.
-            part3 = self._child_by_text(
-                self._nodes(vfg["id"]), "Part 3", "FLYVEPLADSER"
+            vfg_ad2 = self._section_airports(
+                vfg_part3, ("AD 2", "PUBLIC AERODROMES"), "vfr"
             )
-            if part3 is None:
-                return airports
-            part3_children = self._nodes(part3["id"])
+            heliports = self._section_airports(
+                vfg_part3, ("AD 3", "HELIPORTS"), "heliport"
+            )
+            # Few AD-3 entries and a history of grabbing the wrong chapter (the
+            # AD 1 intro) - log them all so the live run verifies the pick.
+            for airport in heliports:
+                self.logger.info(
+                    f"DK heliport: {airport.icao} | {airport.title} "
+                    f"-> {airport.url}"
+                )
+            # AD 4 PRIVATE: historically 0 per-field entries (Denmark publishes
+            # its private/glider fields only as a combined list PDF, not per
+            # field), but attempt it anyway - fail-soft, and the live-test shows
+            # if the source ever starts publishing them individually.
+            vfg_ad4 = self._section_airports(vfg_part3, ("AD 4", "PRIVATE"), "vfr")
 
-            ad2 = self._child_by_text(part3_children, "AD 2", "PUBLIC AERODROMES")
-            if ad2 is not None:
-                airports.extend(self._extract_section(ad2, "vfr"))
+            # "01. AIP Danmark" AD 2 aerodromes (the full/IFR AIP).
+            aip_part3 = self._part3_children(
+                root, ("AIP Danmark",), ("PART 3", "FLYVEPLADSER")
+            )
+            aip_ad2 = self._section_airports(
+                aip_part3, ("AD 2", "AERODROMES"), "vfr"
+            )
 
-            ad3 = self._child_by_text(part3_children, "AD 3", "HELIPORTS")
-            if ad3 is not None:
-                heliports = self._extract_section(ad3, "heliport")
-                # Few entries and a history of grabbing the wrong chapter
-                # (AD 1 intro) - log them all so the live run verifies the
-                # section pick at a glance.
-                for airport in heliports:
-                    self.logger.info(
-                        f"DK heliport: {airport.icao} | {airport.title} "
-                        f"-> {airport.url}"
-                    )
-                airports.extend(heliports)
-
-            # NOTE: AD 4 (PRIVATE AERODROMES) is deliberately NOT crawled. The
-            # node exists in the Naviair tree ("AD 4 - PRIVATE AERODROMES") but
-            # carries no per-field entries - Denmark publishes its private /
-            # glider fields only as a single list PDF (AD 4.1 index + AD 4.2
-            # list), so there is nothing individually-published to harvest
-            # (verified live 15.07.2026: the AD 4 walk returned 0 airports).
+            # Merge the AD-2 aerodromes (+ AD 4 private) from both products by
+            # ICAO, unioning charts (deduped by filename) so a field in both
+            # keeps every distinct chart - the AIP's IFR charts on top of the
+            # VFG's VFR set - and AIP-only fields are added.
+            merged = self._merge_by_icao(vfg_ad2, aip_ad2, vfg_ad4)
+            self.logger.info(
+                f"DK: merged AD-2 aerodromes: VFG {len(vfg_ad2)} + AIP "
+                f"{len(aip_ad2)} + AD4 {len(vfg_ad4)} -> {len(merged)} unique"
+            )
+            airports.extend(merged)
+            airports.extend(heliports)
         except Exception as e:
             self.logger.error(f"DK crawl failed: {e}")
         finally:

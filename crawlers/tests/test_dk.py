@@ -208,3 +208,84 @@ def test_empty_tree_falls_back_to_render_diagnostics(monkeypatch):
 
     monkeypatch.setattr(crawler, "render_html", no_browser)
     assert crawler.crawl() == []
+
+
+# ----- dual-source merge (AIP Danmark + VFR Flight Guide) ---------------------
+
+from crawlers.http_base import Airport  # noqa: E402
+from crawlers.models import ChartLink  # noqa: E402
+
+
+def _ap(icao: str, title: str, urls: list[str]) -> Airport:
+    return Airport(
+        country="DK",
+        icao=icao,
+        title=title,
+        url=urls[0],
+        pdf_url=urls[0],
+        charts=[ChartLink(name=u.rsplit("/", 1)[-1], url=u) for u in urls],
+        type="vfr",
+    )
+
+
+def test_merge_unions_charts_deduped_by_filename():
+    crawler = DK()
+    # Same field in both products: the AIP and VFG publish shared charts as
+    # separate media files (different hash paths, IDENTICAL filename), plus the
+    # AIP carries an extra IFR chart (IAC) the VFG lacks.
+    vfg = [
+        _ap(
+            "EKBI",
+            "Billund EKBI",
+            [
+                "https://aim.naviair.dk/media/files/aaa/EK_AD_2_EKBI_en.pdf",
+                "https://aim.naviair.dk/media/files/bbb/EK_AD_2_EKBI_ADC_en.pdf",
+                "https://aim.naviair.dk/media/files/ccc/EK_AD_2_EKBI_VAC_en.pdf",
+            ],
+        )
+    ]
+    aip = [
+        _ap(
+            "EKBI",
+            "Billund EKBI",
+            [
+                # same filenames as VFG (different hash) -> deduped
+                "https://aim.naviair.dk/media/files/ddd/EK_AD_2_EKBI_en.pdf",
+                "https://aim.naviair.dk/media/files/eee/EK_AD_2_EKBI_ADC_en.pdf",
+                # AIP-only IFR chart -> added
+                "https://aim.naviair.dk/media/files/fff/EK_AD_2_EKBI_IAC_01_en.pdf",
+            ],
+        ),
+        # AIP-only field (an IFR aerodrome the VFG omits) -> added.
+        _ap(
+            "EKCH",
+            "Koebenhavn EKCH",
+            ["https://aim.naviair.dk/media/files/ggg/EK_AD_2_EKCH_ADC_en.pdf"],
+        ),
+    ]
+    merged = crawler._merge_by_icao(vfg, aip)
+    crawler.close()
+
+    assert [a.icao for a in merged] == ["EKBI", "EKCH"]
+    ekbi = next(a for a in merged if a.icao == "EKBI")
+    names = [c.url.rsplit("/", 1)[-1] for c in ekbi.charts or []]
+    # VFG's 3 charts kept, the AIP's shared en/ADC deduped, its unique IAC added.
+    assert names == [
+        "EK_AD_2_EKBI_en.pdf",
+        "EK_AD_2_EKBI_ADC_en.pdf",
+        "EK_AD_2_EKBI_VAC_en.pdf",
+        "EK_AD_2_EKBI_IAC_01_en.pdf",
+    ]
+    # First group (VFG) wins the identity/primary link.
+    assert ekbi.url == "https://aim.naviair.dk/media/files/aaa/EK_AD_2_EKBI_en.pdf"
+
+
+def test_merge_keeps_icao_less_fields_by_title():
+    crawler = DK()
+    a = _ap(None, "Grasstrip North", ["https://x/media/files/h/strip_a.pdf"])
+    b = _ap(None, "Grasstrip North", ["https://x/media/files/i/strip_b.pdf"])
+    merged = crawler._merge_by_icao([a], [b])
+    crawler.close()
+    # Same title, no ICAO -> merged into one, both distinct charts unioned.
+    assert len(merged) == 1
+    assert len(merged[0].charts or []) == 2
