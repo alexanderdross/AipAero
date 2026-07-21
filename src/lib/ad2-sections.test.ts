@@ -3,6 +3,7 @@ import {
   extractAd2Phone,
   keptAd2Text,
   segmentAd2Text,
+  splitSubItems,
 } from "~/lib/ad2-sections";
 
 // A realistic (lightly garbled) multi-section OCR blob: a leading book header,
@@ -23,8 +24,8 @@ describe("segmentAd2Text", () => {
     const sections = segmentAd2Text(BLOB, "en");
     expect(sections).not.toBeNull();
     const codes = sections!.map((s) => s.code);
-    // leading preamble (null) + the five real sections
-    expect(codes).toEqual([null, "2.2", "2.3", "2.4", "2.20", "2.21"]);
+    // The all-caps DFS book header preamble is dropped; five real sections.
+    expect(codes).toEqual(["2.2", "2.3", "2.4", "2.20", "2.21"]);
     const byCode = Object.fromEntries(sections!.map((s) => [s.code, s]));
     expect(byCode["2.3"]!.title).toBe("Operational hours");
     expect(byCode["2.20"]!.title).toBe("Local aerodrome regulations");
@@ -76,12 +77,34 @@ describe("segmentAd2Text", () => {
     expect(byCode["2.3"]!.redundant).toBe(false); // last -> kept
   });
 
-  it("returns null when it cannot confidently segment (fallback path)", () => {
+  it("returns null only when NO marker is found (fallback path)", () => {
     expect(segmentAd2Text("no section markers at all here", "en")).toBeNull();
-    expect(segmentAd2Text("AD 2.3 only one marker present", "en")).toBeNull();
     expect(segmentAd2Text("", "en")).toBeNull();
     expect(segmentAd2Text(null, "en")).toBeNull();
     expect(segmentAd2Text(undefined, "de")).toBeNull();
+  });
+
+  it("segments a single-section blob and drops the all-caps book header", () => {
+    // The common DE case (e.g. EDMA): the captured OCR is essentially one
+    // section, AD 2.20, behind the DFS page header. One marker is enough now.
+    const single =
+      "LUFTFAHRTHANDBUCH DEUTSCHLAND AIP GERMANY AD 2 EDMA 1-7 16 APR 2026 " +
+      "AD 2.20 Local aerodrome regulations 1. Approved aircraft PCN 50 " +
+      "2. Flight operations avoid the town";
+    const sections = segmentAd2Text(single, "de")!;
+    // Header preamble (no lowercase prose) dropped -> only the AD 2.20 section.
+    expect(sections.map((s) => s.code)).toEqual(["2.20"]);
+    expect(sections[0]!.title).toBe("Örtliche Flugbeschränkungen");
+    expect(sections[0]!.redundant).toBe(false); // single/last -> never hidden
+  });
+
+  it("keeps a genuine leading narrative preamble", () => {
+    const withLead =
+      "the aerodrome operator notes the following local rules apply " +
+      "AD 2.20 Local aerodrome regulations text here";
+    const sections = segmentAd2Text(withLead, "en")!;
+    expect(sections[0]!.code).toBeNull(); // preamble kept
+    expect(sections[0]!.body).toContain("operator notes");
   });
 });
 
@@ -99,6 +122,40 @@ describe("keptAd2Text", () => {
     const raw = "no markers here at all";
     expect(keptAd2Text(raw, "en")).toBe(raw);
     expect(keptAd2Text(null, "en")).toBe("");
+  });
+});
+
+describe("splitSubItems", () => {
+  it("breaks a numbered narrative into its dotted sub-items", () => {
+    const body =
+      "1. Zugelassene Luftfahrzeuge PCN 50 " +
+      "2. Flugbetrieb 2.1 Nachtflug 0500-2000 " +
+      "2.2 Platzrunde Mon-Fri 0600-1900 " +
+      "3. Abweichungen keine";
+    expect(splitSubItems(body)).toEqual([
+      "1. Zugelassene Luftfahrzeuge PCN 50",
+      "2. Flugbetrieb",
+      "2.1 Nachtflug 0500-2000",
+      "2.2 Platzrunde Mon-Fri 0600-1900",
+      "3. Abweichungen keine",
+    ]);
+  });
+
+  it("never breaks on a dot-less number, a weight or a time", () => {
+    // "24 Stunden" (dot-less, an ordinary count), "14.000 Kg" (weight) and
+    // "0600" (time) must NOT start a new item - a dot in the marker is required.
+    const body =
+      "2.2 Platzrunde spätestens 24 Stunden vorher bei 14.000 Kg ab 0600 Uhr";
+    expect(splitSubItems(body)).toEqual([
+      "2.2 Platzrunde spätestens 24 Stunden vorher bei 14.000 Kg ab 0600 Uhr",
+    ]);
+  });
+
+  it("returns the whole body as one item when there are no markers", () => {
+    expect(splitSubItems("a plain paragraph with no numbering")).toEqual([
+      "a plain paragraph with no numbering",
+    ]);
+    expect(splitSubItems("")).toEqual([]);
   });
 });
 
