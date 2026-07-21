@@ -24,11 +24,11 @@ const withAnalyzer = withBundleAnalyzer({
 // endpoints on script/frame/img/connect. Enforcing without these blanks ad
 // slots (revenue), so they are allowlisted up front, not reactively.
 //
-// object-src: the chart box's inline PDF preview embeds the approach chart
-// from the national AIP hosts via <object> (chart-preview.tsx). Those hosts
-// are many and change per AIRAC cycle, so they cannot be enumerated -
-// `object-src https:` restricts embeds to HTTPS while keeping the preview
-// working. ('none' would silently break it on every detail page.)
+// object-src: the app no longer embeds any plugin content - the former inline
+// PDF preview (<object>, chart-preview.tsx) was removed 14.07.2026 and must not
+// return. `object-src https:` is kept as a conservative floor (no data:/blob:
+// object sources); it could be tightened to 'none' now that nothing embeds -
+// deferred as a deliberate CSP change, not a cleanup.
 // Cloudflare Turnstile (contact form, /contact + /de/kontakt) loads its script
 // from challenges.cloudflare.com, renders the challenge in an iframe from the
 // same origin, and posts back to it - so challenges.cloudflare.com must be on

@@ -271,14 +271,18 @@ class OutputHandler:
         Fully fail-soft - a publish failure must never fail the airport crawl.
         Only ICAO-bearing fields with data are sent."""
         declared_by_icao = declared_by_icao or {}
-        source_by_icao = source_by_icao or {}
+        # Upper-case the per-field source keys so the lookup matches the upper-
+        # cased row key regardless of how the crawler cased its ICAO (else an
+        # OCR-derived field could be mislabeled as clean "eaip").
+        source_by_icao = {k.upper(): v for k, v in (source_by_icao or {}).items()}
         # Merge hours + declared distances per ICAO into one PATCH row each.
         rows_by_icao: dict[str, dict[str, object]] = {}
         for icao, hours in hours_by_icao.items():
             if icao and hours is not None:
-                row = rows_by_icao.setdefault(icao.upper(), {"icao": icao.upper()})
+                key = icao.upper()
+                row = rows_by_icao.setdefault(key, {"icao": key})
                 row["hoursStructured"] = to_json(hours)
-                row["hoursSource"] = source_by_icao.get(icao, hours_source)
+                row["hoursSource"] = source_by_icao.get(key, hours_source)
         for icao, declared in declared_by_icao.items():
             if icao and declared:
                 row = rows_by_icao.setdefault(icao.upper(), {"icao": icao.upper()})

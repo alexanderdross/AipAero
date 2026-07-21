@@ -73,3 +73,15 @@ def test_default_source_is_eaip_without_override(monkeypatch):
         country="ES",
     )
     assert rows["LECO"]["hoursSource"] == "eaip"
+
+
+def test_source_lookup_is_case_insensitive(monkeypatch):
+    # A crawler that cased the ICAO differently in the two maps must still get
+    # the OCR tag (rows are keyed upper-case; the lookup upper-cases both sides).
+    rows = _rows_by_icao(
+        monkeypatch,
+        hours_by_icao={"lwsk": _H24},
+        country="MK",
+        source_by_icao={"LWSK": "pdf-ocr-hours"},
+    )
+    assert rows["LWSK"]["hoursSource"] == "pdf-ocr-hours"

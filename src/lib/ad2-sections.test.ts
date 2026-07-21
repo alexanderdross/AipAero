@@ -151,6 +151,16 @@ describe("splitSubItems", () => {
     ]);
   });
 
+  it("never breaks on a decimal measurement/coordinate before an all-caps unit", () => {
+    // "1.5 NM", "0.5 KM", "12.5 E" look like a dotted marker but are followed by
+    // an ALL-CAPS unit, not a Title-case word, so they must stay inline.
+    const body =
+      "2.1 Nachtflug innerhalb 1.5 NM bzw 0.5 KM der Referenz bei 12.5 E Länge";
+    expect(splitSubItems(body)).toEqual([
+      "2.1 Nachtflug innerhalb 1.5 NM bzw 0.5 KM der Referenz bei 12.5 E Länge",
+    ]);
+  });
+
   it("returns the whole body as one item when there are no markers", () => {
     expect(splitSubItems("a plain paragraph with no numbering")).toEqual([
       "a plain paragraph with no numbering",
