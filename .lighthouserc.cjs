@@ -11,7 +11,7 @@
 module.exports = {
   ci: {
     collect: {
-      numberOfRuns: 1,
+      numberOfRuns: 5,
       settings: {
         // The self-hosted runner executes as root in a container with a small
         // /dev/shm, so Chrome needs --no-sandbox and --disable-dev-shm-usage.
