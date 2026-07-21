@@ -1,6 +1,9 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { buildAirportSummary } from "~/lib/airport-summary";
+import {
+  buildAirportSummary,
+  buildAirportSummaryText,
+} from "~/lib/airport-summary";
 
 // A fake next-intl translator: echoes `key(values)` so the test can assert
 // exactly which clauses were composed and with what interpolations, without
@@ -26,7 +29,10 @@ const echo = (key: string, values?: Record<string, unknown>) => {
     : "";
   return `[${key}${args ? `(${args})` : ""}]`;
 };
-const fakeT = Object.assign(echo, { rich: echo });
+// `.markup` mirrors `.rich` but returns a plain string; the fake echoes the
+// same `key(values)` shape (function-valued tag handlers filtered out), which
+// is exactly a link-free plain string - what the twin must produce.
+const fakeT = Object.assign(echo, { rich: echo, markup: echo });
 
 // Identity tag handlers - the real ones wrap "AIP"/"AIRAC" in a link; here they
 // just pass the chunk through so the render is inspectable as plain text.
@@ -127,5 +133,70 @@ describe("buildAirportSummary", () => {
       links,
     );
     expect(render(mil)).toContain("charts(type=military)");
+  });
+});
+
+describe("buildAirportSummaryText", () => {
+  it("composes the same clauses as the ReactNode variant, as a plain string", () => {
+    const out = buildAirportSummaryText(fakeT, {
+      name: "Frankfurt",
+      icao: "EDDF",
+      type: "vfr",
+      town: "Frankfurt am Main",
+      runwayCount: 4,
+      hasChart: true,
+      airac: "10 July 2026",
+    });
+    expect(typeof out).toBe("string");
+    expect(out).toBe(
+      "[identityTown(place=Frankfurt (EDDF),town=Frankfurt am Main)] " +
+        "[runways(count=4)] " +
+        "[chartsAirac(type=VFR,airac=10 July 2026)]",
+    );
+  });
+
+  it("uses the town-less identity and the dateless chart clause", () => {
+    const out = buildAirportSummaryText(fakeT, {
+      name: "Some Field",
+      icao: "EDXX",
+      type: "ifr",
+      town: null,
+      runwayCount: 1,
+      hasChart: true,
+      airac: null,
+    });
+    expect(out).toBe(
+      "[identity(place=Some Field (EDXX))] [runways(count=1)] [charts(type=IFR)]",
+    );
+  });
+
+  it("omits the runway clause when the count is zero and uses noCharts", () => {
+    const out = buildAirportSummaryText(fakeT, {
+      name: "Grass Strip",
+      icao: null,
+      type: "vfr",
+      town: "Nowhere",
+      runwayCount: 0,
+      hasChart: false,
+      airac: null,
+    });
+    expect(out).toBe(
+      "[identityTown(place=Grass Strip,town=Nowhere)] [noCharts]",
+    );
+  });
+
+  it("carries no link markup (glossary/guides tags are stripped)", () => {
+    const out = buildAirportSummaryText(fakeT, {
+      name: "Frankfurt",
+      icao: "EDDF",
+      type: "vfr",
+      town: "Frankfurt am Main",
+      runwayCount: 4,
+      hasChart: true,
+      airac: "10 July 2026",
+    });
+    expect(out).not.toContain("<");
+    expect(out).not.toContain("glossary");
+    expect(out).not.toContain("guides");
   });
 });
