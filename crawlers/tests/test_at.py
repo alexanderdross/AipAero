@@ -271,3 +271,65 @@ def test_find_link_by_text_normalises_whitespace(at: AT):
 def test_find_link_by_text_returns_none_when_absent(at: AT):
     soup = at.soup("<a href='x.htm'>Part I - GEN</a>")
     assert at.find_link_by_text(soup, "Part III - AD") is None
+
+
+# ----- AD 2.3 operating hours -------------------------------------------------
+
+_WINDOW_0700_1700 = {
+    "kind": "window",
+    "open": {"t": "time", "m": 7 * 60},
+    "close": {"t": "time", "m": 17 * 60},
+}
+_UNKNOWN = {"kind": "unknown"}
+
+# The field's AD 2 page carries a real AD 2.3 OPERATIONAL HOURS table: row 1 is
+# the aerodrome operator (MON-FRI 0700-1700), row 2 the H24 customs service that
+# must NOT leak into the aerodrome hours.
+_FIELD_AD2_HTML = """<html><body>
+  <h3>LOWX AD 2.3 OPERATIONAL HOURS</h3>
+  <table>
+    <tr><td>1</td><td>Aerodrome operator</td><td>MON-FRI 0700-1700</td></tr>
+    <tr><td>2</td><td>Customs and immigration</td><td>H24</td></tr>
+  </table>
+  <h3>AD 2.4 HANDLING SERVICES AND FACILITIES</h3>
+</body></html>"""
+
+
+def test_ad23_hours_collected_from_field_page(at: AT):
+    """extract_airports fetches each field's AD 2 page and fills
+    hours_by_icao from row 1 of its AD 2.3 table (H24 customs row excluded)."""
+    listing = """<table>
+      <tr>
+        <td><a href='ad/LOWX/index.html'>LOWX</a></td>
+        <td>Testfield</td>
+      </tr>
+    </table>"""
+
+    def fetch_iso(url: str) -> str:
+        return _FIELD_AD2_HTML if url.endswith("LOWX/index.html") else listing
+
+    at.fetch_iso = fetch_iso  # type: ignore[method-assign]
+    [airport] = at.extract_airports(_BASE_URL, "vfr")
+    assert airport.icao == "LOWX"
+    assert at.hours_by_icao["LOWX"] == [_WINDOW_0700_1700] * 5 + [_UNKNOWN] * 2
+
+
+def test_ad23_hours_failure_is_soft(at: AT):
+    """A field page that raises on fetch must not abort extraction nor record
+    hours - the airport still lists."""
+    listing = """<table>
+      <tr>
+        <td><a href='ad/LOWY/index.html'>LOWY</a></td>
+        <td>Brokenfield</td>
+      </tr>
+    </table>"""
+
+    def fetch_iso(url: str) -> str:
+        if url.endswith("LOWY/index.html"):
+            raise ConnectionError("field page unreachable")
+        return listing
+
+    at.fetch_iso = fetch_iso  # type: ignore[method-assign]
+    [airport] = at.extract_airports(_BASE_URL, "vfr")
+    assert airport.icao == "LOWY"
+    assert "LOWY" not in at.hours_by_icao
