@@ -15,6 +15,7 @@ import { SaveOfflineButton } from "~/components/save-offline-button";
 import { SchemaDigitalDocument } from "~/components/schemas/schema-digital-document";
 import { TradeAeroCta } from "~/components/trade-aero-cta";
 import { localeLangMapping } from "~/i18n/routing";
+import { extractAd2Phone, keptAd2Text } from "~/lib/ad2-sections";
 import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import {
@@ -185,7 +186,14 @@ export async function AirportGadgets({
       : null);
   const postcode = facts?.postcode ?? geo?.postcode ?? null;
   const city = facts?.municipality ?? geo?.city ?? null;
-  const phone = facts?.phone ?? geo?.phone ?? null;
+  // Phone precedence: persisted OSM (facts) > live OSM (geo) > DE AIP AD 2.2 via
+  // OCR (last, noisy - strict-validated in extractAd2Phone, DE-only in practice).
+  // Computed once here and passed to BOTH the contact box and the Airport
+  // JSON-LD telephone so the two never diverge.
+  const phone =
+    facts?.phone ??
+    geo?.phone ??
+    extractAd2Phone(facts?.ad2TextDe ?? facts?.ad2Text ?? null);
   const website = facts?.homeLink ?? geo?.website ?? null;
   // Same Google Maps link the location box renders (coords when known, else the
   // ICAO/name) -> schema.org `hasMap`.
@@ -281,6 +289,9 @@ export async function AirportGadgets({
     lang === "de"
       ? (facts?.ad2TextDe ?? facts?.ad2Text)
       : (facts?.ad2Text ?? facts?.ad2TextDe);
+  // Language of the selected blob, for the AD 2.x section titles (native German
+  // page -> German blob + German titles; the /de/en page reads the English blob).
+  const ad2Lang: "de" | "en" = lang === "de" ? "de" : "en";
 
   const props: Array<{ name: string; value: string }> = [];
   const addProp = (name: string, value: string | null | undefined) => {
@@ -337,13 +348,14 @@ export async function AirportGadgets({
     addProp("Restaurant", facts.restaurant ? "Yes" : "No");
   if (facts?.customs != null) addProp("Customs", facts.customs ? "Yes" : "No");
   // DE OCR AD-2 text as a machine-readable PropertyValue (GEO/LLM signal; the
-  // name flags the OCR provenance). Length-capped so the inline JSON-LD does not
-  // balloon on big fields (some OCR to tens of KB); the full text stays in the
-  // visible AirportAipText block. Not a Google rich-result field - GEO only.
+  // name flags the OCR provenance). Built from the KEPT (non-redundant) sections
+  // so the structured data matches the trimmed visible block, and length-capped
+  // so the inline JSON-LD does not balloon on big fields (some OCR to tens of
+  // KB). Not a Google rich-result field - GEO only.
   if (ad2Display) {
     addProp(
       "AIP aerodrome information (machine-read via OCR)",
-      truncateForJsonLd(ad2Display),
+      truncateForJsonLd(keptAd2Text(ad2Display, ad2Lang)),
     );
   }
 
@@ -482,6 +494,7 @@ export async function AirportGadgets({
             text={ad2Display}
             sourceUrl={airport.url}
             locale={locale}
+            lang={ad2Lang}
           />
         )}
         {/* Location + aerodrome-data boxes side by side on >= md (each half
@@ -491,6 +504,7 @@ export async function AirportGadgets({
             airport={airport}
             facts={facts}
             geo={geo}
+            phone={phone}
             lat={lat}
             lon={lon}
           />
