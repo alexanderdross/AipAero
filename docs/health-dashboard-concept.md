@@ -105,8 +105,11 @@ Suche).
 - Jeder Gatherer ist voll **fail-soft** (tote/unkonfigurierte Quelle -> `[]`,
   nie ein Crash) - dieselbe Isolation wie die per-Land-Crawls in `main.py`:
   - `server.py` - **fertig**: psutil RAM/Swap/Disk/Load/CPU/Uptime (13 Metriken).
-  - `cloudflare.py` - D1-Groesse via REST **fertig**; Workers-/Traffic-/Vitals-
-    GraphQL als Phase-2-TODO.
+  - `cloudflare.py` - **fertig**: GraphQL Analytics (Workers requests/errors/
+    CPU-pXX, Zone-Traffic, RUM Web Vitals p75, D1-Analytics) + D1-Groesse via
+    REST. Reine Mapper in `cloudflare_parse.py` (unit-getestet,
+    `tests/test_health_cloudflare_parse.py`), voll defensiv (Schema-Drift ->
+    weniger Metriken, nie ein Crash).
   - `coolify.py` - Resource-up/down via `/api/v1/resources` **minimal**; Phase 2:
     per-Server CPU/RAM.
   - `github.py` - offene Issues + letzter Run-Status je Workflow (crawl/facts-
@@ -170,7 +173,7 @@ Dashboard-App: `HEALTH_API_BASE`, `HEALTH_API_KEY` (= `CRON_SECRET`).
 | Phase | Inhalt | Status |
 | --- | --- | --- |
 | 0 | Konzept + Grundgeruest: `health_metrics`-Tabelle + Migration, `/api/health` (POST/GET), Collector-Skelett (server.py fertig, uebrige fail-soft), Dashboard-Skelett + Tunnel-Config | **GEBAUT 22.07.2026** |
-| 1 | CF-GraphQL voll (Workers/Traffic/Vitals), Coolify per-Server, D1-Analytics; Owner-Setup (Token/Tunnel/Access), erster Live-Collect | offen |
+| 1 | CF-GraphQL voll (Workers/Traffic/Vitals/D1) - **GEBAUT**; Coolify per-Server offen; Owner-Setup (Token/Tunnel/Access), erster Live-Collect offen | teilweise |
 | 2 | Sentry in die Worker-App (`@sentry/cloudflare` + CSP), Collector liest Sentry; Crawler-Selbstreport-Hook in `output_handler.py` | offen |
 | 3 | Dashboard-Ausbau: Zeitreihen-Charts, Ampeln, Alerting bei `crit` | offen |
 

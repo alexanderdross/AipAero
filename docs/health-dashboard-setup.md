@@ -157,8 +157,10 @@ Coolify/netcup-Box (dort, wo schon die Crawler laufen).
 
 ## Danach (Phase 2/3, Code - separate PRs)
 
-- Cloudflare-GraphQL-Gatherer voll ausfuellen (Workers-Requests/Errors/CPU,
-  Zone-Traffic, RUM Web Vitals p75, D1-Analytics) in `crawlers/health/cloudflare.py`.
+- Cloudflare-GraphQL-Gatherer (Workers/Traffic/Vitals/D1) - **GEBAUT** in
+  `crawlers/health/cloudflare.py` (+ `cloudflare_parse.py`). Braucht nur noch den
+  Token aus Schritt 3; die GraphQL-Feldnamen ggf. am Live-Account verifizieren
+  (der Parser ist defensiv - unbekannte Felder werden still uebersprungen).
 - Coolify per-Server CPU/RAM in `crawlers/health/coolify.py`.
 - Sentry in die Worker-App (`@sentry/cloudflare` + CSP).
 - Crawler-Selbstreport (ok/fail/count/coverage pro Land) in
