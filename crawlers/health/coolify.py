@@ -1,9 +1,12 @@
 """Coolify metrics gatherer - app/container health on the box.
 
-Skeleton (Phase 1): when a Coolify API URL + token are configured, reads the
-resources list and emits an up/down count; leaves per-server CPU/RAM and
-deployment history as a Phase-2 TODO. Fully fail-soft: unconfigured or any
-error -> []. Runs on the box, so the API URL is typically localhost.
+Reads the Coolify `/api/v1/resources` list and buckets it (via the pure
+`coolify_parse.parse_resources`) into total / running / unhealthy / stopped -
+the app-level signal that psutil (RAM/disk/load of the box) cannot give. Also
+emits how many Coolify-managed servers are reachable. Fully fail-soft:
+unconfigured or any error -> []. Runs on the box, so the API URL is typically
+localhost. (Per-server CPU/RAM is already covered by the local psutil gatherer
+on this single-box setup; Coolify's unique value here is deployment/app health.)
 """
 
 from __future__ import annotations
@@ -11,6 +14,7 @@ from __future__ import annotations
 import logging
 from typing import List
 
+from . import coolify_parse as parse
 from .models import Metric
 from .settings import HealthSettings
 
@@ -33,33 +37,27 @@ def gather(settings: HealthSettings) -> List[Metric]:
             "Accept": "application/json",
         }
         with httpx.Client(timeout=15.0, base_url=base.rstrip("/")) as client:
-            r = client.get("/api/v1/resources", headers=headers)
-            r.raise_for_status()
-            resources = r.json()
+            # Application/resource health.
+            try:
+                r = client.get("/api/v1/resources", headers=headers)
+                r.raise_for_status()
+                metrics.extend(parse.parse_resources(r.json()))
+            except Exception as e:
+                log.warning("coolify gatherer: resources read failed (%s)", e)
 
-        # Coolify returns a list of resources each with a `status` string
-        # (e.g. "running:healthy", "exited:unhealthy"). Count healthy vs total.
-        if isinstance(resources, list):
-            total = len(resources)
-            running = sum(
-                1
-                for res in resources
-                if isinstance(res, dict)
-                and str(res.get("status", "")).startswith("running")
-            )
-            metrics.append(Metric("coolify", "resources_total", float(total), "count"))
-            metrics.append(
-                Metric(
-                    "coolify",
-                    "resources_running",
-                    float(running),
-                    "count",
-                    status="ok" if running == total else "warn",
-                )
-            )
+            # How many managed servers are reachable (a simple availability count).
+            try:
+                r = client.get("/api/v1/servers", headers=headers)
+                r.raise_for_status()
+                servers = r.json()
+                if isinstance(servers, list):
+                    metrics.append(
+                        Metric("coolify", "servers_total", float(len(servers)), "count")
+                    )
+            except Exception as e:
+                log.warning("coolify gatherer: servers read failed (%s)", e)
     except Exception as e:
-        log.warning("coolify gatherer: read failed (%s)", e)
+        log.warning("coolify gatherer: run failed (%s)", e)
 
-    # TODO(Phase 2): per-server CPU/RAM/disk from /api/v1/servers, deployments.
     log.info("coolify gatherer: collected %d metrics", len(metrics))
     return metrics
