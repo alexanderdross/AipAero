@@ -13,14 +13,23 @@ from typing import TYPE_CHECKING
 import httpx
 from bs4 import BeautifulSoup
 
+from crawlers.airac import current_airac_date, is_crawl_day, next_airac_date
 from crawlers.models import Airport, ChartLink
 
 if TYPE_CHECKING:
     from crawlers.operating_hours import StructuredHours
 
-# Re-export Airport so country crawlers can `from crawlers.http_base import
-# Airport, HttpCrawlerBase` in one line.
-__all__ = ["Airport", "HttpCrawlerBase"]
+# Re-export Airport + the AIRAC helpers so country crawlers can keep doing
+# `from crawlers.http_base import Airport, HttpCrawlerBase, current_airac_date`
+# in one line (the AIRAC math itself lives in the dependency-free crawlers.airac
+# module so the crawl workflow gate can import it without third-party deps).
+__all__ = [
+    "Airport",
+    "HttpCrawlerBase",
+    "current_airac_date",
+    "next_airac_date",
+    "is_crawl_day",
+]
 
 # Honest, identifiable UA for well-behaved sources - names the crawler and
 # links back to the site so an AIS admin can see who is hitting them.
@@ -69,21 +78,10 @@ _BINARY_CONTENT_TYPE_RE = re.compile(
 # with no usable text layer, and pdf_text falls back to OCR (see pdf_text).
 _PDF_MIN_TEXT_LEN = 50
 
-# Fixed 28-day AIRAC cycle anchor (a real AIRAC effective date). The current
-# effective edition of a standard eAIP is the most recent AIRAC date on/before
-# today, so crawlers whose source URLs carry NO edition date can still stamp
-# crawl_meta.airac (the detail page shows the AIRAC cycle). This is the on-cycle
-# edition; a source lagging a cycle is the only inaccuracy, acceptable and the
-# same approximation ba.py/gr.py already use.
-_AIRAC_ANCHOR = datetime.date(2026, 7, 9)
-
-
-def current_airac_date(today: datetime.date | None = None) -> str:
-    """ISO date of the AIRAC cycle currently in effect (most recent 28-day
-    boundary on/before today)."""
-    today = today or datetime.date.today()
-    n = (today - _AIRAC_ANCHOR).days // 28
-    return (_AIRAC_ANCHOR + datetime.timedelta(days=n * 28)).isoformat()
+# The AIRAC cycle math (current_airac_date / next_airac_date / is_crawl_day)
+# lives in the dependency-free crawlers.airac module and is imported + re-
+# exported above; crawlers whose source URLs carry no edition date stamp
+# crawl_meta.airac from current_airac_date().
 
 
 class HttpCrawlerBase:

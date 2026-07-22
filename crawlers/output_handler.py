@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import time
 from pathlib import Path
 
 import httpx
@@ -31,18 +32,38 @@ import httpx
 from crawlers.http_eurocontrol_base import title_name_looks_bad
 from crawlers.models import Airport
 from crawlers.operating_hours import StructuredHours, to_json
+from sanitize import SanitizeReport, sanitize_airports
 from settings import Settings
 
 DEFAULT_DROP_THRESHOLD = 0.5  # refuse if new count < 50% of last
+# Warn (Actions annotation) when a country's count drops by more than this but
+# not enough to trip the hard 50% guard. A 20-49% silent drop (one menu section
+# of several yielding nothing) used to publish invisibly AND ratchet the
+# baseline down; this makes it a visible warning while still publishing.
+SOFT_DROP_WARN_THRESHOLD = 0.15
 # Warn (Actions annotation) when more than this share of a country's titles
 # have no real place name - a bare ICAO or a chart-designator/boilerplate
 # "name" (the NL/ES/FI-heliport class of bug). A launch that ships a listing
 # of chart codes instead of aerodrome names must not pass silently.
 TITLE_QUALITY_WARN_RATIO = 0.2
+# Warn when the ICAO-bearing titles that break the "<name> <ICAO>" rule exceed
+# this share (catches the bare-ICAO / ICAO-first regression the place-name
+# heuristic above misses). Kept low: the rule is a hard project invariant.
+TITLE_FORMAT_WARN_RATIO = 0.1
+# Warn when chart-PDF coverage drops by more than this share of the last run's
+# ratio (a partial selector break, e.g. 90% -> 50%); the collapse-to-0 case is
+# always warned regardless.
+PDF_COVERAGE_DROP_WARN = 0.3
 # Per-country last-successful counts, persisted between Actions runs (actions/cache).
 COUNT_STATE_FILE = Path("last_run_counts.json")
 # Generous total budget, short connect timeout - some AIP hosts are slow.
 HTTP_TIMEOUT = httpx.Timeout(60.0, connect=10.0)
+# Publish-side retry (POST /api/airports, PATCH /api/airport-facts): a single
+# transient API 5xx / connection blip must not drop a whole country for the day.
+# Mirrors the crawl-side fetch retry (exponential backoff, transient only).
+PUBLISH_MAX_ATTEMPTS = 3
+PUBLISH_BACKOFF_BASE = 2.0  # seconds; doubles each attempt
+_PUBLISH_RETRY_STATUSES = frozenset({429, 500, 502, 503, 504})
 
 
 class CountDropAbort(RuntimeError):
@@ -82,6 +103,54 @@ class OutputHandler:
         except OSError as e:
             self.logger.warning(f"Could not persist {COUNT_STATE_FILE}: {e}")
 
+    def _send_with_retry(
+        self, method: str, url: str, payload: object, label: str
+    ) -> httpx.Response:
+        """Send one JSON request with the bearer token, retrying transient
+        failures (429/5xx, connection errors) with exponential backoff. Returns
+        the successful response; raises the last httpx error after the final
+        attempt. Non-retryable 4xx (e.g. a 400 validation error) raise at once
+        without wasting retries."""
+        headers = {
+            "Authorization": f"Bearer {self.settings.api_key.get_secret_value()}"
+        }
+        delay = PUBLISH_BACKOFF_BASE
+        last_exc: httpx.HTTPError | None = None
+        for attempt in range(1, PUBLISH_MAX_ATTEMPTS + 1):
+            try:
+                with httpx.Client(timeout=HTTP_TIMEOUT) as client:
+                    response = client.request(
+                        method, url, json=payload, headers=headers
+                    )
+            except httpx.TransportError as e:
+                last_exc = e
+                if attempt < PUBLISH_MAX_ATTEMPTS:
+                    self.logger.warning(
+                        f"{label}: transient {type(e).__name__}, "
+                        f"retry {attempt}/{PUBLISH_MAX_ATTEMPTS - 1}"
+                    )
+                    time.sleep(delay)
+                    delay *= 2
+                    continue
+                raise
+            if (
+                response.status_code in _PUBLISH_RETRY_STATUSES
+                and attempt < PUBLISH_MAX_ATTEMPTS
+            ):
+                self.logger.warning(
+                    f"{label}: HTTP {response.status_code}, "
+                    f"retry {attempt}/{PUBLISH_MAX_ATTEMPTS - 1}"
+                )
+                time.sleep(delay)
+                delay *= 2
+                continue
+            # Success, or a non-retryable status / the final attempt: let a bad
+            # status raise HTTPStatusError for the caller to handle.
+            response.raise_for_status()
+            return response
+        # Unreachable in practice (the loop returns or raises); defensive.
+        raise last_exc or RuntimeError(f"{label}: exhausted publish retries")
+
     def _check_count_sanity(self, country: str, new_count: int) -> None:
         """Refuse to publish if the count dropped more than DEFAULT_DROP_THRESHOLD
         from the last successful run, unless CRAWLER_FORCE_PUBLISH is set."""
@@ -92,19 +161,32 @@ class OutputHandler:
                 f"{country}: no prior count on record; recording {new_count}."
             )
             return
-        # Publish freely as long as we kept at least (1 - threshold) of last run.
-        if new_count >= last_count * (1 - DEFAULT_DROP_THRESHOLD):
-            return  # within tolerance
-        msg = (
-            f"{country}: count dropped from {last_count} to {new_count} "
-            f"(> {int(DEFAULT_DROP_THRESHOLD * 100)}% drop). "
-            f"This is usually a parser bug."
-        )
-        # Escape hatch for a genuine, expected drop (e.g. a source pruned fields).
-        if os.environ.get("CRAWLER_FORCE_PUBLISH"):
-            self.logger.warning(f"{msg} CRAWLER_FORCE_PUBLISH set, publishing anyway.")
-            return
-        raise CountDropAbort(msg + " Set CRAWLER_FORCE_PUBLISH=1 to override.")
+        # Hard block: a > 50% collapse is almost always a parser bug.
+        if new_count < last_count * (1 - DEFAULT_DROP_THRESHOLD):
+            msg = (
+                f"{country}: count dropped from {last_count} to {new_count} "
+                f"(> {int(DEFAULT_DROP_THRESHOLD * 100)}% drop). "
+                f"This is usually a parser bug."
+            )
+            # Escape hatch for a genuine, expected drop (source pruned fields).
+            if os.environ.get("CRAWLER_FORCE_PUBLISH"):
+                self.logger.warning(
+                    f"{msg} CRAWLER_FORCE_PUBLISH set, publishing anyway."
+                )
+                return
+            raise CountDropAbort(msg + " Set CRAWLER_FORCE_PUBLISH=1 to override.")
+        # Soft band: a 15-50% drop publishes (within the hard tolerance) but is
+        # flagged loudly - a partial parse failure (one menu section of several
+        # yielding nothing) used to slip through AND ratchet the baseline down.
+        if new_count < last_count * (1 - SOFT_DROP_WARN_THRESHOLD):
+            drop = 1 - new_count / last_count
+            wmsg = (
+                f"{country}: count dropped {last_count} -> {new_count} ({drop:.0%}) "
+                f"- below the {int(DEFAULT_DROP_THRESHOLD * 100)}% hard block but "
+                f"worth checking for a partial parse failure."
+            )
+            self.logger.warning(wmsg)
+            print(f"::warning title=Count drop::{wmsg}", flush=True)
 
     @staticmethod
     def _title_name_part(airport: Airport) -> str:
@@ -138,6 +220,28 @@ class OutputHandler:
         if ratio >= TITLE_QUALITY_WARN_RATIO:
             print(f"::warning title=Title quality::{msg}", flush=True)
 
+    def _warn_title_format(self, report: SanitizeReport) -> None:
+        """Warn (Actions annotation) when too many ICAO-bearing titles break the
+        "<name> <ICAO>" rule (bare ICAO, or an ICAO-first reorder that the
+        place-name heuristic in _check_title_quality does not catch). Also flag
+        any malformed ICAOs. Never blocks (fail-soft)."""
+        if report.bad_icao:
+            self.logger.warning(
+                f"{report.country}: {report.bad_icao} malformed ICAO(s) "
+                f"(e.g. {', '.join(report.bad_icao_samples)})"
+            )
+        if not report.bad_title:
+            return
+        msg = (
+            f"{report.country}: {report.bad_title}/{report.icao_bearing} titles "
+            f"do not end with their ICAO (e.g. "
+            f"{', '.join(report.bad_title_samples)}) - the '<name> <ICAO>' rule "
+            f"is broken (docs: sanitize.py / CLAUDE.md title rule)"
+        )
+        self.logger.warning(msg)
+        if report.bad_title_ratio >= TITLE_FORMAT_WARN_RATIO:
+            print(f"::warning title=Title format::{msg}", flush=True)
+
     def write_output(
         self, airports: list[Airport], country: str, airac: str | None = None
     ) -> None:
@@ -154,6 +258,15 @@ class OutputHandler:
         # An empty result never overwrites live data (would look like a total loss).
         if not airports:
             self.logger.warning(f"No airports found for {country}. Skipping output.")
+            return
+
+        # Central sanitize/dedup: drop duplicate ICAOs (the generic eurocontrol
+        # extractors don't dedupe across sections) and collect a quality report
+        # for the title-format / malformed-ICAO warnings below. Uses the
+        # de-duplicated count for every downstream check.
+        airports, quality = sanitize_airports(airports, country, self.logger)
+        if not airports:
+            self.logger.warning(f"No airports left for {country} after sanitize.")
             return
 
         # Drop guard: abort the publish if the count collapsed vs. the last run.
@@ -183,10 +296,27 @@ class OutputHandler:
             self.logger.warning(msg)
             # GitHub Actions annotation (the daily crawl runs there).
             print(f"::warning title=Chart-PDF coverage::{msg}", flush=True)
+        elif last_pdf and pdf_count > 0:
+            # Partial drop: coverage RATIO fell materially vs. the last run - a
+            # priority-regex that half-broke (picks the wrong chart / misses
+            # some) stays invisible to the collapse-to-0 check above.
+            last_total = self._last_counts.get(country.upper())
+            last_ratio = (last_pdf / last_total) if last_total else 0.0
+            new_ratio = pdf_count / len(airports)
+            if last_ratio and new_ratio < last_ratio * (1 - PDF_COVERAGE_DROP_WARN):
+                msg = (
+                    f"{country}: chart-PDF coverage dropped {last_ratio:.0%} -> "
+                    f"{new_ratio:.0%} - a per-country chart selector may have "
+                    f"partially broken (docs/chart-pdf-plan.md)"
+                )
+                self.logger.warning(msg)
+                print(f"::warning title=Chart-PDF coverage::{msg}", flush=True)
 
-        # Title-quality guard: flag a country that ships bare ICAOs / chart
-        # designators instead of aerodrome names (fail-soft, never blocks).
+        # Title-quality guards: (1) the place-name heuristic (chart designators /
+        # boilerplate), and (2) the "<name> <ICAO>" format check from the
+        # sanitize report. Both fail-soft, never block.
         self._check_title_quality(airports, country)
+        self._warn_title_format(quality)
 
         self.logger.info(
             f"Writing {len(airports)} airports for {country} "
@@ -224,16 +354,10 @@ class OutputHandler:
             endpoint = f"{endpoint}{sep}airac={airac}"
             self.logger.info(f"{country}: forwarding AIRAC {airac} to the API")
         try:
-            with httpx.Client(timeout=HTTP_TIMEOUT) as client:
-                response = client.post(
-                    endpoint,
-                    json=payload,
-                    headers={"Authorization": f"Bearer {self.settings.api_key}"},
-                )
-                response.raise_for_status()
+            self._send_with_retry("POST", endpoint, payload, f"{country} airports")
         except httpx.HTTPError as e:
-            # Publish failed: leave the baseline counts untouched so the drop
-            # guard still compares against the last GOOD run next time.
+            # Publish failed (after retries): leave the baseline counts untouched
+            # so the drop guard still compares against the last GOOD run next time.
             self.logger.error(f"Failed to write output for {country}: {e}")
             return
 
@@ -297,13 +421,7 @@ class OutputHandler:
             f"{country}: publishing AD 2.3/2.13 data for {len(rows)} fields"
         )
         try:
-            with httpx.Client(timeout=HTTP_TIMEOUT) as client:
-                response = client.patch(
-                    url,
-                    json=rows,
-                    headers={"Authorization": f"Bearer {self.settings.api_key}"},
-                )
-                response.raise_for_status()
+            self._send_with_retry("PATCH", url, rows, f"{country} AD 2.3/2.13")
         except httpx.HTTPError as e:
             self.logger.warning(
                 f"{country}: failed to publish AD 2.3/2.13 data: {e}"
@@ -343,12 +461,6 @@ class OutputHandler:
         url = self._facts_endpoint()
         self.logger.info(f"{country}: publishing AD-2 OCR text for {len(rows)} fields")
         try:
-            with httpx.Client(timeout=HTTP_TIMEOUT) as client:
-                response = client.patch(
-                    url,
-                    json=rows,
-                    headers={"Authorization": f"Bearer {self.settings.api_key}"},
-                )
-                response.raise_for_status()
+            self._send_with_retry("PATCH", url, rows, f"{country} AD-2 OCR text")
         except httpx.HTTPError as e:
             self.logger.warning(f"{country}: failed to publish AD-2 OCR text: {e}")

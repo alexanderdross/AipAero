@@ -37,8 +37,39 @@ permissions:
   contents: read
 
 jobs:
+  # AIRAC gate: the upstream AIP content is static between 28-day AIRAC
+  # effective dates, so a *scheduled* run only does the full crawl on an AIRAC
+  # window (effective date + a couple of catch-up days) or the weekly safety
+  # day - see crawlers/crawlers/airac.py (is_crawl_day). Any manual
+  # workflow_dispatch run bypasses the gate (you triggered it on purpose). The
+  # gate uses plain python3 + the dependency-free airac module, so it needs no
+  # uv sync.
+  gate:
+    name: AIRAC crawl-day gate
+    runs-on: self-hosted
+    outputs:
+      run: ${{ steps.decide.outputs.run }}
+    steps:
+      - uses: actions/checkout@v7.0.0
+      - name: Decide whether to crawl today
+        id: decide
+        working-directory: crawlers
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "::notice::${{ github.event_name }} run - bypassing AIRAC gate (always crawl)."
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          out=$(python3 -c "import sys; sys.path.insert(0, '.'); from crawlers.airac import is_crawl_day; r, why = is_crawl_day(); print(('true' if r else 'false') + '|' + why)")
+          run="${out%%|*}"
+          reason="${out#*|}"
+          echo "::notice::AIRAC gate -> ${run} (${reason})"
+          echo "run=${run}" >> "$GITHUB_OUTPUT"
+
   crawl:
     name: Crawl live sources + publish
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: self-hosted
     # The DE_OCR pass renders + OCRs ~800 DFS AD-2 pages (a browser navigation
     # per field) and runs right at ~35 min, so it needs a bigger budget than the

@@ -363,12 +363,25 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         )
 
         airports: list[Airport] = []
+        seen: set[str] = set()
         for title_div, details_div in paired:
             # _parse_pair returns None for non-airport pairs (no anchors, no
             # charts link); those are silently skipped.
             airport = self._parse_pair(title_div, details_div, base_url, category)
-            if airport is not None:
-                airports.append(airport)
+            if airport is None:
+                continue
+            # Dedupe by ICAO within the section (first wins). A menu that lists
+            # a field twice would otherwise ship a duplicate row.
+            key = (airport.icao or "").upper()
+            if key and key in seen:
+                self.logger.warning(
+                    f"{self.country}: duplicate {key} in section "
+                    f"{id_in_menu!r}; skipping"
+                )
+                continue
+            if key:
+                seen.add(key)
+            airports.append(airport)
 
         # Zero airports means the section id matched but the layout changed -
         # treat as a hard failure so the drop guard / live test catches it.
@@ -402,6 +415,7 @@ class HttpEurocontrolBase(HttpCrawlerBase):
         )
         soup = self.soup(html)
         airports: list[Airport] = []
+        seen: set[str] = set()
 
         # Each matching div is one aerodrome's chapter; group 1 = its ICAO code.
         for details in soup.find_all("div", attrs={"id": section_re}):
@@ -409,6 +423,13 @@ class HttpEurocontrolBase(HttpCrawlerBase):
             if not match:  # pragma: no cover - find_all already matched
                 continue
             icao = match.group(1)
+            # Dedupe by ICAO (first usable chapter wins). Some eAIPs repeat a
+            # field's chapter block; without this it would ship twice.
+            if icao.upper() in seen:
+                self.logger.warning(
+                    f"{self.country}: duplicate chapter {icao}; skipping"
+                )
+                continue
 
             # Title lives in the sibling div right before the details div,
             # e.g. <a>AD 2.LKPR PRAHA/Ruzyně</a>.
@@ -444,6 +465,7 @@ class HttpEurocontrolBase(HttpCrawlerBase):
                 )
                 continue
 
+            seen.add(icao.upper())
             airports.append(
                 Airport(
                     country=self.country,

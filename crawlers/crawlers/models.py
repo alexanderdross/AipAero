@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class ChartLink(BaseModel):
@@ -52,3 +52,33 @@ class Airport(BaseModel):
     airport_type: Literal["vfr", "ifr", "heliport", "mil", "aeroport"] = Field(
         alias="type"
     )
+
+    # --- Light, non-rejecting normalizers -----------------------------------
+    # These only clean the value; they never raise, because a validation error
+    # here would abort the whole country in main.py's per-crawler try/except.
+    # Structural problems (a wrong-length ICAO, a title that doesn't end in the
+    # ICAO) are flagged - not dropped - by crawlers/sanitize.py at publish time.
+
+    @field_validator("icao", mode="before")
+    @classmethod
+    def _normalize_icao(cls, v: object) -> str | None:
+        """Upper-case + strip the ICAO; coerce empty/whitespace to None so a
+        blank source cell never becomes a bogus code (the slug then falls back
+        to the title). A malformed length is left as-is for sanitize to flag."""
+        if v is None:
+            return None
+        s = str(v).strip().upper()
+        return s or None
+
+    @field_validator("country", mode="before")
+    @classmethod
+    def _normalize_country(cls, v: object) -> object:
+        """Upper-case + strip the 2-letter country code (the API partitions on
+        it, so a stray-cased value would fragment a country's dataset)."""
+        return str(v).strip().upper() if v is not None else v
+
+    @field_validator("title", "url", mode="before")
+    @classmethod
+    def _strip_str(cls, v: object) -> object:
+        """Trim surrounding whitespace on the free-text string fields."""
+        return v.strip() if isinstance(v, str) else v
