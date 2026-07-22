@@ -189,12 +189,14 @@ export async function AirportFacts({
       .filter(Boolean)
       .join(" "),
   );
-  // Join each service+frequency pair with a NON-BREAKING space so a line only
-  // wraps at the " · " separators between entries, never mid-entry (e.g. "CLD"
-  // orphaned from "121.775" on a phone).
+  // Each service+frequency pair is glued with a NON-BREAKING space (never
+  // wraps mid-entry), and the "·" separator is glued to the PRECEDING
+  // entry with a non-breaking space too, so a line can only break at the single
+  // normal space AFTER the dot - the dot always trails its entry at the end of
+  // a line, never dangles at the start of the next one (consistent wrapping).
   const frequenciesText = frequencies
     .map((f) => `${f.type}\u00A0${f.mhz}`.trim())
-    .join(" · ");
+    .join("\u00A0· ");
 
   // AD 2.13 declared distances (authoritative eAIP): one compact line per
   // runway grouped with the runway data - "08: TORA 860 · TODA 860 · ...".
