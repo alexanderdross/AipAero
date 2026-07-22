@@ -305,6 +305,11 @@ export function createSearchPage(config: SearchPageConfig) {
     const p = Object.keys(await searchParams);
     const t = await getTranslations(namespace);
     const tCommon = await getTranslations("Common");
+    // Reuse the generic short placeholder ("Search any airport by name or ICAO
+    // code") shared with the homepage / country-landing search so all three
+    // boxes read identically - zero new i18n keys. The descriptive `searchTitle`
+    // stays as the keyword-rich sr-only label / input title.
+    const tNotFound = await getTranslations("NotFound");
 
     let data: Airport | undefined;
     const country = localeCountryMapping[locale]!;
@@ -382,6 +387,7 @@ export function createSearchPage(config: SearchPageConfig) {
           <SearchInputField
             value={data?.icao ?? undefined}
             title={t("searchTitle")}
+            placeholder={tNotFound("searchPlaceholder")}
             type={type}
             country={country}
             noResultsLabel={tCommon("noResults")}

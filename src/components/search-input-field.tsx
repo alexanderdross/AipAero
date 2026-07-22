@@ -26,12 +26,19 @@ const initialState: SearchState = { airports: [], query: "" };
 export function SearchInputField({
   value,
   title,
+  placeholder,
   type,
   country,
   noResultsLabel,
 }: {
   value?: string;
+  /** Descriptive, keyword-rich label - the sr-only <label> + the input `title`
+   *  (a11y/SEO). NOT shown as the visible placeholder (it is a full sentence
+   *  that overflows the field), which is why `placeholder` is separate. */
   title: string;
+  /** Short visible placeholder, shared with the homepage / country-landing
+   *  search so all three boxes read identically. Falls back to `title`. */
+  placeholder?: string;
   type: Airport["type"];
   country: string;
   /** Localized "no airports found" note shown when a search matched nothing. */
@@ -95,7 +102,7 @@ export function SearchInputField({
       <SearchField
         id="search"
         name="search"
-        placeholder={title}
+        placeholder={placeholder ?? title}
         title={title}
         value={search ?? value}
         onChange={(e) => onChange(e)}
