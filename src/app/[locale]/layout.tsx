@@ -9,6 +9,7 @@ import { SchemaSitenav } from "~/components/schemas/schema-sitenav";
 import { SchemaDedupe } from "~/components/schema-dedupe";
 import { ServiceWorkerRegistration } from "~/components/service-worker-registration";
 import { WebVitalsReporter } from "~/components/web-vitals-reporter";
+import { ClientErrorReporter } from "~/components/client-error-reporter";
 import { inter } from "~/lib/fonts";
 
 export function generateStaticParams() {
@@ -76,6 +77,8 @@ export default async function LocaleLayout(
         <ServiceWorkerRegistration />
         {/* First-party Web-Vitals beacon (production hosts only). */}
         <WebVitalsReporter />
+        {/* First-party client-error beacon -> Sentry (production hosts only). */}
+        <ClientErrorReporter />
         {/* Merge byte-identical duplicate JSON-LD nodes (Workers serving-path
             artifact - see the component's doc comment). */}
         <SchemaDedupe />
