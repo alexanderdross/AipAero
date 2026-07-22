@@ -291,6 +291,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Lidlauki nav atrasti",
     "openIn": "Atvērt vietnē",
     "homeLink": "AIP:Aero - Aeronavigācijas informācijas publikācijas (AIP) & pieejas kartes Eiropai",
     "lastUpdated": "Pēdējoreiz atjaunināts",

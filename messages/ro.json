@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Nu s-au găsit aerodromuri",
     "openIn": "Deschide în",
     "homeLink": "AIP:Aero - Publicații de Informare Aeronautică (AIP) & hărți de apropiere pentru Europa",
     "lastUpdated": "Actualizat ultima dată",

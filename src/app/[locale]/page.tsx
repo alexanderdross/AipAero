@@ -11,6 +11,7 @@ import {
   TowerControlIcon,
 } from "lucide-react";
 import { AboutCountryBox } from "~/components/about-country-box";
+import { AirportSearchBox } from "~/components/airport-search-box";
 import { Box } from "~/components/box";
 import { BreadCrumbs } from "~/components/breadcrumbs";
 import { CountryFaq } from "~/components/country-faq";
@@ -21,6 +22,7 @@ import { SchemaProduct } from "~/components/schemas/schema-product";
 import {
   getPathname,
   isSingleLocale,
+  localeCountryMapping,
   localeLangMapping,
   routing,
 } from "~/i18n/routing";
@@ -121,6 +123,10 @@ export default async function CountryPage(
 
   const t = await getTranslations("CountryPage");
   const tCommon = await getTranslations("Common");
+  // Reuse the generic, already-localized "Search any airport by name or ICAO
+  // code" placeholder (present in every locale for the 404 page) so the landing
+  // search adds zero new i18n keys across the 94 message files.
+  const tNotFound = await getTranslations("NotFound");
 
   // Cards are data-driven: show whichever type cards this locale's messages
   // define. Each country's CountryPage only carries the cards for the types it
@@ -160,7 +166,19 @@ export default async function CountryPage(
 
   return (
     <>
-      <Hero title={t("title")} description={t("description")} />
+      {/* The country landing search spans ALL of this country's types, so the
+          visitor finds a field (and lands on its detail page) without first
+          picking a category from the cards below. Locale-scoped: results stay
+          in the current locale via `detailBase`. */}
+      <Hero title={t("title")} description={t("description")}>
+        <AirportSearchBox
+          scope="country"
+          country={localeCountryMapping[locale]!}
+          detailBase={getPathname({ href: "/", locale })}
+          placeholder={tNotFound("searchPlaceholder")}
+          noResultsLabel={tCommon("noResults")}
+        />
+      </Hero>
       <SchemaProduct
         name={serpTitle(t("breadcrumb.alternateName"))}
         alternateName={t("breadcrumb.name")}

@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Nema pronađenih zračnih luka",
     "openIn": "Otvori u",
     "homeLink": "AIP:Aero - Zbornici zrakoplovnih informacija (AIP) & prilazne karte za Europu",
     "lastUpdated": "Zadnje ažurirano",

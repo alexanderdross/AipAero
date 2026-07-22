@@ -148,7 +148,7 @@ automatically; a localized CTA on the country landing + airport-list pages; SEO/
   airport-list page plotting every chart-linked field with coordinates, popups linking to the detail
   page, and a geolocation "locate me" button. Leaflet runs client-side only; the SSR airport list is
   the indexable no-JS fallback. Only rendered when the facts importer has populated coordinates.
-- **Cross-country search** on the root page (`src/components/global-search-input-field.tsx`).
+- **Cross-country search** on the root page + a **country-wide search on each country landing page** (`src/components/airport-search-box.tsx`, `scope="global"` / `scope="country"`), so a field is reachable without pre-picking a category. All searches route to the airport detail page (never straight to the raw AIP).
 - **Sitelinks Search Box** (`WebSite` `SearchAction` JSON-LD on the root, executed via the site's
   valueless `?<term>` query-key scheme) so Google may surface a search box under the aip.aero result.
 - **Chart-availability signal** (`chartCoverage()` in `src/lib/utils.ts`, 16.07.2026): an honest note on

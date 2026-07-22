@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Аэрадромы не знойдзены",
     "openIn": "Адкрыць у",
     "homeLink": "AIP:Aero - Зборнікі аэранавігацыйнай інфармацыі (AIP) і схемы заходу для Еўропы",
     "lastUpdated": "Апошняе абнаўленне",

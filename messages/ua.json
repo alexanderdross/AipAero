@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Аеродроми не знайдено",
     "openIn": "Відкрити в",
     "homeLink": "AIP:Aero - Збірники аеронавігаційної інформації (AIP) та карти заходу на посадку для Європи",
     "lastUpdated": "Останнє оновлення",

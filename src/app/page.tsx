@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { AboutBox } from "~/components/about-box";
 import { Box } from "~/components/box";
-import { GlobalSearchInputField } from "~/components/global-search-input-field";
+import { AirportSearchBox } from "~/components/airport-search-box";
+import { FavoritesRecent } from "~/components/favorites-recent";
 import Footer from "~/components/footer";
 import { Hero } from "~/components/hero";
 import { Header } from "~/components/header";
@@ -67,6 +68,9 @@ export async function generateMetadata(
 
 export default async function RootPage() {
   setRequestLocale("uk");
+
+  // English (uk) labels for the client-only Favorites/Recently-viewed card.
+  const tCommon = await getTranslations("Common");
 
   // Only live countries appear in the SiteNavigation JSON-LD (hidden countries
   // must not be advertised to crawlers while their pages are empty).
@@ -310,7 +314,7 @@ export default async function RootPage() {
               site's search result. The target URL must execute the search -
               the VALUELESS query key (https://aip.aero/?EDNY, the site's SEO
               scheme, same as the ?ICAO airport-detail URLs) is picked up by
-              GlobalSearchInputField on mount. */}
+              AirportSearchBox on mount. */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -396,7 +400,10 @@ export default async function RootPage() {
           {/* Hero: headline plus the global cross-country search as the
               primary call to action. */}
           <Hero title={rootTitle} description={rootDescription}>
-            <GlobalSearchInputField placeholder="Search any airport across Europe by name or ICAO code" />
+            <AirportSearchBox
+              placeholder="Search any airport across Europe by name or ICAO code"
+              noResultsLabel="No airports found"
+            />
           </Hero>
 
           {/* Trust strip */}
@@ -483,6 +490,25 @@ export default async function RootPage() {
               ))}
             </div>
           </div>
+
+          {/* Favorites / recently viewed (client-only, localStorage) for
+              returning pilots, so their saved fields are reachable straight from
+              the homepage - not only after picking a country. Rendered BELOW the
+              country grid so its post-hydration appearance stays below the
+              initial fold and never shifts the indexable hero/cards (same CLS
+              discipline as the country landing page). `hideWhenEmpty` renders
+              nothing for first-time visitors (no card, no shift, no dead gap);
+              the `mt-16` spacing lives on the component so it applies only when
+              the card actually renders. Never in the SSR DOM (personal data),
+              so SEO/LCP stay untouched. */}
+          <FavoritesRecent
+            hideWhenEmpty
+            className="mt-16"
+            favoritesLabel={tCommon("favorites")}
+            recentLabel={tCommon("recentlyViewed")}
+            favoritesEmptyLabel={tCommon("favoritesEmpty")}
+            recentEmptyLabel={tCommon("recentlyViewedEmpty")}
+          />
 
           {/* FAQ: visible text + matching FAQPage JSON-LD from ONE array
               (never markup-only - Google requires the schema to mirror

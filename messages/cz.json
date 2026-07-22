@@ -275,6 +275,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Nenalezena žádná letiště",
     "openIn": "Otevřít v",
     "homeLink": "AIP:Aero - Letecké informační příručky (AIP) & přibližovací mapy pro Evropu",
     "lastUpdated": "Naposledy aktualizováno",

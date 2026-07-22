@@ -3,6 +3,7 @@
 import { HistoryIcon, StarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { RecentEntry } from "~/components/recent-tracker";
+import { cn } from "~/lib/utils";
 
 // Index keys shared with save-offline-button.tsx (favorites = the explicitly
 // saved fields, per the PWA concept: one implementation for both) and
@@ -43,17 +44,30 @@ function readEntries(key: string): LinkEntry[] {
  * scrolling past first-timer content), which is still below the initial fold
  * for virtually all viewports, so the post-hydration appearance costs no
  * LCP/CLS on the indexable content.
+ *
+ * `hideWhenEmpty` (used on the global homepage): render NOTHING when both lists
+ * are empty, instead of the discovery placeholder - so a first-time visitor
+ * (the SEO/PageSpeed-critical majority) gets no post-hydration DOM insertion at
+ * all (zero layout shift, less client work); only a returning visitor sees the
+ * card (below the fold, so still no CLS above the fold). The country landing
+ * keeps the default (placeholder shown) as deliberate feature discovery.
+ * `className` is merged onto the outer wrapper so a caller can attach spacing
+ * that applies only WHEN the card actually renders (no dead gap when hidden).
  */
 export function FavoritesRecent({
   favoritesLabel,
   recentLabel,
   favoritesEmptyLabel,
   recentEmptyLabel,
+  hideWhenEmpty = false,
+  className,
 }: {
   favoritesLabel: string;
   recentLabel: string;
   favoritesEmptyLabel: string;
   recentEmptyLabel: string;
+  hideWhenEmpty?: boolean;
+  className?: string;
 }) {
   const [loaded, setLoaded] = useState(false);
   const [favorites, setFavorites] = useState<LinkEntry[]>([]);
@@ -81,6 +95,12 @@ export function FavoritesRecent({
   // No pre-hydration render: personal lists and the placeholder copy both
   // stay out of the served SSR HTML (SEO pages remain byte-identical).
   if (!loaded) return null;
+
+  // Homepage: skip the empty-state placeholder entirely for first-time
+  // visitors (no saved/recent fields) - no DOM insertion, no layout shift.
+  if (hideWhenEmpty && favorites.length === 0 && recent.length === 0) {
+    return null;
+  }
 
   const section = (
     label: string,
@@ -119,7 +139,7 @@ export function FavoritesRecent({
     // NO own top margin: the Trade:Aero CTA above carries a symmetric py-10
     // (40px above AND below the line) - any extra margin here makes the gap
     // under the CTA larger than the one above it (owner-spotted, 14.07.2026).
-    <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+    <div className={cn("mx-auto max-w-3xl px-4 sm:px-6 lg:px-8", className)}>
       <div className="border-drossgray-dark/15 rounded-xl border bg-white p-6 text-sm shadow-sm sm:p-8">
         <div className="flex flex-wrap justify-center gap-x-16 gap-y-6 text-left">
           {section(

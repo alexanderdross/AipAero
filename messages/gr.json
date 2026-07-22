@@ -291,6 +291,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Δεν βρέθηκαν αεροδρόμια",
     "openIn": "Άνοιγμα σε",
     "homeLink": "AIP:Aero - Εγχειρίδια αεροναυτικών πληροφοριών (AIP) & χάρτες προσέγγισης για την Ευρώπη",
     "lastUpdated": "Τελευταία ενημέρωση",

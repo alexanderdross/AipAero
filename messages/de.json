@@ -326,6 +326,7 @@
     "aipTextSource": "Offizielle AIP-Seite öffnen"
   },
   "Common": {
+    "noResults": "Keine Flugplätze gefunden",
     "openIn": "Öffnen in",
     "homeLink": "AIP:Aero - Luftfahrthandbücher (AIP) & Anflugkarten für Europa",
     "lastUpdated": "Stand",

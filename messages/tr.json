@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Havaalanı bulunamadı",
     "openIn": "Şurada aç",
     "homeLink": "AIP:Aero - Avrupa için Havacılık Bilgi Yayınları (AIP) & yaklaşma kartları",
     "lastUpdated": "Son güncelleme",

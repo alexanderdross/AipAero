@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { GlobalSearchInputField } from "~/components/global-search-input-field";
+import { AirportSearchBox } from "~/components/airport-search-box";
 import { inter } from "~/lib/fonts";
 
 // Catches URLs outside the locale tree (e.g. /nope/). English-only, like the
@@ -15,7 +15,10 @@ export default function NotFound() {
           airport instead:
         </p>
         <div className="w-full max-w-2xl">
-          <GlobalSearchInputField placeholder="Search any airport by name or ICAO code" />
+          <AirportSearchBox
+            placeholder="Search any airport by name or ICAO code"
+            noResultsLabel="No airports found"
+          />
         </div>
         <Link href="/" className="text-drossblue underline hover:no-underline">
           Back to the home page
