@@ -2,6 +2,7 @@ import slug from "slug";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { env } from "~/env";
+import { captureServerError } from "~/lib/sentry";
 import { MUTATIONS } from "~/server/db/queries";
 import { airportApiInsertSchema, type InsertAirport } from "~/server/db/schema";
 
@@ -68,6 +69,7 @@ export async function POST(req: NextRequest) {
     } else {
       console.error("An unknown error occurred");
     }
+    void captureServerError(error, { route: "api/airports", method: "POST" });
     return NextResponse.json(
       { message: "Something went wrong" },
       { status: 500 },

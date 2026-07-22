@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { env } from "~/env";
+import { captureServerError } from "~/lib/sentry";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import { airportFactsApiInsertSchema } from "~/server/db/schema";
 
@@ -82,6 +83,7 @@ export async function POST(req: NextRequest) {
       );
     }
     console.error(error instanceof Error ? error.message : "unknown error");
+    void captureServerError(error, { route: "api/airport-facts" });
     return NextResponse.json(
       { message: "Something went wrong" },
       { status: 500 },
@@ -113,6 +115,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
     console.error(error instanceof Error ? error.message : "unknown error");
+    void captureServerError(error, { route: "api/airport-facts" });
     return NextResponse.json(
       { message: "Something went wrong" },
       { status: 500 },
