@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowRightIcon, SearchIcon, SearchXIcon } from "lucide-react";
+import { ArrowRightIcon, SearchXIcon } from "lucide-react";
 import { useActionState, useEffect, useRef, useState } from "react";
-import { Input } from "~/components/ui/input";
+import { SearchField } from "~/components/search-field";
 import { Skeleton } from "~/components/ui/skeleton";
 import {
   type SearchState,
@@ -157,109 +157,101 @@ export function AirportSearchBox({
         {scope === "country" && country && (
           <input type="hidden" name="country" value={country} />
         )}
-        <div className="relative">
-          <SearchIcon
-            className="text-drossgray-dark pointer-events-none absolute top-1/2 left-3 size-5 -translate-y-1/2"
-            aria-hidden="true"
-          />
-          <Input
-            id="airport-search"
-            name="search"
-            className="focus-visible:ring-drossblue border-drossgray-dark/20 h-12 rounded-lg bg-white pl-10 text-base shadow-sm focus-visible:ring-2"
-            type="text"
-            placeholder={placeholder}
-            title={placeholder}
-            value={search}
-            onChange={(e) => {
-              hasTypedRef.current = true;
-              setSearch(e.currentTarget.value);
-            }}
-            autoComplete="off"
-            // ARIA combobox with a listbox popup (WAI-ARIA APG). The results are
-            // real <a> links the user reaches by Tab - no arrow-key/roving-focus
-            // model (deliberate) - so this stays a static-semantics enhancement
-            // with no extra JS: `aria-expanded` reflects whether the options
-            // list is shown, `aria-busy` the in-flight query.
-            role="combobox"
-            aria-expanded={results.length > 0}
-            aria-controls={
-              results.length > 0 ? "airport-search-listbox" : undefined
-            }
-            aria-autocomplete="list"
-            aria-haspopup="listbox"
-            aria-busy={pending || undefined}
-          />
-          {/* Results overlay the content below instead of pushing it down:
-              the result rows land after the 250ms debounce + server action,
-              often outside the 500ms post-input window CLS excuses, so an
-              in-flow list scores as layout shift. The panel shows a skeleton
-              while loading, the results when they land, or a localized
-              "no airports found" note when a search matched nothing. */}
-          {showPanel && (
-            <div className="absolute inset-x-0 top-full z-10 mt-2 rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
-              {results.length > 0 ? (
-                <>
-                  {/* The combobox popup: a listbox of option links (reached by
-                      Tab). aria-label names the popup; each option carries the
-                      required role="option"/aria-selected. Only options live
-                      inside the listbox - the loading skeleton is a sibling. */}
-                  <div
-                    id="airport-search-listbox"
-                    role="listbox"
-                    aria-label={placeholder}
-                    className="space-y-1"
-                  >
-                    {results.map((airport, i) => (
-                      <a
-                        key={i}
-                        role="option"
-                        aria-selected={false}
-                        href={detailHref(airport)}
-                        title={`${airport.title} - ${TYPE_LABEL[airport.type]}`}
-                        className="bg-drossblue hover:bg-drossblue-light flex items-center justify-center gap-x-2 rounded-lg px-3 py-2.5 text-white transition-colors"
-                      >
-                        <span>{airport.title}</span>
-                        <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
-                          {TYPE_LABEL[airport.type]}
-                        </span>
-                        {/* The country code is redundant in country scope
-                            (all results share it), so only in global scope. */}
-                        {scope === "global" && (
-                          <span className="text-xs uppercase opacity-80">
-                            {airport.country}
+        <SearchField
+          id="airport-search"
+          name="search"
+          placeholder={placeholder}
+          title={placeholder}
+          value={search}
+          onChange={(e) => {
+            hasTypedRef.current = true;
+            setSearch(e.currentTarget.value);
+          }}
+          // ARIA combobox with a listbox popup (WAI-ARIA APG). The results are
+          // real <a> links the user reaches by Tab - no arrow-key/roving-focus
+          // model (deliberate) - so this stays a static-semantics enhancement
+          // with no extra JS: `aria-expanded` reflects whether the options list
+          // is shown, `aria-busy` the in-flight query.
+          role="combobox"
+          aria-expanded={results.length > 0}
+          aria-controls={
+            results.length > 0 ? "airport-search-listbox" : undefined
+          }
+          aria-autocomplete="list"
+          aria-haspopup="listbox"
+          aria-busy={pending || undefined}
+          overlay={
+            // Results overlay the content below instead of pushing it down: the
+            // rows land after the 250ms debounce + server action, often outside
+            // the 500ms post-input window CLS excuses, so an in-flow list scores
+            // as layout shift. The panel shows a skeleton while loading, the
+            // results when they land, or a localized "no airports found" note.
+            showPanel && (
+              <div className="absolute inset-x-0 top-full z-10 mt-2 rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
+                {results.length > 0 ? (
+                  <>
+                    {/* The combobox popup: a listbox of option links (reached
+                        by Tab). aria-label names the popup; each option carries
+                        the required role="option"/aria-selected. Only options
+                        live inside the listbox - the skeleton is a sibling. */}
+                    <div
+                      id="airport-search-listbox"
+                      role="listbox"
+                      aria-label={placeholder}
+                      className="space-y-1"
+                    >
+                      {results.map((airport, i) => (
+                        <a
+                          key={i}
+                          role="option"
+                          aria-selected={false}
+                          href={detailHref(airport)}
+                          title={`${airport.title} - ${TYPE_LABEL[airport.type]}`}
+                          className="bg-drossblue hover:bg-drossblue-light flex items-center justify-center gap-x-2 rounded-lg px-3 py-2.5 text-white transition-colors"
+                        >
+                          <span>{airport.title}</span>
+                          <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
+                            {TYPE_LABEL[airport.type]}
                           </span>
-                        )}
-                        <ArrowRightIcon
-                          className="h-4 w-4 flex-shrink-0"
-                          aria-hidden="true"
-                        />
-                      </a>
-                    ))}
-                  </div>
-                  {/* A newer query is in flight while old results still show. */}
-                  {pending && (
-                    <Skeleton className="mt-1 h-11 w-full rounded-lg" />
-                  )}
-                </>
-              ) : pending ? (
-                <ResultsSkeleton />
-              ) : (
-                // role="status" (implicit aria-live polite) so the empty result
-                // is announced without wrapping the listbox in a live region.
-                <p
-                  role="status"
-                  className="text-drossgray-dark flex items-center justify-center gap-x-2 px-3 py-3 text-sm"
-                >
-                  <SearchXIcon
-                    className="size-4 flex-shrink-0"
-                    aria-hidden="true"
-                  />
-                  <span>{noResultsLabel}</span>
-                </p>
-              )}
-            </div>
-          )}
-        </div>
+                          {/* The country code is redundant in country scope
+                              (all results share it), so only in global scope. */}
+                          {scope === "global" && (
+                            <span className="text-xs uppercase opacity-80">
+                              {airport.country}
+                            </span>
+                          )}
+                          <ArrowRightIcon
+                            className="h-4 w-4 flex-shrink-0"
+                            aria-hidden="true"
+                          />
+                        </a>
+                      ))}
+                    </div>
+                    {/* A newer query is in flight while old results still show. */}
+                    {pending && (
+                      <Skeleton className="mt-1 h-11 w-full rounded-lg" />
+                    )}
+                  </>
+                ) : pending ? (
+                  <ResultsSkeleton />
+                ) : (
+                  // role="status" (implicit aria-live polite) announces the
+                  // empty result without wrapping the listbox in a live region.
+                  <p
+                    role="status"
+                    className="text-drossgray-dark flex items-center justify-center gap-x-2 px-3 py-3 text-sm"
+                  >
+                    <SearchXIcon
+                      className="size-4 flex-shrink-0"
+                      aria-hidden="true"
+                    />
+                    <span>{noResultsLabel}</span>
+                  </p>
+                )}
+              </div>
+            )
+          }
+        />
       </form>
     </div>
   );

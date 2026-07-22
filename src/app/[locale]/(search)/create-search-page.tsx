@@ -375,7 +375,10 @@ export function createSearchPage(config: SearchPageConfig) {
           currentUrl={currentUrl}
           related={related.map((r) => ({ url: r.url, name: r.title }))}
         />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* max-w-2xl: the search box now matches the homepage / country-landing
+            search width (the shared SearchField), and the detail-view AIP button
+            below is constrained to the same width so it lines up under it. */}
+        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <SearchInputField
             value={data?.icao ?? undefined}
             title={t("searchTitle")}
@@ -383,7 +386,7 @@ export function createSearchPage(config: SearchPageConfig) {
             country={country}
             noResultsLabel={tCommon("noResults")}
           />
-          <div className="absolute left-1/2 mt-3 w-full max-w-7xl -translate-x-1/2 transform px-4 text-center text-white sm:px-6 lg:px-8">
+          <div className="absolute left-1/2 mt-3 w-full max-w-2xl -translate-x-1/2 transform px-4 text-center text-white sm:px-6 lg:px-8">
             <ol>
               {data && (
                 <li>
