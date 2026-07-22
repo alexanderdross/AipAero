@@ -59,3 +59,45 @@ def test_fmt_bytes_and_units():
     assert app._fmt(42, "pct") == "42 %"
     assert app._fmt(3.5, "s") == "3.5 s"
     assert app._fmt(None, "count") == "-"
+
+
+def _series(status, category="server", metric="m", scope=None):
+    return {
+        "metric": metric,
+        "scope": scope,
+        "unit": None,
+        "status": status,
+        "value": 1,
+        "points": [1.0],
+    }
+
+
+def test_summarize_counts_and_worst():
+    by_cat = {
+        "server": [_series("ok"), _series("warn", metric="load")],
+        "crawl": [_series("crit", category="crawl", metric="crawl_ok", scope="FR")],
+    }
+    s = app.summarize(by_cat)
+    assert s["counts"] == {"crit": 1, "warn": 1, "ok": 1}
+    assert s["worst"] == "crit"
+    assert s["crit"] == ["crawl/crawl_ok/FR"]
+
+
+def test_summarize_all_ok():
+    s = app.summarize({"server": [_series("ok"), _series("ok", metric="disk")]})
+    assert s["worst"] == "ok"
+    assert s["counts"]["ok"] == 2
+    assert s["crit"] == []
+
+
+def test_summarize_ignores_statusless_series():
+    s = app.summarize({"database": [_series(None)]})
+    assert s["counts"] == {"crit": 0, "warn": 0, "ok": 0}
+    assert s["worst"] == "ok"
+
+
+def test_banner_reflects_worst_level():
+    crit = app._banner(app.summarize({"c": [_series("crit", metric="x")]}))
+    assert "kritisch" in crit.lower() or "Kritisch" in crit
+    ok = app._banner(app.summarize({"c": [_series("ok")]}))
+    assert "normal" in ok
