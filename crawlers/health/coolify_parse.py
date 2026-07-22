@@ -79,3 +79,87 @@ def parse_resources(data: Any) -> list[Metric]:
         ),
     ]
     return out
+
+
+# Candidate keys for a per-server usage percentage. Coolify's server payload
+# shape varies by version / proxy, so we search a few plausible names (and a few
+# nested containers) and take the first that looks like a 0..100 percentage.
+# Verify against the live Coolify API and prune/extend as needed - unknown fields
+# are simply skipped, never guessed.
+_SERVER_PCT_METRICS: list[tuple[list[str], str]] = [
+    (["cpu", "cpu_usage", "cpu_percent", "cpuUsage", "cpu_used_percent"], "cpu_used_pct"),
+    (
+        ["memory", "memory_usage", "memory_percent", "memoryUsage", "ram", "ram_usage", "mem_used_percent"],
+        "ram_used_pct",
+    ),
+    (["disk", "disk_usage", "disk_percent", "diskUsage", "disk_used_percent"], "disk_used_pct"),
+]
+# Nested objects a server might carry its live usage under.
+_USAGE_CONTAINERS = ("usage", "metrics", "resources", "stats", "utilization")
+
+
+def _server_name(server: dict[str, Any]) -> str:
+    for key in ("name", "description", "ip", "uuid"):
+        v = server.get(key)
+        if isinstance(v, str) and v:
+            return v
+    return "?"
+
+
+def _as_pct(v: Any) -> float | None:
+    """A number in a plausible percentage range (0..100), else None. A 0..1
+    ratio is scaled to a percentage."""
+    if isinstance(v, bool) or not isinstance(v, (int, float)):
+        return None
+    f = float(v)
+    if 0.0 <= f <= 1.0:
+        return round(f * 100, 1)
+    if 0.0 <= f <= 100.0:
+        return round(f, 1)
+    return None
+
+
+def _find_pct(server: dict[str, Any], keys: list[str]) -> float | None:
+    # Search the server object itself, then any known nested usage container.
+    sources = [server]
+    for c in _USAGE_CONTAINERS:
+        sub = server.get(c)
+        if isinstance(sub, dict):
+            sources.append(sub)
+    for src in sources:
+        for k in keys:
+            pct = _as_pct(src.get(k))
+            if pct is not None:
+                return pct
+    return None
+
+
+def parse_servers(data: Any) -> list[Metric]:
+    """Per-server CPU/RAM/disk usage (percent), scope = server name.
+
+    Best-effort + fully defensive: emits a metric only when the server payload
+    actually carries a plausible percentage under one of the known keys, so a
+    Coolify version that does not expose live usage yields nothing (never a
+    wrong value). Complements the box-level psutil gatherer for multi-server
+    setups."""
+    if not isinstance(data, list):
+        return []
+    out: list[Metric] = []
+    for server in data:
+        if not isinstance(server, dict):
+            continue
+        scope = _server_name(server)
+        for keys, metric in _SERVER_PCT_METRICS:
+            pct = _find_pct(server, keys)
+            if pct is not None:
+                out.append(
+                    Metric(
+                        "coolify",
+                        metric,
+                        pct,
+                        "pct",
+                        scope=scope,
+                        status="ok" if pct < 90 else "warn",
+                    )
+                )
+    return out
