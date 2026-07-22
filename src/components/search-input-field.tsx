@@ -102,6 +102,16 @@ export function SearchInputField({
           onChange={(e) => onChange(e)}
           autoComplete="off"
           autoFocus
+          // ARIA combobox with a listbox popup (WAI-ARIA APG). The result rows
+          // are real <a> links reached by Tab - no arrow-key model (deliberate).
+          // The popup only shows for >1 result (a single result self-redirects),
+          // so aria-expanded tracks that; aria-busy reflects the in-flight query.
+          role="combobox"
+          aria-expanded={results.length > 1}
+          aria-controls={results.length > 1 ? "search-listbox" : undefined}
+          aria-autocomplete="list"
+          aria-haspopup="listbox"
+          aria-busy={pending || undefined}
         />
         <input type="hidden" name="type" value={type} />
         <input type="hidden" name="country" value={country} />
@@ -117,31 +127,37 @@ export function SearchInputField({
           and country landing searches - the external AIP link lives on the
           detail page itself. While a query is in flight the panel shows a
           skeleton, and a search that matched nothing shows a localized note. */}
-      <div
-        className="absolute left-1/2 z-10 mt-3 w-full max-w-7xl -translate-x-1/2 px-4 text-center text-white sm:px-6 lg:px-8"
-        aria-live="polite"
-      >
+      <div className="absolute left-1/2 z-10 mt-3 w-full max-w-7xl -translate-x-1/2 px-4 text-center text-white sm:px-6 lg:px-8">
         {showPanel && (
           <div className="rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
             {results.length > 1 ? (
               <>
-                <ol className="space-y-1">
+                {/* The combobox popup: a listbox of option links (reached by
+                    Tab). Only options live inside - the loading skeleton and
+                    the trailing status are siblings. */}
+                <div
+                  id="search-listbox"
+                  role="listbox"
+                  aria-label={title}
+                  className="space-y-1"
+                >
                   {results.map((airport, index) => (
-                    <li key={index}>
-                      <a
-                        href={`./?${airport.slug}`}
-                        title={airport.title}
-                        className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                      >
-                        <span>{airport.title}</span>
-                        <ArrowRightIcon
-                          className="h-5 w-5 flex-shrink-0"
-                          aria-hidden="true"
-                        />
-                      </a>
-                    </li>
+                    <a
+                      key={index}
+                      role="option"
+                      aria-selected={false}
+                      href={`./?${airport.slug}`}
+                      title={airport.title}
+                      className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                    >
+                      <span>{airport.title}</span>
+                      <ArrowRightIcon
+                        className="h-5 w-5 flex-shrink-0"
+                        aria-hidden="true"
+                      />
+                    </a>
                   ))}
-                </ol>
+                </div>
                 {/* A newer query is in flight while old results still show. */}
                 {pending && (
                   <Skeleton className="mt-1 h-11 w-full rounded-lg" />
@@ -154,7 +170,12 @@ export function SearchInputField({
                 ))}
               </div>
             ) : (
-              <p className="text-drossgray-dark flex items-center justify-center gap-x-2 px-4 py-3 text-sm">
+              // role="status" (implicit aria-live polite) so the empty result is
+              // announced without wrapping the listbox in a live region.
+              <p
+                role="status"
+                className="text-drossgray-dark flex items-center justify-center gap-x-2 px-4 py-3 text-sm"
+              >
                 <SearchXIcon
                   className="size-4 flex-shrink-0"
                   aria-hidden="true"

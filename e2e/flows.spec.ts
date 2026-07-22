@@ -11,6 +11,10 @@ test("search input on /de/vfr/ is present and accepts input", async ({
   await page.goto("/de/vfr/");
   const input = page.locator('input[name="search"]');
   await expect(input).toBeVisible();
+  // ARIA combobox semantics (collapsed on load, no arrow-key model).
+  await expect(input).toHaveAttribute("role", "combobox");
+  await expect(input).toHaveAttribute("aria-expanded", "false");
+  await expect(input).toHaveAttribute("aria-autocomplete", "list");
   // Hidden fields carry the query context to the server action.
   await expect(page.locator('input[name="type"]')).toHaveValue("vfr");
   await expect(page.locator('input[name="country"]')).toHaveValue("de");
