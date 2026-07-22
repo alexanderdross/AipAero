@@ -21,9 +21,11 @@ export const IMPRINT = {
   /** Personal page of the responsible person (the name link target). */
   personUrl: "https://dross.net/alexander/",
   /** Contact e-mail shown to the user... */
-  email: "mail@dross.net",
-  /** ...but the link points at the contact form (owner request). */
-  contactUrl: "https://dross.net/contact",
+  email: "info@aip.aero",
+  /** ...but the link points at our own contact form. Language-appropriate:
+   *  the German legal pages link /de/kontakt/, the English ones /contact/. */
+  contactPathDe: "/de/kontakt/",
+  contactPathEn: "/contact/",
   /** VAT identification number (USt-IdNr, § 27a UStG). */
   vatId: "DE311210968",
   /** Tax number (Steuernummer). */
