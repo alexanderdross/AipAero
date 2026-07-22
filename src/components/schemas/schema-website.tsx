@@ -5,7 +5,7 @@ import { orgUrl, rootTitle } from "~/lib/utils";
  * every page (same @id as the global homepage's inline copy, so crawlers
  * dedupe it into one entity): WebSite.url is the SITE root, and the
  * SearchAction target is the ONE URL that actually executes a search - the
- * global homepage, whose GlobalSearchInputField picks up the valueless query
+ * global homepage, whose AirportSearchBox picks up the valueless query
  * key (https://aip.aero/?EDNY) and searches across all countries. It must
  * NEVER be built from the current pathname: /de/efb/?{term} executes nothing,
  * and /de/vfr/?{term} is the ?ICAO DETAIL scheme, not a search (owner-found

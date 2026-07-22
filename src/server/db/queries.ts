@@ -259,6 +259,28 @@ export const QUERIES = {
       orderBy: [asc(airports.title)],
     });
   },
+  airportsCountry: async function (search: string, country: string) {
+    // As-you-type search scoped to ONE country but spanning ALL its types -
+    // backs the search box on the country landing page, so the user never has
+    // to pre-pick a category (VFR/IFR/heliport/...) before searching. Same
+    // uncached, LIMIT-bounded, title/ICAO-indexed shape as `airports` /
+    // `airportsGlobal`; results route to the airport detail page (not the raw
+    // AIP), keeping the visitor on-site. Country codes are stored uppercase.
+    const db = await getDb();
+    if (!db) return [] as Airport[];
+    country = country.toUpperCase();
+    return db.query.airports.findMany({
+      limit: 8,
+      where: and(
+        eq(airports.country, country),
+        or(
+          like(airports.title, `%${search}%`),
+          like(airports.icao, `%${search}%`),
+        ),
+      ),
+      orderBy: [asc(airports.title)],
+    });
+  },
   airportsByCountry: function (country: string) {
     // ALL chart-linked airports of a country in ONE cached, title-ordered
     // read (full rows). This is the single source for the airport-list page,

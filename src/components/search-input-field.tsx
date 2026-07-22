@@ -1,10 +1,9 @@
 "use client";
 
-import { ExternalLinkIcon } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Input } from "~/components/ui/input";
 import { searchAirports } from "~/server/actions";
-import { ExternalLink } from "./external-link";
 import type { Airport } from "~/server/db/schema";
 import { useRouter } from "next/navigation";
 
@@ -97,27 +96,28 @@ export function SearchInputField({
           between the result rows. A SINGLE result never renders here: the
           effect above navigates to its detail URL, whose page server-renders
           the same chart link in this exact spot - the panel would just stack
-          on top of it. */}
+          on top of it. Each result links to the airport's own DETAIL page
+          (`./?<slug>`), NOT straight out to the raw AIP: that keeps the visitor
+          on-site (weather / facts / chart-PDF gadgets) and matches the global
+          and country landing searches - the external AIP link lives on the
+          detail page itself. */}
       <div className="absolute left-1/2 z-10 mt-3 w-full max-w-7xl -translate-x-1/2 px-4 text-center text-white sm:px-6 lg:px-8">
         {state.airports.length > 1 && (
           <div className="rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
             <ol className="space-y-1">
               {state.airports.map((airport, index) => (
                 <li key={index}>
-                  <ExternalLink
-                    href={`${airport.url}`}
+                  <a
+                    href={`./?${airport.slug}`}
+                    title={airport.title}
                     className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                    hrefTitle={`${airport.title}`} //hrefTitle={`${translation.searchResultHrefTitle} ${airport.title}`}
                   >
-                    <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
-                      AIP
-                    </span>
                     <span>{airport.title}</span>
-                    <ExternalLinkIcon
+                    <ArrowRightIcon
                       className="h-5 w-5 flex-shrink-0"
                       aria-hidden="true"
                     />
-                  </ExternalLink>
+                  </a>
                 </li>
               ))}
             </ol>

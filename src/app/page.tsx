@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { AboutBox } from "~/components/about-box";
 import { Box } from "~/components/box";
-import { GlobalSearchInputField } from "~/components/global-search-input-field";
+import { AirportSearchBox } from "~/components/airport-search-box";
 import Footer from "~/components/footer";
 import { Hero } from "~/components/hero";
 import { Header } from "~/components/header";
@@ -310,7 +310,7 @@ export default async function RootPage() {
               site's search result. The target URL must execute the search -
               the VALUELESS query key (https://aip.aero/?EDNY, the site's SEO
               scheme, same as the ?ICAO airport-detail URLs) is picked up by
-              GlobalSearchInputField on mount. */}
+              AirportSearchBox on mount. */}
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
@@ -396,7 +396,7 @@ export default async function RootPage() {
           {/* Hero: headline plus the global cross-country search as the
               primary call to action. */}
           <Hero title={rootTitle} description={rootDescription}>
-            <GlobalSearchInputField placeholder="Search any airport across Europe by name or ICAO code" />
+            <AirportSearchBox placeholder="Search any airport across Europe by name or ICAO code" />
           </Hero>
 
           {/* Trust strip */}

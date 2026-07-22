@@ -121,8 +121,8 @@ Website (CF Worker) ──▶ QUERIES (unstable_cache) ──▶ cache ──(mi
 │   │   ├── box.tsx                 # Card component for country/type selection
 │   │   ├── about-box.tsx           # About section container
 │   │   ├── about-country-box.tsx   # Country-specific about section
-│   │   ├── search-input-field.tsx  # Per-country search input (client component, debounced)
-│   │   ├── global-search-input-field.tsx # Homepage cross-country search (client, debounced; ?ICAO deep-link + SearchAction target)
+│   │   ├── search-input-field.tsx  # Per-country/type search on the search pages (client, debounced; results link to the airport DETAIL page, never straight out to the raw AIP)
+│   │   ├── airport-search-box.tsx  # Discovery search (client, debounced): scope="global" on homepage/404 (all countries + ?ICAO SearchAction target), scope="country" on the country landing (all of one country's types); results always link to the detail page
 │   │   ├── title.tsx               # Page title/description component
 │   │   ├── breadcrumbs.tsx         # Server-rendered breadcrumb trail + BreadcrumbList JSON-LD (rendered by the pages)
 │   │   ├── external-link.tsx       # External link with noopener/noreferrer
@@ -386,17 +386,24 @@ Root-level, single-language pages built on the shared `LegalShell` (the legal-pa
 
 ## Server Actions
 
+**All three searches route results to the internal airport DETAIL page** (`/de/vfr/?EDDF`), never straight out to the raw AIP - the external AIP button lives on the detail page itself. This keeps the visitor on-site (weather / facts / chart-PDF gadgets) and is uniform across the homepage, the country landing and the per-country search pages. (Before 22.07.2026 the per-country search's MULTI-result overlay linked straight to the external AIP, bypassing the detail page - a value leak, now fixed.)
+
 ### `searchAirports` (src/server/actions.ts)
 
-- Used by `SearchInputField` client component (the per-country search on the search pages)
-- Validates: search (1-50 chars), country (2 chars), type (vfr/ifr/heliport)
-- Returns up to 5 matching airports via `QUERIES.airports()`
+- Used by `SearchInputField` client component (the per-country search on the search pages, scoped to that page's ONE country + type)
+- Validates: search (1-50 chars), country (2 chars), type (vfr/ifr/heliport/mil/aeroport)
+- Returns up to 5 matching airports via `QUERIES.airports()`. A single result auto-navigates to its detail page; multiple results render as internal `./?<slug>` detail links.
+
+### `searchAirportsCountry` (src/server/actions.ts)
+
+- Powers the **country-wide search on the country landing page** (`AirportSearchBox scope="country"` in `src/app/[locale]/page.tsx`, inside the Hero) - searches **all of that one country's types** so the visitor finds a field (and lands on its detail page) WITHOUT first picking a category from the cards. This removes the old "must choose VFR/IFR/heliport before searching" friction.
+- Validates search (1-50) + country (2 chars), returns matches across every type of the country via `QUERIES.airportsCountry()` (uncached, same rationale as the other as-you-type searches). Detail links stay in the current locale via the component's `detailBase` (`/de` or `/de/en`). The placeholder reuses the generic, already-localized `NotFound.searchPlaceholder` key (zero new i18n keys across the 94 message files).
 
 ### `searchAirportsGlobal` (src/server/actions.ts)
 
-- Powers the **global cross-country search on the homepage** (`GlobalSearchInputField` in `src/app/page.tsx`) - type any airport name or ICAO ("EDNY", "Friedrichshafen") and jump straight to its native-locale detail page (`/de/vfr/?EDDF`), no country pre-selection needed. So a **global search already exists**; the homepage is not a "pick a country first" gate.
+- Powers the **global cross-country search on the homepage** (`AirportSearchBox` in `src/app/page.tsx`, default `scope="global"`; also the 404 pages) - type any airport name or ICAO ("EDNY", "Friedrichshafen") and jump straight to its native-locale detail page (`/de/vfr/?EDDF`), no country pre-selection needed. So a **global search already exists**; the homepage is not a "pick a country first" gate.
 - Validates search (1-50 chars) only (no country/type filter), returns matches across **all** countries/types via `QUERIES.airportsGlobal()` (uncached, like the per-country as-you-type search - one call per settled keystroke burst).
-- Also the target of the **WebSite `SearchAction`** (Google Sitelinks Search Box) JSON-LD on the root page: the `?{search_term}` valueless-query scheme (`https://aip.aero/?EDNY`, mirroring the `?ICAO` detail URLs) is read on mount by `GlobalSearchInputField` and executed, so a Sitelinks search lands on results directly.
+- Also the target of the **WebSite `SearchAction`** (Google Sitelinks Search Box) JSON-LD on the root page: the `?{search_term}` valueless-query scheme (`https://aip.aero/?EDNY`, mirroring the `?ICAO` detail URLs) is read on mount by `AirportSearchBox` (its `readTermFromUrl`, on in global scope) and executed, so a Sitelinks search lands on results directly.
 
 ## Caching Strategy
 

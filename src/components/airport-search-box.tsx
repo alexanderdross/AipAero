@@ -3,7 +3,7 @@
 import { ArrowRightIcon, SearchIcon } from "lucide-react";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Input } from "~/components/ui/input";
-import { searchAirportsGlobal } from "~/server/actions";
+import { searchAirportsCountry, searchAirportsGlobal } from "~/server/actions";
 import type { Airport } from "~/server/db/schema";
 
 function useDebounce<T>(value: T, delay: number) {
@@ -15,7 +15,10 @@ function useDebounce<T>(value: T, delay: number) {
   return debounced;
 }
 
-// Map the airport type to its (unlocalized) route segment.
+// Map the airport type to its (unlocalized) route segment. The search routes
+// (/vfr, /ifr, /heliports, /military, /aeroports) are NOT localized in
+// routing.ts (they map to themselves), so a detail URL is just
+// `<localeBase>/<segment>/?<slug>` - no per-locale slug lookup needed.
 const TYPE_PATH: Record<Airport["type"], string> = {
   vfr: "vfr",
   ifr: "ifr",
@@ -23,13 +26,6 @@ const TYPE_PATH: Record<Airport["type"], string> = {
   mil: "military",
   aeroport: "aeroports",
 };
-
-// Cross-country result link: the airport's native-locale detail page, e.g.
-// { country: "DE", type: "vfr", slug: "EDDF" } -> "/de/vfr/?EDDF". Country codes
-// are stored uppercase; the native locale prefix is just the lowercased code.
-function detailHref(a: Airport): string {
-  return `/${a.country.toLowerCase()}/${TYPE_PATH[a.type]}/?${a.slug}`;
-}
 
 // Short label shown on each result so the same field appearing under several
 // categories (e.g. Friedrichshafen as VFR, IFR and Heliport) is distinguishable.
@@ -43,35 +39,74 @@ const TYPE_LABEL: Record<Airport["type"], string> = {
 
 const initialState: { airports: Airport[] } = { airports: [] };
 
-export function GlobalSearchInputField({
+/**
+ * The site's discovery search: an as-you-type box whose results ALWAYS link to
+ * the internal airport DETAIL page (never straight out to the raw AIP), so the
+ * visitor stays on-site and gets the weather / facts / chart-PDF gadgets. Two
+ * scopes share this one component:
+ *
+ *  - `scope="global"` (default) - the homepage + 404 pages: searches every
+ *    country and type (`searchAirportsGlobal`). Detail links resolve to each
+ *    airport's own NATIVE-locale page. Also the target of the WebSite
+ *    SearchAction (Sitelinks Search Box): the valueless `?<term>` query key is
+ *    read on mount and executed.
+ *  - `scope="country"` - the country landing page: searches ALL of that one
+ *    country's types (`searchAirportsCountry`), so the visitor never has to
+ *    pre-pick a category. Detail links stay in the current locale via
+ *    `detailBase` (e.g. "/de" or "/de/en").
+ */
+export function AirportSearchBox({
   placeholder,
+  scope = "global",
+  country,
+  detailBase,
+  readTermFromUrl = scope === "global",
 }: {
   placeholder: string;
+  scope?: "global" | "country";
+  /** Two-letter country code - required (and hidden-posted) when scope="country". */
+  country?: string;
+  /** Locale-prefixed base for detail hrefs (e.g. "/de", "/de/en") - country scope. */
+  detailBase?: string;
+  /** Read the valueless `?<term>` URL key on mount (Sitelinks Search Box). */
+  readTermFromUrl?: boolean;
 }) {
-  const [state, formAction, pending] = useActionState(
-    searchAirportsGlobal,
-    initialState,
-  );
+  const action =
+    scope === "country" ? searchAirportsCountry : searchAirportsGlobal;
+  const [state, formAction, pending] = useActionState(action, initialState);
   const [search, setSearch] = useState("");
   const debounced = useDebounce(search, 250);
   const formRef = useRef<HTMLFormElement>(null);
   const hasTypedRef = useRef(false);
 
+  // Cross-country result link: the airport's detail page. In country scope the
+  // locale-prefixed `detailBase` keeps the visitor in their locale; in global
+  // scope the target is the airport's own native-locale page (the lowercased
+  // country code is the native prefix, e.g. DE -> /de/vfr/?EDDF).
+  function detailHref(a: Airport): string {
+    const segment = TYPE_PATH[a.type];
+    if (scope === "country" && detailBase) {
+      return `${detailBase}/${segment}/?${a.slug}`;
+    }
+    return `/${a.country.toLowerCase()}/${segment}/?${a.slug}`;
+  }
+
   // Execute a search handed over via the Sitelinks-Search-Box URL (see the
-  // WebSite SearchAction JSON-LD on the root page). The site's SEO scheme
-  // uses a VALUELESS query key - https://aip.aero/?EDNY, exactly like the
-  // ?ICAO airport-detail URLs - so pick the first key without a value;
-  // params WITH values (utm_*, fbclid, ...) are skipped by construction.
-  // Read window.location on mount instead of useSearchParams so the
-  // statically prerendered root page needs no Suspense/CSR bailout.
+  // WebSite SearchAction JSON-LD on the root page). The site's SEO scheme uses
+  // a VALUELESS query key - https://aip.aero/?EDNY, exactly like the ?ICAO
+  // airport-detail URLs - so pick the first key without a value; params WITH
+  // values (utm_*, fbclid, ...) are skipped by construction. Read
+  // window.location on mount instead of useSearchParams so a statically
+  // prerendered host page needs no Suspense/CSR bailout.
   useEffect(() => {
+    if (!readTermFromUrl) return;
     const params = new URLSearchParams(window.location.search);
     const term = Array.from(params.entries()).find(([, v]) => v === "")?.[0];
     if (term) {
       hasTypedRef.current = true;
       setSearch(term.slice(0, 50));
     }
-  }, []);
+  }, [readTermFromUrl]);
 
   // Submit after the user pauses typing (one query per settled burst).
   useEffect(() => {
@@ -82,16 +117,19 @@ export function GlobalSearchInputField({
   return (
     <div className="mx-auto max-w-2xl px-4 pb-2 sm:px-6 lg:px-8">
       <form action={formAction} ref={formRef}>
-        <label htmlFor="global-search" className="sr-only">
+        <label htmlFor="airport-search" className="sr-only">
           {placeholder}
         </label>
+        {scope === "country" && country && (
+          <input type="hidden" name="country" value={country} />
+        )}
         <div className="relative">
           <SearchIcon
             className="text-drossgray-dark pointer-events-none absolute top-1/2 left-3 size-5 -translate-y-1/2"
             aria-hidden="true"
           />
           <Input
-            id="global-search"
+            id="airport-search"
             name="search"
             className="focus-visible:ring-drossblue border-drossgray-dark/20 h-12 rounded-lg bg-white pl-10 text-base shadow-sm focus-visible:ring-2"
             type="text"
@@ -122,9 +160,13 @@ export function GlobalSearchInputField({
                       <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
                         {TYPE_LABEL[airport.type]}
                       </span>
-                      <span className="text-xs uppercase opacity-80">
-                        {airport.country}
-                      </span>
+                      {/* The country code is redundant in country scope (all
+                          results share it), so only show it in global scope. */}
+                      {scope === "global" && (
+                        <span className="text-xs uppercase opacity-80">
+                          {airport.country}
+                        </span>
+                      )}
                       <ArrowRightIcon
                         className="h-4 w-4 flex-shrink-0"
                         aria-hidden="true"

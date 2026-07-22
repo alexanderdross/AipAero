@@ -55,3 +55,30 @@ export async function searchAirportsGlobal(
   const airports = await QUERIES.airportsGlobal(validated.data.search);
   return { airports };
 }
+
+const countrySchema = z.object({
+  search: z.string().min(1).max(50),
+  country: z.string().length(2),
+});
+
+// Country-scoped search across ALL of that country's types (VFR/IFR/heliport/…)
+// - backs the search box on the country landing page, so a visitor can find a
+// field without first choosing a category. Results link to the airport detail
+// page. Unlike `searchAirports` this takes no `type`, so it spans every type.
+export async function searchAirportsCountry(
+  _prevState: unknown,
+  formData: FormData,
+) {
+  const validated = countrySchema.safeParse({
+    search: formData.get("search"),
+    country: formData.get("country"),
+  });
+  if (!validated.success) {
+    return { airports: [] };
+  }
+  const airports = await QUERIES.airportsCountry(
+    validated.data.search,
+    validated.data.country,
+  );
+  return { airports };
+}
