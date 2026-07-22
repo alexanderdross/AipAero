@@ -45,6 +45,17 @@ def next_airac_date(today: datetime.date | None = None) -> str:
     return (_AIRAC_ANCHOR + datetime.timedelta(days=(n + 1) * 28)).isoformat()
 
 
+def in_airac_change_window(today: datetime.date | None = None) -> bool:
+    """True on the days a new AIRAC edition may appear upstream - the effective
+    date and the ``_AIRAC_CATCHUP_DAYS`` days right after it (sources that
+    publish late). The HTTP conditional-request cache must NOT trust a 304 on
+    these days (a late edition flip could otherwise be masked by a stale
+    cached body); it forces a fresh fetch instead. Off the window (mid-cycle /
+    the weekly safety run) the content is static, so 304s are safe."""
+    today = today or datetime.date.today()
+    return (today - _AIRAC_ANCHOR).days % 28 <= _AIRAC_CATCHUP_DAYS
+
+
 def is_crawl_day(today: datetime.date | None = None) -> tuple[bool, str]:
     """Whether the full country crawl should run today, with a human reason.
 

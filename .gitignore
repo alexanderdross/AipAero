@@ -52,6 +52,7 @@ yarn-error.log*
 
 # crawler runtime state (per-host, not source-tracked)
 crawlers/last_run_counts.json
+crawlers/http_cache/
 
 # python bytecode / caches
 __pycache__/

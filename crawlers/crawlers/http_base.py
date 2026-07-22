@@ -13,7 +13,13 @@ from typing import TYPE_CHECKING
 import httpx
 from bs4 import BeautifulSoup
 
-from crawlers.airac import current_airac_date, is_crawl_day, next_airac_date
+from crawlers.airac import (
+    current_airac_date,
+    in_airac_change_window,
+    is_crawl_day,
+    next_airac_date,
+)
+from crawlers.http_cache import get_shared_cache
 from crawlers.models import Airport, ChartLink
 
 if TYPE_CHECKING:
@@ -29,6 +35,7 @@ __all__ = [
     "current_airac_date",
     "next_airac_date",
     "is_crawl_day",
+    "in_airac_change_window",
 ]
 
 # Honest, identifiable UA for well-behaved sources - names the crawler and
@@ -313,11 +320,47 @@ class HttpCrawlerBase:
             self.logger.warning(f"link diagnostics failed: {e}")
 
     def fetch(self, url: str, *, encoding: str | None = None) -> str:
-        """Fetch a URL and return the decoded body (see fetch_response)."""
-        response = self.fetch_response(url)
+        """Fetch a URL and return the decoded body (see fetch_response).
+
+        Conditional-GET aware: when a prior body for this URL is cached AND today
+        is not an AIRAC change-window day (see crawlers.http_cache /
+        airac.in_airac_change_window), it sends If-None-Match / If-Modified-Since
+        and, on a 304 Not Modified, replays the stored body instead of
+        re-downloading it. On a 200 the body + validators are (re)stored. Fully
+        fail-soft - the cache never changes what the caller sees, only whether
+        the bytes crossed the wire.
+        """
+        cache = get_shared_cache(self.logger)
+        # Only TRUST a 304 off an AIRAC change window: on the effective date and
+        # its catch-up days a late edition flip must never be masked by a stale
+        # cached body, so send no validators and force a fresh fetch.
+        send_conditional = cache.enabled and not in_airac_change_window()
+        cond_headers = cache.conditional_headers(url) if send_conditional else {}
+
+        response = self.fetch_response(url, headers=cond_headers or None)
+
+        if response.status_code == 304:
+            cached = cache.load_body(url)
+            if cached is not None:
+                content, stored_enc = cached
+                self.logger.debug(f"304 Not Modified (cache hit): {url}")
+                return content.decode(encoding or stored_enc, errors="replace")
+            # 304 but the body was evicted since - refetch unconditionally.
+            self.logger.debug(f"304 without cached body; refetching {url}")
+            response = self.fetch_response(url)
+
         if encoding is not None:
             response.encoding = encoding
-        return response.text
+        text = response.text
+        if cache.enabled and 200 <= response.status_code < 300:
+            cache.store(
+                url,
+                etag=response.headers.get("etag"),
+                last_modified=response.headers.get("last-modified"),
+                content=response.content,
+                encoding=response.encoding or "utf-8",
+            )
+        return text
 
     def pdf_text(self, url: str) -> str:
         """Download a PDF and return its text (collapsed to single-spaced), or
@@ -420,12 +463,19 @@ class HttpCrawlerBase:
             if self._last_pdf_ocr:
                 self.hours_source_by_icao[icao] = "pdf-ocr-hours"
 
-    def fetch_response(self, url: str) -> httpx.Response:
+    def fetch_response(
+        self, url: str, *, headers: dict[str, str] | None = None
+    ) -> httpx.Response:
         """Fetch a URL and return the httpx Response (redirects followed).
 
         Callers that need the FINAL post-redirect URL (e.g. to resolve
         relative links on a redirected landing page) use this and read
         ``str(response.url)``; `fetch()` wraps it for body-only callers.
+
+        ``headers`` are merged onto the client defaults for this one request
+        (used by `fetch()` to send conditional If-None-Match / If-Modified-Since
+        validators). A 304 Not Modified is a normal, non-retryable response and
+        is returned as-is for the caller to handle.
 
         Retries up to ``max_retries`` times on connection errors and on
         retryable 5xx / 429 responses, with exponential backoff. Other 4xx
@@ -451,7 +501,7 @@ class HttpCrawlerBase:
         # Attempt 1..max_retries; backoff doubles between attempts (1s, 2s, ...).
         for attempt in range(1, self.max_retries + 1):
             try:
-                response = self.client.get(url)
+                response = self.client.get(url, headers=headers)
             except httpx.TransportError as exc:
                 # Connection-level failure (DNS/TLS/reset/timeout) - retryable.
                 last_exc = exc
@@ -479,6 +529,13 @@ class HttpCrawlerBase:
                     time.sleep(delay)
                     delay *= 2
                 continue
+
+            # 304 Not Modified (a conditional-GET hit) is a normal response, not
+            # an error - httpx's raise_for_status() would treat the 3xx as a
+            # failure, so short-circuit here and let fetch() replay the cached
+            # body. There is no body to run the content-type guard against.
+            if response.status_code == 304:
+                return response
 
             # 2xx success or non-retryable 4xx/3xx - bail out of the loop.
             # raise_for_status() turns a non-retryable 4xx into an exception

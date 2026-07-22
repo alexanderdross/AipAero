@@ -126,6 +126,18 @@ jobs:
           restore-keys: |
             crawler-counts-
 
+      # Carry the HTTP conditional-GET cache (ETag/Last-Modified + gzip'd bodies)
+      # across runs so the mid-cycle safety crawl can 304 unchanged pages instead
+      # of re-downloading them. Fail-soft + size-capped in crawlers/http_cache.py;
+      # rolling key like the counts cache above.
+      - name: Restore HTTP conditional cache
+        uses: actions/cache@v4
+        with:
+          path: crawlers/http_cache
+          key: crawler-http-cache-${{ github.run_id }}
+          restore-keys: |
+            crawler-http-cache-
+
       - name: Crawl + publish
         env:
           # Settings() (pydantic-settings) reads these case-insensitively.
