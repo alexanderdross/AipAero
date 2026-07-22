@@ -1,11 +1,13 @@
 """AIP:Aero Health-Dashboard - internal FastAPI app (runs on the Coolify box).
 
 Reads the last 24h of samples from the D1 analytics table through the website's
-Bearer-gated `GET /api/health`, groups them by category, and renders a simple
-tile dashboard. The `CRON_SECRET` stays server-side here - the browser only ever
-talks to this app, which is itself reachable only through the Cloudflare Tunnel
-+ Access (docs/health-dashboard-concept.md). LEAN skeleton: last value per metric
-+ status pill; time-series charts are a Phase-2 addition.
+Bearer-gated `GET /api/health`, groups them by category, and renders a tile
+dashboard: per (metric, scope) the latest value, a status pill, and an inline
+SVG **sparkline** of its recent series (no external JS/CDN - the SVG paths are
+built server-side, so the page stays self-contained behind the tunnel). The
+`CRON_SECRET` stays server-side here - the browser only ever talks to this app,
+which is itself reachable only through the Cloudflare Tunnel + Access
+(docs/health-dashboard-concept.md).
 """
 
 from __future__ import annotations
@@ -13,7 +15,7 @@ from __future__ import annotations
 import os
 import time
 from collections import defaultdict
-from typing import Any
+from typing import Any, Optional
 
 import httpx
 from fastapi import FastAPI
@@ -55,30 +57,53 @@ def _fetch_metrics() -> list[dict[str, Any]]:
         return []
 
 
-def _latest_per_metric(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
-    """Group by category -> newest sample per (metric, scope). Rows arrive
-    newest-first from the API, so the first seen key wins."""
-    seen: set[tuple[str, str, str]] = set()
-    by_cat: dict[str, list[dict[str, Any]]] = defaultdict(list)
+def group_series(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    """Group raw samples into per-category series.
+
+    Returns category -> list of series dicts, each:
+      {metric, scope, unit, status, value (latest), points: [floats, oldest..newest]}
+    The API returns rows newest-first; we sort each series ascending by
+    recorded_at so the sparkline reads left (old) to right (new)."""
+    buckets: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
-        key = (row.get("category", ""), row.get("metric", ""), row.get("scope") or "")
-        if key in seen:
-            continue
-        seen.add(key)
-        by_cat[row.get("category", "other")].append(row)
+        key = (
+            row.get("category", "other"),
+            row.get("metric", ""),
+            row.get("scope") or "",
+        )
+        buckets[key].append(row)
+
+    by_cat: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for (category, metric, scope), samples in buckets.items():
+        samples.sort(key=lambda r: r.get("recordedAt") or 0)
+        latest = samples[-1]
+        points = [
+            float(s["value"])
+            for s in samples
+            if isinstance(s.get("value"), (int, float))
+        ]
+        by_cat[category].append(
+            {
+                "metric": metric,
+                "scope": scope,
+                "unit": latest.get("unit"),
+                "status": latest.get("status"),
+                "value": latest.get("value"),
+                "points": points,
+            }
+        )
     for cat in by_cat:
-        by_cat[cat].sort(key=lambda r: (r.get("metric", ""), r.get("scope") or ""))
+        by_cat[cat].sort(key=lambda s: (s["metric"], s["scope"]))
     return by_cat
 
 
 @app.get("/api/data")
 def data() -> JSONResponse:
-    rows = _fetch_metrics()
     return JSONResponse(
         {
             "generatedAt": int(time.time()),
             "configured": bool(API_KEY),
-            "categories": _latest_per_metric(rows),
+            "categories": group_series(_fetch_metrics()),
         }
     )
 
@@ -90,19 +115,64 @@ def healthz() -> JSONResponse:
 
 @app.get("/", response_class=HTMLResponse)
 def index() -> HTMLResponse:
-    by_cat = _latest_per_metric(_fetch_metrics())
-    return HTMLResponse(_render(by_cat))
+    return HTMLResponse(_render(group_series(_fetch_metrics())))
 
 
-def _pill(status: str | None) -> str:
-    color = {"ok": "#1a7f37", "warn": "#9a6700", "crit": "#cf222e"}.get(
-        status or "", "#57606a"
+_STATUS_COLOR = {"ok": "#1a7f37", "warn": "#9a6700", "crit": "#cf222e"}
+
+
+def _pill(status: Optional[str]) -> str:
+    color = _STATUS_COLOR.get(status or "", "#57606a")
+    return (
+        f'<span style="background:{color};color:#fff;border-radius:999px;'
+        f'padding:1px 8px;font-size:12px">{status or "-"}</span>'
     )
-    label = status or "-"
-    return f'<span style="background:{color};color:#fff;border-radius:999px;padding:1px 8px;font-size:12px">{label}</span>'
 
 
-def _fmt(value: Any, unit: str | None) -> str:
+def sparkline_svg(
+    values: list[float], status: Optional[str] = None, width: int = 120, height: int = 24
+) -> str:
+    """Inline SVG sparkline for a numeric series (oldest..newest). Pure/no deps.
+
+    - 0 points -> empty string.
+    - 1 point (or a flat series) -> a centred horizontal line.
+    Y is normalised to [min, max] over the series; the last point gets a dot."""
+    pad = 2.0
+    n = len(values)
+    if n == 0:
+        return ""
+    color = _STATUS_COLOR.get(status or "", "#2d6a9a")
+    lo, hi = min(values), max(values)
+    span = hi - lo
+    inner_h = height - 2 * pad
+
+    def y(v: float) -> float:
+        if span == 0:
+            return height / 2  # flat line for a constant series
+        return pad + inner_h * (1 - (v - lo) / span)
+
+    if n == 1:
+        cy = y(values[0])
+        return (
+            f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
+            f'style="vertical-align:middle">'
+            f'<circle cx="{width - pad:.1f}" cy="{cy:.1f}" r="2" fill="{color}"/></svg>'
+        )
+
+    step = (width - 2 * pad) / (n - 1)
+    pts = [(pad + i * step, y(v)) for i, v in enumerate(values)]
+    poly = " ".join(f"{x:.1f},{yy:.1f}" for x, yy in pts)
+    lx, ly = pts[-1]
+    return (
+        f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
+        f'style="vertical-align:middle">'
+        f'<polyline fill="none" stroke="{color}" stroke-width="1.5" '
+        f'stroke-linejoin="round" stroke-linecap="round" points="{poly}"/>'
+        f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="2" fill="{color}"/></svg>'
+    )
+
+
+def _fmt(value: Any, unit: Optional[str]) -> str:
     if value is None:
         return "-"
     if unit == "bytes":
@@ -121,25 +191,47 @@ def _fmt(value: Any, unit: str | None) -> str:
 def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
     tiles = []
     for cat_key, cat_label in CATEGORY_ORDER:
-        rows = by_cat.get(cat_key, [])
-        if not rows:
-            body = '<p style="color:#57606a;margin:0">Keine Daten (noch nicht gesammelt / Quelle nicht konfiguriert).</p>'
-        else:
-            items = "".join(
-                f'<tr><td style="padding:4px 10px 4px 0">{r.get("metric","")}'
-                + (f' <span style="color:#57606a">/{r.get("scope")}</span>' if r.get("scope") else "")
-                + f'</td><td style="padding:4px 10px;text-align:right;font-variant-numeric:tabular-nums">{_fmt(r.get("value"), r.get("unit"))}</td>'
-                + f'<td style="padding:4px 0">{_pill(r.get("status"))}</td></tr>'
-                for r in rows
+        series = by_cat.get(cat_key, [])
+        if not series:
+            body = (
+                '<p style="color:#57606a;margin:0">Keine Daten (noch nicht '
+                "gesammelt / Quelle nicht konfiguriert).</p>"
             )
-            body = f'<table style="width:100%;border-collapse:collapse;font-size:14px">{items}</table>'
+        else:
+            rows = []
+            for s in series:
+                label = s["metric"] + (
+                    f' <span style="color:#57606a">/{s["scope"]}</span>'
+                    if s["scope"]
+                    else ""
+                )
+                spark = sparkline_svg(s["points"], s["status"])
+                rows.append(
+                    f'<tr><td style="padding:4px 10px 4px 0">{label}</td>'
+                    f'<td style="padding:4px 8px">{spark}</td>'
+                    f'<td style="padding:4px 10px;text-align:right;'
+                    f'font-variant-numeric:tabular-nums">{_fmt(s["value"], s["unit"])}</td>'
+                    f'<td style="padding:4px 0">{_pill(s["status"])}</td></tr>'
+                )
+            body = (
+                '<table style="width:100%;border-collapse:collapse;font-size:14px">'
+                + "".join(rows)
+                + "</table>"
+            )
         tiles.append(
-            f'<section style="background:#fff;border:1px solid #d0d7de;border-radius:10px;padding:14px 16px">'
-            f'<h2 style="margin:0 0 10px;font-size:15px;color:#2d6a9a">{cat_label}</h2>{body}</section>'
+            '<section style="background:#fff;border:1px solid #d0d7de;'
+            'border-radius:10px;padding:14px 16px">'
+            f'<h2 style="margin:0 0 10px;font-size:15px;color:#2d6a9a">{cat_label}</h2>'
+            f"{body}</section>"
         )
-    configured = "" if API_KEY else (
-        '<p style="background:#fff3cd;border:1px solid #e2c700;border-radius:8px;padding:10px 14px">'
-        "HEALTH_API_KEY ist nicht gesetzt - das Dashboard kann die Analytics-Tabelle nicht lesen.</p>"
+    configured = (
+        ""
+        if API_KEY
+        else (
+            '<p style="background:#fff3cd;border:1px solid #e2c700;border-radius:8px;'
+            'padding:10px 14px">HEALTH_API_KEY ist nicht gesetzt - das Dashboard kann '
+            "die Analytics-Tabelle nicht lesen.</p>"
+        )
     )
     return f"""<!doctype html>
 <html lang="de"><head><meta charset="utf-8">
@@ -154,8 +246,8 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
 </header>
 <main style="max-width:1100px;margin:0 auto;padding:20px">
   {configured}
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">{''.join(tiles)}</div>
-  <p style="color:#57606a;font-size:12px;margin-top:18px">Auto-Refresh alle 60 s. Nur ueber Cloudflare Tunnel + Access erreichbar.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px">{''.join(tiles)}</div>
+  <p style="color:#57606a;font-size:12px;margin-top:18px">Sparkline = Verlauf der letzten 24 h. Auto-Refresh alle 60 s. Nur ueber Cloudflare Tunnel + Access erreichbar.</p>
 </main>
 <script>setTimeout(function(){{location.reload()}}, 60000);</script>
 </body></html>"""
