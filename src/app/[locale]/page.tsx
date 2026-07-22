@@ -186,7 +186,13 @@ export default async function CountryPage(
         publishedDate={modifiedDate}
         currentUrl={currentUrl}
       />
-      <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* Trade:Aero cross-sell (locale + country aware) - placed directly under
+          the search box, matching the search pages where the CTA sits right
+          under the search (owner request). SSR text link, no image, so no
+          LCP/CLS impact; the cards' top margin is trimmed to mt-6 so the CTA's
+          own py-10 keeps the spacing balanced above and below. */}
+      <TradeAeroCta />
+      <div className="mx-auto mt-6 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           className={cn(
             "grid grid-cols-1 gap-6",
@@ -217,9 +223,6 @@ export default async function CountryPage(
           ))}
         </div>
       </div>
-
-      {/* Trade:Aero cross-sell (locale + country aware) */}
-      <TradeAeroCta />
 
       {/* Personal favorites (offline-saved fields) + recently viewed, from
           localStorage. Client-only, placed ABOVE the about box (owner
