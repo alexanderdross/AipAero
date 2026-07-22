@@ -4,11 +4,14 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 import {
   and,
   between,
+  desc,
   eq,
   asc,
+  gte,
   isNotNull,
   isNull,
   like,
+  lt,
   or,
   sql,
   type SQL,
@@ -23,9 +26,12 @@ import {
   type Airport,
   type AirportFactsRow,
   type InsertAirportFacts,
+  type HealthMetric,
+  type InsertHealthMetric,
   airports,
   airportFacts,
   crawlMeta,
+  healthMetrics,
 } from "./schema";
 
 // Cache lifetime for the read queries (seconds). The AIP data only changes when
@@ -560,6 +566,40 @@ export const QUERIES = {
       undefined,
     );
   },
+  healthMetrics: async function (opts?: {
+    since?: number; // unix seconds - only rows recorded at/after this time
+    category?: string;
+    metric?: string;
+    limit?: number;
+  }): Promise<HealthMetric[]> {
+    // Backs the internal health dashboard (read behind CRON_SECRET via
+    // GET /api/health, reached only through the Cloudflare Tunnel). Deliberately
+    // UNCACHED, same rationale as the as-you-type search: the dashboard filters
+    // by an open set of (category, metric, since) combinations and polls, so a
+    // per-combination cache entry would just churn. This is never on a public
+    // user request path. Fail-soft to [] when the DB binding is absent (build).
+    const db = await getDb();
+    if (!db) return [];
+    try {
+      const conds: SQL[] = [];
+      if (opts?.since != null)
+        conds.push(gte(healthMetrics.recordedAt, opts.since));
+      if (opts?.category) conds.push(eq(healthMetrics.category, opts.category));
+      if (opts?.metric) conds.push(eq(healthMetrics.metric, opts.metric));
+      return await db
+        .select()
+        .from(healthMetrics)
+        .where(conds.length ? and(...conds) : undefined)
+        .orderBy(desc(healthMetrics.recordedAt))
+        .limit(Math.min(opts?.limit ?? 5000, 20000));
+    } catch (err) {
+      console.error(
+        "healthMetrics read failed:",
+        err instanceof Error ? err.message : String(err),
+      );
+      return [];
+    }
+  },
 };
 
 // Cloudflare D1 caps bound parameters at 100 per query - far below SQLite's own
@@ -570,6 +610,18 @@ export const QUERIES = {
 const D1_MAX_BOUND_PARAMS = 100;
 const INSERT_COLUMNS = 8;
 const INSERT_CHUNK_SIZE = Math.floor(D1_MAX_BOUND_PARAMS / INSERT_COLUMNS);
+
+// Same D1 100-param guard for the health-metrics insert. Each row binds 8
+// non-autoincrement columns (recorded_at, category, metric, value, unit, scope,
+// status, meta), so cap each INSERT at floor(100 / 8) = 12 rows.
+const HEALTH_INSERT_COLUMNS = 8;
+const HEALTH_INSERT_CHUNK_SIZE = Math.floor(
+  D1_MAX_BOUND_PARAMS / HEALTH_INSERT_COLUMNS,
+);
+// Retention for the append-only health series: the collector prunes rows older
+// than this on each run (kept off the read path). 90 days of ~15-min samples is
+// a few hundred k rows at most - well within D1.
+const HEALTH_RETENTION_SECONDS = 60 * 60 * 24 * 90;
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = [];
@@ -911,5 +963,37 @@ export const MUTATIONS = {
       revalidateTag(tag);
     }
     return tags;
+  },
+
+  // Append a batch of health-dashboard samples (from the box collector or the
+  // crawlers' self-report) via POST /api/health. Append-only: no upsert, no
+  // cache tag (the series is never read on a public request path). Chunked to
+  // stay under the D1 100-param cap. Returns the number of rows written.
+  insertHealthMetrics: async function (
+    input: InsertHealthMetric[],
+  ): Promise<number> {
+    if (!input[0]) return 0;
+    const db = await getDb();
+    if (!db) {
+      throw new Error("D1 database binding is unavailable");
+    }
+    const chunks = chunk(input, HEALTH_INSERT_CHUNK_SIZE);
+    const stmts = chunks.map((rows) => db.insert(healthMetrics).values(rows));
+    await db.batch(
+      stmts as [(typeof stmts)[number], ...(typeof stmts)[number][]],
+    );
+    return input.length;
+  },
+
+  // Delete health samples older than the retention window (default 90 days).
+  // Called by the collector at the end of each run so the table stays bounded
+  // without a separate cron. Returns nothing (best-effort). `olderThan` is an
+  // absolute unix-seconds cutoff; when omitted we compute it from `now`.
+  pruneHealthMetrics: async function (olderThan?: number): Promise<void> {
+    const db = await getDb();
+    if (!db) return;
+    const cutoff =
+      olderThan ?? Math.floor(Date.now() / 1000) - HEALTH_RETENTION_SECONDS;
+    await db.delete(healthMetrics).where(lt(healthMetrics.recordedAt, cutoff));
   },
 };

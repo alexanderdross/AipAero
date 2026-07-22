@@ -167,3 +167,59 @@ export const crawlMeta = createTable("crawl_meta", {
   // leave it null and the list page shows only the crawl "last updated" line.
   airac: text("airac"),
 });
+
+/**
+ * Health-dashboard analytics store - a generic, append-only time series. One row
+ * per sampled metric, written out-of-band by the health collector on the
+ * Coolify/netcup box (`crawlers/health_collector.py`) and by the crawlers' own
+ * per-country self-report, via `POST /api/health` (Bearer CRON_SECRET). Read by
+ * the internal dashboard (Cloudflare-Tunnel-gated) through `GET /api/health`.
+ * See docs/health-dashboard-concept.md.
+ *
+ * Deliberately schema-light (category + metric + value) so a new source needs no
+ * migration - it just POSTs new (category, metric) pairs. Never read on a public
+ * request path, so it carries NO cache tags; the collector prunes rows older than
+ * the retention window on each run.
+ */
+export const healthMetrics = createTable(
+  "health_metrics",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    // Sample time, unix seconds (the collector stamps it; the box clock is UTC).
+    recordedAt: integer("recorded_at").notNull(),
+    // Coarse grouping shown as a dashboard tile:
+    // "cloudflare" | "server" | "coolify" | "database" | "crawl" | "issues" | "vitals"
+    category: text("category").notNull(),
+    // Metric key within the category, e.g. "worker_requests", "ram_used_pct",
+    // "disk_used_pct", "load1", "d1_storage_bytes", "lcp_p75", "crawl_ok",
+    // "open_issues", "ci_failed". Free text so a source can add metrics freely.
+    metric: text("metric").notNull(),
+    // Numeric sample. Nullable for a text-only status row (detail carried in meta).
+    value: real("value"),
+    // "ms" | "pct" | "bytes" | "count" | "ratio" | "s" - display hint, nullable.
+    unit: text("unit"),
+    // Optional dimension: country code, URL path, worker/service name, issue
+    // source, ... Nullable. Indexed for per-scope dashboard filtering.
+    scope: text("scope"),
+    // Optional health rollup for issue / status rows: "ok" | "warn" | "crit".
+    status: text("status"),
+    // JSON blob for extra structured detail (e.g. top paths, error breakdown).
+    meta: text("meta"),
+  },
+  (m) => ({
+    // The dashboard reads by (category[, metric]) over a recent time window, so
+    // index both the grouping and the timeline; scope for per-dimension filters.
+    categoryMetricIndex: index("health_category_metric_idx").on(
+      m.category,
+      m.metric,
+    ),
+    recordedAtIndex: index("health_recorded_at_idx").on(m.recordedAt),
+    scopeIndex: index("health_scope_idx").on(m.scope),
+  }),
+);
+
+export type HealthMetric = InferSelectModel<typeof healthMetrics>;
+export type InsertHealthMetric = InferInsertModel<typeof healthMetrics>;
+export const healthMetricsApiInsertSchema = createInsertSchema(healthMetrics)
+  .omit({ id: true })
+  .array();

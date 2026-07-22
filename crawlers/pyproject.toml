@@ -33,6 +33,12 @@ dependencies = [
     # wheel with a bundled PDFium - no system dependency (unlike pdf2image, which
     # needs poppler) and no AGPL (unlike PyMuPDF). Imported lazily.
     "pypdfium2>=4.0.0",
+    # Local host metrics (RAM / disk / CPU load) for the health dashboard
+    # collector (`health_collector.py`). Reads the machine the collector runs on
+    # (the Coolify/netcup box), so this is the only source that MUST run on the
+    # box rather than reach an API. Pure wheel, no system dependency; imported
+    # lazily inside the server gatherer so a collector-less crawl never needs it.
+    "psutil>=5.9.0",
 ]
 
 [dependency-groups]
