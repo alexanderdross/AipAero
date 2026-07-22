@@ -52,6 +52,15 @@ export const env = createEnv({
     SMTP_USER: z.string().optional(),
     SMTP_PASS: z.string().optional(),
     SMTP_FROM: z.string().optional(),
+    // Optional: Sentry DSN for server-side (Worker) error capture
+    // (src/lib/sentry.ts). When unset, `captureServerError` is a no-op, so
+    // deploying exposes nothing until set with `wrangler secret put SENTRY_DSN`.
+    // A minimal envelope POST (no @sentry SDK), so the OpenNext worker entry is
+    // untouched and no CSP change is needed (server-side only). The health
+    // collector's sentry.py then reads the issue counts for the dashboard.
+    // `SENTRY_ENVIRONMENT` labels the events (defaults to NODE_ENV).
+    SENTRY_DSN: z.string().optional(),
+    SENTRY_ENVIRONMENT: z.string().optional(),
   },
 
   /**
@@ -81,6 +90,8 @@ export const env = createEnv({
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
     SMTP_FROM: process.env.SMTP_FROM,
+    SENTRY_DSN: process.env.SENTRY_DSN,
+    SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

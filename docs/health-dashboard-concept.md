@@ -119,8 +119,12 @@ Suche).
     per-Server CPU/RAM.
   - `github.py` - offene Issues + letzter Run-Status je Workflow (crawl/facts-
     import/cd/ci) **minimal-fertig**.
-  - `sentry.py` - unresolved Issues **minimal-fertig** (setzt Sentry-Anbindung
-    der Worker-App voraus, Phase 2).
+  - `sentry.py` - unresolved Issues **minimal-fertig**. Die Worker-Seite ist
+    **GEBAUT**: `src/lib/sentry.ts` (`captureServerError`) POSTet Worker-Fehler
+    als minimales Envelope direkt an die Sentry-Ingest-API (KEIN `@sentry`-SDK,
+    kein Wrappen des OpenNext-`worker.js`, keine CSP-Aenderung - server-seitig),
+    verdrahtet in den 500-`catch`-Bloecken der API-Routen, fail-soft via
+    `ctx.waitUntil`, No-Op ohne `SENTRY_DSN`. Braucht nur noch das DSN-Secret.
 - Publish: ein `httpx`-POST an `{API_BASE}/api/health?prune=1`.
 - Neue Dependency: `psutil` (pure wheel, lazy import). `uv lock` aktualisiert.
 
@@ -136,8 +140,10 @@ Charts, Schwellwert-Ampeln.
 
 ## Env / Secrets
 
-Worker-Seite: **keine neuen Pflicht-Vars** - der Ingest nutzt das bestehende
-`CRON_SECRET`. (Sentry-DSN kommt erst mit der Phase-2-Worker-Anbindung dazu.)
+Worker-Seite: der Ingest nutzt das bestehende `CRON_SECRET`. Zusaetzlich
+optional `SENTRY_DSN` (+ `SENTRY_ENVIRONMENT`) fuer die server-seitige
+Fehlererfassung (`src/lib/sentry.ts`); unset = No-Op. Set mit
+`wrangler secret put SENTRY_DSN`.
 
 Box-Seite (Collector, in Coolify als Env-Secrets, NICHT im Repo):
 
@@ -161,9 +167,10 @@ Dashboard-App: `HEALTH_API_BASE`, `HEALTH_API_KEY` (= `CRON_SECRET`).
    `CLOUDFLARE_ANALYTICS_TOKEN`.
 3. **Coolify API-Token** -> `COOLIFY_API_TOKEN` (+ `COOLIFY_API_URL`).
 4. **GitHub PAT** (`repo` + `actions:read`) -> `GITHUB_TOKEN`.
-5. **Sentry**: Projekt anlegen, `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`;
-   danach (Phase 2) `@sentry/cloudflare` in die Worker-App + Ingest-Host in die
-   CSP `connect-src`.
+5. **Sentry**: Projekt anlegen, `SENTRY_AUTH_TOKEN`/`SENTRY_ORG`/`SENTRY_PROJECT`
+   fuer den Collector; `SENTRY_DSN` als Worker-Secret (`wrangler secret put
+   SENTRY_DSN`) fuer die server-seitige Fehlererfassung (schon gebaut,
+   `src/lib/sentry.ts`).
 6. **cloudflared Tunnel**: `cloudflared tunnel create aip-health`, Ingress
    `health.aip.aero -> http://127.0.0.1:8055` (siehe
    `dashboard/cloudflared-config.example.yml`), DNS-CNAME anlegen.
@@ -179,7 +186,7 @@ Dashboard-App: `HEALTH_API_BASE`, `HEALTH_API_KEY` (= `CRON_SECRET`).
 | --- | --- | --- |
 | 0 | Konzept + Grundgeruest: `health_metrics`-Tabelle + Migration, `/api/health` (POST/GET), Collector-Skelett (server.py fertig, uebrige fail-soft), Dashboard-Skelett + Tunnel-Config | **GEBAUT 22.07.2026** |
 | 1 | CF-GraphQL voll (Workers/Traffic/Vitals/D1) - **GEBAUT**; Coolify per-Server offen; Owner-Setup (Token/Tunnel/Access), erster Live-Collect offen | teilweise |
-| 2 | Sentry in die Worker-App (`@sentry/cloudflare` + CSP), Collector liest Sentry; Crawler-Selbstreport-Hook in `output_handler.py` | offen |
+| 2 | Crawler-Selbstreport (`crawl_report.py`) - **GEBAUT**; Sentry server-seitig im Worker (`src/lib/sentry.ts`, direktes Envelope statt SDK, keine CSP) - **GEBAUT**; Collector liest Sentry-API - **minimal-fertig** | GEBAUT |
 | 3 | Dashboard-Ausbau: Zeitreihen-Charts, Ampeln, Alerting bei `crit` | offen |
 
 ## Verifikation

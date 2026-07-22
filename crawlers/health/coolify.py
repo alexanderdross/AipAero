@@ -45,7 +45,8 @@ def gather(settings: HealthSettings) -> List[Metric]:
             except Exception as e:
                 log.warning("coolify gatherer: resources read failed (%s)", e)
 
-            # How many managed servers are reachable (a simple availability count).
+            # Managed servers: reachable count + per-server CPU/RAM/disk usage
+            # (the latter only when the payload actually carries it).
             try:
                 r = client.get("/api/v1/servers", headers=headers)
                 r.raise_for_status()
@@ -54,6 +55,7 @@ def gather(settings: HealthSettings) -> List[Metric]:
                     metrics.append(
                         Metric("coolify", "servers_total", float(len(servers)), "count")
                     )
+                    metrics.extend(parse.parse_servers(servers))
             except Exception as e:
                 log.warning("coolify gatherer: servers read failed (%s)", e)
     except Exception as e:

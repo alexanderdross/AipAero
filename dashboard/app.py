@@ -97,13 +97,35 @@ def group_series(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     return by_cat
 
 
+def summarize(by_cat: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+    """Roll up the latest status of every series into crit/warn/ok counts plus
+    the worst level and the crit series (category/metric/scope) for the banner.
+    Pure - series with no status are not counted."""
+    counts = {"crit": 0, "warn": 0, "ok": 0}
+    crit: list[str] = []
+    for cat, series in by_cat.items():
+        for s in series:
+            st = s.get("status")
+            if st in counts:
+                counts[st] += 1
+            if st == "crit":
+                label = f"{cat}/{s.get('metric')}"
+                if s.get("scope"):
+                    label += f"/{s['scope']}"
+                crit.append(label)
+    worst = "crit" if counts["crit"] else "warn" if counts["warn"] else "ok"
+    return {"counts": counts, "worst": worst, "crit": crit}
+
+
 @app.get("/api/data")
 def data() -> JSONResponse:
+    by_cat = group_series(_fetch_metrics())
     return JSONResponse(
         {
             "generatedAt": int(time.time()),
             "configured": bool(API_KEY),
-            "categories": group_series(_fetch_metrics()),
+            "summary": summarize(by_cat),
+            "categories": by_cat,
         }
     )
 
@@ -126,6 +148,29 @@ def _pill(status: Optional[str]) -> str:
     return (
         f'<span style="background:{color};color:#fff;border-radius:999px;'
         f'padding:1px 8px;font-size:12px">{status or "-"}</span>'
+    )
+
+
+def _banner(summary: dict[str, Any]) -> str:
+    """A colour-coded status summary bar above the tiles."""
+    counts = summary["counts"]
+    worst = summary["worst"]
+    bg = {"crit": "#ffebe9", "warn": "#fff8c5", "ok": "#dafbe1"}[worst]
+    border = {"crit": "#cf222e", "warn": "#9a6700", "ok": "#1a7f37"}[worst]
+    if worst == "ok":
+        headline = f"Alle Systeme normal - {counts['ok']} Metriken ok"
+    else:
+        headline = (
+            f"{counts['crit']} kritisch, {counts['warn']} Warnung, {counts['ok']} ok"
+        )
+    detail = ""
+    if summary["crit"]:
+        items = ", ".join(summary["crit"][:8])
+        detail = f'<div style="font-size:12px;margin-top:4px;color:#57606a">Kritisch: {items}</div>'
+    return (
+        f'<div style="background:{bg};border:1px solid {border};border-radius:8px;'
+        f'padding:10px 14px;margin-bottom:14px">'
+        f'<strong style="font-size:14px">{headline}</strong>{detail}</div>'
     )
 
 
@@ -206,8 +251,12 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
                     else ""
                 )
                 spark = sparkline_svg(s["points"], s["status"])
+                # Tint the whole row for a crit metric so it stands out.
+                row_style = (
+                    ' style="background:#ffebe9"' if s["status"] == "crit" else ""
+                )
                 rows.append(
-                    f'<tr><td style="padding:4px 10px 4px 0">{label}</td>'
+                    f"<tr{row_style}><td style=\"padding:4px 10px 4px 0\">{label}</td>"
                     f'<td style="padding:4px 8px">{spark}</td>'
                     f'<td style="padding:4px 10px;text-align:right;'
                     f'font-variant-numeric:tabular-nums">{_fmt(s["value"], s["unit"])}</td>'
@@ -233,6 +282,7 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
             "die Analytics-Tabelle nicht lesen.</p>"
         )
     )
+    banner = _banner(summarize(by_cat)) if API_KEY else ""
     return f"""<!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -246,6 +296,7 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
 </header>
 <main style="max-width:1100px;margin:0 auto;padding:20px">
   {configured}
+  {banner}
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px">{''.join(tiles)}</div>
   <p style="color:#57606a;font-size:12px;margin-top:18px">Sparkline = Verlauf der letzten 24 h. Auto-Refresh alle 60 s. Nur ueber Cloudflare Tunnel + Access erreichbar.</p>
 </main>

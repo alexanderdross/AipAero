@@ -5,6 +5,7 @@ import {
   sendContactEmail,
   verifyTurnstile,
 } from "~/lib/contact";
+import { captureServerError } from "~/lib/sentry";
 
 /**
  * Contact-form endpoint (POST) backing /contact/ and /de/kontakt/.
@@ -93,6 +94,7 @@ export async function POST(req: NextRequest) {
       "Contact form delivery failed:",
       error instanceof Error ? error.message : "unknown error",
     );
+    void captureServerError(error, { route: "api/contact", method: "POST" });
     return NextResponse.json(
       { error: "Could not send your message. Please try again later." },
       { status: 502 },

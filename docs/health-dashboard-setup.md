@@ -68,16 +68,18 @@ manuell anlegen, damit kein Deploy neuen Code gegen das alte Schema faehrt.
   **Actions: Read** + **Issues: Read** (oder klassischer PAT mit `repo` +
   `read:org`). -> `GITHUB_TOKEN`.
 
-## 6. Sentry (optional, Phase 2)
+## 6. Sentry (optional)
 
-Zum Sammeln von Sentry-Issues muss die Worker-App zuerst an Sentry melden - das
-ist eine Phase-2-Codeaufgabe (`@sentry/cloudflare` einbauen + Sentry-Ingest-Host
-in die CSP `connect-src` in `next.config.mjs`). Fuer den Collector-Teil jetzt:
+Die server-seitige Fehlererfassung im Worker ist **schon gebaut**
+(`src/lib/sentry.ts`, `captureServerError` in den API-Routen - ein direktes
+Envelope an die Sentry-Ingest-API, kein SDK, keine CSP-Aenderung). Sie ist
+inert, bis das DSN gesetzt ist. Schritte:
 
 - [ ] Sentry-Projekt anlegen; `SENTRY_ORG` + `SENTRY_PROJECT` notieren.
-- [ ] Auth-Token (Settings -> Auth Tokens, Scope `project:read`, `event:read`).
-  -> `SENTRY_AUTH_TOKEN`.
-- [ ] (Phase 2) DSN als Worker-Secret setzen: `wrangler secret put SENTRY_DSN`.
+- [ ] **DSN als Worker-Secret** setzen (aktiviert die Fehlererfassung):
+  `wrangler secret put SENTRY_DSN`. Optional `SENTRY_ENVIRONMENT` als `var`.
+- [ ] Auth-Token (Settings -> Auth Tokens, Scope `project:read`, `event:read`)
+  -> `SENTRY_AUTH_TOKEN` fuer den Collector (`sentry.py` liest die Issue-Counts).
 
 ## 7. Collector auf der Box einrichten
 
@@ -155,14 +157,18 @@ Coolify/netcup-Box (dort, wo schon die Crawler laufen).
 
 ---
 
-## Danach (Phase 2/3, Code - separate PRs)
+## Code-Stand (alles GEBAUT + gemergt)
 
-- Cloudflare-GraphQL-Gatherer (Workers/Traffic/Vitals/D1) - **GEBAUT** in
-  `crawlers/health/cloudflare.py` (+ `cloudflare_parse.py`). Braucht nur noch den
-  Token aus Schritt 3; die GraphQL-Feldnamen ggf. am Live-Account verifizieren
-  (der Parser ist defensiv - unbekannte Felder werden still uebersprungen).
-- Coolify per-Server CPU/RAM in `crawlers/health/coolify.py`.
-- Sentry in die Worker-App (`@sentry/cloudflare` + CSP).
-- Crawler-Selbstreport (ok/fail/count/coverage pro Land) in
-  `crawlers/output_handler.py`.
-- Dashboard-Ausbau: Zeitreihen-Charts, Ampeln, Alerting bei `crit`.
+- Cloudflare-GraphQL-Gatherer (Workers/Traffic/Vitals/D1) in
+  `crawlers/health/cloudflare.py` (+ `cloudflare_parse.py`). GraphQL-Feldnamen
+  ggf. am Live-Account verifizieren (der Parser ist defensiv - unbekannte Felder
+  werden still uebersprungen).
+- Coolify-Gatherer (App-/Resource-Health) in `crawlers/health/coolify.py`.
+- Crawler-Selbstreport (ok/fail/count/pdf/Dauer pro Land) in
+  `crawlers/output_handler.py` + `main.py`.
+- Sentry server-seitig im Worker (`src/lib/sentry.ts`) - braucht nur das
+  DSN-Secret (Schritt 6).
+- Dashboard mit Zeitreihen-Sparklines (`dashboard/app.py`).
+
+Offen (kuenftige, optionale PRs): Coolify per-Server CPU/RAM, Client-seitiges
+Sentry + Tracing (braeuchte CSP `connect-src`), Alerting bei `crit`.

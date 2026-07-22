@@ -22,3 +22,8 @@ SMTP_PORT="587"
 SMTP_USER=""
 SMTP_PASS=""
 SMTP_FROM=""
+
+# Optional: Sentry DSN for server-side Worker error capture (src/lib/sentry.ts).
+# Unset = no-op. SENTRY_ENVIRONMENT labels events (defaults to NODE_ENV).
+SENTRY_DSN=""
+SENTRY_ENVIRONMENT=""

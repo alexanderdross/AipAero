@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { env } from "~/env";
+import { captureServerError } from "~/lib/sentry";
 import { MUTATIONS, QUERIES } from "~/server/db/queries";
 import { healthMetricsApiInsertSchema } from "~/server/db/schema";
 
@@ -74,6 +75,7 @@ export async function POST(req: NextRequest) {
     console.error(
       error instanceof Error ? error.message : "An unknown error occurred",
     );
+    void captureServerError(error, { route: "api/health", method: "POST" });
     return NextResponse.json(
       { message: "Something went wrong" },
       { status: 500 },
@@ -107,6 +109,7 @@ export async function GET(req: NextRequest) {
     console.error(
       error instanceof Error ? error.message : "An unknown error occurred",
     );
+    void captureServerError(error, { route: "api/health", method: "GET" });
     return NextResponse.json(
       { message: "Something went wrong" },
       { status: 500 },
