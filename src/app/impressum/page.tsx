@@ -67,13 +67,13 @@ export default function ImpressumPage() {
           </dd>
           <dt className={rowLabel}>Kontakt</dt>
           <dd className={rowValue}>
-            <ExternalLink
-              href={IMPRINT.contactUrl}
-              hrefTitle={`Kontakt - ${IMPRINT.brand}`}
+            <a
+              href={IMPRINT.contactPathDe}
+              title={`Kontakt - ${IMPRINT.brand}`}
               className={inlineLink}
             >
               {IMPRINT.email}
-            </ExternalLink>
+            </a>
           </dd>
           <dt className={rowLabel}>USt-IdNr.</dt>
           <dd className={rowValue}>{IMPRINT.vatId}</dd>

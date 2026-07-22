@@ -67,13 +67,13 @@ export default function ImprintPage() {
           </dd>
           <dt className={rowLabel}>Contact</dt>
           <dd className={rowValue}>
-            <ExternalLink
-              href={IMPRINT.contactUrl}
-              hrefTitle={`Contact - ${IMPRINT.brand}`}
+            <a
+              href={IMPRINT.contactPathEn}
+              title={`Contact - ${IMPRINT.brand}`}
               className={inlineLink}
             >
               {IMPRINT.email}
-            </ExternalLink>
+            </a>
           </dd>
           <dt className={rowLabel}>VAT ID</dt>
           <dd className={rowValue}>{IMPRINT.vatId}</dd>

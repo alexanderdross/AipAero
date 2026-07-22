@@ -60,7 +60,13 @@ const sections: { title: string; body: React.ReactNode }[] = [
           "Dross:Media",
         )}
         ). For contact details please see our{" "}
-        {ext(IMPRINT.contactUrl, `Contact - ${IMPRINT.brand}`, "contact page")}{" "}
+        <a
+          href={IMPRINT.contactPathEn}
+          title={`Contact - ${IMPRINT.brand}`}
+          className="text-drossblue underline"
+        >
+          contact page
+        </a>{" "}
         and our imprint.
       </>
     ),

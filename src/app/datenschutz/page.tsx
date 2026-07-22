@@ -60,7 +60,13 @@ const sections: { title: string; body: React.ReactNode }[] = [
           "Dross:Media",
         )}
         ). Kontaktmöglichkeiten findest du auf unserer{" "}
-        {ext(IMPRINT.contactUrl, `Kontakt - ${IMPRINT.brand}`, "Kontaktseite")}{" "}
+        <a
+          href={IMPRINT.contactPathDe}
+          title={`Kontakt - ${IMPRINT.brand}`}
+          className="text-drossblue underline"
+        >
+          Kontaktseite
+        </a>{" "}
         sowie im Impressum.
       </>
     ),

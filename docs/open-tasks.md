@@ -1,6 +1,55 @@
-# AIP:Aero - Offene Aufgaben (Stand: 15.07.2026)
+# AIP:Aero - Offene Aufgaben (Stand: 22.07.2026)
 
 Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Nächstes · 🟢 danach / optional · ✅ erledigt
+
+## ✅ Erledigt 22.07.2026 (gemergt)
+
+- **Allgemeine Facts-Override-Schicht (PR #395):** `src/lib/facts-overrides.ts` -
+  der manuelle Notausgang, um pro ICAO **falsch gefetchte** Aerodrom-Daten
+  (Koordinaten, Höhe, Straße/PLZ/Ort, Telefon, Website, Aerodrom-Typ, PPR,
+  Restaurant, Kraftstoff, Pisten, Frequenzen) zu überschreiben. Angewandt an der
+  **einen** Stelle `getAirportFacts` (`Object.assign(merged, ovr)` als Letztes),
+  gewinnt über jede automatische Quelle - Kontakt-Box, Google-Maps-Link,
+  Koordinaten, Wetter/Nearby/Sonne-Gadgets und Airport-JSON-LD lesen denselben
+  Wert; beim nächsten Enrichment-Write-back wird der Fix persistiert (Karten-
+  Marker zieht nach). Gesät mit **EDPE**: OSM taggt den Platz-Knoten mit der
+  Nachbarstraße „Fritz-Rindfleisch-Allee", die Reverse-Geokodierung liefert nie
+  „Flugplatz 1", und die Koordinaten lagen ~250 m daneben - gegen Google-Maps'
+  eigenen „Flugplatz Eichstätt - EDPE"-Marker korrigiert (Adresse + Pin +
+  Koordinaten stimmen jetzt zusammen). Hours/Customs/Circuit behalten ihre
+  eigenen Override-Dateien (Spezial-Merge-Semantik).
+- **Frequenzen-Zeilenumbruch (PR #394):** jede „SERVICE freq"-Paarung mit
+  geschütztem Leerzeichen verbunden - Umbruch nur noch an den „ · "-Trennern,
+  nie mitten in einem Eintrag (kein „CLD" von „121.775" getrennt).
+- **LCP: Chart-Coverage-Notiz von der Flughafenliste entfernt (PR #391).** Auf
+  der Listenseite war der Absatz unter der (grau/verzögert ladenden) Karte das
+  LCP-Element. `chartCoverage()` + der `AirportsPage.coverage`-Key bleiben
+  (unit-getestet, wiederverwendbar), nur nicht mehr gerendert. Die Detailseiten-
+  Notiz pro Feld (`Common.noChartPdf`) bleibt.
+- **bfcache: untersucht + verworfen (PR #393).** Die dynamischen `?ICAO`-Routen
+  senden `Cache-Control: … no-store …` (Next.js-Default für dynamische Routen),
+  was Chrome den Back/Forward-Cache verbietet. Der Middleware-Versuch, `no-store`
+  zu strippen, greift auf dem Cloudflare/OpenNext-Stack **nicht** (bei 200er
+  gewinnt der Next-Server-Header im OpenNext-Merge). Und **kein Edge-Regel-Weg**
+  hilft: auf einer **Worker**-Site hat laut Cloudflare-Doku keine zonale
+  Cache-/Transform-/Cache-Response-Regel Einfluss auf `Cache-Control` - der
+  Worker ist die einzige Konfigurationsfläche. Der einzige verbleibende Weg (ein
+  Worker-Wrapper um den OpenNext-Entrypoint) ist zu risikoreich für ein kleines
+  Lighthouse-Audit → verworfen, der inerte Middleware-Code zurückgenommen.
+- **CI-Fix (PR #394):** `sharp@>=0.35.0`-pnpm-Override gegen ein neues
+  libvips-High-Advisory (GHSA-f88m-g3jw-g9cj), das den `pnpm audit --prod`-Schritt
+  rot machte (sharp erreicht den Baum nur transitiv als miniflare-Dev-Tool, geht
+  nie in den Worker).
+
+### 🟢 Offen / Owner-Entscheidung
+
+- **DE-Detailseiten-LCP (throttled-mobile ~4,4 s, high-variance).** Analyse: die
+  sichtbaren Inhalte (H1 + Summary) liegen ~156 KB tief im Stream, hinter der
+  `loading.tsx`-Skeleton + ~100 KB Inline-CSS/RSC-Flight-Data; der DE-OCR-Text
+  liegt **hinter** dem LCP (Lazy-Load würde nicht helfen). FCP/TBT/CLS sind grün.
+  **Empfehlung: so belassen** - die einzigen echten Hebel (Inline-CSS
+  zurücknehmen / Streaming-Skeleton umbauen) kehren bewusste Optimierungen um und
+  riskieren Regressionen auf grünen Metriken, für eine varianzstarke Lab-Zahl.
 
 ## Aktuelle Priorität (Owner 15.07.2026): 4 (AIRAC) ✅ · 3 (LT-VFR-Manual) ✅ · 2 (GR) 🔴 Bright-Data-`.gov`-Policy-Sackgasse → nur noch via OurAirports-CC0 (Task 8, Produktentscheidung offen)
 
@@ -39,19 +88,20 @@ Status-Legende: 🔴 blockiert Folgearbeiten / heute erledigen · 🟡 als Näch
 ## ✅ 0. OpenAIP-Coord-Backfill - ERLEDIGT + APPLY GELAUFEN (14.07.2026)
 
 **Ziel:** Felder mit ICAO aber ohne `airport_facts`-Zeile (Krankenhaus-Heliports
-+ kleine ULM/Privatplätze, die OurAirports nicht führt) auf die Karte bringen.
-Code: `crawlers/import_openaip_backfill.py` + `GET /api/airport-facts`
-(Missing-Liste) + `facts-import.yml` `backfill`-Modus. Doku:
-`docs/data-backfill-runbook.md` Abschnitt C.
 
-- `OPENAIP_API_KEY` als Repo-Secret gesetzt (Owner), Dry-run grün (Run
+- kleine ULM/Privatplätze, die OurAirports nicht führt) auf die Karte bringen.
+  Code: `crawlers/import_openaip_backfill.py` + `GET /api/airport-facts`
+  (Missing-Liste) + `facts-import.yml` `backfill`-Modus. Doku:
+  `docs/data-backfill-runbook.md` Abschnitt C.
+
+* `OPENAIP_API_KEY` als Repo-Secret gesetzt (Owner), Dry-run grün (Run
   `29368528625`: 6/8 Beispiele aufgelöst), **`apply` gelaufen** (Run
   `29368834237`).
-- **Ergebnis (D1-verifiziert): 34 Zeilen `source='openaip-backfill'`
+* **Ergebnis (D1-verifiziert): 34 Zeilen `source='openaip-backfill'`
   geschrieben, Lücke 65 → 30.** Die restlichen 30 kennt auch OpenAIP nicht
   (Hospital-HLPs wie LPLR, Kleinstplätze wie EBAF) - erwarteter Boden; sie
   heilen sich per on-read-Write-back beim Seitenbesuch.
-- **✅ Wochenplan:** der `backfill`-Schritt läuft jetzt im wöchentlichen
+* **✅ Wochenplan:** der `backfill`-Schritt läuft jetzt im wöchentlichen
   `facts-import.yml`-Lauf (So 03:30 UTC, apply-Modus nach dem OurAirports-Import),
   damit künftige neue Felder automatisch Coords bekommen. Manueller Dispatch
   (Dry-run/`apply`/`icaos`) bleibt für Spot-Checks.
@@ -104,7 +154,7 @@ statt gar nicht - Flugplatzliste + Coords + Detailseite ohne Portal-Login.
 
 **🔴 Blocker (Owner-Entscheidung nötig, vor jeder Umsetzung):**
 **Lizenz.** OpenAIP ist **CC BY-NC-SA (nicht-kommerziell)**. Die aktuelle Nutzung
-ist eine *per-Feld-Anreicherung als Fallback*; OpenAIP als **primäre
+ist eine _per-Feld-Anreicherung als Fallback_; OpenAIP als **primäre
 Ganzland-Datenquelle** (die komplette Aerodrom-Liste eines Landes) ist eine
 andere, deutlich weitergehende Nutzung - und die Site schaltet AdSense
 (kommerziell). Das muss lizenzrechtlich geklärt werden (bezahlte OpenAIP-Lizenz,
@@ -116,7 +166,7 @@ OurAirports ist **Public Domain / CC0** (kommerziell erlaubt, keine
 Attribution-/NC-Pflicht) und führt bereits Aerodrome für IT/HR/IE/SK (ICAO,
 Name, Coords, Typ, Ort - genau die Basis, die der wöchentliche Facts-Import
 schon lädt). Damit lässt sich die **Flugplatzliste eines gated-Landes
-lizenzsauber** bauen; OpenAIP bliebe wie gehabt nur die *per-Feld-Anreicherung*.
+lizenzsauber** bauen; OpenAIP bliebe wie gehabt nur die _per-Feld-Anreicherung_.
 Das verschiebt die Frage von "Lizenz" zu einer **Produktentscheidung**: solche
 Länderseiten hätten **keinen AIP-Chart-Link** (der AIP ist gated), also
 "Flugplatz-Info"-Seiten (Facts/Wetter/Karte/EFB-Hand-offs/Nearby) statt der
@@ -143,8 +193,7 @@ OurAirports-CC0-Weg ist als **`gatedCountries`-Mechanismus** umgesetzt und mit
 Wetter + AIP-Portal-Button mit "Registrierung nötig"-Hinweis, kein Chart-Crawl).
 **IE und SK waren gar nicht gated** - beide haben offene eurocontrol-eAIPs
 (AirNav Ireland / LPS SR) und sind mit echten Charts live. Bleibt für die
-gated-Info-Seiten-Option nur noch **IT/HR/BG**: am 16.07.2026 neu geprobt (Run
-29510248413) - **alle drei weiterhin gated**: Kroatiens öffentlicher
+gated-Info-Seiten-Option nur noch **IT/HR/BG**: am 16.07.2026 neu geprobt (Run 29510248413) - **alle drei weiterhin gated**: Kroatiens öffentlicher
 Statik-eAIP-Baum liefert für die Editions-Ordner jetzt **404** (bewusste
 AIM-Portal-Umstellung, `aim.crocontrol.hr` = Login-Portal), Bulgarien (BULATSA)
 reicht an das registrierungspflichtige `b-flip.bulatsa.com`-Portal weiter, Italien
@@ -189,9 +238,9 @@ manuell ausgelöst** (Airport facts import + Crawl (publish) #1). Die Crawler
 laufen als **GitHub-Actions-Workflows auf dem self-hosted Runner** (kein
 systemd/bare-metal mehr): kein Code-Drift, Run-Logs + manueller Trigger.
 
-| Workflow | Datei | Zeitplan |
-| --- | --- | --- |
-| **Crawl (publish)** | `.github/workflows/crawl.yml` | täglich 03:00 UTC + manuell |
+| Workflow                 | Datei                                | Zeitplan                           |
+| ------------------------ | ------------------------------------ | ---------------------------------- |
+| **Crawl (publish)**      | `.github/workflows/crawl.yml`        | täglich 03:00 UTC + manuell        |
 | **Airport facts import** | `.github/workflows/facts-import.yml` | wöchentlich So 03:30 UTC + manuell |
 
 ### Aktueller Stand: 10 von 12 Ländern live
@@ -203,10 +252,10 @@ SE (48) sowie - nach dem Fix (Task 2a) - **DE (792)** und **FR (143)**. Der
 
 **Noch nicht live (2 Länder):**
 
-| Land | Problem | Status |
-| --- | --- | --- |
-| **GR** | Web Unlocker liefert `502 Access denied` | offen, Owner - Task 4 |
-| **DK** | AngularJS-SPA, Baum nicht statisch erreichbar | geparkt - Task 3 |
+| Land   | Problem                                       | Status                |
+| ------ | --------------------------------------------- | --------------------- |
+| **GR** | Web Unlocker liefert `502 Access denied`      | offen, Owner - Task 4 |
+| **DK** | AngularJS-SPA, Baum nicht statisch erreichbar | geparkt - Task 3      |
 
 ### Verifizieren im Browser (nach dem nächsten Deploy)
 
@@ -253,6 +302,7 @@ Chromium pro Lauf automatisch. DK steht noch in `ALLOWED_FAILURES`.
 
 **Befund (Struktur-Diagnose 2026-07-09):** aim.naviair.dk ist eine **AngularJS-
 SPA**. Die gerenderte Seite enthält quasi nichts Navigierbares:
+
 - nur **1 Anchor** (`Ændringer til AIP/VFG/AIC`), **kein** "VFR Flight Guide"-Link,
 - nur 2 Buttons (Navbar-Toggle + ein `ng-hide`-Button),
 - **kein iframe**; einziger struktureller Hinweis: `/templates/treegrid.html`
@@ -302,7 +352,7 @@ an der Ziel-Domain-Policy.
    liegt im Session-Verlauf.)
 2. **Anderer Unlocker-Anbieter** ohne `.gov`-Sperre - neue Integration + Kosten,
    nur für ein Land: schlechtes Aufwand/Nutzen-Verhältnis.
-3. **GR über OurAirports (CC0)** als Info-Seiten *ohne* Chart-Links onboarden -
+3. **GR über OurAirports (CC0)** als Info-Seiten _ohne_ Chart-Links onboarden -
    wie IT/HR/IE/SK (siehe **Task 8**, Produktentscheidung). Der pragmatische Weg.
 
 **Empfehlung:** GR bei Bright Data abhaken; realistisch ist Option 3 (mit der
@@ -333,9 +383,9 @@ klären.
   (`crawler_base.py`, `eurocontrol_base.py`), das `cache_warmer.py`-Skript und
   die Dependencies `selenium` / `webdriver-manager` sind entfernt. Alle 12
   aktiven Crawler laufen auf httpx (DK via Playwright).
-- **Branch-Protection:** Repo-Settings → *Rules → Rulesets* → die 4 CI-Checks
+- **Branch-Protection:** Repo-Settings → _Rules → Rulesets_ → die 4 CI-Checks
   (`Website (Next.js)`, `Crawlers (Python)`, `E2E & rendered output
-  (Playwright)`, `Lighthouse budgets (local)`) als Required Status Checks für
+(Playwright)`, `Lighthouse budgets (local)`) als Required Status Checks für
   `main` markieren.
 - **AIRAC-Zyklus anzeigen (Feature-Idee):** Die Website zeigt aktuell nur
   "Stand: <Crawl-Datum>" auf der Flughafen-Liste (`last-updated.tsx`), nicht den
