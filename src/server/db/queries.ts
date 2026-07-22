@@ -227,22 +227,33 @@ export const QUERIES = {
     // title-indexed D1 read (LIMIT 5), so hit D1 directly instead.
     const db = await getDb();
     if (!db) return [] as Airport[];
-    return db.query.airports.findMany({
-      limit: 5,
-      where: and(
-        eq(airports.country, country),
-        eq(airports.type, type),
-        // Match the query against the title OR the ICAO column. Titles usually
-        // embed the ICAO (e.g. "Wien-Schwechat LOWW"), but matching `icao`
-        // directly makes ICAO search robust even when it isn't in the title.
-        // Both columns are indexed; the LIMIT 5 keeps it cheap.
-        or(
-          like(airports.title, `%${search}%`),
-          like(airports.icao, `%${search}%`),
+    try {
+      return await db.query.airports.findMany({
+        limit: 5,
+        where: and(
+          eq(airports.country, country),
+          eq(airports.type, type),
+          // Match the query against the title OR the ICAO column. Titles
+          // usually embed the ICAO (e.g. "Wien-Schwechat LOWW"), but matching
+          // `icao` directly makes ICAO search robust even when it isn't in the
+          // title. Both columns are indexed; the LIMIT 5 keeps it cheap.
+          or(
+            like(airports.title, `%${search}%`),
+            like(airports.icao, `%${search}%`),
+          ),
         ),
-      ),
-      orderBy: [asc(airports.title)],
-    });
+        orderBy: [asc(airports.title)],
+      });
+    } catch (err) {
+      // Fail-soft like `airportsNear`: a transient search-read error shows no
+      // matches (the box is uncached, so the next keystroke retries) instead
+      // of surfacing an error to the user.
+      console.error(
+        "airports search failed:",
+        err instanceof Error ? err.message : String(err),
+      );
+      return [] as Airport[];
+    }
   },
   airportsGlobal: async function (search: string) {
     // Cross-country as-you-type search (title OR ICAO), spanning every country
@@ -250,14 +261,22 @@ export const QUERIES = {
     // it cheap; both matched columns are indexed.
     const db = await getDb();
     if (!db) return [] as Airport[];
-    return db.query.airports.findMany({
-      limit: 8,
-      where: or(
-        like(airports.title, `%${search}%`),
-        like(airports.icao, `%${search}%`),
-      ),
-      orderBy: [asc(airports.title)],
-    });
+    try {
+      return await db.query.airports.findMany({
+        limit: 8,
+        where: or(
+          like(airports.title, `%${search}%`),
+          like(airports.icao, `%${search}%`),
+        ),
+        orderBy: [asc(airports.title)],
+      });
+    } catch (err) {
+      console.error(
+        "airportsGlobal search failed:",
+        err instanceof Error ? err.message : String(err),
+      );
+      return [] as Airport[];
+    }
   },
   airportsCountry: async function (search: string, country: string) {
     // As-you-type search scoped to ONE country but spanning ALL its types -
@@ -269,17 +288,25 @@ export const QUERIES = {
     const db = await getDb();
     if (!db) return [] as Airport[];
     country = country.toUpperCase();
-    return db.query.airports.findMany({
-      limit: 8,
-      where: and(
-        eq(airports.country, country),
-        or(
-          like(airports.title, `%${search}%`),
-          like(airports.icao, `%${search}%`),
+    try {
+      return await db.query.airports.findMany({
+        limit: 8,
+        where: and(
+          eq(airports.country, country),
+          or(
+            like(airports.title, `%${search}%`),
+            like(airports.icao, `%${search}%`),
+          ),
         ),
-      ),
-      orderBy: [asc(airports.title)],
-    });
+        orderBy: [asc(airports.title)],
+      });
+    } catch (err) {
+      console.error(
+        "airportsCountry search failed:",
+        err instanceof Error ? err.message : String(err),
+      );
+      return [] as Airport[];
+    }
   },
   airportsByCountry: function (country: string) {
     // ALL chart-linked airports of a country in ONE cached, title-ordered

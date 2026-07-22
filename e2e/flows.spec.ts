@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 
 // User-facing flow smoke tests: the search box, the language switcher, and
 // graceful 404s. These run against the empty-D1 `next start` server, so they
@@ -53,4 +53,40 @@ test("language switcher preserves the valueless ?ICAO airport key", async ({
 test("unknown path under a valid locale returns 404", async ({ page }) => {
   const res = await page.goto("/de/this-route-does-not-exist/");
   expect(res?.status()).toBe(404);
+});
+
+// CLS guard: the search results panel (loading skeleton -> results / "no
+// results" note) is an absolutely-positioned OVERLAY, so it must never push the
+// content below it (a shift landing after the debounce would fall outside the
+// browser's 500ms post-input CLS grace window and score as layout shift). We
+// assert a stable in-flow marker (the page footer) does not move in DOCUMENT
+// coordinates while the panel opens - measured scroll-independently so
+// autofocus/scroll cannot confound it. The empty test DB makes the search
+// fail-soft to zero matches, so the localized no-results note renders.
+const footerDocY = (page: Page) =>
+  page
+    .locator("footer")
+    .first()
+    .evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
+
+test("homepage search panel overlays content without shifting layout", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const before = await footerDocY(page);
+  await page.locator("#airport-search").fill("zzzznomatch");
+  await expect(page.getByText("No airports found")).toBeVisible();
+  const after = await footerDocY(page);
+  expect(Math.abs(after - before)).toBeLessThan(2);
+});
+
+test("per-country search panel overlays content without shifting layout", async ({
+  page,
+}) => {
+  await page.goto("/de/vfr/");
+  const before = await footerDocY(page);
+  await page.locator('input[name="search"]').fill("zzzznomatch");
+  await expect(page.getByText("Keine Flugplätze gefunden")).toBeVisible();
+  const after = await footerDocY(page);
+  expect(Math.abs(after - before)).toBeLessThan(2);
 });
