@@ -452,12 +452,20 @@ class HttpCrawlerBase:
         is imported lazily to avoid an import cycle (http_eurocontrol_base
         subclasses this module)."""
         from crawlers.http_eurocontrol_base import ad23_hours
+        from crawlers.operating_hours import guard_ocr_hours
 
         try:
             hrs = ad23_hours(self.pdf_text(pdf_url))
         except Exception as e:  # a bad PDF must never abort the crawl
             self.logger.debug(f"{self.country}: {icao} AD 2.3 hours failed: {e}")
             return
+        # If the hours came from the image-only-PDF OCR fallback (see pdf_text /
+        # _last_pdf_ocr), run the same plausibility guard DE uses: an OCR digit
+        # slip must not assert a wrong "open" window. A window dropped to unknown
+        # (or all days emptied -> None) publishes no false badge. Clean text-layer
+        # PDFs are trusted as-is (a legit long window must not be false-dropped).
+        if self._last_pdf_ocr:
+            hrs = guard_ocr_hours(hrs)
         if hrs:
             self.hours_by_icao[icao] = hrs
             if self._last_pdf_ocr:
