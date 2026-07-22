@@ -305,6 +305,11 @@ export function createSearchPage(config: SearchPageConfig) {
     const p = Object.keys(await searchParams);
     const t = await getTranslations(namespace);
     const tCommon = await getTranslations("Common");
+    // Reuse the generic short placeholder ("Search any airport by name or ICAO
+    // code") shared with the homepage / country-landing search so all three
+    // boxes read identically - zero new i18n keys. The descriptive `searchTitle`
+    // stays as the keyword-rich sr-only label / input title.
+    const tNotFound = await getTranslations("NotFound");
 
     let data: Airport | undefined;
     const country = localeCountryMapping[locale]!;
@@ -375,15 +380,19 @@ export function createSearchPage(config: SearchPageConfig) {
           currentUrl={currentUrl}
           related={related.map((r) => ({ url: r.url, name: r.title }))}
         />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* max-w-2xl: the search box now matches the homepage / country-landing
+            search width (the shared SearchField), and the detail-view AIP button
+            below is constrained to the same width so it lines up under it. */}
+        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
           <SearchInputField
             value={data?.icao ?? undefined}
             title={t("searchTitle")}
+            placeholder={tNotFound("searchPlaceholder")}
             type={type}
             country={country}
             noResultsLabel={tCommon("noResults")}
           />
-          <div className="absolute left-1/2 mt-3 w-full max-w-7xl -translate-x-1/2 transform px-4 text-center text-white sm:px-6 lg:px-8">
+          <div className="absolute left-1/2 mt-3 w-full max-w-2xl -translate-x-1/2 transform px-4 text-center text-white sm:px-6 lg:px-8">
             <ol>
               {data && (
                 <li>
