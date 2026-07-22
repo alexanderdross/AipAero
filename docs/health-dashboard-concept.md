@@ -42,9 +42,14 @@ eigene kleine App auf der Box - dort, wo die Box-Metriken ohnehin anfallen.
                                              D1: aip_aero_v4_health_metrics
 ```
 
-Zusaetzlich melden die **Crawler selbst** (Phase 2) ihr Ergebnis pro Land am Ende
-jedes Publish an denselben Endpoint - der Crawler kennt sein Ergebnis am
-praezisesten (ok/fail, Count, PDF-Coverage, Dauer, Drop-Guard-Anomalie).
+Zusaetzlich melden die **Crawler selbst** ihr Ergebnis pro Land am Ende jedes
+Runs an denselben Endpoint - der Crawler kennt sein Ergebnis am praezisesten
+(ok/fail, Count, PDF-Count, Dauer, Grund bei Fehlschlag). **GEBAUT**: `main.py`
+sammelt pro Land einen `CrawlReport` (`crawlers/health/crawl_report.py`,
+unit-getestet), `OutputHandler.write_output` liefert ihn, und am Ende POSTet
+`OutputHandler.publish_crawl_health` alle Laender in EINEM Batch an `/api/health`
+(category `crawl`, scope = Landcode). Reuse des `CRON_SECRET`-Bearers, voll
+fail-soft (ein Fehler im Health-Report beruehrt weder Crawl noch Airport-Publish).
 
 **Web Vitals** kommen AGGREGIERT vom Collector aus der Cloudflare-Web-Analytics-
 GraphQL (p75), NICHT als per-Beacon-D1-Write. Der bestehende `/api/vitals`-Beacon

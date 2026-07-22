@@ -32,6 +32,7 @@ import httpx
 from crawlers.http_eurocontrol_base import title_name_looks_bad
 from crawlers.models import Airport
 from crawlers.operating_hours import StructuredHours, to_json
+from health.crawl_report import CrawlReport, build_crawl_metrics
 from sanitize import SanitizeReport, sanitize_airports
 from settings import Settings
 
@@ -244,11 +245,14 @@ class OutputHandler:
 
     def write_output(
         self, airports: list[Airport], country: str, airac: str | None = None
-    ) -> None:
+    ) -> CrawlReport:
         """Validate, serialize and POST one country's airports to the API.
 
         Bails (without error) on an empty result or a tripped drop guard;
         only records the new baseline counts after the POST actually succeeds.
+        Returns a ``CrawlReport`` describing the outcome (published?, counts,
+        reason) so the caller can self-report crawl health - see
+        ``publish_crawl_health``. The airports POST itself is unaffected.
 
         ``airac`` (ISO edition date) is forwarded to the API as an ``?airac=``
         query param when a crawler provides it (DE, whose stored URLs carry no
@@ -258,7 +262,7 @@ class OutputHandler:
         # An empty result never overwrites live data (would look like a total loss).
         if not airports:
             self.logger.warning(f"No airports found for {country}. Skipping output.")
-            return
+            return CrawlReport(country, published=False, reason="no-airports")
 
         # Central sanitize/dedup: drop duplicate ICAOs (the generic eurocontrol
         # extractors don't dedupe across sections) and collect a quality report
@@ -267,14 +271,16 @@ class OutputHandler:
         airports, quality = sanitize_airports(airports, country, self.logger)
         if not airports:
             self.logger.warning(f"No airports left for {country} after sanitize.")
-            return
+            return CrawlReport(country, published=False, reason="empty-after-sanitize")
 
         # Drop guard: abort the publish if the count collapsed vs. the last run.
         try:
             self._check_count_sanity(country, len(airports))
         except CountDropAbort as e:
             self.logger.error(str(e))
-            return
+            return CrawlReport(
+                country, published=False, count=len(airports), reason="drop-guard-abort"
+            )
 
         # Chart-PDF coverage monitoring: the extracted pdf_urls are edition-
         # specific and the chart-page markup shifts with AIRAC cycles - a
@@ -359,7 +365,13 @@ class OutputHandler:
             # Publish failed (after retries): leave the baseline counts untouched
             # so the drop guard still compares against the last GOOD run next time.
             self.logger.error(f"Failed to write output for {country}: {e}")
-            return
+            return CrawlReport(
+                country,
+                published=False,
+                count=len(airports),
+                pdf_count=pdf_count,
+                reason="publish-failed",
+            )
 
         # Only update the recorded counts after a successful publish. The
         # "<CC>::pdf" key rides in the same state file (actions/cache) and is
@@ -368,12 +380,43 @@ class OutputHandler:
         self._last_counts[f"{country.upper()}::pdf"] = pdf_count
         self._save_counts()
         self.logger.info(f"Successfully wrote output for {country}.")
+        return CrawlReport(
+            country, published=True, count=len(airports), pdf_count=pdf_count
+        )
 
     def _facts_endpoint(self) -> str:
         """The /api/airport-facts URL, derived from the airports ingest endpoint
         (they share a host). Strips any query string from api_endpoint first."""
         base = self.settings.api_endpoint.split("?", 1)[0]
         return base.rsplit("/api/", 1)[0] + "/api/airport-facts"
+
+    def _health_endpoint(self) -> str:
+        """The /api/health URL, derived from the airports ingest endpoint (same
+        host + bearer). See docs/health-dashboard-concept.md."""
+        base = self.settings.api_endpoint.split("?", 1)[0]
+        return base.rsplit("/api/", 1)[0] + "/api/health"
+
+    def publish_crawl_health(self, reports: list[CrawlReport]) -> None:
+        """Self-report each country's crawl outcome (ok/fail, counts, duration)
+        to the health dashboard via POST /api/health (category "crawl"). One
+        batched POST per run, reusing the CRON_SECRET bearer. FULLY FAIL-SOFT:
+        a missing endpoint / any error is logged and swallowed - health
+        reporting must never affect the crawl's exit or the airport publish."""
+        if not reports:
+            return
+        rows = build_crawl_metrics(reports, int(time.time()))
+        if not rows:
+            return
+        try:
+            self._send_with_retry(
+                "POST", self._health_endpoint(), rows, "crawl health"
+            )
+            self.logger.info(
+                f"Reported crawl health for {len(reports)} countries "
+                f"({len(rows)} metrics)"
+            )
+        except Exception as e:  # noqa: BLE001 - health reporting never propagates
+            self.logger.warning(f"Failed to report crawl health: {e}")
 
     def publish_hours(
         self,
