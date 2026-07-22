@@ -1,0 +1,22 @@
+# Example cloudflared tunnel config for the health dashboard.
+# Copy to the box (e.g. /etc/cloudflared/config.yml) and adjust the ids/paths.
+#
+# One-time setup (owner):
+#   cloudflared tunnel login
+#   cloudflared tunnel create aip-health
+#   cloudflared tunnel route dns aip-health health.aip.aero
+#   # then run: cloudflared tunnel run aip-health   (as a service / Coolify app)
+#
+# After the tunnel is up, create a Cloudflare Zero Trust > Access > Application
+# on health.aip.aero with a policy that allows ONLY the owner's e-mail. Without
+# that Access policy the subdomain would be publicly reachable through the tunnel.
+
+tunnel: aip-health
+credentials-file: /etc/cloudflared/aip-health.json
+
+ingress:
+  # The dashboard container listens on localhost:8055 (never a public port).
+  - hostname: health.aip.aero
+    service: http://127.0.0.1:8055
+  # Catch-all required by cloudflared.
+  - service: http_status:404

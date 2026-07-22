@@ -1,0 +1,5 @@
+# Health-dashboard app runtime deps (kept separate from the crawler uv project;
+# this is a tiny standalone service deployed on its own in Coolify).
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+httpx>=0.27.0
