@@ -4,6 +4,7 @@ import { after } from "next/server";
 import { getAwcAirport } from "~/lib/awc-airport";
 import { circuitOverride } from "~/lib/circuit-overrides";
 import { customsOverride } from "~/lib/customs-overrides";
+import { factsOverride } from "~/lib/facts-overrides";
 import { resolveOverrideHours } from "~/lib/hours-overrides";
 import { getOpenAipFacts } from "~/lib/openaip";
 import type { StructuredHours } from "~/lib/opening-hours";
@@ -192,6 +193,11 @@ export async function getAirportFacts(
   const code = icao.toUpperCase();
   // Verified override, resolved to the UTC window for the season active now.
   const hoursOv = resolveOverrideHours(code);
+  // Manual override for wrongly-fetched facts (facts-overrides.ts) - applied
+  // over the merged result below, so it WINS over every automatic source and
+  // every consumer (contact box, map link, coordinates, JSON-LD) reads the
+  // corrected value.
+  const ovr = factsOverride(code);
 
   // Fail-soft to the live sources: this must not throw if the D1 row read
   // fails (e.g. migration 0004 not yet applied when the code deploys, or a
@@ -273,6 +279,12 @@ export async function getAirportFacts(
       .filter(Boolean)
       .join("+"),
   };
+  // Apply the manual override LAST so verified values win over every source.
+  // Mutating the merged object keeps a single source of truth for the return
+  // value, the JSON-LD and the enrichment write-back (so a coordinate/address
+  // fix is persisted and the airport-list map marker picks it up too).
+  if (ovr) Object.assign(merged, ovr);
+
   if (isEmpty(merged)) return null;
 
   // Write-back: when the live OpenAIP enrichment is present but the D1 row does
