@@ -242,6 +242,12 @@ export default async function CountryPage(
           recentLabel={tCommon("recentlyViewed")}
           favoritesEmptyLabel={tCommon("favoritesEmpty")}
           recentEmptyLabel={tCommon("recentlyViewedEmpty")}
+          // Gap from the cards above (matches the homepage + the CountryFaq
+          // below, both mt-16). On the component's OWN div so the spacing only
+          // applies once the card actually renders after hydration - the SSR
+          // anchor stays flush, no dead gap. The CTA now sits ABOVE the cards,
+          // so the old "no top margin" reasoning no longer applies here.
+          className="mt-16"
         />
       </div>
 
