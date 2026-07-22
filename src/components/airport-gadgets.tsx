@@ -20,6 +20,7 @@ import { aerodromeTypeLabel } from "~/lib/aerodrome-type";
 import { getAirportFacts } from "~/lib/airport-facts";
 import { contactUrlFor } from "~/lib/contact-link";
 import { forwardGeocode, reverseGeocode } from "~/lib/geocode";
+import { addressOverride } from "~/lib/address-overrides";
 import { getHubLinks } from "~/lib/hub-links";
 import { toOpeningHoursSpecification } from "~/lib/opening-hours";
 import { parseOsmHours } from "~/lib/osm-hours";
@@ -156,13 +157,18 @@ export async function AirportGadgets({
   const factsWithHours = facts
     ? { ...facts, hoursStructured, hoursSource }
     : facts;
+  // A verified per-field address (address-overrides.ts) WINS over the persisted
+  // OSM value and the live reverse-geocode: reverse-geocoding an aerodrome
+  // snaps to the nearest road, which is often not its real postal address.
+  const addrOv = addressOverride(airport.icao);
   const street =
+    addrOv?.street ??
     facts?.street ??
     (geo
       ? [geo.road, geo.houseNumber].filter(Boolean).join(" ") || null
       : null);
-  const postcode = facts?.postcode ?? geo?.postcode ?? null;
-  const city = facts?.municipality ?? geo?.city ?? null;
+  const postcode = addrOv?.postcode ?? facts?.postcode ?? geo?.postcode ?? null;
+  const city = addrOv?.city ?? facts?.municipality ?? geo?.city ?? null;
   // Phone precedence: persisted OSM (facts) > live OSM (geo) > DE AIP AD 2.2 via
   // OCR (last, noisy - strict-validated in extractAd2Phone, DE-only in practice).
   // Computed once here and passed to BOTH the contact box and the Airport
