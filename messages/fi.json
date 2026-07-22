@@ -291,6 +291,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Lentopaikkoja ei löytynyt",
     "openIn": "Avaa palvelussa",
     "homeLink": "AIP:Aero - Ilmailukäsikirjat (AIP) & lähestymiskartat Eurooppaan",
     "lastUpdated": "Viimeksi päivitetty",

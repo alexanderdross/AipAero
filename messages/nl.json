@@ -291,6 +291,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Geen vliegvelden gevonden",
     "openIn": "Openen in",
     "homeLink": "AIP:Aero - Luchtvaartpublicaties (AIP) & aanvliegkaarten voor Europa",
     "lastUpdated": "Laatst bijgewerkt",

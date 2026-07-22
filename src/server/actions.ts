@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { QUERIES } from "~/server/db/queries";
+import type { Airport } from "~/server/db/schema";
 
 const schema = z.object({
   search: z.string().min(1).max(50),
@@ -13,7 +14,16 @@ const schema = z.object({
   type: z.enum(["vfr", "ifr", "heliport", "mil", "aeroport"]),
 });
 
-export async function searchAirports(_prevState: unknown, formData: FormData) {
+// Every search action returns the validated `query` alongside the results, so
+// the client can tell "an actual search completed and matched nothing" (show
+// the no-results note) apart from "nothing searched yet" (show nothing) without
+// a pre-submit flash. Empty `query` = validation failed / not searched.
+export type SearchState = { airports: Airport[]; query: string };
+
+export async function searchAirports(
+  _prevState: unknown,
+  formData: FormData,
+): Promise<SearchState> {
   const validatedFields = schema.safeParse({
     search: formData.get("search"),
     country: formData.get("country"),
@@ -21,9 +31,7 @@ export async function searchAirports(_prevState: unknown, formData: FormData) {
   });
 
   if (!validatedFields.success) {
-    return {
-      airports: [],
-    };
+    return { airports: [], query: "" };
   }
 
   const airports = await QUERIES.airports(
@@ -32,9 +40,7 @@ export async function searchAirports(_prevState: unknown, formData: FormData) {
     validatedFields.data.type,
   );
 
-  return {
-    airports: airports,
-  };
+  return { airports, query: validatedFields.data.search };
 }
 
 const globalSchema = z.object({
@@ -47,13 +53,13 @@ const globalSchema = z.object({
 export async function searchAirportsGlobal(
   _prevState: unknown,
   formData: FormData,
-) {
+): Promise<SearchState> {
   const validated = globalSchema.safeParse({ search: formData.get("search") });
   if (!validated.success) {
-    return { airports: [] };
+    return { airports: [], query: "" };
   }
   const airports = await QUERIES.airportsGlobal(validated.data.search);
-  return { airports };
+  return { airports, query: validated.data.search };
 }
 
 const countrySchema = z.object({
@@ -68,17 +74,17 @@ const countrySchema = z.object({
 export async function searchAirportsCountry(
   _prevState: unknown,
   formData: FormData,
-) {
+): Promise<SearchState> {
   const validated = countrySchema.safeParse({
     search: formData.get("search"),
     country: formData.get("country"),
   });
   if (!validated.success) {
-    return { airports: [] };
+    return { airports: [], query: "" };
   }
   const airports = await QUERIES.airportsCountry(
     validated.data.search,
     validated.data.country,
   );
-  return { airports };
+  return { airports, query: validated.data.search };
 }

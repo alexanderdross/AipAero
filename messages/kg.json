@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Аэродромдор табылган жок",
     "openIn": "Ачуу",
     "homeLink": "AIP:Aero - Европа үчүн Аэронавигациялык маалымат жарыялоолор (AIP) & жакындоо карталары",
     "lastUpdated": "Акыркы жаңыртуу",

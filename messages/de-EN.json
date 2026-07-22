@@ -326,6 +326,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "No airports found",
     "openIn": "Open in",
     "homeLink": "AIP:Aero - Aeronautical Information Publications (AIP) & approach charts for Europe",
     "lastUpdated": "Last updated",

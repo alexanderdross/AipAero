@@ -1,9 +1,14 @@
 "use client";
 
-import { ArrowRightIcon, SearchIcon } from "lucide-react";
+import { ArrowRightIcon, SearchIcon, SearchXIcon } from "lucide-react";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Input } from "~/components/ui/input";
-import { searchAirportsCountry, searchAirportsGlobal } from "~/server/actions";
+import { Skeleton } from "~/components/ui/skeleton";
+import {
+  type SearchState,
+  searchAirportsCountry,
+  searchAirportsGlobal,
+} from "~/server/actions";
 import type { Airport } from "~/server/db/schema";
 
 function useDebounce<T>(value: T, delay: number) {
@@ -37,7 +42,20 @@ const TYPE_LABEL: Record<Airport["type"], string> = {
   aeroport: "Aéroport",
 };
 
-const initialState: { airports: Airport[] } = { airports: [] };
+const initialState: SearchState = { airports: [], query: "" };
+
+// Loading placeholder: a few result-row-shaped skeletons while a query is in
+// flight, so the panel shows immediate feedback (not a bare "..." that reads
+// like an error) and the layout matches the incoming rows.
+function ResultsSkeleton() {
+  return (
+    <div className="space-y-1" aria-hidden="true">
+      {[0, 1, 2].map((i) => (
+        <Skeleton key={i} className="h-11 w-full rounded-lg" />
+      ))}
+    </div>
+  );
+}
 
 /**
  * The site's discovery search: an as-you-type box whose results ALWAYS link to
@@ -57,12 +75,15 @@ const initialState: { airports: Airport[] } = { airports: [] };
  */
 export function AirportSearchBox({
   placeholder,
+  noResultsLabel,
   scope = "global",
   country,
   detailBase,
   readTermFromUrl = scope === "global",
 }: {
   placeholder: string;
+  /** Localized "no airports found" note; omit to render nothing on empty. */
+  noResultsLabel?: string;
   scope?: "global" | "country";
   /** Two-letter country code - required (and hidden-posted) when scope="country". */
   country?: string;
@@ -114,6 +135,19 @@ export function AirportSearchBox({
     formRef.current?.requestSubmit();
   }, [debounced]);
 
+  const results = state.airports;
+  // "A search completed and matched nothing" - distinct from "nothing searched
+  // yet". `state.query` is only set once an action RETURNS, so this never
+  // flashes before the query runs; a newer in-flight query flips `pending`,
+  // which takes precedence (the skeleton shows instead).
+  const showNoResults =
+    !pending &&
+    results.length === 0 &&
+    state.query.length > 0 &&
+    search.trim().length > 0 &&
+    !!noResultsLabel;
+  const showPanel = pending || results.length > 0 || showNoResults;
+
   return (
     <div className="mx-auto max-w-2xl px-4 pb-2 sm:px-6 lg:px-8">
       <form action={formAction} ref={formRef}>
@@ -145,40 +179,58 @@ export function AirportSearchBox({
           {/* Results overlay the content below instead of pushing it down:
               the result rows land after the 250ms debounce + server action,
               often outside the 500ms post-input window CLS excuses, so an
-              in-flow list scores as layout shift. */}
-          {state.airports.length > 0 && (
-            <div className="absolute inset-x-0 top-full z-10 mt-2 rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
-              <ol className="space-y-1">
-                {state.airports.map((airport, i) => (
-                  <li key={i}>
-                    <a
-                      href={detailHref(airport)}
-                      title={`${airport.title} - ${TYPE_LABEL[airport.type]}`}
-                      className="bg-drossblue hover:bg-drossblue-light flex items-center justify-center gap-x-2 rounded-lg px-3 py-2.5 text-white transition-colors"
-                    >
-                      <span>{airport.title}</span>
-                      <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
-                        {TYPE_LABEL[airport.type]}
-                      </span>
-                      {/* The country code is redundant in country scope (all
-                          results share it), so only show it in global scope. */}
-                      {scope === "global" && (
-                        <span className="text-xs uppercase opacity-80">
-                          {airport.country}
-                        </span>
-                      )}
-                      <ArrowRightIcon
-                        className="h-4 w-4 flex-shrink-0"
-                        aria-hidden="true"
-                      />
-                    </a>
-                  </li>
-                ))}
-              </ol>
-              {pending && (
-                <div className="bg-drossblue mt-1 rounded-lg py-2.5 text-center text-white">
-                  ...
-                </div>
+              in-flow list scores as layout shift. The panel shows a skeleton
+              while loading, the results when they land, or a localized
+              "no airports found" note when a search matched nothing. */}
+          {showPanel && (
+            <div
+              className="absolute inset-x-0 top-full z-10 mt-2 rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5"
+              aria-live="polite"
+            >
+              {results.length > 0 ? (
+                <>
+                  <ol className="space-y-1">
+                    {results.map((airport, i) => (
+                      <li key={i}>
+                        <a
+                          href={detailHref(airport)}
+                          title={`${airport.title} - ${TYPE_LABEL[airport.type]}`}
+                          className="bg-drossblue hover:bg-drossblue-light flex items-center justify-center gap-x-2 rounded-lg px-3 py-2.5 text-white transition-colors"
+                        >
+                          <span>{airport.title}</span>
+                          <span className="text-drossblue rounded bg-white px-1.5 py-0.5 text-xs font-semibold tracking-wide">
+                            {TYPE_LABEL[airport.type]}
+                          </span>
+                          {/* The country code is redundant in country scope
+                              (all results share it), so only in global scope. */}
+                          {scope === "global" && (
+                            <span className="text-xs uppercase opacity-80">
+                              {airport.country}
+                            </span>
+                          )}
+                          <ArrowRightIcon
+                            className="h-4 w-4 flex-shrink-0"
+                            aria-hidden="true"
+                          />
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                  {/* A newer query is in flight while old results still show. */}
+                  {pending && (
+                    <Skeleton className="mt-1 h-11 w-full rounded-lg" />
+                  )}
+                </>
+              ) : pending ? (
+                <ResultsSkeleton />
+              ) : (
+                <p className="text-drossgray-dark flex items-center justify-center gap-x-2 px-3 py-3 text-sm">
+                  <SearchXIcon
+                    className="size-4 flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span>{noResultsLabel}</span>
+                </p>
               )}
             </div>
           )}

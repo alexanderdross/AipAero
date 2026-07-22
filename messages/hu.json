@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Nem található repülőtér",
     "openIn": "Megnyitás itt:",
     "homeLink": "AIP:Aero - Légiforgalmi tájékoztató kiadványok (AIP) és megközelítési térképek Európához",
     "lastUpdated": "Utolsó frissítés",

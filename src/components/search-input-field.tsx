@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowRightIcon } from "lucide-react";
+import { ArrowRightIcon, SearchXIcon } from "lucide-react";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Input } from "~/components/ui/input";
-import { searchAirports } from "~/server/actions";
+import { Skeleton } from "~/components/ui/skeleton";
+import { type SearchState, searchAirports } from "~/server/actions";
 import type { Airport } from "~/server/db/schema";
 import { useRouter } from "next/navigation";
 
@@ -20,20 +21,21 @@ function useDebounce(value: string, delay: number) {
   return debouncedValue;
 }
 
-const initialState = {
-  airports: [],
-};
+const initialState: SearchState = { airports: [], query: "" };
 
 export function SearchInputField({
   value,
   title,
   type,
   country,
+  noResultsLabel,
 }: {
   value?: string;
   title: string;
   type: Airport["type"];
   country: string;
+  /** Localized "no airports found" note shown when a search matched nothing. */
+  noResultsLabel?: string;
 }) {
   const [state, formAction, pending] = useActionState(
     searchAirports,
@@ -70,6 +72,19 @@ export function SearchInputField({
     }
   }, [state, router]);
 
+  const results = state.airports;
+  // "A search completed and matched nothing" - distinct from "nothing searched
+  // yet" (`state.query` is only set once the action returns, so it never
+  // flashes before the query runs). A single result self-redirects to its
+  // detail page (no panel); >1 lists.
+  const showNoResults =
+    !pending &&
+    results.length === 0 &&
+    state.query.length > 0 &&
+    search.trim().length > 0 &&
+    !!noResultsLabel;
+  const showPanel = pending || results.length > 1 || showNoResults;
+
   return (
     <>
       <form action={formAction} ref={formRef}>
@@ -100,29 +115,52 @@ export function SearchInputField({
           (`./?<slug>`), NOT straight out to the raw AIP: that keeps the visitor
           on-site (weather / facts / chart-PDF gadgets) and matches the global
           and country landing searches - the external AIP link lives on the
-          detail page itself. */}
-      <div className="absolute left-1/2 z-10 mt-3 w-full max-w-7xl -translate-x-1/2 px-4 text-center text-white sm:px-6 lg:px-8">
-        {state.airports.length > 1 && (
+          detail page itself. While a query is in flight the panel shows a
+          skeleton, and a search that matched nothing shows a localized note. */}
+      <div
+        className="absolute left-1/2 z-10 mt-3 w-full max-w-7xl -translate-x-1/2 px-4 text-center text-white sm:px-6 lg:px-8"
+        aria-live="polite"
+      >
+        {showPanel && (
           <div className="rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5">
-            <ol className="space-y-1">
-              {state.airports.map((airport, index) => (
-                <li key={index}>
-                  <a
-                    href={`./?${airport.slug}`}
-                    title={airport.title}
-                    className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                  >
-                    <span>{airport.title}</span>
-                    <ArrowRightIcon
-                      className="h-5 w-5 flex-shrink-0"
-                      aria-hidden="true"
-                    />
-                  </a>
-                </li>
-              ))}
-            </ol>
-            {pending && (
-              <div className="bg-drossblue mt-1 rounded-lg py-2">...</div>
+            {results.length > 1 ? (
+              <>
+                <ol className="space-y-1">
+                  {results.map((airport, index) => (
+                    <li key={index}>
+                      <a
+                        href={`./?${airport.slug}`}
+                        title={airport.title}
+                        className="bg-drossblue hover:bg-drossblue-light focus-visible:ring-drossblue flex w-full items-center justify-center gap-x-2 rounded-lg px-4 py-2.5 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                      >
+                        <span>{airport.title}</span>
+                        <ArrowRightIcon
+                          className="h-5 w-5 flex-shrink-0"
+                          aria-hidden="true"
+                        />
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+                {/* A newer query is in flight while old results still show. */}
+                {pending && (
+                  <Skeleton className="mt-1 h-11 w-full rounded-lg" />
+                )}
+              </>
+            ) : pending ? (
+              <div className="space-y-1" aria-hidden="true">
+                {[0, 1, 2].map((i) => (
+                  <Skeleton key={i} className="h-11 w-full rounded-lg" />
+                ))}
+              </div>
+            ) : (
+              <p className="text-drossgray-dark flex items-center justify-center gap-x-2 px-4 py-3 text-sm">
+                <SearchXIcon
+                  className="size-4 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                <span>{noResultsLabel}</span>
+              </p>
             )}
           </div>
         )}

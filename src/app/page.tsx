@@ -396,7 +396,10 @@ export default async function RootPage() {
           {/* Hero: headline plus the global cross-country search as the
               primary call to action. */}
           <Hero title={rootTitle} description={rootDescription}>
-            <AirportSearchBox placeholder="Search any airport across Europe by name or ICAO code" />
+            <AirportSearchBox
+              placeholder="Search any airport across Europe by name or ICAO code"
+              noResultsLabel="No airports found"
+            />
           </Hero>
 
           {/* Trust strip */}

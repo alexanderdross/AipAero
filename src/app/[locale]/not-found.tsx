@@ -11,12 +11,16 @@ import { getPathname, type Locale } from "~/i18n/routing";
 export default async function NotFound() {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations("NotFound");
+  const tCommon = await getTranslations("Common");
   return (
     <div className="bg-drossgray flex h-full flex-col items-center justify-center gap-4 px-4 py-16 text-center">
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       <p className="text-drossgray-dark">{t("description")}</p>
       <div className="w-full max-w-2xl">
-        <AirportSearchBox placeholder={t("searchPlaceholder")} />
+        <AirportSearchBox
+          placeholder={t("searchPlaceholder")}
+          noResultsLabel={tCommon("noResults")}
+        />
       </div>
       <Link
         href={getPathname({ href: "/", locale })}

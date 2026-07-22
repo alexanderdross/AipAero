@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "No se han encontrado aeródromos",
     "openIn": "Abrir en",
     "homeLink": "AIP:Aero - Publicaciones de información aeronáutica (AIP) y cartas de aproximación para Europa",
     "lastUpdated": "Última actualización",

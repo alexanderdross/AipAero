@@ -15,7 +15,10 @@ export default function NotFound() {
           airport instead:
         </p>
         <div className="w-full max-w-2xl">
-          <AirportSearchBox placeholder="Search any airport by name or ICAO code" />
+          <AirportSearchBox
+            placeholder="Search any airport by name or ICAO code"
+            noResultsLabel="No airports found"
+          />
         </div>
         <Link href="/" className="text-drossblue underline hover:no-underline">
           Back to the home page

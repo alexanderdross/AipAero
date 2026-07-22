@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Engir flugvellir fundust",
     "openIn": "Opna í",
     "homeLink": "AIP:Aero - Flugmálahandbækur (AIP) og aðflugskort fyrir Evrópu",
     "lastUpdated": "Síðast uppfært",

@@ -291,6 +291,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Ingen flyvepladser fundet",
     "openIn": "Åbn i",
     "homeLink": "AIP:Aero - Luftfartspublikationer (AIP) & anflyvningskort for Europa",
     "lastUpdated": "Senest opdateret",

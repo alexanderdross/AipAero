@@ -261,6 +261,7 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "noResults": "Օդանավակայաններ չեն գտնվել",
     "openIn": "Բացել",
     "homeLink": "AIP:Aero - Օդագնացության տեղեկատվության հրապարակումներ (AIP) և մոտեցման քարտեզներ Եվրոպայի համար",
     "lastUpdated": "Վերջին թարմացումը",
