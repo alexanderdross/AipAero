@@ -239,3 +239,59 @@ def test_collect_pdf_hours_soft_no_hours_and_on_error(crawler, monkeypatch):
     monkeypatch.setattr(crawler, "pdf_text", _boom)
     crawler.collect_pdf_hours("LYYY", "http://x/f.pdf")  # must not raise
     assert "LYYY" not in crawler.hours_by_icao
+
+
+# ----- collect_pdf_hours OCR plausibility guard ------------------------------
+
+
+def _win(o, c):
+    return {"kind": "window", "open": {"t": "time", "m": o}, "close": {"t": "time", "m": c}}
+
+
+def test_collect_pdf_hours_guards_all_implausible_ocr_windows(crawler, monkeypatch):
+    # OCR fallback fired and every day is a 5-minute window -> the guard empties
+    # them all -> None -> nothing published (no false "open" badge).
+    bad = [_win(600, 605) for _ in range(7)]
+
+    def _pdf_text(url):
+        crawler._last_pdf_ocr = True
+        return "text"
+
+    monkeypatch.setattr(crawler, "pdf_text", _pdf_text)
+    monkeypatch.setattr(_heb, "ad23_hours", lambda text: bad)
+    crawler.collect_pdf_hours("LGRP", "http://x/scan.pdf")
+    assert "LGRP" not in crawler.hours_by_icao
+    assert "LGRP" not in crawler.hours_source_by_icao
+
+
+def test_collect_pdf_hours_guards_only_the_bad_day(crawler, monkeypatch):
+    # A plausible MON window survives; a degenerate SUN window is dropped to
+    # unknown, and the field still publishes as pdf-ocr-hours.
+    hrs = (
+        [_win(480, 1200)]
+        + [{"kind": "unknown"} for _ in range(5)]
+        + [_win(600, 601)]
+    )
+
+    def _pdf_text(url):
+        crawler._last_pdf_ocr = True
+        return "text"
+
+    monkeypatch.setattr(crawler, "pdf_text", _pdf_text)
+    monkeypatch.setattr(_heb, "ad23_hours", lambda text: hrs)
+    crawler.collect_pdf_hours("LGKO", "http://x/scan.pdf")
+    stored = crawler.hours_by_icao["LGKO"]
+    assert stored[0] == _win(480, 1200)  # plausible kept
+    assert stored[6] == {"kind": "unknown"}  # degenerate dropped
+    assert crawler.hours_source_by_icao["LGKO"] == "pdf-ocr-hours"
+
+
+def test_collect_pdf_hours_clean_text_is_not_guarded(crawler, monkeypatch):
+    # Clean text-layer PDF (no OCR): a >20h window the OCR guard WOULD drop is
+    # trusted as-is - a legit long window must not become a false negative.
+    longwin = [_win(30, 1430) for _ in range(7)]  # ~23h20 span
+    monkeypatch.setattr(crawler, "pdf_text", lambda url: "text")
+    monkeypatch.setattr(_heb, "ad23_hours", lambda text: longwin)
+    crawler._last_pdf_ocr = False
+    crawler.collect_pdf_hours("LEXX", "http://x/f.pdf")
+    assert crawler.hours_by_icao["LEXX"] == longwin  # unguarded, kept intact

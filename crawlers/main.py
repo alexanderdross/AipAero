@@ -231,8 +231,11 @@ def main(countries: list[str] | None = None):
                 except Exception as e:
                     logger.warning(f"{country}: AD-2 OCR collection failed: {e}")
         except Exception as e:
-            # Per-country isolation: log and continue with the next crawler.
-            logger.error(f"Error in crawler {crawler.country}: {e}")
+            # Per-country isolation: log (with traceback, for markup-drift
+            # diagnosis) and continue with the next crawler.
+            logger.error(
+                f"Error in crawler {crawler.country}: {e}", exc_info=True
+            )
 
 
 if __name__ == "__main__":

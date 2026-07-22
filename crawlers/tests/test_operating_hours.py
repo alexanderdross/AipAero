@@ -7,6 +7,7 @@ sides (OpenAIP backfill / eAIP AD 2.3 crawler <-> website) agree on the shape.
 from __future__ import annotations
 
 from crawlers.operating_hours import (
+    guard_ocr_hours,
     parse_ad23_text,
     parse_openaip_hours,
     to_json,
@@ -94,3 +95,40 @@ def test_to_json_roundtrip():
     js = to_json(s)
     assert js is not None and '"kind":"window"' in js
     assert to_json(None) is None
+
+
+# ---- guard_ocr_hours (OCR plausibility backstop) -----------------------------
+
+SS = {"t": "ss"}  # solar close boundary
+
+
+def test_guard_drops_implausibly_short_window():
+    # Day 0 is a 10-min window (dropped); day 1 is plausible (kept) so the whole
+    # set is not emptied to None.
+    hrs = [WIN(T(600), T(610)), WIN(T(480), T(1200))] + [
+        {"kind": "unknown"} for _ in range(5)
+    ]
+    guarded = guard_ocr_hours(hrs)
+    assert guarded[0] == {"kind": "unknown"}  # short window dropped
+    assert guarded[1] == WIN(T(480), T(1200))  # plausible survives
+
+
+def test_guard_drops_near_24h_window_all_days_then_none():
+    hrs = [WIN(T(0), T(1439)) for _ in range(7)]  # ~24h but not H24 -> unknown
+    assert guard_ocr_hours(hrs) is None  # every day emptied -> no false badge
+
+
+def test_guard_keeps_plausible_and_solar_windows():
+    hrs = [WIN(T(480), T(1200))] + [WIN(T(480), SS) for _ in range(6)]
+    guarded = guard_ocr_hours(hrs)
+    assert guarded[0] == WIN(T(480), T(1200))  # plausible fixed kept
+    assert guarded[1] == WIN(T(480), SS)  # solar boundary always kept
+
+
+def test_guard_keeps_h24_and_closed_days():
+    hrs = [{"kind": "h24"}, {"kind": "closed"}] + [{"kind": "unknown"} for _ in range(5)]
+    assert guard_ocr_hours(hrs)[:2] == [{"kind": "h24"}, {"kind": "closed"}]
+
+
+def test_guard_none_stays_none():
+    assert guard_ocr_hours(None) is None

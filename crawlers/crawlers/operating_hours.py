@@ -196,6 +196,60 @@ def parse_ad23_text(text: object) -> StructuredHours | None:
     return [d if d is not None else {"kind": "unknown"} for d in days]
 
 
+# ---- OCR plausibility guard ---------------------------------------------------
+
+# Plausibility bounds for a FIXED-time window that came from an OCR'd (image-only)
+# source. A digit slip (e.g. "0500-2100" mis-read as "0500-0100", or a few-minute
+# span) must never publish a confident "open" window. Solar (SR/SS) boundaries
+# resolve astronomically at read time and always pass. Shared by the DFS AD-2 OCR
+# path (de_hours) and the generic image-only-PDF OCR path
+# (HttpCrawlerBase.collect_pdf_hours) so every OCR-derived hours set gets the same
+# safety backstop.
+_MIN_WINDOW_MINUTES = 30  # a genuine AD window is at least this long
+_MAX_WINDOW_MINUTES = 20 * 60  # longer, yet not "H24", is a likely mis-read
+
+
+def _is_time_boundary(b: object) -> bool:
+    return isinstance(b, dict) and b.get("t") == "time"
+
+
+def _guard_day(dh: DayHours) -> DayHours:
+    """One day, or ``{"kind": "unknown"}`` when a fixed window is implausible
+    (degenerate / wrapped / too short / near-24h-but-not-H24). Non-window days
+    and solar-bounded windows pass through untouched."""
+    if dh.get("kind") != "window":
+        return dh
+    o, c = dh.get("open"), dh.get("close")
+    if not (_is_time_boundary(o) and _is_time_boundary(c)):
+        return dh  # a SR/SS boundary - resolved at read time, always plausible
+    om, cm = o.get("m"), c.get("m")
+    if not (isinstance(om, int) and isinstance(cm, int)):
+        return {"kind": "unknown"}
+    if not 0 <= om < cm <= 1440:
+        return {"kind": "unknown"}  # degenerate / wrapped / out of range
+    span = cm - om
+    if span < _MIN_WINDOW_MINUTES or span > _MAX_WINDOW_MINUTES:
+        return {"kind": "unknown"}  # implausibly short, or near-24h yet not H24
+    return dh
+
+
+def guard_ocr_hours(hours: StructuredHours | None) -> StructuredHours | None:
+    """Drop implausible fixed windows from OCR-derived hours day-by-day; ``None``
+    stays ``None``. When the guard empties every day to ``unknown`` it returns
+    ``None`` so the field publishes NO hours (no false badge) rather than an
+    asserted mis-read.
+
+    Apply ONLY to OCR sources: clean eAIP text is authoritative, and a legitimate
+    long window (e.g. 0400-2359) must not be dropped here as a false negative.
+    """
+    if hours is None:
+        return None
+    guarded = [_guard_day(d) for d in hours]
+    if all(d.get("kind") == "unknown" for d in guarded):
+        return None
+    return guarded
+
+
 def to_json(hours: StructuredHours | None) -> str | None:
     """Serialise StructuredHours for POSTing to the website (or None)."""
     return None if hours is None else json.dumps(hours, separators=(",", ":"))

@@ -192,3 +192,23 @@ def test_pair_without_anchors_in_title_is_skipped_then_section_empty(parser: _Co
     )
     with pytest.raises(ValueError, match="No airports"):
         parser.extract_airports_from_html(html, _BASE_URL, "AD-2details", "vfr")
+
+
+# ----- dedup ------------------------------------------------------------------
+
+
+def test_duplicate_icao_in_section_is_dropped(parser: _Concrete):
+    # A menu that lists the same field twice must yield ONE row (first wins),
+    # not a duplicate - the API delete+reinsert has no unique constraint.
+    html = _menu(
+        """
+        <div><a href='ad/EHAM.html'>EHAM AMSTERDAM</a></div>
+        <div><div><a href='c/EHAM-1.pdf'>c</a></div></div>
+        <div><a href='ad/EHAM.html'>EHAM AMSTERDAM DUP</a></div>
+        <div><div><a href='c/EHAM-2.pdf'>c</a></div></div>
+        """
+    )
+    airports = parser.extract_airports_from_html(html, _BASE_URL, "AD-2details", "vfr")
+    assert [a.icao for a in airports] == ["EHAM"]
+    # First occurrence wins.
+    assert airports[0].url.endswith("EHAM-1.pdf")

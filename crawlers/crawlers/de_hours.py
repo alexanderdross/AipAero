@@ -16,10 +16,12 @@ Normalised quirks:
   * ``SS+030`` / ``MAX 1900`` solar-offset tails -> reduced to the bare ``SS``;
   * OCR dash/equals glyphs ``-`` ``=`` -> a plain hyphen.
 
-A plausibility guard (``_guard``) then drops any FIXED-time window that a digit
-slip could have produced - degenerate / wrapped, implausibly short (< 30 min) or
-near-24h-yet-not-``H24`` - to ``unknown`` before publishing, so an OCR mis-read
-never asserts a confident "open" window. Solar (SR/SS) windows always pass.
+The shared plausibility guard (``operating_hours.guard_ocr_hours``) then drops any
+FIXED-time window that a digit slip could have produced - degenerate / wrapped,
+implausibly short (< 30 min) or near-24h-yet-not-``H24`` - to ``unknown`` before
+publishing, so an OCR mis-read never asserts a confident "open" window. Solar
+(SR/SS) windows always pass. The generic image-only-PDF OCR path
+(``HttpCrawlerBase.collect_pdf_hours``) applies the same guard.
 
 Best-effort + fail-soft: returns ``None`` whenever nothing confidently parseable
 is found (a field that does not parse simply shows no badge on the website).
@@ -35,7 +37,11 @@ from __future__ import annotations
 
 import re
 
-from crawlers.operating_hours import StructuredHours, parse_ad23_text
+from crawlers.operating_hours import (
+    StructuredHours,
+    guard_ocr_hours,
+    parse_ad23_text,
+)
 
 _DAYS = "MON|TUE|WED|THU|FRI|SAT|SUN"
 # The AD 2.3 region: from the "AD 2.3" marker to the next AD section ("AD 2.4").
@@ -55,48 +61,6 @@ _CLAUSE_RE = re.compile(
 )
 _RANGE_RE = re.compile(rf"({_DAYS})\s*[-–—=]\s*({_DAYS})", re.I)
 _SINGLE_DAY_RE = re.compile(rf"{_DAYS}|DAILY|DLY", re.I)
-
-# Plausibility bounds for a FIXED-time window (OCR mis-read guard, item PR A/2).
-# A digit slip in the OCR (e.g. "0500-2100" read as "0500-0100", or a duration
-# of a few minutes) must never publish a confident "open" window. Solar (SR/SS)
-# boundaries resolve astronomically at read time and are always kept.
-_MIN_WINDOW_MINUTES = 30  # a genuine AD window is at least this long
-_MAX_WINDOW_MINUTES = 20 * 60  # longer, yet not "H24", is a likely mis-read
-
-
-def _is_time_boundary(b: object) -> bool:
-    return isinstance(b, dict) and b.get("t") == "time"
-
-
-def _plausible_day(dh: dict) -> dict:
-    """A parsed day, or ``{"kind": "unknown"}`` when a fixed window is
-    implausible (degenerate / too short / near-24h-but-not-H24). Non-window
-    days and solar-bounded windows pass through untouched."""
-    if dh.get("kind") != "window":
-        return dh
-    o, c = dh.get("open"), dh.get("close")
-    if not (_is_time_boundary(o) and _is_time_boundary(c)):
-        return dh  # a SR/SS boundary - resolved at read time, always plausible
-    om, cm = o.get("m"), c.get("m")
-    if not (isinstance(om, int) and isinstance(cm, int)):
-        return {"kind": "unknown"}
-    if not 0 <= om < cm <= 1440:
-        return {"kind": "unknown"}  # degenerate / wrapped / out of range
-    span = cm - om
-    if span < _MIN_WINDOW_MINUTES or span > _MAX_WINDOW_MINUTES:
-        return {"kind": "unknown"}  # implausibly short, or near-24h yet not H24
-    return dh
-
-
-def _guard(hours: StructuredHours | None) -> StructuredHours | None:
-    """Reject implausible fixed windows day-by-day; None stays None. When the
-    guard empties every day to ``unknown``, publish nothing (no false badge)."""
-    if hours is None:
-        return None
-    guarded = [_plausible_day(d) for d in hours]
-    if all(d.get("kind") == "unknown" for d in guarded):
-        return None
-    return guarded
 
 
 def _slice_operator_hours(text: str) -> str | None:
@@ -169,4 +133,5 @@ def parse_de_hours(text: object) -> StructuredHours | None:
     # Guard against OCR digit slips before the hours drive a live badge: an
     # implausible fixed window (degenerate / a few minutes / near-24h yet not
     # H24) is dropped to `unknown` rather than asserted (owner safety directive).
-    return _guard(parse_ad23_text(segments if segments else norm))
+    # Shared with the generic image-only-PDF OCR path (guard_ocr_hours).
+    return guard_ocr_hours(parse_ad23_text(segments if segments else norm))

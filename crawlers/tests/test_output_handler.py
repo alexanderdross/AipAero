@@ -26,12 +26,15 @@ def _handler() -> OutputHandler:
 
 
 class _FakeResp:
+    status_code = 200
+
     def raise_for_status(self) -> None:
         pass
 
 
 class _FakeClient:
-    """Captures the PATCH json instead of sending it."""
+    """Captures the request json instead of sending it (via client.request,
+    which OutputHandler._send_with_retry uses for both POST and PATCH)."""
 
     captured: dict = {}
 
@@ -44,8 +47,8 @@ class _FakeClient:
     def __exit__(self, *args) -> bool:
         return False
 
-    def patch(self, url, json, headers):  # noqa: A002 - mirrors httpx signature
-        _FakeClient.captured = {"url": url, "json": json}
+    def request(self, method, url, json, headers):  # noqa: A002 - httpx signature
+        _FakeClient.captured = {"method": method, "url": url, "json": json}
         return _FakeResp()
 
 
