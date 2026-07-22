@@ -5,6 +5,7 @@ import { Fragment } from "react";
 import { AboutBox } from "~/components/about-box";
 import { Box } from "~/components/box";
 import { AirportSearchBox } from "~/components/airport-search-box";
+import { FavoritesRecent } from "~/components/favorites-recent";
 import Footer from "~/components/footer";
 import { Hero } from "~/components/hero";
 import { Header } from "~/components/header";
@@ -67,6 +68,9 @@ export async function generateMetadata(
 
 export default async function RootPage() {
   setRequestLocale("uk");
+
+  // English (uk) labels for the client-only Favorites/Recently-viewed card.
+  const tCommon = await getTranslations("Common");
 
   // Only live countries appear in the SiteNavigation JSON-LD (hidden countries
   // must not be advertised to crawlers while their pages are empty).
@@ -485,6 +489,22 @@ export default async function RootPage() {
                 />
               ))}
             </div>
+          </div>
+
+          {/* Favorites / recently viewed (client-only, localStorage) for
+              returning pilots, so their saved fields are reachable straight from
+              the homepage - not only after picking a country. Rendered BELOW the
+              country grid so its post-hydration appearance stays below the
+              initial fold and never shifts the indexable hero/cards (same CLS
+              discipline as the country landing page). Renders nothing in the SSR
+              HTML (personal data), so SEO/LCP are untouched. */}
+          <div id="favorites" className="mt-16 scroll-mt-24">
+            <FavoritesRecent
+              favoritesLabel={tCommon("favorites")}
+              recentLabel={tCommon("recentlyViewed")}
+              favoritesEmptyLabel={tCommon("favoritesEmpty")}
+              recentEmptyLabel={tCommon("recentlyViewedEmpty")}
+            />
           </div>
 
           {/* FAQ: visible text + matching FAQPage JSON-LD from ONE array

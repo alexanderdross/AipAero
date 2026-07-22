@@ -101,7 +101,11 @@ export function SearchInputField({
           value={search ?? value}
           onChange={(e) => onChange(e)}
           autoComplete="off"
-          autoFocus
+          // Autofocus ONLY on the base search view (no prefilled value). On an
+          // airport-detail page the box is seeded with the field's ICAO, where
+          // stealing focus (and popping the mobile keyboard) is disruptive - the
+          // visitor came to read the chart/gadgets, not to search.
+          autoFocus={!value}
           // ARIA combobox with a listbox popup (WAI-ARIA APG). The result rows
           // are real <a> links reached by Tab - no arrow-key model (deliberate).
           // The popup only shows for >1 result (a single result self-redirects),
