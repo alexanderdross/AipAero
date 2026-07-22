@@ -94,3 +94,32 @@ test("per-country search panel overlays content without shifting layout", async 
   const after = await footerDocY(page);
   expect(Math.abs(after - before)).toBeLessThan(2);
 });
+
+// The homepage Favorites/Recently-viewed card is client-only (localStorage) and
+// appears post-hydration. It must stay BELOW the initial fold so that
+// insertion never shifts above-the-fold (indexable) content = no CLS.
+test("homepage favorites card (returning visitor) renders below the fold", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "aip-offline-saved",
+      JSON.stringify([{ url: "/de/vfr/?EDNY", title: "Friedrichshafen EDNY" }]),
+    );
+  });
+  await page.goto("/");
+  const link = page.getByRole("link", { name: "Friedrichshafen EDNY" });
+  await expect(link).toBeVisible();
+  const box = await link.boundingBox();
+  const vh = page.viewportSize()?.height ?? 720;
+  expect(box?.y ?? 0).toBeGreaterThan(vh);
+});
+
+// First-time visitors (empty localStorage) get NO favorites card at all
+// (hideWhenEmpty) - no DOM insertion, no shift, no dead gap.
+test("homepage shows no favorites card for first-time visitors", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: "Favorites" })).toHaveCount(0);
+});

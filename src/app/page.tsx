@@ -496,16 +496,19 @@ export default async function RootPage() {
               the homepage - not only after picking a country. Rendered BELOW the
               country grid so its post-hydration appearance stays below the
               initial fold and never shifts the indexable hero/cards (same CLS
-              discipline as the country landing page). Renders nothing in the SSR
-              HTML (personal data), so SEO/LCP are untouched. */}
-          <div id="favorites" className="mt-16 scroll-mt-24">
-            <FavoritesRecent
-              favoritesLabel={tCommon("favorites")}
-              recentLabel={tCommon("recentlyViewed")}
-              favoritesEmptyLabel={tCommon("favoritesEmpty")}
-              recentEmptyLabel={tCommon("recentlyViewedEmpty")}
-            />
-          </div>
+              discipline as the country landing page). `hideWhenEmpty` renders
+              nothing for first-time visitors (no card, no shift, no dead gap);
+              the `mt-16` spacing lives on the component so it applies only when
+              the card actually renders. Never in the SSR DOM (personal data),
+              so SEO/LCP stay untouched. */}
+          <FavoritesRecent
+            hideWhenEmpty
+            className="mt-16"
+            favoritesLabel={tCommon("favorites")}
+            recentLabel={tCommon("recentlyViewed")}
+            favoritesEmptyLabel={tCommon("favoritesEmpty")}
+            recentEmptyLabel={tCommon("recentlyViewedEmpty")}
+          />
 
           {/* FAQ: visible text + matching FAQPage JSON-LD from ONE array
               (never markup-only - Google requires the schema to mirror
