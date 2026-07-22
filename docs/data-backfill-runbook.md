@@ -6,25 +6,25 @@ nearest-station weather fallback all key off them. As of the AWC/NOAA source
 (below), small airfields like **EDFY Elz** already get coordinates / elevation /
 runways / frequencies **out of the box, with no setup at all** - so the facts
 card, the crosswind box and the per-field weather work on a bare deploy. This
-runbook adds the two *optional* sources on top: OurAirports (bulk, powers the
+runbook adds the two _optional_ sources on top: OurAirports (bulk, powers the
 airport-list map + town/website) and OpenAIP (fuel / PPR / hours / circuit).
 
 ---
 
 ## The three data sources
 
-| Source | Coverage | Cost / effort | Licence |
-| --- | --- | --- | --- |
-| **AWC / NOAA** (`airport` endpoint, per-ICAO at request time) | any ICAO with an entry (coords, elevation, runways, frequencies) | **none - always on, no key, no importer** | US Gov public domain |
-| **OurAirports importer** (bulk → D1 `airport_facts`) | ~all airfields of the 12 countries, cached | run `import_ourairports.py` once + weekly | CC0 (public domain) |
-| **OpenAIP** (per-ICAO, at request time) | any looked-up ICAO | set `OPENAIP_API_KEY` secret | CC BY-NC-SA (**non-commercial**) |
+| Source                                                        | Coverage                                                         | Cost / effort                             | Licence                          |
+| ------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------- | -------------------------------- |
+| **AWC / NOAA** (`airport` endpoint, per-ICAO at request time) | any ICAO with an entry (coords, elevation, runways, frequencies) | **none - always on, no key, no importer** | US Gov public domain             |
+| **OurAirports importer** (bulk → D1 `airport_facts`)          | ~all airfields of the 12 countries, cached                       | run `import_ourairports.py` once + weekly | CC0 (public domain)              |
+| **OpenAIP** (per-ICAO, at request time)                       | any looked-up ICAO                                               | set `OPENAIP_API_KEY` secret              | CC BY-NC-SA (**non-commercial**) |
 
 The website already **combines** all three: `getAirportFacts(icao)` merges them
 per field - shared physical facts (coordinates / elevation / runways /
 frequencies) take the first non-empty of **OpenAIP → OurAirports → AWC**, while
 unique fields go to their only source (fuel / PPR / hours → OpenAIP; town /
 website → OurAirports). AWC is the always-on floor, so nothing below is required
-for a working card - it only *adds* coverage. Recommendation: **run the
+for a working card - it only _adds_ coverage. Recommendation: **run the
 OurAirports importer** to light up the airport-list map + town/website; add an
 OpenAIP key later only if you want the extra fields and have cleared the
 non-commercial licence (no AdSense).
@@ -86,11 +86,12 @@ wrangler d1 migrations apply DB --remote
 By default the website reverse-geocodes the address **live** (OpenStreetMap /
 Nominatim) on the first request per field, then caches it 30 days. To store it in
 D1 instead - so it is a fast DB read and always in the SSR HTML + Airport JSON-LD
-- run the importer with `GEOCODE=1`. It reverse-geocodes every field (street /
-postcode / phone) at **max 1 request/second** (Nominatim policy), so a full run
-takes ~30-60 min.
 
-**Easiest path:** GitHub → Actions → *Airport facts import* → *Run workflow* →
+- run the importer with `GEOCODE=1`. It reverse-geocodes every field (street /
+  postcode / phone) at **max 1 request/second** (Nominatim policy), so a full run
+  takes ~30-60 min.
+
+**Easiest path:** GitHub → Actions → _Airport facts import_ → _Run workflow_ →
 check the **geocode** input. Locally / manually instead:
 
 ```bash
@@ -103,6 +104,22 @@ does **not** erase previously persisted addresses or OpenAIP enrichment: the
 upsert preserves existing enrichment columns when the incoming value is null
 (`COALESCE` in `MUTATIONS.upsertAirportFacts` - null means "don't know", never
 a verified absence).
+
+### A.2c - Manual override for a wrongly-fetched fact (`facts-overrides.ts`)
+
+When an automatic source is simply wrong for one field (not just missing), the
+importer can't help - reverse-geocoding an aerodrome, for example, snaps to the
+nearest road, so EDPE resolved to "Fritz-Rindfleisch-Allee" instead of the
+official "Flugplatz 1", and its stored coordinates sat ~250 m off. Correct such
+cases in **`src/lib/facts-overrides.ts`**: a per-ICAO `Partial` of the
+overridable `NormalizedFacts` fields (coordinates, elevation, street/postcode/
+municipality, phone, website, aerodrome type, PPR, restaurant, fuel, runways,
+frequencies) that WINS over every automatic source at read time (applied in
+`getAirportFacts`), and persists on the next enrichment write-back so the
+airport-list map marker picks it up too. Verify against an authoritative source
+(the operator's listing / the field's AD 2) before adding - a wrong override
+overrides the (possibly correct) automatic value. Hours / customs / circuit
+direction have their own dedicated override files (special merge semantics).
 
 ### A.3 - Verify
 
@@ -208,7 +225,7 @@ re-querying OpenAIP for all ~3k fields:
 
 The importer runs on the self-hosted Actions runner, so the key must be a
 GitHub **repository** secret named exactly `OPENAIP_API_KEY` (same value as the
-Worker secret from B.2) - NOT an *environment* secret (the job sets no
+Worker secret from B.2) - NOT an _environment_ secret (the job sets no
 `environment:`). Verify it resolves: a dry-run whose env prints
 `OPENAIP_API_KEY:` **blank** (not `***`) means the secret is missing/misnamed.
 
