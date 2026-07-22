@@ -67,6 +67,7 @@ from crawlers.uk import UK
 from crawlers.uz import UZ
 from crawlers.xk import XK
 from crawlers.http_eurocontrol_base import HttpEurocontrolBase
+from health.crawl_report import CrawlReport
 from output_handler import OutputHandler
 from settings import Settings
 
@@ -168,14 +169,18 @@ def main(countries: list[str] | None = None):
         f"{', '.join(c.country for c in crawlers)}"
     )
     output_handler = OutputHandler(settings)
+    # Accumulate one CrawlReport per country, POSTed to /api/health at the end
+    # (category "crawl") so the health dashboard shows successful/failed crawls.
+    reports: list[CrawlReport] = []
     for crawler in crawlers:
         logger.info(f"Starting crawler: {crawler.country}")
+        # `start` is set before the try so the except path can still time the run.
+        start = perf_counter()
+        country = crawler.country
         try:
             # Time the scrape purely for the run log; then publish this
             # country's airports before moving on to the next crawler.
-            start = perf_counter()
             airports = crawler.crawl()
-            country = crawler.country
             end = perf_counter()
             logger.info(f"Finished crawling {country} in {end - start:.2f} seconds")
             # Collect the AUTHORITATIVE eAIP AD 2.3 operation hours for every
@@ -191,9 +196,11 @@ def main(countries: list[str] | None = None):
             # `crawler.airac` is set only by crawlers that know their edition
             # date but store date-less URLs (DE); None for everyone else, where
             # the website derives the edition from the airport URLs.
-            output_handler.write_output(
+            report = output_handler.write_output(
                 airports, country, airac=crawler.airac
             )
+            report.duration_s = perf_counter() - start
+            reports.append(report)
             # Publish AUTHORITATIVE eAIP AD 2.3 operation hours + AD 2.13
             # declared distances, when the crawler collected them (PATCH,
             # source="eaip"; empty for crawlers that read neither). Fields whose
@@ -236,6 +243,19 @@ def main(countries: list[str] | None = None):
             logger.error(
                 f"Error in crawler {crawler.country}: {e}", exc_info=True
             )
+            # Record the failure for the health dashboard (crawl_ok = 0).
+            reports.append(
+                CrawlReport(
+                    country,
+                    published=False,
+                    reason="crawl-error",
+                    duration_s=perf_counter() - start,
+                )
+            )
+
+    # Self-report every country's crawl outcome to the health dashboard in one
+    # batched POST (fully fail-soft; never affects the crawl or its exit code).
+    output_handler.publish_crawl_health(reports)
 
 
 if __name__ == "__main__":
