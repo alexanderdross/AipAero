@@ -687,12 +687,24 @@ export const MUTATIONS = {
     // first publish (empty result) from a read failure (skip the detail ping
     // then, so a transient error never floods IndexNow with the whole country).
     let existingKeys: { type: Airport["type"]; slug: string }[] = [];
+    let previousAirac: string | null = null;
     let snapshotOk = true;
     try {
       existingKeys = await db
         .select({ type: airports.type, slug: airports.slug })
         .from(airports)
         .where(eq(airports.country, country));
+      // Also read the previously stored edition (AIRAC) so we can tell a genuine
+      // edition rollover (new charts/dates on the SAME airfields) apart from a
+      // no-op re-crawl - the former must still re-submit the country's pages.
+      previousAirac =
+        (
+          await db
+            .select({ airac: crawlMeta.airac })
+            .from(crawlMeta)
+            .where(eq(crawlMeta.country, country))
+            .limit(1)
+        )[0]?.airac ?? null;
     } catch {
       snapshotOk = false;
     }
@@ -739,29 +751,40 @@ export const MUTATIONS = {
     // across every country on every run.)
     revalidateTag(countryTag(country));
 
-    // Ping IndexNow (Bing + partners) ONLY when this country's airport set
-    // actually changed - the detail pages of airfields that appeared or
-    // disappeared vs the snapshot (added: index now; removed: re-crawl to see
-    // the 404), plus the landing + list pages that frame them. A no-op crawl
-    // (same airfields, e.g. only the stand date moved) pings NOTHING: firing
-    // all ~19 countries on every daily crawl flooded api.indexnow.org into
-    // HTTP 429 (observed live 14.07.2026), and routine freshness is already
-    // carried by the per-country sitemap lastmod. A genuine first publish has
-    // an empty snapshot, so every airfield counts as "added" -> non-empty ->
-    // it still pings. Off the response path via waitUntil (the crawler POST
-    // returns immediately), fully fail-soft (no-op without INDEXNOW_KEY;
-    // 429/503 retried with jittered backoff; see src/lib/indexnow.ts +
-    // docs/indexnow-concept.md).
+    // Ping IndexNow (Bing + partners) when this country's pages actually
+    // changed. Two triggers:
+    //  1. The airport SET changed - airfields appeared/disappeared vs the
+    //     snapshot (added: index now; removed: re-crawl to see the 404).
+    //  2. The EDITION rolled over - the AIRAC/edition date changed, which
+    //     re-dates the stand line, the AIRAC line and (for date-in-URL sources)
+    //     every chart URL, so the landing, list AND every detail page's visible
+    //     content changed even though the airfield set is identical. On an
+    //     edition roll we therefore resubmit the WHOLE country once (all current
+    //     detail pages), which is what Bing WMT flagged as missing (23.07.2026:
+    //     the AIRAC-cycle landing/list/detail pages were never submitted because
+    //     the old code only compared type/slug identity).
+    // A true no-op crawl (same airfields AND same edition, e.g. only the crawl
+    // timestamp moved) still pings NOTHING - firing all ~50 countries on every
+    // daily crawl is what flooded api.indexnow.org into HTTP 429 (14.07.2026),
+    // and routine freshness is carried by the per-country sitemap lastmod. A
+    // genuine first publish has an empty snapshot, so every airfield counts as
+    // "added" -> non-empty -> it still pings. Off the response path via
+    // waitUntil (the crawler POST returns immediately), fully fail-soft (no-op
+    // without INDEXNOW_KEY; 429/503 retried with jittered backoff; see
+    // src/lib/indexnow.ts + docs/indexnow-concept.md).
     const key = (a: { type: Airport["type"]; slug: string }) =>
       `${a.type}:${a.slug}`;
     const oldKeys = new Set(existingKeys.map(key));
     const newKeys = new Set(input.map(key));
-    const changedDetails = snapshotOk
-      ? [
-          ...input.filter((a) => !oldKeys.has(key(a))),
-          ...existingKeys.filter((a) => !newKeys.has(key(a))),
-        ].map((a) => ({ type: a.type, slug: a.slug }))
-      : [];
+    const editionChanged = snapshotOk && previousAirac !== airac;
+    const changedDetails = !snapshotOk
+      ? []
+      : editionChanged
+        ? input.map((a) => ({ type: a.type, slug: a.slug }))
+        : [
+            ...input.filter((a) => !oldKeys.has(key(a))),
+            ...existingKeys.filter((a) => !newKeys.has(key(a))),
+          ].map((a) => ({ type: a.type, slug: a.slug }));
     if (changedDetails.length > 0) {
       try {
         const { ctx } = await getCloudflareContext({ async: true });

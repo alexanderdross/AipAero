@@ -146,6 +146,30 @@ Ergaenzend gegen den Bing-WMT-"Sitemap veraltet"-Hinweis: die Sitemap-`lastmod`
 (`QUERIES.crawlUpdatedAt`, country-getaggt) statt dem Build-Datum, bewegt sich
 also taeglich mit dem Crawl.
 
+## Edition-Rollover-Fix (23.07.2026, nach dem Bing-WMT-Hinweis)
+
+Bing WMT meldete 24 "kuerzlich veroeffentlichte wichtige Seiten, die nicht
+ueber IndexNow eingereicht wurden" - Country-Landing-, Listen-, Detail- und
+eine Basis-Suchseite (`/is/en/vfr/`). Ursache waren zwei Luecken im Phase-3-Gate:
+
+1. **AIRAC-/Editions-Wechsel wurde nicht erkannt.** `changedDetails` verglich nur
+   die (type, slug)-Identitaet, also NUR neu hinzugekommene/weggefallene
+   Plaetze. Ein Editions-Re-Crawl (gleiche Flugplaetze, neue AIRAC/Charts/Daten)
+   liess `changedDetails` leer -> KEIN Ping, obwohl Landing, Liste UND jede
+   Detailseite ihren sichtbaren Inhalt (Stand-Datum, AIRAC-Zeile, bei
+   Datum-in-URL-Quellen jede Chart-URL) geaendert haben. **Fix:**
+   `insertAirports` liest jetzt die zuletzt gespeicherte `crawl_meta.airac` VOR
+   dem Batch mit; bei einem Editions-Wechsel (`previousAirac !== airac`) werden
+   ALLE aktuellen Detailseiten des Landes EINMAL neu eingereicht (plus Landing +
+   Liste + Suchseiten). Ein echter No-Op (gleiche Plaetze UND gleiche Edition)
+   pingt weiterhin GAR NICHTS - der 429-Schutz bleibt, weil das nur ~alle 28
+   Tage pro Land feuert, nicht taeglich.
+2. **Basis-Suchseiten fehlten komplett.** `countryChangeUrls` sendete nur `/` und
+   `/airport-list`, nie die Suchseiten (`/vfr`, `/ifr`, ...). **Fix:** die
+   Basis-Suchseiten werden aus `countryTypeAvailability` (nativ + EN) abgeleitet
+   und mitgesendet, sodass die frisch veroeffentlichten Seiten eines neu
+   gelaunchten Landes (`/is/en/vfr/`) eingereicht werden.
+
 ## Phasen
 
 | Phase | Inhalt | Gate |
@@ -154,6 +178,7 @@ also taeglich mit dem Crawl.
 | 1 | `indexnow.ts` + `INDEXNOW_KEY` var + Hook in `insertAirports` (Landing + Liste, nativ + EN, via waitUntil, fail-soft) - **GEBAUT 14.07.2026** | Live-Crawl-POST loest sichtbaren Submit aus (WMT IndexNow-Report) |
 | 2 | Diff-basierte Detailseiten-Submits (neu/entfallen) - **GEBAUT 14.07.2026** | Live-Crawl mit tatsaechlichem Diff |
 | 3 | Rate-Limit-Fix: Ping nur bei Diff + 429/503-Retry mit Jitter-Backoff - **GEBAUT 14.07.2026** | Voller Tages-Crawl ohne 429 im Worker-Log |
+| 4 | Editions-Wechsel loest Voll-Land-Submit aus + Basis-Suchseiten im Set - **GEBAUT 23.07.2026** | AIRAC-Zyklus reicht Landing/Liste/Detail/Suchseiten nach (WMT-Report leert sich) |
 
 **Phase-1-Umsetzung (14.07.2026):** `src/lib/indexnow.ts`
 (`submitCountryToIndexNow`), `INDEXNOW_KEY` als `var` in `wrangler.jsonc`
