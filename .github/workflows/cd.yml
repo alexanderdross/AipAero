@@ -81,6 +81,56 @@ jobs:
       - name: Deploy (OpenNext → Cloudflare)
         run: pnpm exec opennextjs-cloudflare deploy
 
+      # Nach dem Deploy den Cloudflare-Cache leeren, um Cross-Build-Chunk-Skew zu
+      # verhindern. OpenNext serviert vorgerenderte Seiten aus dem R2-Incremental-
+      # Cache PLUS einer per-Colo-Cache-API-Schicht (open-next.config.ts:
+      # withRegionalCache "long-lived" + enableCacheInterception). Beide sind nach
+      # ROUTE-PFAD gekeyt, nicht nach Build-ID. Ein neuer Deploy vergibt neue
+      # `_next/static`-Chunk-Hashes und entfernt die alten; die per-Colo-Schicht
+      # liefert danach aber weiter das HTML/RSC des VORIGEN Builds, das auf die nun
+      # fehlenden Chunks zeigt -> Client-Crash "Cannot read properties of undefined
+      # (reading 'call')" + "Failed to fetch RSC payload" auf den Startseiten.
+      # `purge_everything` leert die Edge-/Cache-API-Schicht; danach kommen die
+      # Seiten frisch aus dem (bereits neuen) R2, und der Refresh-Schitt darunter
+      # waermt sie off-path nach. Fail-soft: ein Purge-Fehler darf den Deploy nie
+      # abbrechen (ISR + Refresh heilen ohnehin, nur langsamer).
+      # Voraussetzung: `CLOUDFLARE_API_TOKEN` mit der Permission "Cache Purge"
+      # (Zone aip.aero). Zone-ID: Secret `CLOUDFLARE_ZONE_ID`, sonst aus dem
+      # Zonennamen hergeleitet (Token braucht dafuer zusaetzlich Zone:Read).
+      - name: Purge Cloudflare cache (avoid cross-build chunk skew)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "::warning::CLOUDFLARE_API_TOKEN not set - skipping cache purge"
+            exit 0
+          fi
+          zone="$CLOUDFLARE_ZONE_ID"
+          if [ -z "$zone" ]; then
+            # Zone-ID aus dem Namen herleiten (Token braucht Zone:Read). Die erste
+            # 32-hex "id" in der Antwort ist die Zone-ID (result[0].id).
+            zone=$(curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              "https://api.cloudflare.com/client/v4/zones?name=aip.aero" \
+              | grep -oE '"id":"[0-9a-f]{32}"' | head -1 \
+              | sed -E 's/.*"([0-9a-f]{32})".*/\1/') || true
+          fi
+          if [ -z "$zone" ]; then
+            echo "::warning::Could not resolve Cloudflare zone id (set CLOUDFLARE_ZONE_ID secret, or grant the token Zone:Read) - skipping cache purge"
+            exit 0
+          fi
+          code=$(curl -sS -o /tmp/purge.out -w '%{http_code}' -X POST \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}' \
+            "https://api.cloudflare.com/client/v4/zones/$zone/purge_cache") || code=000
+          echo "Purge HTTP $code:"; cat /tmp/purge.out 2>/dev/null || true; echo
+          if [ "$code" = "200" ]; then
+            echo "Cloudflare cache purged (purge_everything) - no stale prior-build HTML."
+          else
+            echo "::warning::Cloudflare cache purge failed (HTTP $code) - stale chunks may surface until ISR/refresh heal; check the token's Cache Purge permission"
+          fi
+
       # Die DB-Listen sind vom Leer-Seed AUSGENOMMEN (Schritt oben) - sie
       # behalten also ihre gefuellten R2-Eintraege ueber den Deploy. Dieser
       # Refresh bustet die country-Tags (`/api/revalidate`), damit die Listen
