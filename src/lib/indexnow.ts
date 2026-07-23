@@ -5,11 +5,7 @@ import {
   type Locale,
   type Pathnames,
 } from "~/i18n/routing";
-import {
-  countryTypeAvailability,
-  i18nPathMapping,
-  orgUrl,
-} from "~/lib/utils";
+import { countryTypeAvailability, i18nPathMapping, orgUrl } from "~/lib/utils";
 import type { Airport } from "~/server/db/schema";
 
 // IndexNow (https://www.indexnow.org): one POST notifies Bing + the partner
