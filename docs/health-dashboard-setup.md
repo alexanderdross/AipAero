@@ -130,41 +130,104 @@ fail-soft: eine nicht konfigurierte Quelle wird still uebersprungen.
   OurAirports-Importer (`docs/data-backfill-runbook.md`):
   Command `cd /app/crawlers && uv run health_collector.py`, Cron `*/15 * * * *`.
 
-## 8. Dashboard-App in Coolify deployen
+## 8. Dashboard-App in Coolify deployen (Klick fuer Klick)
 
-- [ ] Neue Coolify-App aus dem Ordner `dashboard/` bauen (Dockerfile).
-- [ ] Env-Secrets der App:
+Die App liegt im Repo unter `dashboard/` (eigenes `Dockerfile`, lauscht auf Port
+`8055`). Wir deployen sie als Docker-App und binden den Port NUR an `127.0.0.1` -
+erreichbar wird sie erst ueber den Tunnel (Schritt 9).
+
+- [ ] **8.1 Neue Ressource anlegen:** Coolify -> dein **Project** -> Environment
+  **production** -> **+ New Resource** -> **Application** ->
+  **Private Repository (with GitHub App)** (oder Public Repository), Repo
+  `alexanderdross/aipaero`, Branch `main`.
+  (Alternativ **Dockerfile**-Quelle, falls du das Repo lokal auf der Box hast.)
+- [ ] **8.2 Build-Einstellungen** (Tab *General* / *Build*):
+  - **Build Pack:** `Dockerfile`
+  - **Base Directory:** `/dashboard`
+  - **Dockerfile Location:** `/dashboard/Dockerfile` (bzw. relativ `Dockerfile`,
+    wenn Base Directory schon `/dashboard` ist)
+- [ ] **8.3 Port intern + NUR localhost** (Tab *Network*):
+  - **Ports Exposes:** `8055`
+  - **Ports Mappings:** `127.0.0.1:8055:8055`
+    (bindet den Host-Port ausschliesslich an localhost -> nicht oeffentlich)
+  - **KEINE** Domain / kein FQDN eintragen (sonst wuerde Coolifys Proxy sie
+    oeffentlich machen). Zugriff kommt allein ueber den Tunnel.
+- [ ] **8.4 Env-Secrets** (Tab *Environment Variables*), als **Secret** markiert:
   ```
   HEALTH_API_BASE=https://aip.aero
   HEALTH_API_KEY=<CRON_SECRET>
   ```
-- [ ] Container-Port `8055` NUR an `127.0.0.1` binden - **kein oeffentlicher Port**.
-  Erreichbarkeit kommt ausschliesslich ueber den Tunnel (Schritt 9).
-- [ ] Lokal auf der Box pruefen:
+- [ ] **8.5 Deploy** klicken; Build-Log abwarten (Status *running:healthy*).
+- [ ] **8.6 Auf der Box pruefen:**
   ```bash
   curl -s http://127.0.0.1:8055/healthz   # -> {"ok":true}
   ```
 
-## 9. Cloudflare Tunnel + Access (Subdomain)
+## 9. Cloudflare Tunnel + Access (Subdomain, Klick fuer Klick)
 
-- [ ] `cloudflared` auf der Box installieren (falls noch nicht) und den Tunnel anlegen:
+Wir betreiben `cloudflared` als **systemd-Service** auf der Box (laeuft dauerhaft,
+startet nach Reboot automatisch). Alternative als Coolify-App siehe 9.7.
+
+- [ ] **9.1 cloudflared installieren** (falls noch nicht; Debian/Ubuntu):
+  ```bash
+  curl -L https://pkg.cloudflare.com/cloudflare-main.gpg \
+    | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+  echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] \
+    https://pkg.cloudflare.com/cloudflared any main" \
+    | sudo tee /etc/apt/sources.list.d/cloudflared.list
+  sudo apt update && sudo apt install -y cloudflared
+  ```
+- [ ] **9.2 Bei Cloudflare anmelden** (oeffnet einen Browser-Link, dort die Zone
+  `aip.aero` autorisieren):
   ```bash
   cloudflared tunnel login
+  ```
+- [ ] **9.3 Tunnel anlegen** (schreibt eine Credentials-JSON nach
+  `~/.cloudflared/<TUNNEL-UUID>.json`):
+  ```bash
   cloudflared tunnel create aip-health
+  ```
+- [ ] **9.4 DNS-Route (CNAME) anlegen:**
+  ```bash
   cloudflared tunnel route dns aip-health health.aip.aero
   ```
-- [ ] Config aus `dashboard/cloudflared-config.example.yml` uebernehmen (Ingress
-  `health.aip.aero -> http://127.0.0.1:8055`) und den Tunnel als Service /
-  Coolify-App starten:
+- [ ] **9.5 Config + Credentials nach `/etc/cloudflared/` legen:**
   ```bash
-  cloudflared tunnel run aip-health
+  sudo mkdir -p /etc/cloudflared
+  # Credentials der Box-weit verfuegbaren Stelle bekannt machen:
+  sudo cp ~/.cloudflared/<TUNNEL-UUID>.json /etc/cloudflared/aip-health.json
+  # Config aus der Repo-Vorlage uebernehmen und anpassen:
+  sudo cp dashboard/cloudflared-config.example.yml /etc/cloudflared/config.yml
   ```
-- [ ] **Cloudflare Zero Trust -> Access -> Applications -> Add** (Self-hosted):
-  - Application domain: `health.aip.aero`
-  - Policy: **Allow**, Selector **Emails** = deine Owner-E-Mail(s).
-  - Session-Dauer nach Geschmack (z.B. 24 h).
-  - WICHTIG: **Erst nach dieser Policy ist die Subdomain live** - vorher waere sie
-    ueber den Tunnel oeffentlich erreichbar.
+  In `/etc/cloudflared/config.yml` muss stehen (die Vorlage passt bereits):
+  ```yaml
+  tunnel: aip-health
+  credentials-file: /etc/cloudflared/aip-health.json
+  ingress:
+    - hostname: health.aip.aero
+      service: http://127.0.0.1:8055
+    - service: http_status:404
+  ```
+- [ ] **9.6 Als systemd-Service installieren + starten:**
+  ```bash
+  sudo cloudflared service install
+  sudo systemctl enable --now cloudflared
+  systemctl status cloudflared        # sollte "active (running)" zeigen
+  ```
+- [ ] **9.7 (Alternative statt 9.6) als Coolify-App:** eine neue Docker-Image-App
+  `cloudflare/cloudflared:latest`, Command
+  `tunnel --config /etc/cloudflared/config.yml run`, mit `config.yml` +
+  `aip-health.json` als gemountete Files/Volumes. systemd (9.6) ist einfacher.
+- [ ] **9.8 Cloudflare Access davor** (macht die Subdomain nicht-oeffentlich):
+  **Cloudflare Zero Trust -> Access -> Applications -> Add an application ->
+  Self-hosted**:
+  - **Application name:** `AIP Health`
+  - **Session Duration:** z.B. `24 hours`
+  - **Application domain:** Subdomain `health`, Domain `aip.aero`
+  - **Next -> Add policy:** Name `owner`, **Action: Allow**, Include ->
+    Selector **Emails** = deine Owner-E-Mail(s).
+  - Speichern. **WICHTIG:** Erst nach dieser Policy ist die Subdomain geschuetzt -
+    vorher waere sie ueber den Tunnel oeffentlich erreichbar.
 
 ## 10. Verifikation (End-to-End)
 
