@@ -1,6 +1,11 @@
 import { env } from "~/env";
-import { getPathname, isSingleLocale, type Locale } from "~/i18n/routing";
-import { i18nPathMapping, orgUrl } from "~/lib/utils";
+import {
+  getPathname,
+  isSingleLocale,
+  type Locale,
+  type Pathnames,
+} from "~/i18n/routing";
+import { countryTypeAvailability, i18nPathMapping, orgUrl } from "~/lib/utils";
 import type { Airport } from "~/server/db/schema";
 
 // IndexNow (https://www.indexnow.org): one POST notifies Bing + the partner
@@ -30,12 +35,20 @@ function countryLocales(country: string): Locale[] {
   ) as Locale[];
 }
 
-/** Country landing + airport-list pages (native + EN) - the URLs that VISIBLY
- *  change on every crawl (stand date, list contents). */
+/** Country landing + airport-list + the country's base search pages (native +
+ *  EN) - the non-detail URLs that VISIBLY change when a country republishes
+ *  (stand date, list contents, and, on a launch, the freshly published search
+ *  pages). The base search pages (`/vfr`, `/ifr`, ...) derive from
+ *  `countryTypeAvailability` so a newly launched country's pages are submitted
+ *  too (the `/is/en/vfr/` gap, Bing WMT 23.07.2026). */
 function countryChangeUrls(country: string): string[] {
   const urls: string[] = [];
+  const searchHrefs = (
+    countryTypeAvailability[country.toLowerCase()] ?? []
+  ).map((type) => i18nPathMapping[type]);
+  const hrefs: Pathnames[] = ["/", "/airport-list", ...searchHrefs];
   for (const locale of countryLocales(country)) {
-    for (const href of ["/", "/airport-list"] as const) {
+    for (const href of hrefs) {
       urls.push(
         new URL(
           trailingSlash(getPathname({ href, locale })),
