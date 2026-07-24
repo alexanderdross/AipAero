@@ -160,3 +160,49 @@ markup). Roll out one country at a time; nothing breaks while `pdf_url` is null.
    is HTML today and that have the most traffic)?
 
 Once decided, Stage 1 can ship in one small PR; Stage 2 proceeds per country.
+
+---
+
+## Runbook: audit + close the remaining chart-PDF gaps (runner-gated)
+
+The sandboxed agent has **no egress**, so per-country chart-PDF coverage and the
+markup-specific extraction regexes can only be established from the **self-hosted
+runner** via `crawler-live-test.yml` (`workflow_dispatch`). The old "7 scrapers
+without `pdf_url`" list (ES, GR, RO, MK, CY, LT, BG) is **stale** - do not treat
+it as the work list:
+
+- **BG is gated** (BULATSA b-flip is login/WAF-walled) - it is an OurAirports
+  info-page with **no chart crawl by design**. Exclude it.
+- **ES / GR / CY already emit direct PDF `url`s** (ES AD-2 PDFs, GR's `AIP-menu`
+  PDF links, CY's `charts/VFR_CHART_<ICAO>.pdf`), so they need **no**
+  `FETCH_PDF_URLS` and already reported ~100% chart coverage in the 14.07.2026
+  audit. Re-confirm before touching them.
+- The genuine candidates to check are the remaining real scrapers whose `url`
+  points at an HTML chapter (e.g. **RO, MK, LT**) - but which actually have a gap
+  is a **live-coverage question**, not answerable from the source tree.
+
+**Step 1 - audit current coverage (runner).** Dispatch `crawler-live-test.yml`
+with `countries: "es gr ro mk cy lt"` (BG excluded). The publish path logs a
+per-country `pdf_url coverage` line; that tells you which countries actually have
+a gap. (No inputs beyond `countries` are needed for the coverage read.)
+
+**Step 2 - reconnaissance for a country WITH a gap (runner).** Dispatch with
+`pdf_recon: true` and `countries: "<cc>"`. It fetches the first few airports'
+chart pages and lists the PDF links found, so you can see the href/text markup.
+
+**Step 3 - wire it (verified, in-repo).** From the recon output, in that
+crawler set `FETCH_PDF_URLS = True` plus `PDF_HREF_PRIORITY` / `PDF_TEXT_PRIORITY`
+regexes that select the VAC/ADC chart over data sheets - mirror the shipped
+`pt.py` / `hu.py` / `si.py` / `fi.py` patterns. Paste the Step-2 recon output
+back here and it can be wired verified (never guess a regex - a wrong one
+captures the wrong PDF or none).
+
+**Step 4 - verify (runner).** Re-run Step 1 for that country and confirm the
+`pdf_url coverage` line rose; `pytest` the crawler's unit test locally
+(`title.endswith(icao)` + any pattern assertions). Ship one country per PR.
+
+NOTAM hand-off links and additional border-crossing forms follow the SAME
+runner-gated shape: their URL patterns must be content-verified via `check_urls`
+/ `dump_content` from the runner first (the old autorouter `/airport/<ICAO>` was
+a status-200 soft-404), then wired as VERIFIED-only entries - never best-effort
+(a wrong link is a compliance/safety hazard).

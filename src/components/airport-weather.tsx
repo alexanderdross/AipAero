@@ -117,7 +117,7 @@ export function AirportWeather({
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
         <SectionHeading
-          className="text-xl font-normal"
+          className="text-xl font-semibold tracking-tight"
           linkTitle={icao ? `${t("title")} - ${icao}` : t("title")}
         >
           {t("title")}
