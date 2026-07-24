@@ -54,6 +54,14 @@ def test_sparkline_flat_series_is_midline():
     assert "12.0" in svg  # height 24 -> mid 12
 
 
+def test_sparkline_has_value_tooltip():
+    # native <title> carries min/max/last so hovering shows the actual values
+    svg = app.sparkline_svg([1.0, 5.0, 3.0], status="ok")
+    assert "<title>min 1, max 5, last 3 (3 Werte)</title>" in svg
+    one = app.sparkline_svg([42.0])
+    assert "<title>min 42, max 42, last 42 (1 Werte)</title>" in one
+
+
 def test_fmt_bytes_and_units():
     assert app._fmt(1536, "bytes") == "1.5 KB"
     assert app._fmt(42, "pct") == "42 %"

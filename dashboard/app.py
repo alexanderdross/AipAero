@@ -224,6 +224,11 @@ def sparkline_svg(
     lo, hi = min(values), max(values)
     span = hi - lo
     inner_h = height - 2 * pad
+    # Native SVG <title> = a no-JS hover tooltip carrying the actual values, so
+    # the sparkline shows range/last-value, not just a shape (the "no values /
+    # no tooltip" gap). Plain text, floats only -> no escaping concern.
+    tip = f"min {lo:g}, max {hi:g}, last {values[-1]:g} ({n} Werte)"
+    title = f"<title>{tip}</title>"
 
     def y(v: float) -> float:
         if span == 0:
@@ -234,7 +239,7 @@ def sparkline_svg(
         cy = y(values[0])
         return (
             f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
-            f'style="vertical-align:middle">'
+            f'style="vertical-align:middle">{title}'
             f'<circle cx="{width - pad:.1f}" cy="{cy:.1f}" r="2" fill="{color}"/></svg>'
         )
 
@@ -244,7 +249,7 @@ def sparkline_svg(
     lx, ly = pts[-1]
     return (
         f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
-        f'style="vertical-align:middle">'
+        f'style="vertical-align:middle">{title}'
         f'<polyline fill="none" stroke="{color}" stroke-width="1.5" '
         f'stroke-linejoin="round" stroke-linecap="round" points="{poly}"/>'
         f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="2" fill="{color}"/></svg>'

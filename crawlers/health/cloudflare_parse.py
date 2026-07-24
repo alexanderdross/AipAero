@@ -29,6 +29,15 @@ def _num(x: Any) -> Optional[float]:
         return None
 
 
+def _worse_status(value: float, warn: float, crit: float) -> str:
+    """ok/warn/crit for a metric where higher = worse (>= crit crit, >= warn warn)."""
+    if value >= crit:
+        return "crit"
+    if value >= warn:
+        return "warn"
+    return "ok"
+
+
 def _rows(data: Any, container: str, dataset: str) -> list[dict[str, Any]]:
     """viewer.<container>[0].<dataset> as a list of row dicts, defensively."""
     try:
@@ -84,14 +93,16 @@ def parse_workers(data: Any) -> list[Metric]:
         req = _num(s.get("requests"))
         err = _num(s.get("errors"))
         if req and req > 0 and err is not None:
+            rate = err / req
             out.append(
                 Metric(
                     "cloudflare",
                     "worker_error_rate",
-                    round(err / req, 5),
+                    round(rate, 5),
                     "ratio",
                     scope=scope,
-                    status="ok" if err / req < 0.01 else "warn",
+                    # < 1% ok, < 5% warn, >= 5% crit (previously never reached crit).
+                    status=_worse_status(rate, 0.01, 0.05),
                 )
             )
         _emit(
@@ -153,14 +164,16 @@ def parse_traffic(data: Any) -> list[Metric]:
     return out
 
 
-# RUM Web-Vitals quantile fields we surface, mapped to metric names. Data-driven
+# RUM Web-Vitals quantile fields we surface, mapped to metric names + the
+# Core-Web-Vitals good/needs-improvement/poor thresholds (warn, crit) so the
+# Vitals tile is actionable (needs-improvement -> warn, poor -> crit). Data-driven
 # so a field the account/schema does not expose is simply skipped.
-_VITALS_FIELDS: list[tuple[str, str, str]] = [
-    ("largestContentfulPaintP75", "lcp_p75", "ms"),
-    ("firstContentfulPaintP75", "fcp_p75", "ms"),
-    ("firstInputDelayP75", "fid_p75", "ms"),
-    ("interactionToNextPaintP75", "inp_p75", "ms"),
-    ("cumulativeLayoutShiftP75", "cls_p75", "ratio"),
+_VITALS_FIELDS: list[tuple[str, str, str, float, float]] = [
+    ("largestContentfulPaintP75", "lcp_p75", "ms", 2500, 4000),
+    ("firstContentfulPaintP75", "fcp_p75", "ms", 1800, 3000),
+    ("firstInputDelayP75", "fid_p75", "ms", 100, 300),
+    ("interactionToNextPaintP75", "inp_p75", "ms", 200, 500),
+    ("cumulativeLayoutShiftP75", "cls_p75", "ratio", 0.1, 0.25),
 ]
 
 
@@ -176,10 +189,15 @@ def parse_vitals(data: Any) -> list[Metric]:
     out: list[Metric] = []
     scope = "site"
     q = row.get("quantiles") if isinstance(row.get("quantiles"), dict) else {}
-    for field, metric, unit in _VITALS_FIELDS:
+    for field, metric, unit, warn, crit in _VITALS_FIELDS:
         v = _num(q.get(field))
         if v is not None:
-            out.append(Metric("vitals", metric, v, unit, scope=scope))
+            out.append(
+                Metric(
+                    "vitals", metric, v, unit, scope=scope,
+                    status=_worse_status(v, warn, crit),
+                )
+            )
     cnt = _num(row.get("count"))
     if cnt is not None:
         out.append(Metric("vitals", "pageload_samples", cnt, "count", scope=scope))

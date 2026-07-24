@@ -51,14 +51,24 @@ def test_parse_workers_happy_path():
     assert m["worker_error_rate"].status == "ok"
 
 
-def test_parse_workers_high_error_rate_warns():
+def test_parse_workers_error_rate_warns():
     data = {
         "data": {"viewer": {"accounts": [{"workersInvocationsAdaptive": [
-            {"dimensions": {"scriptName": "aip-aero"}, "sum": {"requests": 100, "errors": 5}, "quantiles": {}}
+            {"dimensions": {"scriptName": "aip-aero"}, "sum": {"requests": 100, "errors": 2}, "quantiles": {}}
         ]}]}}
     }
     m = _by_metric(parse_workers(data))
-    assert m["worker_error_rate"].status == "warn"  # 5% >= 1%
+    assert m["worker_error_rate"].status == "warn"  # 2% in [1%, 5%)
+
+
+def test_parse_workers_error_rate_crit():
+    data = {
+        "data": {"viewer": {"accounts": [{"workersInvocationsAdaptive": [
+            {"dimensions": {"scriptName": "aip-aero"}, "sum": {"requests": 100, "errors": 7}, "quantiles": {}}
+        ]}]}}
+    }
+    m = _by_metric(parse_workers(data))
+    assert m["worker_error_rate"].status == "crit"  # 7% >= 5%
 
 
 def test_parse_workers_zero_requests_no_rate():
@@ -109,11 +119,31 @@ def test_parse_vitals_reads_p75_quantiles():
     m = _by_metric(parse_vitals(data))
     assert m["lcp_p75"].value == 2100.0
     assert m["lcp_p75"].category == "vitals"
+    assert m["lcp_p75"].status == "ok"  # 2100 < 2500 good
     assert m["fcp_p75"].value == 900.0
+    assert m["fcp_p75"].status == "ok"  # 900 < 1800 good
     assert m["cls_p75"].value == 0.03
+    assert m["cls_p75"].status == "ok"  # 0.03 < 0.1 good
     assert m["pageload_samples"].value == 1234
+    assert m["pageload_samples"].status is None  # sample count is not a health metric
     # fields the account didn't expose are simply absent (defensive)
     assert "inp_p75" not in m
+
+
+def test_parse_vitals_classifies_poor_cwv():
+    data = {
+        "data": {"viewer": {"accounts": [{"rumPerformanceEventsAdaptiveGroups": [
+            {"count": 10, "quantiles": {
+                "largestContentfulPaintP75": 4200.0,  # > 4000 poor
+                "interactionToNextPaintP75": 300.0,    # in [200, 500) needs-improvement
+                "cumulativeLayoutShiftP75": 0.05,       # < 0.1 good
+            }}
+        ]}]}}
+    }
+    m = _by_metric(parse_vitals(data))
+    assert m["lcp_p75"].status == "crit"
+    assert m["inp_p75"].status == "warn"
+    assert m["cls_p75"].status == "ok"
 
 
 # --- d1 --------------------------------------------------------------------
