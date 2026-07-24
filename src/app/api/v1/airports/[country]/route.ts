@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { env } from "~/env";
-import { API_CORS, apiKeyError } from "~/lib/api-auth";
+import { API_CORS, authorizeApiRequest } from "~/lib/api-auth";
 import { liveCountries } from "~/lib/utils";
 import { QUERIES } from "~/server/db/queries";
 
@@ -18,7 +18,11 @@ export async function GET(
   req: Request,
   ctx: { params: Promise<{ country: string }> },
 ): Promise<Response> {
-  const err = apiKeyError(req.headers.get("Authorization"), env.PUBLIC_API_KEY);
+  const err = await authorizeApiRequest(
+    req.headers.get("Authorization"),
+    env.PUBLIC_API_KEY,
+    (hash) => QUERIES.apiKeyActive(hash),
+  );
   if (err) {
     return NextResponse.json(
       { error: err.error },

@@ -35,6 +35,7 @@ import {
   crawlMeta,
   healthMetrics,
   analytics,
+  apiKeys,
 } from "./schema";
 
 // Cache lifetime for the read queries (seconds). The AIP data only changes when
@@ -632,6 +633,33 @@ export const QUERIES = {
         err instanceof Error ? err.message : String(err),
       );
       return [];
+    }
+  },
+
+  /**
+   * Public-API auth: is there an ACTIVE per-partner key with this SHA-256 hash?
+   * Uncached on purpose - an auth check must reflect a just-revoked key
+   * immediately, and it is one indexed lookup on a tiny table. Fail-soft to
+   * `false` (a DB hiccup denies the partner key; the bootstrap env key path is
+   * unaffected) - the caller additionally guards with `.catch`.
+   */
+  apiKeyActive: async function (keyHash: string): Promise<boolean> {
+    if (IS_BUILD) return false;
+    const db = await getDb();
+    if (!db) return false;
+    try {
+      const rows = await db
+        .select({ id: apiKeys.id })
+        .from(apiKeys)
+        .where(and(eq(apiKeys.keyHash, keyHash), eq(apiKeys.active, true)))
+        .limit(1);
+      return rows.length > 0;
+    } catch (err) {
+      console.error(
+        "apiKeyActive read failed:",
+        err instanceof Error ? err.message : String(err),
+      );
+      return false;
     }
   },
 };
