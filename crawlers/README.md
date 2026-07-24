@@ -161,8 +161,10 @@ Logs go to stdout and to `crawlers.log`. On failures, the crawlers persist the l
 
 Besides the country crawlers, `import_ourairports.py` populates the website's
 embedded aerodrome-facts card (runways / frequencies / coordinates / elevation).
-It downloads the public-domain OurAirports CSVs, filters them to the 12 covered
-countries, and POSTs normalized per-ICAO rows to `POST /api/airport-facts` (same
+It downloads the public-domain OurAirports CSVs, filters them to every covered
+country's ISO code (the ~50 live countries, gated in CI by
+`check-live-countries-coverage.mjs`), and POSTs normalized per-ICAO rows to
+`POST /api/airport-facts` (same
 `CRON_SECRET` Bearer auth as the crawlers). The website merges these with OpenAIP
 at request time when `OPENAIP_API_KEY` is set. This is **not** a country crawler
 and is not run by `main.py`.

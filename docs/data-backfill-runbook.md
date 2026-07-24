@@ -16,7 +16,7 @@ airport-list map + town/website) and OpenAIP (fuel / PPR / hours / circuit).
 | Source                                                        | Coverage                                                         | Cost / effort                             | Licence                          |
 | ------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------- | -------------------------------- |
 | **AWC / NOAA** (`airport` endpoint, per-ICAO at request time) | any ICAO with an entry (coords, elevation, runways, frequencies) | **none - always on, no key, no importer** | US Gov public domain             |
-| **OurAirports importer** (bulk → D1 `airport_facts`)          | ~all airfields of the 12 countries, cached                       | run `import_ourairports.py` once + weekly | CC0 (public domain)              |
+| **OurAirports importer** (bulk → D1 `airport_facts`)          | ~all airfields of every live country (~50), cached               | run `import_ourairports.py` once + weekly | CC0 (public domain)              |
 | **OpenAIP** (per-ICAO, at request time)                       | any looked-up ICAO                                               | set `OPENAIP_API_KEY` secret              | CC BY-NC-SA (**non-commercial**) |
 
 The website already **combines** all three: `getAirportFacts(icao)` merges them
@@ -35,7 +35,8 @@ non-commercial licence (no AdSense).
 
 Runs on the **crawler host in Coolify** (same place the country crawlers run) -
 NOT on the Cloudflare Worker. It downloads the public-domain OurAirports CSVs,
-filters them to the 12 countries, and POSTs per-ICAO facts to
+filters them to every live country's ISO code (~50, gated in CI by
+`check-live-countries-coverage.mjs`), and POSTs per-ICAO facts to
 `POST https://aip.aero/api/airport-facts` (Bearer `CRON_SECRET`).
 
 ### A.1 - Make sure the crawler app has the latest code

@@ -143,8 +143,8 @@ Haelt `HEALTH_API_KEY` (= `CRON_SECRET`) serverseitig, liest `GET /api/health`
 (letzte 24 h), gruppiert je Kategorie den letzten Wert pro Metrik + Ampel, rendert
 Kacheln (Cloudflare / Server / Coolify / Datenbank / Crawls / Issues / Vitals),
 Auto-Refresh 60 s. `GET /api/data` fuer JSON. Intern (`noindex`), NICHT lokalisiert
-(keine neuen i18n-Keys, `check:countries` bleibt unberuehrt). Phase 2: Zeitreihen-
-Charts, Schwellwert-Ampeln.
+(keine neuen i18n-Keys, `check:countries` bleibt unberuehrt). Zeitreihen-Charts
+(axed `chart_svg`, on-demand pro Metrik) + Schwellwert-Ampeln sind **GEBAUT**.
 
 ## Env / Secrets
 
@@ -228,7 +228,7 @@ sehen. Alles self-contained (kein CDN/Fremd-JS), passend zur Tunnel+Access-Lage.
 | 0 | Konzept + Grundgeruest: `health_metrics`-Tabelle + Migration, `/api/health` (POST/GET), Collector-Skelett (server.py fertig, uebrige fail-soft), Dashboard-Skelett + Tunnel-Config | **GEBAUT 22.07.2026** |
 | 1 | CF-GraphQL voll (Workers/Traffic/Vitals/D1) - **GEBAUT**; Coolify per-Server offen; Owner-Setup (Token/Tunnel/Access), erster Live-Collect offen | teilweise |
 | 2 | Crawler-Selbstreport (`crawl_report.py`) - **GEBAUT**; Sentry server-seitig im Worker (`src/lib/sentry.ts`, direktes Envelope statt SDK, keine CSP) - **GEBAUT**; Collector liest Sentry-API - **minimal-fertig** | GEBAUT |
-| 3 | Alerting bei `crit` (ntfy-Push, Debounce/Cooldown, Recovery-Notiz) - **GEBAUT** (`health/alert.py`, inert ohne `ALERT_NTFY_URL`); Dashboard-Zeitreihen-Charts weiter offen | teilweise |
+| 3 | Alerting bei `crit` (ntfy-Push, Debounce/Cooldown, Recovery-Notiz) - **GEBAUT** (`health/alert.py`, inert ohne `ALERT_NTFY_URL`); Dashboard-Zeitreihen-Charts (axed `chart_svg`, on-demand) - **GEBAUT** | GEBAUT |
 | 4 | Dashboard-PWA: Manifest + Icon + Service Worker (offline), Web Push bei `crit` (Dashboard haelt Public-Key + Subs-Datei, Collector sendet via `pywebpush`) - **GEBAUT** (inert ohne VAPID-Keys); Owner-Setup: VAPID-Keypair + Shared Volume | teilweise |
 
 ## Verifikation

@@ -138,7 +138,7 @@ linking to the current-AIRAC files, the *access* was the only blocker.
 
 ## Cost / effort notes (technical, once legal is cleared)
 
-- **Storage:** R2 (cheap, no egress fees); volume is many GB across 12 countries,
+- **Storage:** R2 (cheap, no egress fees); volume is many GB across the live roster (~50 countries),
   re-synced every 28 days.
 - **Crawler:** currently refuses binary/PDF fetches on purpose (to keep metered
   Bright Data proxy traffic down - `crawlers/crawlers/http_base.py`). Mirroring
