@@ -70,6 +70,15 @@ const COLOR: Record<string, string> = {
   aeroport: "#525252",
 };
 
+// Short type label for the popup (universal aviation abbreviations, so no i18n).
+const TYPE_LABEL: Record<string, string> = {
+  vfr: "VFR",
+  ifr: "IFR",
+  heliport: "Heliport",
+  mil: "Military",
+  aeroport: "Aéroport",
+};
+
 const ESCAPE: Record<string, string> = {
   "&": "&amp;",
   "<": "&lt;",
@@ -324,6 +333,22 @@ export function AirportMap({
           continue;
       }
       const color = COLOR[m.type] ?? "#525252";
+      // Richer popup: the field title (link) plus a muted line with the type and
+      // any quick facts it carries (fuel / customs / paved), reusing the already-
+      // localized filter labels - so tapping a marker previews the field instead
+      // of showing only its name.
+      const facts = [
+        m.fuel ? fuelLabel : null,
+        m.customs ? customsLabel : null,
+        m.paved ? pavedLabel : null,
+      ]
+        .filter(Boolean)
+        .map((s) => escapeHtml(s as string))
+        .join(" &middot; ");
+      const meta = escapeHtml(TYPE_LABEL[m.type] ?? m.type.toUpperCase());
+      const popupHtml =
+        `<a href="${escapeHtml(m.href)}" style="font-weight:600">${escapeHtml(m.title)}</a>` +
+        `<div style="margin-top:2px;color:#57606a;font-size:12px">${meta}${facts ? " &middot; " + facts : ""}</div>`;
       LL.circleMarker([m.lat, m.lon], {
         radius: 6,
         weight: 2,
@@ -331,10 +356,21 @@ export function AirportMap({
         fillColor: color,
         fillOpacity: 0.7,
       })
-        .bindPopup(`<a href="${escapeHtml(m.href)}">${escapeHtml(m.title)}</a>`)
+        .bindPopup(popupHtml)
         .addTo(layer);
     }
-  }, [mapReady, markers, filters, openNow, untilActive, untilTime, weekday]);
+  }, [
+    mapReady,
+    markers,
+    filters,
+    openNow,
+    untilActive,
+    untilTime,
+    weekday,
+    fuelLabel,
+    customsLabel,
+    pavedLabel,
+  ]);
 
   // The locate click may be the FIRST interaction: the input gate then only
   // starts the async map init, so the map isn't ready inside this handler.

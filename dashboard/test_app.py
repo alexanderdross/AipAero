@@ -130,3 +130,12 @@ def test_newest_recorded_at():
     assert app.newest_recorded_at(by_cat) == 300
     assert app.newest_recorded_at({}) is None
     assert app.newest_recorded_at({"x": [{"recordedAt": None}]}) is None
+
+
+def test_render_uses_polling_refresh_not_hard_reload():
+    html = app._render({})
+    # Polls /api/data and reloads only on newer data (not a blind timed reload).
+    assert "fetch('/api/data'" in html
+    assert "d.newestRecordedAt" in html
+    assert "location.reload()" in html
+    assert "setTimeout(function(){location.reload" not in html

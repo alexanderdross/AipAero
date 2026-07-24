@@ -339,6 +339,11 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
     freshness = (
         f"Aktuell: {fmt_age(now, newest)}" if newest is not None else "keine Daten"
     )
+    # For the client refresh: the newest sample time this render reflects. The
+    # poller reloads ONLY when /api/data reports a newer sample, so a quiet page
+    # never flashes a needless full reload (delivers the /api/data endpoint,
+    # which nothing consumed before).
+    newest_js = str(int(newest)) if newest is not None else "null"
     return f"""<!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -355,7 +360,21 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
   {stale_banner}
   {banner}
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px">{''.join(tiles)}</div>
-  <p style="color:#57606a;font-size:12px;margin-top:18px">Sparkline = Verlauf der letzten 24 h. Auto-Refresh alle 60 s. Nur ueber Cloudflare Tunnel + Access erreichbar.</p>
+  <p style="color:#57606a;font-size:12px;margin-top:18px">Sparkline = Verlauf der letzten 24 h (Werte im Tooltip). Prueft alle 60 s auf neue Daten und laedt nur dann neu. Nur ueber Cloudflare Tunnel + Access erreichbar.</p>
 </main>
-<script>setTimeout(function(){{location.reload()}}, 60000);</script>
+<script>
+(function(){{
+  var last = {newest_js};
+  setInterval(function(){{
+    fetch('/api/data', {{cache: 'no-store'}})
+      .then(function(r){{ return r.json(); }})
+      .then(function(d){{
+        if (d && d.newestRecordedAt != null && d.newestRecordedAt !== last) {{
+          location.reload();
+        }}
+      }})
+      .catch(function(){{}});
+  }}, 60000);
+}})();
+</script>
 </body></html>"""

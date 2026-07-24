@@ -175,26 +175,30 @@ export function ContactForm({
   const fieldInput =
     "mt-1 block w-full rounded-md border border-drossgray-dark bg-drossgray px-3 py-2 text-base shadow-sm focus-visible:border-drossblue focus-visible:ring-1 focus-visible:ring-drossblue focus-visible:outline-none";
 
-  if (status === "success") {
-    return (
-      <p
-        role="status"
-        className="rounded-md bg-green-50 p-4 text-sm font-medium text-green-800"
-      >
-        {labels.success}
-      </p>
-    );
-  }
-
   return (
     <form
       onSubmit={onSubmit}
       // First interaction (tab-focus, click or touch) lazy-loads Turnstile.
       onFocusCapture={() => setInteracted(true)}
       onPointerDownCapture={() => setInteracted(true)}
+      // Clear the success banner once the visitor starts a new message.
+      onInput={() => {
+        if (status === "success") setStatus("idle");
+      }}
       className="flex flex-col gap-5"
       noValidate
     >
+      {/* Non-destructive success: the banner shows ABOVE the (already-reset)
+          form instead of replacing it, so the visitor can send another message
+          without reloading. onSubmit resets the fields + Turnstile on success. */}
+      {status === "success" && (
+        <p
+          role="status"
+          className="rounded-md bg-green-50 p-4 text-sm font-medium text-green-800"
+        >
+          {labels.success}
+        </p>
+      )}
       <div>
         <label htmlFor="contact-name" className={fieldLabel}>
           {labels.name}
