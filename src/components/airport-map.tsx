@@ -137,7 +137,11 @@ export function AirportMap({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
-  const layerRef = useRef<L.LayerGroup | null>(null);
+  // A marker CLUSTER group (leaflet.markercluster): dense countries (DE ~792
+  // fields) overlap into an unreadable blob at the framed zoom, so nearby
+  // markers collapse into a count bubble that splits apart on zoom-in. Still a
+  // single layer the filter toggles clear + refill, so the tiles never reload.
+  const layerRef = useRef<L.MarkerClusterGroup | null>(null);
   const leafletRef = useRef<typeof L | null>(null);
   const [locateError, setLocateError] = useState<string | null>(null);
   const [markers, setMarkers] = useState<MapMarker[] | null>(null);
@@ -269,6 +273,15 @@ export function AirportMap({
         import("leaflet/dist/leaflet.css"),
       ]);
       const LL = LLModule.default;
+      // The clustering plugin augments the SAME Leaflet instance, so it must be
+      // imported AFTER leaflet; its CSS is loaded lazily here too (same reason
+      // as leaflet.css - keep it off the airport-list route chunk). Bundled with
+      // the app, no external origin, so no CSP change.
+      await import("leaflet.markercluster");
+      await Promise.all([
+        import("leaflet.markercluster/dist/MarkerCluster.css"),
+        import("leaflet.markercluster/dist/MarkerCluster.Default.css"),
+      ]);
       if (cancelled || !containerRef.current || mapRef.current) return;
       const map = LL.map(containerRef.current, { scrollWheelZoom: false });
       mapRef.current = map;
@@ -278,9 +291,15 @@ export function AirportMap({
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 18,
       }).addTo(map);
-      // Markers live in their own layer group so the filter toggles can
+      // Markers live in their own cluster group so the filter toggles can
       // redraw them without tearing down the map (tiles would reload).
-      layerRef.current = LL.layerGroup().addTo(map);
+      // chunkedLoading keeps the ~800-marker init off the main thread; the
+      // coverage-on-hover polygon is off (visual noise on a decorative map).
+      layerRef.current = LL.markerClusterGroup({
+        chunkedLoading: true,
+        showCoverageOnHover: false,
+        maxClusterRadius: 50,
+      }).addTo(map);
 
       // Frame ALL of the country's fields once - filter toggles later change
       // the visible markers but never the framing (a jumping viewport on each
@@ -313,6 +332,7 @@ export function AirportMap({
     const delta = (weekday - utcDow(nowDate) + 7) % 7;
     const now =
       delta === 0 ? nowDate : new Date(nowDate.getTime() + delta * 86_400_000);
+    const batch: L.Marker[] = [];
     for (const m of markers) {
       if (!active.every((k) => m[k])) continue;
       // Operation-hours filters (client-side, so any chosen time needs no round
@@ -349,16 +369,32 @@ export function AirportMap({
       const popupHtml =
         `<a href="${escapeHtml(m.href)}" style="font-weight:600">${escapeHtml(m.title)}</a>` +
         `<div style="margin-top:2px;color:#57606a;font-size:12px">${meta}${facts ? " &middot; " + facts : ""}</div>`;
-      LL.circleMarker([m.lat, m.lon], {
-        radius: 6,
-        weight: 2,
-        color,
-        fillColor: color,
-        fillOpacity: 0.7,
-      })
-        .bindPopup(popupHtml)
-        .addTo(layer);
+      // A div-icon dot rather than a circleMarker: leaflet.markercluster
+      // clusters L.Marker layers, and a divIcon reproduces the coloured dot
+      // (fillOpacity 0.7 + coloured stroke + a faint white ring for contrast on
+      // the greyscale tiles). Keyboard: L.marker is focusable and its popup
+      // opens on Enter (a circleMarker path is not), so this also makes the
+      // markers keyboard-reachable. The title = the field name (marker tooltip
+      // + accessible name).
+      const icon = LL.divIcon({
+        className: "",
+        html:
+          `<span style="display:block;width:12px;height:12px;border-radius:50%;` +
+          `background:${color};opacity:.75;border:2px solid ${color};` +
+          `box-shadow:0 0 0 1px rgba(255,255,255,.8)"></span>`,
+        iconSize: [12, 12],
+        iconAnchor: [6, 6],
+        popupAnchor: [0, -6],
+      });
+      batch.push(
+        LL.marker([m.lat, m.lon], {
+          icon,
+          title: m.title,
+          alt: m.title,
+        }).bindPopup(popupHtml),
+      );
     }
+    layer.addLayers(batch);
   }, [
     mapReady,
     markers,
