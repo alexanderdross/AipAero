@@ -189,6 +189,38 @@ Dashboard-App: `HEALTH_API_BASE`, `HEALTH_API_KEY` (= `CRON_SECRET`).
    `uv run health_collector.py` (Muster: OurAirports-Importer,
    `docs/data-backfill-runbook.md`).
 
+## PWA + Web Push (Offline + Benachrichtigungen)
+
+Das Dashboard ist eine **PWA**: installierbar (z.B. auf dem Handy des Owners),
+offline-fahig und es empfaengt **Web-Push-Benachrichtigungen**, sobald eine
+Metrik `crit` wird - so muss niemand die Seite offen halten, um einen Alarm zu
+sehen. Alles self-contained (kein CDN/Fremd-JS), passend zur Tunnel+Access-Lage.
+
+- **Manifest + Icon + Service Worker** liefert die FastAPI-App selbst
+  (`/manifest.webmanifest`, `/icon.svg`, `/sw.js`). Der SW cached die Shell
+  (network-first, offline-Fallback aus dem Cache; `/api/*` wird NIE abgefangen)
+  und macht aus einem eingehenden Push eine native Notification.
+- **Web Push (VAPID)** ist geteilt zwischen Dashboard und Collector:
+  - Das **Dashboard** kennt nur den **PUBLIC** Key (`HEALTH_VAPID_PUBLIC_KEY`),
+    zeigt einen "Benachrichtigungen aktivieren"-Button und speichert die
+    Browser-`PushSubscription` in `HEALTH_PUSH_SUBS_FILE`
+    (`push_subscriptions.json`, dedupe per Endpoint). Ohne Public Key bleibt der
+    Button verborgen (Push nicht provisioniert).
+  - Der **Collector** halt den **PRIVATE** Key (`VAPID_PRIVATE_KEY`), liest
+    dieselbe Subs-Datei (`PUSH_SUBS_FILE`) und schickt bei `crit`/Recovery
+    denselben Alert-Text auch als verschluesselten Web Push (`pywebpush`, lazy
+    importiert). Tote Subscriptions (404/410) werden aus der Datei entfernt.
+    Inert ohne Private Key (ntfy feuert unabhaengig davon weiter).
+- **Shared Volume**: laufen Dashboard und Collector in getrennten Containern,
+  MUESSEN `HEALTH_PUSH_SUBS_FILE` (Dashboard) und `PUSH_SUBS_FILE` (Collector)
+  auf denselben Pfad zeigen (ein gemeinsames Volume), sonst sieht der Collector
+  die im Browser angelegten Subscriptions nicht.
+- **VAPID-Keypair** einmalig erzeugen (`pip install py-vapid && vapid --gen`
+  oder `pywebpush`'s Vapid-Helper): den Private Key auf den Collector, den
+  Public Key aufs Dashboard. `VAPID_SUBJECT` = `mailto:info@aip.aero`.
+- **HTTPS-Voraussetzung**: Web Push + Service Worker brauchen einen sicheren
+  Kontext - durch den Cloudflare Tunnel (`https://health.aip.aero`) gegeben.
+
 ## Phasen
 
 | Phase | Inhalt | Status |
@@ -197,6 +229,7 @@ Dashboard-App: `HEALTH_API_BASE`, `HEALTH_API_KEY` (= `CRON_SECRET`).
 | 1 | CF-GraphQL voll (Workers/Traffic/Vitals/D1) - **GEBAUT**; Coolify per-Server offen; Owner-Setup (Token/Tunnel/Access), erster Live-Collect offen | teilweise |
 | 2 | Crawler-Selbstreport (`crawl_report.py`) - **GEBAUT**; Sentry server-seitig im Worker (`src/lib/sentry.ts`, direktes Envelope statt SDK, keine CSP) - **GEBAUT**; Collector liest Sentry-API - **minimal-fertig** | GEBAUT |
 | 3 | Alerting bei `crit` (ntfy-Push, Debounce/Cooldown, Recovery-Notiz) - **GEBAUT** (`health/alert.py`, inert ohne `ALERT_NTFY_URL`); Dashboard-Zeitreihen-Charts weiter offen | teilweise |
+| 4 | Dashboard-PWA: Manifest + Icon + Service Worker (offline), Web Push bei `crit` (Dashboard haelt Public-Key + Subs-Datei, Collector sendet via `pywebpush`) - **GEBAUT** (inert ohne VAPID-Keys); Owner-Setup: VAPID-Keypair + Shared Volume | teilweise |
 
 ## Verifikation
 

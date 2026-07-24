@@ -139,3 +139,83 @@ def test_render_uses_polling_refresh_not_hard_reload():
     assert "d.newestRecordedAt" in html
     assert "location.reload()" in html
     assert "setTimeout(function(){location.reload" not in html
+
+
+# --- PWA (manifest / icon / service worker / push) --------------------------
+
+from fastapi.testclient import TestClient  # noqa: E402
+
+client = TestClient(app.app)
+
+
+def test_render_wires_the_pwa():
+    html = app._render({})
+    assert '<link rel="manifest" href="/manifest.webmanifest">' in html
+    assert '<meta name="theme-color" content="#2d6a9a">' in html
+    assert "navigator.serviceWorker.register('/sw.js')" in html
+    assert 'id="notify-btn"' in html
+    assert "/api/push/subscribe" in html
+
+
+def test_manifest_route():
+    r = client.get("/manifest.webmanifest")
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("application/manifest+json")
+    body = r.json()
+    assert body["name"] == "AIP:Aero Health"
+    assert body["display"] == "standalone"
+    assert body["icons"] and body["icons"][0]["src"] == "/icon.svg"
+
+
+def test_icon_route_is_svg():
+    r = client.get("/icon.svg")
+    assert r.status_code == 200
+    assert r.headers["content-type"].startswith("image/svg+xml")
+    assert "<svg" in r.text
+
+
+def test_service_worker_route():
+    r = client.get("/sw.js")
+    assert r.status_code == 200
+    assert "javascript" in r.headers["content-type"]
+    assert r.headers["cache-control"] == "no-cache"
+    # the two behaviours the SW exists for
+    assert "addEventListener('push'" in r.text
+    assert "caches.open" in r.text
+
+
+def test_push_config_reflects_key(monkeypatch):
+    monkeypatch.setattr(app, "VAPID_PUBLIC_KEY", "")
+    off = client.get("/api/push/config").json()
+    assert off == {"enabled": False, "publicKey": ""}
+    monkeypatch.setattr(app, "VAPID_PUBLIC_KEY", "BKtest")
+    on = client.get("/api/push/config").json()
+    assert on == {"enabled": True, "publicKey": "BKtest"}
+
+
+def test_push_subscribe_dedupes_and_unsubscribe(tmp_path, monkeypatch):
+    subs_file = tmp_path / "subs.json"
+    monkeypatch.setattr(app, "PUSH_SUBS_FILE", str(subs_file))
+
+    sub = {"endpoint": "https://push.example/abc", "keys": {"p256dh": "k", "auth": "a"}}
+    r1 = client.post("/api/push/subscribe", json=sub)
+    assert r1.status_code == 200 and r1.json()["count"] == 1
+    # same endpoint again -> deduped, still 1
+    r2 = client.post("/api/push/subscribe", json=sub)
+    assert r2.json()["count"] == 1
+    # a different endpoint -> 2
+    r3 = client.post(
+        "/api/push/subscribe", json={"endpoint": "https://push.example/xyz"}
+    )
+    assert r3.json()["count"] == 2
+    # persisted to disk
+    assert app._load_subs() and len(app._load_subs()) == 2
+
+    r4 = client.post("/api/push/unsubscribe", json={"endpoint": "https://push.example/abc"})
+    assert r4.json()["count"] == 1
+    remaining = app._load_subs()
+    assert [s["endpoint"] for s in remaining] == ["https://push.example/xyz"]
+
+
+def test_push_subscribe_rejects_bad_body():
+    assert client.post("/api/push/subscribe", json={"no": "endpoint"}).status_code == 400

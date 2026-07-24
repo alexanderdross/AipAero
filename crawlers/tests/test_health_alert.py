@@ -84,3 +84,90 @@ def test_statusless_metrics_ignored():
     m = Metric("server", "ram_used_bytes", 123, "bytes")  # status=None
     alerts, state = decide_alerts([m], {}, now=1000, cooldown_s=COOLDOWN)
     assert alerts == [] and state == {}
+
+
+# --- Web Push (send_webpush) ------------------------------------------------
+
+from health import alert as alert_mod  # noqa: E402
+from health.settings import HealthSettings  # noqa: E402
+
+
+def test_send_webpush_inert_without_key(tmp_path):
+    # No VAPID private key -> Web Push is a no-op, never touches pywebpush.
+    s = HealthSettings(push_subs_file=str(tmp_path / "subs.json"))
+    assert s.vapid_private_key is None
+    sent = alert_mod.send_webpush(s, [{"key": "server/x", "kind": "crit", "text": "CRIT"}])
+    assert sent == 0
+
+
+def test_send_webpush_inert_without_subs(tmp_path):
+    s = HealthSettings(
+        vapid_private_key="secret", push_subs_file=str(tmp_path / "missing.json")
+    )
+    # key set but no subscriptions file -> nothing to send
+    sent = alert_mod.send_webpush(s, [{"key": "server/x", "kind": "crit", "text": "C"}])
+    assert sent == 0
+
+
+def test_send_webpush_sends_and_prunes_dead(tmp_path, monkeypatch):
+    import json as _json
+
+    subs_file = tmp_path / "subs.json"
+    subs = [
+        {"endpoint": "https://push.example/live", "keys": {"p256dh": "k", "auth": "a"}},
+        {"endpoint": "https://push.example/dead", "keys": {"p256dh": "k", "auth": "a"}},
+    ]
+    subs_file.write_text(_json.dumps(subs), encoding="utf-8")
+    s = HealthSettings(vapid_private_key="secret", push_subs_file=str(subs_file))
+
+    calls = []
+
+    class FakeResponse:
+        def __init__(self, code):
+            self.status_code = code
+
+    class FakeWebPushException(Exception):
+        def __init__(self, msg, response=None):
+            super().__init__(msg)
+            self.response = response
+
+    def fake_webpush(subscription_info, data, vapid_private_key, vapid_claims, timeout):
+        calls.append(subscription_info["endpoint"])
+        if subscription_info["endpoint"].endswith("/dead"):
+            raise FakeWebPushException("gone", response=FakeResponse(410))
+
+    # Inject a fake pywebpush module so no real network / crypto happens.
+    import types
+
+    fake_mod = types.SimpleNamespace(
+        webpush=fake_webpush, WebPushException=FakeWebPushException
+    )
+    monkeypatch.setitem(__import__("sys").modules, "pywebpush", fake_mod)
+
+    sent = alert_mod.send_webpush(
+        s, [{"key": "server/ram", "kind": "crit", "text": "CRIT server/ram = 97 pct"}]
+    )
+    assert sent == 1  # only the live endpoint counts
+    assert set(calls) == {"https://push.example/live", "https://push.example/dead"}
+    # the dead (410) subscription is pruned from the file
+    remaining = _json.loads(subs_file.read_text(encoding="utf-8"))
+    assert [x["endpoint"] for x in remaining] == ["https://push.example/live"]
+
+
+def test_run_alerts_fires_on_webpush_only(tmp_path, monkeypatch):
+    # No ntfy URL, but a VAPID key -> run_alerts is NOT inert (sends web push).
+    s = HealthSettings(
+        vapid_private_key="secret",
+        push_subs_file=str(tmp_path / "subs.json"),
+        alert_state_file=str(tmp_path / "state.json"),
+    )
+    seen = {}
+
+    def fake_send_webpush(settings, alerts):
+        seen["alerts"] = alerts
+        return len(alerts)
+
+    monkeypatch.setattr(alert_mod, "send_webpush", fake_send_webpush)
+    out = alert_mod.run_alerts(s, [_crit()], now=1000)
+    assert len(out) == 1 and out[0]["kind"] == "crit"
+    assert seen["alerts"] == out  # web push got the same alerts

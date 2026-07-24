@@ -39,6 +39,10 @@ dependencies = [
     # box rather than reach an API. Pure wheel, no system dependency; imported
     # lazily inside the server gatherer so a collector-less crawl never needs it.
     "psutil>=5.9.0",
+    # Web Push (VAPID) for the health-dashboard PWA: the collector sends its crit
+    # alerts as encrypted browser pushes (crawlers/health/alert.py). Inert without
+    # a VAPID private key; imported lazily so a key-less collector never needs it.
+    "pywebpush>=1.14.0",
 ]
 
 [dependency-groups]

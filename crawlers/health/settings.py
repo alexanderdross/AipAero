@@ -65,3 +65,19 @@ class HealthSettings(BaseSettings):
     # Where the debounce state persists across runs (a box-local file, like the
     # crawlers' last_run_counts.json). Relative to the collector's working dir.
     alert_state_file: str = "health_alert_state.json"
+
+    # --- Web Push (PWA notifications to the dashboard) ---
+    # The collector sends the SAME crit alerts as encrypted Web Pushes to every
+    # browser that subscribed via the dashboard. The dashboard exposes the PUBLIC
+    # key; the collector holds the PRIVATE key and reads the subscriptions file
+    # the dashboard writes. Unset private key -> Web Push is INERT (ntfy, if
+    # configured, still fires). Generate a keypair once with
+    # `vapid --gen` (py-vapid) or `pywebpush`'s Vapid helper.
+    vapid_private_key: Optional[SecretStr] = None
+    vapid_public_key: Optional[str] = None
+    # `mailto:` (or https) contact per the Web Push spec (VAPID `sub` claim).
+    vapid_subject: str = "mailto:info@aip.aero"
+    # The subscriptions file the DASHBOARD writes on subscribe. Point this at the
+    # SAME path the dashboard uses (HEALTH_PUSH_SUBS_FILE) - a shared volume when
+    # the two run in separate containers.
+    push_subs_file: str = "push_subscriptions.json"
