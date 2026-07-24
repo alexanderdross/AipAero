@@ -1,5 +1,33 @@
 import { describe, expect, it } from "vitest";
-import { buildEnvelope, buildEvent, parseDsn } from "./sentry";
+import { buildEnvelope, buildEvent, parseDsn, withinRateLimit } from "./sentry";
+
+describe("withinRateLimit", () => {
+  const MAX = 3;
+  const WIN = 60_000;
+
+  it("allows up to max within a window, then drops", () => {
+    let state = { windowStart: 1000, count: 0 };
+    const results: boolean[] = [];
+    for (let i = 0; i < 5; i++) {
+      const d = withinRateLimit(state, 1000, MAX, WIN);
+      state = d.state;
+      results.push(d.allow);
+    }
+    // counts 1,2,3 allowed; 4,5 dropped
+    expect(results).toEqual([true, true, true, false, false]);
+  });
+
+  it("resets the counter when a new window starts", () => {
+    const state = { windowStart: 1000, count: MAX }; // window full
+    const blocked = withinRateLimit(state, 1000 + WIN - 1, MAX, WIN);
+    expect(blocked.allow).toBe(false);
+    // now past the window -> fresh window, allowed, count reset to 1
+    const fresh = withinRateLimit(state, 1000 + WIN, MAX, WIN);
+    expect(fresh.allow).toBe(true);
+    expect(fresh.state.count).toBe(1);
+    expect(fresh.state.windowStart).toBe(1000 + WIN);
+  });
+});
 
 describe("parseDsn", () => {
   it("parses a standard Sentry cloud DSN", () => {

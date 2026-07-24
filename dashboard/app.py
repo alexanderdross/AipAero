@@ -90,6 +90,7 @@ def group_series(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
                 "status": latest.get("status"),
                 "value": latest.get("value"),
                 "points": points,
+                "recordedAt": latest.get("recordedAt"),
             }
         )
     for cat in by_cat:
@@ -117,12 +118,45 @@ def summarize(by_cat: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
     return {"counts": counts, "worst": worst, "crit": crit}
 
 
+# A stopped collector is otherwise invisible - the dashboard would keep showing
+# the last values with no hint they are stale. If the newest sample is older than
+# this (default ~2.5x the 15-min collector interval), flag it.
+STALE_SECONDS = int(os.environ.get("HEALTH_STALE_SECONDS", str(40 * 60)))
+
+
+def newest_recorded_at(by_cat: dict[str, list[dict[str, Any]]]) -> Optional[int]:
+    """The most recent sample time across all series, or None when there is no
+    data. Used for the global freshness / staleness indicator. Pure."""
+    newest: Optional[int] = None
+    for series in by_cat.values():
+        for s in series:
+            ts = s.get("recordedAt")
+            if isinstance(ts, (int, float)):
+                newest = int(ts) if newest is None else max(newest, int(ts))
+    return newest
+
+
+def fmt_age(now: int, ts: Optional[Any]) -> str:
+    """Human 'age' of a timestamp relative to `now` (German). Pure."""
+    if not isinstance(ts, (int, float)):
+        return "-"
+    d = max(0, now - int(ts))
+    if d < 60:
+        return "gerade eben"
+    if d < 3600:
+        return f"vor {d // 60} min"
+    if d < 86400:
+        return f"vor {d // 3600} h"
+    return f"vor {d // 86400} d"
+
+
 @app.get("/api/data")
 def data() -> JSONResponse:
     by_cat = group_series(_fetch_metrics())
     return JSONResponse(
         {
             "generatedAt": int(time.time()),
+            "newestRecordedAt": newest_recorded_at(by_cat),
             "configured": bool(API_KEY),
             "summary": summarize(by_cat),
             "categories": by_cat,
@@ -234,6 +268,8 @@ def _fmt(value: Any, unit: Optional[str]) -> str:
 
 
 def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
+    now = int(time.time())
+    newest = newest_recorded_at(by_cat)
     tiles = []
     for cat_key, cat_label in CATEGORY_ORDER:
         series = by_cat.get(cat_key, [])
@@ -260,7 +296,9 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
                     f'<td style="padding:4px 8px">{spark}</td>'
                     f'<td style="padding:4px 10px;text-align:right;'
                     f'font-variant-numeric:tabular-nums">{_fmt(s["value"], s["unit"])}</td>'
-                    f'<td style="padding:4px 0">{_pill(s["status"])}</td></tr>'
+                    f'<td style="padding:4px 0">{_pill(s["status"])}</td>'
+                    f'<td style="padding:4px 0 4px 10px;color:#57606a;font-size:12px;'
+                    f'white-space:nowrap">{fmt_age(now, s.get("recordedAt"))}</td></tr>'
                 )
             body = (
                 '<table style="width:100%;border-collapse:collapse;font-size:14px">'
@@ -283,6 +321,19 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
         )
     )
     banner = _banner(summarize(by_cat)) if API_KEY else ""
+    # Staleness strip: the newest sample is older than the threshold, so the
+    # collector may have stopped (the values below are the last it managed).
+    stale_banner = ""
+    if API_KEY and newest is not None and (now - newest) > STALE_SECONDS:
+        stale_banner = (
+            '<div style="background:#ffebe9;border:1px solid #cf222e;border-radius:8px;'
+            'padding:10px 14px;margin-bottom:14px;font-size:14px">'
+            f"<strong>Daten veraltet</strong> - neueste Messung {fmt_age(now, newest)} "
+            "(der Collector meldet sich evtl. nicht mehr).</div>"
+        )
+    freshness = (
+        f"Aktuell: {fmt_age(now, newest)}" if newest is not None else "keine Daten"
+    )
     return f"""<!doctype html>
 <html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -292,10 +343,11 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
 <body style="margin:0;background:#f0f2f2;font-family:Inter,Tahoma,Verdana,sans-serif;color:#1f2328">
 <header style="background:#2d6a9a;color:#fff;padding:14px 20px">
   <strong style="font-size:16px">AIP:Aero - Health Dashboard</strong>
-  <span style="float:right;font-size:12px;opacity:.85">Fenster: letzte 24 h</span>
+  <span style="float:right;font-size:12px;opacity:.85">{freshness} &middot; Fenster: letzte 24 h</span>
 </header>
 <main style="max-width:1100px;margin:0 auto;padding:20px">
   {configured}
+  {stale_banner}
   {banner}
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px">{''.join(tiles)}</div>
   <p style="color:#57606a;font-size:12px;margin-top:18px">Sparkline = Verlauf der letzten 24 h. Auto-Refresh alle 60 s. Nur ueber Cloudflare Tunnel + Access erreichbar.</p>
