@@ -31,6 +31,12 @@ Note: EEKA lists `_ADC_en.pdf` twice under two different AIRAC-AMDT folders (07-
 
 ## FI - Finland (www.ais.fi) - NOT VIABLE from the AD 2 page alone
 
+> **UPDATE (shipped):** `FETCH_PDF_URLS` is now enabled for FI - `fi.py` rewrites
+> each field URL to the full-aerodrome `1-fi-FI` page (which links the charts
+> under `.../Charts/AD/<ICAO>/`) and prefers `_VAC`/`_ADC`. See
+> `pdf-recon-fi-is.md`. The "not viable from the AD 2 page alone" note below
+> stands - the fix was the deeper page, not the AD 2 page.
+
 Only 2 pdf links per airport, and neither is an approach/aerodrome chart: `WPT_LIST` (waypoint list) and `FAS_DB` (final approach segment data block). Identical for all 3 sampled airports (EFET, EFHA, EFHK - EFHK is Helsinki-Vantaa, which certainly has charts, so the charts are NOT anchor-linked on the AD 2 HTML page).
 
 Representative URLs (verbatim):
@@ -69,6 +75,10 @@ PDF_HREF_PRIORITY = (r"_2_24_1_\d{8}\.pdf$", r"_2_24_14_\d{8}\.pdf$")
 ```
 
 ## IS - Iceland (eaip.isavia.is) - WEAK (most fields 0 links)
+
+> **UPDATE (shipped):** `FETCH_PDF_URLS` is now enabled for IS (`is_.py`, PART_8
+> charts page, VFR/ADC HREF priority). The "WEAK" verdict holds by source: only
+> ~7 of 53 fields publish a chart PDF; the rest stay `pdf_url=None` by design.
 
 - BIAR (sampled twice - the IS crawler emitted BIAR as two rows, `BIAR | BIAR` and `BIAR | AKUREYRI - AKUREYRI 8 BIAR`; dedupe worth checking): 3 pdfs, all specialist charts:
   - `https://eaip.isavia.is/A_06-2026_2026_06_11/documents/Root_WePub/Rep_ISAVIA/Charts/AD/BIAR/PART_8/BIAR_8_LEAD_IN_LIGHTS_RWY_01.pdf`

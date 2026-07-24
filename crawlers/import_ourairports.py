@@ -39,12 +39,17 @@ BASE_CSV = "https://davidmegginson.github.io/ourairports-data"
 # OurAirports `iso_country` codes for the countries AIP:Aero covers. Keep in
 # sync with `liveCountries` in src/lib/utils.ts (this list drives the aerodrome
 # facts + the "airports near me" map coordinates - a country missing here has
-# an empty map). Note the mismatches vs our locale codes: UK = GB, and the
-# Serbian VFR AIP also publishes Montenegrin (ME) fields, so both are included.
+# an empty map). `scripts/check-live-countries-coverage.mjs` gates this in CI:
+# every live country's ISO code MUST appear here. Note the mismatches vs our
+# locale codes: UK = GB; the Serbian VFR AIP also publishes Montenegrin (ME)
+# fields and the Belgian AIP the Luxembourg (LU) ones, so both supersets are
+# included. Every other live country's code is its locale code uppercased.
 COUNTRIES = {
-    "DE", "AT", "FR", "NL", "GB", "BE", "LU", "CZ", "DK", "GR", "NO", "PL",
-    "SE", "EE", "FI", "ES", "LV", "IS", "PT", "HU", "SI", "LT", "RS", "ME",
-    "IE", "SK", "BA", "CH", "AL", "MK", "RO",
+    "AL", "AM", "AT", "AU", "AZ", "BA", "BE", "BG", "BY", "CH", "CY", "CZ",
+    "DE", "DK", "EE", "ES", "FI", "FR", "GB", "GE", "GR", "HR", "HU", "IE",
+    "IS", "IT", "KG", "KZ", "LT", "LU", "LV", "MD", "ME", "MK", "MT", "NL",
+    "NO", "NZ", "PL", "PT", "RO", "RS", "RU", "SE", "SI", "SK", "TJ", "TM",
+    "TR", "UA", "UZ", "XK",
 }
 
 BATCH_SIZE = 100  # airports per POST to keep each request payload modest

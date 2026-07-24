@@ -17,11 +17,11 @@ The website itself runs on Cloudflare Workers (via the OpenNext adapter). Server
 ## Stack
 
 - Python ≥ 3.12, managed with [uv](https://github.com/astral-sh/uv)
-- HTTP: `httpx` + `BeautifulSoup` for static pages - the only path in use; all twelve active crawlers (AT, DE, FR, NL, UK, BE/LU, CZ, DK, GR, NO, PL, SE) are on it
-- Browser fallback: a single Playwright (Python) path for sites that genuinely require JS rendering — only when there's no static URL to follow
+- HTTP: `httpx` + `BeautifulSoup` for static pages - the path nearly every crawler uses; the ~50 active country crawlers are on it
+- Browser fallback: a single Playwright (Python) path for sites that genuinely require JS rendering (DE, DK, RS) — only when there's no static URL to follow
 - Pydantic for the `Airport` model (`crawlers/crawlers/models.py`) and settings
 
-> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`, but none of the active sites need a JS engine - they serve static HTML, sometimes inside legacy framesets. **All twelve active crawlers run on httpx** (DK renders via Playwright). Selenium has been fully removed: the legacy `crawler_base.py` / `eurocontrol_base.py` bases, the experimental crawlers (belgium, car_sam_nam, pac_n, pac_p, run) and the `cache_warmer.py` script are gone, along with the `selenium` / `webdriver-manager` dependencies. New crawlers must not reintroduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
+> **Note on Selenium.** The original crawlers used Selenium + `webdriver-manager`, but none of the active sites need a JS engine - they serve static HTML, sometimes inside legacy framesets. **Every active crawler runs on httpx** (DE, DK and RS render via Playwright). Selenium has been fully removed: the legacy `crawler_base.py` / `eurocontrol_base.py` bases, the experimental crawlers (belgium, car_sam_nam, pac_n, pac_p, run) and the `cache_warmer.py` script are gone, along with the `selenium` / `webdriver-manager` dependencies. New crawlers must not reintroduce Selenium. **Do not** use Puppeteer (Node-only) or any other browser stack.
 
 ## Base classes
 
@@ -35,43 +35,37 @@ The website itself runs on Cloudflare Workers (via the OpenNext adapter). Server
 
 ## Country Status
 
-Active (in `crawlers/`) - 12 countries:
+The live roster is **~50 country crawlers**. To avoid a second list that drifts,
+this README does not enumerate them - the source of truth is:
 
-- [x] Austria (https://eaip.austrocontrol.at) - `HttpCrawlerBase`
-- [x] Germany (https://aip.dfs.de/) - `HttpCrawlerBase` (DFS BasicVFR/BasicIFR; enters at static `pages/CNNNNN.html` section URLs and stores each airport's amendment-stable `myPermalink`)
-- [x] France (https://www.sia.aviation-civile.gouv.fr/plandesite) - `HttpEurocontrolBase`
-- [x] Netherlands (https://eaip.lvnl.nl/) - `HttpEurocontrolBase`
-- [x] United Kingdom (https://nats-uk.ead-it.com/) - `HttpEurocontrolBase`
-- [x] Belgium + Luxembourg (https://ops.skeyes.be/html/belgocontrol_static/eaip/eAIP_Main/html/index-en-GB.html) - `HttpEurocontrolBase`
-- [x] Czech Republic (https://aim.rlp.cz/eaip/html/index-en-GB.html) - `HttpEurocontrolBase`
-- [x] Denmark (https://aim.naviair.dk/) - `PlaywrightCrawlerBase` (client-rendered Naviair JS app; headless-Chromium render)
-- [x] Greece (https://aisgr.hasp.gov.gr/) - `HttpEurocontrolBase`
-- [x] Norway (https://avinor.no/en/ais/aipnorway/) - `HttpEurocontrolBase`
-- [x] Poland (https://www.ais.pansa.pl/en/publications/aip-poland/) - `HttpEurocontrolBase`
-- [x] Sweden (https://aro.lfv.se/content/eaip/default_offline.html) - `HttpEurocontrolBase`
+- **`COUNTRY_CRAWLERS` in `main.py`** (which classes are registered), and
+- the **Supported Countries** table in the repo-root **`CLAUDE.md`** (per-country
+  AIP source, base class, and gated/open status).
 
-Known issues (current AIRAC cycle, 2026-07; see `docs/open-tasks.md`):
+Three shapes of crawler:
 
-- **DE / FR** - FIXED. Both source entry points moved this cycle: DFS now serves
-  the `pages/CNNNNN.html` entries as `<meta refresh>` stubs (de.py follows them),
-  and SIA's `home.html` is JS-driven with the eAIP index under an
-  `AIRAC-YYYY-MM-DD/html/` subfolder (fr.py derives it from `home.js`). Verified
-  live (DE 792, FR 143).
-- **GR** - the Bright Data Web Unlocker returns `502 Access denied` for
-  `aisgr.hasp.gov.gr` (likely a Bright-Data compliance/KYC block on the `.gov`
-  domain, not our selectors); needs a Bright-Data-side fix/allowlist before the
-  selectors can be validated. Owner diagnosis steps in `docs/open-tasks.md` #4.
-- **DK** - parked in `ALLOWED_FAILURES`: `aim.naviair.dk` is an AngularJS SPA
-  whose AIP tree loads asynchronously into click-driven tree items (no
-  `<a href>`, no iframe, no HTML-discoverable data endpoint), so the text-link
-  crawler can't navigate it. A fix needs Playwright click-navigation or the
-  tree's data API - see `crawlers/tasks/crawler_denmark.md` + open-tasks.md #3.
+- **Real chart scrapers** (most countries): a `HttpEurocontrolBase` eAIP crawler
+  (NL, UK, FR, BE, CZ, NO, PL, SE, EE, FI, LV, IS, PT, HU, SI, IE, SK, BA, AL,
+  GE, AM, KZ, XK) or a bespoke `HttpCrawlerBase` for a non-eurocontrol source
+  (AT, DE, ES, GR, RO, MK, CY, LT). They capture each aerodrome's chart page/PDF.
+- **Playwright** (`PlaywrightCrawlerBase`): DE (DFS AD-2 page images, OCR path),
+  DK (Naviair - now driven off the Umbraco JSON API; the render is a diagnostic
+  fallback) and RS (JS-rendered SMATSA public VFR AD page).
+- **Info-page / gated**: countries whose AIP is behind a login/paywall/WAF
+  (`gatedCountries` in `src/lib/utils.ts`: CH, MT, MD, IT, HR, BG, TR, AZ, UA,
+  UZ, BY, RU, TJ, TM, KG, plus AU, NZ). Each reads the aerodrome list from
+  **OurAirports (CC0)** and links the official portal - **no chart crawl by
+  design** (respect the access control).
 
-Open (see `tasks/` for per-country research notes):
+**Known-blocked** (their live-test failure is tolerated via `ALLOWED_FAILURES` in
+`.github/workflows/crawler-live-test.yml`): **DK** and **GR** - both are otherwise
+handled in production (DK via the JSON API; GR reads each AIRAC edition's static
+tree through the plain Bright Data proxy, since the `.gov` landing is blocked).
+See `docs/open-tasks.md` for the running status.
 
-1. [ ] Croatia (https://www.crocontrol.hr/UserDocsImages/AIS%20produkti/eAIP/start.html)
-
-Further candidates (no task spec yet): Switzerland, Italy, Spain.
+The OurAirports facts importer's `COUNTRIES` set (`import_ourairports.py`) must
+cover every live country's ISO code; `scripts/check-live-countries-coverage.mjs`
+gates that in CI (a missing country ships with an empty "airports near me" map).
 
 ## What to extract
 
@@ -145,7 +139,7 @@ Local run:
 
 ```bash
 uv sync
-uv run main.py            # crawls all active countries (AT, DE, FR, NL, UK, BE/LU, CZ, DK, GR, NO, PL, SE)
+uv run main.py            # crawls all active countries (the ~50 in main.py's COUNTRY_CRAWLERS)
 uv run main.py NL UK      # crawls only the given countries (codes are case-insensitive)
 ```
 
