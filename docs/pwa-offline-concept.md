@@ -15,8 +15,9 @@ Playwright E2E suite stay SW-free. Phase 3 shipped as
 the page (and a direct-PDF chart, `no-cors`) in the never-trimmed
 `saved-v1`/`charts-v1` caches, indexes the field in localStorage
 (`aip-offline-saved` - the Favorites foundation) and requests storage
-persistence; the SW serves saved pages before the browsing cache and saved
-chart PDFs to the inline preview embed, and `offline.html` lists saved fields
+persistence; the SW serves saved pages before the browsing cache and serves the
+saved chart PDF as a direct open link (the inline preview embed was removed
+14.07.2026 - the chart box is links-only), and `offline.html` lists saved fields
 by title first. Phase 4 shipped as
 `src/components/save-country-offline-button.tsx` on the airport-list page: an
 explicit "save all pages offline" country pack (size estimate on the button,

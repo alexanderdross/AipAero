@@ -35,7 +35,7 @@ Direct deps as of latest lock:
 
 No published CVEs in the direct set. **Transitive advisory resolved (2026-07-11):** `pip-audit` flagged the transitive `idna` 3.10 (pulled by `httpx` -> `anyio`) as PYSEC-2026-215 (moderate) - the GitHub Dependabot moderate alert that `pnpm audit` never sees because it is a Python dependency. Fixed by `uv lock --upgrade-package idna` (idna 3.10 -> 3.18, past the 3.15 fix); `pip-audit` is now clean and the 114-test pytest suite still passes. Run `uv run --with pip-audit pip-audit` from `crawlers/` to reproduce.
 
-**Selenium has been removed** (2026-07): no dependency uses it anymore - the experimental crawlers (`belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run`), the legacy `CrawlerBase` / `EurocontrolBase` bases and the `cache_warmer.py` script were deleted, and `selenium` / `webdriver-manager` (plus their `trio` / `wsproto` transitive deps) dropped from `pyproject.toml` / `uv.lock`. All 12 active crawlers run on httpx (DK via Playwright).
+**Selenium has been removed** (2026-07): no dependency uses it anymore - the experimental crawlers (`belgium` / `car_sam_nam` / `pac_n` / `pac_p` / `run`), the legacy `CrawlerBase` / `EurocontrolBase` bases and the `cache_warmer.py` script were deleted, and `selenium` / `webdriver-manager` (plus their `trio` / `wsproto` transitive deps) dropped from `pyproject.toml` / `uv.lock`. All ~50 active crawlers run on httpx (DK and RS via Playwright).
 
 ## Code review
 
@@ -99,8 +99,9 @@ The crawlers are an HTTP client with hardcoded, country-specific entry URLs. The
 
 **Resolved (2026-07-12):** the CSP has been promoted from Report-Only to an
 enforcing `Content-Security-Policy` (AdSense's documented origins incl.
-`*.adtrafficquality.google` allowlisted; `object-src https:` for the
-chart-PDF inline preview embeds; `upgrade-insecure-requests` re-added).
+`*.adtrafficquality.google` allowlisted; `object-src` is now `'none'` - the
+chart-PDF inline preview embed was removed 14.07.2026, the box is links-only;
+`upgrade-insecure-requests` re-added).
 
 ## Summary
 

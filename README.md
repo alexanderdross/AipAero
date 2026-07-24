@@ -105,7 +105,7 @@ The container exposes port `3000` internally (mapped to `127.0.0.1:8080` by `doc
 
 ### Crawlers (GitHub Actions)
 
-The Python crawlers under `crawlers/` run as scheduled GitHub Actions workflows on the self-hosted runner - `.github/workflows/crawl.yml` (daily crawl + publish) and `facts-import.yml` (weekly OurAirports import), both triggerable via `workflow_dispatch`. They use `httpx` + `BeautifulSoup` for static AIP sites (all twelve country crawlers are on this path; DK renders via Playwright). See `crawlers/README.md` for the per-country status, the `Airport` schema, and how to add a new country.
+The Python crawlers under `crawlers/` run as scheduled GitHub Actions workflows on the self-hosted runner - `.github/workflows/crawl.yml` (daily crawl + publish) and `facts-import.yml` (weekly OurAirports import), both triggerable via `workflow_dispatch`. They use `httpx` + `BeautifulSoup` for static AIP sites (the ~50 country crawlers are on this path; DK and RS render via Playwright). See `crawlers/README.md` for the per-country status, the `Airport` schema, and how to add a new country.
 
 ## Learn More
 

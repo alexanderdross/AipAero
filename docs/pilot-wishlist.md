@@ -11,8 +11,9 @@ aéroport) - type an airport name or ICAO - get **one outbound link to the offic
 
 That is genuinely useful. The national AIS "basic" versions (DFS BasicVFR, NATS, Austro Control,
 LVNL, SIA, ...) publish the charts for free but give you **no search** - you page through AD sections by
-hand. AIP:Aero fixes exactly that, now in **12 countries** (AT, DE, FR, NL, UK, BE/LU, CZ, DK, GR, NO,
-PL, SE) across 22 locales, and its SEO is strong (per-airport pages, JSON-LD, multilingual sitemap).
+hand. AIP:Aero fixes exactly that, now across the full live roster (~50 crawlers registered in
+`COUNTRY_CRAWLERS`; the launched set is `liveCountries` in `src/lib/utils.ts` - do not hardcode a
+count here, it drifts), and its SEO is strong (per-airport pages, JSON-LD, multilingual sitemap).
 
 The database is still deliberately thin - per airport it stores only six fields (`icao, title, url,
 type, country, slug`, `src/server/db/schema.ts`), and the crawlers emit only those. Operational data
@@ -44,8 +45,10 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
   runway (facts-driven toggles).~~
 - ~~**Deep link to the exact chart PDF** (+ inline preview) instead of the AIP index page - **partially
   shipped**: where the crawler URL already points at a PDF, the detail page shows a chart box with a
-  direct "open PDF" link, a lazy on-click inline preview and DigitalDocument JSON-LD. The Stage-2
+  direct "open PDF" link, a collapsed all-charts list and DigitalDocument JSON-LD. The Stage-2
   plumbing (nullable `pdf_url` column + crawler model + API + display preference) is in place.~~
+  (Note: the inline on-click PDF preview that shipped here was **removed 14.07.2026** - cross-origin
+  AIP PDFs do not embed reliably; the chart box is now links-only, and `object-src` is `'none'`.)
   Still wished for: the per-country crawler extraction of exact-PDF URLs for sources that store an
   index page (see `docs/chart-pdf-plan.md`; needs live-source validation on the runner).
 - ~~**Chart currency indicator** - a "last updated" date shipped (§C); true per-country AIRAC freshness
@@ -54,7 +57,7 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
   are the offline-saved fields (one implementation, per the PWA concept), recents are tracked on
   detail-page views; both listed on the country landing page.~~
 - ~~**Cross-country unified search** - one box across every country - **shipped** (§C).~~
-- **More countries**: CH, IT, ES, ... beyond the current 12.
+- **More countries**: beyond the current live roster (CH, ES, IE, SK, BA, AL, RS, GR and many more have shipped; IT/HR/CIS/Oceania remain info-page or gated candidates).
 - **EFB / tool hand-offs**: deep links to SkyDemon, ForeFlight, autorouter, Windy, OpenAIP, national
   self-briefing / AIS. (A Google Maps link per field already shipped, §C.)
 
@@ -66,7 +69,7 @@ The rest of this document is what I, as the pilot, still wish it did - and what 
 | --- | --- | --- |
 | ~~Search scope~~ | ~~Per-country search matches `title`/`icao` only; a cross-country global search now exists on the root~~ **done** | `server/actions.ts`, `queries.ts` |
 | ~~Coordinates~~ | ~~Stored per ICAO in `airport_facts` (OurAirports importer); resolved at request time when absent~~ **done** | `server/db/schema.ts` |
-| ~~Security~~ | ~~CSP still in Report-Only mode~~ **enforced** (AdSense + adtrafficquality origins allowlisted, `object-src https:` for the chart-PDF embeds) | `next.config.mjs` |
+| ~~Security~~ | ~~CSP still in Report-Only mode~~ **enforced** (AdSense + adtrafficquality origins allowlisted, `object-src 'none'` - the chart-PDF inline embed was removed 14.07.2026) | `next.config.mjs` |
 
 Note: the Product-schema `aggregateRating` (4.9 / 247) is a **deliberate SEO choice the owner wants
 kept** - left as-is on purpose.
@@ -101,7 +104,7 @@ markers redrawn in a layer group (no map/tile teardown per toggle). **Border-cro
 contact box). **Chart-PDF Stage-2 plumbing** (`pdf_url` column + crawler model + API + display
 preference; per-country extraction still open, see `docs/chart-pdf-plan.md`). **CSP enforced**
 (promoted from Report-Only; AdSense/adtrafficquality origins allowlisted up front, `object-src
-https:` keeps the chart-PDF inline preview working).
+'none'` - the chart-PDF inline preview was removed 14.07.2026, the box is links-only).
 
 **First batch (low-hanging fruits).** French live search fixed (`mil`/`aeroport` in the search enum);
 ICAO column searched directly; the unused debounce wired up; mobile nav shows Aéroports & Militaire;
@@ -207,8 +210,9 @@ coordinates (facts row, else the METAR station), shown in the aerodrome-data box
   authoritative public v1 schema, unit-tested in `openaip-parse.test.ts`.)** Still open: **how to
   request PPR** (contact).
 - ~~**Deep link to the exact chart PDF** (+ optional inline preview).~~ **(partially shipped - chart
-  box with direct PDF link, lazy on-click preview and DigitalDocument JSON-LD wherever the stored URL
-  is already a PDF.)** Still open: exact-PDF URLs for index-page countries (`docs/chart-pdf-plan.md`).
+  box with direct PDF link, a collapsed all-charts list and DigitalDocument JSON-LD wherever the stored
+  URL is already a PDF; the inline preview was removed 14.07.2026, the box is links-only.)** Still open:
+  exact-PDF URLs for index-page countries (`docs/chart-pdf-plan.md`).
 - ~~**Per-country AIRAC / crawl freshness** - a real per-country crawl timestamp.~~ **(shipped -
   `crawl_meta` + `QUERIES.crawlUpdatedAt`.)**
 - ~~**Customs / Airport-of-Entry** flag + national border-crossing forms.~~ **(shipped - customs flag
