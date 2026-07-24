@@ -303,7 +303,8 @@
     "aipLoginHint": "Mund të kërkohet identifikimi ose regjistrimi.",
     "noChartPdf": "Për këtë aerodrom nuk publikohet asnjë PDF i veçantë harte - butoni AIP më sipër hap hyrjen e tij zyrtare të aerodromit.",
     "reportProblem": "Raporto të dhëna të gabuara ose të munguara",
-    "reportProblemTitle": "Raporto të dhëna të gabuara ose të munguara për këtë aerodrom"
+    "reportProblemTitle": "Raporto të dhëna të gabuara ose të munguara për këtë aerodrom",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Të gjitha hartat ({count})",

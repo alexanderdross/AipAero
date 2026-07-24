@@ -76,6 +76,7 @@ function ResultsSkeleton() {
 export function AirportSearchBox({
   placeholder,
   noResultsLabel,
+  clearLabel,
   scope = "global",
   country,
   detailBase,
@@ -84,6 +85,8 @@ export function AirportSearchBox({
   placeholder: string;
   /** Localized "no airports found" note; omit to render nothing on empty. */
   noResultsLabel?: string;
+  /** Localized accessible name for the clear (X) button. */
+  clearLabel?: string;
   scope?: "global" | "country";
   /** Two-letter country code - required (and hidden-posted) when scope="country". */
   country?: string;
@@ -185,6 +188,12 @@ export function AirportSearchBox({
           }}
           onKeyDown={(e) => {
             if (e.key === "Escape") setDismissed(true);
+          }}
+          clearLabel={clearLabel}
+          onClear={() => {
+            setSearch("");
+            setDismissed(true);
+            hasTypedRef.current = false;
           }}
           // ARIA combobox with a listbox popup (WAI-ARIA APG). The results are
           // real <a> links the user reaches by Tab - no arrow-key/roving-focus

@@ -30,6 +30,7 @@ export function SearchInputField({
   type,
   country,
   noResultsLabel,
+  clearLabel,
 }: {
   value?: string;
   /** Descriptive, keyword-rich label - the sr-only <label> + the input `title`
@@ -43,6 +44,8 @@ export function SearchInputField({
   country: string;
   /** Localized "no airports found" note shown when a search matched nothing. */
   noResultsLabel?: string;
+  /** Localized accessible name for the clear (X) button. */
+  clearLabel?: string;
 }) {
   const [state, formAction, pending] = useActionState(
     searchAirports,
@@ -126,6 +129,12 @@ export function SearchInputField({
         onChange={(e) => onChange(e)}
         onKeyDown={(e) => {
           if (e.key === "Escape") setDismissed(true);
+        }}
+        clearLabel={clearLabel}
+        onClear={() => {
+          setSearch("");
+          setDismissed(true);
+          hasTypedRef.current = false;
         }}
         // Autofocus ONLY on the base search view (no prefilled value). On an
         // airport-detail page the box is seeded with the field's ICAO, where

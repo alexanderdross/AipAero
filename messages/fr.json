@@ -333,7 +333,8 @@
     "aipLoginHint": "Une connexion ou une inscription peut être requise.",
     "noChartPdf": "Aucun PDF de carte distinct n'est publié pour cet aérodrome - le bouton AIP ci-dessus ouvre sa fiche d'aérodrome officielle.",
     "reportProblem": "Signaler des données erronées ou manquantes",
-    "reportProblemTitle": "Signaler des données erronées ou manquantes pour cet aérodrome"
+    "reportProblemTitle": "Signaler des données erronées ou manquantes pour cet aérodrome",
+    "clearSearch": "Effacer la recherche"
   },
   "Chart": {
     "allCharts": "Toutes les cartes ({count})",

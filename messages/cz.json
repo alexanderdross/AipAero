@@ -317,7 +317,8 @@
     "aipLoginHint": "Může být vyžadováno přihlášení nebo registrace.",
     "noChartPdf": "Pro toto letiště není zveřejněno samostatné PDF mapy - tlačítko AIP výše otevře jeho oficiální záznam letiště.",
     "reportProblem": "Nahlásit chybné nebo chybějící údaje",
-    "reportProblemTitle": "Nahlásit chybné nebo chybějící údaje o tomto letišti"
+    "reportProblemTitle": "Nahlásit chybné nebo chybějící údaje o tomto letišti",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Všechny mapy ({count})",

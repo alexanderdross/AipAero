@@ -303,7 +303,8 @@
     "aipLoginHint": "A login or registration with skybriefing may be required.",
     "noChartPdf": "No separate chart PDF is published for this aerodrome - the AIP button above opens its official aerodrome entry.",
     "reportProblem": "Report incorrect or missing data",
-    "reportProblemTitle": "Report incorrect or missing data for this aerodrome"
+    "reportProblemTitle": "Report incorrect or missing data for this aerodrome",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "All charts ({count})",

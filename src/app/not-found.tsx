@@ -18,6 +18,7 @@ export default function NotFound() {
           <AirportSearchBox
             placeholder="Search any airport by name or ICAO code"
             noResultsLabel="No airports found"
+            clearLabel="Clear search"
           />
         </div>
         <Link href="/" className="text-drossblue underline hover:no-underline">

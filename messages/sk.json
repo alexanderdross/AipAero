@@ -303,7 +303,8 @@
     "aipLoginHint": "Môže byť potrebné prihlásenie alebo registrácia.",
     "noChartPdf": "Pre toto letisko nie je zverejnené samostatné PDF mapy - tlačidlo AIP vyššie otvorí jeho oficiálny záznam letiska.",
     "reportProblem": "Nahlásiť nesprávne alebo chýbajúce údaje",
-    "reportProblemTitle": "Nahlásiť nesprávne alebo chýbajúce údaje o tomto letisku"
+    "reportProblemTitle": "Nahlásiť nesprávne alebo chýbajúce údaje o tomto letisku",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Všetky mapy ({count})",

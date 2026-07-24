@@ -177,6 +177,7 @@ export default async function CountryPage(
           detailBase={getPathname({ href: "/", locale })}
           placeholder={tNotFound("searchPlaceholder")}
           noResultsLabel={tCommon("noResults")}
+          clearLabel={tCommon("clearSearch")}
         />
       </Hero>
       <SchemaProduct

@@ -333,7 +333,8 @@
     "aipLoginHint": "Innlogging eller registrering kan være påkrevd.",
     "noChartPdf": "Det publiseres ingen separat kart-PDF for denne flyplassen - AIP-knappen ovenfor åpner dens offisielle flyplassoppføring.",
     "reportProblem": "Rapporter feil eller manglende data",
-    "reportProblemTitle": "Rapporter feil eller manglende data for denne flyplassen"
+    "reportProblemTitle": "Rapporter feil eller manglende data for denne flyplassen",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Alle kart ({count})",

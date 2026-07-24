@@ -391,6 +391,7 @@ export function createSearchPage(config: SearchPageConfig) {
             type={type}
             country={country}
             noResultsLabel={tCommon("noResults")}
+            clearLabel={tCommon("clearSearch")}
           />
           <div className="absolute left-1/2 mt-3 w-full max-w-2xl -translate-x-1/2 transform px-4 text-center text-white sm:px-6 lg:px-8">
             <ol>

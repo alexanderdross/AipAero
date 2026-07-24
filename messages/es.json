@@ -303,7 +303,8 @@
     "aipLoginHint": "Puede requerirse iniciar sesión o registrarse.",
     "noChartPdf": "No se publica ningún PDF de carta por separado para este aeródromo - el botón AIP de arriba abre su ficha de aeródromo oficial.",
     "reportProblem": "Informar de datos incorrectos o faltantes",
-    "reportProblemTitle": "Informar de datos incorrectos o faltantes de este aeródromo"
+    "reportProblemTitle": "Informar de datos incorrectos o faltantes de este aeródromo",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Todas las cartas ({count})",

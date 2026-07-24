@@ -303,7 +303,8 @@
     "aipLoginHint": "Giriş ýa-da hasaba alynmak talap edilip bilner.",
     "noChartPdf": "Bu aerodrom üçin aýratyn karta PDF-i çap edilmedi - ýokardaky AIP düwmesi onuň resmi aerodrom ýazgysyny açýar.",
     "reportProblem": "Nädogry ýa-da ýetmeýän maglumatlary habar beriň",
-    "reportProblemTitle": "Bu aerodrom üçin nädogry ýa-da ýetmeýän maglumatlary habar beriň"
+    "reportProblemTitle": "Bu aerodrom üçin nädogry ýa-da ýetmeýän maglumatlary habar beriň",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Ähli kartalar ({count})",

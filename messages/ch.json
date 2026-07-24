@@ -303,7 +303,8 @@
     "aipLoginHint": "Login oder Registrierung bei skybriefing kann erforderlich sein.",
     "noChartPdf": "Für diesen Flugplatz wird kein separates Karten-PDF veröffentlicht - der AIP-Button oben öffnet seinen offiziellen Flugplatzeintrag.",
     "reportProblem": "Fehlerhafte oder fehlende Daten melden",
-    "reportProblemTitle": "Fehlerhafte oder fehlende Angaben zu diesem Flugplatz melden"
+    "reportProblemTitle": "Fehlerhafte oder fehlende Angaben zu diesem Flugplatz melden",
+    "clearSearch": "Suche löschen"
   },
   "Chart": {
     "allCharts": "Alle Karten ({count})",
