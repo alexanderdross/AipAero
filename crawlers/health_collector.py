@@ -24,7 +24,7 @@ from typing import List
 
 from health.models import Metric
 from health.settings import HealthSettings
-from health import cloudflare, coolify, github, sentry, server
+from health import alert, cloudflare, coolify, github, sentry, server
 
 log = logging.getLogger("health_collector")
 
@@ -104,6 +104,11 @@ def main() -> int:
     )
     for m in metrics:
         log.debug("  %s/%s = %s%s", m.category, m.metric, m.value, f" {m.unit}" if m.unit else "")
+
+    # Push a notification for any metric that went crit (inert without an alert
+    # channel, fail-soft). Skipped in dry-run - like publishing.
+    if not dry_run:
+        alert.run_alerts(settings, metrics, int(time.time()))
 
     if dry_run:
         log.info("--dry-run: skipping publish")

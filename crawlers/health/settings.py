@@ -54,3 +54,14 @@ class HealthSettings(BaseSettings):
     sentry_auth_token: Optional[SecretStr] = None
     sentry_org: Optional[str] = None
     sentry_project: Optional[str] = None
+
+    # --- Alerting (push a notification when a metric goes crit) ---
+    # An ntfy topic URL (e.g. https://ntfy.sh/aip-aero-health-<random>). Unset ->
+    # alerting is INERT (the collector still runs, it just never notifies), so
+    # deploying the code notifies nothing until a channel is provisioned.
+    alert_ntfy_url: Optional[str] = None
+    # Re-alert cadence while a metric STAYS crit (hours) - avoids a per-run storm.
+    alert_cooldown_hours: float = 6.0
+    # Where the debounce state persists across runs (a box-local file, like the
+    # crawlers' last_run_counts.json). Relative to the collector's working dir.
+    alert_state_file: str = "health_alert_state.json"
