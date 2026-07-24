@@ -99,6 +99,13 @@
       "when": 1784859130382,
       "tag": "0013_strange_jackpot",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1784868743420,
+      "tag": "0014_romantic_cloak",
+      "breakpoints": true
     }
   ]
 }

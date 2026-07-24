@@ -158,6 +158,18 @@ automatically; a localized CTA on the country landing + airport-list pages; SEO/
 - **Public read-only data API** (`/api/v1/airports/{country}`, `/api/v1/airport/{ICAO}`, 16.07.2026):
   key-gated (`PUBLIC_API_KEY`), inert (503) until a key is provisioned, for EFB / flight-planning
   integration partners. Advertised on the Pilot Tools & EFB page. See CLAUDE.md "Public data API".
+  - **Per-partner keys** (24.07.2026): each partner can be issued their OWN bearer token, stored
+    hashed in the D1 `api_keys` table (`key_hash` = SHA-256 hex, `partner`, `active`, `created_at`)
+    so a key is attributable and individually revocable (`active = 0`) without rotating everyone's.
+    The `PUBLIC_API_KEY` secret stays as the bootstrap credential + on/off switch (unset -> 503).
+    `authorizeApiRequest` (`src/lib/api-auth.ts`) checks the bootstrap key first (no DB hit), else
+    hashes the bearer and looks the hash up via `QUERIES.apiKeyActive` (uncached, fail-soft).
+    **Issue a key**: generate a random token (e.g. `openssl rand -hex 32`), give the partner the raw
+    token, and store only its hash - `INSERT INTO aip_aero_v4_api_keys (key_hash, partner, active,
+    created_at) VALUES (lower(hex(...sha256...)), '<partner>', 1, unixepoch());` (compute the SHA-256
+    of the token, e.g. `printf %s "<token>" | sha256sum`). **Revoke**: `UPDATE ... SET active=0 WHERE
+    partner='<partner>'`. Rate-limiting stays a Cloudflare zone rule on `/api/v1/*` (owner/dashboard
+    step); per-key metering is deferred (a D1 write per request).
 - **Crawler reach**: JS-rendering fallback (`PlaywrightCrawlerBase`, DK) + Bright Data Web Unlocker
   wiring (GR) so the last two blocked national sources can be crawled once their host prerequisites are
   set (browser install / unlocker zone).

@@ -8,6 +8,7 @@ import {
   real,
   sqliteTableCreator,
   text,
+  uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 
@@ -270,3 +271,37 @@ export const analytics = createTable(
 
 export type Analytics = InferSelectModel<typeof analytics>;
 export type InsertAnalytics = InferInsertModel<typeof analytics>;
+
+/**
+ * Per-partner keys for the public read-only data API (`/api/v1/*`).
+ *
+ * Each integration partner gets their OWN bearer token; only the SHA-256 hash
+ * of the token is stored here (never the token itself), so a DB read can never
+ * leak a working credential. `apiKeyError`/`authorizeApiRequest` (src/lib/
+ * api-auth.ts) hash the presented bearer and look the hash up; a matching
+ * `active` row authorizes the request. The shared `PUBLIC_API_KEY` env secret
+ * stays as the bootstrap credential and the on/off switch (unset -> 503), so
+ * this table is purely additive - a partner can be attributed and revoked
+ * (`active = false`) without rotating everyone's key.
+ */
+export const apiKeys = createTable(
+  "api_keys",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    // SHA-256 hex of the partner's bearer token (the token itself is never stored).
+    keyHash: text("key_hash").notNull(),
+    // Human label for attribution (e.g. the partner/vendor name).
+    partner: text("partner").notNull(),
+    // Soft revocation: an inactive key is rejected without being deleted.
+    active: integer("active", { mode: "boolean" }).notNull().default(true),
+    // Creation time, unix seconds.
+    createdAt: integer("created_at").notNull(),
+  },
+  (k) => ({
+    // Auth looks a key up by its hash on every request - unique + indexed.
+    keyHashIndex: uniqueIndex("api_keys_key_hash_idx").on(k.keyHash),
+  }),
+);
+
+export type ApiKey = InferSelectModel<typeof apiKeys>;
+export type InsertApiKey = InferInsertModel<typeof apiKeys>;
