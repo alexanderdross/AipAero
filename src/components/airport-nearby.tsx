@@ -63,7 +63,7 @@ export async function AirportNearby({
   return (
     <section className="border-drossgray-dark/15 rounded-xl border bg-white p-4 shadow-sm">
       <SectionHeading
-        className="text-center text-xl font-normal"
+        className="text-center text-xl font-semibold tracking-tight"
         linkTitle={
           airportLabel ? `${t("nearby")} - ${airportLabel}` : t("nearby")
         }
