@@ -12,18 +12,48 @@ which is itself reachable only through the Cloudflare Tunnel + Access
 
 from __future__ import annotations
 
+import json
 import os
 import time
 from collections import defaultdict
 from typing import Any, Optional
 
 import httpx
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 
 API_BASE = os.environ.get("HEALTH_API_BASE", "https://aip.aero").rstrip("/")
 API_KEY = os.environ.get("HEALTH_API_KEY", "")
 WINDOW_SECONDS = int(os.environ.get("HEALTH_WINDOW_SECONDS", str(60 * 60 * 24)))
+
+# --- PWA / Web Push ---------------------------------------------------------
+# The dashboard is a PWA: installable, offline-capable (service worker), and it
+# receives Web Push notifications when a metric goes crit. The browser
+# subscribes with the VAPID PUBLIC key exposed here; the COLLECTOR holds the
+# private key and sends the pushes (crawlers/health/alert.py). Unset public key
+# -> the "enable notifications" UI stays hidden (push inert until provisioned).
+VAPID_PUBLIC_KEY = os.environ.get("HEALTH_VAPID_PUBLIC_KEY", "")
+# Box-local file of browser push subscriptions: WRITTEN here on subscribe, READ
+# by the collector to send. Point both processes at the SAME path (a shared
+# volume) when they run in separate containers.
+PUSH_SUBS_FILE = os.environ.get("HEALTH_PUSH_SUBS_FILE", "push_subscriptions.json")
+
+
+def _load_subs() -> list[dict[str, Any]]:
+    try:
+        with open(PUSH_SUBS_FILE, encoding="utf-8") as fh:
+            data = json.load(fh)
+        return data if isinstance(data, list) else []
+    except (OSError, ValueError):
+        return []
+
+
+def _save_subs(subs: list[dict[str, Any]]) -> None:
+    try:
+        with open(PUSH_SUBS_FILE, "w", encoding="utf-8") as fh:
+            json.dump(subs, fh, separators=(",", ":"))
+    except OSError:
+        pass
 
 # Tile order + human labels for the known categories.
 CATEGORY_ORDER = [
@@ -167,6 +197,173 @@ def data() -> JSONResponse:
 @app.get("/healthz")
 def healthz() -> JSONResponse:
     return JSONResponse({"ok": True})
+
+
+# --- PWA plumbing -----------------------------------------------------------
+# All self-contained (no CDN): the manifest, an inline SVG icon, and a
+# dependency-free service worker that (a) caches the shell for offline use and
+# (b) turns an incoming Web Push into a native notification.
+
+_MANIFEST = {
+    "name": "AIP:Aero Health",
+    "short_name": "Health",
+    "description": "AIP:Aero System-Health-Dashboard",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#f0f2f2",
+    "theme_color": "#2d6a9a",
+    "icons": [
+        {"src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
+        {
+            "src": "/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "maskable",
+        },
+    ],
+}
+
+# A simple pulse/heartbeat glyph on the brand-blue tile. `any` + `maskable`, so
+# it works as both a normal and an adaptive (safe-zone) icon.
+_ICON_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">'
+    '<rect width="512" height="512" rx="96" fill="#2d6a9a"/>'
+    '<path d="M64 256h96l40-96 56 192 40-96h152" fill="none" stroke="#fff" '
+    'stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+)
+
+# Bumping CACHE_VERSION invalidates the old offline shell on the next SW activate.
+_SW_JS = """
+const CACHE = 'health-shell-v1';
+const SHELL = ['/', '/icon.svg', '/manifest.webmanifest'];
+
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
+    ).then(() => self.clients.claim())
+  );
+});
+
+// Navigations + shell: network-first, falling back to the cached copy offline.
+// Never intercept /api/* (always live, and fine to fail when offline).
+self.addEventListener('fetch', (e) => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.pathname.startsWith('/api/')) return;
+  e.respondWith(
+    fetch(req)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+        return res;
+      })
+      .catch(() => caches.match(req).then((m) => m || caches.match('/')))
+  );
+});
+
+// A crit push from the collector -> a native notification.
+self.addEventListener('push', (e) => {
+  let data = {};
+  try { data = e.data ? e.data.json() : {}; } catch (_) { data = {}; }
+  const title = data.title || 'AIP:Aero Health';
+  const body = data.body || 'Ein Systemwert ist kritisch.';
+  e.waitUntil(
+    self.registration.showNotification(title, {
+      body: body,
+      icon: '/icon.svg',
+      badge: '/icon.svg',
+      tag: data.tag || 'health-crit',
+      renotify: true,
+    })
+  );
+});
+
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((cs) => {
+      for (const c of cs) { if ('focus' in c) return c.focus(); }
+      if (self.clients.openWindow) return self.clients.openWindow('/');
+    })
+  );
+});
+"""
+
+
+@app.get("/manifest.webmanifest")
+def manifest() -> Response:
+    return Response(
+        content=json.dumps(_MANIFEST, separators=(",", ":")),
+        media_type="application/manifest+json",
+    )
+
+
+@app.get("/icon.svg")
+def icon() -> Response:
+    return Response(
+        content=_ICON_SVG,
+        media_type="image/svg+xml",
+        headers={"Cache-Control": "public, max-age=86400"},
+    )
+
+
+@app.get("/sw.js")
+def service_worker() -> Response:
+    # Served no-cache so a redeploy's new SW is picked up promptly.
+    return Response(
+        content=_SW_JS,
+        media_type="text/javascript",
+        headers={"Cache-Control": "no-cache"},
+    )
+
+
+@app.get("/api/push/config")
+def push_config() -> JSONResponse:
+    """The VAPID public key the browser needs to subscribe. Empty key -> the UI
+    keeps the enable-notifications button hidden (push not provisioned)."""
+    return JSONResponse(
+        {"enabled": bool(VAPID_PUBLIC_KEY), "publicKey": VAPID_PUBLIC_KEY}
+    )
+
+
+@app.post("/api/push/subscribe")
+async def push_subscribe(request: Request) -> JSONResponse:
+    """Persist a browser PushSubscription (deduped by endpoint) so the collector
+    can push to it. Fail-soft: a malformed body is a 400, storage errors are
+    swallowed (the file is best-effort local state)."""
+    try:
+        sub = await request.json()
+    except Exception:
+        return JSONResponse({"ok": False, "error": "invalid json"}, status_code=400)
+    endpoint = sub.get("endpoint") if isinstance(sub, dict) else None
+    if not endpoint:
+        return JSONResponse({"ok": False, "error": "no endpoint"}, status_code=400)
+    subs = _load_subs()
+    subs = [s for s in subs if s.get("endpoint") != endpoint]
+    subs.append(sub)
+    _save_subs(subs)
+    return JSONResponse({"ok": True, "count": len(subs)})
+
+
+@app.post("/api/push/unsubscribe")
+async def push_unsubscribe(request: Request) -> JSONResponse:
+    try:
+        body = await request.json()
+    except Exception:
+        return JSONResponse({"ok": False, "error": "invalid json"}, status_code=400)
+    endpoint = body.get("endpoint") if isinstance(body, dict) else None
+    if not endpoint:
+        return JSONResponse({"ok": False, "error": "no endpoint"}, status_code=400)
+    subs = [s for s in _load_subs() if s.get("endpoint") != endpoint]
+    _save_subs(subs)
+    return JSONResponse({"ok": True, "count": len(subs)})
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -349,10 +546,15 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AIP:Aero Health</title>
 <meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#2d6a9a">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon.svg">
 </head>
 <body style="margin:0;background:#f0f2f2;font-family:Inter,Tahoma,Verdana,sans-serif;color:#1f2328">
 <header style="background:#2d6a9a;color:#fff;padding:14px 20px">
   <strong style="font-size:16px">AIP:Aero - Health Dashboard</strong>
+  <button id="notify-btn" hidden style="float:right;margin-left:12px;background:#fff;color:#2d6a9a;border:0;border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer">Benachrichtigungen aktivieren</button>
   <span style="float:right;font-size:12px;opacity:.85">{freshness} &middot; Fenster: letzte 24 h</span>
 </header>
 <main style="max-width:1100px;margin:0 auto;padding:20px">
@@ -375,6 +577,54 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
       }})
       .catch(function(){{}});
   }}, 60000);
+}})();
+
+// PWA: register the service worker and, when Web Push is provisioned, wire up
+// the "enable notifications" button (subscribe -> POST to /api/push/subscribe).
+(function(){{
+  if (!('serviceWorker' in navigator)) return;
+  var swReady = navigator.serviceWorker.register('/sw.js');
+
+  function urlB64ToUint8(base64){{
+    var pad = '='.repeat((4 - base64.length % 4) % 4);
+    var b64 = (base64 + pad).replace(/-/g, '+').replace(/_/g, '/');
+    var raw = atob(b64);
+    var out = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+    return out;
+  }}
+
+  var btn = document.getElementById('notify-btn');
+  if (!btn || !('PushManager' in window) || !('Notification' in window)) return;
+
+  fetch('/api/push/config').then(function(r){{ return r.json(); }}).then(function(cfg){{
+    if (!cfg || !cfg.enabled || !cfg.publicKey) return;  // push not provisioned
+    swReady.then(function(reg){{
+      return reg.pushManager.getSubscription();
+    }}).then(function(sub){{
+      if (sub) return;  // already subscribed on this device -> keep button hidden
+      btn.hidden = false;
+      btn.addEventListener('click', function(){{
+        Notification.requestPermission().then(function(perm){{
+          if (perm !== 'granted') return;
+          swReady.then(function(reg){{
+            return reg.pushManager.subscribe({{
+              userVisibleOnly: true,
+              applicationServerKey: urlB64ToUint8(cfg.publicKey),
+            }});
+          }}).then(function(sub){{
+            return fetch('/api/push/subscribe', {{
+              method: 'POST',
+              headers: {{'Content-Type': 'application/json'}},
+              body: JSON.stringify(sub),
+            }});
+          }}).then(function(){{
+            btn.hidden = true;
+          }}).catch(function(){{}});
+        }});
+      }});
+    }}).catch(function(){{}});
+  }}).catch(function(){{}});
 }})();
 </script>
 </body></html>"""

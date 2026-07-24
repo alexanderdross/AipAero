@@ -14,6 +14,12 @@ Access**-Policy (Owner-E-Mail). Details + Owner-Setup: `docs/health-dashboard-co
   Issues / Vitals, mit dem letzten Wert je Metrik + Ampel (`ok`/`warn`/`crit`).
 - `GET /` rendert die HTML-Seite, `GET /api/data` liefert das JSON fuer den
   clientseitigen Refresh.
+- **PWA**: installierbar + offline-faehig (`GET /manifest.webmanifest`,
+  `/icon.svg`, `/sw.js` - self-contained, kein CDN). Bei gesetztem VAPID-Public-
+  Key zeigt die Seite einen "Benachrichtigungen aktivieren"-Button und speichert
+  die Browser-`PushSubscription` in `HEALTH_PUSH_SUBS_FILE`; der Collector sendet
+  daran bei `crit` eine Web-Push-Benachrichtigung (siehe Konzept-Doc). Ohne
+  Public-Key bleibt der Button verborgen.
 
 Der Collector (`../crawlers/health_collector.py`) FUELLT die Tabelle; diese App
 LIEST nur. Beide teilen sich das `CRON_SECRET`.
@@ -25,6 +31,8 @@ cd dashboard
 uv run --with fastapi --with "uvicorn[standard]" --with httpx \
   uvicorn app:app --host 127.0.0.1 --port 8055
 # Env: HEALTH_API_BASE (default https://aip.aero), HEALTH_API_KEY (= CRON_SECRET)
+# PWA-Push (optional): HEALTH_VAPID_PUBLIC_KEY, HEALTH_PUSH_SUBS_FILE
+#   (letztere = derselbe Pfad wie der Collector-PUSH_SUBS_FILE, shared volume)
 ```
 
 Dann `http://127.0.0.1:8055`. In Produktion NICHT direkt exponieren - nur ueber

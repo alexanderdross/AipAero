@@ -141,28 +141,108 @@ def send_ntfy(url: str, title: str, message: str, priority: str = "default") -> 
         return False
 
 
+def _load_subs(path: str) -> list[dict[str, Any]]:
+    """Read the browser push subscriptions the dashboard persisted. Fail-soft."""
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+        return data if isinstance(data, list) else []
+    except (OSError, ValueError):
+        return []
+
+
+def _save_subs(path: str, subs: list[dict[str, Any]]) -> None:
+    try:
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(subs, fh, separators=(",", ":"))
+    except OSError as e:
+        log.warning("could not persist push subscriptions to %s: %s", path, e)
+
+
+def send_webpush(settings: HealthSettings, alerts: list[dict[str, Any]]) -> int:
+    """Send each alert as an encrypted Web Push to every stored subscription.
+
+    Inert (returns 0) without a VAPID private key or no subscriptions. Dead
+    subscriptions (404/410 Gone) are pruned from the file. Fully fail-soft: a
+    missing pywebpush dependency or any send error never raises.
+    """
+    if settings.vapid_private_key is None or not alerts:
+        return 0
+    subs = _load_subs(settings.push_subs_file)
+    if not subs:
+        return 0
+    try:
+        from pywebpush import WebPushException, webpush
+    except Exception as e:
+        log.warning("pywebpush unavailable, skipping Web Push (%s)", e)
+        return 0
+
+    private_key = settings.vapid_private_key.get_secret_value()
+    claims = {"sub": settings.vapid_subject}
+    # One notification per crit; recoveries push too so a watcher sees the all-clear.
+    sent = 0
+    dead: set[str] = set()
+    for a in alerts:
+        crit = a["kind"] == "crit"
+        payload = json.dumps(
+            {
+                "title": "AIP:Aero Health" + (" - kritisch" if crit else ""),
+                "body": a["text"],
+                "tag": a["key"],
+            }
+        )
+        for sub in subs:
+            endpoint = sub.get("endpoint")
+            if not endpoint or endpoint in dead:
+                continue
+            try:
+                webpush(
+                    subscription_info=sub,
+                    data=payload,
+                    vapid_private_key=private_key,
+                    vapid_claims=dict(claims),
+                    timeout=10,
+                )
+                sent += 1
+            except WebPushException as e:
+                status = getattr(getattr(e, "response", None), "status_code", None)
+                if status in (404, 410):
+                    dead.add(endpoint)  # subscription gone -> prune below
+                else:
+                    log.warning("web push failed (%s): %s", status, e)
+            except Exception as e:
+                log.warning("web push error: %s", e)
+    if dead:
+        _save_subs(settings.push_subs_file, [s for s in subs if s.get("endpoint") not in dead])
+        log.info("pruned %d dead push subscription(s)", len(dead))
+    return sent
+
+
 def run_alerts(
     settings: HealthSettings, metrics: list[Metric], now: int
 ) -> list[dict[str, Any]]:
-    """Load state, decide, notify, persist. Returns the alerts that were sent.
+    """Load state, decide, notify (ntfy + Web Push), persist. Returns the alerts.
 
-    Inert (returns []) when no channel is configured, so it is safe to always
-    call. Fully fail-soft - an alerting error never affects the collector run.
+    Inert (returns []) when NO channel is configured (neither ntfy nor a VAPID
+    key), so it is safe to always call. Fully fail-soft - an alerting error never
+    affects the collector run.
     """
-    if not settings.alert_ntfy_url:
+    if not settings.alert_ntfy_url and settings.vapid_private_key is None:
         return []
     try:
         cooldown_s = int(settings.alert_cooldown_hours * 3600)
         state = _load_state(settings.alert_state_file)
         alerts, new_state = decide_alerts(metrics, state, now, cooldown_s)
-        for a in alerts:
-            priority = "high" if a["kind"] == "crit" else "default"
-            send_ntfy(
-                settings.alert_ntfy_url, "AIP:Aero Health", a["text"], priority
-            )
+        if settings.alert_ntfy_url:
+            for a in alerts:
+                priority = "high" if a["kind"] == "crit" else "default"
+                send_ntfy(
+                    settings.alert_ntfy_url, "AIP:Aero Health", a["text"], priority
+                )
+        pushed = send_webpush(settings, alerts)
         _save_state(settings.alert_state_file, new_state)
         if alerts:
-            log.info("sent %d health alert(s)", len(alerts))
+            log.info("sent %d health alert(s) (%d web push)", len(alerts), pushed)
         return alerts
     except Exception:
         log.exception("alerting failed (non-fatal)")
