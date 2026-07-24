@@ -291,6 +291,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Ingen flyplasser funnet",
     "openIn": "Åpne i",
     "homeLink": "AIP:Aero - Luftfartspublikasjoner (AIP) & innflygingskart for Europa",

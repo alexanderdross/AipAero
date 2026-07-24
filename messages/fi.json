@@ -291,6 +291,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Lentopaikkoja ei löytynyt",
     "openIn": "Avaa palvelussa",
     "homeLink": "AIP:Aero - Ilmailukäsikirjat (AIP) & lähestymiskartat Eurooppaan",

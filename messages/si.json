@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Ni najdenih letališč",
     "openIn": "Odpri v",
     "homeLink": "AIP:Aero - Zborniki letalskih informacij (AIP) in karte prileta za Evropo",

@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Aerodromlar topilmadi",
     "openIn": "Bu yerda ochish",
     "homeLink": "AIP:Aero - Yevropa uchun havo kemalari harakati haqidagi maʼlumotlar toʻplami (AIP) & yaqinlashuv kartalari",

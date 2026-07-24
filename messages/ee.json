@@ -291,6 +291,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Lennuvälju ei leitud",
     "openIn": "Ava rakenduses",
     "homeLink": "AIP:Aero - Aeronavigatsiooniteabe kogumikud (AIP) ja lähenemiskaardid Euroopa jaoks",

@@ -291,6 +291,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "ICAO kopiëren",
+    "copiedIcao": "Gekopieerd",
     "noResults": "Geen vliegvelden gevonden",
     "openIn": "Openen in",
     "homeLink": "AIP:Aero - Luchtvaartpublicaties (AIP) & aanvliegkaarten voor Europa",

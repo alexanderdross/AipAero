@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Oro uostų nerasta",
     "openIn": "Atidaryti su",
     "homeLink": "AIP:Aero - Aeronautikos informacijos rinkiniai (AIP) ir artėjimo kortelės Europai",

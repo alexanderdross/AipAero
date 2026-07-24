@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Аэродромдор табылган жок",
     "openIn": "Ачуу",
     "homeLink": "AIP:Aero - Европа үчүн Аэронавигациялык маалымат жарыялоолор (AIP) & жакындоо карталары",

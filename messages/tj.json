@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Ягон фурудгоҳ ёфт нашуд",
     "openIn": "Кушодан дар",
     "homeLink": "AIP:Aero - Нашрияҳои иттилооти аэронавтикӣ (AIP) ва харитаҳои наздикшавӣ барои Аврупо",

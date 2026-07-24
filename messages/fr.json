@@ -291,6 +291,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copier l'OACI",
+    "copiedIcao": "Copié",
     "noResults": "Aucun aérodrome trouvé",
     "openIn": "Ouvrir dans",
     "homeLink": "AIP:Aero - Publications d'information aéronautique (AIP) & cartes d'approche pour l'Europe",

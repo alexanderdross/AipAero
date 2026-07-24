@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Heç bir aerodrom tapılmadı",
     "openIn": "Bunda aç",
     "homeLink": "AIP:Aero - Avropa üçün Aeronaviqasiya Məlumat Nəşrləri (AIP) və yanaşma kartları",

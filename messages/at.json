@@ -291,6 +291,8 @@
     "aipTextSource": "Offizielle AIP-Seite öffnen"
   },
   "Common": {
+    "copyIcao": "ICAO kopieren",
+    "copiedIcao": "Kopiert",
     "noResults": "Keine Flugplätze gefunden",
     "openIn": "Öffnen in",
     "homeLink": "AIP:Aero - Luftfahrthandbücher (AIP) & Anflugkarten für Europa",
