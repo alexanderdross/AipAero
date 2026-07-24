@@ -28,6 +28,15 @@ const FORMS: Record<string, BorderCrossingForm> = {
     name: "GAR",
     href: "https://www.gov.uk/government/publications/general-aviation-operators-and-pilots-notification-of-flights",
   },
+  // Belgium: a General Declaration (GenDec) must be submitted for a GA flight
+  // crossing the Schengen EXTERNAL border to/from one of Belgium's six air
+  // border-crossing points (EU Reg 2016/399). Verified 2026-07: the official
+  // Belgian Federal Police (Airport Police, GenDec Center Wevelgem) page, which
+  // hosts the online GenDec submission platform.
+  BE: {
+    name: "GenDec",
+    href: "https://www.police.be/bordercontrol/en/general-declaration",
+  },
 };
 
 export function borderCrossingForm(country: string): BorderCrossingForm | null {
