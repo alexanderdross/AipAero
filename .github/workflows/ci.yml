@@ -152,6 +152,14 @@ jobs:
 
   e2e:
     name: E2E & rendered output (Playwright)
+    # PR-only: the heavy Playwright job (15 min, own runner) gates every PR to
+    # main/dev, which is the real safety net. Re-running it on the merge commit
+    # (a push event) added a 4th self-hosted job on top of the 3 fast CI jobs +
+    # cd.yml's deploy - but the box has only 3 runners, so the E2E job never got
+    # one and was cancelled (runner_id 0, no steps), turning the whole merge-to-
+    # main run red for no code reason. Skipping it on push removes that
+    # starvation; the merge commit is already covered by the PR run.
+    if: github.event_name == 'pull_request'
     runs-on: self-hosted
     timeout-minutes: 15
     env:
