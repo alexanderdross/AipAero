@@ -1,4 +1,3 @@
-import { Input } from "~/components/ui/input";
 import { Skeleton } from "~/components/ui/skeleton";
 
 export function LoadingSub() {
@@ -14,11 +13,11 @@ export function LoadingSub() {
         </div>
       </div>
 
+      {/* Match the real search field's shape (SearchField: h-12, rounded-lg,
+          full width) so the skeleton-to-field swap doesn't jump. The previous
+          bare disabled <Input> was h-9/transparent and visibly mismatched. */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Input className="text-center" type="text" disabled />
-        <div className="absolute left-1/2 mt-3 w-full max-w-7xl -translate-x-1/2 transform px-4 text-center text-white sm:px-6 lg:px-8">
-          <ol></ol>
-        </div>
+        <Skeleton className="h-12 w-full rounded-lg" />
       </div>
     </>
   );
