@@ -1,9 +1,11 @@
 """Sentry metrics gatherer - unresolved issues.
 
-Skeleton (Phase 1): counts unresolved issues for the configured Sentry project.
-Requires the Worker app to actually report to Sentry first (a Phase-2 task:
-wire `@sentry/cloudflare` into the OpenNext build + allowlist the ingest host in
-the CSP `connect-src`). Fully fail-soft: unconfigured or any error -> [].
+Counts unresolved issues for the configured Sentry project, reading the TRUE
+total from Sentry's `X-Hits` pagination header when present (so the figure is not
+silently capped at the one-page limit) and falling back to the page length
+otherwise. Status stays deliberately conservative - `0` ok, `> 0` warn, never
+crit - because the unresolved-issue count is not a clear page-me signal and the
+collector now alerts on crit. Fully fail-soft: unconfigured or any error -> [].
 """
 
 from __future__ import annotations
@@ -33,16 +35,23 @@ def gather(settings: HealthSettings) -> List[Metric]:
 
         headers = {"Authorization": f"Bearer {token.get_secret_value()}"}
         with httpx.Client(timeout=20.0, base_url=_API, headers=headers) as client:
-            # Unresolved issues (paginated; we count the first page's worth and
-            # read the total from the header when present). Phase 2 can page the
-            # full set / add event counts + release health.
+            # Unresolved issues. Prefer the true total from the `X-Hits`
+            # pagination header so a busy project is not capped at one page;
+            # fall back to the returned page length.
             r = client.get(
                 f"/projects/{org}/{project}/issues/",
                 params={"query": "is:unresolved", "statsPeriod": "24h", "limit": 100},
             )
             r.raise_for_status()
             issues = r.json()
-            count = len(issues) if isinstance(issues, list) else 0
+            page_len = len(issues) if isinstance(issues, list) else 0
+            count = page_len
+            hits = r.headers.get("X-Hits")
+            if hits is not None:
+                try:
+                    count = int(hits)
+                except (TypeError, ValueError):
+                    count = page_len
             metrics.append(
                 Metric(
                     "issues",

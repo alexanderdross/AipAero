@@ -164,6 +164,7 @@ Box-Seite (Collector, in Coolify als Env-Secrets, NICHT im Repo):
 | `COOLIFY_API_URL` / `COOLIFY_API_TOKEN` | Coolify-API (localhost) |
 | `GITHUB_TOKEN` / `GITHUB_REPO` | Issues + Run-Status (`repo`+`actions:read`) |
 | `SENTRY_AUTH_TOKEN` / `SENTRY_ORG` / `SENTRY_PROJECT` | Sentry-Issues |
+| `ALERT_NTFY_URL` (optional) | ntfy-Topic-URL fuer Push bei `crit` (unset = kein Alerting) |
 
 Dashboard-App: `HEALTH_API_BASE`, `HEALTH_API_KEY` (= `CRON_SECRET`).
 
@@ -195,7 +196,7 @@ Dashboard-App: `HEALTH_API_BASE`, `HEALTH_API_KEY` (= `CRON_SECRET`).
 | 0 | Konzept + Grundgeruest: `health_metrics`-Tabelle + Migration, `/api/health` (POST/GET), Collector-Skelett (server.py fertig, uebrige fail-soft), Dashboard-Skelett + Tunnel-Config | **GEBAUT 22.07.2026** |
 | 1 | CF-GraphQL voll (Workers/Traffic/Vitals/D1) - **GEBAUT**; Coolify per-Server offen; Owner-Setup (Token/Tunnel/Access), erster Live-Collect offen | teilweise |
 | 2 | Crawler-Selbstreport (`crawl_report.py`) - **GEBAUT**; Sentry server-seitig im Worker (`src/lib/sentry.ts`, direktes Envelope statt SDK, keine CSP) - **GEBAUT**; Collector liest Sentry-API - **minimal-fertig** | GEBAUT |
-| 3 | Dashboard-Ausbau: Zeitreihen-Charts, Ampeln, Alerting bei `crit` | offen |
+| 3 | Alerting bei `crit` (ntfy-Push, Debounce/Cooldown, Recovery-Notiz) - **GEBAUT** (`health/alert.py`, inert ohne `ALERT_NTFY_URL`); Dashboard-Zeitreihen-Charts weiter offen | teilweise |
 
 ## Verifikation
 
