@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Әуежайлар табылмады",
     "openIn": "Мына құралда ашу",
     "homeLink": "AIP:Aero - Еуропаға арналған аэронавигациялық ақпарат жинақтары (AIP) & қону карталары",

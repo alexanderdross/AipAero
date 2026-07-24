@@ -291,6 +291,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Nie znaleziono lotnisk",
     "openIn": "Otwórz w",
     "homeLink": "AIP:Aero - Zbiory informacji lotniczych (AIP) & mapy podejścia dla Europy",

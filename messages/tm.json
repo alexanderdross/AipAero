@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Aerodrom tapylmady",
     "openIn": "Şunda aç",
     "homeLink": "AIP:Aero - Ýewropa üçin Howa Maglumat Neşirleri (AIP) & golaýlaşma kartalary",

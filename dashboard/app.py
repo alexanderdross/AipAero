@@ -91,9 +91,12 @@ def group_series(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     """Group raw samples into per-category series.
 
     Returns category -> list of series dicts, each:
-      {metric, scope, unit, status, value (latest), points: [floats, oldest..newest]}
+      {metric, scope, unit, status, value (latest),
+       points: [floats, oldest..newest], times: [unix seconds, aligned to points]}
     The API returns rows newest-first; we sort each series ascending by
-    recorded_at so the sparkline reads left (old) to right (new)."""
+    recorded_at so the sparkline/chart reads left (old) to right (new). `times`
+    is parallel to `points` (same filter + order) so the chart can label a real
+    time axis."""
     buckets: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
         key = (
@@ -107,11 +110,14 @@ def group_series(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     for (category, metric, scope), samples in buckets.items():
         samples.sort(key=lambda r: r.get("recordedAt") or 0)
         latest = samples[-1]
-        points = [
-            float(s["value"])
-            for s in samples
-            if isinstance(s.get("value"), (int, float))
-        ]
+        points: list[float] = []
+        times: list[int] = []
+        for s in samples:
+            v = s.get("value")
+            if isinstance(v, (int, float)):
+                points.append(float(v))
+                ts = s.get("recordedAt")
+                times.append(int(ts) if isinstance(ts, (int, float)) else 0)
         by_cat[category].append(
             {
                 "metric": metric,
@@ -120,6 +126,7 @@ def group_series(rows: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
                 "status": latest.get("status"),
                 "value": latest.get("value"),
                 "points": points,
+                "times": times,
                 "recordedAt": latest.get("recordedAt"),
             }
         )
@@ -453,6 +460,96 @@ def sparkline_svg(
     )
 
 
+def _fmt_clock(ts: int, with_date: bool) -> str:
+    """UTC HH:MM (or 'MM-DD HH:MM' when the span crosses days). Pure - uses
+    gmtime so the axis is Zulu, consistent with the rest of the site."""
+    tm = time.gmtime(ts)
+    if with_date:
+        return time.strftime("%m-%d %H:%M", tm)
+    return time.strftime("%H:%M", tm)
+
+
+def chart_svg(
+    values: list[float],
+    times: list[int],
+    unit: Optional[str] = None,
+    status: Optional[str] = None,
+    width: int = 300,
+    height: int = 140,
+) -> str:
+    """A real time-series line chart with axes (pure SVG, no JS/CDN).
+
+    Unlike the compact `sparkline_svg`, this labels the Y axis (min/mid/max with
+    the unit) and the X axis (first/last sample time, UTC), draws gridlines and
+    a baseline, and plots the line + last-point dot. Used in the per-metric
+    expandable 'Verlauf' section. 0 points -> empty string."""
+    n = len(values)
+    if n == 0:
+        return ""
+    color = _STATUS_COLOR.get(status or "", "#2d6a9a")
+    # Plot area inside the axis margins.
+    ml, mr, mt, mb = 52.0, 10.0, 10.0, 22.0
+    pw = width - ml - mr
+    ph = height - mt - mb
+    lo, hi = min(values), max(values)
+    if lo == hi:  # flat series -> pad the range so the line sits mid-plot
+        lo, hi = lo - 1, hi + 1
+    span = hi - lo
+    mid = (lo + hi) / 2
+
+    def y(v: float) -> float:
+        return mt + ph * (1 - (v - lo) / span)
+
+    def x(i: int) -> float:
+        return ml if n == 1 else ml + pw * (i / (n - 1))
+
+    # Y gridlines + labels at min / mid / max.
+    grid = []
+    labels = []
+    for v in (hi, mid, lo):
+        yy = y(v)
+        grid.append(
+            f'<line x1="{ml:.1f}" y1="{yy:.1f}" x2="{width - mr:.1f}" y2="{yy:.1f}" '
+            f'stroke="#e1e4e8" stroke-width="1"/>'
+        )
+        labels.append(
+            f'<text x="{ml - 6:.1f}" y="{yy + 3:.1f}" text-anchor="end" '
+            f'font-size="10" fill="#57606a">{_fmt(v, unit)}</text>'
+        )
+
+    # X axis: first + last sample time (UTC), with the date when the span > 1 day.
+    xlabels = ""
+    if times and len(times) == n:
+        with_date = (times[-1] - times[0]) > 86400
+        y_axis = height - mb + 14
+        xlabels = (
+            f'<text x="{ml:.1f}" y="{y_axis:.1f}" text-anchor="start" '
+            f'font-size="10" fill="#57606a">{_fmt_clock(times[0], with_date)}</text>'
+            f'<text x="{width - mr:.1f}" y="{y_axis:.1f}" text-anchor="end" '
+            f'font-size="10" fill="#57606a">{_fmt_clock(times[-1], with_date)} UTC</text>'
+        )
+
+    pts = [(x(i), y(v)) for i, v in enumerate(values)]
+    poly = " ".join(f"{px:.1f},{py:.1f}" for px, py in pts)
+    lx, ly = pts[-1]
+    axis = (
+        f'<line x1="{ml:.1f}" y1="{mt:.1f}" x2="{ml:.1f}" y2="{height - mb:.1f}" '
+        f'stroke="#d0d7de" stroke-width="1"/>'
+        f'<line x1="{ml:.1f}" y1="{height - mb:.1f}" x2="{width - mr:.1f}" '
+        f'y2="{height - mb:.1f}" stroke="#d0d7de" stroke-width="1"/>'
+    )
+    line = (
+        f'<polyline fill="none" stroke="{color}" stroke-width="1.5" '
+        f'stroke-linejoin="round" stroke-linecap="round" points="{poly}"/>'
+        f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="2.5" fill="{color}"/>'
+    )
+    return (
+        f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
+        f'role="img" style="max-width:100%">'
+        f'{"".join(grid)}{axis}{line}{"".join(labels)}{xlabels}</svg>'
+    )
+
+
 def _fmt(value: Any, unit: Optional[str]) -> str:
     if value is None:
         return "-"
@@ -502,6 +599,20 @@ def _render(by_cat: dict[str, list[dict[str, Any]]]) -> str:
                     f'<td style="padding:4px 0 4px 10px;color:#57606a;font-size:12px;'
                     f'white-space:nowrap">{fmt_age(now, s.get("recordedAt"))}</td></tr>'
                 )
+                # A full time-series chart (axes + UTC time base) on demand, so
+                # the compact sparkline stays the overview and the detailed
+                # history is one click away (native <details>, no client JS).
+                if len(s["points"]) >= 2:
+                    chart = chart_svg(
+                        s["points"], s.get("times", []), s["unit"], s["status"]
+                    )
+                    rows.append(
+                        f'<tr><td colspan="5" style="padding:0 0 8px">'
+                        f'<details><summary style="cursor:pointer;color:#2d6a9a;'
+                        f'font-size:12px">Verlauf</summary>'
+                        f'<div style="padding:6px 0 2px">{chart}</div>'
+                        f"</details></td></tr>"
+                    )
             body = (
                 '<table style="width:100%;border-collapse:collapse;font-size:14px">'
                 + "".join(rows)

@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Nuk u gjet asnjë aerodrom",
     "openIn": "Hap në",
     "homeLink": "AIP:Aero - Publikimet e Informacionit Aeronautik (AIP) & hartat e afrimit për Evropën",

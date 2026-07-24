@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Не са намерени летища",
     "openIn": "Отвори в",
     "homeLink": "AIP:Aero - Сборници за аеронавигационна информация (AIP) & карти за подход за Европа",

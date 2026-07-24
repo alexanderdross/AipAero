@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Havaalanı bulunamadı",
     "openIn": "Şurada aç",
     "homeLink": "AIP:Aero - Avrupa için Havacılık Bilgi Yayınları (AIP) & yaklaşma kartları",

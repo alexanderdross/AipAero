@@ -54,6 +54,40 @@ def test_sparkline_flat_series_is_midline():
     assert "12.0" in svg  # height 24 -> mid 12
 
 
+def test_group_series_carries_aligned_times():
+    rows = [
+        {"category": "server", "metric": "m", "scope": None, "value": 42, "recordedAt": 300, "status": "ok"},
+        {"category": "server", "metric": "m", "scope": None, "value": 40, "recordedAt": 200, "status": "ok"},
+        # a non-numeric value is dropped from BOTH points and times (stay aligned)
+        {"category": "server", "metric": "m", "scope": None, "value": None, "recordedAt": 250, "status": "ok"},
+    ]
+    s = app.group_series(rows)["server"][0]
+    assert s["points"] == [40.0, 42.0]
+    assert s["times"] == [200, 300]  # ascending, aligned to points
+
+
+def test_chart_svg_empty_and_axes():
+    assert app.chart_svg([], []) == ""
+    svg = app.chart_svg([10.0, 20.0, 15.0], [100, 200, 300], unit="pct", status="ok")
+    assert svg.startswith("<svg") and "<polyline" in svg
+    # Y axis labels carry the unit; X axis carries a UTC time base.
+    assert "20 %" in svg and "10 %" in svg
+    assert "UTC" in svg
+    # gridlines + axis lines present
+    assert svg.count("<line") >= 4
+
+
+def test_chart_svg_flat_series_does_not_divide_by_zero():
+    svg = app.chart_svg([7.0, 7.0, 7.0], [1, 2, 3])
+    assert "<polyline" in svg  # padded range -> a real line, no crash
+
+
+def test_fmt_clock_utc():
+    # 1970-01-01 01:02:00 UTC
+    assert app._fmt_clock(3720, with_date=False) == "01:02"
+    assert app._fmt_clock(3720, with_date=True) == "01-01 01:02"
+
+
 def test_sparkline_has_value_tooltip():
     # native <title> carries min/max/last so hovering shows the actual values
     svg = app.sparkline_svg([1.0, 5.0, 3.0], status="ok")
@@ -130,6 +164,26 @@ def test_newest_recorded_at():
     assert app.newest_recorded_at(by_cat) == 300
     assert app.newest_recorded_at({}) is None
     assert app.newest_recorded_at({"x": [{"recordedAt": None}]}) is None
+
+
+def test_render_includes_expandable_history_chart():
+    by_cat = {
+        "server": [
+            {
+                "metric": "ram_used_pct",
+                "scope": "",
+                "unit": "pct",
+                "status": "ok",
+                "value": 42,
+                "points": [40.0, 41.0, 42.0],
+                "times": [100, 200, 300],
+                "recordedAt": 300,
+            }
+        ]
+    }
+    html = app._render(by_cat)
+    assert "<details><summary" in html and "Verlauf" in html
+    assert "<svg" in html
 
 
 def test_render_uses_polling_refresh_not_hard_reload():

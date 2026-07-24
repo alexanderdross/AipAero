@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Не се пронајдени аеродроми",
     "openIn": "Отвори во",
     "homeLink": "AIP:Aero - Публикации за аеронаутички информации (AIP) и приодни карти за Европа",

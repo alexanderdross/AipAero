@@ -261,6 +261,8 @@
     "aipTextSource": "Open the official AIP page"
   },
   "Common": {
+    "copyIcao": "Copy ICAO",
+    "copiedIcao": "Copied",
     "noResults": "Аэродромы не найдены",
     "openIn": "Открыть в",
     "homeLink": "AIP:Aero - Сборники аэронавигационной информации (AIP) и карты захода на посадку для Европы",

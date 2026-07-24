@@ -1,6 +1,7 @@
 import { GlobeIcon, MapPinIcon, SendIcon, StampIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Fragment, type ReactNode } from "react";
+import { CopyIcaoButton } from "~/components/copy-icao-button";
 import { ExternalLink } from "~/components/external-link";
 import { SectionHeading } from "~/components/section-heading";
 import type { NormalizedFacts } from "~/lib/airport-facts";
@@ -157,6 +158,15 @@ export async function AirportContact({
               {link.name}
             </ExternalLink>
           ))}
+          {/* "Copy ICAO" for pasting into any EFB (ForeFlight/SkyDemon deep
+              links are deliberately absent - see efb-links.ts). */}
+          {airport.icao && (
+            <CopyIcaoButton
+              icao={airport.icao}
+              copyLabel={t("copyIcao")}
+              copiedLabel={t("copiedIcao")}
+            />
+          )}
         </div>
       )}
     </section>
