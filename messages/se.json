@@ -333,7 +333,8 @@
     "aipLoginHint": "Inloggning eller registrering kan krävas.",
     "noChartPdf": "Ingen separat kart-PDF publiceras för denna flygplats - AIP-knappen ovan öppnar dess officiella flygplatspost.",
     "reportProblem": "Rapportera felaktiga eller saknade uppgifter",
-    "reportProblemTitle": "Rapportera felaktiga eller saknade uppgifter för denna flygplats"
+    "reportProblemTitle": "Rapportera felaktiga eller saknade uppgifter för denna flygplats",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Alla kartor ({count})",

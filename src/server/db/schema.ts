@@ -223,3 +223,50 @@ export type InsertHealthMetric = InferInsertModel<typeof healthMetrics>;
 export const healthMetricsApiInsertSchema = createInsertSchema(healthMetrics)
   .omit({ id: true })
   .array();
+
+/**
+ * First-party web analytics - Core-Web-Vitals RUM field data, one row per page
+ * view. Written from the public `/api/vitals` beacon (the `WebVitalsReporter`
+ * client sends one `sendBeacon` on page hide); the write is fired OFF the
+ * critical path (`ctx.waitUntil`) and is fully fail-soft, so a forged/oversized
+ * beacon can never delay the response or surface an error.
+ *
+ * Kept in its OWN table (not `health_metrics`) so the RUM stream - which grows
+ * with public traffic - stays isolated from the collector's health series: its
+ * own retention/prune, its own indexes, and no risk of a public write path
+ * touching the health rows. This deliberately supersedes the earlier
+ * "aggregated-only, no per-beacon D1 write" note in
+ * docs/health-dashboard-concept.md; the `waitUntil` + prune bound keep it safe.
+ * Never read on a public request path, so it carries NO cache tags.
+ */
+export const analytics = createTable(
+  "analytics",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    // Sample time, unix seconds (server-stamped on ingest, so a forged client
+    // clock cannot skew the series).
+    recordedAt: integer("recorded_at").notNull(),
+    // Same-origin pathname the sample was collected on (bounded to 256 chars by
+    // sanitizeVitals). The primary analysis dimension (CWV per page type).
+    url: text("url").notNull(),
+    // Core Web Vitals for this view (nullable - a browser/page may not report
+    // every metric). LCP/INP/FCP/TTFB are milliseconds; CLS is unitless.
+    lcp: real("lcp"),
+    cls: real("cls"),
+    inp: real("inp"),
+    fcp: real("fcp"),
+    ttfb: real("ttfb"),
+    // Navigation type (navigate / reload / back_forward) and effective
+    // connection type (4g / 3g / ...), when the browser reports them.
+    nav: text("nav"),
+    conn: text("conn"),
+  },
+  (a) => ({
+    // The dashboard reads recent rows per URL over a time window, so index both.
+    urlIndex: index("analytics_url_idx").on(a.url),
+    recordedAtIndex: index("analytics_recorded_at_idx").on(a.recordedAt),
+  }),
+);
+
+export type Analytics = InferSelectModel<typeof analytics>;
+export type InsertAnalytics = InferInsertModel<typeof analytics>;

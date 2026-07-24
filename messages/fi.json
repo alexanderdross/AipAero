@@ -333,7 +333,8 @@
     "aipLoginHint": "Kirjautuminen tai rekisteröityminen voi olla tarpeen.",
     "noChartPdf": "Tälle lentopaikalle ei julkaista erillistä kartta-PDF:ää - yllä oleva AIP-painike avaa sen virallisen lentopaikkamerkinnän.",
     "reportProblem": "Ilmoita virheellisistä tai puuttuvista tiedoista",
-    "reportProblemTitle": "Ilmoita tämän lentopaikan virheellisistä tai puuttuvista tiedoista"
+    "reportProblemTitle": "Ilmoita tämän lentopaikan virheellisistä tai puuttuvista tiedoista",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Kaikki kartat ({count})",

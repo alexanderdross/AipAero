@@ -20,6 +20,7 @@ export default async function NotFound() {
         <AirportSearchBox
           placeholder={t("searchPlaceholder")}
           noResultsLabel={tCommon("noResults")}
+          clearLabel={tCommon("clearSearch")}
         />
       </div>
       <Link

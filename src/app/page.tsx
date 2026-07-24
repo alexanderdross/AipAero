@@ -404,6 +404,7 @@ export default async function RootPage() {
             <AirportSearchBox
               placeholder="Search any airport across Europe by name or ICAO code"
               noResultsLabel="No airports found"
+              clearLabel={tCommon("clearSearch")}
             />
           </Hero>
 

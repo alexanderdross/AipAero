@@ -333,7 +333,8 @@
     "aipLoginHint": "Login eller registrering kan være påkrævet.",
     "noChartPdf": "Der udgives ikke et separat kort-PDF for denne flyveplads - AIP-knappen ovenfor åbner dens officielle flyvepladspost.",
     "reportProblem": "Rapportér forkerte eller manglende data",
-    "reportProblemTitle": "Rapportér forkerte eller manglende data for denne flyveplads"
+    "reportProblemTitle": "Rapportér forkerte eller manglende data for denne flyveplads",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Alle kort ({count})",

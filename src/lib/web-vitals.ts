@@ -7,6 +7,8 @@
  * forged beacon cannot bloat the logs.
  */
 
+import { type InsertAnalytics } from "~/server/db/schema";
+
 /** The Core Web Vitals (+ FCP/TTFB) we accept, in milliseconds (CLS is unitless). */
 export const VITALS_METRICS = ["LCP", "CLS", "INP", "FCP", "TTFB"] as const;
 
@@ -50,4 +52,28 @@ export function sanitizeVitals(raw: unknown): Vitals | null {
   const nav = typeof o.nav === "string" ? o.nav.slice(0, 32) : undefined;
   const conn = typeof o.conn === "string" ? o.conn.slice(0, 16) : undefined;
   return { url, metrics, ...(nav ? { nav } : {}), ...(conn ? { conn } : {}) };
+}
+
+/**
+ * Flatten a sanitized {@link Vitals} beacon into one persisted analytics row
+ * (wide format: one column per CWV metric, one row per page view). Pure + typed
+ * so the beacon -> DB-row mapping is unit-testable and stays in lockstep with the
+ * `analytics` table shape. `recordedAt` is server-stamped by the caller, never
+ * taken from the client. Unreported metrics stay `null`.
+ */
+export function vitalsToAnalyticsRow(
+  v: Vitals,
+  recordedAt: number,
+): InsertAnalytics {
+  return {
+    recordedAt,
+    url: v.url,
+    lcp: v.metrics.LCP ?? null,
+    cls: v.metrics.CLS ?? null,
+    inp: v.metrics.INP ?? null,
+    fcp: v.metrics.FCP ?? null,
+    ttfb: v.metrics.TTFB ?? null,
+    nav: v.nav ?? null,
+    conn: v.conn ?? null,
+  };
 }

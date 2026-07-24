@@ -103,6 +103,42 @@ export function buildEnvelope(event: SentryEvent, sentAt: string): string {
   return `${header}\n${itemHeader}\n${payload}\n`;
 }
 
+// Per-isolate fixed-window rate limit so a Worker error STORM (e.g. a bad deploy
+// 500ing every request) cannot become a Sentry / `ctx.waitUntil` storm. State is
+// module-global, so it bounds each isolate's contribution; Sentry's own
+// server-side quota handles cross-isolate aggregation.
+const RL_WINDOW_MS = 60_000;
+const RL_MAX_PER_WINDOW = 20;
+
+export interface RateLimitState {
+  windowStart: number;
+  count: number;
+}
+
+/**
+ * Fixed-window rate-limit decision (pure, so it is unit-testable). Returns
+ * whether this event may be sent plus the next state. A fresh window resets the
+ * counter; within a window, events past `max` are disallowed.
+ */
+export function withinRateLimit(
+  state: RateLimitState,
+  now: number,
+  max: number,
+  windowMs: number,
+): { allow: boolean; state: RateLimitState } {
+  if (now - state.windowStart >= windowMs) {
+    return { allow: true, state: { windowStart: now, count: 1 } };
+  }
+  const count = state.count + 1;
+  return {
+    allow: count <= max,
+    state: { windowStart: state.windowStart, count },
+  };
+}
+
+let rlState: RateLimitState = { windowStart: 0, count: 0 };
+let rlWarnedWindow = -1;
+
 /**
  * Report a server-side error to Sentry (no-op without `SENTRY_DSN`). Never
  * throws, never blocks: it fires the POST inside `ctx.waitUntil` when a
@@ -117,6 +153,26 @@ export async function captureServerError(
   if (!parsed) return;
 
   const nowMs = Date.now();
+
+  // Rate-limit BEFORE building/sending the envelope. Drop silently past the cap,
+  // logging at most once per window so the guard itself never storms the logs.
+  const decision = withinRateLimit(
+    rlState,
+    nowMs,
+    RL_MAX_PER_WINDOW,
+    RL_WINDOW_MS,
+  );
+  rlState = decision.state;
+  if (!decision.allow) {
+    if (rlWarnedWindow !== rlState.windowStart) {
+      rlWarnedWindow = rlState.windowStart;
+      console.warn(
+        `Sentry capture rate-limited (> ${RL_MAX_PER_WINDOW}/min); dropping further events this window`,
+      );
+    }
+    return;
+  }
+
   const event = buildEvent({
     eventId: crypto.randomUUID().replace(/-/g, ""),
     timestamp: Math.floor(nowMs / 1000),

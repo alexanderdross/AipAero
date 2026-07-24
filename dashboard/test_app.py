@@ -101,3 +101,24 @@ def test_banner_reflects_worst_level():
     assert "kritisch" in crit.lower() or "Kritisch" in crit
     ok = app._banner(app.summarize({"c": [_series("ok")]}))
     assert "normal" in ok
+
+
+def test_fmt_age_buckets():
+    now = 1_000_000
+    assert app.fmt_age(now, now) == "gerade eben"
+    assert app.fmt_age(now, now - 30) == "gerade eben"
+    assert app.fmt_age(now, now - 180) == "vor 3 min"
+    assert app.fmt_age(now, now - 2 * 3600) == "vor 2 h"
+    assert app.fmt_age(now, now - 3 * 86400) == "vor 3 d"
+    assert app.fmt_age(now, None) == "-"
+    assert app.fmt_age(now, now + 100) == "gerade eben"  # future clamps to 0
+
+
+def test_newest_recorded_at():
+    by_cat = {
+        "server": [{"recordedAt": 100}, {"recordedAt": 300}],
+        "crawl": [{"recordedAt": 250}],
+    }
+    assert app.newest_recorded_at(by_cat) == 300
+    assert app.newest_recorded_at({}) is None
+    assert app.newest_recorded_at({"x": [{"recordedAt": None}]}) is None

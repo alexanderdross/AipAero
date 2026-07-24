@@ -1,4 +1,7 @@
-import { SearchIcon } from "lucide-react";
+"use client";
+
+import { SearchIcon, XIcon } from "lucide-react";
+import { useRef } from "react";
 import { Input } from "~/components/ui/input";
 import { cn } from "~/lib/utils";
 
@@ -20,8 +23,20 @@ import { cn } from "~/lib/utils";
 export function SearchField({
   overlay,
   className,
+  value,
+  onClear,
+  clearLabel,
   ...inputProps
-}: React.ComponentProps<typeof Input> & { overlay?: React.ReactNode }) {
+}: React.ComponentProps<typeof Input> & {
+  overlay?: React.ReactNode;
+  /** When set, a clear (X) button shows while the field has a value; clicking it
+   *  calls `onClear` and returns focus to the input. `clearLabel` is its
+   *  localized accessible name (required for a11y). */
+  onClear?: () => void;
+  clearLabel?: string;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const showClear = !!onClear && typeof value === "string" && value.length > 0;
   return (
     <div className="relative">
       <SearchIcon
@@ -29,14 +44,30 @@ export function SearchField({
         aria-hidden="true"
       />
       <Input
+        ref={inputRef}
         type="text"
         autoComplete="off"
+        value={value}
         {...inputProps}
         className={cn(
           className,
-          "focus-visible:ring-drossblue border-drossgray-dark/20 h-12 rounded-lg bg-white pl-10 text-base shadow-sm focus-visible:ring-2",
+          "focus-visible:ring-drossblue border-drossgray-dark/20 h-12 rounded-lg bg-white pr-10 pl-10 text-base shadow-sm focus-visible:ring-2",
         )}
       />
+      {showClear && (
+        <button
+          type="button"
+          onClick={() => {
+            onClear();
+            inputRef.current?.focus();
+          }}
+          aria-label={clearLabel}
+          title={clearLabel}
+          className="text-drossgray-dark hover:text-drossblue focus-visible:ring-drossblue absolute top-1/2 right-2 flex size-8 -translate-y-1/2 items-center justify-center rounded-full focus-visible:ring-2 focus-visible:outline-none"
+        >
+          <XIcon className="size-4" aria-hidden="true" />
+        </button>
+      )}
       {overlay}
     </div>
   );

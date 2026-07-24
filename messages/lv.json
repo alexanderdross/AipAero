@@ -333,7 +333,8 @@
     "aipLoginHint": "Var būt nepieciešama pieteikšanās vai reģistrācija.",
     "noChartPdf": "Šim lidlaukam netiek publicēts atsevišķs kartes PDF - iepriekš redzamā AIP poga atver tā oficiālo lidlauka ierakstu.",
     "reportProblem": "Ziņot par nepareiziem vai trūkstošiem datiem",
-    "reportProblemTitle": "Ziņot par nepareiziem vai trūkstošiem šī lidlauka datiem"
+    "reportProblemTitle": "Ziņot par nepareiziem vai trūkstošiem šī lidlauka datiem",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Visas kartes ({count})",

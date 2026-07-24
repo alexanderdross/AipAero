@@ -30,6 +30,7 @@ export function SearchInputField({
   type,
   country,
   noResultsLabel,
+  clearLabel,
 }: {
   value?: string;
   /** Descriptive, keyword-rich label - the sr-only <label> + the input `title`
@@ -43,12 +44,15 @@ export function SearchInputField({
   country: string;
   /** Localized "no airports found" note shown when a search matched nothing. */
   noResultsLabel?: string;
+  /** Localized accessible name for the clear (X) button. */
+  clearLabel?: string;
 }) {
   const [state, formAction, pending] = useActionState(
     searchAirports,
     initialState,
   );
   const [search, setSearch] = useState(value ?? "");
+  const [dismissed, setDismissed] = useState(false);
   const debouncedSearch = useDebounce(search, 250);
   const formRef = useRef<HTMLFormElement>(null);
   const hasTypedRef = useRef(false);
@@ -56,6 +60,7 @@ export function SearchInputField({
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     hasTypedRef.current = true;
+    setDismissed(false); // typing re-opens a panel the user dismissed
     setSearch(e.currentTarget.value);
   }
 
@@ -71,11 +76,13 @@ export function SearchInputField({
   }, [debouncedSearch]);
 
   useEffect(() => {
-    // If single result, redirect to the airport page
+    // A single result self-redirects to its detail page. MORE than one result
+    // is shown in the overlay list below - we do NOT navigate on multi-result
+    // (the old `router.push("./")` fired a surprising base-route navigation on
+    // every settled keystroke burst, e.g. discarding a ?ICAO detail view
+    // mid-typing).
     if (state.airports.length === 1) {
       router.push(`./?${state.airports.at(0)?.slug}`);
-    } else if (state.airports.length > 1) {
-      router.push("./");
     }
   }, [state, router]);
 
@@ -90,7 +97,21 @@ export function SearchInputField({
     state.query.length > 0 &&
     search.trim().length > 0 &&
     !!noResultsLabel;
-  const showPanel = pending || results.length > 1 || showNoResults;
+  const wantsPanel = pending || results.length > 1 || showNoResults;
+  const showPanel = wantsPanel && !dismissed;
+
+  // Dismiss the results overlay on Escape or a pointer-down outside the field
+  // (standard autocomplete affordances). Typing re-opens it (see onChange).
+  useEffect(() => {
+    if (!wantsPanel || dismissed) return;
+    function onDown(e: MouseEvent) {
+      if (formRef.current && !formRef.current.contains(e.target as Node)) {
+        setDismissed(true);
+      }
+    }
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [wantsPanel, dismissed]);
 
   return (
     <form action={formAction} ref={formRef}>
@@ -106,6 +127,15 @@ export function SearchInputField({
         title={title}
         value={search ?? value}
         onChange={(e) => onChange(e)}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") setDismissed(true);
+        }}
+        clearLabel={clearLabel}
+        onClear={() => {
+          setSearch("");
+          setDismissed(true);
+          hasTypedRef.current = false;
+        }}
         // Autofocus ONLY on the base search view (no prefilled value). On an
         // airport-detail page the box is seeded with the field's ICAO, where
         // stealing focus (and popping the mobile keyboard) is disruptive - the

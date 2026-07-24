@@ -51,12 +51,20 @@ unit-getestet), `OutputHandler.write_output` liefert ihn, und am Ende POSTet
 (category `crawl`, scope = Landcode). Reuse des `CRON_SECRET`-Bearers, voll
 fail-soft (ein Fehler im Health-Report beruehrt weder Crawl noch Airport-Publish).
 
-**Web Vitals** kommen AGGREGIERT vom Collector aus der Cloudflare-Web-Analytics-
-GraphQL (p75), NICHT als per-Beacon-D1-Write. Der bestehende `/api/vitals`-Beacon
-(`src/app/api/vitals/route.ts`) bleibt unveraendert (loggt weiter in die Worker-
-Observability). Grund: ein D1-Write pro Beacon waere Write-Amplification auf dem
-Request-Pfad - genau das Muster, das die CLAUDE.md-Guardrails (Error 1102)
-vermeiden wollen.
+**Web Vitals** werden jetzt ZUSAETZLICH als First-Party-RUM pro Seitenaufruf in
+einer EIGENEN `analytics`-Tabelle persistiert (Owner-Entscheid 24.07.2026, loest
+die fruehere "nur aggregiert"-Regel ab). Der `/api/vitals`-Beacon
+(`src/app/api/vitals/route.ts`) sanitisiert weiter (`sanitizeVitals`), loggt in die
+Worker-Observability UND schreibt eine Zeile via `MUTATIONS.insertAnalytics` -
+aber **ausserhalb des kritischen Pfads** (`ctx.waitUntil`, nach dem 204) und voll
+fail-soft, plus 90-Tage-Retention (`GET /api/vitals?prune=1`). Damit ist die
+alte Write-Amplification-/Error-1102-Sorge entschaerft: kein DB-Write auf dem
+Response-Pfad, ein forged/oversized Beacon wird verworfen. Die aggregierte
+Cloudflare-Web-Analytics-GraphQL-Quelle (p75, `category=vitals` im
+`health_metrics`) bleibt als site-weite Ergaenzung; die `analytics`-Tabelle
+liefert die per-URL-Feldwerte. `GET /api/vitals` (Bearer `CRON_SECRET`) liest die
+juengsten Zeilen fuer die Dashboard-Vitals-Kachel. Die Tabelle traegt KEINE
+Cache-Tags (nie auf einem oeffentlichen Lesepfad).
 
 ## Datenmodell - `aip_aero_v4_health_metrics`
 

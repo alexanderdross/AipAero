@@ -303,7 +303,8 @@
     "aipLoginHint": "Možda će biti potrebna prijava ili registracija.",
     "noChartPdf": "Za ovaj aerodrom nije objavljen zaseban PDF karte - gumb AIP iznad otvara njegovu službenu stranicu aerodroma.",
     "reportProblem": "Prijavite netočne ili nedostajuće podatke",
-    "reportProblemTitle": "Prijavite netočne ili nedostajuće podatke za ovaj aerodrom"
+    "reportProblemTitle": "Prijavite netočne ili nedostajuće podatke za ovaj aerodrom",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Sve karte ({count})",

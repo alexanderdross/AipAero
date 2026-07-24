@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { sanitizeVitals } from "~/lib/web-vitals";
+import { sanitizeVitals, vitalsToAnalyticsRow } from "~/lib/web-vitals";
 
 describe("sanitizeVitals", () => {
   it("accepts a well-formed beacon and rounds metrics", () => {
@@ -50,5 +50,47 @@ describe("sanitizeVitals", () => {
     expect(v!.url.length).toBe(256);
     expect(v!.nav).toBeUndefined();
     expect(v!.conn).toBeUndefined();
+  });
+});
+
+describe("vitalsToAnalyticsRow", () => {
+  it("flattens a full beacon into a persisted analytics row", () => {
+    expect(
+      vitalsToAnalyticsRow(
+        {
+          url: "/de/vfr/",
+          metrics: { LCP: 1234.5, CLS: 0.012, INP: 88, FCP: 900, TTFB: 120 },
+          nav: "navigate",
+          conn: "4g",
+        },
+        1_700_000_000,
+      ),
+    ).toEqual({
+      recordedAt: 1_700_000_000,
+      url: "/de/vfr/",
+      lcp: 1234.5,
+      cls: 0.012,
+      inp: 88,
+      fcp: 900,
+      ttfb: 120,
+      nav: "navigate",
+      conn: "4g",
+    });
+  });
+
+  it("maps unreported metrics and optional fields to null (server-stamps time)", () => {
+    expect(
+      vitalsToAnalyticsRow({ url: "/uk/", metrics: { LCP: 1000 } }, 42),
+    ).toEqual({
+      recordedAt: 42,
+      url: "/uk/",
+      lcp: 1000,
+      cls: null,
+      inp: null,
+      fcp: null,
+      ttfb: null,
+      nav: null,
+      conn: null,
+    });
   });
 });

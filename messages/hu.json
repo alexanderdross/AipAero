@@ -303,7 +303,8 @@
     "aipLoginHint": "Bejelentkezés vagy regisztráció szükséges lehet.",
     "noChartPdf": "Ehhez a repülőtérhez nem jelenik meg külön térkép PDF - a fenti AIP gomb a hivatalos repülőtéri bejegyzését nyitja meg.",
     "reportProblem": "Hibás vagy hiányzó adatok jelentése",
-    "reportProblemTitle": "Hibás vagy hiányzó adatok jelentése erről a repülőtérről"
+    "reportProblemTitle": "Hibás vagy hiányzó adatok jelentése erről a repülőtérről",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Összes térkép ({count})",

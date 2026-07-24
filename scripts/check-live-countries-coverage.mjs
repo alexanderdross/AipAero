@@ -78,6 +78,23 @@ function codesFromTermsSources() {
   return set;
 }
 
+/** ISO `iso_country` codes in the OurAirports facts importer's COUNTRIES set
+ * (`crawlers/import_ourairports.py`). This list drives which countries get
+ * aerodrome facts + map coordinates persisted, so a live country missing here
+ * has an EMPTY "airports near me" map. */
+function isoCodesFromFactsImporter() {
+  const src = read("crawlers/import_ourairports.py");
+  const body = src.match(/COUNTRIES\s*=\s*\{([\s\S]*?)\}/);
+  if (!body)
+    throw new Error("COUNTRIES set not found in crawlers/import_ourairports.py");
+  return new Set([...body[1].matchAll(/"([A-Z]{2})"/g)].map((m) => m[1]));
+}
+
+/** Map a live locale code to its OurAirports ISO alpha-2 code. Only `uk` -> GB
+ * differs; every other live country's ISO code is its locale code uppercased
+ * (the BE->LU and RS->ME AIP supersets are extra entries, not required here). */
+const isoForLive = (cc) => (cc === "uk" ? "GB" : cc.toUpperCase());
+
 const live = liveCountries();
 const checks = [
   [
@@ -131,6 +148,25 @@ for (const [label, present] of enChecks) {
     console.log(
       `✓ ${label} (${twoLocale.length} two-locale countries covered)`,
     );
+  }
+}
+
+// OurAirports facts importer COUNTRIES (ISO codes) - each live country's ISO
+// code must be present or that country ships with an empty map (no persisted
+// coordinates). Checked via the locale->ISO mapping (uk->GB, else uppercased).
+{
+  const label = "OurAirports facts importer COUNTRIES (import_ourairports.py)";
+  const iso = isoCodesFromFactsImporter();
+  const missing = live.filter((cc) => !iso.has(isoForLive(cc)));
+  if (missing.length > 0) {
+    failed = true;
+    console.error(
+      `✗ ${label}\n    missing live countries (ISO): ${missing
+        .map((cc) => `${cc}->${isoForLive(cc)}`)
+        .join(", ")}`,
+    );
+  } else {
+    console.log(`✓ ${label} (${live.length} live countries covered)`);
   }
 }
 

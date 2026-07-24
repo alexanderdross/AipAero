@@ -303,7 +303,8 @@
     "aipLoginHint": "Giriş veya kayıt gerekebilir.",
     "noChartPdf": "Bu aerodrom için ayrı bir kart PDF'i yayınlanmadı - yukarıdaki AIP düğmesi resmi aerodrom kaydını açar.",
     "reportProblem": "Yanlış veya eksik verileri bildirin",
-    "reportProblemTitle": "Bu havaalanı için yanlış veya eksik verileri bildirin"
+    "reportProblemTitle": "Bu havaalanı için yanlış veya eksik verileri bildirin",
+    "clearSearch": "Clear search"
   },
   "Chart": {
     "allCharts": "Tüm kartlar ({count})",

@@ -28,10 +28,13 @@ import {
   type InsertAirportFacts,
   type HealthMetric,
   type InsertHealthMetric,
+  type Analytics,
+  type InsertAnalytics,
   airports,
   airportFacts,
   crawlMeta,
   healthMetrics,
+  analytics,
 } from "./schema";
 
 // Cache lifetime for the read queries (seconds). The AIP data only changes when
@@ -600,6 +603,37 @@ export const QUERIES = {
       return [];
     }
   },
+  // Recent first-party web-analytics (CWV RUM) rows, newest first, optionally
+  // narrowed to one URL / a time window. Backs the internal dashboard's Vitals
+  // tile (read behind CRON_SECRET via GET /api/vitals, reached only through the
+  // Cloudflare Tunnel). UNCACHED for the same reason as `healthMetrics` - it is
+  // a polled, open-ended query and never on a public user path. Fail-soft to [].
+  analyticsRecent: async function (opts?: {
+    since?: number; // unix seconds - only rows recorded at/after this time
+    url?: string;
+    limit?: number;
+  }): Promise<Analytics[]> {
+    const db = await getDb();
+    if (!db) return [];
+    try {
+      const conds: SQL[] = [];
+      if (opts?.since != null)
+        conds.push(gte(analytics.recordedAt, opts.since));
+      if (opts?.url) conds.push(eq(analytics.url, opts.url));
+      return await db
+        .select()
+        .from(analytics)
+        .where(conds.length ? and(...conds) : undefined)
+        .orderBy(desc(analytics.recordedAt))
+        .limit(Math.min(opts?.limit ?? 5000, 20000));
+    } catch (err) {
+      console.error(
+        "analyticsRecent read failed:",
+        err instanceof Error ? err.message : String(err),
+      );
+      return [];
+    }
+  },
 };
 
 // Cloudflare D1 caps bound parameters at 100 per query - far below SQLite's own
@@ -622,6 +656,10 @@ const HEALTH_INSERT_CHUNK_SIZE = Math.floor(
 // than this on each run (kept off the read path). 90 days of ~15-min samples is
 // a few hundred k rows at most - well within D1.
 const HEALTH_RETENTION_SECONDS = 60 * 60 * 24 * 90;
+
+// Retention for the append-only web-analytics (CWV RUM) series. Pruned via
+// GET /api/vitals?prune=1 (the collector's run), same 90-day window as health.
+const ANALYTICS_RETENTION_SECONDS = 60 * 60 * 24 * 90;
 
 function chunk<T>(items: T[], size: number): T[][] {
   const out: T[][] = [];
@@ -1018,5 +1056,34 @@ export const MUTATIONS = {
     const cutoff =
       olderThan ?? Math.floor(Date.now() / 1000) - HEALTH_RETENTION_SECONDS;
     await db.delete(healthMetrics).where(lt(healthMetrics.recordedAt, cutoff));
+  },
+
+  // Append ONE web-analytics (CWV RUM) row from the public /api/vitals beacon.
+  // Deliberately FAIL-SOFT (never throws): it runs inside `ctx.waitUntil` off
+  // the response path, so a DB hiccup or an absent binding (build) must not
+  // reject the beacon. Single row, so no chunking. No cache tag.
+  insertAnalytics: async function (row: InsertAnalytics): Promise<void> {
+    try {
+      const db = await getDb();
+      if (!db) return;
+      await db.insert(analytics).values(row);
+    } catch (err) {
+      console.error(
+        "insertAnalytics failed:",
+        err instanceof Error ? err.message : String(err),
+      );
+    }
+  },
+
+  // Delete web-analytics rows older than the retention window (default 90 days).
+  // Called via GET /api/vitals?prune=1 (the collector's run) so the RUM table
+  // stays bounded without a separate cron. `olderThan` is an absolute unix-
+  // seconds cutoff; when omitted we compute it from `now`.
+  pruneAnalytics: async function (olderThan?: number): Promise<void> {
+    const db = await getDb();
+    if (!db) return;
+    const cutoff =
+      olderThan ?? Math.floor(Date.now() / 1000) - ANALYTICS_RETENTION_SECONDS;
+    await db.delete(analytics).where(lt(analytics.recordedAt, cutoff));
   },
 };

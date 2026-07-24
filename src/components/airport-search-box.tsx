@@ -76,6 +76,7 @@ function ResultsSkeleton() {
 export function AirportSearchBox({
   placeholder,
   noResultsLabel,
+  clearLabel,
   scope = "global",
   country,
   detailBase,
@@ -84,6 +85,8 @@ export function AirportSearchBox({
   placeholder: string;
   /** Localized "no airports found" note; omit to render nothing on empty. */
   noResultsLabel?: string;
+  /** Localized accessible name for the clear (X) button. */
+  clearLabel?: string;
   scope?: "global" | "country";
   /** Two-letter country code - required (and hidden-posted) when scope="country". */
   country?: string;
@@ -96,6 +99,7 @@ export function AirportSearchBox({
     scope === "country" ? searchAirportsCountry : searchAirportsGlobal;
   const [state, formAction, pending] = useActionState(action, initialState);
   const [search, setSearch] = useState("");
+  const [dismissed, setDismissed] = useState(false);
   const debounced = useDebounce(search, 250);
   const formRef = useRef<HTMLFormElement>(null);
   const hasTypedRef = useRef(false);
@@ -146,7 +150,21 @@ export function AirportSearchBox({
     state.query.length > 0 &&
     search.trim().length > 0 &&
     !!noResultsLabel;
-  const showPanel = pending || results.length > 0 || showNoResults;
+  const wantsPanel = pending || results.length > 0 || showNoResults;
+  const showPanel = wantsPanel && !dismissed;
+
+  // Dismiss the results overlay on Escape or a pointer-down outside the box
+  // (standard autocomplete affordances). Typing re-opens it (see onChange).
+  useEffect(() => {
+    if (!wantsPanel || dismissed) return;
+    function onDown(e: MouseEvent) {
+      if (formRef.current && !formRef.current.contains(e.target as Node)) {
+        setDismissed(true);
+      }
+    }
+    document.addEventListener("pointerdown", onDown);
+    return () => document.removeEventListener("pointerdown", onDown);
+  }, [wantsPanel, dismissed]);
 
   return (
     <div className="mx-auto max-w-2xl px-4 pb-2 sm:px-6 lg:px-8">
@@ -165,7 +183,17 @@ export function AirportSearchBox({
           value={search}
           onChange={(e) => {
             hasTypedRef.current = true;
+            setDismissed(false); // typing re-opens a panel the user dismissed
             setSearch(e.currentTarget.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setDismissed(true);
+          }}
+          clearLabel={clearLabel}
+          onClear={() => {
+            setSearch("");
+            setDismissed(true);
+            hasTypedRef.current = false;
           }}
           // ARIA combobox with a listbox popup (WAI-ARIA APG). The results are
           // real <a> links the user reaches by Tab - no arrow-key/roving-focus

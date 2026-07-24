@@ -1,5 +1,18 @@
 # Chart-PDF recon - FI (ais.fi) and IS (eaip.isavia.is)
 
+> **UPDATE (shipped, supersedes the "not ready" conclusion below).** Both
+> countries now DO enable `FETCH_PDF_URLS`, via a deeper navigation hop this
+> recon had not yet found:
+> - **FI** (`fi.py`): each field's URL is rewritten to the full-aerodrome
+>   document page (`1-fi-FI`), which links the real charts under
+>   `documents/Root_WePub/ANSFI/Charts/AD/<ICAO>/`; `PDF_HREF_PRIORITY` prefers
+>   `_VAC` then `_ADC`.
+> - **IS** (`is_.py`): reads the `PART_8` charts page with a VFR/ADC HREF
+>   priority. Residual, source-limited: only ~7 of 53 fields publish a chart PDF
+>   (the gravel landing sites carry a text AD entry only), so those stay
+>   `pdf_url=None` by design - not an extraction gap.
+> The verbatim run output below is kept as the historical audit trail.
+
 Source: GitHub Actions run 29274747730 ("Crawler live test", job 86900957481), "Crawl live sources (no publish)" step with `countries: FI IS`, `pdf_recon: true`, 2026-07-13. This run exercises the recon's new "chart-ish" diagnostic: when an AD 2 page anchors ZERO PDFs, the recon lists links whose href/text smell like a chart index or chart section (`chart|kartta|kort|VAC|ADC|2.24|WePub|Charts`, up to 10 unique, `~[text] url` lines). Note the diagnostic's gating: it only fires at 0 pdf links - pages that anchor ANY pdf (even non-chart data PDFs) never print their chart-ish candidates.
 
 ## FI - Finland (www.ais.fi) - 40 airports, pdf_url coverage 0/40
